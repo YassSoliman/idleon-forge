@@ -4,15 +4,16 @@
 // lazy chunk (character-tabs.ts); this small module and tabs.css travel with whichever loads first.
 // - <Answer>: the tab's one framed block (rule 1: the answer first; the screen's one `.a-frame`);
 // - <GoalLink>: "See it: Anvil", to the System page that shows a Next Action, outlined;
-// - <TabSource>: the tab's one quiet Source line (rule 4: Sources once, at the end).
+// - <TabSource>: the tab's Sources, in the one-line footer (rule 4, shell/page-sources.tsx).
 // Styles are classes, never inline, except a meter's fill (CSP).
 import type { SourceView } from '@idleon-forge/engine/now';
 import { LINK_WORDS } from '@idleon-forge/engine/now';
 import type { ReactNode } from 'react';
 import { Sprite } from '../../art/sprites/Sprite';
 import { PixelArt } from '../../design/art/PixelArt';
-import { GLYPH, SourceLabel } from '../../design/atoms';
+import { Frame, GLYPH, SourceLabel } from '../../design/atoms';
 import { useNowActions } from '../../now/context';
+import { PageSources } from '../../shell/page-sources';
 import { formatRoute } from '../../shell/route';
 import './tabs.css';
 
@@ -40,7 +41,12 @@ export function Answer({
   label?: string;
 }) {
   return (
-    <section className="tb-answer a-frame" data-tone={tone} aria-label={label ?? cap}>
+    <Frame
+      tone={tone === 'gold' ? 'gold' : 'ok'}
+      className={tone === 'plain' ? 'tb-answer tb-answer--plain' : 'tb-answer'}
+      data-tone={tone}
+      aria-label={label ?? cap}
+    >
       <div className="tb-answer__row">
         {icon ? (
           <span className="tb-answer__icon">
@@ -48,14 +54,14 @@ export function Answer({
           </span>
         ) : null}
         <div className="tb-answer__body">
-          <p className="tb-cap tb-answer__cap">{cap}</p>
+          <p className="a-cap tb-answer__cap">{cap}</p>
           <p className="tb-answer__title">{title}</p>
           {sub ? <p className="tb-answer__sub">{sub}</p> : null}
         </div>
         {action ? <div className="tb-answer__act">{action}</div> : null}
       </div>
       {children}
-    </section>
+    </Frame>
   );
 }
 
@@ -90,14 +96,14 @@ export function useGoal(actionKey: string | null) {
     : null;
 }
 
-/** A tab's Source line: one quiet line at the end. */
+/** A tab's Sources: one quiet line in the page footer (M24 rule 4, <PageSources>). */
 export function TabSource({ source, note }: { source: SourceView | null; note?: string | null }) {
   if (!source && !note) return null;
   return (
-    <p className="tb-source">
-      {note ? <span>{note}</span> : null}
+    <PageSources>
+      {note ? <span>{note} · </span> : null}
       {source ? <SourceLabel source={source} more={false} /> : null}
-    </p>
+    </PageSources>
   );
 }
 
@@ -112,3 +118,7 @@ export function StepNo({ n, now }: { n: number; now: boolean }) {
 
 /** First letter up: the engine's slot words start lower-case ("needs Lord of the Hunt's quest"). */
 export const upper = (s: string) => (s ? s.charAt(0).toUpperCase() + s.slice(1) : s);
+
+/** A tab tone as a Pip's tone (grey is "later"). */
+export const pipTone = (t: Tone): 'gold' | 'mint' | undefined =>
+  t === 'gold' ? 'gold' : t === 'ok' ? 'mint' : undefined;

@@ -208,7 +208,6 @@ describe('Cards tab', () => {
     // Stars, the game's word: never "Lv".
     expect(screen.queryByText(/^Lv \d/)).toBeNull();
     expect(screen.getByText('about 1.2 h')).toBeTruthy();
-    expect(screen.getByRole('link', { name: 'IdleOn Wiki: Cards' })).toBeTruthy();
     await noAxeViolations(container);
   });
 

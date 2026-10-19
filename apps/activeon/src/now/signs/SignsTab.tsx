@@ -11,7 +11,7 @@ import type { ReactNode } from 'react';
 import { Sprite } from '../../art/sprites/Sprite';
 import { Answer, StepNo, TabSource } from '../../characters/tabs/kit';
 import { PixelArt } from '../../design/art/PixelArt';
-import { GLYPH, Meter } from '../../design/atoms';
+import { GLYPH, Meter, Pip } from '../../design/atoms';
 import { formatRoute } from '../../shell/route';
 import type { CharacterTabProps } from '../character-tabs';
 import { useNowActions } from '../context';
@@ -96,7 +96,7 @@ export function SignsTab({ view, index }: CharacterTabProps) {
 
       <div className="ss-grid">
         <section className="tb-sec" aria-labelledby={`ss-${index}-h`}>
-          <h2 id={`ss-${index}-h`} className="tb-h2">
+          <h2 id={`ss-${index}-h`} className="a-h2">
             Sign slots
           </h2>
           <ol className="tb-list ss-slots">
@@ -130,7 +130,7 @@ export function SignsTab({ view, index }: CharacterTabProps) {
 
         {cosmos ? (
           <section className="tb-sec" aria-labelledby={`ss-${index}-slot2`}>
-            <h2 id={`ss-${index}-slot2`} className="tb-h2">
+            <h2 id={`ss-${index}-slot2`} className="a-h2">
               How to get slot 2
             </h2>
             <ol className="tb-list tb-steps">
@@ -168,7 +168,7 @@ export function SignsTab({ view, index }: CharacterTabProps) {
             </div>
             {c.afterCosmos?.length ? (
               <div className="ss-after">
-                <p className="tb-cap">When you get slot 2, wear for {activity ?? 'its job'}</p>
+                <p className="a-cap">When you get slot 2, wear for {activity ?? 'its job'}</p>
                 <ul className="tb-list ss-chips">
                   {c.afterCosmos.map((x) => (
                     <li key={x} className="ss-chip">
@@ -186,7 +186,7 @@ export function SignsTab({ view, index }: CharacterTabProps) {
 
       <ul className="tb-list ss-rows">
         <li className="ss-row">
-          <span className="tb-pip" data-tone={c.canChange ? 'ok' : 'plain'} />
+          <Pip tone={c.canChange ? 'mint' : undefined} />
           <span className="ss-row__main">
             Signs change only at the Telescope: <b>Where the Branches End</b>, World 1
           </span>
@@ -198,7 +198,7 @@ export function SignsTab({ view, index }: CharacterTabProps) {
         </li>
         <li>
           <ChartLink className="ss-row ss-row--link">
-            <span className="tb-pip" />
+            <Pip />
             <span className="ss-row__main">Star Chart</span>
             <span className="tb-note">
               {s.points === null ? 'points not known' : `${s.points} points`} · open

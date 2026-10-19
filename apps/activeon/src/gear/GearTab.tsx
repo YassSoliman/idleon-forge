@@ -10,8 +10,7 @@ import type { CharacterGear, GearSlotView, SlotPip } from '@idleon-forge/engine/
 import { useState } from 'react';
 import { Sprite } from '../art/sprites/Sprite';
 import { Answer, GoalLink, type Tone, upper, useGoal } from '../characters/tabs/kit';
-import type { ArtName } from '../design/art/names';
-import { PixelArt } from '../design/art/PixelArt';
+import { Blob, Pip } from '../design/atoms';
 import type { CharacterTabProps } from '../now/character-tabs';
 import { useNowActions } from '../now/context';
 import './gear.css';
@@ -178,7 +177,7 @@ function Path({ v }: { v: GearSlotView }) {
   const isTool = v.slot === 'weapon' || ['pickaxe', 'hatchet', 'rod', 'net'].includes(v.slot);
   return (
     <section id="gear-path" className="gd-path" aria-label={`${LABEL[v.slot]}: the whole path`}>
-      <h3 className="tb-h2">{LABEL[v.slot]}</h3>
+      <h3 className="a-h2">{LABEL[v.slot]}</h3>
       <dl className="gd-facts">
         <div>
           <dt>Wearing</dt>
@@ -238,7 +237,7 @@ function ToolTile({ v, g }: { v: GearSlotView; g: CharacterGear }) {
     ? (ladder.next ?? `${upper(tool?.verb ?? '')} level ${ladder.skillLevel}`)
     : `Only while ${tool?.verb ?? 'skilling'}`;
   return (
-    <li className="tb-tile gd-tool" data-tone={tone}>
+    <li className="a-tile gd-tool" data-tone={tone}>
       <span className="tb-ic" data-tone={tone}>
         <Sprite name={SPRITE[v.slot]} size={32} decorative />
       </span>
@@ -273,7 +272,7 @@ function SkillSlotTile({ slot, pip }: { slot: 'trap' | 'skull'; pip: SlotPip | u
     } else where = upper(pip.text);
   }
   return (
-    <li className="tb-tile gd-tool" data-tone={tone}>
+    <li className="a-tile gd-tool" data-tone={tone}>
       <span className="tb-ic" data-tone={tone}>
         <Sprite name={SPRITE[slot]} size={32} decorative />
       </span>
@@ -341,19 +340,19 @@ export function GearTab({ view, index }: CharacterTabProps) {
       <ul className="tb-list tb-legend" aria-label="Slots by state">
         {count('empty') ? (
           <li>
-            <span className="tb-pip" data-tone="gold" />
+            <Pip tone="gold" />
             {count('empty')} empty: fill now
           </li>
         ) : null}
         {count('replace') ? (
           <li>
-            <span className="tb-pip" data-tone="gold" />
+            <Pip tone="gold" />
             {count('replace')} to replace: each names the piece and where it comes from
           </li>
         ) : null}
         {count('ok') ? (
           <li>
-            <span className="tb-pip" data-tone="ok" />
+            <Pip tone="mint" />
             {count('ok')} OK for now
           </li>
         ) : null}
@@ -364,12 +363,7 @@ export function GearTab({ view, index }: CharacterTabProps) {
           {LEFT.map(tile)}
         </ul>
         <figure className="gd-fig">
-          <PixelArt
-            name={`now-blob-${view.families?.[index] ?? 'beginner'}` as ArtName}
-            scale={3}
-            decorative
-            className="gd-blob"
-          />
+          <Blob family={view.families?.[index] ?? 'beginner'} size={160} />
           <figcaption className="tb-xs">{label}</figcaption>
         </figure>
         <ul className="tb-list gd-col" aria-label="Weapon and jewellery">
@@ -381,7 +375,7 @@ export function GearTab({ view, index }: CharacterTabProps) {
 
       <section className="tb-sec" aria-labelledby={`gd-${index}-tools`}>
         <div className="tb-sec-head">
-          <h2 id={`gd-${index}-tools`} className="tb-h2">
+          <h2 id={`gd-${index}-tools`} className="a-h2">
             Tools and skill slots
           </h2>
           <span className="tb-note">A tool only matters while this character AFKs that skill</span>

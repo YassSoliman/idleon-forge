@@ -20,10 +20,7 @@
   justify-items: center;
   gap: var(--space-3);
 }
-.gd-fig .gd-blob {
-  width: 160px;
-  height: 160px;
-}
+
 .gd-slot {
   display: flex;
   align-items: center;
@@ -166,9 +163,8 @@
     align-items: center;
     justify-items: start;
   }
-  .gd-fig .gd-blob {
-    width: 64px;
-    height: 64px;
+  .gd-fig .a-blob {
+    --blob-size: 64px;
   }
   .gd-tools {
     grid-template-columns: repeat(2, minmax(0, 1fr));

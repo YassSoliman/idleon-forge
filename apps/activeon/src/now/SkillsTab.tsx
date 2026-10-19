@@ -13,9 +13,9 @@ import type { SkillGridView, SkillRowView } from '@idleon-forge/engine/now';
 import type { SlotPip } from '@idleon-forge/engine/result';
 import { useEffect, useRef, useState } from 'react';
 import { Sprite } from '../art/sprites/Sprite';
-import { Answer, GoalLink, StepNo, type Tone, upper, useGoal } from '../characters/tabs/kit';
+import { Answer, GoalLink, pipTone, StepNo, type Tone, upper, useGoal } from '../characters/tabs/kit';
 import { PixelArt } from '../design/art/PixelArt';
-import { Meter } from '../design/atoms';
+import { Meter, Pip } from '../design/atoms';
 import type { CharacterTabProps } from './character-tabs';
 import { useNowActions } from './context';
 import './skills-tab.css';
@@ -69,11 +69,11 @@ function SlotTile({ p, opensAbove }: { p: SlotPip; opensAbove: boolean }) {
           ? `Full · ${p.text}`
           : upper(p.text);
   return (
-    <li className="tb-tile sk-slot" data-tone={tone}>
+    <li className="a-tile sk-slot" data-tone={tone}>
       <span className="sk-slot__top">
         <Sprite name={SLOT_SPRITE[p.kind]} size={24} decorative />
         <b>{SLOT_WORDS[p.kind]}</b>
-        <span className="tb-pip" data-tone={tone} />
+        <Pip tone={pipTone(tone)} />
         <span className="sr-only">{STATE_WORDS[p.state]}</span>
       </span>
       <span className="tb-xs">{state}</span>
@@ -96,7 +96,7 @@ function SkillTile({
 }) {
   const best = r.accountBest;
   return (
-    <li className="tb-tile sk-tile" data-tone={lit ? 'gold' : 'plain'}>
+    <li className="a-tile sk-tile" data-tone={lit ? 'gold' : 'plain'}>
       <span className="sk-tile__top">
         <span className="tb-ic" data-tone={lit ? 'gold' : 'plain'}>
           <Sprite name={`skill-${r.skill}`} size={32} decorative />
@@ -198,7 +198,7 @@ export function SkillsTab({ view, index }: CharacterTabProps) {
 
       <section className="tb-sec" aria-labelledby={`sk-${index}-skills`}>
         <div className="tb-sec-head">
-          <h2 id={`sk-${index}-skills`} className="tb-h2">
+          <h2 id={`sk-${index}-skills`} className="a-h2">
             Skills
           </h2>
           <span className="tb-note">Bar: progress through this level</span>
@@ -212,7 +212,7 @@ export function SkillsTab({ view, index }: CharacterTabProps) {
 
       <section className="tb-sec" aria-labelledby={`sk-${index}-slots`}>
         <div className="tb-sec-head">
-          <h2 id={`sk-${index}-slots`} className="tb-h2">
+          <h2 id={`sk-${index}-slots`} className="a-h2">
             Parallel slots
           </h2>
           <span className="tb-note">

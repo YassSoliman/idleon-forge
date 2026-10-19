@@ -10,7 +10,7 @@ import type { CardChip, CardSetProgress, GrindItem, PresetRecommendation } from 
 import { useState } from 'react';
 import { Sprite } from '../../art/sprites/Sprite';
 import { Answer, TabSource } from '../../characters/tabs/kit';
-import { Meter, Sheet } from '../../design/atoms';
+import { Meter, Pip, Sheet } from '../../design/atoms';
 import { SeeOnMap } from '../../map/SeeOnMap';
 import type { CharacterTabProps } from '../character-tabs';
 import './cards-tab.css';
@@ -88,7 +88,7 @@ function SwapAnswer({ c, r }: { c: CharacterCardsView; r: PresetRecommendation }
       </ul>
       {r.setNote ? (
         <p className="ct-set-note">
-          <span className="tb-pip" data-tone="gold" />
+          <Pip tone="gold" />
           <span>Then: {r.setNote}</span>
         </p>
       ) : null}
@@ -111,7 +111,7 @@ function Presets({
   return (
     <section className="tb-sec" aria-labelledby={`ct-${c.index}-presets`}>
       <div className="tb-sec-head">
-        <h2 id={`ct-${c.index}-presets`} className="tb-h2">
+        <h2 id={`ct-${c.index}-presets`} className="a-h2">
           Card presets
         </h2>
         <span className="tb-note">
@@ -252,7 +252,7 @@ function Grind({ c, note }: { c: CharacterCardsView; note: string | null }) {
   return (
     <section className="tb-sec" aria-labelledby={`ct-${c.index}-grind`}>
       <div className="tb-sec-head">
-        <h2 id={`ct-${c.index}-grind`} className="tb-h2">
+        <h2 id={`ct-${c.index}-grind`} className="a-h2">
           Cards to farm next
         </h2>
         {note ? <span className="tb-note">{note}</span> : null}
@@ -298,14 +298,14 @@ function Sets({ sets, index }: { sets: readonly CardSetProgress[]; index: number
   return (
     <section className="tb-sec" aria-labelledby={`ct-${index}-sets`}>
       <div className="tb-sec-head">
-        <h2 id={`ct-${index}-sets`} className="tb-h2">
+        <h2 id={`ct-${index}-sets`} className="a-h2">
           Card sets close to their next tier
         </h2>
         <span className="tb-note">Every new card or new star in a set counts 1 · one set per preset</span>
       </div>
       <ul className="tb-list ct-sets">
         {sets.map((t) => (
-          <li key={t.rawName} className="tb-tile">
+          <li key={t.rawName} className="a-tile">
             <span className="ct-set-head">
               <b>{t.name}</b>
               <span className={t.tier > 0 ? 'tb-xs tb-ok' : 'tb-xs'}>
