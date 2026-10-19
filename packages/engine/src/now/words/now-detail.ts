@@ -161,7 +161,7 @@ export const SETUP_WORDS = {
 
 /** M24 rule 8: the one-line footer. The full disclaimer is in the ••• menu (MENU_WORDS.legal). */
 export const FOOTER_WORDS = {
-  legal: 'Fan-made, read-only, not affiliated with LavaFlame2',
+  legal: 'Fan-made, read-only',
   suggest: 'Suggest',
   source: 'Source',
   /** The default Sources line when a page sets none ("Numbers by IdleOn Toolbox 2.3.540 · …"). */
@@ -170,5 +170,5 @@ export const FOOTER_WORDS = {
       ? `Numbers by IdleOn Toolbox ${s(gameVersion)} · facts from the IdleOn Wiki`
       : 'Facts from the IdleOn Wiki',
   /** First run, before any save. */
-  firstRun: 'Save reading by IdleOn Toolbox (GPL-3.0) · facts from the IdleOn Wiki',
+  firstRun: 'Not affiliated with LavaFlame2 · save reading by IdleOn Toolbox (GPL-3.0)',
 } as const;

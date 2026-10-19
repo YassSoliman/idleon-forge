@@ -144,7 +144,9 @@ export function SystemFrame({
       {page.frame.readOnly ? null : (
         <PageSources>
           <span className="sf-foot">
-            <span>{checksLine}</span>
+            <span className="sf-foot__checks" title={checksLine}>
+              {checksLine}
+            </span>
             {page.wiki ? (
               <>
                 <span aria-hidden="true"> · </span>
@@ -166,11 +168,14 @@ export function SystemFrame({
   );
 }
 
-/** "https://idleon.wiki/wiki/Talent_Book_Library" -> "Talent Book Library". */
+/**
+ * "https://idleon.wiki/wiki/Talent_Book_Library" -> "Talent Book Library"; a sub-page keeps its parent
+ * ("…/wiki/Changelog/2025" -> "Changelog 2025", not "2025").
+ */
 export function wikiName(href: string, fallback: string): string {
   try {
-    const last = new URL(href).pathname.split('/').pop() ?? '';
-    const name = decodeURIComponent(last).replace(/_/g, ' ').replace(/#.*$/, '');
+    const path = new URL(href).pathname.replace(/^\/wiki\//, '').replace(/^\//, '');
+    const name = decodeURIComponent(path).replace(/[_/]/g, ' ').replace(/#.*$/, '').trim();
     return name || fallback;
   } catch {
     return fallback;

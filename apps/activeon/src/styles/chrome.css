@@ -748,18 +748,29 @@ textarea.n-drop__text {
 }
 .n-foot__in {
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   align-items: center;
   justify-content: space-between;
   gap: var(--space-1) var(--space-6);
 }
-.n-foot__src,
+/* One line (QA P2): the Sources shrink and end in an ellipsis (their full text is the line's title);
+   the legal line, Suggest and Source never wrap. On a phone, two lines at most: Sources, then the rest. */
+.n-foot__src {
+  flex: 0 1 auto;
+  min-width: 0;
+  margin: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
 .n-foot__end {
   display: flex;
-  flex-wrap: wrap;
+  flex: none;
+  flex-wrap: nowrap;
   align-items: center;
   gap: 0 var(--space-4);
   margin: 0;
+  white-space: nowrap;
 }
 .n-foot__page:empty {
   display: none;
@@ -781,6 +792,7 @@ textarea.n-drop__text {
   cursor: pointer;
 }
 .n-foot__src a {
+  display: inline;
   min-height: 0;
 }
 .n-foot a:hover,
@@ -792,6 +804,12 @@ textarea.n-drop__text {
 @media (max-width: 719.98px) {
   .n-foot {
     padding: var(--space-2) 0 var(--space-4);
+  }
+  .n-foot__in {
+    flex-wrap: wrap;
+  }
+  .n-foot__src {
+    flex-basis: 100%;
   }
 }
 

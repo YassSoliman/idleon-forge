@@ -129,8 +129,11 @@
   font-weight: var(--weight-bold);
   line-height: 1;
   font-variant-numeric: tabular-nums;
+  /* A long unit wraps in even lines, never one word alone ("skull", QA P3). */
+  text-wrap: balance;
 }
 .sf-big__unit {
+  line-height: 1.4;
   color: var(--muted);
   font-size: var(--text-sm);
   font-weight: var(--weight-semibold);
@@ -217,9 +220,23 @@
   min-width: 0;
 }
 
-/* 5. The footer line */
+/* 5. The footer line: one line; the checks list gives way (ellipsis) before the wiki link and the
+   Toolbox version, so the Sources stay on screen (QA P2). */
 .sf-foot {
+  display: flex;
+  min-width: 0;
   color: inherit;
+}
+.sf-foot > * {
+  flex: none;
+  white-space: pre;
+}
+.sf-foot > .sf-foot__checks {
+  flex: 0 1 auto;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 .sf-foot a {
   color: var(--muted);
