@@ -8,7 +8,10 @@
 import { brewLine, liquidAmount, potLine, potName, tubeLine } from '@idleon-forge/engine/alchemy-text';
 import { formatCoins } from '@idleon-forge/engine/now';
 import type { AlchemyResult, EngineResult, P2wCell, PotView } from '@idleon-forge/engine/result';
+import { buildSystemPageFrameView, type FrameTone } from '@idleon-forge/engine/systems-ui';
+import { useMemo } from 'react';
 import { Sprite } from '../art/sprites/Sprite';
+import { toNowPrefs } from '../now/prefs-store';
 import type { FullPageProps, SystemPageBodyProps } from '../systems/pages';
 import { CauldronSeatsBody } from '../systems/SlotPictures';
 import { FramedSections } from '../systems/w23/framed';
@@ -29,6 +32,8 @@ import './alchemy-tabs.css';
 import { VialTries } from './VialTries';
 
 export const ALCHEMY_WORDS = {
+  /** The page's one title, whichever of the four Alchemy Systems opened it (boards after/Alchemy*). */
+  pageTitle: 'Alchemy',
   tabs: {
     cauldrons: 'Cauldrons',
     bubbles: 'Bubbles',
@@ -197,7 +202,12 @@ function Cauldrons({ p, a }: { p: SystemPageBodyProps; a: AlchemyResult }) {
                 ))}
                 {rest.length ? (
                   <li className="w-li">
-                    <Tag>{rest.length}</Tag>
+                    {/* The list goes on numbering ("4–6"), never a count that reads as a rank (QA P3). */}
+                    <Tag>
+                      {rest.length === 1
+                        ? first.rows.length + 1
+                        : `${first.rows.length + 1}–${first.rows.length + rest.length}`}
+                    </Tag>
                     <span className="w-grow w-mut2">{rest.map((c) => c.name).join(', ')}</span>
                     <span className="w-sm w-mut">
                       {restLevels.length === 1 ? W.atLevel(restLevels[0] as number) : ''}
@@ -579,7 +589,35 @@ export function alchemySections(p: SystemPageBodyProps): PageSections | null {
   };
 }
 
+/** The four Alchemy Systems that share this page. */
+const FAMILY = ['alchemy', 'alchemy-bubbles', 'alchemy-vials', 'alchemy-p2w'] as const;
+const RANK: Record<FrameTone, number> = { coral: 0, gold: 1, mint: 2, sky: 3, mut: 4 };
+
+/**
+ * QA P2: one page, one header. Whichever Alchemy route opened it, the page reads the same: titled
+ * "Alchemy" (the boards' title), with the header, the framed answer and the steps of the four Systems'
+ * worst (wasting, then to do, then fine; more open steps breaks a tie; then this order), so
+ * `#system-alchemy` and `#system-alchemy-vials` never disagree about the same vials.
+ */
+function useFamilyPage(p: FullPageProps): FullPageProps['page'] {
+  const { s, page } = p;
+  return useMemo(() => {
+    const prefs = toNowPrefs(s.prefs.data, null);
+    const ui = { now: s.now, lastCloudSave: s.lastCloudSave, highlight: s.highlight };
+    const key = (x: FullPageProps['page']) => RANK[x.frame.status.tone] * 1000 - x.goals.length;
+    let pick: FullPageProps['page'] | null = null;
+    for (const id of FAMILY) {
+      const x = id === page.tile.id ? page : buildSystemPageFrameView(s.result, prefs, s.view, { ...ui, id });
+      if (x && !x.locked && (pick === null || key(x) < key(pick))) pick = x;
+    }
+    const chosen = pick ?? page;
+    // The cauldron icon (the Alchemy System's own), whichever System leads.
+    return { ...chosen, tile: { ...chosen.tile, id: 'alchemy', name: W.pageTitle } };
+  }, [s, page]);
+}
+
 /** The Alchemy page on the template (FULL_PAGES: alchemy, alchemy-bubbles, -vials, -p2w). */
 export default function AlchemyPage(p: FullPageProps) {
-  return <FramedSections {...p} sections={alchemySections(p)} />;
+  const page = useFamilyPage(p);
+  return <FramedSections s={p.s} page={page} sections={alchemySections(p)} />;
 }

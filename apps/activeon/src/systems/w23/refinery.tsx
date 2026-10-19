@@ -6,7 +6,7 @@
 // step and order). No advice of its own.
 import { Sprite } from '../../art/sprites/Sprite';
 import { inSpan } from '../../design/format';
-import type { SystemPageBodyProps } from '../pages';
+import type { FullPageProps, SystemPageBodyProps } from '../pages';
 import { Bar, Big, Cap, Head, n0, type PageSections, pictureOf, Split, Tag } from './kit';
 
 export const REFINERY_WORDS = {
@@ -26,6 +26,8 @@ export const REFINERY_WORDS = {
   fuel: 'Fuel',
   dry: (t: string) => `runs dry ${t}`,
   dryBefore: (t: string) => `runs dry ${t}, before you're back`,
+  /** The header when a salt's fuel runs out before you're back (QA P2: not "Nothing to fix"). */
+  dryStatus: "Fuel runs dry before you're back",
   held: (n: string) => `${n} held`,
   next: 'Next salt',
   locked: (n: number) => `${n} salts still locked`,
@@ -94,7 +96,7 @@ function Salts({ p }: { p: SystemPageBodyProps }) {
                     <span className="w-row w-row--between w-sm">
                       <span className="w-b">{W.fuel}</span>
                       {s.dryAt !== null ? (
-                        <span className={dryBefore ? 'w-t--coral w-b' : 'w-mut'}>
+                        <span className={dryBefore ? 'w-t--gold w-b' : 'w-mut'}>
                           {(dryBefore ? W.dryBefore : W.dry)(inSpan(Math.max(0, s.dryAt - now)))}
                         </span>
                       ) : null}
@@ -196,11 +198,19 @@ function Storage({ p }: { p: SystemPageBodyProps }) {
   );
 }
 
-export function refinerySections(p: SystemPageBodyProps): PageSections | null {
+export function refinerySections(p: FullPageProps): PageSections | null {
   const pic = pictureOf(p, 'refinery');
   if (!pic) return null;
+  // Gold, not coral: it runs out later, not now (coral is losing value now). It sets the header only
+  // when the engine's own status is fine, so a wasting or behind word is never hidden.
+  const back = p.s.result.returnAt ?? null;
+  const dry = pic.salts.some((s) => s.unlocked && s.dryAt !== null && back !== null && s.dryAt < back);
+  const fine = p.page.frame.status.tone === 'mint';
   return {
     answer: null,
+    ...(dry && fine
+      ? { status: { tone: 'gold' as const, word: W.dryStatus, reason: p.page.frame.status.reason } }
+      : {}),
     tabs: [
       {
         id: 'salts',

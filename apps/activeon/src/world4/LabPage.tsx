@@ -51,10 +51,15 @@ function Board({ b }: { b: LabBoard }) {
       ))}
       {b.nodes.map((n) => (
         <g key={n.key} className={cx('w4-board__node', `is-${n.state}`)}>
+          <title>{n.label}</title>
           <rect x={n.x - 12} y={n.y - 12} width={24} height={24} />
-          <text x={n.x} y={n.y + 34} textAnchor="middle">
-            {n.label}
-          </text>
+          {/* QA P2: a label is 12 px or more on screen, so only the lit and next bonuses carry one; the
+              rest are named in "Bonuses in reach order" and on hover. */}
+          {n.state === 'lit' || n.state === 'next' ? (
+            <text x={n.x} y={n.y + 44} textAnchor="middle">
+              {n.label}
+            </text>
+          ) : null}
         </g>
       ))}
       <g className="w4-board__prism">
@@ -65,7 +70,7 @@ function Board({ b }: { b: LabBoard }) {
           height={28}
           transform={`rotate(45 ${b.prism.x} ${b.prism.y})`}
         />
-        <text x={b.prism.x} y={b.prism.y - 26} textAnchor="middle">
+        <text x={b.prism.x} y={b.prism.y - 30} textAnchor="middle">
           Prism
         </text>
       </g>

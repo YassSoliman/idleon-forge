@@ -6,6 +6,7 @@
 import type { BuildingView } from '@idleon-forge/engine/systems-ui';
 import { PixelArt } from '../../design/art/PixelArt';
 import { cx } from '../../design/atoms';
+import { compact } from '../../design/format';
 import { WhoGlyph } from '../../design/who/WhoGlyph';
 import type { SystemPageBodyProps } from '../pages';
 import '../slot-pictures.css';
@@ -53,6 +54,9 @@ export const CONSTRUCTION_WORDS = {
     `Cog Board: ${open} squares open, ${free} free, ${seated} characters seated`,
 } as const;
 const W = CONSTRUCTION_WORDS;
+
+/** A rate as the board prints it; a late account's rate (a million or more) in the short form (QA P2). */
+const rate = (n: number) => (n >= 1e6 ? compact(n) : n0(n));
 
 function Board({ p }: { p: SystemPageBodyProps }) {
   const pic = pictureOf(p, 'cog-board');
@@ -114,12 +118,12 @@ function Board({ p }: { p: SystemPageBodyProps }) {
           <div className="w-row w23-rates">
             <div className="w-stack w-stack--4">
               <Cap>{W.buildRate}</Cap>
-              <Big value={n0(pic.buildRate)} />
+              <Big value={rate(pic.buildRate)} />
               <span className="w-xs w-mut">{W.anHour}</span>
             </div>
             <div className="w-stack w-stack--4">
               <Cap>{W.exp}</Cap>
-              <Big value={n0(pic.expRate)} />
+              <Big value={rate(pic.expRate)} />
               <span className="w-xs w-mut">{W.anHour}</span>
             </div>
           </div>
