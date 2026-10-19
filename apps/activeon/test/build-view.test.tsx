@@ -176,7 +176,7 @@ describe('Build view', () => {
     const presets = screen.getByRole('group', { name: 'Talent presets' });
     const cards = within(presets).getAllByRole('button');
     expect(cards.map((b) => b.getAttribute('aria-pressed'))).toEqual(['true', 'false']);
-    expect(cards[0]?.classList.contains('a-frame')).toBe(true);
+    expect(cards[0]?.querySelector('.a-frame')).toBeTruthy();
     expect(cards[0]?.textContent).toContain('Skilling preset');
     expect(cards[0]?.textContent).toContain(
       'Spend at least 44 talent points, starting with Book of the Wise',

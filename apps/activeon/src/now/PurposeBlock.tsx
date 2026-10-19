@@ -73,9 +73,9 @@ export function PurposeBlock({ card }: { card: FocusCard }) {
     <aside className="cp-side purpose" aria-label="Purpose">
       {timers.length > 0 || card.info.length > 0 ? (
         <section className="cp-side-sec" aria-label={PAGE_WORDS.timers}>
-          <h3 className="cp-cap">{PAGE_WORDS.timers}</h3>
+          <h3 className="a-cap cp-cap">{PAGE_WORDS.timers}</h3>
           {timers.map((t) => (
-            <div key={t.key} className="cp-timer">
+            <div key={t.key} className="a-tile cp-timer">
               <p className="cp-timer-top">
                 <b>{t.what}</b>
                 <b className="cp-sky num">{t.when}</b>
@@ -84,7 +84,7 @@ export function PurposeBlock({ card }: { card: FocusCard }) {
             </div>
           ))}
           {card.info.map((l) => (
-            <div key={l.key} className="cp-timer">
+            <div key={l.key} className="a-tile cp-timer">
               <p className="cp-timer-top">
                 <b>{l.text}</b>
               </p>
@@ -99,8 +99,8 @@ export function PurposeBlock({ card }: { card: FocusCard }) {
       ) : null}
       {abouts.length > 0 ? (
         <section className="cp-side-sec" aria-label={PAGE_WORDS.about}>
-          <h3 className="cp-cap">{PAGE_WORDS.about}</h3>
-          <ul className="cp-about">
+          <h3 className="a-cap cp-cap">{PAGE_WORDS.about}</h3>
+          <ul className="a-tile cp-about">
             {abouts.map((p) => (
               <li key={p.goalId} className={cx(!p.worthwhile && 'quiet')}>
                 <span className="cp-about-t">{p.text}</span>

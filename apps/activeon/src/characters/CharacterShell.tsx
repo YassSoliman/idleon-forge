@@ -8,6 +8,7 @@
 // number with its unit read out). Class and level everywhere, never a character's name (M24 rule 4).
 import type { FocusCard, NowView, TabHealth } from '@idleon-forge/engine/now';
 import { forwardRef, type ReactNode } from 'react';
+import { Pip, Tag } from '../design/atoms';
 import { characterTabs, NOW_TAB, tabHref } from '../now/character-tabs';
 import { useNowActions } from '../now/context';
 import { Avatar } from './Avatar';
@@ -29,7 +30,7 @@ export interface CharacterShellProps {
 
 type Kind = 'ready' | 'fix' | 'unknown';
 /** Colour means one thing (M24 rule 7): mint fine, coral losing value now, grey not known. */
-const PIP: Record<Kind, string> = { ready: 'mint', fix: 'coral', unknown: 'mut' };
+const PIP: Record<Kind, 'mint' | 'coral' | undefined> = { ready: 'mint', fix: 'coral', unknown: undefined };
 
 const LEVEL_WORD = {
   fix: 'fix',
@@ -42,16 +43,16 @@ const LEVEL_WORD = {
 /** The tab badge: the count with the tab's health in words for a screen reader. */
 function TabBadge({ id, h }: { id: string; h: TabHealth }) {
   // Gold for points waiting to be spent (do it), coral for a fix (losing value now), plain otherwise.
-  const tone = h.level === 'fix' ? 'coral' : id === 'build' ? 'gold' : 'plain';
+  const tone = h.level === 'fix' ? 'coral' : id === 'build' ? 'gold' : undefined;
   return (
-    <span className="cp-badge" data-tone={tone}>
+    <Tag tone={tone}>
       <span aria-hidden="true">
         {h.count !== undefined ? h.count.toLocaleString('en-US') : h.level === 'fix' ? '!' : '•'}
       </span>
       <span className="sr-only">
         {LEVEL_WORD[h.level]}: {h.word}
       </span>
-    </span>
+    </Tag>
   );
 }
 
@@ -123,7 +124,7 @@ export const CharacterShell = forwardRef<HTMLHeadingElement, CharacterShellProps
               >
                 <Avatar family={familyOf(s.index)} classLabel={classOf(s.index)} size={32} />
                 <span className="cp-chip-who">{who}</span>
-                <span className={`cp-pip cp-pip--${PIP[s.kind]}`} aria-hidden="true" />
+                <Pip tone={PIP[s.kind]} />
               </a>
             );
           })}
@@ -136,13 +137,13 @@ export const CharacterShell = forwardRef<HTMLHeadingElement, CharacterShellProps
             <Avatar family={familyOf(card.index)} classLabel={card.classLabel} size={64} />
           </span>
           <div className="cp-id-text">
-            <h2 id="focus-h" ref={headingRef} tabIndex={-1} className="cp-name">
+            <h2 id="focus-h" ref={headingRef} tabIndex={-1} className="a-h1 cp-name">
               {card.classLabel} {card.level}
             </h2>
             <p className="cp-sub">
               {[card.map, card.activity].filter(Boolean).join(' · ')}
               {card.map || card.activity ? ' · ' : ''}
-              <span className={`cp-state cp-state--${PIP[kind]}`}>{PAGE_WORDS.state[kind]}</span>
+              <span className={`cp-state cp-state--${PIP[kind] ?? 'mut'}`}>{PAGE_WORDS.state[kind]}</span>
               {card.playing ? <span className="cp-playing"> · {card.playing}</span> : null}
             </p>
             {role ? (

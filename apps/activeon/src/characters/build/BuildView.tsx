@@ -16,13 +16,14 @@
 import { asOfLine, CHARACTERS_WORDS, leadTab, pathMarker } from '@idleon-forge/engine/characters-ui';
 import type { BuildRoadmapView } from '@idleon-forge/engine/now';
 import type { BuildPathStepView, BuildPresetView, BuildTabView } from '@idleon-forge/engine/result';
-import { createContext, useContext, useMemo, useState } from 'react';
+import { createContext, type ReactNode, useContext, useMemo, useState } from 'react';
 import { spriteOf } from '../../art/sprites';
 import { Sprite } from '../../art/sprites/Sprite';
 import { PixelArt } from '../../design/art/PixelArt';
-import { cx, GLYPH, Meter, SourceLabel } from '../../design/atoms';
+import { cx, Frame, GLYPH, Meter, SourceLabel, Tag } from '../../design/atoms';
 import type { CharacterTabProps } from '../../now/character-tabs';
 import { useNowActions } from '../../now/context';
+import { PageSources, PageSourcesSlot } from '../../shell/page-sources';
 import { BUILD_WORDS as B } from '../words';
 import './build.css';
 
@@ -133,32 +134,38 @@ function PresetHero({ p, who, onPick }: { p: BuildPresetView; who: string; onPic
   return (
     <button
       type="button"
-      className="bd-preset bd-preset--on a-frame"
+      className="bd-preset bd-preset--on"
       aria-pressed="true"
       data-slot={p.slot}
       onClick={onPick}
     >
-      <span className="bd-preset-main">
-        <span className="bd-cap">
-          {p.heading}
-          {empty ? ` · ${B.empty}` : ''}
-          {p.active ? <span className="bd-inuse">{B.inUse}</span> : null}
-        </span>
-        <span className="bd-title">{title}</span>
-        <span className="bd-why">{why}</span>
-      </span>
-      <span className="bd-bigs">
-        <span className="bd-big">
-          <b className="num">{n(pools.talent)}</b>
-          <span>{B.talentPoints}</span>
-        </span>
-        {p.star ? (
-          <span className="bd-big">
-            <b className="num">{n(pools.star)}</b>
-            <span>{B.starPoints}</span>
+      <Frame as="span" tone="gold" className="bd-preset-frame">
+        <span className="bd-preset-main">
+          <span className="a-cap bd-cap">
+            {p.heading}
+            {empty ? ` · ${B.empty}` : ''}
+            {p.active ? (
+              <span className="bd-inuse">
+                <Tag tone="mint">{B.inUse}</Tag>
+              </span>
+            ) : null}
           </span>
-        ) : null}
-      </span>
+          <span className="a-h1 bd-title">{title}</span>
+          <span className="bd-why">{why}</span>
+        </span>
+        <span className="bd-bigs">
+          <span className="bd-big">
+            <b className="num">{n(pools.talent)}</b>
+            <span>{B.talentPoints}</span>
+          </span>
+          {p.star ? (
+            <span className="bd-big">
+              <b className="num">{n(pools.star)}</b>
+              <span>{B.starPoints}</span>
+            </span>
+          ) : null}
+        </span>
+      </Frame>
     </button>
   );
 }
@@ -175,13 +182,17 @@ function PresetTile({ p, onPick }: { p: BuildPresetView; onPick(): void }) {
   return (
     <button
       type="button"
-      className="bd-preset bd-preset--off"
+      className="a-tile bd-preset bd-preset--off"
       aria-pressed="false"
       data-slot={p.slot}
       onClick={onPick}
     >
       <span className="bd-tile-name">{p.heading}</span>
-      {p.active ? <span className="bd-inuse">{B.inUse}</span> : null}
+      {p.active ? (
+        <span className="bd-inuse">
+          <Tag tone="mint">{B.inUse}</Tag>
+        </span>
+      ) : null}
       <span className="bd-tile-facts">{facts.join(' · ')}</span>
       <span className={cx('bd-tile-word', fine ? 'is-fine' : 'is-open')}>{fine ? B.fine : B.toSpend}</span>
     </button>
@@ -322,7 +333,7 @@ function SidePanel({ tab, stepKey }: { tab: BuildTabView; stepKey: string | null
   const fill = s.goal > 0 ? Math.min(s.goal, s.current + added) : 0;
   return (
     <section className="bd-sel" aria-label={B.selected}>
-      <h3 className="bd-cap">{B.selected}</h3>
+      <h3 className="a-cap bd-cap">{B.selected}</h3>
       <div className="bd-sel-id">
         <span className="bd-mono bd-mono--big" data-k={stepKind(s)} aria-hidden="true">
           {monogram(s.label)}
@@ -339,7 +350,7 @@ function SidePanel({ tab, stepKey }: { tab: BuildTabView; stepKey: string | null
           value={fill}
           max={s.goal}
           label={`${s.label}: ${n(fill)} of ${n(s.goal)}`}
-          tone={s.band === 'done' ? 'ok' : 'accent'}
+          tone={s.band === 'done' ? 'mint' : 'gold'}
         />
       ) : null}
       {s.condition || s.note ? <p className="bd-xs">{s.condition ?? s.note}</p> : null}
@@ -389,8 +400,8 @@ function AttackBar({ p }: { p: BuildPresetView }) {
   const role = roleWord(p);
   const title = role ? B.attackBar(role) : W.attackBar.heading;
   return (
-    <section className="bd-atk" aria-label={title}>
-      <h3 className="bd-cap">{title}</h3>
+    <section className="a-tile2 bd-atk" aria-label={title}>
+      <h3 className="a-cap bd-cap">{title}</h3>
       <ol className="bd-atk-row">
         {bar.set.map((a) => (
           <li key={`s-${a}`} className="bd-slot" title={a}>
@@ -490,7 +501,7 @@ export function Ladder({ tab, preset, id }: { tab: BuildTabView; preset: string;
               value={fill}
               max={s.goal}
               label={`${s.label}: ${n(fill)} of ${n(s.goal)}`}
-              tone={s.band === 'done' ? 'ok' : s.band === 'next' ? 'muted' : 'accent'}
+              tone={s.band === 'done' ? 'mint' : s.band === 'next' ? 'muted' : 'gold'}
             />
           ) : null}
         </span>
@@ -509,7 +520,7 @@ export function Ladder({ tab, preset, id }: { tab: BuildTabView; preset: string;
   return (
     <section className="bd-ladder" id={id} aria-labelledby={`${id}-h`} data-tab={tab.tab}>
       <div className="bd-ladder-h">
-        <h3 id={`${id}-h`} className="bd-h2">
+        <h3 id={`${id}-h`} className="a-h2">
           {B.ladderH(preset, tabName)}
         </h3>
         <span className="bd-xs">
@@ -639,7 +650,7 @@ function ComingUp({ r }: { r: BuildRoadmapView }) {
   if (r.comingUp.length === 0) return null;
   return (
     <section aria-labelledby={`bv-${r.index}-cu`} className="bd-coming">
-      <h3 id={`bv-${r.index}-cu`} className="bd-cap">
+      <h3 id={`bv-${r.index}-cu`} className="a-cap bd-cap">
         {W.comingUp.heading}
       </h3>
       <ul>
@@ -663,6 +674,15 @@ function GateRuler({ r }: { r: BuildRoadmapView }) {
       {gates.map((g) => `Lv ${g.at}: ${g.word} (${n(g.at - r.level)} levels to go)`).join(' · ')}
     </p>
   );
+}
+
+/**
+ * M24 rule 4: the Build's Sources go in the footer's one quiet line (shell/page-sources). Without the
+ * footer on screen (a bare Now screen) they stay in the tab, so the Source is never lost.
+ */
+function FooterSources({ children }: { children: ReactNode }) {
+  const slot = useContext(PageSourcesSlot);
+  return slot ? <PageSources>{children}</PageSources> : <p className="bd-xs">{children}</p>;
 }
 
 /** One character's whole Build. */
@@ -704,10 +724,12 @@ export function BuildRoadmap({ r, mismatch = null }: { r: BuildRoadmapView; mism
       ) : null}
       <ComingUp r={r} />
       {r.quiet || r.source ? (
-        <p className="bd-xs bd-quiet">
-          {r.quiet ? `${r.quiet} ` : ''}
-          {r.source ? <SourceLabel source={r.source} /> : null}
-        </p>
+        <FooterSources>
+          <span className="bd-quiet">
+            {r.quiet ? `${r.quiet} ` : ''}
+            {r.source ? <SourceLabel source={r.source} /> : null}
+          </span>
+        </FooterSources>
       ) : null}
     </div>
   );

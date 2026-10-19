@@ -46,21 +46,6 @@
 .cp-avatar {
   flex: none;
 }
-.cp-pip {
-  width: 10px;
-  height: 10px;
-  flex: none;
-  display: inline-block;
-}
-.cp-pip--mint {
-  background: var(--ok);
-}
-.cp-pip--coral {
-  background: var(--bad);
-}
-.cp-pip--mut {
-  background: var(--line-strong);
-}
 
 /* ---- the header ---- */
 .cp-head {
@@ -94,15 +79,6 @@
   flex-direction: column;
   gap: var(--space-1);
   min-width: 0;
-}
-.cp-name {
-  margin: 0;
-  font-family: var(--font-display);
-  font-weight: var(--display-weight);
-  font-size: 28px;
-  line-height: 1.1;
-  font-variant-ligatures: var(--font-ligatures);
-  font-feature-settings: var(--font-features);
 }
 .cp-name:focus {
   outline: none;
@@ -185,25 +161,6 @@
   outline: var(--focus-width) solid var(--focus);
   outline-offset: calc(-1 * var(--focus-width));
 }
-.cp-badge {
-  display: inline-flex;
-  align-items: center;
-  padding: 1px 6px;
-  border-radius: var(--radius-xs);
-  font-size: var(--text-xs);
-  font-weight: var(--weight-bold);
-  line-height: 1.4;
-  color: var(--fg);
-  background: var(--sunk);
-}
-.cp-badge[data-tone="gold"] {
-  color: var(--on-accent);
-  background: var(--accent);
-}
-.cp-badge[data-tone="coral"] {
-  color: var(--on-bad);
-  background: var(--bad);
-}
 
 @media (max-width: 719.98px) {
   .cp-strip {
@@ -225,7 +182,7 @@
     order: 2;
     line-height: 1.2;
   }
-  .cp-chip .cp-pip {
+  .cp-chip .a-pip {
     order: 1;
     width: 6px;
     height: 6px;

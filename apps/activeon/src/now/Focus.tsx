@@ -22,7 +22,7 @@ import { Avatar, GoalSprite } from '../characters/Avatar';
 import { CharacterShell } from '../characters/CharacterShell';
 import { PAGE_WORDS } from '../characters/words';
 import { PixelArt } from '../design/art/PixelArt';
-import { SourceLabel } from '../design/atoms';
+import { Frame, SourceLabel, Tag } from '../design/atoms';
 import { Button, cx } from '../design/atoms/Button';
 import { GLYPH, VERDICT_GLYPH } from '../design/atoms/glyphs';
 import { Meter } from '../design/atoms/Meter';
@@ -84,19 +84,15 @@ function StepHero({ card, goal }: { card: FocusCard; goal: GoalView }) {
   const step = at >= 0 ? steps[at] : null;
   const progress = step?.progress && step.progress.need > 0 ? step.progress : null;
   return (
-    <section
-      className={cx(
-        'n-step cp-hero a-frame',
-        fix ? 'is-fix' : 'is-now',
-        actions.highlight === a.key && 'lit',
-      )}
+    <Frame
+      as="section"
+      tone={fix ? 'coral' : 'gold'}
+      className={cx('n-step cp-hero', fix ? 'is-fix' : 'is-now', actions.highlight === a.key && 'lit')}
       data-na-key={a.key}
       aria-label={fix ? FOCUS_WORDS.beforeYouLeave : PAGE_WORDS.heroHint}
     >
       <p className="cp-hero-k">
-        <span className="cp-kind" data-tone={fix ? 'coral' : 'gold'}>
-          {kindOf(a.tag)}
-        </span>
+        <Tag tone={fix ? 'coral' : 'gold'}>{kindOf(a.tag)}</Tag>
         <span className="cp-xs">{fix ? FOCUS_WORDS.beforeYouLeave : PAGE_WORDS.heroHint}</span>
       </p>
       <button
@@ -109,7 +105,7 @@ function StepHero({ card, goal }: { card: FocusCard; goal: GoalView }) {
           <GoalSprite system={goal.system} fix={fix} size={48} />
         </span>
         <span className="cp-hero-text">
-          <span className="cp-hero-t na-text">{a.text}</span>
+          <span className="cp-hero-t a-h1 na-text">{a.text}</span>
           <span className="cp-hero-where">{[goal.title, card.map].filter(Boolean).join(' · ')}</span>
         </span>
       </button>
@@ -128,7 +124,7 @@ function StepHero({ card, goal }: { card: FocusCard; goal: GoalView }) {
               value={Math.min(progress.held, progress.need)}
               max={progress.need}
               label={`${n(progress.held)} of ${n(progress.need)}`}
-              tone={fix ? 'fix' : 'accent'}
+              tone={fix ? 'coral' : 'gold'}
             />
           ) : null}
         </div>
@@ -152,7 +148,7 @@ function StepHero({ card, goal }: { card: FocusCard; goal: GoalView }) {
         walkthrough={goal.walkthrough}
         token={{ where: card.map }}
       />
-    </section>
+    </Frame>
   );
 }
 
@@ -171,7 +167,7 @@ function NextTile({
   const who = r ? `${r.classLabel} ${r.level}` : null;
   const kind = i === null ? null : (card.strip.find((s) => s.index === i)?.kind ?? null);
   return (
-    <button type="button" className="cp-next" onClick={() => onNext(i)}>
+    <button type="button" className="a-tile cp-next" onClick={() => onNext(i)}>
       {r ? (
         <Avatar family={view?.families?.[r.index] ?? 'beginner'} classLabel={r.classLabel} size={48} />
       ) : null}
@@ -382,7 +378,7 @@ export function Focus({
                   className="n-goals cp-then"
                   aria-label={FOCUS_WORDS.goals(`${card.classLabel} ${card.level}`)}
                 >
-                  <h3 className="cp-cap">{PAGE_WORDS.thenHeading}</h3>
+                  <h3 className="a-cap cp-cap">{PAGE_WORDS.thenHeading}</h3>
                   {moreBlockers.length > 0 ? (
                     <ul className="goals blockers n-blockers">
                       {moreBlockers.map((g) => (
@@ -413,7 +409,7 @@ export function Focus({
 
               {card.activePlay.length > 0 ? (
                 <section aria-label={FOCUS_WORDS.ifYouHaveTime} className="n-extra">
-                  <h3 className="cp-cap">{FOCUS_WORDS.ifYouHaveTime}</h3>
+                  <h3 className="a-cap cp-cap">{FOCUS_WORDS.ifYouHaveTime}</h3>
                   <ul>
                     {card.activePlay.map((a) => (
                       <li
