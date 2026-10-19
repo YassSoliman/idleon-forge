@@ -81,8 +81,14 @@ export function buildSlotsView(result: EngineResult, view: NowView): SlotsGridVi
     const cells = order.flatMap((r) =>
       (byIndex.get(r.index) ?? []).filter((p) => p.linkKey === key).map((p) => ({ index: r.index, p })),
     );
-    // The empty cell the Goal fills, else the first linked one.
-    const pick = cells.find((c) => c.p.state === 'fillable') ?? cells[0];
+    // The character the Goal's Next Action names: an account Goal's details list every other target
+    // (#70 A2), so it is the linked character the details leave out (M24 fix: the cell sat on the first
+    // linked row in Visit Order while the step named another character). Else the empty cell the Goal
+    // fills, else the first linked one.
+    const listed = new Set((top.details ?? []).map((d) => d.subject));
+    const named = cells.filter((c) => !listed.has(`c${c.index}`));
+    const pick =
+      (named.length === 1 ? named[0] : undefined) ?? cells.find((c) => c.p.state === 'fillable') ?? cells[0];
     if (pick) nowCell = { index: pick.index, kind: pick.p.kind };
   }
 

@@ -741,6 +741,11 @@ export interface MapResult {
       crystal: { item: string; held: number | null; need: number } | null;
     } | null;
     maps: MapNode[];
+    /**
+     * M24: the world's route path in walking order, town first, each map with the kills on the map
+     * before it that open its door (`need`, null for the town). Empty when the facts have no path.
+     */
+    route?: { mapIndex: number; need: number | null }[];
   }[];
   frontier: {
     mapIndex: number;
@@ -756,4 +761,28 @@ export interface MapResult {
     deathNote: Record<number, { kills: number; nextRank: string | null; nextAt: number | null }>;
     cards: Record<number, { cardId: string; level: number | null; baseChance: number | null }>;
   };
+  /**
+   * M24 (the Map's Constellations tab): every constellation the facts cover (W1 to W3), with its state
+   * from the save: claimed, done and waiting to be claimed (progress at its character count), on a map a
+   * character reaches, or not reachable yet. Absent before M24 or without the star-sign state.
+   */
+  stars?: {
+    name: string;
+    world: number;
+    mapIndex: number;
+    /** The game's requirement, words spaced ("Reach Lv 30 on four players"). */
+    requirement: string;
+    points: number;
+    players: number;
+    progress: number;
+    state: 'claimed' | 'ready' | 'reach' | 'far';
+  }[];
+  /** M24 (the Map's Death Note tab): the rank thresholds (kills) each tracked monster's entry names. */
+  deathNoteRanks?: Record<number, number[]>;
+  /** M24: the Death Note building: its level, whether it is building, the next level's cost and holding. */
+  deathNoteBuilding?: {
+    level: number | null;
+    inBuildSlot: boolean;
+    cost: { item: string; amount: number; held: number } | null;
+  } | null;
 }

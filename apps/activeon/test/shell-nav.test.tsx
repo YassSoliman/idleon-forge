@@ -285,20 +285,38 @@ describe('US-9 the Map place (FR-M1, FR-M2, FR-M5)', () => {
     expect(within(places()).getByRole('link', { current: 'page' }).textContent).toBe('Map');
     expect(document.title).toBe('Map · ActiveOn');
     expect(screen.getByText('2 of 2 worlds open · 5 characters')).toBeTruthy();
-    // The frontier ring: the pusher's kills against the door, with the time (Gate-first).
-    const front = container.querySelector('.map-front') as HTMLElement;
-    expect(within(front).getByRole('img', { name: '120 of 500 kills' })).toBeTruthy();
-    expect(front.textContent).toContain('The Mimic Hole');
+    // M24: the next door first, in the one frame: the pusher's kills against the door, with the time.
+    const front = container.querySelector('.map-hero.a-frame') as HTMLElement;
+    expect(front.textContent).toContain('Kill 380 more here');
+    expect(front.textContent).toContain('120');
+    expect(front.textContent).toContain('in 2h 00m');
+    expect(container.querySelectorAll('.map-place .a-frame')).toHaveLength(1);
     // TR-17: the map's nodes are buttons named in words (map, state, who, door).
     expect(
       screen.getAllByRole('button', {
         name: 'The Mimic Hole, next door, Here: Barbarian 51, 500 kills for its door',
       }).length,
     ).toBeGreaterThan(0);
-    // FR-M3: the overlay switcher is one radio group of four, Route first.
-    const group = screen.getByRole('group', { name: 'What the map shows' });
-    expect(within(group).getAllByRole('radio')).toHaveLength(4);
+    // M24: four tabs, Route first, that switch the content.
+    const tabs = screen.getByRole('tablist', { name: 'Map views' });
+    expect(
+      within(tabs)
+        .getAllByRole('tab')
+        .map((t) => t.textContent),
+    ).toEqual(['Route', 'Constellations', 'Death Note', 'Cards']);
     await noAxeViolations(container);
+  });
+
+  it('M24: the tabs switch the content: Death Note replaces the route, Route brings it back', () => {
+    window.history.replaceState(null, '', '/#map');
+    const r = withMap();
+    const { container } = renderNow(props(r, saveOf(r, 1, 'first', null, 'paste')));
+    expect(container.querySelectorAll('.map-tile').length).toBe(2);
+    fireEvent.click(screen.getByRole('tab', { name: /^Death Note/ }));
+    expect(container.querySelectorAll('.map-tile')).toHaveLength(0);
+    expect(screen.getByText('No Death Note kills in your save yet.')).toBeTruthy();
+    fireEvent.click(screen.getByRole('tab', { name: /^Route/ }));
+    expect(container.querySelectorAll('.map-tile').length).toBe(2);
   });
 
   it('a tap opens the map sheet at #map-<n>, in the FR-M2 order; Esc closes it back to #map', () => {

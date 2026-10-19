@@ -57,10 +57,12 @@ describe('the Daily & Weekly section on the Timeline (FR-T2)', () => {
     const r = withM20(fixture('mid-session'));
     const { container, section } = await daily(r);
     expect(section.textContent).toContain(DAILY_WORDS.ringKey);
-    expect(section.textContent).toContain('in 12h');
-    expect(section.textContent).toContain('2 to do before the reset');
-    expect(section.textContent).toContain('Today 1 of 3 · Week 0 of 1');
-    expect(section.textContent).toContain('Week ring: your weekly reset in 36h 00m');
+    expect(section.textContent).toContain('12h 00m');
+    expect(section.querySelector('.dw-count')?.textContent).toBe('2things to do before the daily reset');
+    expect(section.textContent).toContain('today: 1 of 3 done');
+    expect(section.textContent).toContain('this week: 0 of 1 · resets in 36h 00m');
+    // M24: the one frame on this tab.
+    expect(document.querySelectorAll('.timeline-place .a-frame')).toHaveLength(1);
     const bands = within(section).getAllByRole('button', { name: /^Open / });
     expect(bands.map((b) => b.getAttribute('aria-label'))).toEqual([
       'Open No bank: lost at the reset: 2 of 3 to do',
@@ -84,7 +86,7 @@ describe('the Daily & Weekly section on the Timeline (FR-T2)', () => {
     fireEvent.keyDown(document, { key: 'Escape' });
     expect(screen.queryByRole('dialog')).toBeNull();
     // The weekly row is lost before you are back: its pip and its line say so.
-    expect(section.querySelectorAll('.dw-band-weekly .dw-pip.lost')).toHaveLength(1);
+    expect(section.querySelectorAll('.dw-band-weekly .dw-wk.is-lost')).toHaveLength(1);
     openBand(section, 'Weekly');
     expect(sheet().textContent).toContain('lost before you are back');
   });
@@ -109,20 +111,22 @@ describe('the Daily & Weekly section on the Timeline (FR-T2)', () => {
     const { section } = await daily(r);
     openBand(section, 'No bank');
     fireEvent.click(within(sheet()).getByRole('button', { name: 'Done' }));
-    expect(section.textContent).toContain('Today 2 of 3');
+    expect(section.textContent).toContain('today: 2 of 3 done');
     expect(within(sheet()).getByRole('button', { name: 'Done ✓ · undo' })).toBeTruthy();
   });
 
-  it('the Five-minute plan lists what fits, no-bank rows first', async () => {
+  it('M24: the time planner shows 15 minutes first, the losing job first, and switches on a pick', async () => {
     const r = withM20(fixture('mid-session'));
     const { section } = await daily(r);
-    fireEvent.click(within(section).getByRole('button', { name: '5 min' }));
     const plan = section.querySelector('.dw-plan') as HTMLElement;
-    expect(within(plan).getByRole('button', { name: '5 min' }).getAttribute('aria-pressed')).toBe('true');
-    expect(plan.textContent).toContain('of 5 min planned · no-bank rows first');
-    expect(plan.querySelectorAll('.cl-row').length).toBeGreaterThan(0);
-    fireEvent.click(within(plan).getByRole('button', { name: '5 min' }));
-    expect(plan.querySelectorAll('.cl-row')).toHaveLength(0);
+    expect((within(plan).getByRole('radio', { name: '15 min' }) as HTMLInputElement).checked).toBe(true);
+    expect(plan.textContent).toMatch(/\d+ jobs? fits? in 15 minutes/);
+    const jobs = [...plan.querySelectorAll('.dw-jobr')];
+    expect(jobs.length).toBeGreaterThan(0);
+    // The weekly row lost before you're back comes first.
+    expect(jobs[0]?.querySelector('.dw-n')?.classList.contains('is-lost')).toBe(true);
+    fireEvent.click(within(plan).getByRole('radio', { name: '5 min' }));
+    expect(plan.textContent).toMatch(/in 5 minutes|Nothing to do fits in 5 min/);
   });
 });
 
@@ -206,7 +210,7 @@ describe('the Daily & Weekly arithmetic (daily-model)', () => {
     expect(ringFractions(undefined, now)).toEqual({ day: null, week: null });
   });
 
-  it('plans no-bank rows first, adding efforts until the next would not fit', () => {
+  it('plans the losing rows first, then no-bank rows, adding efforts until the next would not fit', () => {
     const row = (id: string, band: 'no-bank' | 'banks' | 'weekly') => ({ id, band, state: 'todo' }) as never;
     const view = {
       bands: [
@@ -218,5 +222,14 @@ describe('the Daily & Weekly arithmetic (daily-model)', () => {
     const plan = planFor(view, (id) => effort[id] ?? null, 5);
     expect(plan.rows.map((r) => r.id)).toEqual(['a', 'w']);
     expect(plan.usedSeconds).toBe(180);
+    // M24: a row already being lost goes before every band.
+    const lost = { id: 'w', band: 'weekly', state: 'todo', lostBeforeReturn: true } as never;
+    const view2 = {
+      bands: [
+        { band: 'no-bank', rows: [row('a', 'no-bank')], done: [], later: [], title: '' },
+        { band: 'weekly', rows: [lost], done: [], later: [], title: '' },
+      ],
+    } as never;
+    expect(planFor(view2, (id) => effort[id] ?? null, 5).rows.map((r) => r.id)).toEqual(['w', 'a']);
   });
 });

@@ -1,4 +1,4 @@
-# golden v1: speedrun-rank1 · knowledge #6e3245e2 · parser 6c37e3d (game 2.3.540) · now 2026-08-11T19:59:46.196Z · return 8h · stage W4-entry · stale: 4 of 1003
+# golden v1: speedrun-rank1 · knowledge #ee299434 · parser 6c37e3d (game 2.3.540) · now 2026-08-11T19:59:46.196Z · return 8h · stage W4-entry · stale: 4 of 1003
 
 ## Verdict changes
 
@@ -473,7 +473,7 @@ Gifts: Beeg Slice, Slabcakes
 - World 3 · Frostbite Tundra [done] · 11 of 11 route doors open · 3 side maps not reached
   - gate Chizoar (done): Galaxial Amethyst handed in; 0 keys waiting · 10 earned a day
   - Frostbite Towndra (town): C7 Divine Knight 1822
-- World 4 · Hyperion Nebula [done] · 3 of 3 route doors open · 2 side maps not reached
+- World 4 · Hyperion Nebula [done] · 3 of 3 route doors open · 1 side map not reached
   - gate Massive Troll (done)
   - Outer World Town (town): C5 Elemental Sorcerer 1700
 - Worlds 5+ · Not covered yet

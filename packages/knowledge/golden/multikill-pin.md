@@ -1,4 +1,4 @@
-# golden v1: multikill-pin · knowledge #6e3245e2 · parser 6c37e3d (game 2.3.540) · now 2026-08-26T17:27:35.771Z · return 8h · stage W4-entry · stale: 4 of 1003
+# golden v1: multikill-pin · knowledge #ee299434 · parser 6c37e3d (game 2.3.540) · now 2026-08-26T17:27:35.771Z · return 8h · stage W4-entry · stale: 4 of 1003
 
 ## Verdict changes
 
@@ -506,7 +506,7 @@ Gifts: Slabcakes, Surprise Box
 - World 3 · Frostbite Tundra [done] · 11 of 11 route doors open · 3 side maps not reached
   - gate Chizoar (done): Galaxial Amethyst handed in; 9 keys waiting · 9 earned a day
   - Frostbite Towndra (town): C6 Wind Walker 1280
-- World 4 · Hyperion Nebula [done] · 3 of 3 route doors open · 2 side maps not reached
+- World 4 · Hyperion Nebula [done] · 3 of 3 route doors open · 1 side map not reached
   - gate Massive Troll (done)
   - Outer World Town (town): C1 Siege Breaker 1291, C8 Siege Breaker 1261, C4 Divine Knight 1240, C5 Arcane Cultist 1231, C3 Elemental Sorcerer 1259, C11 Beginner 1224
 - Worlds 5+ · Not covered yet

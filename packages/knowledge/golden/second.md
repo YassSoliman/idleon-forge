@@ -1,4 +1,4 @@
-# golden v1: second · knowledge #6e3245e2 · parser 6c37e3d (game 2.3.540) · now 2024-06-08T06:05:26.262Z · return 8h · stage W4-entry · stale: 4 of 1003
+# golden v1: second · knowledge #ee299434 · parser 6c37e3d (game 2.3.540) · now 2024-06-08T06:05:26.262Z · return 8h · stage W4-entry · stale: 4 of 1003
 
 ## Verdict changes
 
@@ -419,7 +419,7 @@ Can't read Bubba from this save
 - World 3 · Frostbite Tundra [done] · 11 of 11 route doors open · 3 side maps not reached
   - gate Chizoar (done): Galaxial Amethyst handed in; 0 keys waiting · 10 earned a day
   - Signature Slopes (cleared): C3 Bubonic Conjuror 567, C2 Divine Knight 544, C6 Siege Breaker 530, C1 Beast Master 507, C9 Hunter 503, C5 Wizard 501, C10 Barbarian 501, C8 Elemental Sorcerer 525
-- World 4 · Hyperion Nebula [done] · 3 of 3 route doors open · 1 side map not reached
+- World 4 · Hyperion Nebula [done] · 3 of 3 route doors open
   - gate Massive Troll (done)
   - The Rift (reached): C4 Blood Berserker 501
 - Worlds 5+ · Not covered yet
