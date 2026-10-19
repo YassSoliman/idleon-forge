@@ -56,7 +56,7 @@ export interface StarSignsView {
    * Cosmos's own node cost. The wiki's "3 points" is that node cost; `need` is the path (19 from the
    * four starters: 8 signs at 2, then Cosmos at 3). null once Cosmos is unlocked or past the legs.
    */
-  cosmos: { have: number | null; need: number; onTheWay: string[]; cost: number } | null;
+  cosmos?: { have: number | null; need: number; onTheWay: string[]; cost: number } | null;
   /** "Bank your points: …" or the unlock action, or null. */
   plan: string | null;
   next: NextConstellation[];
