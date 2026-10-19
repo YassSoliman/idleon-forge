@@ -157,6 +157,14 @@
   line-height: 1.2;
   white-space: nowrap;
 }
+/* M26: past World 4 an elite Build's lower bound reads "at least 12,666 points"; on a phone it wraps
+   inside its cell rather than push the table past the column. */
+@media (max-width: 480px) {
+  .characters-place .cp-loud {
+    white-space: normal;
+    overflow-wrap: anywhere;
+  }
+}
 .characters-place .cp-cell-t .cp-sm {
   line-height: 1.25;
 }

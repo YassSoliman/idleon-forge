@@ -230,8 +230,14 @@ export const presetBehindDetector = defineDetector({
       // ADR 0010: the same count the Build tab's chips show (roadmap.ts knownPoints: exact per tab
       // where Account State has it, else M9's bound); "at least" unless every tab is exact.
       const other = b.preset === a.active ? a.other : a.active;
-      const known = knownPoints(b.preset.talents, other?.talents ?? null, acc.kb.talents.tab2Granting);
-      const isExact = (known?.exactTabs?.size ?? 0) === 3;
+      // M26: over the same tabs the Build view counts (tab 4 or 5 once a Build names it).
+      const known = knownPoints(
+        b.preset.talents,
+        other?.talents ?? null,
+        acc.kb.talents.tab2Granting,
+        a.tabs,
+      );
+      const isExact = (known?.exactTabs?.size ?? 0) === a.tabs.length;
       out.push(
         fires(a, {
           role: presetLabel(b.preset),

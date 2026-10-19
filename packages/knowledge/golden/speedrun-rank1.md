@@ -1,4 +1,4 @@
-# golden v1: speedrun-rank1 · knowledge #034d0208 · parser 6c37e3d (game 2.3.540) · now 2026-08-11T19:59:46.196Z · return 8h · stage W4-late · stale: 4 of 1003
+# golden v1: speedrun-rank1 · knowledge #459d2744 · parser 6c37e3d (game 2.3.540) · now 2026-08-11T19:59:46.196Z · return 8h · stage W4-late · stale: 4 of 1030
 
 ## Verdict changes
 
@@ -278,15 +278,20 @@ Gifts: Beeg Slice, Slabcakes
 
 ## Builds
 ### C1 (Death Bringer 1780)
-- No build for this stage yet (builds cover World 1 to World 4): these are your talent levels
-- Current preset (in use): Rage Basics · Warrior · Barbarian · Blood Berserker · Death Bringer · Star talents (6,255 unspent)
+- Fighting preset (in use): Rage Basics (at least 299 unspent) · Warrior (at least 1,383 unspent) · Barbarian · Blood Berserker · Death Bringer [Start here] · Star talents (6,255 unspent)
+  - Death Bringer: No unspent points known from your last save: the totals show where new points go
+    - done: Graveyard Shift 396
+    - done: Grimoire 396
+    - done: Sentinel Axes 396
+    - next after these: Detonation 160 → 299 · +139
+    - and 3 more
   - Star talents: 6,255 unspent · they end here (Stonks! returns more as it levels)
     - can add now: Stonks! 27 → 30 · +3 (pays for itself: it returns star points as it levels)
     - done: Will of the Eldest 50 (useful up to 182 (best level 1,822); its max for now)
     - done: Beginner Best Class 50 (useful up to 175 (best Beginner-line level 1,754); its max for now)
     - done: Tick Tock 204
     - and 7 more
-- Other preset: Rage Basics · Warrior · Barbarian · Blood Berserker · Death Bringer · Star talents (4,545 unspent)
+- Skilling preset: Rage Basics · Warrior · Barbarian (at least 226 unspent) · Blood Berserker (at least 751 unspent) · Death Bringer (at least 321 unspent) · Star talents (4,545 unspent)
   - Star talents: 4,545 unspent · they end here
     - done: Stonks! 30
     - done: Tick Tock 204
@@ -295,15 +300,18 @@ Gifts: Beeg Slice, Slabcakes
     - and 6 more
 
 ### C2 (Arcane Cultist 1769)
-- No build for this stage yet (builds cover World 1 to World 4): these are your talent levels
-- Other preset: Savvy Basics · Mage · Shaman · Bubonic Conjuror · Arcane Cultist · Star talents (4,401 unspent)
+- Skilling preset: Savvy Basics [Start here] (at least 281 unspent) · Mage (at least 224 unspent) · Shaman (at least 316 unspent) · Bubonic Conjuror (at least 528 unspent) · Arcane Cultist (at least 911 unspent) · Star talents (4,401 unspent)
+  - Savvy Basics: As of your last save: at least 281 points waiting · they end here
+    - can add now: Smart Efficiency 364 → 396 · +32
+    - can add now: Book of the Wise 2,106 → 2,174 · +100
+    - done: Active AFK'er 396
   - Star talents: 4,401 unspent · they end here (Stonks! returns more as it levels)
     - can add now: Stonks! 27 → 30 · +3 (pays for itself: it returns star points as it levels)
     - done: Tick Tock 204
     - done: Will of the Eldest 50 (useful up to 182 (best level 1,822); its max for now)
     - done: Toilet Paper Postage 100
     - and 6 more
-- Current preset (in use): Savvy Basics · Mage · Shaman · Bubonic Conjuror · Arcane Cultist · Star talents (6,434 unspent)
+- Fighting preset (in use): Savvy Basics · Mage · Shaman · Bubonic Conjuror · Arcane Cultist · Star talents (6,434 unspent)
   - Star talents: 6,434 unspent · they end here (Stonks! returns more as it levels)
     - can add now: Stonks! 27 → 30 · +3 (pays for itself: it returns star points as it levels)
     - done: Will of the Eldest 50 (useful up to 182 (best level 1,822); its max for now)
@@ -312,15 +320,20 @@ Gifts: Beeg Slice, Slabcakes
     - and 7 more
 
 ### C3 (Siege Breaker 1647)
-- No build for this stage yet (builds cover World 1 to World 4): these are your talent levels
-- Current preset (in use): Calm Basics · Archer · Bowman · Siege Breaker · Star talents (3,309 unspent)
+- Fighting preset (in use): Calm Basics [Start here] (at least 333 unspent) · Archer (at least 1,848 unspent) · Bowman (at least 39 unspent) · Siege Breaker (at least 1,521 unspent) · Star talents (3,309 unspent)
+  - Calm Basics: As of your last save: at least 333 points waiting · they end here
+    - done: Idle Shooting 50
+    - done: Gilded Sword 299
+    - can add now: Sharpened Axe 0 → 299 · +299
+    - done: Idle Shooting 299
+    - and 3 more
   - Star talents: 3,309 unspent · they end here (Stonks! returns more as it levels)
     - can add now: Stonks! 27 → 30 · +3 (pays for itself: it returns star points as it levels)
     - done: Will of the Eldest 50 (useful up to 182 (best level 1,822); its max for now)
     - can add now: Beginner Best Class 0 → 50 · +53 (useful up to 175 (best Beginner-line level 1,754); its max for now)
     - done: Tick Tock 204
     - and 7 more
-- Other preset: Calm Basics · Archer · Bowman · Siege Breaker · Star talents (6,129 unspent)
+- Skilling preset: Calm Basics · Archer · Bowman · Siege Breaker · Star talents (6,129 unspent)
   - Star talents: 6,129 unspent · they end here (Stonks! returns more as it levels)
     - can add now: Stonks! 25 → 30 · +5 (pays for itself: it returns star points as it levels)
     - done: Tick Tock 204
@@ -329,15 +342,20 @@ Gifts: Beeg Slice, Slabcakes
     - and 6 more
 
 ### C4 (Divine Knight 1787)
-- No build for this stage yet (builds cover World 1 to World 4): these are your talent levels
-- Current preset (in use): Rage Basics · Warrior · Squire · Divine Knight · Star talents (7,429 unspent)
+- Fighting preset (in use): Rage Basics · Warrior · Squire · Divine Knight · Star talents (7,429 unspent)
   - Star talents: 7,429 unspent · they end here (Stonks! returns more as it levels)
     - can add now: Stonks! 27 → 30 · +3 (pays for itself: it returns star points as it levels)
     - done: Will of the Eldest 50 (useful up to 182 (best level 1,822); its max for now)
     - done: Beginner Best Class 50 (useful up to 175 (best Beginner-line level 1,754); its max for now)
     - done: Tick Tock 204
     - and 7 more
-- Other preset: Rage Basics · Warrior · Squire · Divine Knight · Star talents (1,352 unspent)
+- Skilling preset: Rage Basics [Start here] (at least 776 unspent) · Warrior (at least 771 unspent) · Squire (at least 2,376 unspent) · Divine Knight (at least 2,376 unspent) · Star talents (1,352 unspent)
+  - Rage Basics: As of your last save: at least 776 points waiting · they end here
+    - done: Brute Efficiency 396
+    - done: Idle Skilling 396
+    - can add now: Fist of Rage 2,160 → 2,174 · +14
+    - done: Health Booster 396
+    - and 1 more
   - Star talents: 1,352 unspent · they end here (Stonks! returns more as it levels)
     - can add now: Stonks! 20 → 30 · +10 (pays for itself: it returns star points as it levels)
     - done: Tick Tock 204
@@ -346,15 +364,20 @@ Gifts: Beeg Slice, Slabcakes
     - and 6 more
 
 ### C5 (Elemental Sorcerer 1700)
-- No build for this stage yet (builds cover World 1 to World 4): these are your talent levels
-- Other preset: Savvy Basics · Mage · Wizard · Elemental Sorcerer · Star talents (5,465 unspent)
+- Skilling preset: Savvy Basics · Mage · Wizard · Elemental Sorcerer · Star talents (5,465 unspent)
   - Star talents: 5,465 unspent · they end here (Stonks! returns more as it levels)
     - can add now: Stonks! 27 → 30 · +3 (pays for itself: it returns star points as it levels)
     - done: Tick Tock 204
     - done: Will of the Eldest 50 (useful up to 182 (best level 1,822); its max for now)
     - can add now: Toilet Paper Postage 0 → 100 · +103
     - and 6 more
-- Current preset (in use): Savvy Basics · Mage · Wizard · Elemental Sorcerer · Star talents (2,902 unspent)
+- Fighting preset (in use): Savvy Basics [Start here] (at least 695 unspent) · Mage (at least 889 unspent) · Wizard (at least 1,285 unspent) · Elemental Sorcerer (at least 1,981 unspent) · Star talents (2,902 unspent)
+  - Savvy Basics: As of your last save: at least 695 points waiting · they end here
+    - can add now: Idle Casting 0 → 50 · +50
+    - part now: Gilded Sword = Sharpened Axe +792 · +645 of 792 now · +842 (split evenly: Gilded Sword 0 → 396, Sharpened Axe 0 → 396)
+    - done: Mana Booster 396
+    - next after these: Overclocked Energy = Book of the Wise +15 · +857 (split evenly: Overclocked Energy 741 → 746, Book of the Wise 2,174 → 2,184)
+    - and 2 more
   - Star talents: 2,902 unspent · they end here (Stonks! returns more as it levels)
     - can add now: Stonks! 27 → 30 · +3 (pays for itself: it returns star points as it levels)
     - done: Will of the Eldest 50 (useful up to 182 (best level 1,822); its max for now)
@@ -363,15 +386,14 @@ Gifts: Beeg Slice, Slabcakes
     - and 7 more
 
 ### C6 (Wind Walker 1775)
-- No build for this stage yet (builds cover World 1 to World 4): these are your talent levels
-- Other preset: Calm Basics · Archer · Hunter · Beast Master · Wind Walker · Star talents (6,195 unspent)
+- Skilling preset: Calm Basics (at least 125 unspent) · Archer · Hunter · Beast Master · Wind Walker · Star talents (6,195 unspent)
   - Star talents: 6,195 unspent · they end here (Stonks! returns more as it levels)
     - can add now: Stonks! 25 → 30 · +5 (pays for itself: it returns star points as it levels)
     - done: Tick Tock 204
     - done: Will of the Eldest 50 (useful up to 182 (best level 1,822); its max for now)
     - can add now: Toilet Paper Postage 0 → 100 · +105
     - and 6 more
-- Current preset (in use): Calm Basics · Archer · Hunter · Beast Master · Wind Walker · Star talents (4,305 unspent)
+- Fighting preset (in use): Calm Basics · Archer · Hunter · Beast Master · Wind Walker · Star talents (4,305 unspent)
   - Star talents: 4,305 unspent · they end here (Stonks! returns more as it levels)
     - can add now: Stonks! 27 → 30 · +3 (pays for itself: it returns star points as it levels)
     - done: Will of the Eldest 50 (useful up to 182 (best level 1,822); its max for now)
@@ -380,15 +402,20 @@ Gifts: Beeg Slice, Slabcakes
     - and 7 more
 
 ### C7 (Divine Knight 1822)
-- No build for this stage yet (builds cover World 1 to World 4): these are your talent levels
-- Current preset (in use): Rage Basics · Warrior · Squire · Divine Knight · Star talents (6,805 unspent)
+- Fighting preset (in use): Rage Basics · Warrior (at least 396 unspent) · Squire · Divine Knight · Star talents (6,805 unspent)
   - Star talents: 6,805 unspent · they end here (Stonks! returns more as it levels)
     - can add now: Stonks! 27 → 30 · +3 (pays for itself: it returns star points as it levels)
     - done: Will of the Eldest 50 (useful up to 182 (best level 1,822); its max for now)
     - done: Beginner Best Class 50 (useful up to 175 (best Beginner-line level 1,754); its max for now)
     - done: Tick Tock 204
     - and 7 more
-- Other preset: Rage Basics · Warrior · Squire · Divine Knight · Star talents (5,919 unspent)
+- Skilling preset: Rage Basics [Start here] (at least 2,056 unspent) · Warrior · Squire (at least 2,376 unspent) · Divine Knight (at least 2,376 unspent) · Star talents (5,919 unspent)
+  - Rage Basics: As of your last save: at least 2,056 points waiting · they end here
+    - done: Brute Efficiency 396
+    - done: Idle Skilling 396
+    - can add now: Fist of Rage 2,172 → 2,176 · +4
+    - done: Health Booster 396
+    - and 1 more
   - Star talents: 5,919 unspent · they end here (Stonks! returns more as it levels)
     - can add now: Stonks! 27 → 30 · +3 (pays for itself: it returns star points as it levels)
     - done: Tick Tock 204
@@ -397,15 +424,20 @@ Gifts: Beeg Slice, Slabcakes
     - and 6 more
 
 ### C8 (Voidwalker 1754)
-- No build for this stage yet (builds cover World 1 to World 4): these are your talent levels
-- Other preset: Beginner · Journeyman · Maestro · Voidwalker · Star talents (7,631 unspent)
+- Fighting preset: Beginner · Journeyman · Maestro · Voidwalker [Start here] · Star talents (7,631 unspent)
+  - Voidwalker: No unspent points known from your last save: the totals show where new points go
+    - done: Void Trial Rerun 1
+    - done: Void Trial Rerun 396
+    - done: Void Radius 396
+    - done: Bossing Vain 396
+    - and 7 more
   - Star talents: 7,631 unspent · they end here (Stonks! returns more as it levels)
     - can add now: Stonks! 27 → 30 · +3 (pays for itself: it returns star points as it levels)
     - done: Will of the Eldest 50 (useful up to 182 (best level 1,822); its max for now)
     - done: Beginner Best Class 50 (useful up to 175 (best Beginner-line level 1,754); its max for now)
     - done: Tick Tock 204
     - and 7 more
-- Current preset (in use): Beginner · Journeyman · Maestro · Voidwalker · Star talents (6,602 unspent)
+- Skilling preset (in use): Beginner (at least 792 unspent) · Journeyman · Maestro (at least 396 unspent) · Voidwalker (at least 323 unspent) · Star talents (6,602 unspent)
   - Star talents: 6,602 unspent · they end here (Stonks! returns more as it levels)
     - can add now: Stonks! 27 → 30 · +3 (pays for itself: it returns star points as it levels)
     - done: Tick Tock 204
@@ -414,15 +446,20 @@ Gifts: Beeg Slice, Slabcakes
     - and 6 more
 
 ### C9 (Arcane Cultist 1783)
-- No build for this stage yet (builds cover World 1 to World 4): these are your talent levels
-- Other preset: Savvy Basics · Mage · Shaman · Bubonic Conjuror · Arcane Cultist · Star talents (6,516 unspent)
+- Skilling preset: Savvy Basics (at least 65 unspent) · Mage · Shaman (at least 129 unspent) · Bubonic Conjuror · Arcane Cultist · Star talents (6,516 unspent)
   - Star talents: 6,516 unspent · they end here (Stonks! returns more as it levels)
     - can add now: Stonks! 27 → 30 · +3 (pays for itself: it returns star points as it levels)
     - done: Tick Tock 204
     - done: Will of the Eldest 50 (useful up to 182 (best level 1,822); its max for now)
     - can add now: Toilet Paper Postage 0 → 100 · +103
     - and 6 more
-- Current preset (in use): Savvy Basics · Mage · Shaman · Bubonic Conjuror · Arcane Cultist · Star talents (1,497 unspent)
+- Fighting preset (in use): Savvy Basics · Mage [Start here] (at least 1,327 unspent) · Shaman · Bubonic Conjuror · Arcane Cultist (at least 32 unspent) · Star talents (1,497 unspent)
+  - Mage: As of your last save: at least 1,327 points waiting · they end here
+    - done: Power Overwhelming 364
+    - done: Knowledge Is Power 364
+    - done: Mana Overdrive 364
+    - done: Choppin It Up Ez 364
+    - and 2 more
   - Star talents: 1,497 unspent · they end here (Stonks! returns more as it levels)
     - can add now: Stonks! 27 → 30 · +3 (pays for itself: it returns star points as it levels)
     - done: Will of the Eldest 50 (useful up to 182 (best level 1,822); its max for now)
@@ -431,15 +468,14 @@ Gifts: Beeg Slice, Slabcakes
     - and 7 more
 
 ### C10 (Siege Breaker 1763)
-- No build for this stage yet (builds cover World 1 to World 4): these are your talent levels
-- Current preset (in use): Calm Basics · Archer · Bowman · Siege Breaker · Star talents (6,284 unspent)
+- Fighting preset (in use): Calm Basics · Archer · Bowman · Siege Breaker · Star talents (6,284 unspent)
   - Star talents: 6,284 unspent · they end here (Stonks! returns more as it levels)
     - can add now: Stonks! 27 → 30 · +3 (pays for itself: it returns star points as it levels)
     - done: Will of the Eldest 50 (useful up to 182 (best level 1,822); its max for now)
     - done: Beginner Best Class 50 (useful up to 175 (best Beginner-line level 1,754); its max for now)
     - done: Tick Tock 204
     - and 7 more
-- Other preset: Calm Basics · Archer · Bowman · Siege Breaker · Star talents (4,454 unspent)
+- Skilling preset: Calm Basics (at least 281 unspent) · Archer (at least 1,583 unspent) · Bowman (at least 2,768 unspent) · Siege Breaker · Star talents (4,454 unspent)
   - Star talents: 4,454 unspent · they end here (Stonks! returns more as it levels)
     - can add now: Stonks! 27 → 30 · +3 (pays for itself: it returns star points as it levels)
     - done: Tick Tock 204
@@ -448,15 +484,20 @@ Gifts: Beeg Slice, Slabcakes
     - and 6 more
 
 ### C11 (Divine Knight 1771)
-- No build for this stage yet (builds cover World 1 to World 4): these are your talent levels
-- Current preset (in use): Rage Basics · Warrior · Squire · Divine Knight · Star talents (6,938 unspent)
+- Fighting preset (in use): Rage Basics · Warrior · Squire · Divine Knight · Star talents (6,938 unspent)
   - Star talents: 6,938 unspent · they end here (Stonks! returns more as it levels)
     - can add now: Stonks! 25 → 30 · +5 (pays for itself: it returns star points as it levels)
     - done: Will of the Eldest 50 (useful up to 182 (best level 1,822); its max for now)
     - done: Beginner Best Class 50 (useful up to 175 (best Beginner-line level 1,754); its max for now)
     - done: Tick Tock 204
     - and 7 more
-- Other preset: Rage Basics · Warrior · Squire · Divine Knight · Star talents (2,788 unspent)
+- Skilling preset: Rage Basics [Start here] (at least 3,451 unspent) · Warrior (at least 3,164 unspent) · Squire (at least 2,276 unspent) · Divine Knight (at least 2,180 unspent) · Star talents (2,788 unspent)
+  - Rage Basics: As of your last save: at least 3,451 points waiting · they end here
+    - done: Brute Efficiency 396
+    - done: Idle Skilling 396
+    - can add now: Fist of Rage 2,162 → 2,174 · +12
+    - can add now: Health Booster 0 → 396 · +408
+    - and 1 more
   - Star talents: 2,788 unspent · they end here (Stonks! returns more as it levels)
     - can add now: Stonks! 25 → 30 · +5 (pays for itself: it returns star points as it levels)
     - done: Tick Tock 204

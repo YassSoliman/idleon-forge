@@ -75,6 +75,12 @@ export interface AccountAnalysis {
   notCovered: Map<number, NotCoveredReason>;
   /** Characters with an elite or master tab no Build of theirs covers (FR-21, "elite talent builds"). */
   eliteTabs: number[];
+  /**
+   * M26: past World 4, the elite and master characters' analyses for the Build view only. M9's Goals
+   * stay silent there (FR-21: the W1-W4 point rules misread a World 6 account), but the page shows the
+   * character's own elite or master Build.
+   */
+  viewOnly: Map<number, CharacterAnalysis>;
   kb: BuildsKnowledge;
 }
 
@@ -197,16 +203,19 @@ export function analyzeAccount(state: AccountState, facts: FactLookup): AccountA
     characters: new Map(),
     notCovered: new Map(),
     eliteTabs: [],
+    viewOnly: new Map(),
     kb,
   };
   for (const c of state.characters) {
-    // Past World 4 only a Build of the character's own elite or master class speaks (M26): those run
-    // into World 5 and later (`stageHint` steps, the master Builds), the W1-W4 Builds stop at World 4.
-    if (out.beyond && !lateBuild(kb, c.class)) {
+    // Past World 4 no M9 Goal fires (FR-21); the Build view shows a character's own elite or master
+    // Build (M26: those run into World 5 and later), never the W1-W4 Builds, which stop at World 4.
+    if (out.beyond) {
       if (kb.tierOf(c.class) !== null) out.notCovered.set(c.index, 'beyond');
+      const a = lateBuild(kb, c.class) ? analyzeCharacter(c, state, kb, s.id, true) : null;
+      if (a !== null && typeof a !== 'string') out.viewOnly.set(c.index, a);
       continue;
     }
-    const a = analyzeCharacter(c, state, kb, s.id, out.beyond);
+    const a = analyzeCharacter(c, state, kb, s.id, false);
     if (a === null) continue;
     if (typeof a === 'string') out.notCovered.set(c.index, a);
     else {

@@ -1,4 +1,4 @@
-# golden v1: fourth · knowledge #034d0208 · parser 6c37e3d (game 2.3.540) · now 2024-05-17T07:51:22.362Z · return 8h · stage W4-late · stale: 4 of 1003
+# golden v1: fourth · knowledge #459d2744 · parser 6c37e3d (game 2.3.540) · now 2024-05-17T07:51:22.362Z · return 8h · stage W4-late · stale: 4 of 1030
 
 ## Verdict changes
 
@@ -159,15 +159,20 @@ Can't read Bubba from this save
 
 ## Builds
 ### C1 (Voidwalker 476)
-- No build for this stage yet (builds cover World 1 to World 4): these are your talent levels
-- Current preset (in use): Beginner · Journeyman · Maestro · Voidwalker · Star talents (over budget by about 201)
+- Fighting preset (in use): Beginner · Journeyman · Maestro · Voidwalker · Star talents (over budget by about 201)
   - Star talents: Over budget by about 201: the totals show where new points go
     - done: Stonks! 30
     - done: Will of the Eldest 47 (useful up to 47 (best level 476))
     - done: Beginner Best Class 47 (useful up to 47 (best Beginner-line level 476))
     - done: Attacks On Simmer 50
     - and 7 more
-- Other preset: Beginner · Journeyman · Maestro · Voidwalker · Star talents (563 unspent)
+- Skilling preset: Beginner [Start here] (at least 98 unspent) · Journeyman (at least 320 unspent) · Maestro (at least 410 unspent) · Voidwalker (at least 23 unspent) · Star talents (563 unspent)
+  - Beginner: As of your last save: at least 98 points waiting · they end here
+    - done: Happy Dude 560
+    - part now: Sleepin' On the Job 100 → 259 · +98 of 159 now · +159
+    - done: Fist of Rage 100
+    - done: Quickness Boots 100
+    - and 1 more
   - Star talents: 563 unspent · they end here
     - done: Stonks! 30
     - done: Tick Tock 100

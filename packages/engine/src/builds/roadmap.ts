@@ -104,6 +104,8 @@ interface PresetInput {
   } | null;
   /** The class tabs the Builds count points on (1–3, and 4 or 5 once a Build names them). */
   counted: readonly TabNo[];
+  /** M26: the account is past World 4, where the point counts are lower bounds only. */
+  beyond?: boolean;
   afkType: string | null;
   /** The preset's next step's tab (M9's shared rule, analyze.ts `spendableNext`); leads the list. */
   lead: number | null;
@@ -176,6 +178,7 @@ function nextPoints(
   slot: number,
   lb: PresetInput['lb'],
   lead: number | null,
+  beyond = false,
 ) {
   const out: BuildNextPoint[] = [];
   const waiting = lb !== null && lb.total > 0;
@@ -201,6 +204,9 @@ function nextPoints(
       const key = `c-s${slot}-t${t.tab}-${k}`;
       const capped = tie.some((m) => m.note === MAX_NOTE);
       if (none) {
+        // Past World 4 the game's point totals aren't modelled, so a tab with none known stays quiet
+        // rather than say "no unspent points known" over a save that has many (M26).
+        if (beyond) break;
         const to = tie.length > 1 ? 'split evenly' : `to ${goal}`;
         // A lower bound of 0 can't prove the tab is empty (fix/build-points): never "no points waiting".
         // An exact 0 (ADR 0010) can: the tab is all spent.
@@ -337,7 +343,7 @@ function presetOf(x: PresetInput, kb: BuildsKnowledge, ctx: WalkContext): BuildP
     unspent: x.lb?.total ?? null,
     tabs,
     attackBar: role ? attackBarOf(x, kb) : null,
-    next: build ? nextPoints(p, build, ctx, kb, x.slot, x.lb, x.lead) : [],
+    next: build ? nextPoints(p, build, ctx, kb, x.slot, x.lb, x.lead, x.beyond === true) : [],
     star: starOf(x, kb),
     confidence: build ? confidenceView(build) : null,
   };
@@ -466,8 +472,13 @@ function covered(
         role,
         cls: v.cls,
         build: a.builds[role],
-        lb: knownPoints(v.talents, other?.talents ?? null, kb.talents.tab2Granting, a.tabs) ?? v.lb,
+        // Past World 4 the game's point formula is not modelled (the truth run's talent-total P2), so
+        // the exact counts are not shown there: only M9's lower bound between the two presets (M26).
+        lb: acc.beyond
+          ? v.lb
+          : (knownPoints(v.talents, other?.talents ?? null, kb.talents.tab2Granting, a.tabs) ?? v.lb),
         counted: a.tabs,
+        beyond: acc.beyond,
         afkType: c.afkType,
         lead: v.next?.tab ?? null,
         star: {
@@ -761,7 +772,7 @@ export function buildRoadmaps(
     }
     if (!c.talents || !isKnown(state, `characters[${c.index}].talents`))
       return plain(c, acc, path, "Can't read this character's talents from the save");
-    const a = acc.characters.get(c.index);
+    const a = acc.characters.get(c.index) ?? acc.viewOnly.get(c.index);
     if (a) return covered(c, a, acc, path, opts);
     const reason = acc.notCovered.get(c.index);
     return plain(c, acc, path, (reason && NOTE[reason]) ?? 'No build yet for this class');

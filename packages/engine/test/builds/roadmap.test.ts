@@ -102,7 +102,11 @@ describe('Build view roadmaps', () => {
       'Arcane Cultist:later',
     ]);
     expect(r.nextClass).toBe('Elite class: Bubonic Conjuror at Eliteus');
-    expect(r.comingUp).toContain('Elite talent builds are not covered yet');
+    // M26: the elite class has its own Builds now; what they start tab 4 with is coming up.
+    expect(r.comingUp).not.toContain('Elite talent builds are not covered yet');
+    expect(
+      r.comingUp.some((x) => x.startsWith('Then the Bubonic Conjuror fighting build starts tab 4 with')),
+    ).toBe(true);
   });
 
   it('W2-late Barbarian: the empty preset reads as one status part, with the attack bar checked', () => {
@@ -174,9 +178,10 @@ describe('Build view roadmaps', () => {
   });
 
   it('a character with no Build for its class shows plain levels and the note', () => {
-    const s = withCharacter(W2(), 1, { class: 'Journeyman', classIndex: 2 });
+    // M26 gave the Journeyman line its Builds; a Beginner past Lv 15 still has none.
+    const s = withCharacter(W2(), 1, { class: 'Beginner', classIndex: 1 });
     const r = at(roadmaps(s), 1);
-    expect(r.note).toMatch(/^No build yet for this class/);
+    expect(r.note).toMatch(/^No build yet for a Beginner/);
     expect(r.presets.length).toBeGreaterThan(0);
     expect(r.presets.every((p) => p.tabs.every((t) => t.rows.length === 0))).toBe(true);
     expect(r.presets.flatMap((p) => p.tabs.flatMap((t) => t.others)).length).toBeGreaterThan(0);
