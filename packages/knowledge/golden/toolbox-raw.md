@@ -1,4 +1,4 @@
-# golden v1: toolbox-raw · knowledge #459d2744 · parser 6c37e3d (game 2.3.540) · now 2026-08-26T17:27:35.771Z · return 8h · stage W4-late · stale: 4 of 1030
+# golden v1: toolbox-raw · knowledge #2fa8175b · parser 6c37e3d (game 2.3.540) · now 2026-08-26T17:27:35.771Z · return 8h · stage W4-late · stale: 4 of 1030
 
 ## Verdict changes
 
@@ -60,7 +60,7 @@ finding: Worship full on 10 · spend
   ○ To do: Colosseum tickets · Typhoon: 1 day banked · Centurion: 1 day banked · Lonely Hunter: 1 day banked · resets in 15h 12m
   ○ To do: Killroy's rooms · Warrior room: your Royal Guardian Lv 1307 · Archer room: your Siege Breaker Lv 1291 · Archer room: your Siege Breaker Lv 1291 · your weekly reset in 3d 15h
   ○ To do: Weekly Battle · best this week: difficulty 0 of 5 · new boss Thursday 00:00 UTC, in 6h 32m · lost before you are back
-  ○ To do: Bonus Ballot vote · Leading now: Boosts Crop Value, and Farming EXP gain, AND Next Crop Chance by +88.35% · new ballot Monday about 17:00 UTC, in 4d 23h
+  ○ To do: Bonus Ballot vote · Active now: Boosts Crop Value, and Farming EXP gain, AND Next Crop Chance by +88.35% · new ballot Monday about 17:00 UTC, in 4d 23h
   ○ To do: Guild weekly tasks · your weekly reset in 3d 15h
 - Spend · Play a round of Darts: Play one round of Darts [IdleOn Wiki: Minigames, Throwy Darts · Calculated by IdleOn Toolbox · 2.3.540]
 - Spend · Play a round of Hoops: Play one round of Hoops [IdleOn Wiki: Minigames, Swishy Hoops · Calculated by IdleOn Toolbox · 2.3.540]

@@ -1,4 +1,4 @@
-# golden v1: scrubbed-w2 · knowledge #459d2744 · parser 6c37e3d (game 2.3.540) · now 2026-10-17T15:47:05.447Z · return 8h · stage W2-late · stale: 4 of 1030
+# golden v1: scrubbed-w2 · knowledge #2fa8175b · parser 6c37e3d (game 2.3.540) · now 2026-10-17T15:47:05.447Z · return 8h · stage W2-late · stale: 4 of 1030
 
 ## Verdict changes
 
@@ -42,7 +42,7 @@ Fix before you leave
   ○ To do: Colosseum tickets · Typhoon: 3 days banked, 1 lost · Centurion: 2 days banked · resets in 23h 42m · lost before you are back
   ○ To do: Killroy's rooms · Warrior room: your Barbarian Lv 60 · your weekly reset in 2d 23h
   ○ To do: Weekly Battle · best this week: difficulty 0 of 5 · new boss Thursday 00:00 UTC, in 4d 8h
-  ○ To do: Bonus Ballot vote · Leading now: Boosts Equinox Bar Fill rate by 1.4x · new ballot Monday about 17:00 UTC, in 2d 1h
+  ○ To do: Bonus Ballot vote · Active now: Boosts Equinox Bar Fill rate by 1.4x · new ballot Monday about 17:00 UTC, in 2d 1h
 - Spend · Claim the free pet pull: Claim your free pet pull at Doggy [IdleOn Wiki: Pets · Calculated by IdleOn Toolbox · 2.3.540]
 - Spend · Collect banked Colosseum tickets: Collect 5 Colosseum tickets [IdleOn Wiki: Typhoon · Calculated by IdleOn Toolbox · 2.3.540]
 - Extra · Play Spiketrap Surprise: Spiketrap starts at :00: up to 40 gems today [IdleOn Wiki: Secrets · Calculated by IdleOn Toolbox · 2.3.540]

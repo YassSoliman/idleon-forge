@@ -19,6 +19,8 @@ interface Collector {
 
 export interface W23Inputs {
   account: Dict;
+  /** The raw save (`envelope.data`), for the authored Equinox reader. */
+  data?: Dict;
   failedSections: readonly string[];
   calls: ToolboxCalls | null;
 }
@@ -73,8 +75,32 @@ export function shrinesOf(
   return out;
 }
 
+/** The Equinox Mirror's item id: holding it opens Equinox Valley (M26 equinox dossier C1). */
+export const EQUINOX_MIRROR = 'Quest78';
+
+const parsed = (v: unknown): unknown => {
+  if (typeof v !== 'string') return v;
+  try {
+    return JSON.parse(v);
+  } catch {
+    return undefined;
+  }
+};
+
+/** M26 FR-8 (see `W23AccountFields.equinoxUnlocked`). A save with no `Dream` key has no Equinox: false. */
+export function equinoxUnlockedOf(data: Dict): boolean | null {
+  const dream = 'Dream' in data ? parsed(data.Dream) : [];
+  if (!Array.isArray(dream)) return null;
+  if (dream.slice(2).some((v) => (finite(v) ?? 0) > 0)) return true;
+  const holds = (v: unknown) => Array.isArray(v) && v.includes(EQUINOX_MIRROR);
+  if (holds(parsed(data.ChestOrder))) return true;
+  return Object.keys(data).some((k) => /^InventoryOrder_\d+$/.test(k) && holds(parsed(data[k])));
+}
+
 export function readW23(input: W23Inputs, c: Collector): W23AccountFields {
   const { account, failedSections, calls } = input;
+  const equinoxUnlocked = input.data ? equinoxUnlockedOf(input.data) : null;
+  if (input.data && equinoxUnlocked === null) c.unknown('account.equinoxUnlocked');
   const prayers = failedSections.includes('prayers') ? null : prayersOf(account.prayers);
   if (prayers === null) c.unknown('account.prayers');
   let bonuses: Array<{ baseBonus: number; bonusPerLevel: number }> | null = null;
@@ -84,9 +110,9 @@ export function readW23(input: W23Inputs, c: Collector): W23AccountFields {
     bonuses = null;
   }
   // Without the worker's Toolbox calls (hand-run tests) the bonus table is missing: null, not Unknown.
-  if (!calls) return { prayers, shrines: null };
+  if (!calls) return { prayers, shrines: null, equinoxUnlocked };
   const shrines =
     failedSections.includes('shrines') || bonuses === null ? null : shrinesOf(account.shrines, bonuses);
   if (shrines === null) c.unknown('account.shrines');
-  return { prayers, shrines };
+  return { prayers, shrines, equinoxUnlocked };
 }

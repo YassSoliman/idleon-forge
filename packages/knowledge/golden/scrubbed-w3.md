@@ -1,4 +1,4 @@
-# golden v1: scrubbed-w3 · knowledge #459d2744 · parser 6c37e3d (game 2.3.540) · now 2026-10-17T16:12:33.140Z · return 8h · stage W3-early · stale: 4 of 1030
+# golden v1: scrubbed-w3 · knowledge #2fa8175b · parser 6c37e3d (game 2.3.540) · now 2026-10-17T16:12:33.140Z · return 8h · stage W3-early · stale: 4 of 1030
 
 ## Verdict changes
 
@@ -50,7 +50,7 @@ purpose: Mining 29 → 40 opens Echoing Egress
   ○ To do: Weekly Battle · best this week: difficulty 0 of 5 · new boss Thursday 00:00 UTC, in 4d 7h
   ○ To do: Guild weekly tasks · your weekly reset in 28h 05m
   ✓ Done: Killroy's rooms · Warrior room: done · your weekly reset in 28h 05m
-  ✓ Done: Bonus Ballot vote · Leading now: Boosts Equinox Bar Fill rate by 1.4x · new ballot Monday about 17:00 UTC, in 2d 0h
+  ✓ Done: Bonus Ballot vote · Active now: Boosts Equinox Bar Fill rate by 1.4x · new ballot Monday about 17:00 UTC, in 2d 0h
 - Grow · Get the fuel to run a Refinery salt: Get 1 more Bullfrog Horn to run Explosive Salts [IdleOn Wiki: Construction, Refinery · Calculated by IdleOn Toolbox · 2.3.540]
 - Spend · Collect banked Colosseum tickets: Collect 4 Colosseum tickets [IdleOn Wiki: Typhoon · Calculated by IdleOn Toolbox · 2.3.540]
 - Grow · Pay for the Death Note's first level: Refine 10 Explosive Salts for the Death Note's first level (have 0) [IdleOn Wiki: Construction · Calculated by IdleOn Toolbox · 2.3.540]

@@ -697,6 +697,7 @@ exports[`public save first.json > matches the recorded shape (review the diff af
         "rawName": "Refinery2",
       },
     },
+    "equinoxUnlocked": false,
     "familyObols": "C60=ObolGoldDamage C250=ObolSilverDef S200=ObolFrog C350=ObolGoldDamage C100=ObolSilverEXP C1250x H400=ObolAmarokA S650x H900x C1500x S1150x S1200x S2500x S2000x C2100x H3000x S5000x H1750x C400=ObolSilverEXP C160=ObolSilver3 C875x S700x C470=ObolSilverCons C80=ObolGoldDamage",
     "finishedWorlds": [
       1,
@@ -4553,6 +4554,7 @@ exports[`public save fourth.json > matches the recorded shape (review the diff a
         "rawName": "Refinery2",
       },
     },
+    "equinoxUnlocked": true,
     "familyObols": "C60=ObolSilverPop C250=ObolSilverPop S200=ObolKnight C350=ObolSilverPop C100=ObolSilverPop C1250x H400=ObolPlatinumLuck S650x H900x C1500x S1150x S1200x S2500x S2000x C2100x H3000x S5000x H1750x C400=ObolSilverPop C160=ObolSilverPop C875x S700x C470=ObolSilverPop C80=ObolSilverPop",
     "finishedWorlds": [
       1,
@@ -7500,6 +7502,7 @@ exports[`public save fresh.json > matches the recorded shape (review the diff af
         "rawName": "Refinery2",
       },
     },
+    "equinoxUnlocked": true,
     "familyObols": "C60=ObolGoldDamage C250=ObolGoldDamage S200=ObolHyperB0 C350=ObolGoldDamage C100=ObolGoldDamage C1250x H400=ObolPlatinumLuck S650=ObolPinkLuck H900=ObolPlatinumLuck C1500x S1150x S1200x S2500x S2000x C2100x H3000x S5000x H1750x C400=ObolGoldDamage C160=ObolGoldDamage C875=ObolGoldDamage S700=ObolHyperB1 C470=ObolGoldDamage C80=ObolGoldDamage",
     "finishedWorlds": [
       1,
@@ -10851,6 +10854,7 @@ exports[`public save highend.json > matches the recorded shape (review the diff 
         "rawName": "Refinery2",
       },
     },
+    "equinoxUnlocked": true,
     "familyObols": "C60=ObolHyper0 C250=ObolHyper0 S200=ObolHyperB0 C350=ObolHyper1 C100=ObolHyper1 C1250=ObolHyper0 H400=ObolLava S650=ObolEmp H900=ObolLava C1500=ObolHyper1 S1150=ObolHyperB3 S1200=ObolEmp S2500=ObolEmp S2000=ObolHyperB3 C2100=ObolHyper3 H3000=ObolLava S5000=ObolEmp H1750=ObolLava C400=ObolHyper3 C160=ObolHyper3 C875=ObolHyper1 S700=ObolHyperB0 C470=ObolHyper3 C80=ObolHyper3",
     "finishedWorlds": [
       1,
@@ -16342,6 +16346,7 @@ exports[`public save latest.json > matches the recorded shape (review the diff a
         "rawName": "Refinery2",
       },
     },
+    "equinoxUnlocked": true,
     "familyObols": "C60=ObolGold3 C250=ObolGoldDamage S200=ObolHyperB0 C350=ObolGoldDamage C100=ObolHyper3 C1250=ObolGoldDamage H400=ObolPlatinumLuck S650=ObolPinkLuck H900=ObolPlatinumLuck C1500=ObolGoldDamage S1150=ObolHyperB1 S1200=ObolPinkLuck S2500=ObolPinkLuck S2000=ObolHyperB0 C2100=ObolGoldDamage H3000=ObolPlatinumLuck S5000=ObolPinkLuck H1750=ObolPlatinumLuck C400=ObolGoldDamage C160=ObolGoldDamage C875=ObolGoldDamage S700=ObolHyperB1 C470=ObolGoldDamage C80=ObolGoldDamage",
     "finishedWorlds": [
       1,
@@ -21808,6 +21813,7 @@ exports[`public save latest-2026-08.json > matches the recorded shape (review th
         "rawName": "Refinery2",
       },
     },
+    "equinoxUnlocked": true,
     "familyObols": "C60=ObolGold3 C250=ObolGoldDamage S200=ObolHyperB0 C350=ObolGoldDamage C100=ObolHyper3 C1250=ObolGoldDamage H400=ObolPlatinumLuck S650=ObolPinkLuck H900=ObolPlatinumLuck C1500=ObolGoldDamage S1150=ObolHyperB1 S1200=ObolPinkLuck S2500=ObolPinkLuck S2000=ObolHyperB0 C2100=ObolGoldDamage H3000=ObolPlatinumLuck S5000=ObolPinkLuck H1750=ObolPlatinumLuck C400=ObolGoldDamage C160=ObolGoldDamage C875=ObolGoldDamage S700=ObolHyperB1 C470=ObolGoldDamage C80=ObolGoldDamage",
     "finishedWorlds": [
       1,
@@ -27256,6 +27262,7 @@ exports[`public save multikill-pin.json > matches the recorded shape (review the
         "rawName": "Refinery2",
       },
     },
+    "equinoxUnlocked": true,
     "familyObols": "C60=ObolGold3 C250=ObolGoldDamage S200=ObolHyperB0 C350=ObolGoldDamage C100=ObolHyper3 C1250=ObolGoldDamage H400=ObolPlatinumLuck S650=ObolPinkLuck H900=ObolPlatinumLuck C1500=ObolGoldDamage S1150=ObolHyperB1 S1200=ObolPinkLuck S2500=ObolPinkLuck S2000=ObolHyperB0 C2100=ObolGoldDamage H3000=ObolPlatinumLuck S5000=ObolPinkLuck H1750=ObolPlatinumLuck C400=ObolGoldDamage C160=ObolGoldDamage C875=ObolGoldDamage S700=ObolHyperB1 C470=ObolGoldDamage C80=ObolGoldDamage",
     "finishedWorlds": [
       1,
@@ -32529,6 +32536,7 @@ exports[`public save second.json > matches the recorded shape (review the diff a
         "rawName": "Refinery2",
       },
     },
+    "equinoxUnlocked": true,
     "familyObols": "C60=ObolHyper1 C250=ObolPlatinum3 S200=ObolHyperB3 C350=ObolPlatinum3 C100=ObolSilverPop C1250=ObolPlatinum3 H400=ObolEfauntA S650=ObolPinkEXP H900=ObolPlatinumLuck C1500=ObolPlatinum3 S1150=ObolHyperB1 S1200=ObolTroll S2500=ObolTroll S2000=ObolHyperB0 C2100=ObolPlatinum3 H3000=ObolPlatinumLuck S5000=ObolPinkLuck H1750=ObolPlatinumLuck C400=ObolPlatinum3 C160=ObolPlatinum3 C875=ObolPlatinum3 S700=ObolHyperB1 C470=ObolPlatinum3 C80=ObolPlatinum3",
     "finishedWorlds": [
       1,
@@ -37777,6 +37785,7 @@ exports[`public save speedrun-rank1.json > matches the recorded shape (review th
         "rawName": "Refinery2",
       },
     },
+    "equinoxUnlocked": true,
     "familyObols": "C60=ObolSilverCons C250=ObolSilverCons S200=ObolGoldCons C350=ObolSilverCons C100=ObolSilverCons C1250=ObolSilverCons H400=ObolPlatinumCons S650=ObolKruk H900=ObolPlatinumCons C1500=ObolSilverCons S1150=ObolGoldCons S1200=ObolKruk S2500=ObolKruk S2000=ObolGoldCons C2100=ObolSilverCons H3000=ObolPlatinumCons S5000=ObolKruk H1750=ObolPlatinumCons C400=ObolSilverCons C160=ObolSilverCons C875=ObolSilverCons S700=ObolGoldCons C470=ObolSilverCons C80=ObolSilverCons",
     "finishedWorlds": [
       1,
@@ -43116,6 +43125,7 @@ exports[`public save third.json > matches the recorded shape (review the diff af
         "rawName": "Refinery2",
       },
     },
+    "equinoxUnlocked": true,
     "familyObols": "C60=ObolSilverPop C250=ObolSilverPop S200=ObolGoldCons C350=ObolSilverPop C100=ObolSilverPop C1250=ObolSilverPop H400=ObolPlatinumCons S650=ObolPinkCons H900=ObolPlatinumCons C1500=ObolSilverPop S1150=ObolGoldCons S1200=ObolPinkCons S2500=ObolPinkCons S2000=ObolGoldCons C2100=ObolSilverPop H3000=ObolPlatinumCons S5000=ObolPinkCons H1750=ObolPlatinumCons C400=ObolSilverPop C160=ObolHyper0 C875=ObolHyper0 S700=ObolGoldCons C470=ObolSilverPop C80=ObolSilverPop",
     "finishedWorlds": [
       1,
@@ -48395,6 +48405,7 @@ exports[`public save toolbox-raw.json > matches the recorded shape (review the d
         "rawName": "Refinery2",
       },
     },
+    "equinoxUnlocked": true,
     "familyObols": "C60=ObolGold3 C250=ObolGoldDamage S200=ObolHyperB0 C350=ObolGoldDamage C100=ObolHyper3 C1250=ObolGoldDamage H400=ObolPlatinumLuck S650=ObolPinkLuck H900=ObolPlatinumLuck C1500=ObolGoldDamage S1150=ObolHyperB1 S1200=ObolPinkLuck S2500=ObolPinkLuck S2000=ObolHyperB0 C2100=ObolGoldDamage H3000=ObolPlatinumLuck S5000=ObolPinkLuck H1750=ObolPlatinumLuck C400=ObolGoldDamage C160=ObolGoldDamage C875=ObolGoldDamage S700=ObolHyperB1 C470=ObolGoldDamage C80=ObolGoldDamage",
     "finishedWorlds": [
       1,

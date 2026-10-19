@@ -1,4 +1,4 @@
-# golden v1: fresh · knowledge #459d2744 · parser 6c37e3d (game 2.3.540) · now 2026-08-20T18:41:58.956Z · return 8h · stage W4-late · stale: 4 of 1030
+# golden v1: fresh · knowledge #2fa8175b · parser 6c37e3d (game 2.3.540) · now 2026-08-20T18:41:58.956Z · return 8h · stage W4-late · stale: 4 of 1030
 
 ## Verdict changes
 
@@ -33,7 +33,7 @@ Unknown: can't tell from the save
   ○ To do: Colosseum tickets · Typhoon: 3 days banked, 50 lost · Centurion: 3 days banked, 50 lost · Lonely Hunter: 3 days banked, 50 lost · resets in 4h 38m · lost before you are back
   ○ To do: Killroy's rooms · Archer room: your Siege Breaker Lv 478 · Warrior room: your Blood Berserker Lv 534 · your weekly reset in 3d 4h
   ○ To do: Weekly Battle · best this week: difficulty 0 of 5 · new boss Thursday 00:00 UTC, in 6d 5h
-  ○ To do: Bonus Ballot vote · Leading now: Boosts Refinery Cycle Speed by +55% · new ballot Monday about 17:00 UTC, in 3d 22h
+  ○ To do: Bonus Ballot vote · Active now: Boosts Refinery Cycle Speed by +55% · new ballot Monday about 17:00 UTC, in 3d 22h
   ○ To do: Guild weekly tasks · your weekly reset in 3d 4h
 - Spend · Collect banked Colosseum tickets: Collect 9 Colosseum tickets [IdleOn Wiki: Typhoon · Calculated by IdleOn Toolbox · 2.3.540]
 - Extra · Play Spiketrap Surprise: Spiketrap starts at :00: up to 40 gems today [IdleOn Wiki: Secrets · Calculated by IdleOn Toolbox · 2.3.540]
