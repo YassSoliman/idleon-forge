@@ -215,6 +215,8 @@ export const INDEX_WORDS = {
 
 /** M24: the System page template (header, the framed answer, the footer line). */
 export const PAGE_FRAME_WORDS = {
+  /** M26 FR-C1b: the tab a gate link opens on the page of the System that owns the gate. */
+  walkthroughTab: 'Walkthrough',
   back: (where: string) => `Systems · ${where}`,
   world: (w: number) => (w === 0 ? 'Across worlds' : `World ${w}`),
   status: {
@@ -368,7 +370,14 @@ export const ANVIL_WORDS = {
   splitTitle: "Every character's split",
   awayFor: 'Away for',
   legend: { speed: 'Speed', capacity: 'Capacity', spare: 'spare, doing nothing' },
-  tabs: { split: 'Point split', makes: 'What each anvil makes' },
+  tabs: {
+    split: 'Point split',
+    makes: 'What each anvil makes',
+    plan: 'Production Plan',
+    points: 'Points',
+    recipes: 'Recipes',
+    walkthrough: 'Walkthrough',
+  },
   whetstone: 'Anvil Reset Whetstone',
   whetstoneSub: 'moves points you already spent',
   where: 'Where',
