@@ -73,3 +73,12 @@ export function stampArtOfRef(ref: string | null | undefined): GameArt | null {
   const m = ref ? /^stamps\.acquisition\.stamp-([abc])(\d+)$/.exec(ref) : null;
   return m ? { path: `data/Stamp${(m[1] ?? '').toUpperCase()}${m[2]}` } : null;
 }
+
+/** The Systems whose Goals and fixes name a talent: their cards draw the talent's icon (TalentMention). */
+export const TALENT_SYSTEMS: ReadonlySet<string> = new Set([
+  'builds',
+  'talents',
+  'talent-presets',
+  'talent-resets',
+  'library',
+]);

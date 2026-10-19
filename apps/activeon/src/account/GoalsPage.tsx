@@ -12,7 +12,9 @@
 
 import { ACCOUNT_WORDS } from '@idleon-forge/engine/now';
 import { useMemo, useState } from 'react';
+import { TALENT_SYSTEMS } from '../art/game/game-art';
 import { KitSprite } from '../art/game/KitSprite';
+import { TalentMention } from '../art/game/TalentMention';
 import { cx } from '../design/atoms/Button';
 import { ShortText } from '../design/atoms/ShortText';
 import { WhoGlyph } from '../design/who/WhoGlyph';
@@ -28,7 +30,17 @@ const SHOWN = 3;
 function Mono({ r, big }: { r: GoalRow; big?: boolean }) {
   return (
     <span className={cx('ac-mono', `is-${r.tone}`, big && 'is-big')} aria-hidden="true">
-      {r.sprite ? <KitSprite name={r.sprite} size={big ? 32 : 24} /> : r.mono}
+      {TALENT_SYSTEMS.has(r.goal.system) ? (
+        <TalentMention
+          text={r.goal.action.text}
+          fallback={r.sprite ? <KitSprite name={r.sprite} size={big ? 32 : 24} /> : r.mono}
+          size={big ? 32 : 24}
+        />
+      ) : r.sprite ? (
+        <KitSprite name={r.sprite} size={big ? 32 : 24} />
+      ) : (
+        r.mono
+      )}
     </span>
   );
 }

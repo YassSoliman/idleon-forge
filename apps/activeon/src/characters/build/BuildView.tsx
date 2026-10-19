@@ -20,7 +20,7 @@ import type { BuildPathStepView, BuildPresetView, BuildTabView } from '@idleon-f
 import { createContext, type ReactNode, useContext, useMemo, useState } from 'react';
 import { classArtOf } from '../../art/game/class-art';
 import { GameIcon } from '../../art/game/GameIcon';
-import { talentArt } from '../../art/game/game-art';
+import { talentArtOf } from '../../art/game/talent-art';
 import { spriteOf } from '../../art/sprites';
 import { Sprite } from '../../art/sprites/Sprite';
 import { PixelArt } from '../../design/art/PixelArt';
@@ -125,9 +125,12 @@ function TabFace({ tab, name }: { tab: number; name: string }) {
   return <GameIcon art={classArtOf(name)} fallback={kit} size={16} decorative />;
 }
 
-/** A talent's face on its tone tile: the game's sprite (ADR 0009, 2026-10-19), else its monogram. */
+/**
+ * A talent's face: the game's sprite (ADR 0009, 2026-10-19) by its id, or by its name where the view
+ * holds only the name (the attack bar); its monogram only when the game has no icon for it.
+ */
 function TalentFace({ id, label }: { id: number | null; label: string }) {
-  return <GameIcon art={talentArt(id)} fallback={<>{monogram(label)}</>} size={32} decorative />;
+  return <GameIcon art={talentArtOf(id, label)} fallback={<>{monogram(label)}</>} size={32} decorative />;
 }
 
 // ---------- small drawings ----------
@@ -508,13 +511,13 @@ function AttackBar({ p }: { p: BuildPresetView }) {
       <ol className="bd-atk-row">
         {bar.set.map((a) => (
           <li key={`s-${a}`} className="bd-slot" title={a}>
-            <span aria-hidden="true">{monogram(a)}</span>
+            <TalentFace id={null} label={a} />
             <span className="sr-only">{a}</span>
           </li>
         ))}
         {bar.missing.map((a) => (
           <li key={`m-${a}`} className="bd-slot" data-ghost="yes" title={B.wants(a)}>
-            <span aria-hidden="true">+</span>
+            <GameIcon art={talentArtOf(null, a)} fallback={<>+</>} size={32} decorative />
             <span className="sr-only">
               {W.attackBar.empty}, {B.wants(a)}
             </span>

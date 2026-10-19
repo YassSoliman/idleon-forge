@@ -6,10 +6,12 @@
 // level), a stepper with three-state needs, then the missing leaves as "990 more" with the full tree and
 // the other ways behind one button each. One NOW step per Walkthrough (DS-2). All text is React text
 // (TR-13); indentation is a class per depth, never an inline style (CSP).
+
 import { CARD_WORDS, type GoalView } from '@idleon-forge/engine/now';
 import { type CSSProperties, useState } from 'react';
 import { GameIcon } from '../../art/game/GameIcon';
 import { itemArt } from '../../art/game/game-art';
+import { TalentMention } from '../../art/game/TalentMention';
 import { PixelArt } from '../../design/art/PixelArt';
 import { cx } from '../../design/atoms/Button';
 import { Meter } from '../../design/atoms/Meter';
@@ -80,7 +82,10 @@ export function WalkthroughSteps({ view }: { view: View }) {
               />
               <span className="wt-step__body">
                 <span className="wt-when">{isNow ? 'Now' : s.when === 'blocked' ? 'Blocked' : 'After'}</span>
-                <span className="wt-text">{s.text}</span>
+                <span className="wt-text">
+                  <TalentMention text={s.text} fallback={null} size={24} />
+                  {s.text}
+                </span>
                 {p ? (
                   <>
                     <span className="wt-progress num">

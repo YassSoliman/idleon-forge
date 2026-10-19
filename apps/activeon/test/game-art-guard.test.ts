@@ -52,4 +52,20 @@ describe('game things wear game sprites', () => {
     }
     expect(offences).toEqual([]);
   });
+
+  it('a talent monogram ("PA") is drawn only as a game icon fallback', () => {
+    const offences: string[] = [];
+    for (const file of walk(SRC)) {
+      const rel = file.slice(SRC.length + 1);
+      // goals-model's monogram is a System's (no game picture for a Goal group), drawn as a fallback too.
+      if (rel.startsWith('art/') || rel === 'account/goals-model.ts') continue;
+      const lines = readFileSync(file, 'utf8').split('\n');
+      lines.forEach((line, i) => {
+        if (!/\bmonogram\(/.test(line) || /function monogram/.test(line)) return;
+        const near = lines.slice(Math.max(0, i - 4), i + 1).join('\n');
+        if (!/fallback/i.test(near)) offences.push(`${rel}:${i + 1}`);
+      });
+    }
+    expect(offences).toEqual([]);
+  });
 });
