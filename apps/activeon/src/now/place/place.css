@@ -77,7 +77,7 @@
   padding: 10px 16px;
   border: 0;
   background: var(--accent);
-  color: var(--accent-ink, #17140c);
+  color: var(--on-accent); /* M24 QA P1-12: the theme's ink on --accent (4.5:1 light and dark) */
   font: var(--weight-bold) 15px / 1.2 var(--font-body);
   font-variant-ligatures: var(--font-ligatures);
   font-feature-settings: var(--font-features);
@@ -531,6 +531,19 @@
   flex: 1;
   min-width: 0;
 }
+.np-rail__unknown {
+  padding-right: 6px;
+}
+.np-rail__skip {
+  min-height: var(--tap-min);
+  padding: 0 8px;
+  border: 0;
+  background: none;
+  color: var(--accent);
+  font: inherit;
+  white-space: nowrap;
+  cursor: pointer;
+}
 .np-rail__more {
   text-decoration: none;
   display: flex;
@@ -651,7 +664,9 @@
 }
 .np-then__who {
   display: flex;
+  flex-wrap: wrap;
   gap: var(--space-1);
+  min-width: 0;
 }
 .np-leave {
   padding: 8px 4px;
@@ -726,7 +741,11 @@
 .np-stop__n {
   display: grid;
   place-items: center;
-  width: 20px;
+  /* M24 QA P3: "10" and up stay on one line (the card's overflow-wrap: anywhere would split them). */
+  min-width: 20px;
+  padding: 0 3px;
+  overflow-wrap: normal;
+  white-space: nowrap;
   height: 20px;
   background: var(--sunk);
   color: var(--muted);
@@ -735,7 +754,7 @@
 }
 .np-stop.is-next .np-stop__n {
   background: var(--accent);
-  color: var(--accent-ink, #17140c);
+  color: var(--on-accent);
 }
 .np-stop__task {
   min-height: 54px;
@@ -773,7 +792,10 @@
 }
 .np-job__who {
   display: flex;
+  /* M24 QA P0: 11 characters' blobs in one row set a 572 px min-content on a 390 px phone. */
+  flex-wrap: wrap;
   gap: var(--space-1);
+  min-width: 0;
 }
 .np-job__who a {
   display: grid;
@@ -876,12 +898,6 @@
   .np-stop__task {
     min-height: 0;
   }
-}
-.n-account.has-rail .n-account__sum {
-  display: none;
-}
-.n-account.has-rail .n-account__chev {
-  margin-left: auto;
 }
 
 /* While the World 4 welcome holds the screen's one frame, the hero and the pause points' framed block

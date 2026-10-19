@@ -295,6 +295,8 @@ label.chip {
 /* ---- The counter (`now.verdict-banner` Counter that reaches zero, Stale-first wording) ---- */
 .n-now {
   display: grid;
+  /* M24 QA P0: the one track never grows past the column for a wide child (it wraps or shrinks). */
+  grid-template-columns: minmax(0, 1fr);
   gap: var(--stack-gap);
 }
 /* M21.1 refresh: the counter sits on the page, no box. The big coral number and "fixes before you
@@ -322,6 +324,10 @@ label.chip {
   padding: var(--space-3) var(--space-4);
   background: var(--warn-soft);
   color: var(--fg);
+}
+.n-vb--stale.n-vb--plain {
+  padding: 0;
+  background: none;
 }
 .n-vb--stale .n-vb__title {
   font-size: var(--text-xl);
