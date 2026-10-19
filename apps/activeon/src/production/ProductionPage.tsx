@@ -5,6 +5,7 @@
 // account producers (the Anvils summary and its levers, the pieces several characters want), then every
 // character's rows in Visit Order. It only lays out EngineResult.production.
 import { Crumb } from '../account/Crumb';
+import { effort } from '../design/format';
 import { WhoGlyph } from '../design/who/WhoGlyph';
 import type { Session } from '../shell/session';
 import { AccountProducers } from './AccountProducers';
@@ -13,7 +14,7 @@ import './production.css';
 
 export function ProductionPage({ s }: { s: Session }) {
   const p = s.result.production ?? null;
-  const hours = Math.round(s.result.expectedReturn.usedSeconds / 3600);
+  const back = s.result.expectedReturn.usedSeconds;
   const order = s.result.visitOrder.length ? s.result.visitOrder : s.view.roster.map((r) => r.index);
   const go = (href: string) => {
     if (href === '#production') return;
@@ -25,7 +26,7 @@ export function ProductionPage({ s }: { s: Session }) {
       <section className="a-frame ac-hero" aria-labelledby="pp-page-h">
         <span className="ac-hero__words">
           <span className="ac-cap">
-            What each producer should make by your return{hours ? ` in ${hours}h` : ''}
+            What each producer should make by your return{back > 0 ? ` (${effort(back)})` : ''}
           </span>
           <h2 id="pp-page-h" className="ac-h1" data-place-heading tabIndex={-1}>
             {p?.answer?.hero ?? p?.anvils.line ?? 'Nothing to change'}
