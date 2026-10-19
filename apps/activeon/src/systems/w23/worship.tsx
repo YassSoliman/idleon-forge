@@ -41,7 +41,7 @@ export const WORSHIP_WORDS = {
   prayersLink: 'Prayers',
   everyone: (n: number) => `Every character is Worship ${n}.`,
   best: (n: number) => `Your best Worship level is ${n}.`,
-  skulls: (n: number, of: number) => `${n} of ${of} characters have a skull`,
+  skullsUnit: (of: number) => `of ${of} characters have a skull`,
   full_: 'full',
   traps: 'Traps',
   trapSets: 'Trap sets',
@@ -206,7 +206,7 @@ function worshipAnswer(p: SystemPageBodyProps): PageAnswer | null {
     cap: 'Do this next',
     hero: step.text,
     sub: null,
-    big: { value: String(n), unit: `of ${pic.tanks.length}`, note: W.skulls(n, pic.tanks.length) },
+    big: { value: String(n), unit: W.skullsUnit(pic.tanks.length) },
   };
 }
 
