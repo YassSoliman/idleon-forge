@@ -4,7 +4,8 @@
 // to two signs (the Telescope, the next constellations, Chronus Cosmos), what each character wears and
 // should wear, and the Star Chart (M21's constellation body). Data: M16's `EngineResult.starSigns`.
 import { SIGNS_PAGE_WORDS as W } from '@idleon-forge/engine/systems-ui';
-import { Sprite } from '../../art/sprites/Sprite';
+import { GameIcon } from '../../art/game/GameIcon';
+import { STAR_ROAD_ART } from '../../art/game/systems-art';
 import { WhoGlyph } from '../../design/who/WhoGlyph';
 import { SimplePage, StepsSection } from '../frame/SimplePage';
 import { frameAnswer, SystemFrame } from '../frame/SystemFrame';
@@ -30,8 +31,8 @@ export default function StarSignsPage({ s, page }: FullPageProps) {
   const pts = v.next.reduce((n, x) => n + x.points, 0);
   const legs = [
     {
-      key: 'telescope',
-      sprite: 'item-star',
+      key: 'telescope' as const,
+      fallback: 'item-star',
       title: W.telescope,
       done: v.questDone,
       line: v.questDone
@@ -44,16 +45,16 @@ export default function StarSignsPage({ s, page }: FullPageProps) {
       foot: v.questDone ? W.done : closest ? W.telescopeWho(who(closest.index).label) : '',
     },
     {
-      key: 'constellations',
-      sprite: 'sys-star-signs',
+      key: 'constellations' as const,
+      fallback: 'sys-star-signs',
       title: W.constellations,
       done: false,
       line: v.next.length ? W.constellationsLine(v.next.length, pts) : W.noConstellations,
       foot: v.points !== null ? W.holdPoints(v.points) : '',
     },
     {
-      key: 'cosmos',
-      sprite: 'item-star',
+      key: 'cosmos' as const,
+      fallback: 'item-star',
       title: W.cosmos,
       done: v.slots >= 2,
       line: v.slots >= 2 ? W.cosmosDone : (v.milestone ?? W.cosmosLine),
@@ -81,7 +82,7 @@ export default function StarSignsPage({ s, page }: FullPageProps) {
                         className={`sg-leg${i === firstOpen ? ' sg-leg--now' : ''}${l.done ? ' sg-leg--done' : ''}`}
                       >
                         <div className="sg-leg__top">
-                          <Sprite name={l.sprite} size={48} decorative />
+                          <GameIcon art={STAR_ROAD_ART[l.key]} fallback={l.fallback} size={48} decorative />
                           <span className={`sf-n${i === firstOpen ? ' sf-n--gold' : ''}`}>{i + 1}</span>
                         </div>
                         <span className="sf-strong sg-leg__title">{l.title}</span>

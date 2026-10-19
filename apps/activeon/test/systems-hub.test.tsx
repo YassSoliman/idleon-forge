@@ -25,7 +25,7 @@ describe('US-5, US-8, US-9 the hub and System pages', () => {
     const { container } = renderNow(props(r, saveOf(r, 1, 'first', null, 'paste')));
     const anvil = screen.getByRole('link', { name: /^Anvil,/ });
     expect(anvil.getAttribute('aria-label')).toBe('Anvil, Wasting, 1 to fix before you leave');
-    expect(anvil.querySelector('svg[aria-hidden="true"]')).toBeTruthy();
+    expect(anvil.querySelector('img.g-art[aria-hidden="true"], svg[aria-hidden="true"]')).toBeTruthy();
     expect(screen.getByRole('link', { name: /^Post Office,/ }).getAttribute('aria-label')).toBe(
       'Post Office, Locked, Opens once a character reaches class Lv 50 · 1 to do',
     );

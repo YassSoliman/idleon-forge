@@ -5,7 +5,9 @@
 // worship and traps pictures and M24's prayers picture (for which wave unlocks which prayer); the
 // charge numbers are the engine's. No advice of its own.
 import type { CSSProperties } from 'react';
-import { Sprite } from '../../art/sprites/Sprite';
+import { GameIcon } from '../../art/game/GameIcon';
+import { itemArt } from '../../art/game/game-art';
+import { totemArt } from '../../art/game/systems-art';
 import { inSpan, span } from '../../design/format';
 import { formatRoute } from '../../shell/route';
 import type { SystemPageBodyProps } from '../pages';
@@ -104,7 +106,9 @@ function Charge({ p }: { p: SystemPageBodyProps }) {
                   <span className={`w-xs ${full ? 'w-t--gold w-b' : 'w-t--sky'}`}>
                     {full ? W.full : t.fullAt !== null ? W.fullIn(inSpan(t.fullAt - now)) : ''}
                   </span>
-                  {t.skull ? null : (
+                  {t.skull ? (
+                    <GameIcon art={itemArt(t.skull)} size={24} decorative />
+                  ) : (
                     <span className={`w-xs${isLit ? ' w-t--gold w-b' : ' w-mut'}`}>{W.noSkull}</span>
                   )}
                   <Who p={p} index={t.index} quiet />
@@ -124,7 +128,10 @@ function Charge({ p }: { p: SystemPageBodyProps }) {
                 const next = firstLocked(t.name);
                 return (
                   <div key={t.id} className={`a-tile w-tile${i === 0 ? ' is-now' : ''}`}>
-                    <span className="w-b">{t.name}</span>
+                    <span className="w-row">
+                      <GameIcon art={totemArt(pic.totems.indexOf(t))} size={32} decorative />
+                      <span className="w-b">{t.name}</span>
+                    </span>
                     <span className="w-sm w-mut2">
                       {[t.map, W.worship(t.levelReq), W.bestWave(t.maxWave)].join(' · ')}
                     </span>
@@ -152,7 +159,10 @@ function Charge({ p }: { p: SystemPageBodyProps }) {
               <ul className="w-hair w-plain w-sm">
                 {later.map((t) => (
                   <li key={t.id} className="w-li w-row--between">
-                    <span>{t.name}</span>
+                    <span className="w-row">
+                      <GameIcon art={totemArt(pic.totems.indexOf(t))} size={16} decorative />
+                      <span>{t.name}</span>
+                    </span>
                     <span className="w-mut">{W.worship(t.levelReq)}</span>
                   </li>
                 ))}
@@ -178,6 +188,7 @@ function Totems({ p }: { p: SystemPageBodyProps }) {
     <ul className="w-hair w-plain">
       {pic.totems.map((t) => (
         <li key={t.id} className="w-li w23-totem">
+          <GameIcon art={totemArt(pic.totems.indexOf(t))} size={32} decorative />
           <span className="w-stack w-stack--4 w-grow">
             <span className="w-b">{t.name}</span>
             <span className="w-xs w-mut">
@@ -294,12 +305,15 @@ function Traps({ p }: { p: SystemPageBodyProps }) {
 function TrapSets({ p }: { p: SystemPageBodyProps }) {
   const pic = pictureOf(p, 'traps');
   if (!pic) return null;
+  // The view names the set; Account State keeps its rawName (the sprite's name).
+  const trapSetArt = (index: number) =>
+    itemArt(p.s.state?.characters.find((c) => c.index === index)?.slots?.trapSet ?? null);
   return (
     <ul className="w-grid w-plain">
       {pic.rows.map((r) => (
         <li key={r.id} className={`a-tile w-tile${r.set ? '' : ' is-later'}`}>
           <span className="w-row">
-            <Sprite name="sys-trapping" size={32} decorative />
+            <GameIcon art={trapSetArt(r.index)} fallback="sys-trapping" size={32} wiki={r.set} decorative />
             <Who p={p} index={r.index} />
           </span>
           <span className="w-sm">
