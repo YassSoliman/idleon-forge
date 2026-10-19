@@ -883,3 +883,12 @@
 .n-account.has-rail .n-account__chev {
   margin-left: auto;
 }
+
+/* While the World 4 welcome holds the screen's one frame, the hero and the pause points' framed block
+   step down to a plain heading (one frame per screen). */
+.np-plain.np-hero,
+.np-plain.np-next,
+.np-plain.np-start {
+  padding: 0;
+  background: none;
+}

@@ -30,6 +30,8 @@ const who = (view: NowView, i: number) => {
 const charHref = (index: number) => formatRoute({ place: 'character', index, tab: 'now' });
 
 export interface PauseViewProps {
+  /** False while another block holds the screen's one frame (the World 4 welcome). */
+  framed?: boolean;
   view: NowView;
   sv: NowSessionView;
   timeline: TimelineView | null;
@@ -140,7 +142,10 @@ export function LogInView(p: PauseViewProps) {
         {rows.length > 0 ? <LoginRows rows={rows} p={p} /> : null}
         {sv.login && sv.login.more > 0 ? <p className="np-muted np-sm">+{sv.login.more}</p> : null}
       </section>
-      <section className="np-start a-frame a-frame--gold" aria-labelledby="np-start-h">
+      <section
+        className={p.framed === false ? 'np-start np-plain' : 'np-start a-frame a-frame--gold'}
+        aria-labelledby="np-start-h"
+      >
         <span className="a-cap np-t-gold">{W.startWith}</span>
         <div className="np-start__body">
           {first ? (
@@ -251,7 +256,10 @@ export function RoundsView(p: PauseViewProps) {
   const fullCount = groups.reduce((n, g) => n + g.indexes.length, 0);
   return (
     <>
-      <section className="np-next a-frame a-frame--gold" aria-labelledby="np-next-h">
+      <section
+        className={p.framed === false ? 'np-next np-plain' : 'np-next a-frame a-frame--gold'}
+        aria-labelledby="np-next-h"
+      >
         <Blob family={familyOf(view, next.index)} size={72} />
         <div className="np-next__t">
           <span className="a-cap np-t-gold">

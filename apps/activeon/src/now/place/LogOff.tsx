@@ -83,8 +83,33 @@ export interface HeroProps {
   onTimeline(): void;
   unknownOpen: boolean;
   onUnknown(): void;
+  /** False while another block holds the screen's one frame (the World 4 welcome): a plain heading. */
+  framed?: boolean;
   /** The Log off list (DO-CONFIRM: the save ticks it, never a tap). */
   ticks: { key: string; text: string; ticked: boolean }[];
+}
+
+/** The hero's box: the screen's one Frame, or a plain section while another block holds the frame. */
+function HeroBox({
+  framed,
+  tone,
+  state,
+  children,
+}: {
+  framed: boolean;
+  tone: 'coral' | 'gold' | 'ok';
+  state: HeroState;
+  children: ReactNode;
+}) {
+  return framed ? (
+    <Frame tone={tone} pad={false} className="np-hero" data-tone={state} aria-labelledby="np-hero-title">
+      {children}
+    </Frame>
+  ) : (
+    <section className="np-hero np-plain" data-tone={state} aria-labelledby="np-hero-title">
+      {children}
+    </section>
+  );
 }
 
 /** The hero: the answer first, in the one framed block of the screen. */
@@ -113,7 +138,7 @@ export function Hero(p: HeroProps) {
           ? null
           : null;
   return (
-    <Frame tone={frame} pad={false} className="np-hero" data-tone={state} aria-labelledby="np-hero-title">
+    <HeroBox framed={p.framed !== false} tone={frame} state={state}>
       <p className="np-hero__verdict">
         <span className={cx('a-display', `np-t-${tone}`)}>{W.verdict[state]}</span>
         {sub ? <span className="np-hero__then">{sub}</span> : null}
@@ -201,7 +226,7 @@ export function Hero(p: HeroProps) {
           <span>{counter.unknown.text}</span>
         </button>
       ) : null}
-    </Frame>
+    </HeroBox>
   );
 }
 
