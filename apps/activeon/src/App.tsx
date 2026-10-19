@@ -124,7 +124,7 @@ export function App() {
     } catch {}
     const s = sceneRef.current;
     const focused = characterIndex !== null && s.result?.characters.some((c) => c.index === characterIndex);
-    const systems = hash === '#systems' || hash.startsWith('#system-');
+    const systems = hash === '#systems' || hash.startsWith('#systems?') || hash.startsWith('#system-');
     return {
       ...s,
       characterIndex: focused ? characterIndex : null,

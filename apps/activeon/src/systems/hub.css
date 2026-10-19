@@ -250,3 +250,281 @@
     margin-left: 56px;
   }
 }
+
+/* M25 (board m25/SystemsSearch.dc.html): the search field, its list of matches, the quick filters and
+   the empty state. The field is a form input (a border is allowed there); the list floats on --raised;
+   no pills, radius at most 4 px. On a phone the search sticks to the top while the grid scrolls. */
+.sx-search {
+  display: block;
+  position: relative;
+  z-index: 3;
+  min-width: 0;
+}
+.sx-search__box {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+.sx-search__glass {
+  position: absolute;
+  left: 14px;
+  color: var(--muted);
+  pointer-events: none;
+}
+.sx-search input {
+  width: 100%;
+  min-height: 48px;
+  padding: 0 52px 0 42px;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-xs);
+  background: var(--surface);
+  color: var(--fg);
+  font: var(--weight-semibold) var(--text-md) / 1.2 var(--font-body);
+  font-variant-ligatures: var(--font-ligatures);
+  font-feature-settings: var(--font-features);
+  appearance: none;
+}
+.sx-search input::placeholder {
+  color: var(--muted);
+  font-weight: var(--weight-regular);
+  opacity: 1;
+}
+.sx-search input:focus-visible {
+  outline: var(--focus-width) solid var(--focus);
+  outline-offset: 0;
+  border-color: var(--focus);
+}
+.sx-search__key {
+  position: absolute;
+  right: 12px;
+  display: grid;
+  place-items: center;
+  min-width: 24px;
+  height: 24px;
+  padding: 0 6px;
+  border-radius: var(--radius-xs);
+  background: var(--sunk);
+  color: var(--muted);
+  font: var(--weight-bold) var(--text-xs) / 1 var(--font-body);
+  font-variant-ligatures: var(--font-ligatures);
+  font-feature-settings: var(--font-features);
+}
+.sx-search__clear {
+  position: absolute;
+  right: 2px;
+  display: grid;
+  place-items: center;
+  width: var(--tap-min);
+  height: var(--tap-min);
+  border: 0;
+  background: transparent;
+  color: var(--muted);
+  cursor: pointer;
+}
+.sx-search__clear:hover {
+  color: var(--fg);
+}
+.sx-search__clear:focus-visible {
+  outline: var(--focus-width) solid var(--focus);
+  outline-offset: -4px;
+}
+.sx-pop {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  right: 0;
+  background: var(--raised);
+  box-shadow: var(--shadow-2);
+}
+.sx-pop[hidden] {
+  display: none;
+}
+.sx-list {
+  margin: 0;
+  padding: 4px 0;
+  list-style: none;
+}
+.sx-opt {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  min-height: 48px;
+  padding: 6px 14px;
+  color: var(--fg);
+  cursor: pointer;
+}
+.sx-opt--on {
+  background: var(--accent-soft);
+}
+.sx-opt__ic {
+  display: grid;
+  flex: none;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  background: var(--sunk);
+}
+.sx-opt__text {
+  display: grid;
+  flex: 1;
+  min-width: 0;
+}
+.sx-opt__name {
+  font-size: var(--text-md);
+  font-weight: var(--weight-semibold);
+  line-height: 1.25;
+  overflow-wrap: anywhere;
+}
+.sx-opt__via,
+.sx-opt__world {
+  color: var(--muted);
+  font-size: var(--text-xs);
+}
+.sx-opt__world {
+  flex: none;
+}
+.sx-hit {
+  background: transparent;
+  color: var(--accent);
+  font-weight: var(--weight-bold);
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 3px;
+}
+.sx-pop__keys {
+  margin: 0;
+  padding: 8px 14px;
+  box-shadow: 0 -1px 0 var(--line);
+  color: var(--muted);
+  font-size: var(--text-xs);
+}
+
+.sx-filters {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-3) var(--space-6);
+}
+.sx-fset {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2);
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+.sx-fset__legend {
+  float: left;
+  margin-right: var(--space-1);
+  padding: 0;
+  color: var(--muted);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-bold);
+  letter-spacing: var(--tracking-caps);
+  text-transform: uppercase;
+}
+.sx-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+.sx-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 40px;
+  min-height: 40px;
+  justify-content: center;
+  padding: 0 12px;
+  border: 0;
+  border-radius: var(--radius-xs);
+  background: var(--surface);
+  color: var(--muted);
+  font: var(--weight-semibold) var(--text-sm) / 1 var(--font-body);
+  font-variant-ligatures: var(--font-ligatures);
+  font-feature-settings: var(--font-features);
+  cursor: pointer;
+}
+.sx-chip:hover {
+  background: var(--sunk);
+  color: var(--fg);
+}
+.sx-chip--on,
+.sx-chip--on:hover {
+  background: var(--accent-soft);
+  color: var(--fg);
+  box-shadow: inset 0 -2px 0 var(--accent);
+}
+.sx-chip:focus-visible {
+  outline: var(--focus-width) solid var(--focus);
+  outline-offset: var(--focus-offset);
+}
+.sx-chip__n {
+  color: var(--muted);
+  font-weight: var(--weight-bold);
+}
+.sx-chip--on .sx-chip__n {
+  color: var(--fg);
+}
+.sx-chip .sx-lock {
+  color: currentColor;
+}
+.sx-clear {
+  min-height: 40px;
+}
+.sx-empty {
+  display: grid;
+  justify-items: start;
+  gap: var(--space-2);
+  padding: var(--space-6);
+  background: var(--sunk);
+}
+.sx-empty p {
+  margin: 0;
+}
+.sx-empty__title {
+  font-size: var(--text-lg);
+  font-weight: var(--weight-bold);
+}
+.sx-empty__do {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin-top: var(--space-2);
+}
+
+@media (max-width: 719.98px) {
+  /* Sticky, painted out into the gutters by offset shadows (no negative margin: the column never widens). */
+  .sx-search {
+    position: sticky;
+    top: 0;
+    padding: var(--space-2) 0;
+    background: var(--bg);
+    box-shadow:
+      calc(-1 * var(--gutter)) 0 0 var(--bg),
+      var(--gutter) 0 0 var(--bg),
+      0 1px 0 var(--line),
+      calc(-1 * var(--gutter)) 1px 0 var(--line),
+      var(--gutter) 1px 0 var(--line);
+  }
+  .sx-search__key {
+    display: none;
+  }
+  .sx-pop {
+    max-height: 60vh;
+    overflow-y: auto;
+  }
+  .sx-pop__keys {
+    display: none;
+  }
+  .sx-filters {
+    display: grid;
+    gap: var(--space-3);
+  }
+  .sx-fset__legend {
+    width: 100%;
+    margin: 0 0 var(--space-1);
+  }
+}

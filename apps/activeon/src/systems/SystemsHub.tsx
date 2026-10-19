@@ -6,6 +6,10 @@
 // grid of tiles by world with filters (Needs you, All, Not covered yet, Locked). Locked and "not covered
 // yet" read differently: a lock glyph and "locked", or "not covered yet". Every word comes from the
 // engine's `buildSystemsHubView` (`index`), never from this component.
+// M25 (board m25/SystemsSearch.dc.html): a search field at the top (HubSearch.tsx: fuzzy, with a list of
+// matches as you type) and quick filters by world and by status, combinable; the fragment keeps them
+// (`#systems?q=…&w=…&s=…`, hub-search.ts), and a narrowed view hides the answer row so the matches sit
+// right under the search.
 import { HUB_WORDS } from '@idleon-forge/engine/now';
 import {
   buildSystemsHubView,
@@ -13,13 +17,26 @@ import {
   INDEX_WORDS,
   type IndexTileView,
 } from '@idleon-forge/engine/systems-ui';
-import { type MouseEvent, useMemo, useState } from 'react';
+import { type MouseEvent, useCallback, useEffect, useMemo, useState } from 'react';
 import { Frame } from '../design/atoms/Surfaces';
 import { WhoGlyph } from '../design/who/WhoGlyph';
 import { toNowPrefs } from '../now/prefs-store';
 import { formatRoute } from '../shell/route';
 import type { Session } from '../shell/session';
 import { Pip } from './frame/SystemFrame';
+import { HubSearch } from './HubSearch';
+import {
+  BUCKETS,
+  bucketOf,
+  formatHubHash,
+  type HubQuery,
+  isNarrowed,
+  keeps,
+  parseHubHash,
+  type StatusBucket,
+  searchSystems,
+  toggle,
+} from './hub-search';
 import './hub.css';
 import { SystemIcon } from './frame/SystemIcon';
 import './frame/frame.css';
@@ -32,18 +49,50 @@ const go = (s: Session, id: string) => (e: MouseEvent) => {
 /** Rule 3: the next three, the rest on demand. */
 const WASTE_FOLD = 3;
 
-type Filter = 'needs' | 'all' | 'notCovered' | 'locked';
-const FILTERS: readonly Filter[] = ['needs', 'all', 'notCovered', 'locked'];
-const keep = (f: Filter) => (t: IndexTileView) =>
-  f === 'all'
-    ? true
-    : f === 'needs'
-      ? t.needsYou
-      : f === 'notCovered'
-        ? t.status === 'not-covered' && !t.readOnly
-        : t.status === 'locked';
 // Read-only is grey: sky is for timers (QA P3).
 const PIP = { wasting: 'coral', todo: 'gold', ok: 'mint', off: 'mut', readonly: 'mut' } as const;
+const BUCKET_PIP = {
+  wasting: 'coral',
+  behind: 'gold',
+  todo: 'gold',
+  fine: 'mint',
+  notCovered: 'mut',
+  locked: 'mut',
+} as const satisfies Record<StatusBucket, string>;
+
+const readHash = (): HubQuery => {
+  try {
+    return parseHubHash(window.location.hash);
+  } catch {
+    return parseHubHash('');
+  }
+};
+/** The view is kept in the fragment by replaceState: a link reopens it, Back is not flooded. */
+const writeHash = (q: HubQuery) => {
+  try {
+    const next = formatHubHash(q);
+    if (window.location.hash === next) return;
+    const url = new URL(window.location.href);
+    url.hash = next;
+    window.history.replaceState(window.history.state, '', url);
+  } catch {}
+};
+
+const LockGlyph = ({ size }: { size: number }) => (
+  <svg
+    className="sx-lock"
+    aria-hidden="true"
+    width={size}
+    height={size}
+    viewBox="0 0 6 6"
+    shapeRendering="crispEdges"
+  >
+    <rect x="1" y="0" width="4" height="1" fill="currentColor" />
+    <rect x="1" y="1" width="1" height="2" fill="currentColor" />
+    <rect x="4" y="1" width="1" height="2" fill="currentColor" />
+    <rect x="0" y="3" width="6" height="3" fill="currentColor" />
+  </svg>
+);
 
 function Tile({ t, s }: { t: IndexTileView; s: Session }) {
   const off = t.tone === 'off';
@@ -67,23 +116,7 @@ function Tile({ t, s }: { t: IndexTileView; s: Session }) {
             {t.count}
           </span>
         ) : null}
-        {t.status === 'locked' ? (
-          <svg
-            className="sx-lock"
-            aria-hidden="true"
-            width="12"
-            height="12"
-            viewBox="0 0 6 6"
-            shapeRendering="crispEdges"
-          >
-            <rect x="1" y="0" width="4" height="1" fill="currentColor" />
-            <rect x="1" y="1" width="1" height="2" fill="currentColor" />
-            <rect x="4" y="1" width="1" height="2" fill="currentColor" />
-            <rect x="0" y="3" width="6" height="3" fill="currentColor" />
-          </svg>
-        ) : (
-          <Pip tone={PIP[t.tone]} />
-        )}
+        {t.status === 'locked' ? <LockGlyph size={12} /> : <Pip tone={PIP[t.tone]} />}
       </a>
     </li>
   );
@@ -97,13 +130,95 @@ export function SystemsHub({ s }: { s: Session }) {
     return buildSystemsHubView(s.result, prefs, ui, buildSystemsView(s.result, prefs, ui));
   }, [s.result, s.prefs.data, s.now, s.lastCloudSave]);
   const ix = v.index;
-  const [filter, setFilter] = useState<Filter>('all');
   const [allWaste, setAllWaste] = useState(false);
   const waste = allWaste ? ix.wasting : ix.wasting.slice(0, WASTE_FOLD);
-  const worlds = ix.worlds
-    .map((w) => ({ ...w, shown: w.tiles.filter(keep(filter)) }))
-    .filter((w) => w.shown.length > 0 || (filter === 'all' && w.how));
-  const later = v.later?.tiles ?? [];
+  const later = useMemo(() => v.later?.tiles ?? [], [v.later]);
+  const laterTiles: IndexTileView[] = useMemo(
+    () =>
+      later.map((t) => ({
+        id: t.id,
+        name: t.name,
+        status: t.status,
+        tone: 'off',
+        count: null,
+        sub: INDEX_WORDS.tileSub[t.status] ?? null,
+        accessibleName: t.accessibleName,
+        needsYou: false,
+        readOnly: false,
+      })),
+    [later],
+  );
+
+  // M25: the search and filters, kept in the fragment.
+  const [hq, setHq] = useState<HubQuery>(readHash);
+  const update = useCallback((next: HubQuery) => {
+    setHq(next);
+    writeHash(next);
+  }, []);
+  useEffect(() => {
+    const onHash = () => setHq(readHash());
+    window.addEventListener('hashchange', onHash);
+    window.addEventListener('popstate', onHash);
+    return () => {
+      window.removeEventListener('hashchange', onHash);
+      window.removeEventListener('popstate', onHash);
+    };
+  }, []);
+  const narrowed = isNarrowed(hq);
+  /** Every tile with its world: the shown worlds, then the folded later ones (a filter reaches them). */
+  const everything = useMemo(() => {
+    const out: { t: IndexTileView; world: number }[] = ix.worlds.flatMap((w) =>
+      w.tiles.map((t) => ({ t, world: w.world })),
+    );
+    later.forEach((t, i) => {
+      const view = laterTiles[i];
+      if (view) out.push({ t: view, world: t.world });
+    });
+    return out;
+  }, [ix.worlds, later, laterTiles]);
+  const worldIds = useMemo(
+    () => [...new Set(everything.map((x) => x.world))].sort((a, b) => a - b),
+    [everything],
+  );
+  const results = useMemo(
+    () =>
+      searchSystems(
+        hq.q,
+        everything.map((x) => ({ id: x.t.id, name: x.t.name, world: x.world })),
+      ),
+    [hq.q, everything],
+  );
+  const matched = useMemo(() => (hq.q.trim() ? new Set(results.map((r) => r.id)) : null), [hq.q, results]);
+  const byId = useMemo(() => new Map(everything.map((x) => [x.t.id, x])), [everything]);
+  const listResults = results.filter((r) => {
+    const x = byId.get(r.id);
+    return x ? keeps(x.t, x.world, hq, matched) : false;
+  });
+  /** Status counts under the query and the world filter (each bucket's own toggle left out). */
+  const counts = useMemo(() => {
+    const c = Object.fromEntries(BUCKETS.map((b) => [b, 0])) as Record<StatusBucket, number>;
+    for (const x of everything)
+      if (keeps(x.t, x.world, { ...hq, status: [] }, matched)) c[bucketOf(x.t)] += 1;
+    return c;
+  }, [everything, hq, matched]);
+  const worlds = narrowed
+    ? worldIds
+        .map((world) => {
+          const head = ix.worlds.find((w) => w.world === world);
+          return {
+            world,
+            heading: head?.heading ?? INDEX_WORDS.worldName(world),
+            sub: head?.sub ?? '',
+            how: head?.how ?? null,
+            shown: everything
+              .filter((x) => x.world === world && keeps(x.t, x.world, hq, matched))
+              .map((x) => x.t),
+          };
+        })
+        .filter((w) => w.shown.length > 0)
+    : ix.worlds.map((w) => ({ ...w, shown: w.tiles }));
+  const shownN = worlds.reduce((n, w) => n + w.shown.length, 0);
+  const open = (id: string) => s.navigate({ place: 'system', id }, 'push');
   return (
     <section className="systems-hub sx" aria-labelledby="systems-h">
       <div className="sx-title">
@@ -113,7 +228,9 @@ export function SystemsHub({ s }: { s: Session }) {
         <p className="sf-muted">{ix.summary}</p>
       </div>
 
-      {ix.wasting.length > 0 || ix.behind.length > 0 ? (
+      <HubSearch query={hq.q} onQuery={(q) => update({ ...hq, q })} results={listResults} onOpen={open} />
+
+      {!narrowed && (ix.wasting.length > 0 || ix.behind.length > 0) ? (
         <div className={`sx-top${ix.wasting.length > 0 && ix.behind.length > 0 ? ' sx-top--two' : ''}`}>
           {ix.wasting.length > 0 ? (
             <Frame tone="coral" pad className="sx-waste" aria-labelledby="sy-wasting-h">
@@ -214,25 +331,58 @@ export function SystemsHub({ s }: { s: Session }) {
           <h3 id="sy-all-h" className="a-h2" tabIndex={-1}>
             {INDEX_WORDS.allTitle}
           </h3>
-          <fieldset className="a-seg sx-seg">
-            <legend className="sr-only">{INDEX_WORDS.filterLabel}</legend>
-            {FILTERS.map((f) => {
-              const n = ix.counts[f];
-              const on = filter === f;
-              return (
-                <button
-                  key={f}
-                  type="button"
-                  className={`a-seg__option sx-seg__opt sf-seg-opt${on ? ' a-seg__option--on' : ''}`}
-                  aria-pressed={on}
-                  onClick={() => setFilter(f)}
-                >
-                  {INDEX_WORDS.filters[f]}{' '}
-                  <span className={f === 'needs' && n > 0 && !on ? 'sf-t--gold' : ''}>{n}</span>
-                </button>
-              );
-            })}
+          {narrowed ? <span className="sf-hint">{INDEX_WORDS.shown(shownN, everything.length)}</span> : null}
+        </div>
+        <div className="sx-filters">
+          <fieldset className="sx-fset">
+            <legend className="sx-fset__legend">{INDEX_WORDS.worldLegend}</legend>
+            <div className="sx-chips">
+              {worldIds.map((w) => {
+                const on = hq.worlds.includes(w);
+                return (
+                  <button
+                    key={w}
+                    type="button"
+                    className={`sx-chip${on ? ' sx-chip--on' : ''}`}
+                    aria-pressed={on}
+                    aria-label={INDEX_WORDS.worldName(w)}
+                    onClick={() => update({ ...hq, worlds: toggle(hq.worlds, w, worldIds) })}
+                  >
+                    {INDEX_WORDS.worldShort(w)}
+                  </button>
+                );
+              })}
+            </div>
           </fieldset>
+          <fieldset className="sx-fset">
+            <legend className="sx-fset__legend">{INDEX_WORDS.statusLegend}</legend>
+            <div className="sx-chips">
+              {BUCKETS.map((b) => {
+                const on = hq.status.includes(b);
+                return (
+                  <button
+                    key={b}
+                    type="button"
+                    className={`sx-chip${on ? ' sx-chip--on' : ''}`}
+                    aria-pressed={on}
+                    onClick={() => update({ ...hq, status: toggle(hq.status, b, BUCKETS) })}
+                  >
+                    {b === 'locked' ? <LockGlyph size={10} /> : <Pip tone={BUCKET_PIP[b]} />}
+                    {INDEX_WORDS.statusFilters[b]} <span className="sx-chip__n">{counts[b]}</span>
+                  </button>
+                );
+              })}
+            </div>
+          </fieldset>
+          {hq.worlds.length > 0 || hq.status.length > 0 ? (
+            <button
+              type="button"
+              className="sf-link sf-linkbtn sx-clear"
+              onClick={() => update({ ...hq, worlds: [], status: [] })}
+            >
+              {INDEX_WORDS.clearAll}
+            </button>
+          ) : null}
         </div>
 
         {worlds.map((w) => (
@@ -243,7 +393,7 @@ export function SystemsHub({ s }: { s: Session }) {
               </h4>
               <span className="sf-hint">{w.sub}</span>
             </div>
-            {w.how && (filter === 'all' || filter === 'locked') ? (
+            {w.how ? (
               <p className="sx-how">
                 <Pip tone="gold" />
                 <span className="sf-grow">{w.how}</span>
@@ -266,34 +416,44 @@ export function SystemsHub({ s }: { s: Session }) {
             </ul>
           </section>
         ))}
-        {worlds.length === 0 ? <p className="sf-muted">{INDEX_WORDS.nothingHere}</p> : null}
+        {narrowed && worlds.length === 0 ? (
+          <div className="sx-empty" role="status">
+            <p className="sx-empty__title">{INDEX_WORDS.emptyTitle}</p>
+            <p className="sf-muted">
+              {hq.q.trim() ? INDEX_WORDS.emptyQuery(hq.q.trim()) : INDEX_WORDS.emptyFilters}{' '}
+              {hq.q.trim() ? INDEX_WORDS.emptyHint : INDEX_WORDS.emptyHintFilters}
+            </p>
+            <div className="sx-empty__do">
+              {hq.q.trim() ? (
+                <button type="button" className="a-btn a-btn--ghost" onClick={() => update({ ...hq, q: '' })}>
+                  {INDEX_WORDS.search.clearQuery}
+                </button>
+              ) : null}
+              {hq.worlds.length > 0 || hq.status.length > 0 ? (
+                <button
+                  type="button"
+                  className="a-btn a-btn--ghost"
+                  onClick={() => update({ ...hq, worlds: [], status: [] })}
+                >
+                  {INDEX_WORDS.clearAll}
+                </button>
+              ) : null}
+            </div>
+          </div>
+        ) : null}
 
-        {later.length > 0 && filter === 'all' && v.later ? (
+        {laterTiles.length > 0 && !narrowed && v.later ? (
           <details className="sy-later">
             <summary>{v.later.label}</summary>
             <ul className="sx-tiles">
-              {later.map((t) => (
-                <Tile
-                  key={t.id}
-                  t={{
-                    id: t.id,
-                    name: t.name,
-                    status: t.status,
-                    tone: 'off',
-                    count: null,
-                    sub: INDEX_WORDS.tileSub[t.status] ?? null,
-                    accessibleName: t.accessibleName,
-                    needsYou: false,
-                    readOnly: false,
-                  }}
-                  s={s}
-                />
+              {laterTiles.map((t) => (
+                <Tile key={t.id} t={t} s={s} />
               ))}
             </ul>
           </details>
         ) : null}
-        {v.beyond && filter === 'all' ? <p className="sf-muted">{v.beyond}</p> : null}
-        {v.otherGaps.length > 0 && filter === 'all' ? (
+        {v.beyond && !narrowed ? <p className="sf-muted">{v.beyond}</p> : null}
+        {v.otherGaps.length > 0 && !narrowed ? (
           <section className="sy-gaps" aria-labelledby="other-gaps-h">
             <h4 id="other-gaps-h" className="sx-world__h">
               {HUB_WORDS.otherGaps}
