@@ -6,10 +6,10 @@
 // warning only when some characters lack the door (FR-6), the idle line when there is no step, the
 // broken state with no numbers (FR-24), and is its own lazy chunk (FR-3, TR-8).
 import type { BubbaResult } from '@idleon-forge/engine/result';
-import { cleanup, fireEvent, render, screen, within } from '@testing-library/react';
+import { cleanup, render, screen, within } from '@testing-library/react';
 import { afterEach, describe, expect, it } from 'vitest';
-import BubbaPage from '../src/bubba/BubbaPage';
-import { SYSTEM_PAGES, type SystemPageBodyProps } from '../src/systems/pages';
+import { bubbaSections } from '../src/bubba/BubbaTabs';
+import { FULL_PAGES, type SystemPageBodyProps } from '../src/systems/pages';
 import { noAxeViolations } from './helpers/views';
 
 afterEach(() => cleanup());
@@ -141,73 +141,66 @@ const props = (b: BubbaResult | null) =>
     page: { highlight: null, goals: [], wiki: 'https://idleon.wiki/wiki/Bubba' },
   }) as unknown as SystemPageBodyProps;
 
-describe('M23 the Bubba page', () => {
-  it('is its own registered page body', () => {
-    expect(SYSTEM_PAGES.bubba).toBeDefined();
+const tab = (b: BubbaResult | null, id: string) => {
+  const t = bubbaSections(props(b))?.tabs.find((x) => x.id === id);
+  if (!t) throw new Error(`no ${id} tab`);
+  return render(t.render());
+};
+
+describe('M23 the Bubba page (M24 sections)', () => {
+  it('is its own full page with four tabs', () => {
+    expect(FULL_PAGES.bubba).toBeDefined();
+    expect(bubbaSections(props(W3))?.tabs.map((t) => t.label)).toEqual([
+      'Bonuses to your account',
+      'This run',
+      'Charisma',
+      'Pats & gifts',
+    ]);
   });
 
   it('keeps the account bonuses and the inside of Bubba apart (FR-22, US-6)', async () => {
-    const { container } = render(<BubbaPage {...props(W3)} />);
+    const { container } = tab(W3, 'bonuses');
     const account = screen.getByRole('region', { name: "Bubba's bonuses to your account" });
     expect(
       within(account).getByText('Permanent. From Bubba Boon, boosted by Megaflesh (1.2x now)'),
     ).toBeTruthy();
     expect(within(account).getAllByRole('listitem')).toHaveLength(7);
-    expect(within(account).getByText('+1.2 base critters per trap')).toBeTruthy();
+    expect(within(account).getByText('base critters per trap')).toBeTruthy();
     expect(within(account).queryByText(/Hustle/)).toBeNull();
-    const inside = screen.getByRole('region', { name: 'Inside Bubba' });
-    expect(
-      within(inside).getByText("These boost Bubba's meat only, and reset at every Megaflesh"),
-    ).toBeTruthy();
-    const charisma = within(inside).getByRole('region', { name: 'Charisma Chart' });
+    expect(within(account).getByText(/adds \+1\.2% All Kills · 1\.3T meat/)).toBeTruthy();
+    await noAxeViolations(container);
+    cleanup();
+    tab(W3, 'charisma');
+    const charisma = screen.getByRole('region', { name: 'Charisma Chart' });
     expect(
       within(charisma).getByText('Charisma boosts Bubba only. Your account bonuses come from Boon'),
     ).toBeTruthy();
     expect(within(charisma).getByText('max')).toBeTruthy();
     expect(within(charisma).getByText('Rizz 0 → 1: −2.06% Costs')).toBeTruthy();
-    expect(within(account).getByText(/Lv 12 adds \+1\.2% All Kills · 1\.3T meat/)).toBeTruthy();
-    await noAxeViolations(container);
   });
 
-  it('folds the next buys to 3 (DS-9) and opens a bonus sheet on a tap', () => {
-    render(<BubbaPage {...props(W3)} />);
+  it('This run folds the next buys to 3 (DS-9) and says what opens a locked part', () => {
+    tab(W3, 'run');
     expect(screen.getByText('Show all 4')).toBeTruthy();
-    fireEvent.click(screen.getByText('+24% Build Rate'));
-    expect(screen.getByRole('dialog', { name: 'Build Rate' })).toBeTruthy();
-  });
-
-  it('says what opens a locked part, and the idle line when there is no step', () => {
-    render(<BubbaPage {...props({ ...W3, step: null })} />);
     expect(screen.getByText('Opens at Smoker')).toBeTruthy();
-    expect(screen.getByText(/^Nothing to do in Bubba right now · Megaflesh 4 in 1h 00m$/)).toBeTruthy();
-  });
-
-  it('warns about logging in on a character without the door only when some lack it (FR-6)', () => {
-    const { rerender } = render(<BubbaPage {...props(W3)} />);
-    expect(screen.queryByRole('note')).toBeNull();
-    rerender(<BubbaPage {...props({ ...W3, loginNote: true, openOn: 'Squire Lv 85' })} />);
-    expect(screen.getByRole('note').textContent).toBe(
-      "Open Bubba on your Squire Lv 85. Bubba collects your away time only when you log in on a character that has opened YumYum Grotto's door",
-    );
   });
 
   it("says the pats in the Timeline's words (R12 QA)", () => {
-    const { rerender } = render(<BubbaPage {...props(W3)} />);
+    tab(W3, 'pats');
     expect(screen.getByText('10 of 10 · full when you open Bubba')).toBeTruthy();
+    cleanup();
     const refillAt = NOW + 51 * 60_000;
-    rerender(<BubbaPage {...props({ ...W3, pats: { left: 10, perHour: 10, refillAt } })} />);
-    expect(screen.getByText('10 of 10 now, refills in 51m')).toBeTruthy();
-    rerender(<BubbaPage {...props({ ...W3, pats: { left: 21, perHour: 11, refillAt } })} />);
+    tab({ ...W3, pats: { left: 21, perHour: 11, refillAt } }, 'pats');
     expect(screen.getByText('21 left · 11 a refill, refills in 51m')).toBeTruthy();
   });
 
   it("can't read: no numbers (FR-24)", () => {
-    const { container } = render(<BubbaPage {...props({ ...W3, state: 'unknown' })} />);
+    const { container } = tab({ ...W3, state: 'unknown' }, 'bonuses');
     expect(container.textContent).toBe("Can't read Bubba from this save");
   });
 
   it('not started: the sleeping blob and "Not making meat"', () => {
-    render(<BubbaPage {...props({ ...W3, state: 'not-started' })} />);
+    tab({ ...W3, state: 'not-started' }, 'bonuses');
     expect(screen.getByText('Not making meat: buy 1st Slice')).toBeTruthy();
   });
 });

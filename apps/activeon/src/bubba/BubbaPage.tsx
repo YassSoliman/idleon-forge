@@ -1,55 +1,20 @@
 // SPDX-License-Identifier: GPL-3.0-only
 // Copyright (C) 2026 IdleOn Forge contributors.
-// M23 F7 the Bubba System page body (docs/specs/M23-bubba.md FR-22 to FR-25, TR-5), a lazy chunk inside
-// area S's Step-first frame (SystemPage draws the header, the one lit step and the folded order). It only
-// lays out `EngineResult.bubba`, built in the worker: every word is the engine's (BUBBA_WORDS, the
-// entries) and every time an epoch the page reads against its own clock (DS-6). Two parts, said plainly
-// (FR-22): Bubba's bonuses to the account, then everything inside Bubba, which boosts only Bubba.
-// Phase F atoms only (Meter, Chip, Badge, EmptyState); our own art (ADR 0009).
+// M23 F7 the Bubba page's panels (docs/specs/M23-bubba.md FR-22 to FR-25, TR-5): Megaflesh, the run,
+// pats, the Smoker, the Charisma Chart, gifts and dice. M24's BubbaTabs.tsx lays them out as the
+// board's tabs on the System page template. They only lay out `EngineResult.bubba`, built in the worker:
+// every word is the engine's (BUBBA_WORDS) and every time an epoch read against the page's clock (DS-6).
 import { patsText, BUBBA_WORDS as W } from '@idleon-forge/engine/bubba-text';
-import type { BubbaBonusView, BubbaResult } from '@idleon-forge/engine/result';
-import { FRAME_WORDS } from '@idleon-forge/engine/systems-ui';
-import { Chip, cx, EmptyState, Meter } from '../design/atoms';
+import type { BubbaResult } from '@idleon-forge/engine/result';
+import { cx, Meter } from '../design/atoms';
 import { inSpan } from '../design/format';
-import { usePictureSheet } from '../systems/PictureSheet';
-import type { SystemPageBodyProps } from '../systems/pages';
 import './bubba.css';
 
 /** FR-23: a time as the page reads it: "in 12h 52m", "now", or "out of reach". */
-const when = (at: number | null, now: number) =>
+export const when = (at: number | null, now: number) =>
   at === null ? W.outOfReach : at <= now ? 'now' : inSpan(at - now);
 
-function Bonuses({ b, now, open }: { b: BubbaResult; now: number; open(x: BubbaBonusView): void }) {
-  const next = b.boonNext;
-  return (
-    <section className="sy-pic bb-account" aria-labelledby="bb-account-h">
-      <h3 id="bb-account-h" className="sy-h3">
-        {W.accountTitle}
-      </h3>
-      <p className="sy-pic__lede">{W.accountLede(b.megaflesh.multiplier)}</p>
-      <ul className="bb-bonuses">
-        {b.bonuses.map((x) => (
-          <li key={x.key} className={cx('bb-bonus', x.next && 'is-next')}>
-            <button type="button" className="bb-bonus__row" onClick={() => open(x)}>
-              <span className="bb-bonus__text num">{x.text}</span>
-              <Chip>{W.rating[x.rating]}</Chip>
-            </button>
-            {x.next && next ? (
-              <p className="bb-bonus__next small num">
-                {[
-                  W.nextBoon(next.level, next.add, next.cost),
-                  next.affordable ? W.affordable : when(next.at, now),
-                ].join(' · ')}
-              </p>
-            ) : null}
-          </li>
-        ))}
-      </ul>
-    </section>
-  );
-}
-
-function Megaflesh({ b, now }: { b: BubbaResult; now: number }) {
+export function Megaflesh({ b, now }: { b: BubbaResult; now: number }) {
   const m = b.megaflesh;
   const n = m.next;
   return (
@@ -87,7 +52,7 @@ function Megaflesh({ b, now }: { b: BubbaResult; now: number }) {
   );
 }
 
-function Run({ b }: { b: BubbaResult }) {
+export function Run({ b }: { b: BubbaResult }) {
   const buys = b.run.nextBuys;
   return (
     <section className="bb-panel" aria-labelledby="bb-run-h">
@@ -129,7 +94,7 @@ function Run({ b }: { b: BubbaResult }) {
  * The pats in the Timeline's words (R12 QA): "10 of 10 now, refills in 51m"; "full when you open
  * Bubba" when no refill is due.
  */
-function patsLine(p: NonNullable<BubbaResult['pats']>, now: number): string {
+export function patsLine(p: NonNullable<BubbaResult['pats']>, now: number): string {
   const count = p.left === null || p.perHour === null ? null : patsText(p);
   if (p.refillAt === null) return count ? `${count} · ${W.patsFull}` : W.patsFull;
   const refills = `refills ${when(p.refillAt, now)}`;
@@ -140,7 +105,7 @@ function patsLine(p: NonNullable<BubbaResult['pats']>, now: number): string {
     : `${count} now, ${refills}`;
 }
 
-function Pats({ b, now }: { b: BubbaResult; now: number }) {
+export function Pats({ b, now }: { b: BubbaResult; now: number }) {
   const p = b.pats;
   return (
     <section className="bb-panel" aria-labelledby="bb-pats-h">
@@ -162,7 +127,7 @@ function Pats({ b, now }: { b: BubbaResult; now: number }) {
   );
 }
 
-function Smoker({ b, now }: { b: BubbaResult; now: number }) {
+export function Smoker({ b, now }: { b: BubbaResult; now: number }) {
   const s = b.smoker;
   return (
     <section className="bb-panel" aria-labelledby="bb-smoker-h">
@@ -198,7 +163,7 @@ function Smoker({ b, now }: { b: BubbaResult; now: number }) {
   );
 }
 
-function Charisma({ b, now }: { b: BubbaResult; now: number }) {
+export function Charisma({ b, now }: { b: BubbaResult; now: number }) {
   const c = b.charisma;
   return (
     <section className="bb-panel bb-charisma" aria-labelledby="bb-ch-h">
@@ -275,7 +240,7 @@ function Charisma({ b, now }: { b: BubbaResult; now: number }) {
   );
 }
 
-function Gifts({ b }: { b: BubbaResult }) {
+export function Gifts({ b }: { b: BubbaResult }) {
   return (
     <>
       <section className="bb-panel" aria-labelledby="bb-gifts-h">
@@ -291,56 +256,5 @@ function Gifts({ b }: { b: BubbaResult }) {
         <p className="small num">{b.locked.dice ?? W.dice(b.dice)}</p>
       </section>
     </>
-  );
-}
-
-export default function BubbaPage(p: SystemPageBodyProps) {
-  const b = p.s.result.bubba;
-  const now = p.s.now;
-  const { open, sheet } = usePictureSheet(p.page.wiki ?? null);
-  if (!b) return null;
-  if (b.state === 'unknown') return <p className="bb-cant">{W.cantRead}</p>;
-  const openBonus = (x: BubbaBonusView) =>
-    open({
-      title: x.name,
-      rows: [
-        { label: FRAME_WORDS.value, value: x.text },
-        { label: W.stacks(x.stacks), value: W.rating[x.rating] },
-        { label: W.where, value: W.whereText[x.key] ?? null },
-      ],
-    });
-  return (
-    <div className="bb-page">
-      {b.state === 'not-started' ? (
-        <EmptyState line={W.notMaking} />
-      ) : b.step ? null : (
-        <p className="bb-idle">
-          {[W.nothingToDo, b.nextEvent ? `${b.nextEvent.label} ${when(b.nextEvent.at, now)}` : null]
-            .filter(Boolean)
-            .join(' · ')}
-        </p>
-      )}
-      {b.loginNote ? (
-        <p className="bb-note" role="note">
-          {[b.openOn ? W.openOn(b.openOn) : null, W.loginNote].filter(Boolean).join('. ')}
-        </p>
-      ) : null}
-      <Bonuses b={b} now={now} open={openBonus} />
-      <section className="sy-pic bb-inside" aria-labelledby="bb-inside-h">
-        <h3 id="bb-inside-h" className="sy-h3">
-          {W.insideTitle}
-        </h3>
-        <p className="sy-pic__lede">{W.insideLede}</p>
-        <Megaflesh b={b} now={now} />
-        <Run b={b} />
-        <div className="bb-grid">
-          <Pats b={b} now={now} />
-          <Smoker b={b} now={now} />
-          <Charisma b={b} now={now} />
-          <Gifts b={b} />
-        </div>
-      </section>
-      {sheet}
-    </div>
   );
 }

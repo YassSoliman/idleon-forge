@@ -1,0 +1,62 @@
+/* SPDX-License-Identifier: GPL-3.0-only */
+/* M24 the Alchemy page's sections (AlchemyTabs.tsx): each cauldron in its own colour (the M21 owner
+   ruling), the Pay 2 Win table. Field Guide tokens; tonal fills, no rings (surface-guard.test.ts). */
+
+.al2-power {
+  --pot-c: var(--cauldron-power-3);
+}
+.al2-quicc {
+  --pot-c: var(--cauldron-quicc-3);
+}
+.al2-high-iq {
+  --pot-c: var(--cauldron-highiq-3);
+}
+.al2-kazam {
+  --pot-c: var(--cauldron-kazam-3);
+}
+.al2-name {
+  color: var(--pot-c, var(--fg));
+}
+.al2-pots {
+  align-items: start;
+}
+.al2-pot {
+  padding: var(--space-5);
+}
+.al2-bubbles {
+  gap: var(--space-3);
+}
+.al2-seat {
+  font-size: var(--text-xs);
+}
+
+.al2-p2w {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: var(--space-3) var(--space-2);
+  margin: calc(var(--space-2) * -1) calc(var(--space-3) * -1);
+  table-layout: fixed;
+}
+.al2-p2w th,
+.al2-p2w td {
+  padding: 0;
+  text-align: left;
+  vertical-align: middle;
+}
+.al2-p2w thead th:first-child {
+  width: 120px;
+}
+.al2-p2w th[scope="row"] {
+  font-weight: var(--weight-bold);
+}
+.al2-p2w td > .w-tile2 {
+  display: grid;
+}
+@media (max-width: 560px) {
+  .al2-p2w thead th:first-child {
+    width: 84px;
+  }
+  .al2-p2w th[scope="row"] .w-row > svg {
+    display: none;
+  }
+}

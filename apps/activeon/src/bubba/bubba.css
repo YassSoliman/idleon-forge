@@ -178,3 +178,20 @@
 .bb-tag--max {
   color: var(--ok);
 }
+
+/* M24 the Bonuses tab (BubbaTabs.tsx, board after/Bubba): two columns of bonus tiles, the number big. */
+.bb2-bonuses {
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: var(--space-2);
+}
+.bb2-bonus {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+}
+.bb2-v {
+  font-size: var(--text-2xl);
+  font-weight: var(--weight-bold);
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}

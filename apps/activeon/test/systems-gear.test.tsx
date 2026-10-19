@@ -83,7 +83,8 @@ describe('the Gear and Smithy pages', () => {
     window.history.replaceState(null, '', '/#system-armor-smithy');
     const { container } = renderNow(props(result, save()));
     expect(screen.getByText('Opens in 25 days, or once 2,000 gems were bought')).toBeTruthy();
-    expect(container.querySelectorAll('.gd-set')).toHaveLength(9);
+    // M24 (board after/sys/ArmorSmithy): the Sets tab, one card per unregistered set, a square per part.
+    expect(container.querySelectorAll('ul[aria-label$=" set parts"]')).toHaveLength(9);
     expect(screen.getByText('1 of 4 parts: the Iron Pickaxe in storage')).toBeTruthy();
   });
 });
