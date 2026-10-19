@@ -17,6 +17,13 @@ import { getPrayerBonusAndCurse } from '../vendor/parsers/world-3/prayers';
 import { getPrinterMulti } from '../vendor/parsers/world-3/printer';
 import { calcTimeToRankUp, getSaltMatsTimeLeft, getSaltsBalance } from '../vendor/parsers/world-3/refinery';
 import { getChipsAndJewels } from '../vendor/parsers/world-4/cooking';
+import {
+  agilityMultiplier,
+  anvilExpBonus,
+  anvilSpeedOf,
+  anvilSpeedTerms,
+  hammerHammerByCompanion,
+} from './anvil-parts';
 import { bubbaParse, bubbaTables } from './bubba';
 import { classExpMulti, monsterExpGiven } from './class-exp';
 import { frontierRates, onMap } from './frontier-rates';
@@ -101,4 +108,10 @@ export const toolboxCalls = {
   getChipsAndJewels: (account: unknown, weeks: number): unknown => getChipsAndJewels(account, weeks),
   // M24 the World 3 System pages: the shrine bonus table.
   shrineBonuses,
+  // M26 F-C: the anvil speed terms (anvil-parts.ts), for the Production Plan's speed-up steps.
+  anvilSpeedTerms,
+  anvilSpeedOf,
+  hammerHammerByCompanion,
+  agilityMultiplier,
+  anvilExpBonus,
 };
