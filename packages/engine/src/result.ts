@@ -728,6 +728,8 @@ export interface MapNode {
   name: string;
   kind: 'fight' | 'skill' | 'town' | 'other';
   doors: { destination: number; requirement: number }[];
+  /** M25: the rawName of the monster the map's AFK target is ("mushG"), for its game sprite; null without one. */
+  monster?: string | null;
 }
 
 /** M21 TR-9: the Map place's data (area M). */
@@ -740,6 +742,9 @@ export interface MapResult {
     gate: {
       boss: string;
       bossMap: number | null;
+      /** M25: the arena key's item rawName ("Key1") and name, for its game sprite. */
+      key?: string | null;
+      keyName?: string | null;
       keysHeld: number | null;
       keysPerDay: number | null;
       crystal: { item: string; held: number | null; need: number } | null;
@@ -772,6 +777,8 @@ export interface MapResult {
    */
   stars?: {
     name: string;
+    /** M25: the game's constellation index (its picture, Toolbox's etc/Constellation_<n>). */
+    rawIndex?: number;
     world: number;
     mapIndex: number;
     /** The game's requirement, words spaced ("Reach Lv 30 on four players"). */
