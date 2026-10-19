@@ -20,6 +20,7 @@ export const FACT = {
   maps: 'maps.fact.maps',
   nodes: 'skills.fact.nodes',
   tabs: 'anvil.fact.recipe-tabs',
+  recipes: 'anvil.fact.recipes',
   presetFit: 'walkthrough.fact.preset-fit',
 } as const;
 
@@ -123,8 +124,31 @@ export function mapGraph(kb: WalkthroughKnowledge): Map<number, MapRow> {
 }
 export const skillNodes = (kb: WalkthroughKnowledge): SkillNodeRow[] =>
   rows<SkillNodeRow[]>(kb, FACT.nodes) ?? [];
-export const recipeTabs = (kb: WalkthroughKnowledge): Record<string, number> =>
-  rows<Record<string, number>>(kb, FACT.tabs) ?? {};
+/** One row of `anvil.fact.recipes` (M26 FR-C3a): tab, 1-based position on it, Smithing level (wiki). */
+export interface AnvilRecipeRow {
+  name: string;
+  tab: number;
+  n: number;
+  lv: number;
+  from: string;
+  by?: string;
+  /** Materials: [rawName, amount] (Toolbox crafts.json). */
+  mats: Array<[string, number]>;
+}
+export const anvilRecipes = (kb: WalkthroughKnowledge): Record<string, AnvilRecipeRow> =>
+  rows<Record<string, AnvilRecipeRow>>(kb, FACT.recipes) ?? {};
+/** The anvil tab of each recipe: M14's authored rows, then every W1-W4 recipe (M26 FR-C3a). */
+export const recipeTabs = (kb: WalkthroughKnowledge): Record<string, number> => ({
+  ...Object.fromEntries(Object.entries(anvilRecipes(kb)).map(([raw, r]) => [raw, r.tab])),
+  ...(rows<Record<string, number>>(kb, FACT.tabs) ?? {}),
+});
+/**
+ * M26 FR-C3 correctness fix: a recipe's Smithing level is the wiki's (`anvil.fact.recipes` lv), never
+ * items.json `lvReqToCraft` (Copper Pickaxe 4 vs 3, Platebody 55 vs 7; dossier smithing M11). null when
+ * the table has no row (tabs 5+): the gate is unknown.
+ */
+export const recipeSmithingLevel = (kb: WalkthroughKnowledge, rawName: string): number | null =>
+  anvilRecipes(kb)[rawName]?.lv ?? null;
 export const presetFit = (kb: WalkthroughKnowledge): PresetFit | null => rows<PresetFit>(kb, FACT.presetFit);
 
 /** A judgment value of an M14 entry (`values`), or the fallback when the entry isn't shipped. */
