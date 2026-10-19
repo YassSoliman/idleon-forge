@@ -276,7 +276,8 @@ html {
   --font-display: var(--ff-pixel-display);
   --font-label: var(--ff-humanist);
   --font-body: var(--ff-humanist);
-  --font-numeral: var(--ff-mono);
+  /* M21.1 refresh: numbers in Atkinson (tabular via .num), never a mono face. */
+  --font-numeral: var(--ff-humanist);
   --font-mono: var(--ff-mono);
   /* Pixelify Sans is self-hosted at 400 only (design/fonts.ts): heavier instances close the "c". */
   --display-weight: 400;
