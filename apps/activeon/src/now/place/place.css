@@ -76,7 +76,7 @@
   min-height: var(--tap-min);
   padding: 10px 16px;
   border: 0;
-  background: var(--accent);
+  background: var(--accent-fill);
   color: var(--on-accent); /* M24 QA P1-12: the theme's ink on --accent (4.5:1 light and dark) */
   font: var(--weight-bold) 15px / 1.2 var(--font-body);
   font-variant-ligatures: var(--font-ligatures);
@@ -753,7 +753,7 @@
   font-weight: 800;
 }
 .np-stop.is-next .np-stop__n {
-  background: var(--accent);
+  background: var(--accent-fill);
   color: var(--on-accent);
 }
 .np-stop__task {

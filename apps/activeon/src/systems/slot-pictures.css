@@ -130,7 +130,7 @@
   display: block;
   height: 8px;
   border-radius: 0;
-  background: linear-gradient(to right, var(--info) calc(var(--pct) * 1%), var(--line) 0);
+  background: linear-gradient(to right, var(--info-fill) calc(var(--pct) * 1%), var(--line) 0);
 }
 .sy-ruler__v {
   color: var(--muted);

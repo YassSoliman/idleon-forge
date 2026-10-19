@@ -42,7 +42,7 @@
   margin: 0;
   padding: 2px var(--space-2) 2px 2px;
   border-radius: 0;
-  background: var(--accent);
+  background: var(--accent-fill);
   color: var(--on-accent);
   font: var(--weight-bold) var(--text-xs) / 1.2 var(--font-body);
   font-variant-ligatures: var(--font-ligatures);

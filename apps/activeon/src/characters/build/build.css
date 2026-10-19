@@ -290,10 +290,10 @@ button.bd-tal-btn:focus-visible {
   background: var(--line-strong);
 }
 .bd-mono[data-k="covered"] {
-  background: var(--accent);
+  background: var(--accent-fill);
 }
 .bd-mono[data-k="next"] {
-  background: color-mix(in srgb, var(--accent) 50%, var(--sunk));
+  background: color-mix(in srgb, var(--accent-fill) 50%, var(--sunk));
 }
 .bd-mono[data-k="done"] {
   color: var(--ok);
@@ -319,7 +319,7 @@ button.bd-tal-btn:focus-visible {
 }
 .bd-ord[data-k="covered"] {
   color: var(--on-accent);
-  background: var(--accent);
+  background: var(--accent-fill);
 }
 .bd-ord[data-k="next"] {
   color: var(--accent);
@@ -413,7 +413,7 @@ button.bd-tal-btn:focus-visible {
   font-variant-ligatures: var(--font-ligatures);
   font-feature-settings: var(--font-features);
   color: var(--on-info);
-  background: var(--info);
+  background: var(--info-fill);
 }
 .bd-slot[data-ghost="yes"] {
   color: var(--accent);
@@ -501,7 +501,7 @@ button.bd-tal-btn:focus-visible {
   flex: 1;
   min-width: 16px;
   height: 2px;
-  background: var(--accent);
+  background: var(--accent-fill);
 }
 .bd-cut-t {
   max-width: 70%;

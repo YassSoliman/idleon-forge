@@ -209,8 +209,8 @@
 }
 .sk-pip-mini[data-state="filled"],
 .sk-pip-mini[data-state="capped"] {
-  background: var(--ok);
+  background: var(--ok-fill);
 }
 .sk-pip-mini[data-state="fillable"] {
-  background: var(--warn);
+  background: var(--warn-fill);
 }

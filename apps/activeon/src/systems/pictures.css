@@ -22,7 +22,7 @@
   padding: 2px;
   border: 0;
   border-radius: 0;
-  background: conic-gradient(var(--accent) calc(var(--pct) * 1%), var(--line) 0);
+  background: conic-gradient(var(--accent-fill) calc(var(--pct) * 1%), var(--line) 0);
   color: var(--fg);
   cursor: pointer;
 }
@@ -46,7 +46,7 @@
   font-feature-settings: var(--font-features);
 }
 .sy-stamp--cap {
-  background: conic-gradient(var(--ok) 100%, var(--line) 0);
+  background: conic-gradient(var(--ok-fill) 100%, var(--line) 0);
 }
 .sy-stamp--now,
 .sy-stamp--active,
@@ -189,7 +189,7 @@
 .sy-spread__bar {
   height: 8px;
   border-radius: 0;
-  background: linear-gradient(to right, var(--accent) calc(var(--pct) * 1%), var(--line) 0);
+  background: linear-gradient(to right, var(--accent-fill) calc(var(--pct) * 1%), var(--line) 0);
 }
 
 /* ---- Vault tower ---- */
@@ -261,7 +261,7 @@
   display: block;
   height: 4px;
   border-radius: 0;
-  background: linear-gradient(to right, var(--ok) calc(var(--pct) * 1%), var(--line) 0);
+  background: linear-gradient(to right, var(--ok-fill) calc(var(--pct) * 1%), var(--line) 0);
 }
 .sy-vrow.is-locked {
   color: var(--muted);

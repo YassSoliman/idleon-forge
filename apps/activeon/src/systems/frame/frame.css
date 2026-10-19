@@ -12,23 +12,28 @@
 /* Tones: text colour, and the answer frame's fill. */
 .sf-t--coral {
   color: var(--bad);
-  --frame-bg: var(--bad-soft);
+  --frame-bg: var(--frame-tone-bad);
+  --frame-accent: var(--bad-fill);
 }
 .sf-t--gold {
   color: var(--accent);
-  --frame-bg: var(--accent-soft);
+  --frame-bg: var(--frame-tone-gold);
+  --frame-accent: var(--accent-fill);
 }
 .sf-t--mint {
   color: var(--ok);
-  --frame-bg: var(--ok-soft);
+  --frame-bg: var(--frame-tone-ok);
+  --frame-accent: var(--ok-fill);
 }
 .sf-t--sky {
   color: var(--info);
-  --frame-bg: var(--info-soft);
+  --frame-bg: var(--frame-tone-info);
+  --frame-accent: var(--info-fill);
 }
 .sf-t--mut {
   color: var(--muted);
   --frame-bg: var(--surface);
+  --frame-accent: var(--pip-later);
 }
 
 /* 1. Back link and 2. header */
@@ -207,11 +212,11 @@
   font-weight: var(--weight-bold);
 }
 .sf-badge.sf-t--gold {
-  background: var(--accent);
+  background: var(--accent-fill);
   color: var(--on-accent);
 }
 .sf-badge.sf-t--coral {
-  background: var(--bad);
+  background: var(--bad-fill);
   color: var(--on-bad);
 }
 .sf-body {
@@ -404,7 +409,7 @@
   font-weight: var(--weight-bold);
 }
 .sf-n--gold {
-  background: var(--accent);
+  background: var(--accent-fill);
   color: var(--on-accent);
 }
 /* Hairline lists: rows divided by a 1 px line. */
@@ -506,7 +511,7 @@
   font-weight: var(--weight-bold);
 }
 .sf-steps .goals > li:first-child::before {
-  background: var(--accent);
+  background: var(--accent-fill);
   color: var(--on-accent);
 }
 .sf-steps--quiet .goals > li:first-child::before {

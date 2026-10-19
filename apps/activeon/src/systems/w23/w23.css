@@ -281,10 +281,10 @@ button.w-link {
   position: absolute;
   inset: auto 0 0 0;
   height: var(--pct, 0%);
-  background: var(--info);
+  background: var(--info-fill);
 }
 .w23-tank__g.is-full > i {
-  background: var(--accent);
+  background: var(--accent-fill);
 }
 .w23-totem__bar {
   flex: 0 1 200px;
@@ -321,16 +321,16 @@ button.w-link {
   bottom: -4px;
   left: var(--back, 100%);
   width: 2px;
-  background: var(--info);
+  background: var(--info-fill);
 }
 .w23-lane > .w23-trap {
   display: block;
   width: var(--end, 0%);
   height: 6px;
-  background: var(--ok);
+  background: var(--ok-fill);
 }
 .w23-lane > .w23-trap.is-idle {
-  background: var(--accent);
+  background: var(--accent-fill);
 }
 .w23-lane__empty {
   padding-left: var(--space-3);
@@ -378,10 +378,10 @@ button.w-link {
   background: var(--bg);
 }
 .w23-part--worn {
-  background: var(--ok);
+  background: var(--ok-fill);
 }
 .w23-part--held {
-  background: var(--accent);
+  background: var(--accent-fill);
 }
 .w23-part--key {
   width: 14px;

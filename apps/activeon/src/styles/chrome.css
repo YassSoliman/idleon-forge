@@ -208,7 +208,7 @@
   flex: none;
   width: 8px;
   height: 8px;
-  background: var(--ok);
+  background: var(--ok-fill);
 }
 .n-agechip.is-warn {
   color: var(--warn);
@@ -299,7 +299,7 @@
   right: 6px;
   width: 6px;
   height: 6px;
-  background: var(--bad);
+  background: var(--bad-fill);
 }
 .n-hint:empty {
   display: none;
@@ -1053,7 +1053,7 @@ textarea.n-drop__text {
     top: 8px;
     width: 14px;
     height: 14px;
-    background: var(--info);
+    background: var(--info-fill);
   }
   .n-fr-mark--a {
     left: 18%;
@@ -1066,7 +1066,7 @@ textarea.n-drop__text {
   }
   .n-fr-mark--fill {
     left: 78%;
-    background: var(--accent);
+    background: var(--accent-fill);
   }
   .n-fr-back {
     position: absolute;
