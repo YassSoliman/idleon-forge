@@ -14,6 +14,7 @@ import {
   lossesNow,
   miniMarks,
   roundNext,
+  untimedGroups,
 } from '../src/now/place/derive';
 import { NOW_PLACE_WORDS } from '../src/now/place/words';
 
@@ -194,5 +195,23 @@ describe('the round and the rail', () => {
     } as never);
     expect(part?.rows.map((x) => x.label)).toEqual(['a', 'b', 'c']);
     expect([part?.moreToday, part?.moreWeek]).toEqual([2, 2]);
+  });
+});
+
+describe('a limit the engine cannot time is said once (QA)', () => {
+  it('groups it across characters into one account line', () => {
+    const food = { state: 'open', what: 'health food', kindWord: 'runs out' };
+    const t = {
+      ...timeline,
+      lanes: [
+        { kind: 'character', index: 1, bars: [], untimed: [food] },
+        { kind: 'character', index: 2, bars: [], untimed: [food] },
+      ],
+    } as unknown as TimelineView;
+    const groups = untimedGroups(t, view);
+    expect(groups).toEqual([{ what: 'health food', kindWord: 'runs out', indexes: [2, 1] }]);
+    expect(NOW_PLACE_WORDS.untimed('health food', 'runs out', 2)).toBe(
+      "Health food: can't tell when it runs out on 2 characters",
+    );
   });
 });

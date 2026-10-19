@@ -53,6 +53,9 @@ export const NOW_PLACE_WORDS = {
   characters: 'Characters',
   inVisitOrder: 'in visit order',
   stateCount: (count: number, word: string) => `${n(count)} ${word.toLowerCase()}`,
+  /** "Health food: can't tell when it runs out on 6 characters". */
+  untimed: (what: string, kindWord: string, count: number) =>
+    `${upperFirst(what)}: can't tell when it ${kindWord === 'full' || kindWord === 'ready' || kindWord === 'lost' ? `is ${kindWord}` : kindWord} on ${plural(count, 'character')}`,
   thenTask: (task: string) => `Then ${lowerFirst(task)}`,
   timer: (label: string, when: string) => `${label} ${when}`,
   // Coins.

@@ -207,11 +207,28 @@ export function nextLimit(
   return b && b.at !== null ? { label: b.label, at: b.at } : null;
 }
 
-/** A character's limit the engine can't time ("health food · can't tell when"), for the card. */
-export function untimedOf(timeline: TimelineView | null, index: number): string | null {
-  const lane = charLanes(timeline).find((l) => l.index === index);
-  const b = lane?.untimed.find((x) => x.state === 'open');
-  return b ? `${b.label} · ${b.timeText}` : null;
+/**
+ * The limits the engine can't time, said once for the account (QA: not on every card): one line per
+ * thing ("health food"), with how many characters it is on, in Visit Order.
+ */
+export function untimedGroups(
+  timeline: TimelineView | null,
+  view: NowView,
+): { what: string; kindWord: string; indexes: number[] }[] {
+  const order = orderOf(view);
+  const by = new Map<string, { what: string; kindWord: string; indexes: number[] }>();
+  for (const lane of charLanes(timeline)) {
+    if (!order.has(lane.index as number)) continue;
+    for (const b of lane.untimed) {
+      if (b.state !== 'open') continue;
+      const g = by.get(b.what) ?? { what: b.what, kindWord: b.kindWord, indexes: [] };
+      if (!g.indexes.includes(lane.index as number)) g.indexes.push(lane.index as number);
+      by.set(b.what, g);
+    }
+  }
+  const pos = (i: number) => order.get(i) ?? 99;
+  for (const g of by.values()) g.indexes.sort((a, z) => pos(a) - pos(z));
+  return [...by.values()];
 }
 
 export interface Payer {

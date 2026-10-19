@@ -892,3 +892,8 @@
   padding: 0;
   background: none;
 }
+
+.np-untimed {
+  margin: 0;
+  padding: 0 4px;
+}

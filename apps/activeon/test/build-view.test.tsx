@@ -346,7 +346,7 @@ describe('Build view', () => {
       builds: [{ ...shaman, presets: [preset(0, {}), preset(1, { unspent: 366, tabs: [tab] })] }],
     };
     renderNow(props(r, saveOf(r, 1, 'first', null, 'paste')));
-    fireEvent.click(screen.getByRole('link', { name: /^Birch: build/ }));
+    openSquare('build', 1);
     const ladder = document.getElementById('bv-1-p1-t1') as HTMLElement;
     const cut = ladder.querySelector('.bd-cut-t')?.textContent ?? '';
     expect(cut).toMatch(/^Build complete at 300 · 66 points have no talent in this build yet/);

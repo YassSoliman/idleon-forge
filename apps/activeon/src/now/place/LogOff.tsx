@@ -32,7 +32,7 @@ import {
   type Payer,
   PIP,
   STATE_TONE,
-  untimedOf,
+  untimedGroups,
 } from './derive';
 import { Icon, systemSprite } from './icon';
 import { rowTabChip } from './tab-chip';
@@ -424,7 +424,6 @@ export function CharacterCards({
           const state = states[i] ?? 'ready';
           const chip = rowTabChip(view, r.index);
           const timer = nextLimit(timeline, r.index);
-          const untimed = untimedOf(timeline, r.index);
           const who = `${r.classLabel} ${r.level}`;
           const task = r.summary ? (state === 'collect' ? W.thenTask(r.summary) : r.summary) : null;
           return (
@@ -457,13 +456,17 @@ export function CharacterCards({
                       <span className="np-t-sky num">{W.timer(timer.label, inSpan(timer.at - start))}</span>
                     ) : null}
                   </span>
-                  {untimed ? <span className="np-muted">{untimed}</span> : null}
                 </span>
               </Go>
             </li>
           );
         })}
       </ol>
+      {untimedGroups(timeline, view).map((g) => (
+        <p key={g.what} className="np-untimed np-muted np-sm">
+          {W.untimed(g.what, g.kindWord, g.indexes.length)}
+        </p>
+      ))}
     </section>
   );
 }
