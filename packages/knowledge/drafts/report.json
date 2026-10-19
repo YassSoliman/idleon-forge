@@ -3,7 +3,7 @@
     "files": 66,
     "records": 497
   },
-  "drafts": 327,
+  "drafts": 322,
   "edits": 36,
   "facts": 12,
   "unconverted": [
@@ -907,7 +907,6 @@
     "printer": 4,
     "quests": 7,
     "refinery": 3,
-    "rift": 5,
     "salt-lick": 3,
     "shrines": 2,
     "sigils": 4,
@@ -925,5 +924,12 @@
     "upgrade-vault": 4,
     "weekly-battles": 4,
     "worship": 12
-  }
+  },
+  "promoted": [
+    "rift.check.active-task",
+    "rift.check.afk-task",
+    "rift.check.class-gate",
+    "rift.check.quota-done",
+    "rift.check.unlock-quest"
+  ]
 }

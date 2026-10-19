@@ -50,6 +50,7 @@ export default defineGenerator({
     'website-data/shared-data.json#cardSets',
     'website-data/shared-data.json#spelunkingRocks',
     'website-data/shared-data.json#towers',
+    'website-data/shared-data.json#riftInfo',
     'website-data/cauldrons.json',
   ],
   run({ data }) {
@@ -99,6 +100,10 @@ export default defineGenerator({
       bubbles: sorted(Object.values(cauldrons).flatMap((c) => c.map((b) => b.bubbleName ?? ''))),
       // Construction building rawNames, for M15 F2's building slots (FR-27).
       buildings: sorted(Object.keys(data.towers as Record<string, unknown>)),
+      // M26 FR-11: each Rift level's task clause ("DEFEAT_500_MONSTERS_WITHIN_5_MIN"), for the Rift task slot.
+      riftTasks: sorted(
+        (data.riftInfo as { task?: string }[]).map((r) => (r.task ?? '').split('._')[0] ?? ''),
+      ),
       sentinels: ['Blank', 'LockedInvSpace', 'Null'],
     };
   },

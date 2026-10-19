@@ -9,7 +9,7 @@
 // Return, so `rerun` re-runs only the dependent ones (M3's Verdicts, firstFill, M6 urgencies) and
 // re-assembles, including Visit Order.
 
-import { hasUnlockRule, STAGES, type StageId, unlocked } from '@idleon-forge/knowledge';
+import { hasUnlockRule, opensSystem, STAGES, type StageId, unlocked } from '@idleon-forge/knowledge';
 import { behindAnalysis } from '../metapath/behind';
 import { lookupOf } from '../metapath/knowledge';
 import { metaPathModule } from '../metapath/module';
@@ -135,7 +135,9 @@ export function assemble(input: EngineInput, ran: readonly Ran[]): EngineResult 
       (output.characters ?? []).filter((x) => x.index === c.index).map((x) => ({ module, x })),
     );
     const tagged: TaggedGoal[] = parts.flatMap(({ module, x }) =>
-      (x.goals ?? []).filter((g) => open(g.goal.system)).map((g) => ({ ...g, moduleId: module.id })),
+      (x.goals ?? [])
+        .filter((g) => open(g.goal.system) || opensSystem(g.goal.system, g.goal.id))
+        .map((g) => ({ ...g, moduleId: module.id })),
     );
     taggedOf.set(c.index, tagged);
     const given = parts.find((p) => p.x.verdict)?.x.verdict;
@@ -196,7 +198,7 @@ export function assemble(input: EngineInput, ran: readonly Ran[]): EngineResult 
 
   const accountTagged: TaggedGoal[] = outputs.flatMap(({ module, output }) =>
     (output.account?.goals ?? [])
-      .filter((g) => open(g.goal.system))
+      .filter((g) => open(g.goal.system) || opensSystem(g.goal.system, g.goal.id))
       .map((g) => ({ ...g, moduleId: module.id })),
   );
   const givenSafety = outputs.find((o) => o.output.account?.safety)?.output.account?.safety;

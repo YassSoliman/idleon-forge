@@ -1507,6 +1507,8 @@ entries:
       - [metapath.goal.push]
       - [{ include: metapath.priority.free-value-fills }]
       - [metapath.goal.subclass, metapath.goal.elite, metapath.goal.swap-token]
+      # M26 Wave 1 (FR-11): the Rift, one card at a time: a met quota first (progress is lost past it).
+      - [rift.check.quota-done, rift.check.class-gate, rift.check.unlock-quest, rift.check.afk-task, rift.check.active-task]
       - [alchemy-bubbles.goal.level-next, alchemy-vials.goal.level-next]
       # M23 FR-19: Bubba's one account Goal.
       - [bubba.goal.visit]

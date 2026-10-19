@@ -18,6 +18,7 @@ export default defineDetector({
     'account.breeding',
     'account.cooking',
     'account.equinoxUnlocked',
+    'account.rift',
     'account.currentWorld',
     'diagnostics',
   ],
@@ -26,6 +27,7 @@ export default defineDetector({
       { fixture: 'highend', params: { system: 'lab' }, subject: accountSubject },
       { fixture: 'first', params: { system: 'breeding' } },
       { fixture: 'fourth', params: { system: 'equinox' } },
+      { fixture: 'fourth', params: { system: 'rift' } },
     ],
     silent: [
       // W3, but no Mirror and no Dream Upgrade (M26 FR-8): Equinox stays locked though currentWorld is 3.
@@ -34,12 +36,14 @@ export default defineDetector({
       { fixture: 'scrubbed-w3', params: { system: 'cooking' } },
       { fixture: 'scrubbed-w3', params: { system: 'breeding' } },
       { fixture: 'scrubbed-w2', params: { system: 'equinox' } },
+      // World 4 reached, but the Rift Ripper's quest is not done: the Rift's own fact says locked.
+      { fixture: 'first', params: { system: 'rift' } },
     ],
     unknown: [
       {
         fixture: 'scrubbed-w2',
         params: { system: 'rift' },
-        mutate: (s) => withUnknown(s, 'account.currentWorld'),
+        mutate: (s) => withUnknown(s, 'account.currentWorld', 'account.rift'),
       },
     ],
   },

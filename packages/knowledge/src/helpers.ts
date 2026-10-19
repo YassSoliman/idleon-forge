@@ -8,7 +8,7 @@ import { isKnown } from '@idleon-forge/account-state';
 import type { HistoryEntry, Subject } from './types';
 
 // M26 FR-6: the shared unlock guard, here so Detectors may use it (M11 TR-1 import rule).
-export { hasUnlockRule, UNLOCK_RULES, type UnlockState, unlocked } from './unlock';
+export { hasUnlockRule, opensSystem, UNLOCK_RULES, type UnlockState, unlocked } from './unlock';
 export { isKnown };
 
 /** The readable characters, in save order. */
@@ -56,6 +56,7 @@ export function withUnknown(state: AccountState, ...paths: string[]): AccountSta
 }
 export * from './bubba-detectors';
 export * from './purpose-detectors';
+export * from './rift-detectors';
 
 /** A value at a dot path ("account.lab.characters", "account.killroy.doneCode"); undefined when absent. */
 export function valueAt(root: unknown, path: string): unknown {
