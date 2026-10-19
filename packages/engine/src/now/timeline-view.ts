@@ -151,7 +151,8 @@ export function buildTimelineView(
       (c.info ?? []).filter((l) => l.kind === 'cap').map((l) => [l.key, l.label ?? l.text] as const),
     ),
   );
-  const names = new Map(result.characters.map((c) => [c.index, c.name]));
+  // Rule 4 (class + level, never names): a character is named by its roster label everywhere here.
+  const labels = new Map(nowView.roster.map((r) => [r.index, `${r.classLabel} ${r.level}`]));
 
   const view = (b: TimelineBar): TimelineBarView => {
     const kindWord = KIND_WORDS[b.kind];
@@ -250,8 +251,8 @@ export function buildTimelineView(
     index: row.index,
     systemId: null,
     position: row.position,
-    heading: `${row.position} · ${row.name}`,
-    detail: [`${row.classLabel} lv ${row.level}`, row.activity, row.map].filter(Boolean).join(' · '),
+    heading: `${row.position} · ${row.classLabel} ${row.level}`,
+    detail: [row.activity, row.map].filter(Boolean).join(' · ') || null,
     short: `${row.position} · ${row.classLabel} ${row.level}`,
     verdict: row.pill,
     ...order(bySubject.get(`c${row.index}`) ?? []),
@@ -299,7 +300,7 @@ export function buildTimelineView(
       first: true,
       more: rest.map((m) => ({
         index: m.lane.index ?? -1,
-        name: names.get(m.lane.index ?? -1) ?? '',
+        name: labels.get(m.lane.index ?? -1) ?? '',
         key: m.bar.key,
       })),
     };
@@ -332,6 +333,19 @@ export function buildTimelineView(
   };
 }
 
+/** A limit the Timeline counts: open, on the axis (not "can't tell when") and binding before you're back. */
+const countsBeforeBack = (b: TimelineBarView): boolean => b.state === 'open' && !b.untimed && b.beforeReturn;
+
+/**
+ * M24 QA P1-6 (numbers agree between views): the one count of "limits before you're back". Every open,
+ * timed limit on every lane, characters and account Systems alike, that binds before you're back,
+ * including the ones already full now. The nav badge, the Lanes tab and subtitle, and Now's "N limits in
+ * all" line all read this number (Now and the nav through `AfkStrip.before`).
+ */
+export function limitsBeforeBack(v: TimelineView): number {
+  return [...v.lanes, ...v.accountLanes].flatMap((l) => l.bars).filter(countsBeforeBack).length;
+}
+
 /** One character's mark on the AFK strip: its first binding limit, on the Timeline's axis. */
 export interface AfkStripMark {
   index: number;
@@ -355,7 +369,7 @@ export interface AfkStrip extends AfkStripView {
   backX: number;
   /** "Back in 8h 00m · 02:20" (the Timeline's own label). */
   backLabel: string;
-  /** How many limits bind before you're back: the Timeline badge's number (US-10). */
+  /** How many limits bind before you're back: the Timeline badge's number (US-10), `limitsBeforeBack`. */
   before: number;
   /** R11 QA: how many of those are full already (bound at or before now). */
   fullNow: number;
@@ -391,13 +405,13 @@ export function buildAfkStripView(
         ? W.around(clockAt(at, ui.tzOffsetMinutes ?? 0))
         : inSpan(at - now);
   const marks: AfkStripMark[] = [];
-  let before = 0;
+  const before = limitsBeforeBack(timeline);
   let first: { at: number; what: string; who: string | null } | null = null;
   let fullNow = 0;
   let next: { at: number; what: string; who: string | null } | null = null;
   // The first limit after you're back: All set still says it ("First thing fills up in 9h").
   let later: { at: number; what: string; who: string | null } | null = null;
-  for (const lane of timeline.lanes) {
+  for (const lane of [...timeline.lanes, ...timeline.accountLanes]) {
     const row = lane.index === null ? undefined : rows.get(lane.index);
     if (!row && lane.kind !== 'account') continue;
     const who = row ? `${row.classLabel} ${row.level}` : null;
@@ -407,7 +421,6 @@ export function buildAfkStripView(
       .map((b) => ({ b, at: b.at ?? now }))
       .sort((a, z) => a.at - z.at);
     const binding = timed.filter((t) => t.b.beforeReturn);
-    before += binding.length;
     for (const t of binding) {
       if (t.at <= now) fullNow++;
       else if (!next || t.at < next.at) next = { at: t.at, what: t.b.what, who };

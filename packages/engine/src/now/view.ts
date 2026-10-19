@@ -612,6 +612,7 @@ export interface TimelineBarView {
   /** Where the hatching ends (the return marker), 0 to 1; null when not hatched. */
   hatchTo: number | null;
   /** "the same on n more" (Design Lab: no repeated sentence per character). */
+  /** `more[].name` is the character's class + level label ("Bowman 60"), never its name. */
   group: { first: boolean; more: { index: number; name: string; key: string }[] } | null;
 }
 
@@ -624,9 +625,9 @@ export interface TimelineLane {
   systemId: string | null;
   /** The Roster's Visit Order number (1-based); null for an account lane. */
   position: number | null;
-  /** "1 · <name>", or the System's name. */
+  /** "1 · Bowman 60" (class + level, never a name), or the System's name. */
   heading: string;
-  /** "Bowman lv 60 · Fighting Sand Giant"; null for an account lane. */
+  /** "Fighting · Sand Giant" (what it does, where); null for an account lane or when unknown. */
   detail: string | null;
   /** The board's short label beside the bars, "1 · Bowman 60" or the System's name (never a name). */
   short: string;
