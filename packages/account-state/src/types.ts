@@ -19,6 +19,7 @@ import type { SpendInputs } from './spend-types';
 import type { StarSignsAccountFields, StarSignsCharacterFields } from './starsigns-types';
 import type { TalentAccountFields, TalentCharacterFields } from './talent-types';
 import type { SaltState, UnspentAccountFields, UnspentCharacterFields } from './unspent-types';
+import type { W23AccountFields } from './w23-types';
 import type { WalkthroughAccountFields, WalkthroughCharacterFields } from './walkthrough-types';
 import type { World4AccountFields } from './world4-types';
 
@@ -60,8 +61,10 @@ import type { World4AccountFields } from './world4-types';
  * 23: M24's World 4 fields (the `World4AccountFields` block: `lab`, `cooking`, `breeding`), read-only pages.
  * 24: M24: `characters[].afk.anvilPlan.products[].required` (Toolbox `requiredAmount`), and the plan's
  *    `output` is anvil work (each item weighted by it), not an item count.
+ * 25: M24's World 3 page facts: `account.prayers`, `account.shrines` (the `W23AccountFields` block) and
+ *    each Refinery salt's `fuel` (its inputs and how many the account holds).
  */
-export const SCHEMA_VERSION = 24;
+export const SCHEMA_VERSION = 25;
 
 /** The AFK types Toolbox's monster data uses, plus its two "no rate" values. */
 export const KNOWN_AFK_TYPES = [
@@ -218,7 +221,8 @@ export interface AccountSummary
     GearAccountFields,
     RedesignAccountFields,
     BubbaAccountFields,
-    World4AccountFields {
+    World4AccountFields,
+    W23AccountFields {
   /** The world the account is working on (1-based): one past the highest finished world (Toolbox's rule). */
   currentWorld: number | null;
   /** Worlds whose exit has been used (a character met the gatekeeper past it), ascending. */

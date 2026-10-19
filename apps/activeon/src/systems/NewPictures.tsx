@@ -9,20 +9,13 @@
 import { formatCoins } from '@idleon-forge/engine/now';
 import type { SystemPicture } from '@idleon-forge/engine/result';
 import type {
-  PrinterPicture,
   StampsPicture,
   StampTab,
   StampTile,
   StatuesPicture,
   VaultPicture,
 } from '@idleon-forge/engine/systems-ui';
-import {
-  FRAME_WORDS,
-  PRINTER_WORDS,
-  STAMP_WORDS,
-  STATUE_WORDS,
-  VAULT_WORDS,
-} from '@idleon-forge/engine/systems-ui';
+import { FRAME_WORDS, STAMP_WORDS, STATUE_WORDS, VAULT_WORDS } from '@idleon-forge/engine/systems-ui';
 import { type CSSProperties, useState } from 'react';
 import { PixelArt, type Ramp } from '../design/art/PixelArt';
 import { WhoGlyph } from '../design/who/WhoGlyph';
@@ -368,60 +361,3 @@ export function VaultBody(p: SystemPageBodyProps) {
 }
 
 // ---- 3D Printer ----
-
-export function PrinterBody(p: SystemPageBodyProps) {
-  const pic = pictureOf<PrinterPicture>(p, 'printer');
-  if (!pic) return null;
-  const lit = litOf(pic.elements, p.page.highlight ?? p.page.goals[0]?.action.key ?? null, pic.lit);
-  const byChar = [...new Set(pic.elements.map((e) => e.characterIndex))];
-  const nameOf = (i: number) => {
-    const r = p.s.view.roster.find((x) => x.index === i);
-    return r ? `${r.classLabel} ${r.level}` : `${i + 1}`;
-  };
-  return (
-    <section className="sy-pic sy-printer" aria-labelledby="sy-printer-h">
-      <h3 id="sy-printer-h" className="sy-h3">
-        {PRINTER_WORDS.title}
-      </h3>
-      <p className="sy-pic__lede">{PRINTER_WORDS.printing(byChar.length)}</p>
-      <ul className="sy-printer__grid">
-        {byChar.map((i) => {
-          const family = p.s.result.classFamilies?.[i];
-          return (
-            <li key={i} className="sy-pslot-row">
-              <span className="sy-pslot-row__who">
-                {family ? <WhoGlyph family={family} classLabel={nameOf(i)} scale={1} decorative /> : null}
-                <span>{nameOf(i)}</span>
-              </span>
-              <ul className="sy-pslot-row__slots">
-                {pic.elements
-                  .filter((e) => e.characterIndex === i)
-                  .map((e) => (
-                    <li
-                      key={e.id}
-                      className={cx('sy-pslot', e.id === lit && 'is-now', !e.item && 'is-empty')}
-                    >
-                      {e.id === lit ? <NowTag /> : null}
-                      <PixelArt name="v2-systems-printer" ramp="silver" decorative />
-                      <span className="sy-pslot__item">
-                        {e.changeTo ? (
-                          <>
-                            {e.item ?? PRINTER_WORDS.empty}
-                            <PixelArt name="ui-arrow-right" decorative />
-                            {e.changeTo}
-                          </>
-                        ) : (
-                          (e.item ?? PRINTER_WORDS.empty)
-                        )}
-                      </span>
-                      <span className="sy-pslot__note">{e.changeText ?? PRINTER_WORDS.noChange}</span>
-                    </li>
-                  ))}
-              </ul>
-            </li>
-          );
-        })}
-      </ul>
-    </section>
-  );
-}

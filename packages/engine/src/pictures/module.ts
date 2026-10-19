@@ -17,6 +17,13 @@ import { ENTRY, human, itemOf, say, type WalkthroughKnowledge } from '../walkthr
 import { parentsOf, walkthroughValues } from '../walkthrough/module';
 import type { PrinterSlotPlan } from '../walkthrough/types';
 import { printerPicture, stampsPicture, statuesPicture, vaultPicture } from './build';
+import {
+  buildSlotsPicture,
+  prayersPicture,
+  printerSamplesPicture,
+  refineryPicture,
+  shrinesPicture,
+} from './w23';
 
 function printerPlan(input: EngineInput, prior: EngineResult, kb: CompiledKnowledge): PrinterSlotPlan | null {
   const wk = kb as unknown as WalkthroughKnowledge;
@@ -82,6 +89,13 @@ export function createPicturesModule(): EngineModule {
           );
         }),
       );
+      // M24: the World 2 and 3 pages' read-only pictures (w23.ts).
+      const maps = kb.facts['maps.fact.maps']?.rows as { index: number; name: string }[] | undefined;
+      add(safe(() => refineryPicture(state)));
+      add(safe(() => buildSlotsPicture(state)));
+      add(safe(() => printerSamplesPicture(state)));
+      add(safe(() => prayersPicture(state)));
+      add(safe(() => shrinesPicture(state, (i) => maps?.find((m) => m.index === i)?.name ?? null)));
       return out.length ? { slotPictures: out } : {};
     },
   };

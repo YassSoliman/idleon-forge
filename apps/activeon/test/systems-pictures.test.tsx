@@ -17,9 +17,10 @@ import type {
 } from '@idleon-forge/engine/systems-ui';
 import { cleanup, fireEvent, render, screen } from '@testing-library/react';
 import { afterEach, describe, expect, it } from 'vitest';
-import { PrinterBody, StampsBody, StatuesBody, VaultBody } from '../src/systems/NewPictures';
+import { StampsBody, StatuesBody, VaultBody } from '../src/systems/NewPictures';
 import { SYSTEM_PAGES, type SystemPageBodyProps } from '../src/systems/pages';
-import { TrappingBody } from '../src/systems/SlotPictures';
+import { printerSections } from '../src/systems/w23/printer';
+import { trappingSections } from '../src/systems/w23/worship';
 import { noAxeViolations } from './helpers/views';
 
 afterEach(() => cleanup());
@@ -203,9 +204,8 @@ const props = (pics: unknown[], highlight: string | null = null) =>
   }) as unknown as SystemPageBodyProps;
 
 describe('US-12 the new System pictures in the DOM', () => {
-  it('registers the four page bodies', () => {
-    for (const id of ['stamps', 'statues', 'upgrade-vault', 'printer'])
-      expect(SYSTEM_PAGES[id]).toBeDefined();
+  it('registers the three page bodies', () => {
+    for (const id of ['stamps', 'statues', 'upgrade-vault']) expect(SYSTEM_PAGES[id]).toBeDefined();
   });
 
   it('Stamps: one lit stamp, labels on the lit and the next three only, a tap sheet that Esc closes', async () => {
@@ -251,13 +251,14 @@ describe('US-12 the new System pictures in the DOM', () => {
     expect(lit[0]?.textContent).toContain('50k coins');
   });
 
-  it('Printer: exactly one changed slot, every other slot reads "no change"', () => {
-    const { container } = render(<PrinterBody {...props([printer])} />);
-    expect(container.querySelectorAll('.sy-printer .is-now')).toHaveLength(1);
-    const notes = [...container.querySelectorAll('.sy-pslot__note')].map((n) => n.textContent);
-    expect(notes).toEqual(['Take a Megalodon Tooth sample', 'no change', 'no change']);
-    expect(container.querySelector('.sy-pslot.is-now')?.textContent).toContain('Forest Fibres');
-    expect(container.querySelector('.sy-pslot.is-now')?.textContent).toContain('Megalodon Tooth');
+  it("Printer (M24 Printing tab): exactly one lit slot, with M14's change line", () => {
+    const tab = printerSections(props([printer], 'printer.check.slot-plan@account'))?.tabs[0];
+    const { container } = render(tab?.render());
+    expect(container.querySelectorAll('.w23-sample.is-now')).toHaveLength(1);
+    expect(container.querySelector('.w23-sample.is-now')?.textContent).toContain('Forest Fibres');
+    expect(container.querySelector('.w23-sample.is-now')?.textContent).toContain(
+      'Take a Megalodon Tooth sample',
+    );
   });
 
   it('G6: a "See it" highlight moves the light to its element', () => {
@@ -267,11 +268,11 @@ describe('US-12 the new System pictures in the DOM', () => {
     expect(container.querySelector('.sy-vault .is-now')?.textContent).toContain('Sleepy Time');
   });
 
-  it('G7 Trapping: one row per character, "Ready to collect" lit once on the first trap done before the return', () => {
-    const { container } = render(<TrappingBody {...props([traps])} />);
-    expect(container.querySelectorAll('.sy-traprow')).toHaveLength(2);
-    expect(container.querySelectorAll('.sy-traps .is-now')).toHaveLength(1);
-    expect(container.querySelector('.sy-traps .is-now')?.textContent).toBe('Ready to collect');
-    expect(container.textContent).toContain('1 of 2 done before you are back');
+  it('Trapping (M24 Traps tab): one lane per character, traps done before the return marked idle', () => {
+    const tab = trappingSections(props([traps]))?.tabs[0];
+    const { container } = render(tab?.render());
+    expect(container.querySelectorAll('.w23-lane')).toHaveLength(2);
+    expect(container.querySelectorAll('.w23-trap.is-idle')).toHaveLength(2);
+    expect(container.querySelectorAll('.w23-trap')).toHaveLength(3);
   });
 });

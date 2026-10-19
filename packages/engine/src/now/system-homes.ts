@@ -47,6 +47,10 @@ export const SYSTEM_HOMES: Readonly<Record<string, SystemHome>> = {
   lab: { page: 'laboratory' },
   cooking: { page: 'cooking' },
   breeding: { page: 'breeding' },
+  // M24: the World 3 pages drawn from the save's facts (pictures/w23.ts; apps/activeon/src/systems/w23/).
+  refinery: { page: 'refinery' },
+  prayers: { page: 'prayers' },
+  shrines: { page: 'shrines' },
 };
 
 /** The Character page tab a System's home is, or null for its System page. */

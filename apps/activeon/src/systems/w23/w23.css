@@ -1,0 +1,421 @@
+/* SPDX-License-Identifier: GPL-3.0-only */
+/* M24 the World 2 and 3 System page sections (kit.tsx and its pages). Field Guide tokens only (ao.css's
+   s1/s2/s3 are --surface/--sunk/--line-strong here). Colour means one thing: coral losing now, gold do it,
+   mint done or fine, sky a timer, grey later. Hierarchy from tonal steps and hairlines, never a border,
+   ring or stripe on a container (surface-guard.test.ts). 22 px pixel heads; numbers in Atkinson. */
+
+.w-sections,
+.w-body {
+  container-type: inline-size;
+  display: grid;
+  gap: var(--space-6);
+  min-width: 0;
+}
+.w-sections {
+  gap: var(--space-5);
+}
+.w-badge {
+  padding: 1px 6px;
+  border-radius: var(--radius-xs);
+  background: var(--raised);
+  color: var(--fg2);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-bold);
+}
+
+/* Type */
+.w-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-1) var(--space-4);
+}
+.w-note,
+.w-mut {
+  color: var(--muted);
+  font-size: var(--text-sm);
+}
+.w-mut2 {
+  color: var(--fg2);
+}
+.w-sm {
+  font-size: var(--text-sm);
+}
+.w-xs {
+  font-size: var(--text-xs);
+}
+.w-b {
+  font-weight: var(--weight-bold);
+}
+.w-p {
+  margin: 0;
+  color: var(--muted);
+  font-size: var(--text-sm);
+  line-height: var(--lh-body);
+}
+.w-big {
+  font-size: var(--text-3xl);
+  font-weight: var(--weight-bold);
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+.w-big__u {
+  color: var(--muted);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+}
+.w-t--gold {
+  color: var(--accent);
+}
+.w-t--coral {
+  color: var(--bad);
+}
+.w-t--mint {
+  color: var(--ok);
+}
+.w-t--sky {
+  color: var(--info);
+}
+.w-t--mut {
+  color: var(--muted);
+}
+
+/* Layout */
+.w-stack {
+  display: grid;
+  gap: var(--space-3);
+  align-content: start;
+  min-width: 0;
+}
+.w-stack--8 {
+  gap: var(--space-2);
+}
+.w-stack--4 {
+  gap: var(--space-1);
+}
+.w-stack--24 {
+  gap: var(--space-6);
+}
+.w-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2) var(--space-3);
+  min-width: 0;
+}
+.w-row--between {
+  justify-content: space-between;
+}
+.w-grow {
+  flex: 1;
+  min-width: 0;
+}
+.w-split {
+  display: grid;
+  gap: var(--space-6);
+  min-width: 0;
+}
+.w-split__main,
+.w-split__aside {
+  display: grid;
+  gap: var(--space-6);
+  align-content: start;
+  min-width: 0;
+}
+@container (min-width: 860px) {
+  .w-split {
+    grid-template-columns: minmax(0, 1fr) 300px;
+    gap: var(--space-8);
+  }
+}
+.w-grid {
+  display: grid;
+  gap: var(--space-3);
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  min-width: 0;
+}
+.w-grid--4 {
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+}
+.w-grid--3 {
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: var(--space-2);
+}
+
+/* Surfaces: the shared .a-tile / .a-tile2 tonal steps (atoms.css), laid out as a stack here */
+.w-tile {
+  display: grid;
+  gap: var(--space-3);
+  align-content: start;
+  min-width: 0;
+}
+.w-tile2 {
+  display: grid;
+  gap: var(--space-2);
+  min-width: 0;
+}
+/* The one element to act on: a warm tonal fill, never a ring. */
+.w-tile.is-now,
+.w-tile2.is-now {
+  background: var(--accent-soft);
+}
+.w-tile.is-done {
+  background: var(--ok-soft);
+}
+.w-tile.is-later {
+  opacity: 0.72;
+}
+.w-foot {
+  padding-top: var(--space-3);
+  box-shadow: 0 -1px 0 var(--line);
+}
+.w-hair {
+  display: grid;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.w-hair > * + * {
+  box-shadow: 0 -1px 0 var(--line);
+}
+.w-li {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  min-width: 0;
+  padding: var(--space-3) 0;
+}
+.w-plain {
+  display: grid;
+  gap: var(--space-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.w-who {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  min-width: 0;
+}
+.w-who-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2) var(--space-4);
+}
+
+/* A monogram square for an item without a sprite ("FP" Floof Ploof). */
+.w-mono {
+  display: grid;
+  flex: none;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  background: var(--sunk);
+  color: var(--fg);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-bold);
+}
+.w-icon {
+  display: grid;
+  flex: none;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  background: var(--sunk);
+}
+
+.w-link {
+  color: var(--accent);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+}
+.w-link:hover {
+  text-decoration: underline;
+}
+button.w-link {
+  min-height: var(--tap-min);
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+  text-align: left;
+}
+
+/* Construction */
+.w23-board.sy-cog__board {
+  gap: 4px;
+  max-width: 576px;
+}
+.w23-rates {
+  gap: var(--space-6);
+}
+
+/* Worship: a tank per character, filled from the bottom (a game drawing, no ring) */
+.w23-tanks {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(96px, 1fr));
+  gap: var(--space-3);
+  align-items: start;
+}
+.w23-tank .w-who {
+  font-size: var(--text-xs);
+  white-space: nowrap;
+}
+.w23-tank {
+  display: grid;
+  justify-items: center;
+  gap: var(--space-1);
+  text-align: center;
+}
+.w23-tank__g {
+  position: relative;
+  display: block;
+  width: 56px;
+  height: 160px;
+  background: var(--sunk);
+}
+.w23-tank__g > i {
+  position: absolute;
+  inset: auto 0 0 0;
+  height: var(--pct, 0%);
+  background: var(--info);
+}
+.w23-tank__g.is-full > i {
+  background: var(--accent);
+}
+.w23-totem__bar {
+  flex: 0 1 200px;
+  min-width: 80px;
+}
+
+/* Trapping: one lane per character, now -> span, a blue line at the return */
+.w23-lanes {
+  display: grid;
+  grid-template-columns: minmax(110px, 150px) minmax(0, 1fr);
+  gap: var(--space-2) var(--space-4);
+  align-items: center;
+}
+.w23-lane-row {
+  display: contents;
+}
+.w23-ticks {
+  display: flex;
+  justify-content: space-between;
+}
+.w23-lane {
+  position: relative;
+  display: grid;
+  gap: 2px;
+  align-content: center;
+  min-height: 36px;
+  padding: 6px 0;
+  background: var(--surface);
+}
+.w23-lane::after {
+  content: "";
+  position: absolute;
+  top: -4px;
+  bottom: -4px;
+  left: var(--back, 100%);
+  width: 2px;
+  background: var(--info);
+}
+.w23-lane > .w23-trap {
+  display: block;
+  width: var(--end, 0%);
+  height: 6px;
+  background: var(--ok);
+}
+.w23-lane > .w23-trap.is-idle {
+  background: var(--accent);
+}
+.w23-lane__empty {
+  padding-left: var(--space-3);
+}
+.w23-backline {
+  margin: 0;
+}
+@media (max-width: 560px) {
+  .w23-lanes {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .w23-lanes > span:first-child {
+    display: none;
+  }
+}
+
+/* 3D Printer */
+.w23-print {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-3) var(--space-4);
+}
+.w23-print + .w23-print {
+  margin-top: var(--space-2);
+}
+.w23-print__who {
+  flex: 0 0 160px;
+}
+.w23-sample {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-width: 160px;
+}
+
+/* Armor-set Smithy: one square per part, filled by where it is (worn, held, missing) */
+.w23-parts {
+  gap: 4px;
+}
+.w23-part {
+  display: block;
+  width: 28px;
+  height: 28px;
+  background: var(--bg);
+}
+.w23-part--worn {
+  background: var(--ok);
+}
+.w23-part--held {
+  background: var(--accent);
+}
+.w23-part--key {
+  width: 14px;
+  height: 14px;
+}
+.w23-part--key.w23-part--missing {
+  background: var(--sunk);
+}
+
+/* Refinery */
+.w23-salt {
+  padding: 22px var(--space-6);
+}
+.w23-fuel {
+  min-width: 140px;
+}
+
+/* Prayers and Shrines */
+.w23-zones {
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: var(--space-6) var(--space-8);
+}
+.w23-dim {
+  opacity: 0.8;
+}
+.w23-shrine {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+.w-row.w-plain {
+  display: flex;
+}
+.w23-zones .a-tag {
+  justify-content: center;
+  min-width: 68px;
+}

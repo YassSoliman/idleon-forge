@@ -25,6 +25,7 @@ import { killroyWeeks, randomEventSchedule } from './resets';
 import { shopStockAll } from './shop-stock';
 import { stampEvaluations, vaultLadders } from './spend';
 import { presetSubject, talentPointTerms } from './talent-points';
+import { shrineBonuses } from './w23';
 
 export const toolboxCalls = {
   /** Toolbox damage, hit chance, survivability and kill rates for one character (vendor/parsers/damage.ts). */
@@ -98,4 +99,6 @@ export const toolboxCalls = {
   // M24 World 4: the Lab shop's weekly chips and jewel, seeded by the save's week (read-only pages).
   /** Toolbox `getChipsAndJewels(account, weeks)`: `{ items: [chip, chip, jewel], date }` per week from the save's. */
   getChipsAndJewels: (account: unknown, weeks: number): unknown => getChipsAndJewels(account, weeks),
+  // M24 the World 3 System pages: the shrine bonus table.
+  shrineBonuses,
 };

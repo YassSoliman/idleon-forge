@@ -12,4 +12,5 @@ export { buildSystemsHubView } from './hub-view';
 export type { FrameTone, SystemFrameView } from './page-view';
 export { buildSystemPageFrameView, picturesOf } from './page-view';
 export type * from './types';
+export type * from './w23-types';
 export * from './words';
