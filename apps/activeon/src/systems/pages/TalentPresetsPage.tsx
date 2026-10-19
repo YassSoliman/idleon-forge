@@ -7,7 +7,7 @@ import type { BuildPresetView, BuildRoadmap } from '@idleon-forge/engine/result'
 import { PRESETS_PAGE_WORDS as W } from '@idleon-forge/engine/systems-ui';
 import { WhoGlyph } from '../../design/who/WhoGlyph';
 import { tabHref } from '../../now/character-tabs';
-import { ChecksTile, StepsSection } from '../frame/SimplePage';
+import { StepsSection } from '../frame/SimplePage';
 import { type FrameAnswer, frameAnswer, Pip, SystemFrame } from '../frame/SystemFrame';
 import type { FullPageProps } from '../pages';
 import './pages.css';
@@ -138,7 +138,6 @@ export default function TalentPresetsPage({ s, page }: FullPageProps) {
                     ))}
                   </ul>
                 </section>
-                <ChecksTile s={s} page={page} />
               </aside>
             </div>
           ),

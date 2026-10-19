@@ -231,4 +231,24 @@ describe('M24 the Systems index, the page template and the Anvil page', () => {
     // No character clears the respec Goal's 25% at 8 h, so no Whetstone order.
     expect(a?.whetstone).toEqual([]);
   });
+  it('World 4 read-only pages (isWorld4ReadOnly): a sky "read-only" tile and header, no answer of its own', () => {
+    const W4 = ['lab', 'cooking', 'breeding'];
+    const r = {
+      ...W3,
+      systems: (W3.systems ?? []).map((x) => (W4.includes(x.id) ? { ...x, unlocked: 'yes' as const } : x)),
+      world4: { ...(W3.world4 ?? {}), readOnlyPages: W4 },
+    } as EngineResult;
+    const h = buildSystemsHubView(r, EMPTY_PREFS, { now }, buildSystemsView(r, EMPTY_PREFS, { now })).index;
+    const lab = h.worlds.flatMap((w) => w.tiles).find((t) => t.id === 'lab');
+    expect(lab).toMatchObject({ readOnly: true, tone: 'readonly', sub: 'read-only' });
+    expect(h.counts.notCovered).toBe(ix.counts.notCovered);
+    const page = buildSystemPageFrameView(
+      r,
+      EMPTY_PREFS,
+      { roster: [] },
+      { now, id: 'lab', highlight: null },
+    );
+    expect(page?.frame.readOnly).toBe(true);
+    expect(page?.frame.status).toEqual({ tone: 'sky', word: 'Read-only', reason: 'no checks yet' });
+  });
 });

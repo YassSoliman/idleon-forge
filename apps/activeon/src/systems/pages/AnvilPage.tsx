@@ -7,7 +7,7 @@
 import { ANVIL_PAGE_HOURS, buildAnvilPageView, ANVIL_WORDS as W } from '@idleon-forge/engine/systems-ui';
 import { useMemo, useState } from 'react';
 import { WhoGlyph } from '../../design/who/WhoGlyph';
-import { ChecksTile, SimplePage, StepsSection } from '../frame/SimplePage';
+import { SimplePage, StepsSection } from '../frame/SimplePage';
 import { type FrameAnswer, frameAnswer, SystemFrame } from '../frame/SystemFrame';
 import type { FullPageProps } from '../pages';
 import './pages.css';
@@ -212,7 +212,6 @@ export default function AnvilPage({ s, page }: FullPageProps) {
                   )}
                   <p className="sf-hint">{v.noExp ? W.noExp : W.hasExp}</p>
                 </section>
-                <ChecksTile s={s} page={page} />
               </aside>
             </div>
           ),

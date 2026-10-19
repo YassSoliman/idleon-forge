@@ -6,7 +6,7 @@
 import { shortDuration } from '@idleon-forge/engine/now';
 import { MINIGAMES_PAGE_WORDS as W } from '@idleon-forge/engine/systems-ui';
 import { Sprite } from '../../art/sprites/Sprite';
-import { ChecksTile, SimplePage, StepsSection } from '../frame/SimplePage';
+import { SimplePage, StepsSection } from '../frame/SimplePage';
 import { type FrameAnswer, type FrameTone, frameAnswer, Pip, SystemFrame } from '../frame/SystemFrame';
 import type { FullPageProps } from '../pages';
 import './pages.css';
@@ -105,12 +105,11 @@ export default function MinigamesPage({ s, page }: FullPageProps) {
                   </li>
                 ))}
               </ul>
-              <div className="sf-split">
+              <div className="sf-col">
                 <div className="sf-col">
                   {order}
                   <StepsSection page={page} quiet />
                 </div>
-                <ChecksTile s={s} page={page} />
               </div>
             </>
           ),

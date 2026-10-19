@@ -16,6 +16,7 @@ import {
 } from '@idleon-forge/engine/now';
 import { STAGES } from '@idleon-forge/knowledge/stages';
 import type { EngineResult, SystemPicture } from '../result';
+import { isWorld4ReadOnly } from '../world4';
 import { isStage, readPrefs, type SystemStepView, stageLabel, whoToken } from './hub-view';
 import { FRAME_WORDS, PAGE_FRAME_WORDS as W } from './words';
 
@@ -42,6 +43,8 @@ export interface SystemFrameView {
   checks: { title: string; tone: FrameTone; word: string }[];
   /** "Checks: …" for the footer line. */
   checksLine: string;
+  /** A read-only World 4 page (`isWorld4ReadOnly`): its body draws its own answer, so the template doesn't. */
+  readOnly: boolean;
 }
 
 const indexOfSubject = (subject: string): number | null =>
@@ -115,8 +118,10 @@ export function frameOf(
     .join(REASON_WORDS.sep);
   const checksCount = page.coverage.checks.length;
   const todo = page.goals.length > 0;
-  const status: SystemFrameView['status'] =
-    tile.status === 'wasting'
+  const readOnly = tile.status === 'not-covered' && isWorld4ReadOnly(result, tile.id);
+  const status: SystemFrameView['status'] = readOnly
+    ? { tone: 'sky', word: W.status.readOnly, reason: W.status.readOnlyReason }
+    : tile.status === 'wasting'
       ? { tone: 'coral', word: W.status.wasting, reason }
       : tile.status === 'behind'
         ? { tone: 'gold', word: W.status.behind(world), reason }
@@ -170,6 +175,7 @@ export function frameOf(
       who: labelOf(result, subjectIndex(g.subject)),
     })),
     checks,
+    readOnly,
     checksLine: W.checksLine(
       [...page.coverage.checks]
         .sort((a, b) => Number(b.state === 'see-above') - Number(a.state === 'see-above'))

@@ -6,7 +6,7 @@
 import { formatCoins } from '@idleon-forge/engine/now';
 import { STATUE_WORDS, type StatuesPicture, STATUES_PAGE_WORDS as W } from '@idleon-forge/engine/systems-ui';
 import { WhoGlyph } from '../../design/who/WhoGlyph';
-import { ChecksTile, SimplePage } from '../frame/SimplePage';
+import { SimplePage } from '../frame/SimplePage';
 import { type FrameAnswer, frameAnswer, Pip, SystemFrame } from '../frame/SystemFrame';
 import type { FullPageProps } from '../pages';
 import './pages.css';
@@ -123,7 +123,6 @@ export default function StatuesPage({ s, page }: FullPageProps) {
                     <p className="sf-hint">{W.perCharacter}</p>
                   </section>
                 ) : null}
-                <ChecksTile s={s} page={page} />
               </aside>
             </div>
           ),

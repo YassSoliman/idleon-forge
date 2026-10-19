@@ -11,7 +11,7 @@ import {
   type StampTile,
   STAMPS_PAGE_WORDS as W,
 } from '@idleon-forge/engine/systems-ui';
-import { ChecksTile, SimplePage, SpendSection, StepsSection } from '../frame/SimplePage';
+import { SimplePage, SpendSection, StepsSection } from '../frame/SimplePage';
 import { type FrameAnswer, frameAnswer, SystemFrame } from '../frame/SystemFrame';
 import { StampsBody } from '../NewPictures';
 import type { FullPageProps } from '../pages';
@@ -130,7 +130,6 @@ export default function StampsPage({ s, page }: FullPageProps) {
                     <SpendSection s={s} page={page} title={W.levelInPlan} />
                   </div>
                 ) : null}
-                <ChecksTile s={s} page={page} />
               </aside>
             </div>
           ),

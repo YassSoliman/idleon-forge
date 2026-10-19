@@ -10,7 +10,7 @@ import {
   type VaultPicture,
   VAULT_PAGE_WORDS as W,
 } from '@idleon-forge/engine/systems-ui';
-import { ChecksTile, SimplePage, SpendSection, StepsSection } from '../frame/SimplePage';
+import { SimplePage, SpendSection, StepsSection } from '../frame/SimplePage';
 import { type FrameAnswer, frameAnswer, SystemFrame } from '../frame/SystemFrame';
 import { VaultBody } from '../NewPictures';
 import type { FullPageProps } from '../pages';
@@ -152,7 +152,6 @@ export default function VaultPage({ s, page }: FullPageProps) {
               <aside className="sf-col">
                 <SpendSection s={s} page={page} title={W.inPlan} />
                 {page.spendLines.length > 0 ? <p className="sf-hint">{W.cheapest}</p> : null}
-                <ChecksTile s={s} page={page} />
               </aside>
             </div>
           ),

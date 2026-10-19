@@ -19,6 +19,7 @@ import {
 } from '@idleon-forge/engine/now';
 import { STAGE_DEFINITIONS, STAGES, type StageId } from '@idleon-forge/knowledge/stages';
 import type { ClassFamily, EngineResult, Goal, SystemPicture } from '../result';
+import { isWorld4ReadOnly } from '../world4';
 import { BAND_WORDS, INDEX_WORDS, REPORT_WORDS } from './words';
 
 const NEW_KINDS: ReadonlySet<string> = new Set(['stamps', 'statues', 'vault', 'printer']);
@@ -146,7 +147,7 @@ export interface SystemsHubExtras {
 }
 
 /** M24: how a tile reads on the index: its pip tone and its open count. */
-export type IndexTone = 'wasting' | 'todo' | 'ok' | 'off';
+export type IndexTone = 'wasting' | 'todo' | 'ok' | 'off' | 'readonly';
 export interface IndexTileView {
   id: string;
   name: string;
@@ -159,6 +160,8 @@ export interface IndexTileView {
   accessibleName: string;
   /** M24 filters: wasting or behind. */
   needsYou: boolean;
+  /** A read-only World 4 page (`isWorld4ReadOnly`): a page to open, not "not covered yet". */
+  readOnly: boolean;
 }
 export interface SystemsIndexView {
   /** "57 Systems · 2 wasting · 5 behind for World 3 · 11 not covered yet · 3 locked". */
@@ -262,7 +265,8 @@ function indexOf(
   const n = (f: (t: TileView) => boolean) => tiles.filter(f).length;
   const wastingN = n((t) => t.status === 'wasting');
   const behindN = n((t) => t.status === 'behind');
-  const notCoveredN = n((t) => t.status === 'not-covered');
+  const readOnly = (t: TileView) => isWorld4ReadOnly(result, t.id);
+  const notCoveredN = n((t) => t.status === 'not-covered' && !readOnly(t));
   const lockedN = n((t) => t.status === 'locked');
   const summary = [
     INDEX_WORDS.systems(tiles.length),
@@ -305,15 +309,17 @@ function indexOf(
   });
   const tileView = (t: TileView): IndexTileView => {
     const open = t.counts.toFix + (t.counts.toDo ?? 0);
+    const ro = readOnly(t) && t.status === 'not-covered';
     return {
       id: t.id,
       name: t.name,
       status: t.status,
-      tone: toneOf(t),
+      tone: ro ? 'readonly' : toneOf(t),
       count: open > 0 ? open : null,
-      sub: INDEX_WORDS.tileSub[t.status] ?? null,
-      accessibleName: t.accessibleName,
+      sub: ro ? INDEX_WORDS.readOnly : (INDEX_WORDS.tileSub[t.status] ?? null),
+      accessibleName: ro ? `${t.name}, ${INDEX_WORDS.readOnlyName}` : t.accessibleName,
       needsYou: t.status === 'wasting' || t.status === 'behind',
+      readOnly: ro,
     };
   };
   const worlds = groups.map((g) => {
@@ -328,8 +334,9 @@ function indexOf(
       sub: INDEX_WORDS.worldSub(
         g.tiles.length,
         g.tiles.filter((t) => t.status === 'wasting' || t.status === 'behind').length,
-        g.tiles.filter((t) => t.status === 'not-covered').length,
+        g.tiles.filter((t) => t.status === 'not-covered' && !readOnly(t)).length,
         locked.length,
+        g.tiles.filter((t) => t.status === 'not-covered' && readOnly(t)).length,
       ),
       how: unlock?.text ?? null,
       tiles: g.tiles.map(tileView),

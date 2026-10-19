@@ -300,9 +300,25 @@ export function SimplePage({ s, page, body }: { s: Session; page: FullPage; body
         reason: page.frame.status.reason || null,
       }
     : undefined;
+  // A read-only World 4 body draws its own frame (one per screen), so the template draws none.
+  const frameAnswer = page.frame.readOnly ? { answer: null } : answer ? { answer } : {};
+  // A page body with no Next Actions has no side column: its checks and Sources are the footer line.
+  if (body) {
+    const hasSteps = page.goals.length > 0 || page.skippedKeys.length > 0 || page.dismissed.length > 0;
+    return (
+      <SystemFrame s={s} page={page} {...frameAnswer} {...(status ? { status } : {})}>
+        <div className="sf-col">{body}</div>
+        {hasSteps ? (
+          <div className="sf-col">
+            <StepsSection page={page} />
+            <ExtrasSections s={s} page={page} />
+          </div>
+        ) : null}
+      </SystemFrame>
+    );
+  }
   return (
-    <SystemFrame s={s} page={page} {...(answer ? { answer } : {})} {...(status ? { status } : {})}>
-      {body ? <div className="sf-col">{body}</div> : null}
+    <SystemFrame s={s} page={page} {...frameAnswer} {...(status ? { status } : {})}>
       <div className="sf-split">
         <div className="sf-col">
           {blurb ? (

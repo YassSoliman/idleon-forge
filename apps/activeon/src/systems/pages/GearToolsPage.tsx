@@ -10,7 +10,7 @@ import { Sprite } from '../../art/sprites/Sprite';
 import { WhoGlyph } from '../../design/who/WhoGlyph';
 import { GearPageBody } from '../../gear/GearPages';
 import { formatRoute } from '../../shell/route';
-import { ChecksTile, SimplePage, StepsSection } from '../frame/SimplePage';
+import { SimplePage, StepsSection } from '../frame/SimplePage';
 import { type FrameAnswer, frameAnswer, SystemFrame } from '../frame/SystemFrame';
 import type { FullPageProps } from '../pages';
 import './pages.css';
@@ -133,7 +133,6 @@ export default function GearToolsPage({ s, page }: FullPageProps) {
                     </a>
                   </section>
                 ) : null}
-                <ChecksTile s={s} page={page} />
               </aside>
             </div>
           ),

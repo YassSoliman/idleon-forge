@@ -40,9 +40,9 @@ const keep = (f: Filter) => (t: IndexTileView) =>
     : f === 'needs'
       ? t.needsYou
       : f === 'notCovered'
-        ? t.status === 'not-covered'
+        ? t.status === 'not-covered' && !t.readOnly
         : t.status === 'locked';
-const PIP = { wasting: 'coral', todo: 'gold', ok: 'mint', off: 'mut' } as const;
+const PIP = { wasting: 'coral', todo: 'gold', ok: 'mint', off: 'mut', readonly: 'sky' } as const;
 
 function Tile({ t, s }: { t: IndexTileView; s: Session }) {
   const off = t.tone === 'off';
@@ -283,6 +283,7 @@ export function SystemsHub({ s }: { s: Session }) {
                     sub: INDEX_WORDS.tileSub[t.status] ?? null,
                     accessibleName: t.accessibleName,
                     needsYou: false,
+                    readOnly: false,
                   }}
                   s={s}
                 />
@@ -321,6 +322,12 @@ export function SystemsHub({ s }: { s: Session }) {
             <Pip tone="mut" />
             {INDEX_WORDS.legend.notCovered}
           </span>
+          {ix.worlds.some((w) => w.tiles.some((t) => t.readOnly)) ? (
+            <span>
+              <Pip tone="sky" />
+              {INDEX_WORDS.legend.readOnly}
+            </span>
+          ) : null}
           <span>
             <svg width="10" height="10" viewBox="0 0 6 6" shapeRendering="crispEdges" aria-hidden="true">
               <rect x="1" y="0" width="4" height="1" fill="currentColor" />

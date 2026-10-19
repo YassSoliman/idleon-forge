@@ -148,17 +148,21 @@ export const INDEX_WORDS = {
   allTitle: 'All Systems',
   filterLabel: 'Filter',
   filters: { needs: 'Needs you', all: 'All', notCovered: 'Not covered yet', locked: 'Locked' },
-  worldSub: (systems: number, need: number, notCovered: number, locked: number) =>
+  worldSub: (systems: number, need: number, notCovered: number, locked: number, readOnly = 0) =>
     [
       `${systems} ${systems === 1 ? 'System' : 'Systems'}`,
       locked > 0 && locked === systems ? 'all locked' : null,
+      readOnly > 0 && readOnly === systems ? 'read-only, no checks yet' : null,
       need > 0 ? `${need} ${need === 1 ? 'needs' : 'need'} you` : null,
       notCovered > 0 ? `${notCovered} not covered` : null,
+      readOnly > 0 && readOnly < systems ? `${readOnly} read-only` : null,
       locked > 0 && locked < systems ? `${locked} locked` : null,
     ]
       .filter(Boolean)
       .join(' · '),
   seeOnMap: 'See it on the Map',
+  readOnly: 'read-only',
+  readOnlyName: 'Read-only, no checks yet',
   tileSub: { 'not-covered': 'not covered yet', locked: 'locked', 'cant-tell': "can't tell" } as Readonly<
     Record<string, string>
   >,
@@ -168,6 +172,7 @@ export const INDEX_WORDS = {
     ok: 'nothing to fix',
     notCovered: 'not covered yet',
     locked: 'locked',
+    readOnly: 'read-only, no checks yet',
   },
   nothingHere: 'Nothing here with this filter.',
   moreWasting: (n: number) => `${n} more wasting`,
@@ -186,6 +191,8 @@ export const PAGE_FRAME_WORDS = {
     notCovered: 'Not covered yet',
     locked: 'Locked',
     cantTell: "Can't tell",
+    readOnly: 'Read-only',
+    readOnlyReason: 'no checks yet',
   },
   cap: {
     wasting: 'Fix before you leave',

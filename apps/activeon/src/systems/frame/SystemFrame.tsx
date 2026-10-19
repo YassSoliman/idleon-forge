@@ -60,8 +60,8 @@ export interface FramePage {
 export interface SystemFrameProps {
   s: Session;
   page: FramePage;
-  /** Replaces the engine's default answer (`page.frame.answer`). */
-  answer?: FrameAnswer;
+  /** Replaces the engine's default answer (`page.frame.answer`); null when the body draws its own frame. */
+  answer?: FrameAnswer | null;
   /** Replaces the header's status line. */
   status?: { tone: FrameTone; word: string; reason?: string | null };
   /** The page's sections as tabs; without tabs, `children` is the page body. */
@@ -129,7 +129,7 @@ export function SystemFrame({
         </div>
       </header>
 
-      <Answer answer={answer} />
+      {answer ? <Answer answer={answer} /> : null}
 
       {tabs && tabs.length > 1 ? (
         <Tabs name={tile.name} tabs={tabs} initial={initialTab} />
@@ -139,26 +139,29 @@ export function SystemFrame({
         <div className="sf-body">{children}</div>
       )}
 
-      {/* Rule 8: the page's checks and Sources are the one-line footer's left half (shell/page-sources). */}
-      <PageSources>
-        <span className="sf-foot">
-          <span>{checksLine}</span>
-          {page.wiki ? (
-            <>
-              <span aria-hidden="true"> · </span>
-              <a href={page.wiki} target="_blank" rel="noopener noreferrer">
-                {PAGE_FRAME_WORDS.wiki(wikiName(page.wiki, tile.name))}
-              </a>
-            </>
-          ) : null}
-          {toolbox ? (
-            <>
-              <span aria-hidden="true"> · </span>
-              <span>{PAGE_FRAME_WORDS.toolbox(toolbox)}</span>
-            </>
-          ) : null}
-        </span>
-      </PageSources>
+      {/* Rule 8: the page's checks and Sources are the one-line footer's left half (shell/page-sources).
+          A read-only World 4 body writes its own Source line there (world4/parts.tsx SourceLine). */}
+      {page.frame.readOnly ? null : (
+        <PageSources>
+          <span className="sf-foot">
+            <span>{checksLine}</span>
+            {page.wiki ? (
+              <>
+                <span aria-hidden="true"> · </span>
+                <a href={page.wiki} target="_blank" rel="noopener noreferrer">
+                  {PAGE_FRAME_WORDS.wiki(wikiName(page.wiki, tile.name))}
+                </a>
+              </>
+            ) : null}
+            {toolbox ? (
+              <>
+                <span aria-hidden="true"> · </span>
+                <span>{PAGE_FRAME_WORDS.toolbox(toolbox)}</span>
+              </>
+            ) : null}
+          </span>
+        </PageSources>
+      )}
     </article>
   );
 }

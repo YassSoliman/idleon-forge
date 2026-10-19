@@ -6,7 +6,7 @@
 import { SIGNS_PAGE_WORDS as W } from '@idleon-forge/engine/systems-ui';
 import { Sprite } from '../../art/sprites/Sprite';
 import { WhoGlyph } from '../../design/who/WhoGlyph';
-import { ChecksTile, SimplePage, StepsSection } from '../frame/SimplePage';
+import { SimplePage, StepsSection } from '../frame/SimplePage';
 import { frameAnswer, SystemFrame } from '../frame/SystemFrame';
 import type { FullPageProps } from '../pages';
 import { StarSignsSystemBody } from '../StarChartPage';
@@ -71,7 +71,7 @@ export default function StarSignsPage({ s, page }: FullPageProps) {
           id: 'road',
           label: W.tabs.road,
           render: () => (
-            <div className="sf-split">
+            <div className="sf-col">
               <div className="sf-col">
                 <section className="sf-sec" aria-label={W.roadTitle}>
                   <ol className="sg-road">
@@ -95,7 +95,6 @@ export default function StarSignsPage({ s, page }: FullPageProps) {
                 </section>
                 <StepsSection page={page} quiet />
               </div>
-              <ChecksTile s={s} page={page} />
             </div>
           ),
         },
