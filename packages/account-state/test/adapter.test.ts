@@ -199,6 +199,7 @@ describe('toAccountState', () => {
       statues: null,
       prayers: null,
       shrines: null,
+      equinoxUnlocked: false,
       // M23 TR-2: no Bubba record (a save from before Bubba): null, and not unknown.
       bubba: null,
       // M24: no Lab, Cooking or Breeding record (a save from before World 4): null, and not unknown.

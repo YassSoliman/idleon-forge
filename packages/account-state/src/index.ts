@@ -270,7 +270,7 @@ export type {
   UnspentCharacterFields,
 } from './unspent-types';
 // M24 the World 3 System pages (prayers, shrines)
-export { prayersOf, shrinesOf } from './w23';
+export { EQUINOX_MIRROR, equinoxUnlockedOf, prayersOf, shrinesOf } from './w23';
 export type { PrayerInfo, ShrineInfo, W23AccountFields } from './w23-types';
 export { PRINTER, WALKTHROUGH_SKILLS } from './walkthrough';
 export type {

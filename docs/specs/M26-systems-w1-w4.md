@@ -565,6 +565,12 @@ golden.
   conf L). If V2 shows the game gates them, the change needs its own design: `packages/toolbox-parsers/src` cannot
   change `getMaxDamage` internals without mutating the account or re-implementing it, so it needs a written ADR 0005
   exemption first.
+  **Built 2026-10-19:** Breeding (egg bank vs time left, `started`, multiplier indices 3/5/7/10) in its own PR; Ballot
+  "Active now"; `account.equinoxUnlocked` (authored, Mirror held or a Dream Upgrade level; `first.json` reads false where
+  Toolbox says true); `FRONTIER_SECTIONS` + `friendBonusStats`, `gallery`, `hatRack`; the Choppin step gated on a point in
+  talent 463; the Killroy regression test. **Refinery Throttle: nothing to fix in Wave 0.** ActiveOn calls
+  `calcTimeToRankUp` with `includeSquireCycles: false` and has no Throttle reader, so the Toolbox `maxLevel` reading never
+  reaches a number; the Wave 5 Refinery adapter (FR-37) must use the effective talent level when it adds Throttle cycles.
 - **FR-9 Fresh W4 save and re-parse.** Before Wave 1 goldens: a fresh private save of the W4 test account (owner,
   minutes), and both private fixtures re-parsed at the pin. **Fallback:** if the fresh save is not in by the first
   Wave 1 golden PR, goldens are recorded on `first.json` (W4-entry), `fourth.json` and `highend.json` (past W4) and their

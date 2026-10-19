@@ -546,7 +546,7 @@ export function toAccountState(
     c,
   );
   // ---- M24 the World 3 System pages: prayers and shrines (read-only facts) ----
-  const w23 = readW23({ account, failedSections, calls: options.toolbox?.calls ?? null }, c);
+  const w23 = readW23({ account, data, failedSections, calls: options.toolbox?.calls ?? null }, c);
   // ---- M7 Spend Plan (M7 TR-2) ----
   const spend = readSpendInputs({
     parsed,

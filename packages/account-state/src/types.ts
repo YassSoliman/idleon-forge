@@ -68,6 +68,7 @@ export const SCHEMA_VERSION = 25;
 // Pending for the next release's one bump (M26 section 6: one bump per wave release, not per PR):
 //  - M26 Wave 0: `account.breeding.eggBankSeconds`, `.started`, and `.nextEggInSeconds` now an upper
 //    bound on time left (it was the banked time).
+//  - M26 Wave 0: `account.equinoxUnlocked` (authored reader, FR-8).
 
 /** The AFK types Toolbox's monster data uses, plus its two "no rate" values. */
 export const KNOWN_AFK_TYPES = [

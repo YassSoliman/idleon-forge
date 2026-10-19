@@ -172,8 +172,13 @@ export const FRONTIER_SECTIONS = [
   'dungeons',
   'equinox',
   'farming',
+  // M26 FR-8: getMaxDamage reads these too (misc.ts friend bonuses; damage.ts gearBonus has the gallery
+  // and the hat rack), so a failure in one of them can't feed a kill rate either.
+  'friendBonusStats',
+  'gallery',
   'grimoire',
   'guild',
+  'hatRack',
   'hole',
   'islands',
   'kangaroo',

@@ -1,4 +1,4 @@
-# golden v1: highend · knowledge #459d2744 · parser 6c37e3d (game 2.3.540) · now 2026-08-10T21:25:42.904Z · return 8h · stage W4-late · stale: 4 of 1030
+# golden v1: highend · knowledge #2fa8175b · parser 6c37e3d (game 2.3.540) · now 2026-08-10T21:25:42.904Z · return 8h · stage W4-late · stale: 4 of 1030
 
 ## Verdict changes
 
@@ -62,7 +62,7 @@ finding: Worship full on 7 · spend
   ○ To do: Guild weekly tasks · your weekly reset in 4d 0h
   ✓ Done: Killroy's rooms · Archer room: done · Archer room: done · Beginner room: done · your weekly reset in 4d 0h
   ✓ Done: Weekly Battle · best this week: difficulty 5 of 5 · new boss Thursday 00:00 UTC, in 2d 2h
-  ✓ Done: Bonus Ballot vote · Leading now: Boosts Artifact Find chance in Sailing by 3.41x · new ballot Monday about 17:00 UTC, in 6d 19h
+  ✓ Done: Bonus Ballot vote · Active now: Boosts Artifact Find chance in Sailing by 3.41x · new ballot Monday about 17:00 UTC, in 6d 19h
 - Spend · Claim the free pet pull: Claim your free pet pull at Doggy [IdleOn Wiki: Pets · Calculated by IdleOn Toolbox · 2.3.540]
 - Spend · Fill today's Post Office orders: Fill today's Post Office orders from storage [IdleOn Wiki: Post Office, orders · Calculated by IdleOn Toolbox · 2.3.540]
 - Spend · Play a round of Darts: Play one round of Darts [IdleOn Wiki: Minigames, Throwy Darts · Calculated by IdleOn Toolbox · 2.3.540]
