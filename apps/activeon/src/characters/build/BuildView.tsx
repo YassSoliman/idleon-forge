@@ -18,6 +18,7 @@ import { asOfLine, CHARACTERS_WORDS, leadTab, pathMarker } from '@idleon-forge/e
 import type { BuildRoadmapView } from '@idleon-forge/engine/now';
 import type { BuildPathStepView, BuildPresetView, BuildTabView } from '@idleon-forge/engine/result';
 import { createContext, type ReactNode, useContext, useMemo, useState } from 'react';
+import { classArtOf } from '../../art/game/class-art';
 import { GameIcon } from '../../art/game/GameIcon';
 import { talentArt } from '../../art/game/game-art';
 import { spriteOf } from '../../art/sprites';
@@ -111,6 +112,17 @@ export function monogram(label: string): string {
   const [a = '', b = ''] = words;
   if (/^\d/.test(a)) return a.slice(0, 2);
   return (b ? `${a[0] ?? ''}${b[0] ?? ''}` : a.slice(0, 2)).toUpperCase();
+}
+
+/**
+ * A talent tab's face: the game's icon for the class the tab belongs to ("Archer", "Hunter"), else our
+ * own tab sprite, else nothing.
+ */
+function TabFace({ tab, name }: { tab: number; name: string }) {
+  const kit = spriteOf(`talent-tab-${tab}`) ? (
+    <Sprite name={`talent-tab-${tab}`} size={16} decorative />
+  ) : null;
+  return <GameIcon art={classArtOf(name)} fallback={kit} size={16} decorative />;
 }
 
 /** A talent's face on its tone tile: the game's sprite (ADR 0009, 2026-10-19), else its monogram. */
@@ -687,9 +699,7 @@ function PresetBody({
                     setSel(null);
                   }}
                 >
-                  {spriteOf(`talent-tab-${t.tab}`) ? (
-                    <Sprite name={`talent-tab-${t.tab}`} size={16} decorative />
-                  ) : null}
+                  <TabFace tab={t.tab} name={t.name} />
                   {t.name}
                   {pointsOf(t) > 0 ? <span className="bd-segpts num">{n(pointsOf(t))}</span> : null}
                 </button>
@@ -808,9 +818,7 @@ function PlainBuild({ r }: { r: BuildRoadmapView }) {
         setPick(null);
       }}
     >
-      {t.tab > 0 && spriteOf(`talent-tab-${t.tab}`) ? (
-        <Sprite name={`talent-tab-${t.tab}`} size={16} decorative />
-      ) : null}
+      {t.tab > 0 ? <TabFace tab={t.tab} name={t.name} /> : null}
       {label}
     </button>
   );

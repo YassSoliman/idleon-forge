@@ -12,7 +12,10 @@
 import type { SkillGridView, SkillRowView } from '@idleon-forge/engine/now';
 import type { SlotPip } from '@idleon-forge/engine/result';
 import { useEffect, useRef, useState } from 'react';
-import { Sprite } from '../art/sprites/Sprite';
+import { skillArt } from '../art/game/class-art';
+import { GameIcon } from '../art/game/GameIcon';
+import { KitSprite } from '../art/game/KitSprite';
+import { systemGameArt } from '../art/game/system-art';
 import { Answer, GoalLink, pipTone, StepNo, type Tone, upper, useGoal } from '../characters/tabs/kit';
 import { PixelArt } from '../design/art/PixelArt';
 import { Meter, Pip } from '../design/atoms';
@@ -37,13 +40,17 @@ const STATE_WORDS: Record<SlotPip['state'], string> = {
   'not-covered': 'not covered yet',
 };
 
-const SLOT_SPRITE: Record<SlotPip['kind'], string> = {
-  cog: 'skill-construction',
-  worship: 'skill-worship',
-  trap: 'skill-trapping',
-  cauldron: 'sys-alchemy',
-  printer: 'sys-printer',
+/** The System each Parallel Slot belongs to: its game sprite (SYSTEM_ART), our own as the fallback. */
+const SLOT_SYSTEM: Record<SlotPip['kind'], string> = {
+  cog: 'construction',
+  worship: 'worship',
+  trap: 'trapping',
+  cauldron: 'alchemy',
+  printer: 'printer',
 };
+/** Our own sprite for a skill, drawn when its game icon is missing. */
+const fallbackSkill = (skill: string) => `skill-${skill}`;
+const fallbackSkills = 'sys-skills';
 /** The Parallel Slot a skill trains in (M20 FR-35), for "step 1 above opens it". */
 const SLOT_OF_SKILL: Partial<Record<string, SlotPip['kind']>> = {
   construction: 'cog',
@@ -71,7 +78,7 @@ function SlotTile({ p, opensAbove }: { p: SlotPip; opensAbove: boolean }) {
   return (
     <li className="a-tile sk-slot" data-tone={tone}>
       <span className="sk-slot__top">
-        <Sprite name={SLOT_SPRITE[p.kind]} size={24} decorative />
+        <KitSprite name={`sys-${SLOT_SYSTEM[p.kind]}`} size={24} />
         <b>{SLOT_WORDS[p.kind]}</b>
         <Pip tone={pipTone(tone)} />
         <span className="sr-only">{STATE_WORDS[p.state]}</span>
@@ -99,7 +106,13 @@ function SkillTile({
     <li className="a-tile sk-tile" data-tone={lit ? 'gold' : 'plain'}>
       <span className="sk-tile__top">
         <span className="tb-ic" data-tone={lit ? 'gold' : 'plain'}>
-          <Sprite name={`skill-${r.skill}`} size={32} decorative />
+          <GameIcon
+            art={skillArt(r.skill)}
+            fallback={fallbackSkill(r.skill)}
+            size={32}
+            decorative
+            wiki={r.name}
+          />
         </span>
         <span className="sk-tile__name">
           <b>{r.name}</b>
@@ -155,7 +168,8 @@ export function SkillsTab({ view, index }: CharacterTabProps) {
       {train && blocked ? (
         <Answer
           tone="gold"
-          icon={`skill-${train.skill}`}
+          art={skillArt(train.skill)}
+          icon={fallbackSkill(train.skill)}
           cap={capOf()}
           title={blocked.step ?? `Unlock ${skillName} first: it ${blocked.text}`}
           sub={`${t.classLabel} ${t.level} can't train ${skillName} until then`}
@@ -181,7 +195,8 @@ export function SkillsTab({ view, index }: CharacterTabProps) {
       ) : train ? (
         <Answer
           tone="gold"
-          icon={`skill-${train.skill}`}
+          art={skillArt(train.skill)}
+          icon={fallbackSkill(train.skill)}
           cap={capOf()}
           title={train.text}
           sub={trainRow?.gateText ? `Next: ${trainRow.gateText}` : null}
@@ -190,7 +205,8 @@ export function SkillsTab({ view, index }: CharacterTabProps) {
       ) : (
         <Answer
           tone="plain"
-          icon="sys-skills"
+          art={systemGameArt('skills')}
+          icon={fallbackSkills}
           cap="Skills"
           title={upper(t.status || 'No skill to train on this character right now')}
         />
@@ -290,7 +306,10 @@ export function SkillGrid({ grid }: { grid: SkillGridView | null }) {
                 <th scope="col">Character</th>
                 {grid.skills.map((s) => (
                   <th key={s} scope="col">
-                    {grid.names[s]}
+                    <span className="sk-th">
+                      <GameIcon art={skillArt(s)} fallback={fallbackSkill(s)} size={16} decorative />
+                      {grid.names[s]}
+                    </span>
                   </th>
                 ))}
                 <th scope="col">Slots</th>

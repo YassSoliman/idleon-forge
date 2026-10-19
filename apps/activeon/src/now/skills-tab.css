@@ -214,3 +214,10 @@
 .sk-pip-mini[data-state="fillable"] {
   background: var(--warn-fill);
 }
+/* M25: each skill column wears the game's skill icon before its name. */
+.sk-th {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  white-space: nowrap;
+}

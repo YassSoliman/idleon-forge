@@ -11,6 +11,8 @@
 // quiet (M25), so two characters of one class can be told apart. Every fact is the engine's.
 import type { RosterRow, TabHealth } from '@idleon-forge/engine/now';
 import type { ClassFamily, NextCharacterCard } from '@idleon-forge/engine/result';
+import { classArtOf } from '../art/game/class-art';
+import { GameIcon } from '../art/game/GameIcon';
 import { Blob } from '../design/atoms/Blob';
 import { cx } from '../design/atoms/Button';
 import { Pip } from '../design/atoms/Surfaces';
@@ -21,6 +23,7 @@ import { StateWord } from '../now/place/LogOff';
 import { CHARACTERS_PLACE_WORDS as W } from '../now/place/words';
 import { TAB_HEALTH } from '../now/tab-health';
 import type { Session } from '../shell/session';
+import { ClassBadge } from './ClassBadge';
 import { shownName } from './name';
 import './place.css';
 
@@ -102,7 +105,9 @@ function Grid({ s, rows }: { s: Session; rows: RosterRow[] }) {
                     onClick={open(r.index, NOW_TAB)}
                   >
                     <span className="cp-n num">{r.position}</span>
-                    <Blob family={(families[r.index] ?? 'beginner') as ClassFamily} size={40} />
+                    <ClassBadge classLabel={r.classLabel} size={40}>
+                      <Blob family={(families[r.index] ?? 'beginner') as ClassFamily} size={40} />
+                    </ClassBadge>
                     <span className="cp-who-t">
                       <span className="cp-who-l">
                         <b className="num">{who(r)}</b>
@@ -177,7 +182,8 @@ const FAMILY_WORDS: Record<ClassFamily, string> = {
   journeyman: 'Journeyman',
 };
 
-const classSprite = (line: string) => `class-${line.toLowerCase().replace(/\s+/g, '-')}`;
+/** Our own class sprite ("class-beast-master"), drawn when the game's class icon is missing. */
+const fallbackClass = (line: string) => `class-${line.toLowerCase().replace(/\s+/g, '-')}`;
 
 /** The next character slot: what to make, the family-level meter, and the creation steps. */
 function NextCharacter({ card }: { card: NextCharacterCard }) {
@@ -189,7 +195,15 @@ function NextCharacter({ card }: { card: NextCharacterCard }) {
       <span className="a-cap">{W.nextCap(card.slotNumber)}</span>
       <div className="cp-next-top">
         <span className="cp-next-pic">
-          <Icon name={classSprite(card.line)} fallback={classSprite(card.baseClass)} size={48} />
+          <GameIcon
+            art={classArtOf(card.line) ?? classArtOf(card.baseClass)}
+            fallback={
+              <Icon name={fallbackClass(card.line)} fallback={fallbackClass(card.baseClass)} size={48} />
+            }
+            size={48}
+            decorative
+            wiki={classArtOf(card.line) ? card.line : card.baseClass}
+          />
         </span>
         <div className="cp-next-t">
           <h3 id="cp-next-h" className="a-h2">
