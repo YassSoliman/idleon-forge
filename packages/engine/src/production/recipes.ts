@@ -75,7 +75,7 @@ export function recipeTabs(
   const wanted = new Map<string, number[]>();
   for (const g of gear?.characters ?? [])
     for (const s of g.slots)
-      if (s.target && s.state !== 'ok' && s.state !== 'm20')
+      if (s.target && (s.state === 'empty' || s.state === 'behind'))
         wanted.set(s.target.rawName, [...new Set([...(wanted.get(s.target.rawName) ?? []), g.index])]);
   const next = new Map<string, number[]>();
   for (const [i, p] of picks) next.set(p.rawName, [...(next.get(p.rawName) ?? []), i]);

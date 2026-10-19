@@ -14,8 +14,10 @@ import { itemArt } from '../../art/game/game-art';
 import { TalentMention } from '../../art/game/TalentMention';
 import { PixelArt } from '../../design/art/PixelArt';
 import { cx } from '../../design/atoms/Button';
+import { GateText } from '../../design/atoms/GateLink';
 import { Meter } from '../../design/atoms/Meter';
 import { SeeOnMap } from '../../map/SeeOnMap';
+import { useGates } from '../../production/use-gates';
 import './walkthrough.css';
 
 type View = NonNullable<GoalView['walkthrough']>;
@@ -60,6 +62,7 @@ export function WalkthroughSteps({ view }: { view: View }) {
   const [other, setOther] = useState(false);
   const now = currentStep(view);
   const missing = view.tree.filter((t) => t.done === false);
+  const gates = useGates();
   return (
     <section className="walkthrough" aria-label={CARD_WORDS.walkthroughAll}>
       <p className="wt-collapsed">{view.collapsed}</p>
@@ -84,7 +87,7 @@ export function WalkthroughSteps({ view }: { view: View }) {
                 <span className="wt-when">{isNow ? 'Now' : s.when === 'blocked' ? 'Blocked' : 'After'}</span>
                 <span className="wt-text">
                   <TalentMention text={s.text} fallback={null} size={24} />
-                  {s.text}
+                  <GateText text={s.text} {...gates} />
                 </span>
                 {p ? (
                   <>
