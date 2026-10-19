@@ -85,8 +85,7 @@ export function choosePusher(
   } else {
     // Soonest first: a.left / a.rate < b.left / b.rate, cross-multiplied so the boundary is exact.
     challenger = [...candidates].sort(
-      (a, b) =>
-        a.killsLeft * b.finalKillsPerHour - b.killsLeft * a.finalKillsPerHour || byRate(a, b),
+      (a, b) => a.killsLeft * b.finalKillsPerHour - b.killsLeft * a.finalKillsPerHour || byRate(a, b),
     )[0] as FrontierFight;
     pick =
       margin * challenger.killsLeft * incumbent.finalKillsPerHour <=
