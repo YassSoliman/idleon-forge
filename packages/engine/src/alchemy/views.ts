@@ -57,6 +57,7 @@ export interface ViewInput {
   catalogue: readonly VialRow[];
   vialPick: VialLevel | null;
   targets: { index: number; name: string; rollNeeded: number; item: string }[];
+  tries: AlchemyResult['vialTries'];
   tubeNote: string | null;
   goals: readonly ModuleGoal[];
   prior: EngineResult | null;
@@ -162,6 +163,7 @@ export function buildView(x: ViewInput): AlchemyResult {
         }
       : null,
     rollTargets: x.targets.map(({ name, rollNeeded, item }) => ({ name, rollNeeded, item })),
+    vialTries: x.tries,
     tubes,
     p2w,
     planMet: plan.met,

@@ -67,6 +67,32 @@ const result: AlchemyResult = {
   ],
   vialPick: { name: 'Copper Corona', from: 1, to: 2, actionKey: 'alchemy-vials.goal.level-next@account' },
   rollTargets: [{ name: 'Dieter Drink', rollNeeded: 40, item: 'Bean Slices' }],
+  vialTries: {
+    tryable: [
+      {
+        index: 5,
+        name: 'Dieter Drink',
+        rollNeeded: 40,
+        item: 'Bean Slices',
+        held: 6561,
+        places: [
+          { place: 'storage', amount: 6552 },
+          { place: 'bag', index: 2, amount: 9 },
+        ],
+        elsewhere: { refinery: 0, forge: 0 },
+      },
+      {
+        index: 7,
+        name: 'Red Malt',
+        rollNeeded: 85,
+        item: 'Redox Salts',
+        held: 1,
+        places: [{ place: 'storage', amount: 1 }],
+        elsewhere: { refinery: 56, forge: 0 },
+      },
+    ],
+    missing: [{ index: 6, name: 'Thumb Pow', rollNeeded: 50, item: 'Trusty Nails' }],
+  },
   tubes: [
     {
       index: 0,
@@ -107,7 +133,10 @@ const result: AlchemyResult = {
   topStep: { key: 'x@account', text: 'Use your 11 vial attempts on the W2 town cauldron' },
 };
 const props = (highlight: string | null) =>
-  ({ s: { result: { alchemy: result } }, page: { highlight, goals: [] } }) as unknown as SystemPageBodyProps;
+  ({
+    s: { result: { alchemy: result, characters: [{ index: 2, classLabel: 'Shaman', level: 76 }] } },
+    page: { highlight, goals: [] },
+  }) as unknown as SystemPageBodyProps;
 
 describe('the Alchemy page (M19 F6)', () => {
   it('lights only the Power pot with no highlight, and each pot reads its own pick', () => {
@@ -132,6 +161,18 @@ describe('the Alchemy page (M19 F6)', () => {
     const { container } = render(<AlchemyLab {...props(null)} />);
     const labels = [...container.querySelectorAll('.al-shelf .al-vlab')].map((x) => x.textContent);
     expect(labels).toEqual(['Copper Corona', 'Dieter Drink 40+']);
+  });
+
+  it('M24: lists every locked vial you can try, easiest first, with what you hold and where', () => {
+    const { container } = render(<AlchemyLab {...props(null)} />);
+    const rows = [...container.querySelectorAll('.vt-row')].map((r) => r.textContent);
+    expect(rows).toEqual([
+      'Dieter Drinkroll 40+ to unlockBSBean SlicesStorage 6,552 · Shaman 76 has 96,561held',
+      'Red Maltroll 85+ to unlockRSRedox SaltsStorage · 56 more sit in the Refinery1held',
+    ]);
+    expect(container.textContent).toContain('2 of 3 locked vials');
+    const missing = [...container.querySelectorAll('.vt-tile')].map((r) => r.textContent);
+    expect(missing).toEqual(['Thumb Powneeds Trusty Nails50+']);
   });
 
   it('is registered as the alchemy-lab page', () => {

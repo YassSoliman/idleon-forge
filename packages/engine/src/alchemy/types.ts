@@ -51,6 +51,31 @@ export interface PotView {
   nextUnlock: string | null;
 }
 
+/** Where a held item sits: chest storage or one character's bag (`CharacterState.index`). */
+export type VialHolding =
+  | { place: 'storage'; amount: number }
+  | { place: 'bag'; index: number; amount: number };
+
+export interface VialTry {
+  index: number;
+  name: string;
+  rollNeeded: number;
+  item: string;
+  /** Held where a try can use it: storage and every bag. */
+  held: number;
+  /** Largest first, storage first on a tie. */
+  places: VialHolding[];
+  /** Held in the Refinery and the Forge, which a try can't use (FR-11). */
+  elsewhere: { refinery: number; forge: number };
+}
+
+export interface VialMissing {
+  index: number;
+  name: string;
+  rollNeeded: number;
+  item: string;
+}
+
 export interface VialView {
   index: number;
   name: string;
@@ -101,6 +126,11 @@ export interface AlchemyResult {
   vialPick: null | { name: string; from: number; to: number; actionKey: string | null };
   /** X3: at most three locked vials, easiest roll first. */
   rollTargets: { name: string; rollNeeded: number; item: string }[];
+  /**
+   * M24: every locked vial, those whose item is held outside the Refinery and the Forge (easiest roll
+   * first) and those missing their item. Unlike `rollTargets`, not tied to today's attempts.
+   */
+  vialTries: { tryable: VialTry[]; missing: VialMissing[] } | null;
   tubes: TubeView[];
   p2w: P2wCell[];
   planMet: boolean;

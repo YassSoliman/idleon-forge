@@ -9,6 +9,7 @@ import { DEFAULT_EXPECTED_RETURN_MS } from '@idleon-forge/knowledge';
 import { toolboxCalls } from '@idleon-forge/toolbox-parsers';
 import { describe, expect, it } from 'vitest';
 import { potLine, renderAlchemyText, tubeLine } from '../../src/alchemy/text';
+import { vialTries } from '../../src/alchemy/vials';
 import { goldenResult } from '../../src/golden';
 import type { EngineResult, Goal } from '../../src/result';
 
@@ -119,6 +120,67 @@ describe('US-3 vials', () => {
       'Level Roid Ragin 3 → 12 (Power cauldron)',
     );
     expect(goal(r, 'alchemy-vials.goal.level-next')).toBeUndefined();
+  });
+});
+
+describe('M24 every locked vial: the ones you can try and the ones missing their item', () => {
+  it('W3-early: the tries list has no top-three cap and keeps going when no attempts are left', () => {
+    const t = w3.alchemy?.vialTries;
+    expect(t).toBeTruthy();
+    const locked = (w3.alchemy?.vials ?? []).filter((v) => v.level === 0).length;
+    expect((t?.tryable.length ?? 0) + (t?.missing.length ?? 0)).toBe(locked);
+    // The attempts line doesn't fire (0 left), so rollTargets is empty, but the tries are still listed.
+    expect(w3.alchemy?.rollTargets).toEqual([]);
+    for (const list of [t?.tryable ?? [], t?.missing ?? []])
+      for (let i = 1; i < list.length; i++)
+        expect((list[i]?.rollNeeded ?? 0) >= (list[i - 1]?.rollNeeded ?? 0)).toBe(true);
+  });
+
+  it("W2-late: the first three tries are M6's roll targets, and each held amount sums its places", () => {
+    const t = w2.alchemy?.vialTries;
+    expect(t?.tryable.slice(0, 3).map((v) => v.name)).toEqual([
+      'Dieter Drink',
+      'Skinny 0 Cal',
+      'Jungle Juice',
+    ]);
+    expect((t?.tryable.length ?? 0) > 3).toBe(true);
+    for (const v of t?.tryable ?? []) {
+      expect(v.held).toBe(v.places.reduce((n, p) => n + p.amount, 0));
+      expect(v.held > 0).toBe(true);
+    }
+  });
+
+  it('Refinery and Forge holdings never make a vial tryable; bags and storage do, largest first', () => {
+    const cat = [
+      { index: 0, name: 'A_VIAL', item: 'ItemA', itemName: 'Item_A', score: 60, liquid: 1, stat: '' },
+      { index: 1, name: 'B_VIAL', item: 'ItemB', itemName: 'Item_B', score: 40, liquid: 1, stat: '' },
+      { index: 2, name: 'C_VIAL', item: 'ItemC', itemName: 'Item_C', score: 50, liquid: 1, stat: '' },
+    ];
+    const state = {
+      account: {
+        alchemyPlan: { vialLevels: [0, 0, 3] },
+        storageItems: { ItemA: 2 },
+        refineryStorage: { ItemA: 56, ItemB: 9 },
+        forgeOutput: [{ rawName: 'ItemB', amount: 4 }],
+      },
+      characters: [{ index: 3, inventoryItems: { ItemA: 7 } }],
+    } as unknown as AccountState;
+    const t = vialTries(state, cat);
+    expect(t?.tryable).toEqual([
+      {
+        index: 0,
+        name: 'A Vial',
+        rollNeeded: 60,
+        item: 'Item A',
+        held: 9,
+        places: [
+          { place: 'bag', index: 3, amount: 7 },
+          { place: 'storage', amount: 2 },
+        ],
+        elsewhere: { refinery: 56, forge: 0 },
+      },
+    ]);
+    expect(t?.missing).toEqual([{ index: 1, name: 'B Vial', rollNeeded: 40, item: 'Item B' }]);
   });
 });
 
