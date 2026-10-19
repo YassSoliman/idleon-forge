@@ -22,7 +22,19 @@ export {
   runDetector,
 } from './run';
 export * from './schema';
-export { STAGE_DEFINITIONS, STAGES, type StageDefinition, stageIndex, stagesBetween } from './stages';
+export {
+  appliesAtStage,
+  OPEN_ENDED_FROM,
+  STAGE_DEFINITIONS,
+  STAGES,
+  type StageDefinition,
+  type StageScope,
+  type StageSpan,
+  spanStages,
+  stageIndex,
+  stagesBetween,
+  stagesOf,
+} from './stages';
 export {
   compareGameVersions,
   isStale,

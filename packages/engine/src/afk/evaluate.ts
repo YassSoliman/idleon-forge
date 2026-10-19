@@ -6,6 +6,7 @@
 // inputs give byte-identical output (FR-31). No Toolbox import: the facts come from the Account State.
 import { type AccountState, humanize } from '@idleon-forge/account-state';
 import {
+  appliesAtStage,
   type CheckFinding,
   type CompiledKnowledge,
   type DetectorRegistry,
@@ -20,7 +21,6 @@ import {
   type SlotValue,
   type SourceT,
   type StageId,
-  stagesBetween,
 } from '@idleon-forge/knowledge';
 import { BUILDS_DETECTORS } from '../builds/detectors';
 import type { TimelineBar, TimelineKind, UnknownFinding } from '../result';
@@ -150,11 +150,7 @@ export const sourceRef = (s: SourceT): SourceRef => ({
 });
 
 function stageApplies(entry: CheckEntry, stage: StageId | null): boolean {
-  const stages = entry.appliesTo.stages;
-  if (stages === 'all' || stage === null) return true;
-  return stages.some((x) =>
-    typeof x === 'string' ? x === stage : stagesBetween(x.from, x.to).includes(stage),
-  );
+  return appliesAtStage(entry.appliesTo, stage);
 }
 
 function characterApplies(entry: CheckEntry, cls: string, level: number): boolean {

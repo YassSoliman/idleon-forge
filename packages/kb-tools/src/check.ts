@@ -22,7 +22,7 @@ import {
   STAGES,
   type StageId,
   SystemUnlockRows,
-  stagesBetween,
+  stagesOf as stagesCovered,
   systemKind,
   TemplateError,
 } from '@idleon-forge/knowledge';
@@ -150,10 +150,7 @@ function expandList(
   return { ids, cycle };
 }
 
-const stagesOf = (e: Entry): StageId[] =>
-  e.appliesTo.stages === 'all'
-    ? [...STAGES]
-    : e.appliesTo.stages.flatMap((s) => (typeof s === 'string' ? [s] : stagesBetween(s.from, s.to)));
+const stagesOf = (e: Entry): StageId[] => stagesCovered(e.appliesTo);
 
 /** Runs every TR-8 rule. Returns errors and warnings; schema issues from loading are included. */
 export async function checkSource(src: KbSource, registries?: Registries): Promise<Issue[]> {

@@ -125,6 +125,22 @@ export function routeTo(kb: FactLookup, world: number, destination: number): Rou
   }));
 }
 
+/**
+ * The door out of `mapName` on `world`'s route (M26 FR-3 band doors), or null when no path of that
+ * world passes through it. The map name comes from the Meta Path `stages` entry's values.
+ */
+export function routeDoorOutOf(kb: FactLookup, world: number, mapName: string): RouteDoor | null {
+  const rows = fact(kb, FACT.worldRoutes) as RouteRow[];
+  const row = rows.find((r) => r.world === world);
+  if (!row) return null;
+  const name = mapNames(kb);
+  for (const path of Object.values(row.paths))
+    for (const s of path)
+      if (s.door !== null && s.requirement > 0 && name(s.mapIndex) === mapName)
+        return { mapIndex: s.mapIndex, mapName, door: s.door, requirement: s.requirement };
+  return null;
+}
+
 // ---- quests.fact.gate-quests ----
 export interface GateQuestStep {
   questName: string;

@@ -75,6 +75,23 @@ const list = (stage: 'W2-mid' | 'W2-late' | 'W3-early', coverage: 'covered' | 'b
   selectPriorityList({ id: stage, coverage }, loadKb(lists()));
 
 describe('TR-13 list resolution', () => {
+  it('a World 4 band without its own list reads the W4-entry list (M26 FR-3); earlier Stages never borrow', () => {
+    const w4: CompiledPriorityList = {
+      id: 'metapath.priority.w4-entry',
+      list: 'goals',
+      stage: 'W4-entry',
+      positions: [[item('metapath.goal.push')]],
+    };
+    const kb = loadKb({ ...lists(), [w4.id]: w4 });
+    expect(selectPriorityList({ id: 'W4-mid', coverage: 'covered' }, kb).listId).toBe(
+      'metapath.priority.w4-entry',
+    );
+    expect(selectPriorityList({ id: 'W4-late', coverage: 'covered' }, kb).listId).toBe(
+      'metapath.priority.w4-entry',
+    );
+    expect(list('W3-early').listId).toBeNull();
+  });
+
   it('an include is one position; the push is 2; Stage items from 4; last position is the bottom tie', () => {
     const l = list('W2-late');
     expect(l.listId).toBe('metapath.priority.w2-late');

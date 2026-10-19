@@ -4,7 +4,11 @@
 // so the schema can validate Stage references; M2 fills `STAGE_DEFINITIONS` (labels are fixed here,
 // the rules live in the Meta Path `stages` entry and its fact refs). `packages/engine` re-exports it.
 
-/** The 10 Stages of the Leverage model (#26), oldest first. Order matters: ranges use it. */
+/**
+ * The Stages of the Leverage model (#26), oldest first. Order matters: ranges use it. M26 FR-3 added
+ * `W4-mid` and `W4-late` (owner Q2); their rule is the Meta Path `stages` entry. An account past World 4
+ * reads `W4-late` with `coverage: 'beyond'`.
+ */
 export const STAGES = [
   'W1-early',
   'W1-mid',
@@ -16,6 +20,8 @@ export const STAGES = [
   'W3-mid',
   'W3-late',
   'W4-entry',
+  'W4-mid',
+  'W4-late',
 ] as const;
 
 export type StageId = (typeof STAGES)[number];
@@ -46,4 +52,46 @@ export function stagesBetween(from: StageId, to: StageId): StageId[] {
   const a = stageIndex(from);
   const b = stageIndex(to);
   return a < 0 || b < a ? [] : STAGES.slice(a, b + 1);
+}
+
+/**
+ * The beyond policy (M26 FR-3): a range whose `to` is this Stage or later is open-ended. It stays live
+ * through `W4-late` and for accounts past World 4, unless the entry sets `stopsAt`. Every entry written
+ * before W4-mid existed said `to: W4-entry` and meant "and everything after", so it keeps that meaning.
+ */
+export const OPEN_ENDED_FROM: StageId = 'W4-entry';
+
+/** One `appliesTo.stages` item: a Stage, or an inclusive range. */
+export type StageSpan = StageId | { from: StageId; to: StageId };
+
+export interface StageScope {
+  stages: 'all' | readonly StageSpan[];
+  /** The first Stage the entry no longer applies at (M26 FR-3); binds open-ended ranges too. */
+  stopsAt?: StageId;
+}
+
+/** The Stages one span covers, with the beyond policy applied. */
+export function spanStages(span: StageSpan): StageId[] {
+  const { from, to } = typeof span === 'string' ? { from: span, to: span } : span;
+  const last = stageIndex(to) >= stageIndex(OPEN_ENDED_FROM) ? (STAGES[STAGES.length - 1] as StageId) : to;
+  return stagesBetween(from, last);
+}
+
+/** Every Stage an `appliesTo` covers (beyond policy and `stopsAt` applied), in order. */
+export function stagesOf(scope: StageScope): StageId[] {
+  const all =
+    scope.stages === 'all'
+      ? [...STAGES]
+      : STAGES.filter((id) => scope.stages !== 'all' && scope.stages.some((s) => spanStages(s).includes(id)));
+  const stop = scope.stopsAt === undefined ? -1 : stageIndex(scope.stopsAt);
+  return stop < 0 ? all : all.filter((id) => stageIndex(id) < stop);
+}
+
+/**
+ * Whether an entry's `appliesTo` covers `stage`. True when the Stage is unknown (no gate to apply), so a
+ * missing Stage never hides advice. The one rule every module uses (M26 FR-3).
+ */
+export function appliesAtStage(scope: StageScope, stage: StageId | string | null): boolean {
+  if (stage === null || stageIndex(stage) < 0) return true;
+  return stagesOf(scope).includes(stage as StageId);
 }

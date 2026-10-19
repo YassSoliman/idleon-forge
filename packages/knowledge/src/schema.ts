@@ -27,7 +27,7 @@ export const DETECTOR_ID_RE = new RegExp(`^${SLUG}/${SLUG}$`);
 export const DetectorId = z.string().regex(DETECTOR_ID_RE, 'detector id must be <system>/<name>');
 export const GameVersion = z.string().regex(/^\d+\.\d+\.\d+$/, 'game version like 2.3.540');
 export const IsoDate = z.iso.date();
-export const StageId = z.enum(STAGES); // W1-early … W4-entry (10 values, #26)
+export const StageId = z.enum(STAGES); // W1-early … W4-late (12 values, #26, M26 FR-3)
 export type StageId = z.infer<typeof StageId>;
 export const RoleId = z.string().regex(new RegExp(`^${SLUG}$`));
 /** Toolbox class name, e.g. "Squire", "Divine_Knight". Checked against generated/_lookups.json in TR-8. */
@@ -90,6 +90,11 @@ export const AppliesTo = z.strictObject({
   /** Matches the class and every class it promotes to (Squire matches Divine_Knight, Royal_Guardian). Omit for all classes. */
   classes: z.array(ClassName).min(1).optional(),
   levels: z.strictObject({ min: z.int().min(1).optional(), max: z.int().min(1).optional() }).optional(),
+  /**
+   * M26 FR-3: the first Stage the entry no longer applies at. Without it a range ending at W4-entry or
+   * later stays live through W4-late and past World 4 (the beyond policy, `stages.ts`).
+   */
+  stopsAt: StageId.optional(),
 });
 export const DetectorRef = z.strictObject({
   id: DetectorId,

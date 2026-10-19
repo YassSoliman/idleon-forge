@@ -9,7 +9,7 @@ entries:
   - id: metapath.metapath.stages
     system: metapath
     type: metapath
-    title: The ten Stages
+    title: The Stages
     text: "{stage}"
     why: Where the account is on the route decides how every Goal is ranked.
     values:
@@ -18,6 +18,12 @@ entries:
       check-refinery: "Check the Refinery salts (couldn't read them)"
       check-storage: "Check your Galaxial Amethyst count (couldn't read it)"
       check-characters: "Check your characters in game (couldn't read them all)"
+      # M26 FR-3: the World 4 band doors, by Toolbox map name (portals.fact.world-routes, maps.fact.maps).
+      # W4-mid: the door out of Wurm Highway, the 6th of the 12 World 4 path doors (the route's halfway
+      # point, into Jelly Cube Bridge). W4-late: the last one, out of Flamboyant Bayou into Enclave of
+      # Eyes, where the Troll and the W5 gate are.
+      w4-mid-door: Wurm_Highway
+      w4-late-door: Flamboyant_Bayou
     sources:
       - url: https://github.com/YassSoliman/idleon-forge/blob/research/leverage-model/docs/research/2026-10-17-leverage-model.md
         title: Leverage model, section 1 (Stage definitions)
@@ -33,6 +39,18 @@ entries:
         gameVersion: 2.3.540
       - { url: "https://idleon.wiki/wiki/Worlds", title: "IdleOn Wiki: Worlds", tier: 2, claimDate: 2026-10-04, verified: 2026-10-17, gameVersion: 2.3.540 }
       - { url: "https://idleon.wiki/wiki/Portal_Requirements", title: "IdleOn Wiki: Portal Requirements", tier: 2, claimDate: 2026-10-07, verified: 2026-10-17, gameVersion: 2.3.540 }
+      - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json
+        title: "IdleOn Toolbox game data: mapPortals (the World 4 route doors and their kill requirements)"
+        tier: 1
+        verified: 2026-10-19
+        gameVersion: 2.3.540
+        note: M26 FR-3 band doors; World 4's path runs from Spaceway Raceway to Enclave of Eyes in 12 doors
+      - url: https://github.com/YassSoliman/idleon-forge/blob/feat/M25-release/docs/research/systems/w4/elite-classes.md
+        title: M26 dossier, Elite classes, "Min-max by stage" (W4 entry, mid and late)
+        tier: 4
+        verified: 2026-10-19
+        gameVersion: 2.3.540
+        note: W4 late is the Troll and the W5 portal (Enclave of Eyes and Enclave a la Troll); mid is the elites' Rift and Lab work in between
     appliesTo: { stages: all }
     confidence: M
     status: active
@@ -89,6 +107,14 @@ entries:
             metapath.fact.family-slots,
             maps.fact.maps,
           ]
+      - id: W4-mid
+        rule: w4-mid
+        needs: ["Open the door out of Wurm Highway on any character"]
+        factRefs: [portals.fact.world-routes, maps.fact.maps]
+      - id: W4-late
+        rule: w4-late
+        needs: ["Open the door out of Flamboyant Bayou into Enclave of Eyes on any character"]
+        factRefs: [portals.fact.world-routes, maps.fact.maps]
 
   # ---------------------------------------------------------------- Slot plan (M2 TR-8)
   - id: metapath.metapath.slot-plan

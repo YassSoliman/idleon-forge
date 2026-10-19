@@ -4,7 +4,7 @@
 // for the pusher), the W3 tutorial, subclass and elite nudges, the next character and the swap token.
 // Each is a finding with slots; every word a player reads lives in the Goal's entry (M11 TR-4).
 import type { AccountState, RouteDoor } from '@idleon-forge/account-state';
-import { type StageId, stageIndex, stagesBetween } from '@idleon-forge/knowledge';
+import { STAGE_DEFINITIONS, type StageId, stageIndex, stagesBetween } from '@idleon-forge/knowledge';
 import {
   classTree,
   ENTRY,
@@ -251,7 +251,8 @@ export const ELITE_ORDER = [
 ] as const;
 
 export function elitePending(state: AccountState, kb: FactLookup, stage: StageResult): MetaPathGoal[] {
-  if (stage.coverage === 'beyond' || stage.id !== 'W4-entry') return [];
+  // Any World 4 band (M26 FR-3), never past World 4.
+  if (stage.coverage === 'beyond' || stage.id === null || STAGE_DEFINITIONS[stage.id].world !== 4) return [];
   const tree = classTree(kb);
   return state.characters.flatMap((c): MetaPathGoal[] => {
     const row = c.classIndex == null ? undefined : tree.byIndex.get(c.classIndex);

@@ -496,6 +496,14 @@ golden.
   W4-entry or later stays live for accounts past W4 unless it sets `stopsAt`. The draft remap ships in the same PR:
   `W4-early` -> `W4-entry` (6 entries), and no draft may name a W5+ stage (`alchemy-vials` capped at `W4-late`; done in
   the drafts on 2026-10-19). About 45 drafts cite `W4-late`; none is promoted before this PR merges (R10).
+  **Built 2026-10-19.** Rule (Meta Path `stages` entry, values `w4-mid-door` / `w4-late-door`): W4-mid once any
+  character opens the door out of Wurm Highway (the 6th of World 4's 12 path doors), W4-late once any character opens
+  the last one, out of Flamboyant Bayou into Enclave of Eyes (the Troll and the W5 gate), read from
+  `characters[].doorKillsLeft`; an unreadable table is unknown (earliest Stage, partial). Past World 4 the account
+  reads `W4-late` with `coverage: 'beyond'`. Beyond policy: a span ending at `W4-entry` or later is open-ended unless the
+  entry sets `appliesTo.stopsAt` (the first Stage it no longer applies at), so every live entry written "to W4-entry"
+  keeps its meaning; one `appliesAtStage()` in `packages/knowledge` replaces the five module copies, and a W4 band with
+  no Priority List of its own reads the W4-entry list.
 - **FR-1 Draft status.** `packages/knowledge/src/schema.ts` accepts `status: draft`; `kb compile` skips drafts, so a
   draft never reaches the engine (owner Q1: yes). Promotion flips an entry to `active` or `contested` in the PR that
   ships its Detector, after the wave's red team.

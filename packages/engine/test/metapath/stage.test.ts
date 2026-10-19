@@ -71,11 +71,47 @@ describe('TR-5 rule table (synthetic, both sides of each edge)', () => {
     ).toBe('W3-late');
   });
 
-  it('W4-entry once World 3 is finished; beyond coverage once World 4 is (D2)', () => {
-    const w4 = stage(account([char(0, 'Divine_Knight', 120)], { finishedWorlds: [1, 2, 3] }));
-    expect([w4.id, w4.coverage, w4.next]).toEqual(['W4-entry', 'covered', null]);
+  it('W4-entry once World 3 is finished; beyond coverage (as W4-late) once World 4 is (D2, M26 FR-3)', () => {
+    const w4 = stage(
+      account([char(0, 'Divine_Knight', 120, { doorKillsLeft: {} })], { finishedWorlds: [1, 2, 3] }),
+    );
+    expect([w4.id, w4.coverage, w4.certainty]).toEqual(['W4-entry', 'covered', 'certain']);
+    expect(w4.next).toEqual({
+      stage: 'W4-mid',
+      needs: ['Open the door out of Wurm Highway on any character'],
+    });
     const beyond = stage(account([char(0, 'Divine_Knight', 200)], { finishedWorlds: [1, 2, 3, 4] }));
-    expect([beyond.id, beyond.coverage, beyond.next]).toEqual(['W4-entry', 'beyond', null]);
+    expect([beyond.id, beyond.label, beyond.coverage, beyond.next]).toEqual([
+      'W4-late',
+      'World 4, late',
+      'beyond',
+      null,
+    ]);
+  });
+
+  it('W4: mid once a character opens the Wurm Highway door, late once one opens the Flamboyant Bayou door (M26 FR-3)', () => {
+    // Map 156 is Wurm Highway, 162 Flamboyant Bayou (portals.fact.world-routes, maps.fact.maps); 0 = opened.
+    const w4 = (...tables: Array<Record<number, number[]> | null>) =>
+      stage(
+        account(
+          tables.map((t, i) => char(i, 'Divine_Knight', 120, { doorKillsLeft: t })),
+          { finishedWorlds: [1, 2, 3] },
+        ),
+      );
+    expect(w4({ 156: [1] }).id).toBe('W4-entry');
+    expect(w4({ 156: [0] }).id).toBe('W4-mid');
+    expect(w4({}, { 156: [0] }).id).toBe('W4-mid');
+    const mid = w4({ 156: [0], 162: [12] });
+    expect(mid.next).toEqual({
+      stage: 'W4-late',
+      needs: ['Open the door out of Flamboyant Bayou into Enclave of Eyes on any character'],
+    });
+    const late = w4({ 156: [0], 162: [0] });
+    expect([late.id, late.coverage, late.next]).toEqual(['W4-late', 'covered', null]);
+    // An unreadable door table is unknown: the earliest Stage it allows, partial.
+    const unsure = w4({}, null);
+    expect([unsure.id, unsure.certainty]).toEqual(['W4-entry', 'partial']);
+    expect(unsure.next?.needs).toEqual(["Check your characters in game (couldn't read them all)"]);
   });
 });
 
@@ -204,9 +240,9 @@ describe.each(fixtures)('S1 on the $name account', ({ file, w }) => {
 });
 
 describe('S1 beyond coverage (public W7 save)', () => {
-  it('highend.json is W4-entry beyond: no push, next-character, elite or world-tutorial Goal', () => {
+  it('highend.json is W4-late beyond: no push, next-character, elite or world-tutorial Goal', () => {
     const r = runMetaPath(stateOf(`${PUBLIC}highend.json`, { now: NOW }), loadKb(), NOW);
-    expect([r.stage.id, r.stage.coverage]).toEqual(['W4-entry', 'beyond']);
+    expect([r.stage.id, r.stage.coverage]).toEqual(['W4-late', 'beyond']);
     expect(r.pushGoal).toBeNull();
     expect(r.pushUnavailable).toBe('beyond-coverage');
     expect(r.goals).toEqual([]);

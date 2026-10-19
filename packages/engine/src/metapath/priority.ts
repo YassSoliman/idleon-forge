@@ -3,7 +3,7 @@
 // Priority Lists and the one ranking comparator (M2 FR-18 to FR-22, TR-13, TR-14). Every module's
 // Goals are ranked with `compareGoals`, so the order is total and stable whatever order they arrive in.
 // There are no numeric weights anywhere: a position is a tier index in an authored list.
-import { STAGES, type StageId, stageIndex } from '@idleon-forge/knowledge';
+import { appliesAtStage, OPEN_ENDED_FROM, STAGES, type StageId, stageIndex } from '@idleon-forge/knowledge';
 import type { MetaPathKnowledge, Rankable, ResolvedPriorityList, StageResult } from './types';
 
 /** The shared frame (TR-13): never-skip at 1, the push at 2, free-value fills at 3, Stage items from 4. */
@@ -22,8 +22,15 @@ export const EMPTY_PRIORITY_LIST: ResolvedPriorityList = {
   frameOnly: false,
 };
 
-const listIdOf = (kb: Pick<MetaPathKnowledge, 'priorityByStage'>, stage: StageId) =>
-  kb.priorityByStage[stage]?.goals ?? null;
+/**
+ * The Stage's Goals list. A World 4 band with no list of its own yet (M26 FR-3: W4-mid, W4-late) reads
+ * the nearest earlier World 4 one, so adding the bands never empties a W4 account's list.
+ */
+const listIdOf = (kb: Pick<MetaPathKnowledge, 'priorityByStage'>, stage: StageId): string | null => {
+  const own = kb.priorityByStage[stage]?.goals ?? null;
+  if (own || stageIndex(stage) <= stageIndex(OPEN_ENDED_FROM)) return own;
+  return listIdOf(kb, STAGES[stageIndex(stage) - 1] as StageId);
+};
 
 /**
  * TR-13: the Stage's list after include resolution. An include is one position (the compiler already
@@ -87,13 +94,7 @@ export function selectPriorityList(
 function applies(kb: Pick<MetaPathKnowledge, 'entries'>, id: string, stage: StageId): boolean {
   const e = kb.entries[id.split('#')[0] as string];
   if (!e) return true;
-  const s = e.appliesTo.stages;
-  if (s === 'all') return true;
-  return s.some((x) =>
-    typeof x === 'string'
-      ? x === stage
-      : stageIndex(stage) >= stageIndex(x.from) && stageIndex(stage) <= stageIndex(x.to),
-  );
+  return appliesAtStage(e.appliesTo, stage);
 }
 
 /** Position of an entry in the resolved list, or null when unlisted (ranks at +∞, FR-21). */

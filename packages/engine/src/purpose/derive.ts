@@ -8,6 +8,7 @@
 // of this Play Session (FR-12). Pure: no clock, no I/O; same inputs give the same output (FR-17).
 import { type AccountState, type CharacterState, isKnown } from '@idleon-forge/account-state';
 import {
+  appliesAtStage,
   type ContributionFinding,
   type Entry,
   feederIndices,
@@ -16,7 +17,6 @@ import {
   render,
   runDetector,
   type SlotValue,
-  stagesBetween,
 } from '@idleon-forge/knowledge';
 import { classTree, lookupOf } from '../metapath/knowledge';
 import { compareGoals } from '../metapath/priority';
@@ -105,11 +105,7 @@ export function activityOf(state: AccountState, c: CharacterState): ActivityRef 
 // ---------- applicability ----------
 
 function stageApplies(e: Entry, stage: string | null): boolean {
-  const s = e.appliesTo.stages;
-  if (s === 'all' || stage === null) return true;
-  return s.some((x) =>
-    typeof x === 'string' ? x === stage : (stagesBetween(x.from, x.to) as string[]).includes(stage),
-  );
+  return appliesAtStage(e.appliesTo, stage);
 }
 
 /** The active Contributions, sorted by id (determinism). */

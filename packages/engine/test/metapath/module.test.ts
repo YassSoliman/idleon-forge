@@ -67,7 +67,7 @@ describe('the meta-path module in the engine core', () => {
 
   it('beyond coverage adds a Worlds 5–7 gap', () => {
     const r = run(`${PUBLIC}highend.json`);
-    expect(r.stage.id).toBe('W4-entry');
+    expect(r.stage.id).toBe('W4-late');
     expect(r.notCovered.map((n) => n.systemId)).toContain('worlds-5-7');
   });
 
