@@ -136,7 +136,7 @@ export function SystemPage({ s, id }: { s: Session; id: string }) {
       <div className={`sy-frame${Body && !page.locked ? ' has-pic' : ''}`}>
         <div className="sy-frame__side">
           {!page.locked && page.step ? (
-            <section className="sy-step" aria-labelledby="sy-step-h">
+            <section className="sy-step a-frame" aria-labelledby="sy-step-h">
               <h3 id="sy-step-h" className="sy-nowtag">
                 <PixelArt name="v2-systems-st-now" decorative />
                 <span>{FRAME_WORDS.nextStep}</span>

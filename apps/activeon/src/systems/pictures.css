@@ -21,13 +21,13 @@
   min-height: var(--tap-min);
   padding: 2px;
   border: 0;
-  border-radius: 50%;
+  border-radius: 0;
   background: conic-gradient(var(--accent) calc(var(--pct) * 1%), var(--line) 0);
   color: var(--fg);
   cursor: pointer;
 }
 .sy-stamp > svg {
-  border-radius: 50%;
+  border-radius: 0;
   background: var(--surface);
   padding: 4px;
   box-sizing: content-box;
@@ -38,7 +38,7 @@
   bottom: -2px;
   min-width: 20px;
   padding: 0 4px;
-  border-radius: var(--radius-pill);
+  border-radius: 0;
   background: var(--surface);
   box-shadow: 0 0 0 1px var(--line-strong);
   font: var(--weight-bold) var(--text-xs) / 18px var(--font-numeral);
@@ -65,14 +65,12 @@
 }
 .sy-stamp--now {
   background: var(--accent-soft);
-  box-shadow: inset 0 0 0 2px var(--accent);
+  box-shadow: inset 0 -3px 0 var(--accent);
 }
 .sy-stamps .sy-stamp.is-now {
   grid-column: span 2;
   border-radius: var(--radius-control);
-  box-shadow:
-    inset 0 0 0 2px var(--accent),
-    0 0 0 3px var(--accent-soft);
+  box-shadow: inset 0 -3px 0 var(--accent);
 }
 .sy-stamps .sy-stamp.is-now > svg {
   filter: none;
@@ -112,7 +110,7 @@
   background: var(--surface);
 }
 .sy-ribbon__row.is-first {
-  box-shadow: inset 0 0 0 2px var(--accent);
+  box-shadow: inset 0 -3px 0 var(--accent);
 }
 .sy-ribbon__n {
   font-weight: var(--weight-bold);
@@ -143,18 +141,19 @@
   width: 100%;
   min-height: 60px;
   padding: var(--space-1);
-  border: 2px solid var(--line);
   border-radius: var(--radius-control);
   background: var(--surface);
   color: var(--fg);
   cursor: pointer;
+  box-shadow: inset 0 0 0 2px var(--ring, var(--line));
+  border: 0;
 }
 .sy-statue--g1 {
-  border-color: var(--tier-gold-2);
+  --ring: var(--tier-gold-2);
 }
 .sy-statue--g2,
 .sy-statue--g3 {
-  border-color: var(--tier-majestic-2);
+  --ring: var(--tier-majestic-2);
 }
 .sy-statue__lv {
   font: var(--weight-semibold) var(--text-xs) / 1 var(--font-numeral);
@@ -165,8 +164,8 @@
   grid-column: span 2;
 }
 .sy-statues .sy-statue.is-now {
-  border-color: var(--accent);
   box-shadow: 0 0 0 3px var(--accent-soft);
+  --ring: var(--accent);
 }
 .sy-statues__next {
   margin: 0;
@@ -188,7 +187,7 @@
 }
 .sy-spread__bar {
   height: 8px;
-  border-radius: var(--radius-pill);
+  border-radius: 0;
   background: linear-gradient(to right, var(--accent) calc(var(--pct) * 1%), var(--line) 0);
 }
 
@@ -208,13 +207,10 @@
   display: grid;
   gap: var(--space-1);
   padding: var(--space-2);
-  border-left: 4px solid var(--tier-silver-3);
   border-radius: var(--radius-control);
   background: var(--surface);
 }
 .sy-floor.is-locked {
-  border-left-style: dashed;
-  border-left-color: var(--line-strong);
   background: transparent;
 }
 .sy-floor__h {
@@ -228,10 +224,10 @@
   gap: var(--space-1);
   margin: 0;
   padding: var(--space-1) 0;
-  border-bottom: 2px solid var(--accent);
   color: var(--accent);
   font-size: var(--text-sm);
   font-weight: var(--weight-bold);
+  box-shadow: 0 1px 0 var(--accent);
 }
 .sy-floor__rows {
   display: grid;
@@ -248,13 +244,13 @@
   width: 100%;
   min-height: var(--tap-min);
   padding: var(--space-1) var(--space-2);
-  border: 1px solid var(--line);
   border-radius: var(--radius-sm);
   background: var(--bg);
   color: var(--fg);
   text-align: left;
   font-size: var(--text-xs);
   cursor: pointer;
+  border: 0;
 }
 .sy-vrow__name {
   font-weight: var(--weight-semibold);
@@ -263,11 +259,10 @@
 .sy-vrow__bar {
   display: block;
   height: 4px;
-  border-radius: var(--radius-pill);
+  border-radius: 0;
   background: linear-gradient(to right, var(--ok) calc(var(--pct) * 1%), var(--line) 0);
 }
 .sy-vrow.is-locked {
-  border-style: dashed;
   color: var(--muted);
 }
 .sy-vrow__v {
@@ -277,9 +272,9 @@
   grid-column: 1 / -1;
 }
 .sy-vault .sy-vrow.is-now {
-  border-color: var(--accent);
-  box-shadow: inset 0 0 0 1px var(--accent);
+  box-shadow: inset 0 -3px 0 var(--accent);
   font-size: var(--text-sm);
+  background: var(--accent-soft);
 }
 
 /* ---- Printer slots ---- */
@@ -332,9 +327,8 @@
   font-size: var(--text-xs);
 }
 .sy-pslot.is-empty {
-  background: transparent;
-  box-shadow: inset 0 0 0 1px var(--line);
+  background: repeating-linear-gradient(45deg, var(--sunk) 0 4px, transparent 4px 8px);
 }
 .sy-printer .sy-pslot.is-now {
-  box-shadow: inset 0 0 0 2px var(--accent);
+  box-shadow: inset 0 -3px 0 var(--accent);
 }

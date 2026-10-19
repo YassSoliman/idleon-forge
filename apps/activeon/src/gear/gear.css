@@ -52,11 +52,11 @@
   padding: var(--space-1) var(--space-2);
   text-align: left;
   border-radius: var(--radius-control);
-  border: 2px solid var(--line);
   background: var(--surface);
   color: var(--fg);
   font: inherit;
   cursor: pointer;
+  border: 0;
 }
 .gs-t {
   display: inline-flex;
@@ -73,29 +73,24 @@
   font-weight: var(--weight-semibold);
 }
 .gs.st-ok {
-  border-color: var(--ok);
   background: var(--ok-soft);
 }
 .gs.st-ok .gs-w {
   color: var(--ok);
 }
 .gs.st-behind {
-  border-color: var(--warn);
   background: var(--warn-soft);
 }
 .gs.st-behind .gs-w {
   color: var(--warn);
 }
 .gs.st-empty {
-  border-style: dashed;
-  border-color: var(--bad);
   background: var(--bad-soft);
 }
 .gs.st-empty .gs-w {
   color: var(--bad);
 }
 .gs.st-held-upgrade {
-  border-color: var(--ok);
   background: var(--surface);
 }
 .gs.st-held-upgrade .gs-w {
@@ -103,15 +98,14 @@
 }
 .gs.st-unknown,
 .gs.st-m20 {
-  border-color: var(--unk);
   background: var(--unk-soft);
 }
+/* The slot the Next step is about: a 3 px gold underline (the tab's mark), never an outline box. */
 .gs.lit {
-  outline: 3px solid var(--accent);
-  outline-offset: 2px;
+  box-shadow: inset 0 -3px 0 var(--accent);
 }
 .gs.open {
-  box-shadow: inset 0 0 0 2px var(--fg);
+  box-shadow: inset 0 -3px 0 var(--fg);
 }
 .gs-next {
   position: absolute;
@@ -163,16 +157,13 @@
   font-size: var(--text-sm);
   color: var(--fg);
   background: transparent;
-  border: 1px solid var(--line);
   border-radius: var(--radius-control);
   cursor: pointer;
+  border: 0;
 }
 .gd-step {
   margin: 0;
-  padding: var(--space-2) var(--space-3);
-  border-left: 4px solid var(--accent);
-  background: var(--accent-soft);
-  border-radius: var(--radius-sm);
+  padding: var(--space-4) var(--space-5);
 }
 .gd-step p {
   margin: 0 0 var(--space-1);
@@ -195,14 +186,15 @@
   font-size: var(--text-sm);
   padding: 2px var(--space-2);
   border-radius: var(--radius-sm);
-  border: 1px solid var(--line);
   color: var(--muted);
+  border: 0;
 }
 .gd-tier.can {
   color: var(--fg);
 }
 .gd-tier.on {
-  border: 2px solid var(--ok);
   color: var(--ok);
   font-weight: var(--weight-bold);
+  background: var(--ok-soft);
+  border: 0;
 }

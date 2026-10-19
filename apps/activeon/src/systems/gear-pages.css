@@ -21,9 +21,10 @@
 .gd-heat-table th,
 .gd-heat-table td {
   padding: 4px 6px;
-  border: 1px solid var(--line);
   text-align: left;
   white-space: nowrap;
+  box-shadow: inset 0 0 0 1px var(--line);
+  border: 0;
 }
 .hc.st-ok {
   background: var(--ok-soft);
@@ -47,8 +48,7 @@
 .gd-heat-table .hc.is-now,
 .gd-worst li.is-now,
 .gd-sets .gd-set.is-now {
-  outline: 3px solid var(--accent);
-  outline-offset: -2px;
+  box-shadow: inset 0 -3px 0 var(--accent);
 }
 .gd-worst {
   list-style: none;
@@ -59,7 +59,7 @@
 }
 .gd-worst li {
   padding: 4px 6px;
-  border-radius: 6px;
+  border-radius: 0;
   background: var(--sunk);
 }
 .gd-sets {
@@ -77,14 +77,14 @@
 .gd-set {
   padding: 8px 10px;
   border-radius: var(--radius-card);
-  border: 1px solid var(--line);
   background: var(--surface);
+  border: 0;
 }
 .gd-set p {
   margin: 0 0 4px;
 }
 .gd-set.done {
-  border-color: var(--ok);
+  background: var(--ok-soft);
 }
 .gd-parts {
   list-style: none;

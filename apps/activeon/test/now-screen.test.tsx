@@ -365,7 +365,7 @@ describe('US-22 / D9 account stockpiles', () => {
     expect(within(acct).getByRole('heading', { name: 'Before you leave' })).toBeTruthy();
     // M21 FR-N2: the counter counts the 2 account blockers; its first fix jumps to them (R5 QA P2-2).
     expect(screen.getByRole('heading', { name: '2 fixes before you leave' })).toBeTruthy();
-    fireEvent.click(screen.getByRole('button', { name: /^First/ }));
+    fireEvent.click(screen.getByRole('button', { name: /^Do it first/ }));
     expect(document.activeElement?.id).toBe('account-fix');
   });
 });

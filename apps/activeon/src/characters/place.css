@@ -95,21 +95,15 @@
   overflow-wrap: anywhere;
   color: var(--fg);
   background: var(--surface);
-  border: 1px solid var(--line);
+  border: 0;
 }
 .characters-place .cp-cell[data-level="fix"] {
   background: var(--bad-soft);
   color: var(--bad);
-  border-color: var(--bad);
 }
 .characters-place .cp-cell[data-level="behind"] {
   background: var(--warn-soft);
   color: var(--warn);
-  border-color: var(--warn);
-}
-.characters-place .cp-cell[data-level="empty"] {
-  border-style: dashed;
-  border-color: var(--line-strong);
 }
 .characters-place .cp-cell[data-level="unknown"] {
   background: var(--unk-soft);
@@ -118,9 +112,9 @@
 .characters-place .cp-cell[data-level="ok"] {
   font-weight: var(--weight-regular);
 }
+/* The cell to fix first is the screen's one frame (M21.1 refresh): notched corners, no ring. */
 .characters-place .cp-cell[data-ring="yes"] {
-  box-shadow: 0 0 0 3px var(--accent);
-  z-index: 1;
+  background: var(--frame-bg);
 }
 .characters-place .cp-ring-tag {
   font-size: var(--text-xs);
@@ -148,13 +142,12 @@
   gap: var(--space-3);
   align-items: flex-start;
   padding: var(--space-3);
-  border: 2px dashed var(--line-strong);
   border-radius: var(--radius-card);
   background: var(--surface);
+  border: 0;
 }
 .characters-place .cp-next[data-open="yes"] {
-  border-style: solid;
-  border-color: var(--accent);
+  background: var(--accent-soft);
 }
 /* "Not yet": the chibi drawn in the muted ramp until the slot opens. */
 .characters-place .cp-next[data-open="no"] .cp-next-glyph {
@@ -197,9 +190,9 @@
   gap: var(--space-1);
   align-content: start;
   padding: var(--space-2);
-  border: 1px solid var(--line);
   border-radius: var(--radius-control);
   background: var(--surface);
+  border: 0;
 }
 .characters-place .cp-tree-h {
   display: flex;
@@ -225,8 +218,8 @@
   min-height: var(--tap-min);
   padding: var(--space-2) var(--space-3);
   background: var(--surface);
-  border: 1px solid var(--line);
   border-radius: var(--radius-control);
+  border: 0;
 }
 .characters-place .cp-fold > summary::-webkit-details-marker {
   display: none;
@@ -249,11 +242,11 @@
   gap: 0 var(--space-2);
   min-height: var(--tap-min);
   padding: var(--space-2) var(--space-3);
-  border: 1px solid var(--line);
   border-radius: var(--radius-control);
   background: var(--surface);
   color: var(--fg);
   text-decoration: none;
+  border: 0;
 }
 .characters-place .cp-bo-line {
   flex-basis: 100%;

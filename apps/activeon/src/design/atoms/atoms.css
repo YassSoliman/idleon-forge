@@ -24,7 +24,6 @@
   gap: var(--space-2);
   min-width: var(--tap-min);
   padding: 0 var(--space-4);
-  border: var(--border-width) solid var(--control-border);
   border-radius: var(--radius-control);
   background: var(--surface);
   color: var(--fg);
@@ -32,19 +31,17 @@
   font-variant-ligatures: var(--font-ligatures);
   font-feature-settings: var(--font-features);
   cursor: pointer;
+  border: 0;
 }
 .a-btn--primary {
   background: var(--accent);
-  border-color: var(--accent);
   color: var(--on-accent);
 }
 .a-btn--quiet {
   background: transparent;
-  border-color: var(--line);
 }
 .a-btn--plain {
   background: transparent;
-  border-color: transparent;
   color: var(--accent);
 }
 .a-btn:disabled {
@@ -89,18 +86,51 @@
   color: var(--accent);
 }
 
+/* The frame (M21.1 refresh): the one framed element on a screen, the action to take first. Notched
+   pixel corners like IdleOn's windows, drawn with a clip-path on a tonal fill; never a border, never
+   nested, never more than one per screen. The focus ring is drawn inside, since the clip cuts outlines. */
+.a-frame {
+  --frame-notch: 6px;
+  position: relative;
+  background: var(--frame-bg);
+  color: var(--fg);
+  clip-path: polygon(
+    0 var(--frame-notch),
+    var(--frame-notch) var(--frame-notch),
+    var(--frame-notch) 0,
+    calc(100% - var(--frame-notch)) 0,
+    calc(100% - var(--frame-notch)) var(--frame-notch),
+    100% var(--frame-notch),
+    100% calc(100% - var(--frame-notch)),
+    calc(100% - var(--frame-notch)) calc(100% - var(--frame-notch)),
+    calc(100% - var(--frame-notch)) 100%,
+    var(--frame-notch) 100%,
+    var(--frame-notch) calc(100% - var(--frame-notch)),
+    0 calc(100% - var(--frame-notch))
+  );
+}
+.a-frame:focus-visible {
+  outline: none;
+  box-shadow: inset 0 0 0 3px var(--focus);
+}
+@media (max-width: 719.98px) {
+  .a-frame {
+    --frame-notch: 5px;
+  }
+}
+
 /* Pills and the Verdict stamp ------------------------------------------------------------------- */
 .a-pill {
   display: inline-flex;
   align-items: center;
   gap: var(--space-1);
-  padding: 2px var(--space-2);
-  border: 1px solid transparent;
+  padding: 2px 0;
   border-radius: var(--radius-chip);
   font: var(--weight-semibold) var(--text-xs) / var(--lh-snug) var(--font-body);
   font-variant-ligatures: var(--font-ligatures);
   font-feature-settings: var(--font-features);
   white-space: nowrap;
+  border: 0;
 }
 .a-pill--fix {
   background: var(--cap-now-bg);
@@ -108,7 +138,6 @@
 }
 .a-pill--soon {
   background: var(--cap-soon-bg);
-  border-color: var(--cap-soon-border);
   color: var(--cap-soon-fg);
 }
 .a-pill--fine,
@@ -126,11 +155,15 @@
 }
 .a-pill--filter {
   cursor: pointer;
-  padding: 0 var(--space-3);
+  padding: 0 var(--space-2);
+  font-size: var(--text-sm);
+}
+.a-pill--filter:hover {
+  background: var(--sunk);
 }
 .a-pill--filter[aria-pressed="true"] {
-  border-color: currentColor;
-  box-shadow: inset 0 0 0 1px currentColor;
+  background: var(--accent-soft);
+  color: var(--accent);
 }
 .a-pill__count {
   font-family: var(--font-numeral);
@@ -140,7 +173,7 @@
   display: inline-flex;
   align-items: center;
   gap: var(--space-1);
-  padding: 2px var(--space-2);
+  padding: 2px 0;
   border-radius: var(--radius-chip);
   font: var(--weight-bold) var(--text-xs) / var(--lh-snug) var(--font-body);
   font-variant-ligatures: var(--font-ligatures);
@@ -176,8 +209,7 @@
   display: inline-flex;
   align-items: center;
   gap: var(--space-2);
-  padding: 0 var(--space-3);
-  border: 1px solid var(--line);
+  padding: 0 var(--space-2);
   border-radius: var(--radius-chip);
   background: var(--chip-bg);
   color: var(--fg);
@@ -186,13 +218,16 @@
   font-feature-settings: var(--font-features);
   text-decoration: none;
   cursor: pointer;
+  border: 0;
+}
+.a-chip:not(.a-chip--static):not(.a-chip--pressed):hover {
+  background: var(--sunk);
 }
 .a-chip--static {
   cursor: default;
 }
 .a-chip--pressed {
   background: var(--chip-pressed-bg);
-  border-color: var(--chip-pressed-bg);
   color: var(--chip-pressed-fg);
 }
 .a-chip__detail {
@@ -206,7 +241,7 @@
   min-width: 20px;
   height: 20px;
   padding: 0 6px;
-  border-radius: var(--radius-pill);
+  border-radius: 0;
   background: var(--bad);
   color: var(--on-bad);
   font: var(--weight-bold) var(--text-xs) / 1 var(--font-numeral);
@@ -236,7 +271,7 @@
 .a-meter {
   position: relative;
   height: 8px;
-  border-radius: var(--radius-pill);
+  border-radius: 0;
   background: var(--sunk);
   overflow: hidden;
 }
@@ -282,9 +317,9 @@
   display: inline-flex;
   margin: 0;
   padding: 2px;
-  border: 1px solid var(--line);
   border-radius: var(--radius-control);
   background: var(--sunk);
+  border: 0;
 }
 .a-seg__option {
   display: inline-flex;
@@ -311,7 +346,7 @@
   display: flex;
   gap: var(--space-1);
   overflow-x: auto;
-  border-bottom: 1px solid var(--line);
+  box-shadow: 0 1px 0 var(--line);
 }
 .a-tab {
   display: inline-flex;
@@ -319,17 +354,17 @@
   gap: var(--space-1);
   padding: 0 var(--space-3);
   border: 0;
-  border-bottom: 2px solid transparent;
   background: transparent;
   color: var(--muted);
   font: var(--weight-semibold) var(--text-sm) / 1 var(--font-body);
   font-variant-ligatures: var(--font-ligatures);
   font-feature-settings: var(--font-features);
   cursor: pointer;
+  box-shadow: 0 1px 0 var(--line);
 }
 .a-tab--on {
-  border-bottom-color: var(--accent);
   color: var(--fg);
+  box-shadow: inset 0 -3px 0 var(--accent);
 }
 
 /* Seals, status glyphs, speech, section ---------------------------------------------------------- */
@@ -456,9 +491,9 @@
   align-items: center;
   gap: var(--space-2) var(--space-3);
   padding: var(--space-3);
-  border: 1px dashed var(--line-strong);
   border-radius: var(--radius-card);
   color: var(--fg);
+  border: 0;
 }
 .a-toast {
   display: flex;
@@ -467,10 +502,10 @@
   justify-content: space-between;
   gap: var(--space-2);
   padding: var(--space-2) var(--space-3);
-  border: 1px solid var(--line);
   border-radius: var(--radius-card);
   background: var(--surface);
   box-shadow: var(--shadow-2);
+  border: 0;
 }
 .a-toast__actions {
   display: flex;
@@ -497,7 +532,7 @@
   max-height: 85vh;
   overflow: auto;
   padding: var(--space-2) var(--space-4) var(--space-6);
-  border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+  border-radius: 0;
   background: var(--surface);
   color: var(--fg);
   box-shadow: var(--shadow-2);

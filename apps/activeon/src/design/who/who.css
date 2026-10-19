@@ -10,7 +10,7 @@
   line-height: 0;
 }
 .who-world {
-  border-bottom: 2px solid var(--px-world);
+  box-shadow: 0 1px 0 var(--px-world);
 }
 .who-badge {
   position: absolute;
@@ -18,7 +18,6 @@
   bottom: -4px;
   min-width: 16px;
   padding: 0 2px;
-  border: 1px solid var(--line-strong);
   border-radius: var(--radius-sm);
   background: var(--surface);
   color: var(--fg);
@@ -27,6 +26,8 @@
   font-weight: 700;
   line-height: 16px;
   text-align: center;
+  box-shadow: inset 0 0 0 1px var(--line-strong);
+  border: 0;
 }
 /* R11 QA: at 16 px the corner badge covered most of the chibi (the Map's World strip). At scale 1 the
    letter sits beside the chibi instead of on it. */

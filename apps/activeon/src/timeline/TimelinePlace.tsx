@@ -230,7 +230,7 @@ function NowBox({ v, s }: { v: TimelineView; s: Session }) {
     );
   const row = rowOf(s, now.lane.index);
   return (
-    <div className="tl-next">
+    <div className="tl-next a-frame">
       <span className="tl-now-badge">{B.nowBadge}</span>
       <span className="tl-next-a">
         {now.bar.label} · <span className="num">{now.bar.timeText}</span>

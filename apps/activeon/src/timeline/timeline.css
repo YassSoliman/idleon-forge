@@ -18,7 +18,7 @@
 .tl-section {
   scroll-margin-top: var(--space-4);
   padding-top: var(--space-4);
-  border-top: 1px solid var(--line);
+  box-shadow: 0 -1px 0 var(--line);
 }
 .tl-h {
   margin: 0;
@@ -50,16 +50,13 @@
   align-items: center;
   min-height: var(--tap-min);
   padding: 0 var(--space-3);
-  border: 1px solid var(--line);
   border-radius: var(--radius-chip);
   background: var(--surface);
   font-size: var(--text-sm);
   font-weight: var(--weight-semibold);
   color: var(--fg);
   text-decoration: none;
-}
-.tl-jump-a:hover {
-  border-color: var(--accent);
+  border: 0;
 }
 
 /* §6 stale-first (the Lab's "Hatched waste"): the save's age before anything else. */
@@ -69,7 +66,6 @@
   align-items: flex-start;
   margin: 0;
   padding: var(--space-2) var(--space-3);
-  border-left: 4px solid var(--warn);
   border-radius: var(--radius-control);
   background: var(--warn-soft);
   color: var(--fg);
@@ -115,10 +111,10 @@
   overscroll-behavior-x: contain;
   scroll-snap-type: x proximity;
   background: var(--surface);
-  border: 1px solid var(--line);
   border-radius: var(--radius-control);
   max-width: 100%;
   min-width: 0;
+  border: 0;
 }
 .tl-frame:focus-visible,
 .sg-frame:focus-visible {
@@ -135,7 +131,7 @@
   display: grid;
   grid-template-columns: var(--head) minmax(0, 1fr);
   min-height: var(--tap-min);
-  border-bottom: 1px solid var(--line);
+  box-shadow: 0 1px 0 var(--line);
 }
 .tl-row:last-child {
   border-bottom: 0;
@@ -150,8 +146,8 @@
   gap: var(--space-2);
   padding: var(--space-1) var(--space-2);
   background: var(--surface);
-  border-right: 1px solid var(--line);
   min-width: 0;
+  box-shadow: 1px 0 0 var(--line);
 }
 .tl-lh-t {
   display: grid;
@@ -195,18 +191,18 @@
   bottom: 4px;
   left: calc(var(--x, 0) * 100%);
   padding-left: 3px;
-  border-left: 1px solid var(--line);
   font: var(--text-xs) / 1.2 var(--font-numeral);
   font-variant-ligatures: var(--font-ligatures);
   font-feature-settings: var(--font-features);
   color: var(--muted);
   white-space: nowrap;
+  background: linear-gradient(var(--line), var(--line)) left / 1px 100% no-repeat;
 }
 .tl-tick.now {
   left: 0;
-  border-left: 2px solid var(--now-line);
   color: var(--fg);
   font-weight: var(--weight-semibold);
+  background: linear-gradient(var(--now-line), var(--now-line)) left / 2px 100% no-repeat;
 }
 /* The Back flag on the axis: a pill in the return colour. */
 .tl-back-flag {
@@ -237,14 +233,15 @@
   top: 0;
   bottom: 0;
   left: var(--head);
-  width: 0;
-  border-left: 2px solid var(--now-line);
+  width: 2px;
+  margin-left: -1px;
   z-index: 2;
   pointer-events: none;
+  background: var(--now-line);
 }
 .tl-back-line {
   left: calc(var(--head) + var(--back) * (100% - var(--head)));
-  border-left: 2px dashed var(--return-line);
+  background: repeating-linear-gradient(to bottom, var(--return-line) 0 6px, transparent 6px 10px);
 }
 /* The stale save (Hatched waste): the hours since the save as one grey band on the axis head. */
 .tl-board.stale .tl-axis-head {
@@ -256,7 +253,7 @@
   font-weight: var(--weight-semibold);
   color: var(--muted);
   background: var(--sunk);
-  border-bottom: 1px solid var(--line);
+  box-shadow: 0 1px 0 var(--line);
 }
 .tl-divider span {
   position: sticky;
@@ -293,18 +290,19 @@
   height: 8px;
   width: max(4px, calc(var(--x) * 100%));
   background: var(--fam-soft);
-  border: 1px solid var(--fam);
   border-radius: 0 4px 4px 0;
-}
-.tl-bar.later .tl-rail {
-  border-right-style: dashed;
+  box-shadow: inset 0 0 0 1px var(--fam);
+  border: 0;
 }
 .tl-bar.fx-info .tl-rail {
-  border-style: dashed;
+  box-shadow: none;
+  outline: 1px dashed var(--fam);
+  outline-offset: -1px;
 }
 /* FR-25: full before you're back with a fix: the Fix outline, and stripes up to Back. */
 .tl-bar.outlined .tl-rail {
-  border: 2px solid var(--warn);
+  box-shadow: inset 0 0 0 2px var(--warn);
+  border: 0;
 }
 .tl-hatch {
   position: absolute;
@@ -315,7 +313,8 @@
 }
 .tl-bar.outlined .tl-hatch {
   background: repeating-linear-gradient(135deg, var(--warn) 0 3px, transparent 3px 7px);
-  border: 1px solid var(--warn);
+  box-shadow: inset 0 0 0 1px var(--warn);
+  border: 0;
 }
 /* Full before Back without a fix of its own: waste, grey stripes. */
 .tl-bar.waste .tl-hatch {
@@ -335,8 +334,7 @@
   background: var(--warn-soft);
 }
 .tl-bar.is-now .tl-bar-g {
-  outline: 3px solid var(--accent);
-  outline-offset: 1px;
+  box-shadow: inset 0 -3px 0 var(--accent);
 }
 .tl-bar-l {
   position: absolute;
@@ -373,8 +371,10 @@
   top: 3px;
   height: 8px;
   width: 12%;
-  border: 1px dashed var(--unk);
   border-radius: 0 4px 4px 0;
+  outline: 1px dashed var(--unk);
+  outline-offset: -1px;
+  border: 0;
 }
 .tl-bar.muted {
   opacity: 0.55;
@@ -432,13 +432,17 @@
   gap: var(--space-2) var(--space-3);
   margin: 0;
   padding: var(--space-3);
-  border: 2px solid var(--accent);
   border-radius: var(--radius-card);
   background: var(--accent-soft);
   min-height: var(--tap-min);
+  border: 0;
+}
+/* The Lanes' NOW box is the Timeline's one frame (M21.1 refresh). */
+.tl-next.a-frame {
+  padding: var(--space-4) var(--space-5);
+  background: var(--frame-bg);
 }
 .tl-next.calm {
-  border-color: var(--line);
   background: var(--sunk);
 }
 .tl-next-a {
@@ -482,28 +486,30 @@
   width: 18px;
   height: 10px;
   border-radius: 3px;
-  border: 1px solid var(--info);
   background: var(--info-soft);
+  box-shadow: inset 0 0 0 1px var(--info);
+  border: 0;
 }
 .tl-key.fam-store {
-  border-color: var(--accent);
   background: var(--accent-soft);
+  --ring: var(--accent);
 }
 .tl-key.fam-timer {
-  border-color: var(--unk);
   background: var(--unk-soft);
+  --ring: var(--unk);
 }
 .tl-key.fam-food {
-  border-color: var(--ok);
   background: var(--ok-soft);
+  --ring: var(--ok);
 }
 .tl-key.outlined {
-  border: 2px solid var(--warn);
   background: var(--warn-soft);
+  box-shadow: inset 0 0 0 2px var(--ring, var(--warn));
+  border: 0;
 }
 .tl-key.hatch {
-  border-color: var(--warn);
   background: repeating-linear-gradient(135deg, var(--warn) 0 3px, transparent 3px 7px);
+  --ring: var(--warn);
 }
 
 /* ---- The lists: the same content as text, with the real links (TR-13) ---- */
@@ -514,16 +520,16 @@
 .tl-lane,
 .tl-account {
   background: var(--surface);
-  border: 1px solid var(--line);
   border-radius: var(--radius-card);
   padding: var(--space-1) var(--space-3) var(--space-2);
   min-width: 0;
+  border: 0;
 }
 .tl-account .tl-lane {
   border: 0;
   padding: 0;
-  border-top: 1px solid var(--line);
   border-radius: 0;
+  box-shadow: 0 -1px 0 var(--line);
 }
 .tl-account-h {
   margin: var(--space-2) 0;
@@ -562,11 +568,10 @@
   align-items: center;
   gap: var(--space-2);
   padding: var(--space-1) 0;
-  border-top: 1px solid var(--sunk);
   min-width: 0;
+  box-shadow: 0 -1px 0 var(--sunk);
 }
 .tl-item.outlined {
-  box-shadow: inset 3px 0 0 var(--warn);
   padding-left: var(--space-2);
   margin-left: calc(-1 * var(--space-2));
 }
@@ -632,9 +637,9 @@
   overscroll-behavior-x: contain;
   max-width: 100%;
   min-width: 0;
-  border: 1px solid var(--line);
   border-radius: var(--radius-control);
   background: var(--surface);
+  border: 0;
 }
 .sg {
   border-collapse: separate;
@@ -713,17 +718,21 @@
 .sg-c.is-filled,
 .sg-key.is-filled {
   background: var(--ok-soft);
-  border: 1px solid var(--ok);
+  box-shadow: inset 0 0 0 1px var(--ok);
+  border: 0;
 }
 .sg-c.is-full,
 .sg-key.is-full {
   background: var(--warn-soft);
-  border: 2px solid var(--warn);
+  box-shadow: inset 0 0 0 2px var(--warn);
+  border: 0;
 }
 .sg-c.is-empty,
 .sg-key.is-empty {
   background: transparent;
-  border: 2px dashed var(--line-strong);
+  outline: 2px dashed var(--line-strong);
+  outline-offset: -2px;
+  border: 0;
 }
 .sg-c.is-empty .sg-g {
   opacity: 0.5;
@@ -732,8 +741,9 @@
 .sg-c.is-closed,
 .sg-key.is-closed {
   background: var(--sunk);
-  border: 1px solid var(--line);
   color: var(--muted);
+  box-shadow: inset 0 0 0 1px var(--line);
+  border: 0;
 }
 .sg-c.is-closed .sg-g {
   opacity: 0.35;
@@ -759,12 +769,13 @@
   display: grid;
   gap: var(--space-1);
   padding: var(--space-2) var(--space-3);
-  border: 2px dashed var(--line-strong);
   border-radius: var(--radius-card);
-  background: var(--surface);
+  background: repeating-linear-gradient(45deg, var(--sunk) 0 4px, transparent 4px 8px);
+  border: 0;
 }
 .sg-tray.is-now {
-  border: 2px solid var(--accent);
+  box-shadow: inset 0 -3px 0 var(--accent);
+  border: 0;
 }
 .sg-tray-h {
   display: flex;
@@ -900,16 +911,13 @@
   width: 100%;
   min-height: var(--tap-min);
   padding: var(--space-2) var(--space-3);
-  border: 1px solid var(--line);
   border-radius: var(--radius-control);
   background: var(--surface);
   color: var(--fg);
   font: inherit;
   text-align: left;
   cursor: pointer;
-}
-.dw-band-b:hover {
-  border-color: var(--accent);
+  border: 0;
 }
 .dw-band-b > .px-art {
   grid-row: 1 / span 2;
@@ -952,19 +960,22 @@
   width: 24px;
   height: 24px;
   border-radius: var(--radius-sm);
-  border: 2px solid var(--line-strong);
   background: transparent;
+  box-shadow: inset 0 0 0 2px var(--ring, var(--line-strong));
+  border: 0;
 }
 .dw-pip.s-todo {
-  border-color: var(--accent);
+  --ring: var(--accent);
 }
 .dw-pip.s-done {
-  border-color: var(--ok);
   background: var(--ok-soft);
+  --ring: var(--ok);
 }
 .dw-pip.s-waiting,
 .dw-pip.s-unknown {
-  border-style: dashed;
+  box-shadow: none;
+  outline: 2px dashed var(--ring, var(--line-strong));
+  outline-offset: -2px;
 }
 .dw-pip.s-cannot,
 .dw-pip.s-unknown,
@@ -972,8 +983,8 @@
   opacity: 0.6;
 }
 .dw-pip.lost {
-  border-color: var(--bad);
   background: var(--bad-soft);
+  --ring: var(--bad);
 }
 .dw-plan {
   display: grid;
@@ -1020,11 +1031,11 @@
   gap: var(--space-3);
   align-items: start;
   padding: var(--space-2) var(--space-3);
-  border: 1px solid var(--line);
   border-radius: var(--radius-control);
   background: var(--surface);
   min-width: 0;
   overflow-wrap: anywhere;
+  border: 0;
 }
 .cl-ic {
   display: grid;
@@ -1043,13 +1054,9 @@
   background: transparent;
   color: var(--muted);
 }
-.cl-row.s-waiting,
-.cl-row.s-unknown {
-  border-style: dashed;
-}
 .cl-row.lost {
-  border: 2px solid var(--bad);
   background: var(--bad-soft);
+  border: 0;
 }
 .cl-head,
 .cl-detail,
@@ -1100,19 +1107,20 @@
   width: 12px;
   height: 12px;
   border-radius: 3px;
-  border: 2px solid var(--line-strong);
+  box-shadow: inset 0 0 0 2px var(--ring, var(--line-strong));
+  border: 0;
 }
 .cl-pip.is-on {
   background: var(--accent);
-  border-color: var(--accent);
+  --ring: var(--accent);
 }
 .cl-pip.is-last.is-on {
   background: var(--bad);
-  border-color: var(--bad);
+  --ring: var(--bad);
 }
 .cl-pip.is-lost {
-  border-color: var(--bad);
   background: repeating-linear-gradient(135deg, var(--bad) 0 2px, transparent 2px 4px);
+  --ring: var(--bad);
 }
 .cl-lost {
   color: var(--bad);
@@ -1146,6 +1154,7 @@
   .tl-frame,
   .sg-frame {
     scroll-behavior: auto;
+    border: 0;
   }
 }
 
@@ -1206,6 +1215,7 @@
      then its five cells in a wrapping grid, each cell naming its column. */
   .sg-frame {
     overflow-x: visible;
+    border: 0;
   }
   .sg,
   .sg tbody,
@@ -1225,7 +1235,7 @@
     grid-template-columns: repeat(auto-fill, minmax(96px, 1fr));
     gap: 4px;
     padding: var(--space-2);
-    border-bottom: 1px solid var(--line);
+    box-shadow: 0 1px 0 var(--line);
   }
   .sg tbody th,
   .sg tfoot th {

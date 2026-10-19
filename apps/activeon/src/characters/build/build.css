@@ -32,11 +32,11 @@
   gap: var(--space-2);
   margin: 0;
   padding: var(--space-3);
-  border: 2px solid var(--bad);
   border-radius: var(--radius-control);
   background: var(--bad-soft);
   color: var(--fg);
   font-weight: var(--weight-semibold);
+  border: 0;
 }
 
 /* ---- class path: stepping stones ---- */
@@ -56,9 +56,9 @@
   gap: 2px;
   padding: var(--space-2) var(--space-1);
   border-radius: var(--radius-control);
-  border: 1px solid var(--line);
   background: var(--surface);
   font-size: var(--text-xs);
+  border: 0;
 }
 .build-view .bv-stone b {
   font-size: var(--text-sm);
@@ -70,13 +70,9 @@
 }
 .build-view .bv-stone[data-state="now"] {
   background: var(--accent-soft);
-  border-color: var(--accent);
 }
 .build-view .bv-stone[data-state="next"] {
   box-shadow: 0 0 0 2px var(--accent);
-}
-.build-view .bv-stone[data-state="later"] {
-  border-style: dashed;
 }
 .build-view .bv-stone-opens {
   margin: var(--space-2) 0 0;
@@ -90,7 +86,6 @@
   gap: var(--space-2);
   margin: 0;
   padding: var(--space-2) var(--space-3);
-  border-left: 4px solid var(--accent-rule, var(--accent));
   background: var(--sunk);
   font-size: var(--text-sm);
 }
@@ -110,9 +105,9 @@
   gap: var(--space-3);
   min-width: 0;
   padding: var(--space-3);
-  border: 1px solid var(--line);
   border-radius: var(--radius-card);
   background: var(--surface);
+  border: 0;
 }
 .build-view .bv-preset-h {
   display: flex;
@@ -157,7 +152,6 @@
   gap: var(--space-2);
   margin: 0;
   padding: var(--space-2) var(--space-3);
-  border-left: 4px solid var(--accent);
   background: var(--accent-soft);
   border-radius: var(--radius-sm);
   font-weight: var(--weight-semibold);
@@ -187,20 +181,15 @@
   text-align: left;
   font: inherit;
   color: var(--fg);
-  background: var(--bg);
-  border: 2px solid var(--line-strong);
+  background: var(--sunk);
   border-radius: var(--radius-control);
   cursor: pointer;
+  border: 0;
 }
+/* M21.1 refresh: tree tiles are tonal steps; the open one takes the gold tone and a 3 px underline. */
 .build-view .bv-tile[data-on="yes"] .bv-tile-btn {
-  border-color: var(--accent);
   background: var(--accent-soft);
-}
-.build-view .bv-tile[data-star="yes"] .bv-tile-btn {
-  border-style: dashed;
-}
-.build-view .bv-tile[data-star="yes"][data-on="yes"] .bv-tile-btn {
-  border-style: solid;
+  box-shadow: inset 0 -3px 0 var(--accent);
 }
 .build-view .bv-tile-btn:focus-visible {
   outline: var(--focus-width) solid var(--focus);
@@ -222,7 +211,7 @@
   font-weight: var(--weight-bold);
   color: var(--on-accent);
   background: var(--accent);
-  border-radius: var(--radius-pill);
+  border-radius: 0;
   padding: 1px var(--space-2);
 }
 
@@ -251,10 +240,8 @@
   display: grid;
   grid-template-columns: 24px minmax(0, 1fr);
   gap: var(--space-2);
-  padding: var(--space-2);
-  border-radius: var(--radius-sm);
-  border-left: 4px solid var(--line);
-  background: var(--bg);
+  padding: var(--space-2) 0;
+  box-shadow: 0 1px 0 var(--line);
 }
 .build-view .bv-ps-glyph {
   display: inline-flex;
@@ -299,7 +286,6 @@
   color: var(--muted);
 }
 .build-view .bv-ps[data-band="done"] {
-  border-left-color: var(--line-strong);
   padding-block: var(--space-1);
 }
 .build-view .bv-ps[data-band="done"] .bv-ps-name {
@@ -308,33 +294,16 @@
 .build-view .bv-ps[data-band="done"] .bv-ps-glyph {
   color: var(--ok);
 }
-.build-view .bv-ps[data-band="now"] {
-  background: var(--ok-soft);
-  border-left-color: var(--ok);
-}
 .build-view .bv-ps[data-band="now"] .bv-ps-band,
 .build-view .bv-ps[data-band="now"] .bv-ps-glyph {
   color: var(--ok);
 }
-.build-view .bv-ps[data-band="part"] {
-  background: linear-gradient(90deg, var(--ok-soft) 50%, var(--bg) 50%);
-  border-left-color: var(--ok);
-}
 .build-view .bv-ps[data-band="part"] .bv-ps-band {
   color: var(--ok);
 }
-/* "next after these": a surface fill and a dashed rule; full-contrast text, never lowered opacity. */
-.build-view .bv-ps[data-band="next"] {
-  background: var(--surface);
-  border: 1px dashed var(--line-strong);
-  border-left: 4px dashed var(--line-strong);
-}
+/* "next after these": full-contrast text, never lowered opacity. */
 .build-view .bv-ps[data-band="next"] .bv-ps-band {
   color: var(--fg);
-}
-.build-view .bv-ps[data-band="later"] {
-  background: var(--sunk);
-  border-left-color: var(--unk);
 }
 .build-view .bv-ps[data-band="later"] .bv-ps-band {
   color: var(--unk);
@@ -351,12 +320,7 @@
 .build-view .bv-marker::after {
   content: "";
   flex: 1 1 var(--space-4);
-  border-top: 2px solid var(--accent);
-}
-.build-view .bv-marker[data-known="no"]::before,
-.build-view .bv-marker[data-known="no"]::after {
-  border-top-style: dashed;
-  border-top-color: var(--line-strong);
+  box-shadow: 0 -1px 0 var(--accent);
 }
 .build-view .bv-marker > span {
   flex: 0 1 auto;
@@ -381,15 +345,15 @@
   gap: var(--space-1);
   min-height: 36px;
   padding: 0 var(--space-2);
-  border: 2px solid var(--line-strong);
   border-radius: var(--radius-sm);
-  background: var(--bg);
+  background: var(--sunk);
   font-size: var(--text-sm);
+  border: 0;
 }
 .build-view .bv-atk-slot[data-ghost="yes"] {
-  border-style: dashed;
-  border-color: var(--bad);
-  background: var(--surface);
+  background: repeating-linear-gradient(45deg, var(--sunk) 0 4px, transparent 4px 8px);
+  --ring: var(--bad);
+  box-shadow: none;
 }
 .build-view .bv-atk-line {
   margin: var(--space-2) 0 0;
@@ -401,9 +365,9 @@
   list-style: none;
   margin: 0;
   padding: 0 0 0 var(--space-4);
-  border-left: 2px solid var(--line-strong);
   display: grid;
   gap: var(--space-2);
+  background: linear-gradient(var(--line-strong), var(--line-strong)) left / 2px 100% no-repeat;
 }
 .build-view .bv-rung {
   position: relative;
@@ -416,7 +380,7 @@
   top: 6px;
   width: 8px;
   height: 8px;
-  border-radius: 50%;
+  border-radius: 0;
   background: var(--line-strong);
 }
 .build-view .bv-rung[data-here="yes"] {

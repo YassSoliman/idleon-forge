@@ -261,7 +261,7 @@ export function GearTab({ view, index }: CharacterTabProps) {
         ) : null}
       </div>
       {g.step ? (
-        <div className="gd-step">
+        <div className="gd-step a-frame">
           <p>
             <b>Next:</b> {g.step}
           </p>

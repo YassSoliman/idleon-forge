@@ -162,7 +162,7 @@ function StepHero({ card, goal, family }: { card: FocusCard; goal: GoalView; fam
   const progress = step?.progress && step.progress.need > 0 ? step.progress : null;
   return (
     <div
-      className={cx('n-step', fix ? 'is-fix' : 'is-now', actions.highlight === a.key && 'lit')}
+      className={cx('n-step a-frame', fix ? 'is-fix' : 'is-now', actions.highlight === a.key && 'lit')}
       data-na-key={a.key}
     >
       <button type="button" className="n-step__open" aria-haspopup="dialog" onClick={() => setOpen(true)}>

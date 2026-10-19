@@ -128,7 +128,7 @@ function HealthMatrix({ s, rows }: { s: Session; rows: RosterRow[] }) {
                   return (
                     <td key={t.id}>
                       <a
-                        className="cp-cell"
+                        className={ringed ? 'cp-cell a-frame' : 'cp-cell'}
                         data-level={c.health.level}
                         data-ring={ringed ? 'yes' : 'no'}
                         href={tabHref(c.tab, r.index)}

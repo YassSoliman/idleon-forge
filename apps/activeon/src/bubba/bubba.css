@@ -15,16 +15,16 @@
 .bb-note {
   margin: 0;
   padding: var(--space-3);
-  border-left: 4px solid var(--warn);
   border-radius: var(--radius-control);
   background: var(--surface);
   font-size: var(--text-sm);
 }
 
 /* ---- Bubba's bonuses to your account (a text list, FR-22) ---- */
+/* M21.1 refresh: hairline rows inside the System frame, never a box in a box. */
 .bb-bonuses {
   display: grid;
-  gap: var(--space-1);
+  gap: 0;
   margin: 0;
   padding: 0;
   list-style: none;
@@ -37,14 +37,14 @@
   gap: var(--space-2);
   width: 100%;
   min-height: var(--tap-min);
-  padding: var(--space-1) var(--space-3);
-  border: 1px solid var(--line);
-  border-radius: var(--radius-control);
-  background: var(--surface);
+  padding: var(--space-1) 0;
+  background: none;
+  box-shadow: 0 1px 0 var(--line);
   color: var(--fg);
   font: inherit;
   text-align: left;
   cursor: pointer;
+  border: 0;
 }
 .bb-bonus__row:focus-visible {
   outline: 2px solid var(--accent);
@@ -53,12 +53,8 @@
 .bb-bonus__text {
   font-weight: var(--weight-semibold);
 }
-.bb-bonus.is-next .bb-bonus__row {
-  border-color: var(--line-strong);
-  border-left-width: 4px;
-}
 .bb-bonus__next {
-  margin: var(--space-1) 0 0 var(--space-3);
+  margin: var(--space-1) 0 0;
 }
 
 /* ---- Inside Bubba ---- */
@@ -67,9 +63,8 @@
   align-content: start;
   gap: var(--space-2);
   min-width: 0;
-  padding: var(--space-3);
-  border-radius: var(--radius-control);
-  background: var(--surface);
+  padding: var(--space-3) 0;
+  box-shadow: 0 -1px 0 var(--line);
 }
 .bb-panel > p,
 .bb-panel ul,
@@ -105,13 +100,14 @@
 .bb-pip {
   width: 16px;
   height: 16px;
-  border: 2px solid var(--line-strong);
   border-radius: var(--radius-xs);
   background: var(--surface);
+  box-shadow: inset 0 0 0 2px var(--ring, var(--line-strong));
+  border: 0;
 }
 .bb-pip.is-owned {
-  border-color: var(--accent);
   background: var(--accent);
+  --ring: var(--accent);
 }
 .bb-next {
   display: grid;
@@ -174,12 +170,11 @@
 .bb-tag {
   display: inline-block;
   padding: 0 var(--space-2);
-  border: 1px solid var(--line-strong);
-  border-radius: var(--radius-pill);
+  border-radius: 0;
   font-size: var(--text-xs);
   line-height: 18px;
+  border: 0;
 }
 .bb-tag--max {
-  border-color: var(--ok);
   color: var(--ok);
 }

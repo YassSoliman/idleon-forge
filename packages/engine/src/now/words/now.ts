@@ -50,7 +50,8 @@ export const COUNTER_WORDS = {
   /** The whole line, for the live region and the golden ("2 fixes before you leave"). */
   line: (count: unknown) => `${n(count)} ${n(count) === 1 ? 'fix' : 'fixes'} before you leave`,
   allSet: 'All set: safe to log off',
-  first: 'First',
+  /** The framed first fix's label (M21.1 refresh: "Do it first", the canvas). */
+  first: 'Do it first',
   /** The muted line under the counter. */
   age: (ago: unknown) => `save read ${s(ago)}`,
   /** "Your save is 8h 28m old: press Cloud Save, then check again" (DS-11, US-3). */

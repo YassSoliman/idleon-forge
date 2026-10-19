@@ -49,7 +49,7 @@ describe('FR-N2 the counter (US-1)', () => {
     const r = fixture('mid-session');
     const { container } = renderNow(props(r, saveOf(r, 1, 'first', null, 'paste')));
     expect(counterHeading().getAttribute('aria-label')).toBe('1 fix before you leave');
-    const first = screen.getByRole('button', { name: /^First/ });
+    const first = screen.getByRole('button', { name: /^Do it first/ });
     expect(first.textContent).toContain('Food runs out in about 2h');
     expect(first.textContent).toContain('Barbarian 51');
     expect(first.textContent).toContain('Fishing Camp');

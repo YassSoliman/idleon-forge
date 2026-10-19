@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: GPL-3.0-only
 // Copyright (C) 2026 IdleOn Forge contributors.
 // M17 Views and M21 FR-M6: the navigation shell. Five places (Now, Characters, Systems, Timeline, Map),
-// a bottom bar under 720 px and a side rail from 720 px (FR-2, D-5), each place one bare anchor (FR-7)
-// with its pixel glyph and word. Every place but Now is its own chunk, fetched when the browser is idle. The
+// a bottom dock under 720 px and, from 720 px, a top bar inside the header (M21.1 refresh, nav option A),
+// each place one bare anchor (FR-7) with its 16 px pixel glyph and word. Every place but Now is its own chunk, fetched when the browser is idle. The
 // banners, the progress bar and What's new are the same in every place (FR-6): area N's NowChrome slot. The session state lives
 // in `useSession` (FR-10), so a place switch never re-runs the engine or loses the Play Session.
 import { FLOW_WORDS, LINK_WORDS, NAV_WORDS } from '@idleon-forge/engine/now';
@@ -46,7 +46,7 @@ import { PLACE_NAMES, type Session, type ShellProps, useSession } from './sessio
 export type { NowSave, ShellProps } from './session';
 
 export interface ShellSlots {
-  /** Where the place navigation renders (App puts the slot right under the header, FR-2); inline without. */
+  /** Where the place navigation renders (App puts the slot in the header's top bar, FR-2); inline without. */
   navSlot?: HTMLElement | null;
 }
 
@@ -113,13 +113,15 @@ export function PlacesNav({ s }: { s: Session }) {
                 >
                   <span className="glyph-wrap">
                     <PixelArt name={GLYPHS[item.place]} decorative />
-                    {b ? (
-                      <span className={`badge badge-${b.tone} num`} aria-hidden="true">
-                        {b.n}
-                      </span>
-                    ) : null}
                   </span>
-                  <span className="place-label">{PLACE_NAMES[item.place]}</span>
+                  <span className="place-label" data-label={PLACE_NAMES[item.place]}>
+                    {PLACE_NAMES[item.place]}
+                  </span>
+                  {b ? (
+                    <span className={`badge badge-${b.tone} num`} aria-hidden="true">
+                      {b.n}
+                    </span>
+                  ) : null}
                 </a>
               </li>
             );

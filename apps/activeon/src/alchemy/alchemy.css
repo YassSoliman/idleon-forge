@@ -4,7 +4,6 @@
 .al-step {
   margin: 0 0 12px;
   padding: 8px 12px;
-  border-left: 4px solid var(--accent);
   background: var(--surface);
   border-radius: var(--radius-card);
 }
@@ -30,12 +29,12 @@
 }
 .al-pot {
   min-width: 0;
-  border: 1px solid var(--line);
   /* R11 QA (owner ask): each cauldron reads in its own colour at a glance: a band in the pot's
      colour and a light wash of it behind the card. */
-  border-top: 6px solid var(--pot, var(--line));
+  box-shadow: inset 0 6px 0 var(--pot, var(--line));
   border-radius: var(--radius-card);
   background: color-mix(in srgb, var(--pot, var(--surface)) 12%, var(--surface));
+  border: 0;
 }
 .al-pot summary {
   display: grid;
@@ -66,9 +65,10 @@
   right: 4px;
   bottom: 0;
   height: 36px;
-  border: 3px solid var(--fg);
-  border-radius: 6px 6px 18px 18px;
+  border-radius: 0;
   background: var(--pot);
+  box-shadow: inset 0 0 0 3px var(--fg);
+  border: 0;
 }
 .al-pot-body::before {
   content: "";
@@ -77,9 +77,10 @@
   right: -7px;
   top: -6px;
   height: 6px;
-  border: 3px solid var(--fg);
   border-radius: 3px;
   background: var(--pot-rim, var(--sunk));
+  box-shadow: inset 0 0 0 3px var(--fg);
+  border: 0;
 }
 .al-rise {
   position: absolute;
@@ -94,8 +95,9 @@
 .al-rise i {
   width: 6px;
   height: 6px;
-  border: 1px solid var(--fg);
   background: var(--pot);
+  box-shadow: inset 0 0 0 1px var(--fg);
+  border: 0;
 }
 .al-power {
   --pot: var(--cauldron-power-3);
@@ -118,7 +120,7 @@
   font-weight: 700;
   color: var(--fg);
   background: var(--accent-soft);
-  border-radius: 999px;
+  border-radius: 0;
   padding: 0 8px;
 }
 .al-sheet {
@@ -140,9 +142,6 @@
 }
 .al-chips .chip {
   font-size: var(--text-sm);
-}
-.al-chips .chip.plan {
-  border-color: var(--accent);
 }
 .al-chips .chip.locked {
   color: var(--muted);
@@ -170,10 +169,11 @@
   display: block;
   width: 14px;
   height: 24px;
-  border: 2px solid var(--line);
-  border-radius: 2px 2px 6px 6px;
+  border-radius: 0;
   background: var(--surface);
   overflow: hidden;
+  box-shadow: inset 0 0 0 2px var(--ring, var(--line));
+  border: 0;
 }
 .al-glass i,
 .al-tube-g i {
@@ -184,11 +184,13 @@
   background: var(--ok);
 }
 .al-vial.have .al-glass {
-  border-color: var(--fg);
+  --ring: var(--fg);
 }
 .al-vial.easy .al-glass {
-  border-style: dashed;
-  border-color: var(--fg);
+  --ring: var(--fg);
+  box-shadow: none;
+  outline: 2px dashed var(--ring, var(--line-strong));
+  outline-offset: -2px;
 }
 .al-vlab {
   font-size: var(--text-sm);
@@ -215,15 +217,18 @@
   display: block;
   width: 26px;
   height: 88px;
-  border: 2px solid var(--fg);
   border-top: 0;
-  border-radius: 0 0 13px 13px;
+  border-radius: 0;
   background: var(--surface);
   overflow: hidden;
+  box-shadow: inset 0 0 0 2px var(--ring, var(--fg));
+  border: 0;
 }
 .al-tube.locked .al-tube-g {
-  border-style: dashed;
-  border-color: var(--line);
+  --ring: var(--line);
+  box-shadow: none;
+  outline: 2px dashed var(--ring, var(--line-strong));
+  outline-offset: -2px;
 }
 .al-tube.locked {
   color: var(--muted);
@@ -244,7 +249,6 @@
   width: 100%;
   min-height: var(--tap-min);
   padding: var(--space-1) var(--space-2);
-  border: 1px solid var(--line);
   border-radius: var(--radius-sm);
   background: var(--surface);
   color: var(--fg);
@@ -253,6 +257,7 @@
   font-feature-settings: var(--font-features);
   text-align: left;
   cursor: pointer;
+  border: 0;
 }
 .al-cell__name {
   font-weight: var(--weight-semibold);
@@ -264,18 +269,17 @@
 .al-bar {
   display: block;
   height: 6px;
-  border-radius: var(--radius-pill);
+  border-radius: 0;
   background: linear-gradient(to right, var(--ok) calc(var(--pct) * 1%), var(--line) 0);
 }
 .al-cell.closed {
-  border-style: dashed;
   color: var(--muted);
 }
 .al-grid .al-cell.is-now {
   grid-column: 1 / -1;
-  border-color: var(--accent);
-  box-shadow: inset 0 0 0 1px var(--accent);
+  box-shadow: inset 0 -3px 0 var(--accent);
   font-size: var(--text-sm);
+  background: var(--accent-soft);
 }
 .al-cell:focus-visible {
   outline: var(--focus-width) solid var(--focus);
@@ -289,8 +293,7 @@
 .al-pots .al-pot.is-now,
 .al-tubes .al-tube.is-now,
 .al-shelf .al-vial.is-now .al-glass {
-  outline: 3px solid var(--accent);
-  outline-offset: 1px;
+  box-shadow: inset 0 -3px 0 var(--accent);
 }
 .al-glass i.h0,
 .al-tube-g i.h0 {

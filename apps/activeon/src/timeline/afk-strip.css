@@ -6,15 +6,12 @@
   gap: var(--space-1);
   min-height: var(--tap-min);
   padding: var(--space-2) var(--space-3);
-  border: 1px solid var(--line);
   border-radius: var(--radius-card);
   background: var(--surface);
   color: var(--fg);
   text-decoration: none;
   min-width: 0;
-}
-.afk-strip:hover {
-  border-color: var(--accent);
+  border: 0;
 }
 .afk-axis {
   position: relative;
@@ -30,15 +27,16 @@
   bottom: 6px;
   height: 4px;
   border-radius: 2px;
-  background: var(--sunk);
-  border-left: 2px solid var(--now-line);
+  background: linear-gradient(to right, var(--now-line) 0 2px, var(--sunk) 2px);
 }
 .afk-back {
   position: absolute;
   top: 2px;
   bottom: 0;
   left: calc(var(--back) * 100%);
-  border-left: 2px dashed var(--return-line);
+  width: 2px;
+  margin-left: -1px;
+  background: repeating-linear-gradient(to bottom, var(--return-line) 0 4px, transparent 4px 7px);
 }
 /* The pennant on the Back pole. */
 .afk-back::after {

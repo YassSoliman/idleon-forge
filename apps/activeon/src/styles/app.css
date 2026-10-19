@@ -81,8 +81,8 @@ code,
 }
 .card {
   background: var(--surface);
-  border: 1px solid var(--line);
   border-radius: var(--radius-card);
+  border: 0;
 }
 .primary {
   min-height: var(--tap-min);
@@ -95,12 +95,12 @@ code,
 }
 .small-btn {
   min-height: var(--tap-min);
-  border: 1px solid var(--control-border);
   background: var(--surface);
   border-radius: var(--radius-control);
   padding: 0 var(--space-3);
   font-size: var(--text-sm);
   font-weight: var(--weight-semibold);
+  border: 0;
 }
 .link-btn {
   min-height: var(--tap-min);
@@ -118,13 +118,13 @@ code,
   font-size: var(--text-sm);
 }
 .confirm {
-  border: 1px solid var(--line);
   border-radius: var(--radius-card);
   padding: var(--space-2) var(--space-3) var(--space-3);
   margin: 0;
   display: grid;
   gap: var(--space-2);
   justify-self: stretch;
+  border: 0;
 }
 .confirm legend {
   font-size: var(--text-sm);
@@ -145,12 +145,7 @@ code,
   gap: var(--space-2);
 }
 .r {
-  background: var(--surface);
-  border: 1px solid var(--line);
-  border-radius: var(--radius-card);
-}
-.r.unknown {
-  border-style: dashed;
+  border: 0;
 }
 .broken {
   color: var(--fg);

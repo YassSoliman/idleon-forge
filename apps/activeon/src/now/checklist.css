@@ -14,16 +14,12 @@
   align-items: center;
   gap: var(--space-3);
   min-height: var(--tap-min);
-  padding: var(--space-1) var(--space-3);
-  border: 1px solid var(--line);
-  border-radius: var(--radius-card);
-  background: var(--surface);
+  padding: var(--space-1) 0;
+  box-shadow: 0 1px 0 var(--line);
   color: var(--fg);
   text-decoration: none;
   overflow-wrap: anywhere;
-}
-.cl-line-a:hover {
-  border-color: var(--accent);
+  border: 0;
 }
 .cl-line-a > .px-art:last-child {
   margin-left: auto;
@@ -67,15 +63,16 @@
   gap: 4px 8px;
   align-items: center;
   min-height: 44px;
-  border: 1px solid var(--line);
   border-radius: var(--radius-card);
   padding: 4px 10px;
   background: var(--surface);
+  box-shadow: inset 0 0 0 1px var(--ring, var(--line));
+  border: 0;
 }
 .pip.fillable,
 .pip.capped {
-  border-color: var(--accent);
   background: var(--accent-soft);
+  --ring: var(--accent);
 }
 .pip.locked,
 .pip.unknown,

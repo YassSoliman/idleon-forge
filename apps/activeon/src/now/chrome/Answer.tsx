@@ -174,7 +174,7 @@ export function Counter({
         </div>
       </div>
       {first ? (
-        <button type="button" className="n-first" onClick={() => onFirst(first.key, first.who)}>
+        <button type="button" className="n-first a-frame" onClick={() => onFirst(first.key, first.who)}>
           <span className="n-first__k">{COUNTER_WORDS.first}</span>
           <span className="n-first__t">{first.text}</span>
           <TokenLine
