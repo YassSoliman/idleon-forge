@@ -10,8 +10,10 @@ import { GameIcon } from '../../art/game/GameIcon';
 import { itemArt } from '../../art/game/game-art';
 import { WHETSTONE_ART } from '../../art/game/systems-art';
 import { WhoGlyph } from '../../design/who/WhoGlyph';
+import { AnvilRecipes } from '../../production/AnvilRecipes';
+import { AnvilWalkthrough } from '../../production/AnvilWalkthrough';
 import { SimplePage, StepsSection } from '../frame/SimplePage';
-import { type FrameAnswer, frameAnswer, SystemFrame } from '../frame/SystemFrame';
+import { type FrameAnswer, type FrameTab, frameAnswer, SystemFrame } from '../frame/SystemFrame';
 import type { FullPageProps } from '../pages';
 import './pages.css';
 
@@ -34,16 +36,70 @@ export default function AnvilPage({ s, page }: FullPageProps) {
     () => buildAnvilPageView(s.state, s.result, nearest(s.result.expectedReturn.usedSeconds)),
     [s.state, s.result],
   );
-  if (!v) return <SimplePage s={s} page={page} />;
-  const answer: FrameAnswer = own?.hero
-    ? {
-        tone: 'gold',
-        cap: page.frame.answer.cap === 'All good' ? 'Do this next' : page.frame.answer.cap,
-        hero: own.hero.hero,
-        sub: own.hero.sub,
-        big: { value: own.hero.points.toLocaleString('en-US'), unit: W.points, note: W.doingNothing },
-      }
-    : frameAnswer(page);
+  // M26 F-C: the route's tab and row (FR-C2); the Walkthrough tab's own answer is the next tab (FR-C4).
+  const route = s.route.place === 'system' && s.route.id === page.tile.id ? s.route : null;
+  const prod = s.result.production ?? null;
+  const openTab = (tab: string, focus?: string) =>
+    s.navigate({ place: 'system', id: page.tile.id, tab, ...(focus ? { focus } : {}) }, 'replace', {
+      origin: s.origin,
+    });
+  const next = prod?.nextTab ?? null;
+  const pageAnswer: FrameAnswer | null =
+    route?.tab === 'walkthrough' && next
+      ? {
+          tone: 'gold',
+          cap: 'Do this next',
+          hero: next.answer,
+          sub: next.bottleneck || null,
+          big: {
+            value: `${next.ready}/${next.of}`,
+            note: 'materials ready',
+            meter: next.of ? next.ready / next.of : 0,
+          },
+        }
+      : prod?.answer
+        ? { tone: 'gold', cap: prod.answer.cap, hero: prod.answer.hero, sub: prod.answer.sub }
+        : null;
+  const answer: FrameAnswer =
+    pageAnswer ??
+    (own?.hero
+      ? {
+          tone: 'gold',
+          cap: page.frame.answer.cap === 'All good' ? 'Do this next' : page.frame.answer.cap,
+          hero: own.hero.hero,
+          sub: own.hero.sub,
+          big: { value: own.hero.points.toLocaleString('en-US'), unit: W.points, note: W.doingNothing },
+        }
+      : frameAnswer(page));
+  const prodTabs: FrameTab[] = prod
+    ? [
+        {
+          id: 'recipes',
+          label: W.tabs.recipes,
+          render: () => (
+            <AnvilRecipes
+              s={s}
+              p={prod}
+              focus={route?.tab === 'recipes' ? (route.focus ?? null) : null}
+              openWalkthrough={() => openTab('walkthrough', next?.rawName)}
+            />
+          ),
+        },
+        {
+          id: 'walkthrough',
+          label: W.tabs.walkthrough,
+          ...(prod.walkthroughs.length ? { badge: prod.walkthroughs.length } : {}),
+          render: () => <AnvilWalkthrough p={prod} />,
+        },
+      ]
+    : [];
+  // Without the point plan (an old pasted save), the page still has its Recipes and Walkthrough tabs.
+  if (!v)
+    return prodTabs.length ? (
+      <SystemFrame s={s} page={page} answer={pageAnswer ?? frameAnswer(page)} tabs={prodTabs} />
+    ) : (
+      <SimplePage s={s} page={page} />
+    );
   const makers = v.makes.filter((m) => m.items.length > 0).length;
   return (
     <SystemFrame
@@ -52,8 +108,8 @@ export default function AnvilPage({ s, page }: FullPageProps) {
       answer={answer}
       tabs={[
         {
-          id: 'split',
-          label: W.tabs.split,
+          id: 'points',
+          label: W.tabs.points,
           render: () => (
             <div className="sf-split">
               <div className="sf-col">
@@ -277,6 +333,7 @@ export default function AnvilPage({ s, page }: FullPageProps) {
             </section>
           ),
         },
+        ...prodTabs,
       ]}
     />
   );

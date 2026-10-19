@@ -14,8 +14,10 @@ import { KitSprite } from '../art/game/KitSprite';
 import { ClassBadge } from '../characters/ClassBadge';
 import { Answer, GoalLink, type Tone, upper, useGoal } from '../characters/tabs/kit';
 import { Blob, Pip } from '../design/atoms';
+import { extractGate, GateLink, GateText } from '../design/atoms/GateLink';
 import type { CharacterTabProps } from '../now/character-tabs';
 import { useNowActions } from '../now/context';
+import { useGates } from '../production/use-gates';
 import './gear.css';
 
 type SlotId = GearSlotView['slot'];
@@ -144,50 +146,70 @@ function SlotTile({
   lit,
   open,
   onOpen,
+  craftNext,
 }: {
   v: GearSlotView;
   look: Look;
   lit: boolean;
   open: boolean;
   onOpen: () => void;
+  /** M26 FR-C10: this slot holds the character's craft-next piece. */
+  craftNext?: boolean;
 }) {
   const wearing = v.equipped && v.state !== 'ok' ? ` · wearing ${v.equipped.name}` : '';
+  // M26 FR-C1: the slot is a button, so its gate is a chip under it, never words inside it.
+  const gates = useGates();
+  const recipe = v.target ? { rawName: v.target.rawName, name: v.target.name } : null;
+  const status = extractGate(look.status, gates.tabGates, recipe);
+  const where = look.where ? extractGate(look.where, gates.tabGates, recipe) : null;
+  const gate = status.gate ?? where?.gate ?? null;
   return (
-    <button
-      type="button"
-      className="gd-slot"
-      data-tone={look.tone}
-      data-lit={lit ? 'yes' : 'no'}
-      aria-expanded={open}
-      aria-controls="gear-path"
-      onClick={onOpen}
-    >
-      <span className="tb-ic" data-tone={look.icon}>
-        <GameIcon art={itemArt(slotItem(v))} fallback={SPRITE[v.slot]} size={32} decorative />
-      </span>
-      <span className="gd-slot__words">
-        <span className="tb-xs">
-          {LABEL[v.slot]}
-          {wearing}
+    <>
+      <button
+        type="button"
+        className="gd-slot"
+        data-tone={look.tone}
+        data-lit={lit ? 'yes' : 'no'}
+        aria-expanded={open}
+        aria-controls="gear-path"
+        onClick={onOpen}
+      >
+        <span className="tb-ic" data-tone={look.icon}>
+          <GameIcon art={itemArt(slotItem(v))} fallback={SPRITE[v.slot]} size={32} decorative />
         </span>
-        <span className="gd-slot__status">{look.status}</span>
-        {look.where ? <span className="gd-slot__where">{look.where}</span> : null}
-      </span>
-      {lit ? (
-        <span className="gd-slot__next">Next</span>
-      ) : look.lv !== null ? (
-        <span className="gd-slot__lv">
-          <b>Lv {look.lv}</b>
-          <span className="tb-xs">to wear</span>
+        <span className="gd-slot__words">
+          <span className="tb-xs">
+            {LABEL[v.slot]}
+            {wearing}
+          </span>
+          <span className="gd-slot__status">{status.text}</span>
+          {where ? <span className="gd-slot__where">{where.text}</span> : null}
+        </span>
+        {lit ? (
+          <span className="gd-slot__next">Next</span>
+        ) : craftNext ? (
+          <span className="gd-slot__next gd-slot__craft">Craft next</span>
+        ) : look.lv !== null ? (
+          <span className="gd-slot__lv">
+            <b>Lv {look.lv}</b>
+            <span className="tb-xs">to wear</span>
+          </span>
+        ) : null}
+      </button>
+      {gate ? (
+        <span className="gd-slot__gate">
+          <GateLink gate={gate} onNavigate={gates.onNavigate} />
         </span>
       ) : null}
-    </button>
+    </>
   );
 }
 
 /** The open slot's whole path: what it wears, the Gear Plan target and every step to it. */
 function Path({ v }: { v: GearSlotView }) {
   const [all, setAll] = useState(false);
+  const gates = useGates();
+  const recipe = v.target ? { rawName: v.target.rawName, name: v.target.name } : null;
   const steps = v.target?.steps ?? [];
   const e = v.equipped;
   const isTool = v.slot === 'weapon' || ['pickaxe', 'hatchet', 'rod', 'net'].includes(v.slot);
@@ -224,7 +246,8 @@ function Path({ v }: { v: GearSlotView }) {
                 wiki={v.target.name}
               />
               <span>
-                {v.target.name} (Lv {v.target.lvReq}): {v.target.how}
+                {v.target.name} (Lv {v.target.lvReq}):{' '}
+                <GateText text={v.target.how} recipe={recipe} {...gates} />
               </span>
             </dd>
           </div>
@@ -246,7 +269,9 @@ function Path({ v }: { v: GearSlotView }) {
         <>
           <ol className="gd-steps">
             {(all ? steps : steps.slice(0, 3)).map((t) => (
-              <li key={t}>{t}</li>
+              <li key={t}>
+                <GateText text={t} recipe={recipe} {...gates} />
+              </li>
             ))}
           </ol>
           {steps.length > 3 ? (
@@ -332,6 +357,7 @@ export function GearTab({ view, index }: CharacterTabProps) {
   // The open path belongs to one character: another character's tab starts closed.
   const [opened, setOpen] = useState<{ index: number; slot: SlotId } | null>(null);
   const goals = useGoalTexts();
+  const craftNextRaw = useCraftNext(index);
   if (!g || g.slots.length === 0) return <p className="tb-note tb">No gear data for this character yet.</p>;
   const who = view.skills.find((s) => s.index === index);
   const label = who ? `${who.classLabel} ${who.level}` : '';
@@ -363,6 +389,7 @@ export function GearTab({ view, index }: CharacterTabProps) {
           lit={g.lit === slot}
           open={openSlot === slot}
           onOpen={() => setOpen(openSlot === slot ? null : { index, slot })}
+          craftNext={craftNextRaw !== null && v.target?.rawName === craftNextRaw}
         />
       </li>
     );
@@ -441,6 +468,15 @@ export function GearTab({ view, index }: CharacterTabProps) {
       {g.step && g.note ? <p className="tb-note">{g.note}</p> : null}
     </div>
   );
+}
+
+/** M26 FR-C10: the rawName of the character's craft-next piece (the Production Plan's craft row). */
+function useCraftNext(index: number): string | null {
+  const actions = useNowActions();
+  const row = actions.result?.production?.rows.find(
+    (r) => r.characterIndex === index && r.producer === 'craft-next' && r.kind === 'craft',
+  );
+  return row?.icon ?? null;
 }
 
 /** Every shown Next Action's text by key, for the slots a Goal answers ("Craft Copper Platelegs …"). */

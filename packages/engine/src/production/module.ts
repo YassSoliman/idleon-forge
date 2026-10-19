@@ -624,6 +624,7 @@ export function buildProduction(input: BuildInput): ProductionResult | null {
     walkthroughs,
     answer,
     keepRatio,
+    tabGates: [1, 2, 3, 4, 5].map((t) => tabGate(state, kb, t)),
     ...recipeLookups(state, kb, nameOf),
   };
 }
