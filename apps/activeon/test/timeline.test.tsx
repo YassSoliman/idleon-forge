@@ -17,7 +17,7 @@ import {
 } from '@idleon-forge/engine/now';
 import type { EngineResult, InfoLine, SystemSummary, TimelineBar } from '@idleon-forge/engine/result';
 import { isAdviceShaped } from '@idleon-forge/knowledge';
-import { cleanup, fireEvent, render, screen, within } from '@testing-library/react';
+import { cleanup, fireEvent, render, screen, waitFor, within } from '@testing-library/react';
 import axe from 'axe-core';
 import { afterEach, beforeAll, beforeEach, describe, expect, it, vi } from 'vitest';
 import { AfkStrip } from '../src/timeline/AfkStrip';
@@ -324,12 +324,18 @@ describe('US-11: from the bar to the fix (FR-27)', () => {
     expect(window.location.hash).toBe('#timeline');
   });
 
-  it('expands "show more" first for an account Next Action past the cap', async () => {
+  it('an account Next Action lands on the Goals page, outlined (M24 QA P1-1: no Account column on Now)', async () => {
     await openTimeline(withTimeline());
-    fireEvent.click(within(lists()).getByRole('link', { name: 'See the fix: Arcade balls lost' }));
-    expect(window.location.hash).toBe('#now');
-    const na = document.querySelector('[data-na-key="arcade.check.g5@account"]');
-    expect(na?.classList.contains('lit')).toBe(true);
+    const link = within(lists()).getByRole('link', { name: 'See the fix: Arcade balls lost' });
+    expect(link.getAttribute('href')).toBe('#goals');
+    fireEvent.click(link);
+    expect(window.location.hash).toBe('#goals');
+    const na = await waitFor(() => {
+      const el = document.querySelector('[data-na-key="arcade.check.g5@account"]');
+      if (!el) throw new Error('not on the page yet');
+      return el;
+    });
+    expect(na.classList.contains('lit')).toBe(true);
   });
 });
 

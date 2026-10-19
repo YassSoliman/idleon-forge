@@ -122,7 +122,7 @@ export function NowPlace({ s }: { s: Session }) {
           </SessionHost>
         </Suspense>
       </div>
-      <AccountSection ref={refs.accountRef} view={view} rail={<NowRail s={s} />} />
+      <AccountSection ref={refs.accountRef} fixes={view.account.blockers.length} rail={<NowRail s={s} />} />
     </>
   );
 }
@@ -150,6 +150,7 @@ function NowRail({ s }: { s: Session }) {
       fixes={view.account.blockers.length}
       goals={goals}
       onGoals={() => s.navigate({ place: 'account', page: 'goals' }, 'push')}
+      onFix={(key) => s.toAccountFix(key)}
       onDaily={() => s.navigate({ place: 'timeline', section: 'daily' }, 'push')}
       onSpend={s.toSpend}
     />
@@ -204,11 +205,14 @@ function NowBody({
       : [];
   useEffect(() => setRailTab(sv.tab), [sv.tab]);
   // M24 World 4: the set-up-first welcome comes first and holds the screen's one frame while it shows.
-  const framed = !hasW4Welcome(s);
+  // M24 QA P2 (one frame per screen): a stale save's banner is the tinted lead, so the hero and the
+  // pause points' block step down to plain; under the welcome the banner itself goes plain.
+  const welcome = hasW4Welcome(s);
+  const framed = !welcome && stale === null;
   return (
     <>
       <W4WelcomeSlot s={s} />
-      {stale !== null ? <StaleBanner ageMs={stale} lastKnown={sv.counter.count} /> : null}
+      {stale !== null ? <StaleBanner ageMs={stale} lastKnown={sv.counter.count} plain={welcome} /> : null}
       <PauseControl view={sv} onPick={(tab) => setPause({ manual: tab })} />
       {sv.tab === 'logoff' ? (
         <>

@@ -122,6 +122,10 @@
 .characters-place .cp-cell[data-tone="warn"] {
   background: var(--accent-soft);
 }
+/* M24 QA P2: muted text on the gold tint was 3.99:1 in dark; the small word takes the text colour there. */
+.characters-place .cp-cell[data-tone="warn"] .cp-muted {
+  color: var(--fg);
+}
 .characters-place .cp-cell:hover {
   background: var(--sunk);
 }
@@ -227,13 +231,15 @@
   background: var(--surface);
 }
 .characters-place .cp-tree-col[data-family="warrior"] .cp-fam {
-  color: var(--tier-bronze-3);
+  /* M24 QA P2: the bronze half-mixed toward the text colour, so it reads 4.5:1 in both themes (the
+     plain tier bronze was 2.24:1 on the light surface). */
+  color: color-mix(in srgb, var(--tier-bronze-3) 50%, var(--fg));
 }
 .characters-place .cp-tree-col[data-family="archer"] .cp-fam {
   color: var(--ok);
 }
 .characters-place .cp-tree-col[data-family="mage"] .cp-fam {
-  color: var(--violet, #b79cf2);
+  color: var(--violet, var(--fg));
 }
 .characters-place .cp-tree-ghost {
   background: var(--bg);

@@ -199,7 +199,13 @@ export function LogInView(p: PauseViewProps) {
       <button type="button" className="np-then" onClick={() => p.onPause('rounds')}>
         <span className="np-then__t">
           <b>{W.thenRound}</b>
-          <span className="np-muted np-sm">{W.roundLine(view.roster.length, fixes)}</span>
+          <span className="np-muted np-sm">
+            {W.roundLine(
+              view.roster.length,
+              fixes,
+              p.groups.reduce((n, g) => n + g.indexes.length, 0),
+            )}
+          </span>
         </span>
         <span className="np-then__who" aria-hidden="true">
           {view.roster.map((r) => (
@@ -237,6 +243,7 @@ export function RoundsView(p: PauseViewProps) {
       .map((g) => ({
         key: g.entryId,
         text: W.sameJobFull(g.indexes.length, g.verb ?? 'collect', g.what),
+        core: null as string | null,
         glyph: systemSprite(g.entryId.split('.')[0]),
         indexes: g.indexes,
       })),
@@ -246,6 +253,7 @@ export function RoundsView(p: PauseViewProps) {
         g.stops.reduce((n, s) => n + s.chips.length, 0),
         g.text,
       ),
+      core: g.text as string | null,
       glyph: systemSprite(g.entryId.split('.')[0]),
       indexes: g.stops.flatMap((s) => s.chips.map((c) => c.index)),
     })),
@@ -254,6 +262,14 @@ export function RoundsView(p: PauseViewProps) {
     ...new Set(idx.map((i) => view.roster.find((r) => r.index === i)?.map).filter((m): m is string => !!m)),
   ];
   const fullCount = groups.reduce((n, g) => n + g.indexes.length, 0);
+  // Rule 3: the next three jobs, biggest first; the rest stay on each character's card.
+  const shownJobs = [...jobs].sort((a, z) => z.indexes.length - a.indexes.length).slice(0, 3);
+  /** M24 QA P2 (say it once): a card whose task is a shown "Same job" points there instead of repeating it. */
+  const inJob = (i: number, summary: string | null | undefined) =>
+    !!summary &&
+    shownJobs.some(
+      (j) => j.core && j.indexes.includes(i) && summary.toLowerCase().startsWith(j.core.toLowerCase()),
+    );
   return (
     <>
       <section
@@ -281,7 +297,9 @@ export function RoundsView(p: PauseViewProps) {
           <h3 id="np-round-h" className="a-h2">
             {W.yourRound}
           </h3>
-          <span className="np-muted np-sm">{W.roundSummary(total, maps.size, sv.counter.count)}</span>
+          <span className="np-muted np-sm">
+            {W.roundSummary(total, maps.size, sv.counter.count, fullCount)}
+          </span>
         </div>
         <ol className="np-round">
           {view.roster.map((r) => {
@@ -307,11 +325,18 @@ export function RoundsView(p: PauseViewProps) {
                     <b>{who(view, r.index)}</b>
                   </span>
                   {r.map ? <span className="np-muted np-xs">{r.map}</span> : null}
-                  {r.summary ? <span className="np-stop__task np-sm">{r.summary}</span> : null}
+                  {r.summary ? (
+                    inJob(r.index, r.summary) ? (
+                      <span className="np-stop__task np-sm np-muted">{W.sameJobBelow}</span>
+                    ) : (
+                      <span className="np-stop__task np-sm">{r.summary}</span>
+                    )
+                  ) : null}
                   <span className="np-xs np-stop__chip">
                     <Pip tone={PIP[state]} />
+                    {/* M24 QA P2: a pip is never alone; without a tab chip it carries the state word. */}
                     <span className="np-muted">
-                      {chip ? `${chip.label}${chip.word ? ` · ${chip.word}` : ''}` : ''}
+                      {chip ? `${chip.label}${chip.word ? ` · ${chip.word}` : ''}` : W.verdict[state]}
                     </span>
                   </span>
                 </Go>
@@ -320,33 +345,29 @@ export function RoundsView(p: PauseViewProps) {
           })}
         </ol>
       </section>
-      {/* Rule 3: the next three jobs, biggest first; the rest stay on each character's card. */}
-      {[...jobs]
-        .sort((a, z) => z.indexes.length - a.indexes.length)
-        .slice(0, 3)
-        .map((j) => {
-          const m = mapsOf(j.indexes);
-          return (
-            <section key={j.key} className="np-job" aria-label={j.text}>
-              <span className="np-job__ic" aria-hidden="true">
-                <Icon name={j.glyph} size={32} />
+      {shownJobs.map((j) => {
+        const m = mapsOf(j.indexes);
+        return (
+          <section key={j.key} className="np-job" aria-label={j.text}>
+            <span className="np-job__ic" aria-hidden="true">
+              <Icon name={j.glyph} size={32} />
+            </span>
+            <span className="np-job__t">
+              <b>{j.text}</b>
+              <span className="np-muted np-sm">
+                {m.length === 1 && m[0] ? W.oneTrip(j.indexes.length, m[0]) : W.trips(m)}
               </span>
-              <span className="np-job__t">
-                <b>{j.text}</b>
-                <span className="np-muted np-sm">
-                  {m.length === 1 && m[0] ? W.oneTrip(j.indexes.length, m[0]) : W.trips(m)}
-                </span>
-              </span>
-              <span className="np-job__who">
-                {j.indexes.map((i) => (
-                  <Go key={i} href={charHref(i)} onGo={() => p.onOpen(i)} label={who(view, i)}>
-                    <Blob family={familyOf(view, i)} size={32} />
-                  </Go>
-                ))}
-              </span>
-            </section>
-          );
-        })}
+            </span>
+            <span className="np-job__who">
+              {j.indexes.map((i) => (
+                <Go key={i} href={charHref(i)} onGo={() => p.onOpen(i)} label={who(view, i)}>
+                  <Blob family={familyOf(view, i)} size={32} />
+                </Go>
+              ))}
+            </span>
+          </section>
+        );
+      })}
       {sv.counter.count > 0 || fullCount > 0 ? (
         <button type="button" className="np-leave" onClick={() => p.onPause('logoff')}>
           <Pip tone={sv.counter.count > 0 ? 'coral' : 'gold'} />

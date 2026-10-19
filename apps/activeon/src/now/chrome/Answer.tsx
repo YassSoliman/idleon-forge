@@ -15,9 +15,22 @@ export function staleAge(now: number, lastCloudSave: number | null, expectedRetu
 }
 
 /** `flows.stale` Stale-first banner: the age first, with its fix (Cloud Save). */
-export function StaleBanner({ ageMs, lastKnown }: { ageMs: number; lastKnown: number | null }) {
+export function StaleBanner({
+  ageMs,
+  lastKnown,
+  plain = false,
+}: {
+  ageMs: number;
+  lastKnown: number | null;
+  /** M24 QA P2: no tint while another block holds the screen's one frame (the World 4 welcome). */
+  plain?: boolean;
+}) {
   return (
-    <section className="n-vb n-vb--stale" role="status" aria-label={COUNTER_WORDS.stale(span(ageMs))}>
+    <section
+      className={plain ? 'n-vb n-vb--stale n-vb--plain' : 'n-vb n-vb--stale'}
+      role="status"
+      aria-label={COUNTER_WORDS.stale(span(ageMs))}
+    >
       <div className="n-vb__top">
         <PixelArt name="now-glyph-stale" scale={3} decorative />
         <p className="n-vb__title">{COUNTER_WORDS.stale(span(ageMs))}</p>

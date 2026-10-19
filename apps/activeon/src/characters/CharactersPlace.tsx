@@ -104,7 +104,8 @@ function Grid({ s, rows }: { s: Session; rows: RosterRow[] }) {
                       <b className="num">{who(r)}</b>
                       <span className="cp-xs">
                         <StateWord state={state} />
-                        <span className="cp-muted"> {why(r, state)}</span>
+                        {/* M24 QA P2: the state word and its reason read as two parts, not one run. */}
+                        {why(r, state) ? <span className="cp-muted"> · {why(r, state)}</span> : null}
                       </span>
                     </span>
                   </a>

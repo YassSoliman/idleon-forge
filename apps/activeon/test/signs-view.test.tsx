@@ -4,7 +4,7 @@
 // M16 in the DOM: the character page's Signs tab (worn, recommended, can it change signs) with its
 // `#signs-<index>` deep link, and the Star Chart section in the Account.
 import type { EngineResult, StarSignsView } from '@idleon-forge/engine/result';
-import { cleanup, fireEvent, screen, waitFor, within } from '@testing-library/react';
+import { cleanup, fireEvent, screen, within } from '@testing-library/react';
 import axe from 'axe-core';
 import { afterEach, beforeEach, describe, expect, it } from 'vitest';
 import { characterTabs, parseTabHash } from '../src/now/character-tabs';
@@ -137,17 +137,11 @@ describe('Signs tab', () => {
       .then((res) => expect(res.violations.map((v) => v.id)).toEqual([]));
   });
 
-  it('the Account keeps one Star Chart line (D-9); the chart itself is on its System page', async () => {
+  it('the Star Chart is on its System page, not repeated beside Now (D-9; M24 QA P1-1)', async () => {
     const r = withSigns();
     renderNow(props(r, saveOf(r, 1, 'first', null, 'paste')));
-    const line = (await waitFor(() => {
-      const el = document.getElementById('star-chart');
-      if (!el) throw new Error('no line yet');
-      return el;
-    })) as HTMLElement;
-    expect(line.textContent).toContain('Star Chart: 3 points · 4 signs unlocked');
-    expect(line.textContent).not.toContain('Slamabam Straightaway');
-    expect(within(line).getByRole('link', { name: 'see it' }).getAttribute('href')).toContain('star-signs');
+    await screen.findByRole('region', { name: 'Account' });
+    expect(document.getElementById('star-chart')).toBeNull();
     cleanup();
     window.history.replaceState(null, '', '/#system-star-signs');
     const rp = onPage(r);

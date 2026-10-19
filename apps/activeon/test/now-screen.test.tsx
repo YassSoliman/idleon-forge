@@ -4,7 +4,7 @@
 // The Now screen in the DOM (M10 §4 "screen" assertions, TR-14 semantics, TR-15 axe on each state).
 
 import type { SourceView } from '@idleon-forge/engine/now';
-import { act, cleanup, fireEvent, render, screen, within } from '@testing-library/react';
+import { act, cleanup, fireEvent, render, screen, waitFor, within } from '@testing-library/react';
 import axe from 'axe-core';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { CantRead } from '../src/components/CantRead';
@@ -173,17 +173,21 @@ describe('US-6 Sources open in a new tab', () => {
 });
 
 describe('Goal.details under an account Goal', () => {
-  it('sit in the why sheet as glyph chips, one line per character; a chip opens that character', () => {
-    const r = fixture('mid-session');
-    const g = r.account.goals[0];
-    if (!g) throw new Error('fixture has no account Goal');
+  it('sit in the why sheet as glyph chips, one line per character; a chip opens that character', async () => {
+    // M24 QA P1-1: an account fix's why sheet is on the Goals page (Now's rail only lists the fix).
+    const r = fixture('account-stockpile');
+    const g = r.account.goals.find((x) => x.category === 'blocker');
+    if (!g) throw new Error('fixture has no account blocker');
     g.details = [
       { subject: 'c3', text: 'Barbarian Lv 51: 2 into Capacity' },
       { subject: 'c0', text: 'Bowman Lv 60: 1 into Capacity' },
     ];
+    window.history.replaceState(null, '', '/#goals');
     renderNow(props(r, saveOf(r, 1, 'first', null, 'paste')));
-    const acct = screen.getByRole('region', { name: 'Account' });
-    fireEvent.click(within(acct).getByRole('button', { name: /Open why and controls$/ }));
+    const fix = (await screen.findByRole('heading', { name: 'Fix these first' })).closest(
+      'section',
+    ) as HTMLElement;
+    fireEvent.click(within(fix).getAllByRole('button', { name: /Open why and controls$/ })[0] as HTMLElement);
     const list = within(screen.getByRole('dialog')).getByRole('list', { name: '2 characters' });
     expect(
       within(list)
@@ -354,17 +358,49 @@ describe('US-14 never advice from a broken save', () => {
 });
 
 describe('US-22 / D9 account stockpiles', () => {
-  it('lead the Account section under "Fix before you leave"', () => {
+  it('are rows in the Now rail, and the first fix opens them on the Goals page (M24 QA P1-1)', async () => {
     const r = fixture('account-stockpile');
     renderNow(props(r, saveOf(r, 1, 'first', null, 'paste')));
     const acct = screen.getByRole('region', { name: 'Account' });
-    // A blocker opens the Account's summary header (`cards.account-section`).
-    expect(within(acct).getByRole('button', { expanded: true, name: /^Account/ })).toBeTruthy();
-    expect(within(acct).getByRole('heading', { name: 'Before you leave' })).toBeTruthy();
+    // The rail only: no folding body, no copy of the hero, the Goals list or the Spend Plan.
+    expect(within(acct).queryByRole('button', { name: /^Account/ })).toBeNull();
+    expect(within(acct).queryByRole('heading', { name: 'Before you leave' })).toBeNull();
+    expect(acct.querySelector('#account-body, #spend-plan, .n-goals')).toBeNull();
+    const fixes = within(acct).getByRole('list', { name: 'Account fixes' });
+    expect(within(fixes).getAllByRole('listitem')).toHaveLength(2);
     // M21 FR-N2: the counter counts the 2 account blockers; its first fix jumps to them (R5 QA P2-2).
     expect(screen.getByText('2 fixes before you leave')).toBeTruthy();
     fireEvent.click(screen.getByRole('button', { name: /Show me/ }));
-    expect(document.activeElement?.id).toBe('account-fix');
+    expect(window.location.hash).toBe('#goals');
+    await waitFor(() => expect(document.activeElement?.id).toBe('account-fix'));
+  });
+
+  it('a rail row opens that fix on the Goals page, outlined', async () => {
+    const r = fixture('account-stockpile');
+    renderNow(props(r, saveOf(r, 1, 'first', null, 'paste')));
+    const fixes = within(screen.getByRole('region', { name: 'Account' })).getByRole('list', {
+      name: 'Account fixes',
+    });
+    const row = within(fixes).getAllByRole('link')[1] as HTMLElement;
+    const text = row.querySelector('b')?.textContent ?? '';
+    fireEvent.click(row);
+    expect(window.location.hash).toBe('#goals');
+    await waitFor(() => {
+      const lit = document.querySelector('#account-fix .lit');
+      expect(lit?.textContent).toContain(text);
+    });
+  });
+
+  it('an Unknown account safety is a rail row with Skip today, never the old column', () => {
+    const r = fixture('mid-session');
+    r.account.safety = 'unknown';
+    renderNow(props(r, saveOf(r, 1, 'first', null, 'paste')));
+    const acct = screen.getByRole('region', { name: 'Account' });
+    const fixes = within(acct).getByRole('list', { name: 'Account fixes' });
+    expect(fixes.textContent).toContain("can't tell from the save");
+    fireEvent.click(within(fixes).getByRole('button', { name: 'Skip today' }));
+    expect(within(fixes).getByRole('button', { name: 'Skipped · undo' })).toBeTruthy();
+    expect(acct.querySelector('#account-body')).toBeNull();
   });
 });
 
@@ -401,19 +437,15 @@ describe('copy pass rule 3: unknown tokens are hidden, never printed', () => {
     expect(hero.textContent).not.toMatch(/·\s*$/);
   });
 
-  it('an unpriced Spend Plan line shows no cost token, only the "cost not checked" pill', () => {
+  it('an unpriced Spend Plan line shows no cost token: the Spend Plan page lists it under "Price not checked"', async () => {
     const r = fixture('spend-plan');
+    window.history.replaceState(null, '', '/#spend');
     renderNow(props(r, saveOf(r, 1, 'first', null, 'paste')));
-    const acct = screen.getByRole('region', { name: 'Account' });
-    fireEvent.click(within(acct).getByRole('button', { name: /^Account/ }));
-    const plan = document.getElementById('spend-plan') as HTMLElement;
-    const more = within(plan).queryByRole('button', { name: /^\+\d+ more/ });
-    if (more) fireEvent.click(more);
-    const line = plan.querySelector('.spend-line.unpriced');
-    expect(line).toBeTruthy();
-    expect(line?.textContent).not.toContain('see the price in game');
-    expect(line?.querySelector('.n-sline__status')?.textContent).toBe('cost not checked');
-    expect(line?.querySelector('.n-sline__cost')).toBeNull();
+    const page = await screen.findByRole('article', { name: /buys? your coins cover today/ });
+    expect(page.textContent).toMatch(/Price not checked · \d+/);
+    expect(page.textContent).not.toContain('see the price in game');
+    // M24 QA P1-1: the Spend Plan is said once, on its page; Now's rail has no copy of it.
+    expect(document.getElementById('spend-plan')).toBeNull();
   });
 });
 
