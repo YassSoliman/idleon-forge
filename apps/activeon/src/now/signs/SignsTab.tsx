@@ -8,7 +8,8 @@
 // that last node), and the tab says so. Its own lazy chunk; the Star Chart lives on its System page.
 import type { StarSignsNowView } from '@idleon-forge/engine/now';
 import type { ReactNode } from 'react';
-import { Sprite } from '../../art/sprites/Sprite';
+import { GameIcon } from '../../art/game/GameIcon';
+import type { GameArt } from '../../art/game/game-art';
 import { Answer, StepNo, TabSource } from '../../characters/tabs/kit';
 import { PixelArt } from '../../design/art/PixelArt';
 import { GLYPH, Meter, Pip } from '../../design/atoms';
@@ -19,6 +20,12 @@ import { list } from './signs-status';
 import './signs-tab.css';
 
 const STAR_SIGNS = 'star-signs';
+/**
+ * The game draws no picture per sign; its star sign icon (Toolbox draws every sign with it, `kind-art`
+ * starsign) stands for each, our own star as the fallback.
+ */
+const SIGN_ART: GameArt = { path: 'data/SignStar1b' };
+const fallbackSign = 'item-star';
 
 /** "Barbarian 74 and Squire 77 each have 1 sign to swap" (class and level, the strip's words). */
 function others(s: StarSignsNowView, index: number, who: (i: number) => string | null): string | null {
@@ -71,7 +78,8 @@ export function SignsTab({ view, index }: CharacterTabProps) {
       {!c.activity ? (
         <Answer
           tone="plain"
-          icon="item-star"
+          art={SIGN_ART}
+          icon={fallbackSign}
           cap="Signs"
           title="No sign advice for its activity yet"
           sub={reach}
@@ -87,7 +95,8 @@ export function SignsTab({ view, index }: CharacterTabProps) {
       ) : (
         <Answer
           tone="gold"
-          icon="item-star"
+          art={SIGN_ART}
+          icon={fallbackSign}
           cap={`Swap a sign · for ${activity}`}
           title={`At the Telescope: wear ${list(c.recommended)}${c.worn.length ? ` instead of ${list(c.worn)}` : ''}`}
           sub={reach}
@@ -104,7 +113,7 @@ export function SignsTab({ view, index }: CharacterTabProps) {
               // biome-ignore lint/suspicious/noArrayIndexKey: slots are positional
               <li key={i} className="ss-slot" data-empty={sign ? 'no' : 'yes'}>
                 <span className="ss-slot__ic" data-tone={sign ? 'gold' : 'plain'}>
-                  <Sprite name="item-star" size={48} decorative />
+                  <GameIcon art={sign ? SIGN_ART : null} fallback={fallbackSign} size={48} decorative />
                 </span>
                 <b>{sign ?? 'Empty slot'}</b>
                 <span className={sign && c.matches ? 'tb-xs tb-ok' : 'tb-xs'}>
@@ -172,7 +181,7 @@ export function SignsTab({ view, index }: CharacterTabProps) {
                 <ul className="tb-list ss-chips">
                   {c.afterCosmos.map((x) => (
                     <li key={x} className="ss-chip">
-                      <Sprite name="item-star" size={24} decorative />
+                      <GameIcon art={SIGN_ART} fallback={fallbackSign} size={24} decorative />
                       <b>{x}</b>
                     </li>
                   ))}
