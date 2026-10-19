@@ -411,6 +411,7 @@ export function buildStarSigns(
     slots: chart.slots,
     questDone,
     milestone,
+    cosmos: cosmosOf(chart, leg, ctx.signs.pointsUnspent),
     plan: questDone ? (action?.text ?? planLine()) : null,
     next,
     later: [...later, ...activePlay.map((a) => a.text)],
@@ -445,6 +446,24 @@ function fitGain(ctx: StarContext, c: CharacterState, before: ChartState, after:
 }
 
 type Say = (key: string, slots?: Record<string, string | number>) => string;
+
+const COSMOS = 'Chronus_Cosmos';
+
+/** The second sign slot's path while leg 1 (Chronus Cosmos) is the current leg; null otherwise. */
+function cosmosOf(
+  chart: ReturnType<typeof chartState>,
+  leg: ReturnType<typeof currentLeg>,
+  have: number | null,
+): StarSignsView['cosmos'] {
+  const node = chart.nodes.get(COSMOS);
+  if (!leg || leg.leg !== 1 || !node || chart.unlocked.has(COSMOS)) return null;
+  return {
+    have,
+    need: leg.remaining,
+    onTheWay: leg.left.filter((s) => s !== COSMOS).map(human),
+    cost: node.cost,
+  };
+}
 
 function milestoneLine(leg: { leg: number; remaining: number }, have: number, S: Say): string {
   return S('milestone', { have, need: leg.remaining, leg: S(`leg-${leg.leg}`) });
