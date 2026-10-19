@@ -520,6 +520,17 @@ export interface BuildNextPoint {
   to?: number;
 }
 
+/** M26 (owner ruling 2026-10-19): how sure a Build is, shown with it and never hidden. */
+export interface BuildConfidenceView {
+  level: 'H' | 'M' | 'L';
+  /** Independent dated authors behind the order. */
+  sourceCount: number;
+  /** "Community build · 6 sources", "Community build · one source". */
+  text: string;
+  /** The entry's own words ("sources agree on tab 4", "one source"); null when it gives none. */
+  label: string | null;
+}
+
 export interface BuildPresetView {
   slot: 0 | 1;
   active: boolean;
@@ -541,6 +552,8 @@ export interface BuildPresetView {
   attackBar: { set: string[]; recommended: string[]; missing: string[]; text: string } | null;
   /** The ordered checklist for this preset, by tab (the Build's steps minus current levels). */
   next: BuildNextPoint[];
+  /** M26: the preset's Build's confidence label; null (or absent) without a Build. */
+  confidence?: BuildConfidenceView | null;
 }
 
 export interface BuildPathStep {
@@ -574,6 +587,8 @@ export interface BuildRoadmap {
   sources: SourceRef[];
   /** The Build entry ids shown (provenance). */
   entryIds: string[];
+  /** M26: the leading Build's confidence label; null (or absent) without a Build. */
+  confidence?: BuildConfidenceView | null;
 }
 
 /**

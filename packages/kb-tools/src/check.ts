@@ -27,6 +27,7 @@ import {
   TemplateError,
 } from '@idleon-forge/knowledge';
 import type { z } from 'zod';
+import { buildIssues } from './build-checks';
 import { copyIssuesOf } from './copy';
 import { detectorFiles, discoverDetectors, type Registries } from './discover';
 import type { Issue } from './issues';
@@ -453,6 +454,8 @@ export async function checkSource(src: KbSource, registries?: Registries): Promi
     }
   // ---- M17 FR-34, TR-8: how each game System opens ----
   for (const issue of systemUnlockIssues(src, facts)) err(issue.file, issue.line, issue.id, issue.message);
+  // ---- M26: class Builds past the third class (own-tab talents, inherits, skilling variants) ----
+  for (const issue of buildIssues(src, facts)) err(issue.file, issue.line, issue.id, issue.message);
   for (const [id, n] of pending)
     warn(
       'packages/knowledge/generated',

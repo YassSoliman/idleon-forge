@@ -16,6 +16,7 @@ import {
   type ResolvedBuild,
   type ResolvedStarBuild,
   type ResolvedStarStep,
+  type ResolvedStep,
   talentLabel,
 } from './knowledge';
 
@@ -198,21 +199,20 @@ export function classGroups(
     const members: PathMember[] = [];
     for (const step of group) {
       const target = targetOf(p, step);
-      const max = maxOf(p, step.id);
+      const max = maxOf(p, step.id, step.tab);
       // Not on this preset's tabs, or locked (max ≤ 0): no step to show.
       if (target === null || max <= 0) continue;
       const goal = Math.min(target, max);
-      const stage = step.when.find((c) => c.kind === 'stageAtLeast');
       const accuracy = step.when.some((c) => c.kind === 'accuracyShort');
-      const gated = stage && stage.kind === 'stageAtLeast' && stepApplies(step, ctx) !== 'yes' && !accuracy;
+      const later = accuracy ? null : laterOf(step, ctx);
       members.push({
         id: step.id,
         label: talentLabel(step.talent),
         page: null,
-        current: levelOf(p, step.id),
+        current: levelOf(p, step.id, step.tab),
         goal,
         core: step.core,
-        later: gated && stage.kind === 'stageAtLeast' ? `from ${stageLabel(stage.stage)}` : null,
+        later,
         fixed: kb.talents.bubbleCapped.has(step.id) ? 'set by a bubble' : null,
         note: accuracy ? ACCURACY_NOTE : goal < target ? MAX_NOTE : null,
       });
@@ -220,6 +220,18 @@ export function classGroups(
     if (members.length) out.push(members);
   }
   return out;
+}
+
+/**
+ * Why a step waits ("from World 4, mid", "from World 5"), or null when it applies now. A World 5+ hint
+ * (M26 `stageHint`) waits until the account is past World 4; a Stage gate until that Stage.
+ */
+export function laterOf(step: ResolvedStep, ctx: WalkContext): string | null {
+  if (step.stageHint && ctx.beyond !== true) return `from World ${step.stageHint.slice(1)}`;
+  const s = step.when.find((c) => c.kind === 'stageAtLeast');
+  return s && s.kind === 'stageAtLeast' && stepApplies(step, ctx) !== 'yes'
+    ? `from ${stageLabel(s.stage)}`
+    : null;
 }
 
 // ---------- the star tab ----------
