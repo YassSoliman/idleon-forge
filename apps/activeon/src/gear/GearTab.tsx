@@ -90,7 +90,7 @@ function lookOf(v: GearSlotView, lit: boolean, step: string | null, goalText: st
       tone: 'gold',
       icon: v.state === 'empty' ? 'plain' : 'gold',
       status: step,
-      where: t ? `Gear Plan piece after it: ${t.name}, Lv ${t.lvReq}` : null,
+      where: t && v.state === 'empty' ? `Gear Plan piece after it: ${t.name}, Lv ${t.lvReq}` : null,
       lv: null,
     };
   if (v.state === 'held-upgrade')
