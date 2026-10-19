@@ -1,0 +1,470 @@
+# SPDX-License-Identifier: GPL-3.0-only
+# M26 CL synthesis (class lines): KB drafts copied from scratchpad/m26/maps/class-*.json. status: draft.
+# Target file: packages/knowledge/systems/journeyman-line.yaml (new; add system id journeyman-line to systems.yaml)
+# Tier scale: M26 workflow (1 game data/Toolbox code, 2 Toolbox dashboard, 3 wiki, 4 community); existing KB YAML labels the wiki tier 2 and Toolbox community builds tier 3: align at merge.
+system: journeyman-line
+entries:
+# from maps/class-journeyman.json
+- id: journeyman-line.goal.rocklyte
+  system: journeyman-line
+  type: goal
+  title: Become a Journeyman
+  text: '{text}'
+  why: '{why}'
+  values:
+    step-1: Bring 500 Peanuts to Rocklyte in Froggy Fields ({peanuts:int} held)
+    step-2: Smith 5 Golden Peanuts and give them to Rocklyte ({goldenPeanuts:int} held)
+    step-3: Finish Rocklyte's last quest to become a Journeyman
+    why: 'The Journeyman is not in the class menu: Rocklyte''s three quests on a Beginner make it. The first one gives the Golden Peanut recipe.'
+  subject: character
+  category: unlock
+  unit: step
+  progress:
+    id: journeyman/rocklyte
+  milestones:
+  - at: 3
+    reward: Journeyman class; Toilet Paper Postage talent book; Club Member trophy
+  notes: C4, C82 (H). Shown only when the Meta Path's next character is the Journeyman line (slot 7) or a Beginner has started Rocklyte. Replaces the bare metapath.goal.next-character 'journeyman' text with the how-to.
+  sources:
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/quests.json
+    title: 'Toolbox game data: quests.json (Rocklyte, Cactolyte, Nebulyte)'
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json
+    title: 'Toolbox game data: npcPlacements (Rocklyte map 2, Froggy Fields)'
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+  - url: https://idleon.wiki/wiki/Journeyman
+    title: 'IdleOn Wiki: Journeyman'
+    tier: 3
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+    claimDate: '2026-10-19'
+    note: page carries no edit date
+  appliesTo:
+    stages: all
+    classes:
+    - Beginner
+  confidence: H
+  status: draft
+
+# from maps/class-journeyman.json
+- id: journeyman-line.goal.cactolyte
+  system: journeyman-line
+  type: goal
+  title: Become a Maestro
+  text: '{text}'
+  why: '{why}'
+  values:
+    skills: Raise {skill} to {req:int} for Cactolyte (now {level:int})
+    pete: Carry Pete the Peanut while you defeat Biggie Hours
+    finish: Finish Cactolyte's last quest in Djonnuttown to become a Maestro
+    why: Cactolyte asks for Mining 32, Smithing 35 and Choppin 33, then Fishing 23, Alchemy 25 and Catching 25 on this character.
+  subject: character
+  category: unlock
+  unit: level
+  progress:
+    id: journeyman/cactolyte
+  milestones:
+  - at: 1
+    reward: Maestro class (Printer Go Brrr, the Hands); 50 gems and time candies on the way
+  notes: C5, C82 (H). Supersedes metapath.goal.subclass's 'journeyman' value for a Journeyman (which fires from Lv 10 with no gate) and fixes the Build path text 'take Maestro at Speccius'.
+  sources:
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/quests.json
+    title: 'Toolbox game data: quests.json (Rocklyte, Cactolyte, Nebulyte)'
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+  - url: https://idleon.wiki/wiki/Maestro
+    title: 'IdleOn Wiki: Maestro'
+    tier: 3
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+    claimDate: '2026-10-19'
+    note: page carries no edit date
+  appliesTo:
+    stages: all
+    classes:
+    - Journeyman
+  confidence: H
+  status: draft
+
+# from maps/class-journeyman.json
+- id: journeyman-line.goal.nebulyte
+  system: journeyman-line
+  type: goal
+  title: Become a Voidwalker
+  text: '{text}'
+  why: '{why}'
+  values:
+    deathnote: Reach 1M Death Note kills on every W1-W3 monster ({done:int} of 40)
+    chizoar: Defeat Chizoar on Chaotic difficulty
+    mushrooms: Defeat 12M Green Mushrooms with this character
+    finish: Finish Nebulyte's last quest in Outer World Town
+    why: Nebulyte's quests make the Voidwalker; the Death Note kills are account-wide, the mushrooms are this character's own.
+  subject: character
+  category: unlock
+  unit: count
+  progress:
+    id: journeyman/nebulyte
+  milestones:
+  - at: 40
+    reward: Species Slayer done (72 HR Time Candy)
+  notes: 'C6 (H). The wiki''s Maestro Lv 150 gate (C7, L) is not in quest data: shown only as a footnote, never as a gate. Replaces metapath.goal.elite for a Maestro (''at Eliteus'' is wrong for this line). CL merge: same goal as elite-classes.goal.voidwalker (W4 area). Keep one id at merge; the journeyman-line page and the Elite classes page both show it.'
+  sources:
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/quests.json
+    title: 'Toolbox game data: quests.json (Rocklyte, Cactolyte, Nebulyte)'
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+  - url: https://idleon.wiki/wiki/Voidwalker
+    title: 'IdleOn Wiki: Voidwalker'
+    tier: 3
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+    claimDate: '2026-10-19'
+    note: page carries no edit date
+  appliesTo:
+    stages: all
+    classes:
+    - Maestro
+  confidence: H
+  status: draft
+
+# from maps/class-journeyman.json
+- id: journeyman-line.check.birthday
+  system: journeyman-line
+  type: check
+  title: Cast It's Your Birthday!
+  subject: character
+  effect: next-action
+  category: spendable
+  effortSeconds: 30
+  detector:
+    id: journeyman/cast-ready
+    params:
+      talent: 25
+  text: Cast It's Your Birthday! on {character}
+  why: It is off cooldown (about 24 hours) and drops a random reward each cast; an unused day is lost.
+  doneWhen:
+    field: characters[].talentCooldowns.25
+    change: higher
+  notes: 'C38 (H): cooldown 86,000 s; Toolbox lists it in relevantTalents and alerts on it (isTalentReady).'
+  sources:
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/talents.json
+    title: 'Toolbox game data: talents.json (Journeyman, Maestro, Voidwalker tabs)'
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/talents.ts#L543-L551
+    title: 'Toolbox relevantTalents: Printer Go Brrr, It''s Your Birthday!, Void Trial Rerun'
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/utility/dashboard/characters.js#L214-L233
+    title: Toolbox dashboard isTalentReady (cooldown minus time since afkTime)
+    tier: 2
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+  - url: https://idleon.wiki/wiki/Journeyman
+    title: 'IdleOn Wiki: Journeyman'
+    tier: 3
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+    claimDate: '2026-10-19'
+    note: page carries no edit date
+  appliesTo:
+    stages: all
+    classes:
+    - Journeyman
+    - Maestro
+    - Voidwalker
+  confidence: H
+  status: draft
+
+# from maps/class-journeyman.json
+- id: journeyman-line.check.printer-go-brrr
+  system: journeyman-line
+  type: check
+  title: Cast Printer Go Brrr
+  subject: character
+  effect: next-action
+  category: spendable
+  effortSeconds: 30
+  detector:
+    id: journeyman/cast-ready
+    params:
+      talent: 32
+  text: Cast Printer Go Brrr on {character}
+  why: It prints {hours:int} hours of 3D Printer samples at once and is off cooldown (about 23 hours).
+  doneWhen:
+    field: characters[].talentCooldowns.32
+    change: higher
+  notes: 'C44 (H): 1+floor(L/40) hours, cd 82,000 s. Gives the existing Role printer-go-brrr (metapath.metapath.role-journeyman, visitHint cooldown) a real ready time.'
+  sources:
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/talents.json
+    title: 'Toolbox game data: talents.json (Journeyman, Maestro, Voidwalker tabs)'
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/talents.ts#L543-L551
+    title: 'Toolbox relevantTalents: Printer Go Brrr, It''s Your Birthday!, Void Trial Rerun'
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/utility/dashboard/characters.js#L214-L233
+    title: Toolbox dashboard isTalentReady (cooldown minus time since afkTime)
+    tier: 2
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+  - url: https://idleon.wiki/wiki/Maestro
+    title: 'IdleOn Wiki: Maestro'
+    tier: 3
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+    claimDate: '2026-10-19'
+    note: page carries no edit date
+  appliesTo:
+    stages: all
+    classes:
+    - Maestro
+    - Voidwalker
+  confidence: H
+  status: draft
+
+# from maps/class-journeyman.json
+- id: journeyman-line.check.void-trial
+  system: journeyman-line
+  type: check
+  title: Run the Void Trial
+  subject: character
+  effect: next-action
+  category: compounding
+  effortSeconds: 300
+  detector:
+    id: journeyman/cast-ready
+    params:
+      talent: 45
+  text: Cast Void Trial Rerun on {character} and open portals
+  why: Every portal past your best run ({highscore:int}) adds 30 Voidwalker talent points; every 5 also raise Master Of The System.
+  doneWhen:
+    field: characters[].talentCooldowns.45
+    change: higher
+  notes: C53, C54, C64 (H). Cooldown 70,010 s before reduction. Points only grow when the run beats the highscore, so the why names it.
+  sources:
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/talents.json
+    title: 'Toolbox game data: talents.json (Journeyman, Maestro, Voidwalker tabs)'
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/class-specific/speedrun.ts
+    title: 'Toolbox speedrun: highscore OLA[158], boss portals, Master Of The System steps'
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/talents.ts#L543-L551
+    title: 'Toolbox relevantTalents: Printer Go Brrr, It''s Your Birthday!, Void Trial Rerun'
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+  - url: https://idleon.wiki/wiki/Voidwalker
+    title: 'IdleOn Wiki: Voidwalker'
+    tier: 3
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+    claimDate: '2026-10-19'
+    note: page carries no edit date
+  appliesTo:
+    stages: all
+    classes:
+    - Voidwalker
+  confidence: H
+  status: draft
+
+# from maps/class-journeyman.json
+- id: journeyman-line.check.unspent-points
+  system: journeyman-line
+  type: check
+  title: Spend Beginner-line talent points
+  subject: character
+  effect: next-action
+  category: spendable
+  effortSeconds: 90
+  detector:
+    id: journeyman/unspent-points
+    params:
+      minPoints: 5
+  text: Spend {points:int} talent points on {character}'s {tabs} tab
+  why: No Journeyman-line build exists in ActiveOn yet, but unspent points do nothing. Voidwalker points come only from speedrun portals and One Step Ahead.
+  doneWhen:
+    field: characters[].talents.active.talentPoints
+    change: lower
+  notes: 'C11, C12, C46 (H) for the count (ADR 0010 exact); the advice ''spend them'' is M (no build says where). Fires only on exact counts. CL merge: tab 4 part overlaps elite-classes.check.tab4-points (W4 area); restrict this entry to tabs 2-3 or let the elite check own tab 4.'
+  sources:
+  - url: https://github.com/YassSoliman/idleon-forge/blob/main/packages/account-state/src/talent-points-formula.ts
+    title: 'ActiveOn port of TotalTalentPoints (ADR 0010): tabs 1-3 and the Voidwalker tab 4'
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+  - url: https://idleon.wiki/wiki/Voidwalker
+    title: 'IdleOn Wiki: Voidwalker'
+    tier: 3
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+    claimDate: '2026-10-19'
+    note: page carries no edit date
+  appliesTo:
+    stages: all
+    classes:
+    - Journeyman
+    - Maestro
+    - Voidwalker
+  confidence: M
+  status: draft
+
+# from maps/class-journeyman.json
+- id: journeyman-line.check.hands-coverage
+  system: journeyman-line
+  type: check
+  title: Characters the Hands miss
+  subject: account
+  effect: next-action
+  category: nice
+  effortSeconds: 60
+  detector:
+    id: journeyman/hands-coverage
+  text: 'The Maestro''s Hands skip {count:int} skills: {list}'
+  why: Left Hand of Learning and Right Hand of Action only help a character whose skill level is below the Maestro's, and only your last Maestro counts.
+  notes: 'C51, C52 (H mechanic); the framing as a Check is M. Category nice (lowest rank): it never tells the player to stop levelling others.'
+  sources:
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/talents.ts#L622-L640
+    title: 'Toolbox Left/Right Hand: last Maestro in save order, skill strictly below'
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+  - url: https://idleon.wiki/wiki/Maestro
+    title: 'IdleOn Wiki: Maestro'
+    tier: 3
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+    claimDate: '2026-10-19'
+    note: page carries no edit date
+  appliesTo:
+    stages: all
+  confidence: M
+  status: draft
+
+# from maps/class-journeyman.json
+- id: journeyman-line.check.looty-booty-fighting
+  system: journeyman-line
+  type: check
+  title: Looty Booty on a fighter
+  subject: character
+  effect: next-action
+  category: compounding
+  effortSeconds: 120
+  detector:
+    id: journeyman/looty-booty-fighting
+  text: '{character}''s fighting preset has Curse Of Mr Looty Booty: -{dmg:int}% damage'
+  why: It adds {drop:int}% drop rate but cuts total damage; keep it on a loot or skilling preset, not on the character pushing portals.
+  notes: C37 (H formula, read in both the drop and damage calcs); 'move it off the pusher' is M (the dossier's common mistake).
+  sources:
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/talents.json
+    title: 'Toolbox game data: talents.json (Journeyman, Maestro, Voidwalker tabs)'
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/damage.ts#L407
+    title: 'Toolbox damage calc: Curse Of Mr Looty Booty damage penalty'
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+  appliesTo:
+    stages: all
+    classes:
+    - Journeyman
+    - Maestro
+    - Voidwalker
+  confidence: M
+  status: draft
+
+# from maps/class-journeyman.json
+- id: journeyman-line.goal.eclipse-step
+  system: journeyman-line
+  type: goal
+  title: Next Enhancement Eclipse step
+  text: 'Enhancement Eclipse to {next:int}: enhances {talent}'
+  why: Every 25 points enhances one more talent of another class; the account uses its best Voidwalker.
+  subject: account
+  category: compounding
+  unit: step
+  progress:
+    id: journeyman/eclipse-step
+  milestones:
+  - at: 4
+    reward: Sleepin' On The Job applies to skilling AFK
+  - at: 10
+    reward: Lucky Charms enhanced (Class EXP)
+  notes: 'C58 (H) for the steps. Order among the eleven Voidwalker talents is not advised (C77: no readable community list).'
+  sources:
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/talents.ts#L459-L512
+    title: 'Toolbox Enhancement Eclipse: one enhancement per 25 points, account best'
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+  - url: https://idleon.wiki/wiki/Voidwalker
+    title: 'IdleOn Wiki: Voidwalker'
+    tier: 3
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+    claimDate: '2026-10-19'
+    note: page carries no edit date
+  appliesTo:
+    stages: all
+    classes:
+    - Voidwalker
+  confidence: H
+  status: draft
+
+# from maps/class-journeyman.json
+- id: journeyman-line.goal.speedrun
+  system: journeyman-line
+  type: goal
+  title: Speedrun highscore
+  text: Open {next:int} portals in one Void Trial
+  why: The highscore sets Voidwalker talent points (30 per portal) and Master Of The System (every 5 portals).
+  subject: account
+  category: compounding
+  unit: count
+  progress:
+    id: journeyman/speedrun-step
+  milestones:
+  - at: 75
+    reward: Equinox challenge 32
+  notes: C12, C54, C64 (H).
+  sources:
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/class-specific/speedrun.ts
+    title: 'Toolbox speedrun: highscore OLA[158], boss portals, Master Of The System steps'
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+  - url: https://github.com/YassSoliman/idleon-forge/blob/main/packages/account-state/src/talent-points-formula.ts
+    title: 'ActiveOn port of TotalTalentPoints (ADR 0010): tabs 1-3 and the Voidwalker tab 4'
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+  - url: https://idleon.wiki/wiki/Voidwalker
+    title: 'IdleOn Wiki: Voidwalker'
+    tier: 3
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+    claimDate: '2026-10-19'
+    note: page carries no edit date
+  appliesTo:
+    stages: all
+    classes:
+    - Voidwalker
+  confidence: H
+  status: draft

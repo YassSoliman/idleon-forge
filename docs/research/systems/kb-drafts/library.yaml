@@ -1,0 +1,182 @@
+# SPDX-License-Identifier: GPL-3.0-only
+# M26 KB drafts for System `library` (W3 synthesis, 2026-10-19). Every entry is status: draft.
+# Copied from scratchpad/m26/maps/*.json; dossiers in scratchpad/m26/dossiers/. Not yet validated
+# against the knowledge schema (the schema has no draft status: flip to active at merge).
+system: library
+entries:
+- id: library.goal.book-range
+  system: library
+  type: goal
+  title: Talent book level range
+  scope: account
+  category: compounding
+  unit: upgrades
+  progress:
+    id: library/book-range
+  milestones:
+  - at: 1
+    reward: 'First range upgrade: books roll higher'
+  - at: 5
+    reward: 'Double Agent bribe and all 4 Burning Bad Books: min Lv 125'
+  - at: 22
+    reward: 'Every W1-W4 range upgrade: books roll {minCap:int}-{maxCap:int}'
+  text: Books roll Lv {min:int}-{max:int} · {owned:int} of {total:int} range upgrades
+  why: Every checkout rolls a level in this range, so a higher minimum makes every future book better. The minimum
+    comes from the Gem Shop's Burning Bad Books, the Library Double Agent bribe and the Oxygen atom; the maximum
+    from the W3 merit row, Spontaneity Salts at the Salt Lick, the Oxygen atom and the Checkout Takeout achievement.
+  values:
+    unknownText: 'Book range: can''t tell right now'
+    minCap: 145
+    maxCap: 170
+  appliesTo:
+    stages:
+    - from: W3-early
+      to: W4-entry
+  confidence: H
+  status: draft
+  notes: 'Steps (W1-W4): bribe 18 (1), gemPurchases[113] (4), merit Tasks[2][2][2] (5), Salt Lick [4] (10), Oxygen
+    atom Lv>=1 (1), achievement 145 (1) = 22. Caps: min 101+20+4+atom Lv 20 = 145; max 125+10+20+10+5 = 170 (W5+
+    Fury Relic and W6 Summoning excluded). Atom levels past 1 raise min only; count them in the min, not as steps.
+    M26 W3 synth (from maps/library.json).'
+  sources:
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/misc.ts#L318
+    title: IdleOn Toolbox getBookLvRange (min and max book level terms)
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  - url: https://idleon.wiki/wiki/Talent_Book_Library
+    title: 'IdleOn Wiki: Talent Book Library (min/max level sources)'
+    tier: 2
+    claimDate: 2026-10-12
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+- id: library.check.range-upgrade
+  system: library
+  type: check
+  title: Raise your talent book levels
+  subject: account
+  effect: next-action
+  goal: library.goal.book-range
+  category: compounding
+  effortSeconds: 60
+  detector:
+    id: library/range-upgrade
+  text: '{action} to raise talent book levels'
+  why: Books roll Lv {min:int}-{max:int} now; this adds {gain:int} to the {end}. Every book you check out after
+    it rolls in the better range.
+  values:
+    action-merit: Buy the W3 merit 'Talent book max level' ({level:int}/5)
+    action-salt: Level Spontaneity Salts at the Salt Lick ({level:int}/10)
+    detail: then {action}
+  doneWhen:
+    field: account.library.bookLv
+    change: changed
+  appliesTo:
+    stages:
+    - from: W3-early
+      to: W4-entry
+  confidence: M
+  status: draft
+  notes: 'Only the two upgrades no other module recommends: the W3 merit row (needs unspent W3 merits) and the Salt
+    Lick row (unlocked, salts held >= next cost). Gem Shop 113 is left to gem-shop ordering and the Double Agent
+    bribe to the Spend Plan''s bribe sweep (cross-link chips on the Library page, no Next Action here). Order between
+    them is derived (dossier min-max W3 mid/late), hence M. M26 W3 synth (from maps/library.json).'
+  sources:
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/misc.ts#L318
+    title: IdleOn Toolbox getBookLvRange (merit +2 and salt +2 max per level)
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  - url: https://idleon.wiki/wiki/Talent_Book_Library
+    title: 'IdleOn Wiki: Talent Book Library'
+    tier: 2
+    claimDate: 2026-10-12
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  - url: https://gist.github.com/shnaps/161a370ed795e6141e0553eb30ddc8fa
+    title: shnaps, IdleOn progression gist (Library section)
+    tier: 3
+    claimDate: 2026-09-18
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+- id: library.check.hoarding
+  system: library
+  type: check
+  title: Checkouts are piling up
+  subject: account
+  effect: next-action
+  category: spendable
+  effortSeconds: 120
+  detector:
+    id: library/hoarding
+    params:
+      at: 6
+  text: 'Spend your {checkouts:int} Library checkouts: max a build talent to 100 first'
+  why: 'Each stored checkout slows the next: with {checkouts:int} stored the next takes {nextIn:in} instead of {baseIn:in}.
+    None of your builds'' talents is at its max yet, and a book only helps a talent you''ve filled.'
+  values:
+    why-reservation: 'The Book Reservation System is on, so saving up to 20 is on purpose: at 20 the next book rolls
+      the top level.'
+  doneWhen:
+    field: account.library.checkouts
+    change: lower
+  appliesTo:
+    stages:
+    - from: W3-early
+      to: W4-entry
+  confidence: M
+  status: draft
+  notes: 'Fires when checkouts >= params.at (6: about 8.9 h at no bonuses vs 4 h at 0) and library/checkout has
+    no candidate (else that Check carries the action). Silent with Reservation on below 20, and with the Library
+    at Lv 0 (library.check.build covers it). The n^1.4 curve is tier 1 (H); the threshold 6 is judgment (dossier:
+    ''do not go above ~5 stored''), hence M. M26 W3 synth (from maps/library.json).'
+  sources:
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/misc.ts#L383
+    title: IdleOn Toolbox getTimeToNextBooks (time grows with stored count)
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  - url: https://idleon.wiki/wiki/Talent_Book_Library
+    title: 'IdleOn Wiki: Talent Book Library (checkouts slow as they pile up)'
+    tier: 2
+    claimDate: 2026-10-12
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+- id: library.check.build
+  system: library
+  type: check
+  title: Build the Talent Book Library
+  subject: account
+  effect: next-action
+  category: compounding
+  effortSeconds: 120
+  detector:
+    id: library/build
+  text: 'Build the Talent Book Library: {checkouts:int} checkouts are waiting'
+  why: Checkouts bank account-wide before the building exists, but you can only spend them once it's built. Each
+    building level also makes checkouts 5% faster. It costs Redox Salts.
+  doneWhen:
+    field: account.library.libraryLevel
+    change: higher
+  appliesTo:
+    stages:
+    - from: W3-early
+      to: W4-entry
+  confidence: M
+  status: draft
+  notes: 'Fires when libraryLevel == 0, checkouts >= 1 and Construction is open. Dedupe with construction.facts''
+    build target (Talent_Book_Library target 2): when that Check already fires for the Library, this one becomes
+    its why-text line instead of a second Next Action. Banking before the building: seen in the W2 test save (11
+    stored at Lv 0), single save, hence M. M26 W3 synth (from maps/library.json).'
+  sources:
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/misc.ts#L334
+    title: IdleOn Toolbox getLibraryBookTimes (counts checkouts at any building level)
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  - url: https://idleon.wiki/wiki/Talent_Book_Library
+    title: 'IdleOn Wiki: Talent Book Library'
+    tier: 2
+    claimDate: 2026-10-12
+    verified: 2026-10-19
+    gameVersion: 2.3.540

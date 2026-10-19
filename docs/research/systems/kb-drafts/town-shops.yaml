@@ -1,0 +1,225 @@
+# SPDX-License-Identifier: GPL-3.0-only
+# M26 KB drafts for System town-shops (area AW synthesis, verified 2026-10-19, Toolbox 6c37e3d, game 2.3.540).
+# status: draft is a workflow marker; the KB schema accepts active|contested|retired only.
+# entries = new entries; facts = new fact rows (land in <system>.facts.yaml at merge);
+# amendments = changes to entries already in packages/knowledge/systems (or to other drafts).
+# AW synthesis added: topics town-shops (maps/<topic>.json).
+system: town-shops
+status: draft
+entries:
+- id: town-shops.goal.stock-bonus
+  system: town-shops
+  type: goal
+  title: Town shop stock bonus
+  scope: account
+  category: compounding
+  unit: '%'
+  progress:
+    id: town-shops/stock-bonus
+  milestones:
+  - at: 20
+    reward: 'Overstock Regulations bought: every daily stock x1.2'
+  - at: 31.7
+    reward: Vendor Stamp level 100 on top (+17.5%)
+  - at: 46.3
+    reward: Vendor Stamp level 300 on top (+26.3%)
+  text: Town shop stock +{bonus:pct} · Overstock {overstock} · Vendor Stamp L{vendorLevel:int} (+{vendorPct:pct})
+  why: Every town shop's daily stock is base x (1 + Overstock 20% + Vendor Stamp %). Both are one-time or permanent, and they
+    lift every later day's stamps, stones, fragments and food.
+  values:
+    unknownText: 'Town shop stock bonus: can''t tell right now'
+    later: Sneaky Stealing (+25%) is a secret achievement in the W5 town; it comes later.
+  appliesTo:
+    stages: all
+  confidence: H
+  status: draft
+  notes: 'M26 save check: both private test saves match round(base x (1 + 0.20 + 35L/(100+L)/100)) on every W1-W4 item (e.g.
+    750 -> 900 with Overstock only; 750 -> 924 with Overstock + Vendor L10; 25000 -> 30795), so the two bonuses ADD; a product
+    (x1.2 x 1.0318) would give 929 and is ruled out. Sneaky Stealing is assumed additive too (no save has it) and is outside
+    W1-W4 (W5 town), so it is shown, never counted toward a W1-W4 milestone.'
+  sources:
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/stamps.json#L2617-L2632
+    title: 'Toolbox game data: Vendor Stamp ShopQty decay 35/100'
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json#L1986-L1992
+    title: 'Toolbox game data: Overstock Regulations bribe, ShopQtyPct 20'
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  - url: https://idleon.wiki/wiki/Vendors
+    title: 'IdleOn Wiki: Vendors (daily stock raised by Overstock, Vendor Stamp, Sneaky Stealing)'
+    tier: 2
+    claimDate: 2026-10-12
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  - url: https://idleon.wiki/wiki/Smolderin%27_Plateau_Achievements
+    title: 'IdleOn Wiki: Sneaky Stealing, walk to the left of the W5 Shop mole'
+    tier: 2
+    claimDate: 2025-04-04
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+    note: Edited before 2.3.540 (Stale-risk); the reward text matches achievements.json TaskAchE27.
+  fromTopic: town-shops
+- id: town-shops.check.reset-fragments
+  system: town-shops
+  type: check
+  title: Buy Talent Point Reset Fragments
+  subject: account
+  effect: next-action
+  category: compounding
+  effortSeconds: 120
+  detector:
+    id: town-shops/reset-fragments
+  text: 'Buy {count:int} Talent Point Reset Fragments in {towns}: {price:coins}'
+  why: A preset reset is waiting and you hold no potion and {fragments:int} fragments; 10 fragments make a potion. The towns
+    sell {perDay:int} a day at 800 copper each, and unbought stock doesn't carry over.
+  doneWhen:
+    field: account.resetItems.fragments
+    change: higher
+  appliesTo:
+    stages: all
+    levels:
+      min: 15
+  confidence: M
+  status: draft
+  notes: 'Fires only when builds/reset-candidate has a candidate, resetItems.potions = 0 and fragments < 10, and a reached
+    town has fragments in stock today. Never a standing daily chore (no Source says to stockpile). Confidence M: price and
+    stock are tier 1/2; that buying them pays rests on talent-resets.check.reset (L) firing first.'
+  sources:
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/items.json
+    title: 'Toolbox game data: ResetFrag (sellPrice 200; 10 fragments make 1 potion)'
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json
+    title: 'Toolbox game data: town shops (ResetFrag in keys 0-4)'
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  - url: https://idleon.wiki/wiki/Vendors
+    title: 'IdleOn Wiki: Vendors (fragment stock 1/1/2/1/3, price 8 silver)'
+    tier: 2
+    claimDate: 2026-10-12
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  fromTopic: town-shops
+facts:
+- id: town-shops.fact.base-stock
+  system: town-shops
+  origin: authored
+  title: Base daily stock of the W1-W4 town shop items that matter
+  rows:
+    '0':
+      StampA5: 1
+      StampA6: 1
+      StampA3: 1
+      StoneW1: 12
+      StoneA1: 24
+      StoneT1: 16
+      EquipmentStatues1: 3
+      ResetFrag: 1
+      InvBag104: 1
+      rtt0: 50
+      FoodHealth1: 750
+    '1':
+      StampA12: 1
+      StoneA2: 6
+      ResetFrag: 1
+      InvBag105: 1
+    '2':
+      StampC11: 1
+      StoneW2: 12
+      StoneA2: 24
+      StoneT2: 16
+      ResetFrag: 2
+      InvBag106: 1
+      FoodHealth6: 25000
+    '3':
+      StampB8: 1
+      StampA15: 1
+      ResetFrag: 1
+    '4':
+      StoneW3: 12
+      StoneA3: 30
+      StoneT3: 21
+      ResetFrag: 3
+      Whetstone: 1
+      InvBag107: 1
+      TrapBoxSet1: 99
+      WorshipSkull1: 99
+  notes: Keys are Toolbox shops keys (0 Blunder Hills, 1 Encroaching Forest Villas, 2 YumYum Grotto, 3 Faraway Piers, 4 Frostbite
+    Towndra). The wiki stock column is the BASE (both test saves show base x 1.2 with Overstock only), so max today = round(base
+    x (1 + bonus)). Stones and food values not on this list are read off the wiki when the page needs them.
+  sources:
+  - url: https://idleon.wiki/wiki/Vendors
+    title: 'IdleOn Wiki: Vendors (stock column)'
+    tier: 2
+    claimDate: 2026-10-12
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json
+    title: 'Toolbox game data: town shop item lists'
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  status: draft
+  fromTopic: town-shops
+- id: town-shops.fact.pricing
+  system: town-shops
+  origin: authored
+  title: Town shop buy price and stock rule
+  rows:
+    buyPriceFactor: 4
+    overstockPct: 20
+    vendorX1: 35
+    vendorX2: 100
+    sneakyPct: 25
+    combine: additive
+    rounding: nearest
+  notes: 'Buy price = 4 x items.json sellPrice for every W1-W4 coin item (Damaged Cog and some W4+ items use other currencies:
+    never price those). Stock = round(base x (1 + (overstock + vendor + sneaky)/100)).'
+  sources:
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/items.json
+    title: 'Toolbox game data: items sellPrice'
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  - url: https://idleon.wiki/wiki/Vendors
+    title: 'IdleOn Wiki: Vendors (price table)'
+    tier: 2
+    claimDate: 2026-10-12
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  status: draft
+  fromTopic: town-shops
+amendments:
+- _kind: amendment
+  amends: checklist.facts.yaml
+  target: checklist.facts.yaml
+  change: add row after post-office
+  row: '      - { id: town-shops, band: no-bank, clock: daily, label: "Town shop run", system: town-shops, entries: [stamps.check.shop-now,
+    town-shops.check.reset-fragments, anvil.check.respec], effortSeconds: 180, wiki: "https://idleon.wiki/wiki/Vendors" }'
+  fromTopic: town-shops
+  status: draft
+- _kind: amendment
+  amends: stamps.yaml
+  target: stamps.yaml
+  change: 'stamps.check.shop-now: add {price:coins} to text from town-shops.fact.pricing, gate on the best wallet covering
+    the price, drop ''the game data has no buy price'' from why; confidence M -> H for W1-W4 coin stamps'
+  fromTopic: town-shops
+  status: draft
+- _kind: amendment
+  amends: systems.yaml
+  target: systems.yaml
+  change: add the town-shops System
+  row: "  - id: town-shops\n    name: Town shops\n    world: 1\n    dossier: scratchpad/m26/dossiers/town-shops.md (to land\
+    \ under docs/research/systems/)"
+  fromTopic: town-shops
+  status: draft
+notDrafted:
+- 'Storage chest / bag buy order: only derived lines (dossier L); owned by the Storage/Inventory map.'
+- '''Spend all stones daily'': derived (L); owned by the smithing map.'
+- 'Vendor Stamp leveling target: no Source; the Goal shows progress only.'
+- 'Sneaky Stealing check: beyond the last Stage (W4-entry); page shows it as ''later''.'

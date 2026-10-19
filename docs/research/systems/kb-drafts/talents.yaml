@@ -1,0 +1,687 @@
+# SPDX-License-Identifier: GPL-3.0-only
+# M26 CL synthesis (class lines): KB drafts copied from scratchpad/m26/maps/class-*.json. status: draft.
+# Target file: packages/knowledge/systems/talents.yaml (append)
+# Tier scale: M26 workflow (1 game data/Toolbox code, 2 Toolbox dashboard, 3 wiki, 4 community); existing KB YAML labels the wiki tier 2 and Toolbox community builds tier 3: align at merge.
+system: talents
+entries:
+# from maps/class-barbarian.json
+- id: talents.check.core-missing
+  system: talents
+  type: check
+  title: Core talent left at zero
+  subject: character
+  effect: next-action
+  category: compounding
+  effortSeconds: 120
+  detector:
+    id: builds/core-missing
+  text: '{talent} is {current:int} on your {preset} preset: reset and put {target:int} in it'
+  why: Every current {build} puts {target:int} points in {talent}; this preset spent its points elsewhere, so it can only get there after a reset.
+  values:
+    goal: Talents
+  sources:
+  - url: https://idleontoolbox.com/tools/builds/view?id=ih5wAK
+    title: Sir_Grimtide, Barbarian/Fishing (Toolbox community builds)
+    tier: 3
+    claimDate: '2026-10-19'
+    verified: '2026-10-19'
+    gameVersion: 2.3.531
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/talents.json
+    title: 'IdleOn Toolbox game data: talents'
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/character.ts#L3368
+    title: 'IdleOn Toolbox: Idle Brawling in the AFK fighting rate'
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+  appliesTo:
+    stages: all
+    levels:
+      min: 15
+  confidence: M
+  status: draft
+  notes: Dossier M9, C26 (H, value) + C63 (M, build). Pairs with talent-resets.check.reset (which needs >= 30 wrong-role points); this one is the core step only.
+
+# from maps/class-barbarian.json
+- id: talents.check.npng-early
+  system: talents
+  type: check
+  title: No Pain No Gain before W4
+  subject: character
+  effect: next-action
+  category: nice
+  effortSeconds: 30
+  detector:
+    id: builds/npng-early
+  text: Take No Pain No Gain off the bar on {character} until World 4
+  why: While it is on you take double damage and lose max HP; the current Barbarian build waits until W4, when base HP can take it.
+  sources:
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/talents.json
+    title: 'IdleOn Toolbox game data: talents'
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/damage.ts#L1353
+    title: 'IdleOn Toolbox: No Pain No Gain doubles monster damage'
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+  - url: https://idleontoolbox.com/tools/builds/view?id=ih5wAK
+    title: Sir_Grimtide, Barbarian/Fishing (Toolbox community builds)
+    tier: 3
+    claimDate: '2026-10-19'
+    verified: '2026-10-19'
+    gameVersion: 2.3.531
+  appliesTo:
+    stages:
+    - from: W2-early
+      to: W3-late
+    classes:
+    - Barbarian
+    - Blood_Berserker
+  confidence: M
+  status: draft
+  notes: 'Dossier M13, C35 (M: Toolbox maps x to both HP and damage, Q3), C63 (M). Never a blocker: an active player may run it on purpose.'
+
+# from maps/class-barbarian.json
+- id: talents.check.zow-breakpoint
+  system: talents
+  type: check
+  title: Apocalypse Zow between breakpoints
+  subject: character
+  effect: next-action
+  category: compounding
+  effortSeconds: 60
+  detector:
+    id: builds/zow-breakpoint
+    params:
+      breakpoints:
+      - 33
+      - 66
+      - 99
+      - 132
+  text: Hold Apocalypse Zow at {current:int} until you can take it to {next:int}
+  why: Its damage per map only steps up at levels 33, 66, 99 and 132; points in between add nothing while you count fewer maps than its level.
+  sources:
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/talents.json
+    title: 'IdleOn Toolbox game data: talents'
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/damage.ts#L699
+    title: 'IdleOn Toolbox: Apocalypse Zow damage term'
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+  - url: https://idleon.wiki/wiki/Apocalypse_Zow
+    title: 'IdleOn Wiki: Apocalypse Zow'
+    tier: 2
+    claimDate: '2026-09-03'
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+  - url: https://idleontoolbox.com/tools/builds/view?id=ih5wAK
+    title: Sir_Grimtide, Barbarian/Fishing (Toolbox community builds)
+    tier: 3
+    claimDate: '2026-10-19'
+    verified: '2026-10-19'
+    gameVersion: 2.3.531
+  appliesTo:
+    stages: all
+    classes:
+    - Barbarian
+    - Blood_Berserker
+  confidence: M
+  status: draft
+  notes: Dossier M14, C37 (H formula) but Q2 (Toolbox's +1 and no cap at y) keeps this at M.
+
+# from maps/class-barbarian.json
+- id: talents.goal.zow-maps
+  system: talents
+  type: goal
+  title: Next Zow map
+  scope: character
+  category: compounding
+  unit: maps
+  progress:
+    id: talents/zow-progress
+    params:
+      threshold: 100000
+  milestones:
+  - at: 1
+    reward: 'First Zow map: Apocalypse Zow counts it'
+  - at: 10
+    reward: 10 Zow maps
+  text: '{map:name}: {kills:int} of 100,000 kills for Apocalypse Zow'
+  why: Each fighting map where {character} has 100,000 kills adds Apocalypse Zow's damage bonus once more; you count {count:int} maps now.
+  values:
+    goal: Talents
+  sources:
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/character.ts#L3042
+    title: 'IdleOn Toolbox: getBarbarianZowChow (100k-kill maps)'
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/damage.ts#L699
+    title: 'IdleOn Toolbox: Apocalypse Zow damage term'
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+  appliesTo:
+    stages: all
+    classes:
+    - Barbarian
+    - Blood_Berserker
+  confidence: H
+  status: draft
+  notes: 'Dossier M14, C38 (H). A Goal, never a Next Action: farming a map for Zow is a choice.'
+
+# from maps/class-barbarian.json
+- id: talents.goal.chow-maps
+  system: talents
+  type: goal
+  title: Next Chow map
+  scope: character
+  category: compounding
+  unit: maps
+  progress:
+    id: talents/zow-progress
+    params:
+      threshold: 1000000
+  milestones:
+  - at: 1
+    reward: 'First Chow map: Apocalypse Chow counts it'
+  text: '{map:name}: {kills:int} of 1,000,000 kills for Apocalypse Chow'
+  why: Each map at 1,000,000 kills on {character} adds Apocalypse Chow's Cooking EXP and efficiency once more; you count {count:int} maps now.
+  values:
+    goal: Talents
+  sources:
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/character.ts#L3042
+    title: 'IdleOn Toolbox: getBarbarianZowChow (1M-kill maps)'
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-4/cooking.ts#L168
+    title: 'IdleOn Toolbox: Apocalypse Chow in cooking efficiency'
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+  appliesTo:
+    stages:
+    - from: W4-entry
+      to: W4-late
+    classes:
+    - Blood_Berserker
+  confidence: H
+  status: draft
+  notes: Dossier M19, C48 (H).
+
+# from maps/class-barbarian.json
+- id: talents.check.bobbers-cap
+  system: talents
+  type: check
+  title: Bobbin' Bobbers caps your fishing highscore
+  subject: character
+  effect: next-action
+  category: compounding
+  effortSeconds: 60
+  detector:
+    id: talents/bobbers-cap
+  text: Level Bobbin' Bobbers to {need:int} on {character}'s fishing preset
+  why: Its fishing power is the lower of your fishing minigame highscore ({highscore:int}) and its cap ({cap:int}, 5 + one per 3 levels), so the cap is what you get now.
+  sources:
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/efficiency.ts#L443
+    title: 'IdleOn Toolbox: Bobbin'' Bobbers min(highscore, cap)'
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/talents.json
+    title: 'IdleOn Toolbox game data: talents'
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+  appliesTo:
+    stages: all
+    classes:
+    - Barbarian
+    - Blood_Berserker
+  confidence: H
+  status: draft
+  notes: Dossier M16, C41 (H).
+
+# from maps/class-barbarian.json
+- id: talents.build.blood-berserker-skilling
+  system: talents
+  type: build
+  title: Blood Berserker skilling build (tab 4)
+  text: Follow the Blood Berserker skilling build
+  why: Symbols of Beyond first, then Overblown Testosterone and Skill Strengthen, per the most-liked current Barbarian build.
+  classLine: Blood_Berserker
+  role: skilling
+  serves:
+  - FISHING
+  - MINING
+  - COOKING
+  variant: afk
+  tags:
+  - SYMBOLS_OF_BEYOND_~R
+  - OVERBLOWN_TESTOSTERONE
+  - SKILL_STRENGTHEN
+  tabs:
+  - tab: 4
+    steps:
+    - talent: SYMBOLS_OF_BEYOND_~R
+      target: max
+    - talent: OVERBLOWN_TESTOSTERONE
+      target: max
+    - talent: SKILL_STRENGTHEN
+      target: max
+  attacks: []
+  onePointOk: []
+  sources:
+  - url: https://idleontoolbox.com/tools/builds/view?id=ih5wAK
+    title: Sir_Grimtide, Barbarian/Fishing (Toolbox community builds)
+    tier: 3
+    claimDate: '2026-10-19'
+    verified: '2026-10-19'
+    gameVersion: 2.3.531
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/talents.json
+    title: 'IdleOn Toolbox game data: talents'
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+  appliesTo:
+    stages:
+    - from: W4-entry
+      to: W4-late
+    classes:
+    - Blood_Berserker
+  confidence: M
+  status: draft
+  notes: 'Dossier W4 step 1, C61 (M). Needs engine support for tab 4 (StepState.tab 1|2|3) and merging a tab-4 Build onto the Barbarian line''s tabs 1-3 (lineOf returns Barbarian). rawNames checked against talents.json: Symbols of Beyond has three class-specific rawNames (_~R Rage line, _~G, _~P); SYMBOLS_OF_BEYOND_~R is skillIndex 149 in the Blood_Berserker tab (talents.json L1897), but the same rawName appears again near skillIndex 179 (another class tab, L2109), so the Build resolver must map rawName -> id within the character''s tabs, not globally.'
+
+# from maps/class-barbarian.json
+- id: talents.check.accuracy-over
+  system: talents
+  type: check
+  title: Enough accuracy
+  subject: character
+  effect: next-action
+  category: nice
+  detector:
+    id: builds/accuracy-over
+  text: '{character} already hits 100% here: new points go to damage, not Book of the Wise'
+  why: Hit chance stops at 100% once accuracy is 1.5 times the monster's defence; more WIS adds nothing to kills.
+  sources:
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/utility/hit-chance.mjs
+    title: 'IdleOn Toolbox: hit chance curve'
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/damage.ts#L981
+    title: 'IdleOn Toolbox: getAccuracy'
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+  appliesTo:
+    stages: all
+    classes:
+    - Warrior
+    - Barbarian
+    - Blood_Berserker
+    - Squire
+  confidence: M
+  status: draft
+  notes: Dossier M3, C9 (H curve), C28 (M advice). Needs characters[].fighting.accuracyRatio.
+
+# from maps/class-hunter.json
+- id: talents.goal.veins-smithing
+  system: talents
+  type: goal
+  title: Smithing feeds Veins of the Infernal
+  subject: character
+  effect: next-action
+  category: compounding
+  effortSeconds: 0
+  detector:
+    id: builds/veins-smithing
+    params:
+      minGainPct: 10
+  text: 'Level {who:name}''s Smithing: Veins of the Infernal goes from +{now:int}% to +{atCap:int}% damage at Smithing 100'
+  why: Veins multiplies damage by its value for every 10 Smithing levels, up to Smithing 100. The talent is already bought, so each Smithing level adds damage.
+  values:
+    goal: Talents
+    unit: Smithing levels
+  sources:
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/damage.ts#L674-L677
+    title: 'IdleOn Toolbox, getDamageFromPerX: Veins multiplier 1 + V x min(100, Smithing)/10 / 100'
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/talents.json
+    title: 'IdleOn Toolbox game data: VEINS_OF_THE_INFERNAL (284), decay 35/50'
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+  appliesTo:
+    stages: all
+    classes:
+    - Archer
+    - Bowman
+    - Hunter
+    - Beast_Master
+  confidence: M
+  status: draft
+  notes: 'Dossier M8/C14 (M). Fires only when the fighting-role preset has VEINS base >= 1 and Smithing < 100 and the gain to Smithing 100 is at least minGainPct points. Value uses the effective level once characters[].talents carry it (accountStateFieldsToAdd), base level until then. No community claim on how much Smithing to level; the goal states the payoff only. CL merge: superseded by classes.check.veins-smithing (Archer line).'
+
+# from maps/class-hunter.json
+- id: talents.check.trap-preset
+  system: talents
+  type: check
+  title: Cast Eagle Eye from the trapping preset
+  subject: character
+  effect: next-action
+  category: compounding
+  effortSeconds: 20
+  detector:
+    id: builds/trap-preset
+  text: Swap {who:name} to the {toRole} preset, cast Eagle Eye, then swap back
+  why: A trap keeps the efficiency, EXP and shiny chance its placer had when it was set. Your {toRole} preset has {talent} at {other:int} and this one has {active:int}.
+  values:
+    goal: Talents
+    toRole: skilling
+  sources:
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-3/traps.ts#L178-L262
+    title: 'IdleOn Toolbox, getShinyChance: chance snapshotted when the trap is placed'
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+  - url: https://idleon.wiki/wiki/Trapping
+    title: 'IdleOn Wiki: Trapping (efficiency, EXP and shiny chance are saved when the trap is placed; Eagle Eye re-places traps)'
+    tier: 2
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/talents.json
+    title: 'IdleOn Toolbox game data: EAGLE_EYE (310), INVASIVE_SPECIES (311), SHROOM_BAIT (312), REFLECTIVE_EYESIGHT (313)'
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+  appliesTo:
+    stages: all
+    classes:
+    - Hunter
+    - Beast_Master
+    levels:
+      min: 15
+  confidence: M
+  status: draft
+  notes: 'Dossier Common mistake 1, C18 (M), C31 (M); the swap-and-swap-back routine is also in Toolbox build XVxy5U (tier 3, L). Code and wiki agree the snapshot happens at placement; a 2024 sheet said at claim (pre-patch, L, C36): code wins. Pairs with trapping.check.eagle-eye (trapping.json), which fires when no preset has Eagle Eye; this one is silent then.'
+
+# from maps/class-hunter.json
+- id: talents.build.hunter-fighting
+  patch: true
+  system: talents
+  type: build
+  status: draft
+  change: 'tab 2 step { talent: STRAFE, target: max, tie: b } -> { talent: STRAFE, target: 1 } and move it next to the 1-point openers'
+  confidence: L
+  why: Strafe is a movement-speed buff (AFKactivity -1) that Toolbox's AFK kill maths skips, so points past 1 add nothing to AFK damage.
+  sources:
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/talents.json
+    title: 'IdleOn Toolbox game data: STRAFE (273) AFKactivity -1, bigBase 5/0.3 move speed'
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/character.ts#L3190-L3200
+    title: IdleOn Toolbox, move speed reads Strafe only while the buff is active
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+  - url: https://idleontoolbox.com/tools/builds/view?id=MDGrBz
+    title: 'BigRav01, Beast Master - AFK - W4: Strafe 1 (Toolbox community builds)'
+    tier: 3
+    claimDate: '2026-10-13'
+    verified: '2026-10-19'
+    gameVersion: 2.3.531
+  notes: 'Disputed read of one source: the class-hunter dossier (C35) reads MDGrBz as Strafe 1; the live KB entry (2026-10-17) reads the same build as Strafe max. The mechanic (no AFK-kill effect, C13 M / C15 H) supports 1. Re-fetch MDGrBz before applying; keep confidence L. archer-fighting (also Strafe max) follows MDGrBz too and gets the same change if the re-fetch confirms.'
+
+# from maps/class-shaman.json
+- id: talents.check.idle-casting
+  system: talents
+  type: check
+  title: Idle Casting at 0
+  text: Put points in Idle Casting on {who}'s {preset} preset
+  why: '{who} AFK fights on this preset with Idle Casting at 0. It adds {at50:pct} to AFK fighting gains at level 50 and is in every current Mage-line fighting build.'
+  values:
+    goal: Talents
+    target: 50
+    at50: 10%
+  sources:
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/talents.json
+    title: 'IdleOn Toolbox game data: talents'
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/character.ts#L3369
+    title: 'IdleOn Toolbox: IDLE_CASTING in AFK fighting gains'
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+  - url: https://idleontoolbox.com/tools/builds/view?id=K4c9A0
+    title: Sir_Grimtide, Shaman/Alchemy (Toolbox community builds)
+    tier: 3
+    claimDate: '2026-10-15'
+    verified: '2026-10-17'
+    gameVersion: 2.3.531
+  appliesTo:
+    stages: all
+    classes:
+    - Mage
+    levels:
+      min: 10
+  confidence: M
+  status: draft
+  subject: character
+  effect: next-action
+  category: compounding
+  detector:
+    id: builds/idle-casting
+  notes: 'Value is H (decay 20,50: L50 10%, L100 13.3%); the target 50 is the 2026 build''s (M). Covers Wizard and Shaman lines (classes: Mage matches via isA). Ranked above the build''s ''max'' steps for Gilded Sword / Sharpened Axe only while Idle Casting is 0. CL merge: superseded by classes.check.idle-casting-zero (one Mage-line Idle Casting check).'
+
+# from maps/class-shaman.json
+- id: talents.check.flask-cap
+  system: talents
+  type: check
+  title: Flask talent past the Mage is Best level
+  text: 'Stop levelling {talent} past {cap:int}: {wasted:int} points do nothing'
+  why: '{talent} raises {target}''s max level by one per Mage is Best bubble level, up to its own level. Your Mage is Best is level {cap:int}, so levels above it add nothing. Level the bubble first, or move the points.'
+  values:
+    goal: Talents
+  sources:
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/talents.json
+    title: 'IdleOn Toolbox game data: talents'
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+  - url: https://idleon.wiki/wiki/Shaman
+    title: 'IdleOn Wiki: Shaman (Fantasia Flasks)'
+    tier: 3
+    claimDate: '2026-09-03'
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+  appliesTo:
+    stages: all
+    classes:
+    - Shaman
+    - Wizard
+  confidence: H
+  status: draft
+  subject: character
+  effect: next-action
+  category: waste
+  detector:
+    id: builds/flask-cap
+  notes: 'Fantasia Flasks (489, Shaman) raises Farsight; Fuscia Flasks (474, Wizard) raises Overclocked Energy. Rule from the data text and confirmed by save evidence: the W4 test account''s Wizard has Fuscia 14 with Mage is Best 1 and Overclocked Energy max 101. Also cap the FANTASIA_FLASKS / FUSCIA_FLASKS ''max'' build steps at the bubble level (build step target ''bubble:MAGE_IS_BEST''). CL merge: covers Fantasia Flasks (Shaman) only once classes.check.fuscia-over-bubble owns Fuscia (Wizard). Same generic detector builds/bubble-capped-talent.'
+
+# from maps/class-shaman.json
+- id: talents.check.virile-vials-idle
+  system: talents
+  type: check
+  title: Virile Vials with no green vials
+  text: Get a vial to level 4 before more Virile Vials
+  why: Virile Vials gives damage for each vial at level 4 or more. You have {green:int}, so its {level:int} levels give {now:pct} now; each green vial adds {perVial:pct}.
+  values:
+    goal: Talents
+    link: alchemy-vials.goal.green-vials
+  sources:
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/damage.ts#L712
+    title: 'IdleOn Toolbox: Virile Vials counts vials with level > 3'
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+  - url: https://idleon.wiki/wiki/Shaman
+    title: 'IdleOn Wiki: Shaman'
+    tier: 3
+    claimDate: '2026-09-03'
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+  appliesTo:
+    stages:
+    - from: W2-early
+      to: W4-entry
+    classes:
+    - Shaman
+  confidence: M
+  status: draft
+  subject: character
+  effect: next-action
+  category: compounding
+  detector:
+    id: builds/virile-vials
+  notes: Fires when Virile Vials base > 0 on the active preset and no vial is at level >= 4. The fix is alchemy-vials.goal.green-vials (alchemy-vials map). Mechanic H (code); the ordering advice M.
+
+# from maps/class-shaman.json
+- id: talents.check.bubble-breakthrough-preset
+  system: talents
+  type: check
+  title: Bubble Breakthrough on the other preset
+  text: Bubble Breakthrough only counts on {who}'s active preset
+  why: '{who} has Bubble Breakthrough {level:int} on the {preset} preset, which is not in use, so your cauldrons roll new bubbles at x1.00 instead of x{multi:dec2}. Switch to that preset while rolling bubbles, or put a few points on the preset you use.'
+  values:
+    goal: Alchemy
+  sources:
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-2/alchemy.ts#L641
+    title: 'IdleOn Toolbox: getBestBubbleBreakthrough reads each character''s active talents'
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/talents.json
+    title: 'IdleOn Toolbox game data: talents'
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+  - url: https://idleontoolbox.com/tools/builds/view?id=K4c9A0
+    title: Sir_Grimtide, Shaman/Alchemy (Toolbox community builds)
+    tier: 3
+    claimDate: '2026-10-15'
+    verified: '2026-10-17'
+    gameVersion: 2.3.531
+  appliesTo:
+    stages:
+    - from: W2-early
+      to: W4-entry
+    classes:
+    - Shaman
+  confidence: M
+  status: draft
+  subject: character
+  effect: next-action
+  category: compounding
+  detector:
+    id: builds/bubble-breakthrough-preset
+  notes: 'Toolbox takes the best active-preset Bubble Breakthrough over the whole account; the data text says ''when brewing on this player''. Both views kept (M): the text adds ''and is seated in a cauldron'' as a stricter reading. Do not fire if another character''s active preset already gives at least this multiplier.'
+
+# from maps/class-shaman.json
+- id: talents.check.busy-brewin
+  system: talents
+  type: check
+  title: Busy Brewin' on a seated Shaman
+  text: Put points in Busy Brewin' on {who}
+  why: '{who} brews in the {cauldron} cauldron with Busy Brewin'' at 0. Each level adds 1% to this character''s brew speed.'
+  values:
+    goal: Alchemy
+  sources:
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-2/alchemy.ts#L722
+    title: 'IdleOn Toolbox: getCharacterBrewSpeed (Busy Brewin'')'
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/talents.json
+    title: 'IdleOn Toolbox game data: talents'
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+  - url: https://idleontoolbox.com/tools/builds/view?id=K4c9A0
+    title: Sir_Grimtide, Shaman/Alchemy (Toolbox community builds)
+    tier: 3
+    claimDate: '2026-10-15'
+    verified: '2026-10-17'
+    gameVersion: 2.3.531
+  appliesTo:
+    stages:
+    - from: W2-early
+      to: W4-entry
+    classes:
+    - Shaman
+  confidence: M
+  status: draft
+  subject: character
+  effect: next-action
+  category: compounding
+  detector:
+    id: builds/busy-brewin
+  notes: Seat = characters[].slots.cauldron 0-3; talent read from the active preset (Toolbox flatTalents). Mechanic H; whether to spend tab-3 points here before the attacks is the build's call (M).
+
+# from maps/class-shaman.json
+- id: talents.check.cranium-cooking-ready
+  system: talents
+  type: check
+  title: Cranium Cooking is ready
+  text: Cast Cranium Cooking with {who} on a fast-kill map
+  why: It lasts {seconds:int} s and every kill in that time gives {perKill:dec1} s of instant alchemy progress. It is ready once a day (about 22 h).
+  values:
+    goal: Alchemy
+    timelineKind: ready
+    timelineWhat: Cranium Cooking
+  sources:
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/talents.json
+    title: 'IdleOn Toolbox game data: talents'
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/character.ts#L303
+    title: 'IdleOn Toolbox: character.cooldowns (AttackCooldowns)'
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+  - url: https://idleon.wiki/wiki/Cranium_Cooking
+    title: 'IdleOn Wiki: Cranium Cooking'
+    tier: 3
+    claimDate: '2026-09-03'
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+  appliesTo:
+    stages:
+    - from: W2-early
+      to: W4-entry
+    classes:
+    - Shaman
+  confidence: M
+  status: draft
+  subject: character
+  effect: next-action
+  category: spendable
+  detector:
+    id: builds/cranium-ready
+  notes: Active-play only. Fires when Cranium Cooking base >= 1 and cooldowns['490'] - secondsSinceLastSave <= 0. Cooldown semantics (remaining seconds at save) M; the 'resets on map change' wiki claim is L and not used in text.

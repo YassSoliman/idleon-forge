@@ -1,0 +1,396 @@
+# SPDX-License-Identifier: GPL-3.0-only
+# M26 KB drafts for forge (W1 synthesis), copied from m26/maps/*.json. status: draft on every entry;
+# the live schema's status enum is active|contested|retired, so promotion flips draft -> active or contested.
+# Topics: forge, smithing
+system: forge
+status: draft
+entries:
+- id: forge.check.fill-empty-slots
+  system: forge
+  type: check
+  title: Fill your empty Forge slots
+  subject: account
+  effect: next-action
+  usesExpectedReturn: true
+  category: compounding
+  priority:
+    frame: by-urgency
+  effortSeconds: 90
+  detector:
+    id: forge/idle-slots
+  text: Fill {idle:int} empty Forge slots with {ore:name}
+  values:
+    detail-more: You also hold {others}
+    timelineKind: storage
+    timelineWhat: forge
+  why: An unlocked slot without enough ore for one bar smelts nothing. You hold {held:int} {ore:name}, enough for
+    {bars:int} bars.
+  notes: 'Counts only unlocked slots (index < New Forge Slot level); Toolbox''s emptySlots alert counts all 16 rows,
+    locked ones included (M21). A slot whose ore is below the ore''s Amount counts as empty: the leftover never
+    smelts (M2). Ore choice: the forgeable ore held in storage and bags with the highest Cooldown that fills at
+    least one slot to capacity, else the most-held one; no tier 1-3 Source gives an ore order, so the text names
+    one ore and lists the rest.'
+  doneWhen:
+    field: account.forge.slots[*].ore.amount
+    change: higher
+  appliesTo:
+    stages: all
+  confidence: H
+  status: draft
+  sources:
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-1/forge.ts
+    title: 'IdleOn Toolbox parseForge: 16 slot rows, Brimstone x1.5, timeTillEmpty (vendored forge.ts#L110-160,
+      #L219-228)'
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/utility/dashboard/account.js#L422
+    title: IdleOn Toolbox forge emptySlots alert (counts all 16 rows, vendored account.js#L422-430)
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/items.json
+    title: 'Toolbox game data items.json: ore Amount/Cooldown, OilBarrel1-7 Effect/Amount/Cooldown (vendored items.json#L458-610)'
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  - url: https://idleon.wiki/wiki/Smithing
+    title: 'IdleOn Wiki: Smithing, The Forge'
+    tier: 2
+    claimDate: 2026-10-05
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+- id: forge.check.runs-out-before-return
+  system: forge
+  type: check
+  title: Forge runs dry while you're away
+  subject: account
+  effect: next-action
+  usesExpectedReturn: true
+  category: compounding
+  priority:
+    frame: by-urgency
+  effortSeconds: 60
+  detector:
+    id: forge/runs-out-before-return
+  text: 'Top up {slots:int} Forge slots: empty {emptyIn:in}'
+  values:
+    pill: Forge dry · top up
+    pill-soon: Forge dry {emptyIn:in} · top up
+    timelineKind: storage
+    timelineWhat: forge
+  why: At this speed the slot smelts its ore in {emptyIn:duration}, before your return. Filling it to capacity ({capacity:int}
+    ore) keeps it running {fullRun:duration}.
+  notes: 'Fires only when topping up changes the outcome (anvil #70 A5 precedent): the slot is smelting, empties
+    before the Expected Return, and the account holds more of that ore. When capacity itself is shorter than the
+    stretch, the text still fires once and the Forge page shows capacity as the limit (dossier ''capacity too small
+    for AFK''). Speed-barrel slots use Toolbox''s two-phase time (barrel cycles, then base speed).'
+  doneWhen:
+    field: account.forge.slots[*].emptyAt
+    change: higher
+  appliesTo:
+    stages: all
+  confidence: H
+  status: draft
+  sources:
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-1/forge.ts
+    title: 'IdleOn Toolbox parseForge: 16 slot rows, Brimstone x1.5, timeTillEmpty (vendored forge.ts#L110-160,
+      #L219-228)'
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  - url: https://idleon.wiki/wiki/Smithing
+    title: 'IdleOn Wiki: Smithing, The Forge'
+    tier: 2
+    claimDate: 2026-10-05
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+- id: forge.check.collect-bars
+  system: forge
+  type: check
+  title: Collect your Forge bars
+  subject: account
+  effect: next-action
+  category: nice
+  priority:
+    frame: by-urgency
+  effortSeconds: 20
+  detector:
+    id: forge/collect-bars
+  text: Collect {bars:int} bars from the Forge
+  values:
+    detail: '{list}'
+  why: Bars wait in the Forge's output until you collect them; the Anvil, stamps and vials only use bars in storage
+    or a bag.
+  notes: 'Confidence M: the per-session ''collect bars'' action is H in the dossier, but no Source says the output
+    slot caps or blocks smelting. Suppressed when a Walkthrough already emits its ''in the Forge: collect'' step
+    for the same bar (engine/src/walkthrough/build.ts L366), so the two never show twice.'
+  doneWhen:
+    field: account.forgeOutput
+    change: lower
+  appliesTo:
+    stages: all
+  confidence: M
+  status: draft
+  sources:
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-1/forge.ts#L144
+    title: 'Toolbox forge.list[].bar: bars wait in the output slot (owner ''forge''), not in storage'
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  - url: https://idleon.wiki/wiki/Smithing
+    title: 'IdleOn Wiki: Smithing, The Forge'
+    tier: 2
+    claimDate: 2026-10-05
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+- id: forge.check.add-barrel
+  system: forge
+  type: check
+  title: Put a barrel in a Forge slot
+  subject: account
+  effect: next-action
+  category: nice
+  effortSeconds: 30
+  detector:
+    id: forge/barrel-idle
+  text: Add {barrel:name} to {slots:int} smelting Forge slots
+  why: '{barrel:name} {effect}, and you hold {held:int}. A barrel only works in a slot that is smelting.'
+  values:
+    effect-speed: smelts {power:int}% faster
+    effect-double: gives a {power:int}% chance of an extra bar
+  notes: 'Confidence M: ''add barrels'' is a dossier per-session action (H) and barrel effects are game data (H),
+    but no Source ranks a speed barrel against a double-bar barrel, so the detector names the barrel the account
+    holds most of and never advises buying one. Toxic Sludge, Magma and Plasma are double-bar barrels (Toolbox does
+    not model the extra bar).'
+  doneWhen:
+    field: account.forge.slots[*].barrel.amount
+    change: higher
+  appliesTo:
+    stages: all
+  confidence: M
+  status: draft
+  sources:
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/items.json
+    title: 'Toolbox game data items.json: ore Amount/Cooldown, OilBarrel1-7 Effect/Amount/Cooldown (vendored items.json#L458-610)'
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-1/forge.ts
+    title: 'IdleOn Toolbox parseForge: 16 slot rows, Brimstone x1.5, timeTillEmpty (vendored forge.ts#L110-160,
+      #L219-228)'
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  - url: https://idleon.wiki/wiki/Smithing
+    title: 'IdleOn Wiki: Smithing, The Forge'
+    tier: 2
+    claimDate: 2026-10-05
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+- id: forge.check.brimstone-best-ore
+  system: forge
+  type: check
+  title: Best ore in your Brimstone slots
+  subject: account
+  effect: next-action
+  category: nice
+  effortSeconds: 60
+  detector:
+    id: forge/brimstone-ore
+  text: Smelt {ore:name} in your Brimstone slots, not {current:name}
+  why: Brimstone slots smelt 1.5x faster, so they pay most on the slowest ore you can keep them full of.
+  notes: 'Dossier per-session action ''scarcest bar on Brimstone slots'' and common mistake ''smelting copper in
+    a Brimstone slot''. Rule: among ores the account holds enough of for at least 10 bars, the one with the highest
+    Cooldown; fires when a Brimstone slot smelts a lower-Cooldown ore. Brimstone''s +50% multi-bar (in-game text)
+    is unmodelled by Toolbox and not used.'
+  appliesTo:
+    stages: all
+  confidence: M
+  status: draft
+  sources:
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-1/forge.ts
+    title: 'IdleOn Toolbox parseForge: 16 slot rows, Brimstone x1.5, timeTillEmpty (vendored forge.ts#L110-160,
+      #L219-228)'
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/items.json
+    title: 'Toolbox game data items.json: ore Amount/Cooldown, OilBarrel1-7 Effect/Amount/Cooldown (vendored items.json#L458-610)'
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/gemShop.json
+    title: 'Toolbox gemShop.json index 104 Brimstone Forge Slot: 100 gems, max 16 (vendored)'
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+- id: forge.check.brimstone-first-slots
+  system: forge
+  type: check
+  title: One or two Brimstone Forge slots
+  subject: account
+  effect: next-action
+  category: nice
+  effortSeconds: 30
+  detector:
+    id: forge/brimstone-count
+  text: A Brimstone Forge slot (100 gems) makes one slot 1.5x faster
+  why: Guides rate the first one or two Brimstone slots well; past two, later capacity boosts outgrow them.
+  notes: 'CONTESTED. gameslikefinder: tier A, buy 1 or 2 initially (the dossier''s M). Other gem-shop lists the
+    account-wide research carried: S+ on the Treyex list, ''only if bars bottleneck'' (L).
+    Fires only with 0 Brimstone slots bought, gems >= 100 and at least 4 unlocked Forge slots; silent at 2+. Hands
+    off to the Gem Shop System for ordering against other gem buys (gem-shop.yaml); it never outranks a gem-shop
+    priority entry.'
+  appliesTo:
+    stages:
+    - from: W1-late
+      to: W4-entry
+  confidence: M
+  status: draft
+  ship: excluded
+  shipReason: 'Red team P1: gem buy order (N3), single tier-4 guide; a Discord-sourced tier dropped (out of scope). Gem Shop page shows owned/not owned only.'
+  sources:
+  - url: https://gameslikefinder.com/article/legends-of-idleon-gems
+    title: 'gameslikefinder gem guide: Brimstone Forge Slot tier A, buy 1 or 2 initially'
+    tier: 4
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/gemShop.json
+    title: 'Toolbox gemShop.json index 104 Brimstone Forge Slot: 100 gems, max 16 (vendored)'
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-1/forge.ts
+    title: 'IdleOn Toolbox parseForge: 16 slot rows, Brimstone x1.5, timeTillEmpty (vendored forge.ts#L110-160,
+      #L219-228)'
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+- id: forge.check.idle
+  system: forge
+  type: check
+  title: Load the Forge
+  subject: account
+  effect: next-action
+  category: idle
+  effortSeconds: 60
+  detector:
+    id: forge/idle
+  text: '{text}'
+  why: '{why}'
+  values:
+    empty: Load ore into {n:int} empty Forge slots
+    empty-all: 'The Forge is idle: load ore into all {n:int} slots'
+    collect: ' and collect {bars}'
+    why: A slot with no ore makes no bars. Bars feed every metal recipe and Anvil Tab; the Forge runs while you're
+      away.
+    detail: 'Slot {slot:int}: {state}'
+    state-empty: no ore
+    state-low: '{ore} runs out {emptyIn:in}'
+  notes: A slot counts when it is unlocked (index < New Forge Slot level; confirm the base slot count in game, OQ-F1)
+    and its ore is Blank or below one cycle's ore.Amount (a leftover below ore.Amount never smelts, forge.ts). Bars
+    waiting are the existing account.forgeOutput.
+  appliesTo:
+    stages: all
+  confidence: H
+  status: draft
+  sources:
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-1/forge.ts#L100-L160
+    title: 'IdleOn Toolbox getForge: slots, ore, bar, timeTillEmpty'
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  - url: https://idleon.wiki/wiki/Forging
+    title: 'IdleOn Wiki: Forging (ore into bars, 16 slots)'
+    tier: 2
+    claimDate: 2026-10-05
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+- id: forge.check.runs-out
+  system: forge
+  type: check
+  title: Forge ore runs out while you're away
+  subject: account
+  effect: next-action
+  category: nice
+  usesExpectedReturn: true
+  effortSeconds: 60
+  detector:
+    id: forge/runs-out
+  text: 'Top up {ore} in the Forge: empty {emptyIn:in}'
+  values:
+    pill: Forge empty {emptyIn:in}
+    timelineKind: storage
+    timelineWhat: forge
+  why: That slot stops making {bar} {emptyIn:in}; the Forge holds up to {cap:int} ore per slot.
+  notes: 'Toolbox timeTillEmpty includes the speed barrel running dry and Brimstone x1.5 (forge.ts getTimeTillEmpty,
+    L205-228). Renders like anvil.check.caps-before-return: a pill, never a blocker.'
+  appliesTo:
+    stages: all
+  confidence: H
+  status: draft
+  sources:
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-1/forge.ts#L120-L228
+    title: 'IdleOn Toolbox: getTimeTillEmpty, getSpeed, getForgeOreCapacity'
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+facts:
+- id: forge.fact.barrels
+  system: forge
+  origin: authored
+  title: Forge barrels (effect, power %, chance % to use one per bar)
+  rows:
+    OilBarrel1:
+      name: Crude Oil
+      effect: speed
+      power: 15
+      use: 75
+    OilBarrel2:
+      name: Toxic Sludge
+      effect: double
+      power: 20
+      use: 60
+    OilBarrel3:
+      name: Radioactive Waste
+      effect: speed
+      power: 30
+      use: 30
+    OilBarrel4:
+      name: Glumlee's Special Tutorial Oil
+      effect: speed
+      power: 999
+      use: 200
+    OilBarrel5:
+      name: Eco Friendly Oil
+      effect: speed
+      power: 10
+      use: 30
+    OilBarrel6:
+      name: Magma Barrel
+      effect: double
+      power: 40
+      use: 50
+    OilBarrel7:
+      name: Plasma Barrel
+      effect: double
+      power: 60
+      use: 30
+  sources:
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/items.json
+    title: Toolbox game data items.json OilBarrel1-7 Effect/Amount/Cooldown (vendored items.json#L458-610)
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-1/forge.ts#L106
+    title: Toolbox barrelUsePerCycle = 1 - Fossil Fuel bribe / 100
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  - url: https://idleon.wiki/wiki/Smithing
+    title: 'IdleOn Wiki: Smithing, The Forge (Bar table lists all three extra-bar barrels)'
+    tier: 2
+    claimDate: 2026-10-05
+    verified: 2026-10-19
+    gameVersion: 2.3.540

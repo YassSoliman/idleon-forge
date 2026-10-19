@@ -1,0 +1,163 @@
+# SPDX-License-Identifier: GPL-3.0-only
+# M26 KB drafts for System drop-rate (area AW synthesis, verified 2026-10-19, Toolbox 6c37e3d, game 2.3.540).
+# status: draft is a workflow marker; the KB schema accepts active|contested|retired only.
+# entries = new entries; facts = new fact rows (land in <system>.facts.yaml at merge);
+# amendments = changes to entries already in packages/knowledge/systems (or to other drafts).
+# AW synthesis added: topics drop-rate (maps/<topic>.json).
+system: drop-rate
+status: draft
+entries:
+- id: drop-rate.goal.loot-farmer
+  system: drop-rate
+  type: goal
+  title: Drop rate of your loot farmer
+  scope: account
+  category: compounding
+  unit: x
+  progress:
+    id: drop-rate/best
+  text: 'Raise drop rate on the {who}: {total}x now'
+  why: Drop rate multiplies every monster drop roll, so materials and AFK loot come faster on the character with the most.
+  milestones:
+  - at: 5
+    reward: The Grounded Processor chip stops adding here
+  notes: 'Progress = account.dropRate.best on the best fighting character (bestFighterIndex), not the overall best: on the
+    W4 test account the overall best is a fishing character. The 5x milestone is DR_CHIP_CAP (H). Usefulness of chasing DR
+    in W1-W4 is M: the formulas are tier 1, no community upgrade order was retrieved.'
+  sources:
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/character.ts#L2378
+    title: 'Toolbox getDropRate: additive base, chip cap, bundles, Siege Breaker, multiplier chain'
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/character.ts#L2368
+    title: 'Toolbox DR_CHIP_CAP = 5: the chip adds only while the base is under 5x'
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/character.ts#L2375
+    title: 'Toolbox getHighestDropRate: best getDropRate over all characters'
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  appliesTo:
+    stages: all
+  confidence: M
+  status: draft
+  fromTopic: drop-rate
+- id: drop-rate.priority.levers
+  system: drop-rate
+  type: priority
+  title: Drop rate levers
+  text: Raise drop rate with the lever that adds most for its cost
+  why: Most of your drop rate is one additive sum, so a cheap new source beats one more level of a source you already stack.
+  notes: 'Order is computed, not authored: drop-rate/levers ranks each reachable free lever (Clover Shrine, Droppin'' Loads,
+    Post Office Non Predatory Loot Box, Golden Sixes stamp, Gold Charm, arcade drop row, Equinox Faux Jewels, Efaunt set,
+    DR cards) by new total / old total on the loot farmer, using Toolbox''s own breakdown (each additive % is scaled by the
+    multiplier layer above it). Real-money levers (bun_v, bun_p, companions) show as owned or not only, never ranked or suggested.
+    Upgrade Vault Drops for Days stays in the Spend Plan (spend item max-drops-for-days).'
+  sources:
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/character.ts#L2378
+    title: 'Toolbox getDropRate: additive base, chip cap, bundles, Siege Breaker, multiplier chain'
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  appliesTo:
+    stages: all
+  confidence: M
+  status: draft
+  list: order
+  tiers:
+  - - drop-rate.check.clover-shrine-farmer
+  - - drop-rate.check.next-lever
+  fromTopic: drop-rate
+- id: drop-rate.check.clover-shrine-farmer
+  system: drop-rate
+  type: check
+  title: Clover Shrine away from your loot farmer
+  subject: account
+  effect: next-action
+  category: compounding
+  effortSeconds: 120
+  detector:
+    id: drop-rate/clover-shrine-farmer
+  text: 'Move the Clover Shrine to {map:name}: +{bonus:int}% drop rate for the {who}'
+  why: The Clover Shrine's drop rate counts only for characters on its own map, and your loot farmer is somewhere else.
+  doneWhen:
+    field: account.shrines[4].mapId
+    change: changed
+  appliesTo:
+    stages:
+    - from: W3-early
+  confidence: M
+  status: draft
+  notes: 'Fires when Clover Shrine (account.shrines index 4) level >= 1, the loot farmer (account.dropRate.bestFighterIndex,
+    or the fighting character a Walkthrough farm step names) is FIGHTING on a map != shrine mapId, and neither Shrine World
+    Tour (same world) nor Moai Head applies. bonus = (1 + passive card/100) x ((level-1) x 3 + 15). Same rule family as shrines.check.idle/stack
+    (shrines map): when both fire for the Clover Shrine show this one only. Map-scoping is H (code); ''move the shrine to
+    the farmer'' is derived (M).'
+  sources:
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-3/shrines.ts#L123
+    title: 'Toolbox getShrineBonus: a shrine counts only on its map (or World Tour same world, or Moai Head)'
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json
+    title: 'Toolbox game data: shrines[22] Clover Shrine, baseBonus 15, bonusPerLevel 3'
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/character.ts#L2378
+    title: 'Toolbox getDropRate: additive base, chip cap, bundles, Siege Breaker, multiplier chain'
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  fromTopic: drop-rate
+- id: drop-rate.check.next-lever
+  system: drop-rate
+  type: check
+  title: Cheapest drop rate step
+  subject: account
+  effect: next-action
+  category: compounding
+  effortSeconds: 300
+  detector:
+    id: drop-rate/levers
+  text: '{lever}: drop rate {from}x -> {to}x on the {who}'
+  why: '{leverWhy}'
+  values:
+    why-bubble: 'Droppin'' Loads is an account-wide bubble: every level adds drop rate to all your characters.'
+    why-post-office: The Non Predatory Loot Box adds up to +33% drop rate on that character, and its second line adds LUK.
+    why-stamp: 'Golden Sixes is an account-wide stamp: +% drop rate for every character.'
+    why-guild: Gold Charm gives every guild member drop rate, up to +20% at level 50.
+    why-arcade: The arcade drop row adds up to +15% drop rate for all characters.
+    why-equinox: Faux Jewels adds +5% drop rate per level for all characters, up to +30%.
+    why-efaunt: The Efaunt set gives +25% drop rate to every character once registered.
+    why-card: '{card} adds drop rate while equipped; your loot farmer has a free or off-task slot.'
+  doneWhen:
+    field: account.dropRate.best
+    change: higher
+  appliesTo:
+    stages: all
+  confidence: M
+  status: draft
+  notes: 'One Next Action at a time: the top of drop-rate/levers. Formulas per lever are tier 1 (H, drop-rate dossier A5,
+    A8, A12, A18, A19, A25, A26, A9). Shown on the Drop Rate page in full; on Now only when the Walkthrough has an open farm
+    step (drops matter now). Never suggests LUK past ~2500 (dossier E3) or Midas Minded (curse; prayers map holds it, L).'
+  sources:
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/character.ts#L2378
+    title: 'Toolbox getDropRate: additive base, chip cap, bundles, Siege Breaker, multiplier chain'
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/misc.ts#L711
+    title: 'Toolbox getStatCurveValue: the LUK curve inside drop rate'
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  - url: https://github.com/YassSoliman/idleon-forge/blob/main/packages/engine/src/walkthrough/supply.ts#L5
+    title: 'ActiveOn supply method: kills = missing / (chance x quantity x drop rate)'
+    tier: 4
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  fromTopic: drop-rate

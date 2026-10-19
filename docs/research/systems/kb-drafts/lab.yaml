@@ -1,0 +1,543 @@
+# SPDX-License-Identifier: GPL-3.0-only
+# M26 W4 synthesis: KB drafts copied from scratchpad/m26/maps/lab.json (entries). status: draft.
+# Target file: packages/knowledge/systems/lab.yaml (new) + lab.facts.yaml (node reach fact)
+system: lab
+entries:
+- id: lab.check.first-upload
+  system: lab
+  type: check
+  title: Upload two characters to the Lab
+  subject: account
+  effect: next-action
+  usesExpectedReturn: false
+  category: compounding
+  priority:
+    frame: by-urgency
+  effortSeconds: 120
+  detector:
+    id: lab/uploads
+    params:
+      form: first-upload
+  text: "Set two spare characters' AFK target to the Laboratory and line them up toward {node:name}"
+  why: "{node:name} is {distance:int} px from the prism and a new character's beam reaches {base:int} px, so one character can't light it alone. Lit Lab bonuses work for the whole account."
+  doneWhen:
+    field: account.lab.characters[*].connected
+    change: higher
+  appliesTo:
+    stages:
+    - from: W4-entry
+      to: W4-entry
+  confidence: M
+  status: draft
+  notes: "Geometry H (C3, C4, C34: Animal Farm 138 px > 50 + 80). 'Two characters' and the Gobo 5 link are M/L (C55 from an earlier N.js read). Never names which characters: the AFK planner owns that (Lab\
+    \ characters earn Lab EXP only)."
+  sources:
+  - url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-4/lab.ts#L144-L189"
+    title: "Toolbox lab.ts: prism connection and player chain (strict distance < Line Width)"
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+  - url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-4/lab.ts#L380-L392"
+    title: "Toolbox lab.ts: a node or owned jewel lights when a connected player is within range"
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+  - url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json"
+    title: "Toolbox game data: labBonuses[0] Animal Farm at (91,353)"
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+  - url: "https://idleon.wiki/wiki/Laboratory"
+    title: "IdleOn Wiki: Laboratory"
+    tier: 2
+    claimDate: '2026-10-07'
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+- id: lab.check.not-connected
+  system: lab
+  type: check
+  title: A Lab character isn't connected
+  subject: character
+  effect: next-action
+  category: compounding
+  priority:
+    frame: by-urgency
+  effortSeconds: 30
+  detector:
+    id: lab/uploads
+    params:
+      form: not-connected
+  text: "Move {character} {gap:int} px closer to the prism or to a connected character in the Lab"
+  why: A beam only reaches a character within its own beam width. Until it connects it earns Lab EXP but lights nothing and passes the beam to nobody.
+  doneWhen:
+    field: account.lab.characters[*].connected
+    becomes: true
+  appliesTo:
+    stages:
+    - from: W4-entry
+      to: W4-entry
+  confidence: H
+  status: draft
+  notes: C4, C5 (strict < Line Width, fixpoint). Gap uses the character's own lineWidth (the candidate's width, not the connected one's).
+  sources:
+  - url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-4/lab.ts#L144-L189"
+    title: "Toolbox lab.ts: prism connection and player chain (strict distance < Line Width)"
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+  - url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-4/lab.ts#L323-L355"
+    title: "Toolbox lab.ts getPlayerLineWidth: 50 + 2 x Lab level, then px and % sources"
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+- id: lab.check.chain-broke
+  system: lab
+  type: check
+  title: A Lab bonus went dark
+  subject: account
+  effect: next-action
+  category: compounding
+  priority:
+    frame: by-urgency
+  effortSeconds: 30
+  detector:
+    id: lab/chain-broke
+  text: "{node:name} went dark when {character} left the Lab"
+  why: "Every node past a character in the chain switches off for the whole account when it stops being AFK in the Lab. Put it back, or accept losing {node:name}."
+  doneWhen:
+    field: account.lab.bonuses[*].lit
+    change: higher
+  appliesTo:
+    stages:
+    - from: W4-entry
+      to: W4-entry
+  confidence: M
+  status: draft
+  notes: Mechanism H (C1, C5). M because the previous save is the only proxy for intent; the text offers both choices and never says the move was wrong.
+  sources:
+  - url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-4/lab.ts#L144-L189"
+    title: "Toolbox lab.ts: prism connection and player chain (strict distance < Line Width)"
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+  - url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-4/lab.ts#L93-L95"
+    title: "Toolbox lab.ts isInTube: AFK target Laboratory"
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+- id: lab.goal.light-next-node
+  system: lab
+  type: goal
+  title: Light the next Lab bonus
+  scope: account
+  category: compounding
+  unit: px of reach
+  progress:
+    id: lab/next-node
+  milestones:
+  - at: 1
+    reward: "{node:name} lights"
+  text: "Reach {node:name}: {reach:int} of {distance:int} px"
+  why: Bonuses light in distance order from the prism. Each Lab level adds 2 px to that character's beam, and another character in the chain adds a whole beam.
+  appliesTo:
+    stages:
+    - from: W4-entry
+      to: W4-entry
+  confidence: M
+  status: draft
+  notes: Reach order and distances are H (C34). The straight-line reach proxy and players-needed estimate are best-case (C46); label as an estimate. No claim that the next node is the best one (node priority
+    beyond reach order is L/O).
+  sources:
+  - url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-4/lab.ts#L380-L392"
+    title: "Toolbox lab.ts: a node or owned jewel lights when a connected player is within range"
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+  - url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-4/lab.ts#L323-L355"
+    title: "Toolbox lab.ts getPlayerLineWidth: 50 + 2 x Lab level, then px and % sources"
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+  - url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json"
+    title: "Toolbox game data: labBonuses x,y"
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+  - url: "https://idleon.wiki/wiki/Laboratory"
+    title: "IdleOn Wiki: Laboratory"
+    tier: 2
+    claimDate: '2026-10-07'
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+- id: lab.goal.open-repository
+  system: lab
+  type: goal
+  title: Open the Chip Repository
+  scope: account
+  category: spendable
+  unit: Pile of Processor Chips
+  progress:
+    id: lab/openers
+    params:
+      form: repository
+  milestones:
+  - at: 3
+    reward: the Chip Repository opens
+  text: "Hold {have:int} of 3 Pile of Processor Chips (World 4 town shop)"
+  why: Holding a stack of 3 once opens the Chip Repository; chips then buff a character wherever it is, not only in the Lab.
+  appliesTo:
+    stages:
+    - from: W4-entry
+      to: W4-entry
+  confidence: M
+  status: draft
+  notes: "C26 (M: N.js read carried from the earlier pin; wiki agrees). Chips work anywhere: C31."
+  sources:
+  - url: "https://idleon.wiki/wiki/Pile_of_Processor_Chips"
+    title: "IdleOn Wiki: Pile of Processor Chips ('Collect 3 of these, then hold down on the stack of 3')"
+    tier: 2
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+  - url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-4/lab.ts#L46-L71"
+    title: Toolbox lab.ts raw Lab save layout
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+  - url: "https://github.com/YassSoliman/idleon-forge/blob/research/w4-systems/docs/research/systems/w4-systems/2026-10-17-lab.md"
+    title: "ActiveOn W4 Lab dossier (N.js: accountOptions[91] 1 = Repository, 2 = Spinner)"
+    tier: 1
+    claimDate: '2026-10-17'
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+- id: lab.goal.open-spinner
+  system: lab
+  type: goal
+  title: Open the Jewel Spinner
+  scope: account
+  category: spendable
+  unit: Strung Jewels
+  progress:
+    id: lab/openers
+    params:
+      form: spinner
+  milestones:
+  - at: 7
+    reward: the Jewel Spinner opens
+  text: "Hold {have:int} of 7 Strung Jewels (World 4 town shop)"
+  why: Holding 7 once opens the Jewel Spinner. The first jewel, Amethyst Rhinestone, then costs 5 more Strung Jewels.
+  appliesTo:
+    stages:
+    - from: W4-entry
+      to: W4-entry
+  confidence: M
+  status: draft
+  notes: C26 M; jewel 0 cost C35 H.
+  sources:
+  - url: "https://idleon.wiki/wiki/Pile_of_Processor_Chips"
+    title: "IdleOn Wiki: Pile of Processor Chips ('Collect 3 of these, then hold down on the stack of 3')"
+    tier: 2
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+  - url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-4/lab.ts#L46-L71"
+    title: Toolbox lab.ts raw Lab save layout
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+  - url: "https://github.com/YassSoliman/idleon-forge/blob/research/w4-systems/docs/research/systems/w4-systems/2026-10-17-lab.md"
+    title: "ActiveOn W4 Lab dossier (N.js: accountOptions[91] 1 = Repository, 2 = Spinner)"
+    tier: 1
+    claimDate: '2026-10-17'
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+  - url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json"
+    title: "Toolbox game data: jewels[0].requirements (5 Strung Jewels, 2,000 Egg, 200 Grasslands)"
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+- id: lab.check.weekly-chip
+  system: lab
+  type: check
+  title: Buy this week's Lab chip
+  subject: account
+  effect: next-action
+  category: spendable
+  priority:
+    frame: by-urgency
+  effortSeconds: 60
+  detector:
+    id: lab/weekly-shop
+    params:
+      form: chip
+  text: "Buy {chip:name} in the Chip Repository before Thursday"
+  why: "The Lab shop changes every Thursday 00:00 UTC and each pick can be bought once a week. You hold everything it costs."
+  doneWhen:
+    field: account.lab.shop.items[*].claimed
+    becomes: true
+  appliesTo:
+    stages:
+    - from: W4-entry
+      to: W4-entry
+  confidence: H
+  status: draft
+  notes: "Toolbox dashboard chipsRotation: !claimed && requirementsMet (strict >, kept). Toolbox does not check whether the chip is useful to the account; the check stays a nice-to-buy, so category spendable\
+    \ not compounding."
+  sources:
+  - url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/utility/dashboard/account.js#L1076-L1104"
+    title: "Toolbox dashboard laboratory alerts: chipsRotation / jewelsRotation (unclaimed this week and requirements met)"
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+  - url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-4/cooking.ts#L1172-L1232"
+    title: "Toolbox getChipsAndJewels: weekly Lab shop rotation, Thursday 00:00 UTC"
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+  - url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-4/lab.ts#L400-L412"
+    title: Toolbox getRequirementAmount (storage, meal copies, spices)
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+- id: lab.check.weekly-jewel
+  system: lab
+  type: check
+  title: Buy this week's Lab jewel
+  subject: account
+  effect: next-action
+  category: compounding
+  priority:
+    frame: by-urgency
+  effortSeconds: 60
+  detector:
+    id: lab/weekly-shop
+    params:
+      form: jewel
+  text: "Buy {jewel:name} in the Jewel Spinner before Thursday"
+  why: Each jewel is bought once and kept forever, but it is in the Spinner only some weeks. You hold everything it costs this week.
+  doneWhen:
+    field: account.lab.jewels[*].owned
+    change: higher
+  appliesTo:
+    stages:
+    - from: W4-entry
+      to: W4-entry
+  confidence: H
+  status: draft
+  notes: "Toolbox dashboard jewelsRotation: !claimed && !acquired && requirementsMet. Spice is the usual bottleneck (C53, L, not used in text)."
+  sources:
+  - url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/utility/dashboard/account.js#L1076-L1104"
+    title: "Toolbox dashboard laboratory alerts: chipsRotation / jewelsRotation (unclaimed this week and requirements met)"
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+  - url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-4/cooking.ts#L1172-L1232"
+    title: "Toolbox getChipsAndJewels: weekly Lab shop rotation, Thursday 00:00 UTC"
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+  - url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json"
+    title: "Toolbox game data: jewels[].requirements"
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+- id: lab.check.empty-chip-slot
+  system: lab
+  type: check
+  title: Fill an empty chip slot
+  subject: character
+  effect: next-action
+  category: spendable
+  priority:
+    frame: by-urgency
+  effortSeconds: 30
+  detector:
+    id: lab/chip-slots
+  text: "Put {chip:name} in one of {character}'s {empty:int} empty chip slots"
+  why: A chip in the Repository does nothing. Equipped, it works wherever the character is, and you can swap it out any time.
+  doneWhen:
+    field: account.lab.characters[*].chips
+    change: changed
+  appliesTo:
+    stages:
+    - from: W4-entry
+      to: W4-entry
+  confidence: M
+  status: draft
+  notes: Slot thresholds C27 (M, Toolbox UI at the earlier pin). Chip works anywhere C31 H. Chips are not consumed when unequipped (C43). The detector picks the first wearable spare; family preference comes
+    from lab.priority.chip-picks when it ships.
+  sources:
+  - url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-4/lab.ts#L46-L52"
+    title: "Toolbox lab.ts: raw Lab[1..n] chip slots, Lab[15] repository counts"
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+  - url: "https://github.com/Morta1/IdleonToolbox/blob/6827d3f/components/account/Worlds/World4/Chips.jsx#L8"
+    title: "Toolbox Chips.jsx: slot levels 5/10/15/25/35/50/75 (earlier pin)"
+    tier: 1
+    verified: '2026-10-17'
+    gameVersion: 2.3.540
+  - url: "https://idleon.wiki/wiki/Mainframe"
+    title: "IdleOn Wiki: Mainframe (chip recommendations; +2 px per Lab level)"
+    tier: 2
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+- id: lab.check.jewel-unlit
+  system: lab
+  type: check
+  title: An owned jewel isn't lit
+  subject: account
+  effect: next-action
+  category: compounding
+  priority:
+    frame: by-urgency
+  effortSeconds: 120
+  detector:
+    id: lab/jewel-unlit
+  text: "Extend a beam to {jewel:name}: you own it but it isn't lit"
+  why: A jewel only works while a connected character is within reach of it. Owned and dark, it gives nothing (Sapphire Rhombol's beam aura is the one exception).
+  doneWhen:
+    field: account.lab.jewels[*].lit
+    change: higher
+  appliesTo:
+    stages:
+    - from: W4-entry
+      to: W4-entry
+  confidence: H
+  status: draft
+  notes: "C6 H; Sapphire Rhombol aura works when owned (C13). Suppress for jewel 5 alone? No: lit also gives +25% Breeding EXP, so it still fires."
+  sources:
+  - url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-4/lab.ts#L380-L392"
+    title: "Toolbox lab.ts: a node or owned jewel lights when a connected player is within range"
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+  - url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-4/lab.ts#L327-L332"
+    title: "Toolbox lab.ts: Sapphire Rhombol aura needs the jewel owned"
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+- id: lab.check.inert-chip
+  system: lab
+  type: check
+  title: A chip does nothing here
+  subject: character
+  effect: next-action
+  category: nice
+  priority:
+    frame: by-urgency
+  effortSeconds: 30
+  detector:
+    id: lab/inert-chip
+  text: "Swap Grounded Processor off {character}: its drop rate is already above 5x"
+  why: Grounded Processor's +60% drop rate only counts while the total is under 5x, so this slot gives nothing.
+  doneWhen:
+    field: account.lab.characters[*].chips
+    change: changed
+  appliesTo:
+    stages:
+    - from: W4-entry
+      to: W4-entry
+  confidence: M
+  status: draft
+  notes: "Chip text H (C28). M because the character's drop rate must come from Toolbox getDropRate at its current map. Grounded Motherboard is left out: Toolbox reads the wrong chip index for move speed\
+    \ (C32)."
+  sources:
+  - url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json"
+    title: "Toolbox game data: chips[0..21] (effects, one-per-player flag, costs)"
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+- id: lab.priority.chip-picks
+  system: lab
+  type: priority
+  title: Chip families by role
+  text: Chip families that fit each character's job
+  why: Lab characters want Lab EXP and beam width; fighters want damage; skillers want efficiency.
+  values:
+    row-1: Conductive_Nanochip|Conductive_Motherboard
+    when-1: lab
+    row-2: Galvanic_Software
+    when-2: fighter
+    row-3: Galvanic_Motherboard
+    when-3: skiller
+    rows: 3
+  notes: Wiki Mainframe page recommendations (C50, M). Role from the builds module (Lab = afkType LABORATORY). Display as a soft tag on the Chips tab; never a Now card on its own.
+  sources:
+  - url: "https://idleon.wiki/wiki/Mainframe"
+    title: "IdleOn Wiki: Mainframe (chip recommendations; +2 px per Lab level)"
+    tier: 2
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+  - url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json"
+    title: "Toolbox game data: chips[0..21] (effects, one-per-player flag, costs)"
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+  appliesTo:
+    stages:
+    - from: W4-entry
+      to: W4-entry
+  confidence: M
+  status: draft
+  ship: display-only
+  shipReason: 'Red team P1: one wiki page; below the two-Source rule (FR-2c).'
+  list: order
+- id: lab.fact.node-reach
+  system: lab
+  type: fact
+  title: Lab bonuses by distance from the prism
+  text: Animal Farm 138 · Wired In 231 · Gilded Tubing 333 · No Bubble Left Behind 394 · Sigils 407 · Killer's Brightside 528 · Shrine World Tour 595 · Viaduct 728 · Stamp Book 809 · Spelunker Obol 905
+    · Fungi Finger 942 · Chemistry Set 1115 · Banking Fury 1267 · Viral Connection 1346 (px)
+  notes: "Computed from game positions with Toolbox's distance formula (C34). Optional: the view already computes it; a fact makes it citable."
+  sources:
+  - url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json"
+    title: "Toolbox game data: labBonuses x,y"
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+  - url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-4/lab.ts#L289-L291"
+    title: Toolbox getDistance
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+  appliesTo:
+    stages:
+    - from: W4-entry
+      to: W4-entry
+  confidence: H
+  status: draft
+# ---- M26 CL synthesis (class lines) appended entries ----
+# from maps/class-shaman.json
+- id: lab.check.bubonic-tubes
+  system: lab
+  type: check
+  title: Bubonic Conjuror's tubes reach nobody
+  text: Move {who} in the Lab so its {tube} reaches more characters
+  why: Green Tube boosts Lab EXP of uploaded characters to the Bubonic's left; Purple Tube widens the beam of those at or to its right. {who}'s {tube} is level {level:int} but reaches {reach:int} of {uploaded:int}.
+  values:
+    goal: Lab
+  sources:
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/talents.ts#L530
+    title: 'IdleOn Toolbox: Green Tube applies when a Bubonic is to the right'
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-4/lab.ts#L341
+    title: 'IdleOn Toolbox: Purple Tube applies at or right of the Bubonic'
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+  appliesTo:
+    stages:
+    - from: W4-entry
+      to: W4-late
+    classes:
+    - Bubonic_Conjuror
+  confidence: M
+  status: draft
+  subject: character
+  effect: next-action
+  category: compounding
+  detector:
+    id: lab/bubonic-tubes
+  notes: 'Fires only when the levelled tube reaches 0 others and the other tube is 0 (no trade-off). Positions from account.lab.characters[].x. Mechanic H (code), placement advice M. CL merge: same rule as elite-classes.check.lab-tubes (W4 area). Keep one id at merge.'
+

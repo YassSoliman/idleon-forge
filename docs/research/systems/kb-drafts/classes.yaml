@@ -1,0 +1,906 @@
+# SPDX-License-Identifier: GPL-3.0-only
+# M26 KB drafts for System classes (area AW synthesis, verified 2026-10-19, Toolbox 6c37e3d, game 2.3.540).
+# status: draft is a workflow marker; the KB schema accepts active|contested|retired only.
+# entries = new entries; facts = new fact rows (land in <system>.facts.yaml at merge);
+# amendments = changes to entries already in packages/knowledge/systems (or to other drafts).
+# AW synthesis added: topics class-exp, contradictions-2 (maps/<topic>.json).
+system: classes
+status: draft
+entries:
+- id: classes.check.lowest-level-tie
+  system: classes
+  type: check
+  status: draft
+  title: Lowest level is tied
+  subject: account
+  effect: next-action
+  category: compounding
+  effortSeconds: 300
+  detector:
+    id: classes/lowest-level
+    params:
+      part: tie
+  text: '{a} and {b} are both Lv {level:int}: neither gets the lowest-level Class EXP bonus'
+  why: The Merit Shop lowest-level bonus (+{pct:int}% at merit level {merit:int}) goes only to a character strictly below
+    every other; a tie gives it to nobody.
+  values:
+    detail-fix: One level on either character gives the other the bonus
+  doneWhen:
+    field: characters[*].level
+    change: higher
+  appliesTo:
+    stages: all
+  confidence: H
+  notes: Fires only when merit level > 0 (account.merits w1 row 2) and two or more characters share the minimum level. pct
+    = Toolbox's 3 x merit (ADR 0005); the why also flags game data 4 x merit via the disputed note in the picture. Common
+    mistake from the dossier (C10).
+  sources:
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/character.ts#L1927-L1942
+    title: 'Toolbox getClassExpMulti: lowest-level merit bonus needs the merit bought and a level strictly below every other
+      character (tie gets nothing); 3 x merit level'
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json
+    title: 'Toolbox game data: merits[0][2] (lowest-leveled character EXP, totalLevels 12, bonusPerLevel 4)'
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+  - url: https://idleon.wiki/wiki/Game_Mechanics_AFK
+    title: 'IdleOn Wiki: Game Mechanics AFK, Class EXP (Merit Shop +48% for the lowest character; outdated flag)'
+    tier: 4
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+    note: Page carries an outdated flag; agrees with game data 4 per level, disagrees with Toolbox code 3 per level.
+  fromTopic: class-exp
+- id: classes.check.lowest-level-idle
+  system: classes
+  type: check
+  status: draft
+  title: Lowest-level character isn't fighting
+  subject: character
+  effect: next-action
+  category: compounding
+  effortSeconds: 60
+  detector:
+    id: classes/lowest-level
+    params:
+      part: not-fighting
+  text: '{who} gets the +{pct:int}% lowest-level Class EXP bonus but is {activity}'
+  why: Class EXP comes from kills x your EXP multiplier; the lowest-level bonus only pays while that character fights.
+  values:
+    detail-disputed: Toolbox counts 3% per merit level; the game's data says 4%
+  doneWhen:
+    field: characters[*].afkType
+    change: any
+  appliesTo:
+    stages: all
+  confidence: M
+  notes: Condition is H (C10). 'Only pays while fighting' rests on the M4 spec rule that only fighters earn Class EXP AFK
+    (purpose.ts#L165) and the dossier's per-session action (a) (derived, M). A skiller may be deliberately skilling; this
+    is a Check, not a blocker, and is silent when merit level is 0 or the lowest level is tied.
+  sources:
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/character.ts#L1927-L1942
+    title: 'Toolbox getClassExpMulti: lowest-level merit bonus needs the merit bought and a level strictly below every other
+      character (tie gets nothing); 3 x merit level'
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json
+    title: 'Toolbox game data: merits[0][2] (lowest-leveled character EXP, totalLevels 12, bonusPerLevel 4)'
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+  - url: https://idleon.wiki/wiki/Game_Mechanics_AFK
+    title: 'IdleOn Wiki: Game Mechanics AFK, Class EXP (Merit Shop +48% for the lowest character; outdated flag)'
+    tier: 4
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+    note: Page carries an outdated flag; agrees with game data 4 per level, disagrees with Toolbox code 3 per level.
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/character.ts#L1909
+    title: 'Toolbox getClassExpMulti: kill EXP x multiplier'
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+  fromTopic: class-exp
+- id: classes.check.speedna-step
+  system: classes
+  type: check
+  title: Close to the next Speedna step
+  subject: character
+  effect: next-action
+  category: nice
+  priority:
+    frame: by-urgency
+  effortSeconds: 300
+  detector:
+    id: classes/speedna-step
+    params:
+      maxGap: 3
+      stepPct: 15
+  text: '{character}: {gap:int}% more move speed reaches Speedna step {next:int} (now {speed:int}%, {steps:int} steps)'
+  why: 'Speedna adds its bonus once per full 15% of move speed above 100%, rounded down: steps start at 116%, 130%, 145%.
+    Exactly 115% gives nothing.'
+  values:
+    strafeText: With Strafe active it reaches {strafeSteps:int} steps
+  appliesTo:
+    stages:
+    - from: W1-mid
+      to: W4-entry
+  confidence: M
+  status: draft
+  notes: 'contradictions-2 verdict 4: ladder H by JS float arithmetic (floor(min(ms/100-1,10)/0.15)); in-game float order
+    M. Only for Speedna level > 0 on the evaluated (fighting) preset. Per-X group: never call it a standalone multiplier.'
+  sources:
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/damage.ts#L729-L734
+    title: 'Toolbox Speedna: talent x floor(min(speed bonus, 10)/0.15)'
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/character.ts#L3192-L3222
+    title: 'Toolbox getPlayerSpeedBonus: move-speed pipeline and 175%/200% caps'
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  - url: https://builds.idleontoolbox.workers.dev/api/builds/AzC7Pk
+    title: 'Community Bowman build: 130% move speed, ideally 145%'
+    tier: 3
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+    claimDate: 2026-08-05
+  fromTopic: contradictions-2
+# ---- M26 CL synthesis (class lines) appended entries ----
+# from maps/class-barbarian.json
+- id: classes.goal.family-start
+  system: classes
+  type: goal
+  title: Start a class family bonus
+  scope: account
+  category: compounding
+  unit: levels
+  progress:
+    id: classes/family-start
+  milestones:
+  - at: 1
+    reward: Family bonus row active
+  text: Level {who} past {startsAt:int} to start the {class:name} family bonus
+  why: 'Family bonuses count only above the class level where the row starts, and every character gets the best one: {class:name} gives {bonus}.'
+  sources:
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/family.ts#L12
+    title: 'IdleOn Toolbox: family bonus walk'
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json
+    title: 'IdleOn Toolbox game data: classFamilyBonuses'
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+  appliesTo:
+    stages: all
+  confidence: H
+  status: draft
+  notes: 'Dossier M7, C20, C21 (H). Generic over all classes; for this line it matters for BB (from 69). CL merge: overlaps elite-classes.goal.family-start (W4 area) and the family map (account.familyBonuses, Family page). Family map owns the field and page; keep one Goal id at merge.'
+
+# from maps/class-squire.json
+- id: classes.check.precision-power-idle
+  system: classes
+  type: check
+  title: Precision Power is idle
+  subject: character
+  effect: next-action
+  category: compounding
+  effortSeconds: 120
+  detector:
+    id: classes/precision-power
+  text: 'Precision Power adds nothing on {target}: accuracy {accuracy:int} of {need:int}'
+  why: Precision Power only adds damage when your accuracy is at least 2.25 times the monster's Defence (1.5 times what 100% hit chance needs). Below that its {level:int} levels add 0.
+  values:
+    text-short: Precision Power needs {gap:int} more accuracy on {target}
+    goal: Talents
+  doneWhen:
+    field: characters[].squireKit.precisionPower.active
+    becomes: true
+  appliesTo:
+    stages:
+    - from: W2-early
+      to: W4-entry
+    classes:
+    - Squire
+    - Divine_Knight
+  confidence: H
+  status: draft
+  notes: 'Fires for a character whose AFK Target is FIGHTING, whose ACTIVE preset has PRECISION_POWER level > 0, and whose accuracy (getMaxDamage.accuracy) < 2.25 x monsters[targetMonster].Defence. need = ceil(2.25 x Defence). States the fact only: no respec advice (a reset trade-off has no Source above L). Pairs with the accuracyShort build condition (Book of the Wise).'
+  sources:
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/damage.ts#L705-L708
+    title: 'Toolbox getMaxDamage: Precision Power applies only when accuracy >= Defence x 2.25'
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/talents.json
+    title: 'Toolbox game data: PRECISION_POWER (decay 11/80, per Refinery rank)'
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/utility/hit-chance.mjs
+    title: 'Toolbox hit chance: 100% at 1.5 x Defence on a Monster'
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+  - url: https://idleon.wiki/wiki/Squire
+    title: 'IdleOn Wiki: Squire (Precision Power needs accuracy 1.5x higher than needed for 100% hit chance)'
+    tier: 3
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+    claimDate: '2026-09-03'
+
+# from maps/class-squire.json
+- id: classes.check.blocky-bottles-over-bubble
+  system: classes
+  type: check
+  title: Blocky Bottles above Warriors Rule
+  subject: character
+  effect: next-action
+  category: nice
+  effortSeconds: 60
+  detector:
+    id: classes/blocky-bottles
+  text: Blocky Bottles {level:int} only counts up to Warriors Rule {bubble:int}
+  why: Each Warriors Rule bubble level raises Meat Shank's max level by 1, up to the Blocky Bottles level. The {excess:int} Blocky Bottles levels above the bubble add nothing until you level Warriors Rule.
+  values:
+    goal: Talents
+  doneWhen:
+    field: account.alchemy.bubbles
+    change: higher
+  appliesTo:
+    stages: all
+    classes:
+    - Squire
+    - Divine_Knight
+  confidence: H
+  status: draft
+  notes: 'Fires when BLOCKY_BOTTLES base level (either preset) > Warriors Rule (power cauldron, aUpgradesO1) level. Wording points at levelling the bubble, not at a respec. Also amend talents.build.squire-fighting: BLOCKY_BOTTLES target should be the bubble level, not max (see buildAmendments). CL merge: generic detector builds/bubble-capped-talent (cap = Warriors Rule level).'
+  sources:
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/talents.json
+    title: 'Toolbox game data: BLOCKY_BOTTLES (Warriors Rule raises Meat Shank max, up to +L)'
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/character.ts
+    title: 'Toolbox: talent max levels come from the save (SkillLevelsMAX)'
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+
+# from maps/class-squire.json
+- id: classes.check.super-samples-no-printer
+  system: classes
+  type: check
+  title: Super Samples waits for the 3D Printer
+  subject: character
+  effect: next-action
+  category: nice
+  effortSeconds: 60
+  detector:
+    id: classes/super-samples-early
+  text: Super Samples {level:int} does nothing until you build the 3D Printer
+  why: Super Samples raises 3D Printer sample size, and the 3D Printer is a World 3 Construction building you have not built. Next time you reset this preset, these points can go elsewhere.
+  values:
+    goal: Talents
+  doneWhen:
+    field: account.buildings.printer3d
+    change: higher
+  appliesTo:
+    stages:
+    - from: W2-early
+      to: W3-early
+    classes:
+    - Squire
+    - Divine_Knight
+  confidence: M
+  status: draft
+  notes: 'Fires when SUPER_SAMPLES base > 0 on either preset and account.buildings.printer3d == 0 (null -> unknown). M: the effect (C28) and its W3-late placement (C50) are M; the printer prerequisite is the printer dossier''s. Never says "reset now" (reset potions are scarce; talent-resets owns that call). Toolbox counts Super Samples as 0 even after the printer (Q3): the Squire kit shows it as not counted.'
+  sources:
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/talents.json
+    title: 'Toolbox game data: SUPER_SAMPLES (decay 9/75 % sample size)'
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/character.ts#L3018
+    title: Toolbox getPrinterSampleRate (reads SUPER_SAMPLES from star talents, so adds 0)
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+  - url: https://idleon.wiki/wiki/3D_Printer
+    title: 'IdleOn Wiki: 3D Printer (a Construction building)'
+    tier: 3
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+
+# from maps/class-squire.json
+- id: classes.check.mastery-capped
+  system: classes
+  type: check
+  title: Mastery Up past the cap
+  subject: character
+  effect: next-action
+  category: nice
+  effortSeconds: 60
+  detector:
+    id: classes/mastery-cap
+  text: 'Mastery is at the 80% cap: {wasted:int} Mastery Up levels add nothing'
+  why: Mastery is 35% plus bubble, card, talent and gear, capped at 80%. Past the cap, Mastery Up levels add nothing.
+  values:
+    goal: Talents
+  appliesTo:
+    stages: all
+    classes:
+    - Squire
+    - Divine_Knight
+  confidence: M
+  status: draft
+  notes: Fires when 0.35 + (bubble + card + talent + gear)/100 > 0.8 with MASTERY_UP > 0; wasted = the smallest number of talent levels that could be removed with mastery still >= 0.8 (computed in the worker by cloning with lower MASTERY_UP). M because getMastery is Toolbox's port (C20 M). Rare in W1-W4.
+  sources:
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/damage.ts
+    title: 'Toolbox getMastery: min(0.8, 0.35 + (bubble + card + talent + gear)/100)'
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/talents.json
+    title: 'Toolbox game data: MASTERY_UP (decay 18/50)'
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+
+# from maps/class-squire.json
+- id: classes.goal.squire-family
+  system: classes
+  type: goal
+  title: Squire family bonus
+  scope: account
+  category: nice
+  unit: '% HP'
+  progress:
+    id: classes/family-bonus
+    params:
+      class: Squire
+  text: 'Squire family bonus: +{now}% HP for every character'
+  why: Your highest Squire-line character gives every character more max HP, growing with its class level from Lv 29.
+  milestones:
+  - at: 4.0
+    reward: +4% HP (Lv 40)
+  - at: 16.6
+    reward: +16.6% HP (Lv 100)
+  - at: 25.2
+    reward: +25.2% HP (Lv 200)
+  appliesTo:
+    stages: all
+    classes:
+    - Squire
+    - Divine_Knight
+  confidence: H
+  status: draft
+  notes: 'Value = decay 40/100 at L = level - 29 of the best Squire-line character (Toolbox familyBonuses.Squire). Display Goal on the Class lines page; never a Next Action by itself. CL merge: renders on the Family page (family map) as the Squire row; the Class lines card links there.'
+  sources:
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json
+    title: 'Toolbox game data: classFamilyBonuses[9] Squire (+% total HP, decay 40/100, from Lv 29)'
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/family.ts
+    title: Toolbox family bonuses (best character per class)
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+  - url: https://idleon.wiki/wiki/Talents
+    title: 'IdleOn Wiki: family bonuses count from Lv 29 for subclasses'
+    tier: 3
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+
+# from maps/class-squire.json
+- id: classes.goal.dk-family
+  system: classes
+  type: goal
+  title: Divine Knight family bonus
+  scope: account
+  category: nice
+  unit: '% Refinery speed'
+  progress:
+    id: classes/family-bonus
+    params:
+      class: Divine_Knight
+  text: 'Divine Knight family bonus: +{now}% Refinery speed'
+  why: Your highest Divine Knight speeds up every Refinery cycle, growing with its class level from Lv 69; The Family Guy makes it larger.
+  milestones:
+  - at: 8.6
+    reward: +8.6% Refinery speed (Lv 100)
+  - at: 23.3
+    reward: +23.3% (Lv 200)
+  - at: 30.3
+    reward: +30.3% (Lv 300)
+  appliesTo:
+    stages:
+    - from: W4-entry
+      to: W4-entry
+    classes:
+    - Divine_Knight
+  confidence: H
+  status: draft
+  notes: 'Unbuffed values (decay 50/150 at L = level - 69); with The Family Guy, read Toolbox familyBonuses.Divine_Knight as is. Hidden when the account has no Divine Knight. CL merge: renders on the Family page (family map) as the Divine Knight row.'
+  sources:
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json
+    title: 'Toolbox game data: classFamilyBonuses[12] Divine Knight (+% Refinery speed, decay 50/150, from Lv 69)'
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-3/refinery.ts
+    title: 'Toolbox getRefineryCycleBonuses: DK family bonus is a Refinery speed term'
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+
+# from maps/class-squire.json
+- id: classes.goal.orb-kills
+  system: classes
+  type: goal
+  title: Orb of Remembrance kills
+  scope: account
+  category: compounding
+  unit: kills
+  progress:
+    id: classes/orb-kills
+  text: 'Orb of Remembrance kills: {now:int}'
+  why: King of the Remembered multiplies 3D Printer output by its level times the number of digits in your Orb of Remembrance kills, so each power of 10 kills adds a step.
+  milestones:
+  - at: 10
+    reward: Printer step 1
+  - at: 100
+    reward: Printer step 2
+  - at: 1000
+    reward: Printer step 3
+  - at: 10000
+    reward: Printer step 4
+  - at: 100000
+    reward: Printer step 5
+  appliesTo:
+    stages:
+    - from: W4-entry
+      to: W4-entry
+    classes:
+    - Divine_Knight
+  confidence: H
+  status: draft
+  notes: kills = accountOptions[138]; factor = 1 + KotR x lavaLog(kills)/100 with KotR the best DK (base level + active added levels). Shown only once a DK has King of the Remembered > 0. "Cast the Orb during active farming" is the active-play text on the Squire kit, not a Next Action (no uptime data).
+  sources:
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-3/printer.ts#L96-L116
+    title: 'Toolbox printer multiplier: King of the Remembered x lavaLog(orb kills)'
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/talents.json
+    title: 'Toolbox game data: ORB_OF_REMEMBRANCE, KING_OF_THE_REMEMBERED (decay 5/150)'
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+
+# from maps/class-bowman.json
+- id: classes.check.cast-buffs
+  system: classes
+  type: check
+  title: Cast your buffs before you leave
+  subject: character
+  effect: next-action
+  category: compounding
+  effortSeconds: 15
+  detector:
+    id: classes/cast-buffs
+  text: Cast {missing} before you leave
+  why: Strafe and Extendo Rangeo only add move speed and accuracy while they are active, and the AFK numbers use what was active when you left.
+  values:
+    why-strafe: Strafe adds {speedLoss:pct} move speed only while it is active.
+    goal: Talents
+  doneWhen:
+    field: characters[].activeBuffs
+    change: contains
+  appliesTo:
+    stages:
+    - from: W1-early
+      to: W4-entry
+    classes:
+    - Archer
+    - Bowman
+    - Siege_Breaker
+  confidence: M
+  status: draft
+  notes: 'Toolbox counts the buffs only from activeBuffs (H). That the game keeps the logout buff for the whole AFK session is the community reading ("activate Strafe and Extendo before AFK", C38/C40, M) and not traced in game code: confidence M. Pirate Flag joins the list for a Siege Breaker only once Q3 is resolved. Not a blocker: the loss is a few % of speed or accuracy. CL note: class-hunter map records that Strafe has no AFK effect (C15 H); the check is about Strafe move speed for Speedna/active play and Extendo accuracy, not AFK damage. Confirm logout buff persistence (open question) before shipping.'
+  sources:
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/character.ts#L3197
+    title: 'Toolbox getPlayerSpeedBonus: Strafe counts only if active'
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/damage.ts#L1012
+    title: 'Toolbox getAccuracy: Extendo Rangeo counts only if active'
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+  - url: https://builds.idleontoolbox.workers.dev/api/builds/h5TEWG
+    title: 'Toolbox community build "Bowman / AFK (~70)": activate Strafe and Extendo before AFK'
+    tier: 4
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+    claimDate: '2026-10-02'
+  - url: https://builds.idleontoolbox.workers.dev/api/builds/rbLex2
+    title: 'Toolbox community build "Archer / AFK (~35)": Strafe 1, activate before AFK'
+    tier: 4
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+    claimDate: '2026-06-12'
+
+# from maps/class-bowman.json
+- id: classes.check.veins-smithing
+  system: classes
+  type: check
+  title: Smithing feeds Veins of the Infernal
+  subject: character
+  effect: next-action
+  category: compounding
+  effortSeconds: 60
+  detector:
+    id: classes/veins-smithing
+  text: 'Level Smithing: Veins of the Infernal is x{multi:dec2} at Smithing {smithing:int}, x{multiAt100:dec2} at 100'
+  why: Veins multiplies damage by its % for every 10 Smithing levels, up to Smithing 100.
+  values:
+    goal: Skills
+  doneWhen:
+    field: characters[].skills.smithing.level
+    change: higher
+  appliesTo:
+    stages:
+    - from: W1-mid
+      to: W4-entry
+    classes:
+    - Bowman
+    - Siege_Breaker
+  confidence: H
+  status: draft
+  notes: 'Formula H (damage.ts). "Raise Smithing for Veins" is in the Bowman AFK ~70 build (C40, M). Only fires at Veins >= 10 so a 1-point placeholder stays quiet. Smithing is per character. CL merge: same mechanic as talents.goal.veins-smithing (class-hunter). Ship ONE: keep classes.check.veins-smithing (H formula, all Archer-line characters incl. Hunter/Beast Master); the hunter goal variant becomes its Goal text.'
+  sources:
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/damage.ts#L676-L679
+    title: 'Toolbox getMaxDamage: Veins of the Infernal x(1 + talent x min(100, Smithing)/10 / 100)'
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/talents.json
+    title: 'Toolbox game data: VEINS_OF_THE_INFERNAL (decay 35/50, % damage per 10 Smithing levels)'
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+  - url: https://builds.idleontoolbox.workers.dev/api/builds/h5TEWG
+    title: 'Toolbox community build "Bowman / AFK (~70)": raise Smithing level'
+    tier: 4
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+    claimDate: '2026-10-02'
+
+# from maps/class-bowman.json
+- id: classes.check.velocity-vessels
+  system: classes
+  type: check
+  title: Velocity Vessels above Archer or Bust
+  subject: character
+  effect: next-action
+  category: nice
+  effortSeconds: 60
+  detector:
+    id: classes/velocity-vessels
+  text: Velocity Vessels {level:int} only counts up to Archer or Bust {bubble:int}
+  why: Each Velocity Vessels level raises the Featherweight cap by 1, but never past your Archer or Bust bubble level, so {wasted:int} levels do nothing yet.
+  values:
+    text-bubble: Level Archer or Bust to {level:int} to use your Velocity Vessels levels
+    goal: Talents
+  doneWhen:
+    field: characters[].bowmanKit.velocityVessels.wasted
+    becomes: 0
+  appliesTo:
+    stages:
+    - from: W2-early
+      to: W4-entry
+    classes:
+    - Bowman
+    - Siege_Breaker
+  confidence: M
+  status: draft
+  notes: 'Cap rule from the talent text (tier 1, no Toolbox code computes it) and confirmed by the W4 test save (Featherweight max 101 = 100 + min(8, 1)). M until a second save or N.js confirms. States the fact; no respec advice (no Source above L for a reset trade-off). CL merge: generic detector builds/bubble-capped-talent (cap = Archer or Bust level).'
+  sources:
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/talents.json
+    title: 'Toolbox game data: VELOCITY_VESSELS (+1 Featherweight max level, capped by the Archer or Bust bubble level)'
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/cauldrons.json
+    title: 'Toolbox game data: quicc cauldron, Archer or Bust'
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+  - url: https://idleon.wiki/wiki/Bowman
+    title: 'IdleOn Wiki: Bowman talents'
+    tier: 3
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+    claimDate: '2026-09-03'
+
+# from maps/class-wizard.json
+- id: classes.check.fuscia-over-bubble
+  system: classes
+  type: check
+  title: Fuscia Flasks above Mage Is Best
+  text: Fuscia Flasks {level:int} only counts up to Mage Is Best {bubble:int}
+  why: Fuscia Flasks raises Overclocked Energy's max level by 1 per level, but never past your Mage Is Best bubble level. The {excess:int} levels above the bubble add nothing until you level Mage Is Best.
+  values:
+    text-short: '{excess:int} Fuscia Flasks levels wait for Mage Is Best'
+    goal: Talents
+  sources:
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/talents.json
+    title: 'Toolbox game data: FUSCIA_FLASKS (+max level for Overclocked Energy, up to the Mage Is Best bubble level)'
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/cauldrons.json
+    title: 'Toolbox game data: High-IQ cauldron bubble 1, Mage Is Best'
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/character.ts
+    title: 'Toolbox: talent max levels read from the save (SkillLevelsMAX); a test save shows Overclocked Energy max 101 with Fuscia Flasks 14 and Mage Is Best 1'
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+  appliesTo:
+    stages:
+    - from: W2-early
+      to: W4-entry
+    classes:
+    - Wizard
+    - Elemental_Sorcerer
+  confidence: M
+  status: draft
+  ship: blocked
+  shipReason: 'Red team P1: the min() rule rests on talents.json text plus N.js at M; the shaman dossier reads it the other way. Blocked on V42.'
+  subject: character
+  effect: next-action
+  category: nice
+  effortSeconds: 60
+  detector:
+    id: classes/fuscia-over-bubble
+  doneWhen:
+    field: account.alchemy.bubbles
+    change: higher
+  notes: 'Rule: OE max = 100 + min(Fuscia Flasks, Mage Is Best level) (dossier C25, game client N.js @4371959, M) corroborated tier 1 by the W4 test save (max 101 = 100 + min(14, 1)), so H. Fires when max over presets of FUSCIA_FLASKS base > MAGE_IS_BEST level (high-iq index 1). Points at levelling the bubble, never at a respec (talent-resets owns that). Pairs with the build amendment that targets Fuscia Flasks at the bubble level. Farsight/Fantasia Flasks is the same rule for the Shaman (class-shaman map). CL merge: same rule as talents.check.flask-cap, classes.check.velocity-vessels and classes.check.blocky-bottles-over-bubble (talent level above a bubble-level cap). One generic detector builds/bubble-capped-talent with a cap table; keep per-talent entries for text.'
+
+# from maps/class-wizard.json
+- id: classes.check.idle-casting-zero
+  system: classes
+  type: check
+  title: Idle Casting is 0 while fighting AFK
+  text: Idle Casting is 0 while {character} fights AFK
+  why: 'Idle Casting raises Fighting AFK gains: 10% at level 50, 13.3% at 100. Every current Mage-line AFK build puts 50 in it early. {points}'
+  values:
+    points-free: You have {unspent:int} free Savvy Basics points on this preset.
+    points-none: Your next Savvy Basics points can go there.
+    text-short: Idle Casting 0 on a fighting preset
+    goal: Talents
+    unit: levels
+  sources:
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/character.ts#L3355-L3375
+    title: 'Toolbox getAfkGain: Idle Casting adds to Fighting AFK gains'
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/talents.json
+    title: 'Toolbox game data: IDLE_CASTING (decay 20/50)'
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+  - url: https://idleontoolbox.com/tools/builds/view?id=qncFFv
+    title: 'Sir_Grimtide, Wizard/Worship: 50 Idle Casting third on tab 1 (Toolbox community builds)'
+    tier: 4
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+    claimDate: '2026-10-13'
+  - url: https://idleontoolbox.com/tools/builds/view?id=4a0Ngm
+    title: 'Wizard / AFK (~90): Idle Casting 100 (Toolbox community builds)'
+    tier: 4
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+    claimDate: '2026-10-19'
+  appliesTo:
+    stages: all
+    classes:
+    - Mage
+    - Wizard
+    - Elemental_Sorcerer
+    levels:
+      min: 10
+  confidence: M
+  status: draft
+  subject: character
+  effect: next-action
+  category: compounding
+  effortSeconds: 60
+  detector:
+    id: classes/idle-casting-zero
+  doneWhen:
+    field: characters[].talents.active (IDLE_CASTING base)
+    change: higher
+  notes: 'Effect H (C19), target 50 is the unanimous community reading (C49-C54, six builds, each L) and is already the core step of talents.build.mage-fighting / wizard-fighting, hence M. Fires when afkType == FIGHTING, classIndex in the Mage line and the ACTIVE preset IDLE_CASTING base == 0. {points} picks points-free when talentPoints[1].unspent > 0, else points-none. Never says reset (talent-resets owns that). Dedup: when this fires, the engine drops a talents.check.next-step that names IDLE_CASTING for the same character. The class-shaman map should reuse the detector for Shaman / Bubonic Conjuror (same Savvy Basics talent). CL merge: same mechanic as talents.check.idle-casting (class-shaman). Ship ONE entry: keep classes.check.idle-casting-zero (Mage line incl. Shaman/Bubonic via isA Mage), detector builds/idle-casting; drop the other.'
+
+# from maps/class-wizard.json
+- id: classes.check.wis-wumbo-waiting
+  system: classes
+  type: check
+  title: Wis Wumbo waits for Book of the Wise
+  text: Wis Wumbo {level:int} adds nothing until Book of the Wise reaches {cap:int}
+  why: 'Wis Wumbo only raises Book of the Wise''s max level. Book of the Wise is at {botw:int}, so the raised levels are not used yet: fill Book of the Wise first.'
+  values:
+    goal: Talents
+  sources:
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/talents.json
+    title: 'Toolbox game data: WIS_WUMBO (+max level for Book of the Wise), BOOK_OF_THE_WISE'
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+  - url: https://idleontoolbox.com/tools/builds/view?id=qncFFv
+    title: 'Sir_Grimtide, Wizard/Worship: Wis Wumbo after Book of the Wise (Toolbox community builds)'
+    tier: 4
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+    claimDate: '2026-10-13'
+  appliesTo:
+    stages: all
+    classes:
+    - Wizard
+    - Elemental_Sorcerer
+  confidence: M
+  status: draft
+  subject: character
+  effect: next-action
+  category: nice
+  effortSeconds: 60
+  detector:
+    id: classes/wis-wumbo-waiting
+  doneWhen:
+    field: characters[].talents (BOOK_OF_THE_WISE base)
+    change: higher
+  notes: 'M: the max formula (C24) is from the game client (N.js @4370523) and not corroborated by either test save (Wis Wumbo 0 everywhere). Fires per preset when WIS_WUMBO base > 0 and BOOK_OF_THE_WISE base < 100 (cap slot = 100, the level where Wis Wumbo starts to matter). Wording points at filling Book of the Wise, never a respec.'
+
+facts:
+- id: classes.fact.exp-level-bands
+  system: classes
+  origin: authored
+  status: draft
+  title: Class EXP bonuses that end at a level
+  rows:
+  - source: Level bonus
+    bonusPct: 150
+    untilLevel: 10
+    confidence: H
+  - source: Level bonus
+    bonusPct: 100
+    untilLevel: 30
+    confidence: H
+  - source: Level bonus
+    bonusPct: 50
+    untilLevel: 50
+    confidence: H
+  - source: Blunder Hills card set (CardSet0)
+    untilLevel: 50
+    confidence: H
+  - source: Meals Clexp
+    untilLevel: 120
+    confidence: H
+  - source: Lowest-level merit (W1 Merit Shop row 2)
+    perMeritLevelPct:
+      toolboxCode: 3
+      gameData: 4
+    maxLevel: 12
+    condition: strictly lowest level
+    confidence: L (value) / H (condition)
+  notes: untilLevel is exclusive (level < untilLevel). ActiveOn shows Toolbox's 3 per level (ADR 0005) with the game-data
+    4 per level beside it; do not pick one.
+  sources:
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/character.ts#L1944-L1955
+    title: 'Toolbox getClassExpMulti: level bonus <10 +150, <30 +100, <50 +50; Blunder Hills set <50; Meals Clexp <120'
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/character.ts#L1927-L1942
+    title: 'Toolbox getClassExpMulti: lowest-level merit bonus needs the merit bought and a level strictly below every other
+      character (tie gets nothing); 3 x merit level'
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json
+    title: 'Toolbox game data: merits[0][2] (lowest-leveled character EXP, totalLevels 12, bonusPerLevel 4)'
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+  - url: https://idleon.wiki/wiki/Game_Mechanics_AFK
+    title: 'IdleOn Wiki: Game Mechanics AFK, Class EXP (Merit Shop +48% for the lowest character; outdated flag)'
+    tier: 4
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+    note: Page carries an outdated flag; agrees with game data 4 per level, disagrees with Toolbox code 3 per level.
+  fromTopic: class-exp
+- id: classes.fact.time-candy
+  system: classes
+  origin: generated (proposed generator time-candy.gen.ts from items.json)
+  status: draft
+  title: Time Candy hours
+  rows:
+  - rawName: Timecandy1
+    hours: 1
+  - rawName: Timecandy2
+    hours: 2
+  - rawName: Timecandy3
+    hours: 4
+  - rawName: Timecandy4
+    hours: 12
+  - rawName: Timecandy5
+    hours: 24
+  - rawName: Timecandy6
+    hours: 72
+  - rawName: Timecandy7
+    name: Steamy
+    minHours: 0.1667
+    maxHours: 24
+  - rawName: Timecandy8
+    name: Spooky
+    minHours: 0.3333
+    maxHours: 12
+  - rawName: Timecandy9
+    name: Cosmic
+    minHours: 5
+    maxHours: 500
+  - rawName: Timecandy10
+    name: Spirit
+    hours: 24
+    note: World 6 only
+  notes: 'Shared with the gem-shop and star-signs maps; build the fact once (one owner: classes or items). Verify the rawName-to-tier
+    order against items.json when generating.'
+  sources:
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/items.json#L14718
+    title: 'Toolbox game data: Timecandy1..10 (hours, Type TIME_CANDY)'
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/misc.ts#L515-L560
+    title: 'Toolbox getCurrencies: Time Candy hours held across storage and inventories'
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+  fromTopic: class-exp
+amendments:
+- _kind: amendment
+  amends: classes.goal.level
+  target: classes.yaml
+  targetStatus: active
+  change: 'extend generators/class-gates.gen.ts: add milestones kind ''exp-band'' at 10, 30, 50 (''Level bonus drops to +100%
+    / +50% / 0''), ''card-set'' at 50 (Blunder Hills set stops), ''meal'' at 120 (Meals Clexp stops), read from classes.fact.exp-level-bands;
+    ladder top stays the highest obol gate (or 120 if higher)'
+  confidence: H
+  sources:
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/character.ts#L1944-L1955
+    title: 'Toolbox getClassExpMulti: level bonus <10 +150, <30 +100, <50 +50; Blunder Hills set <50; Meals Clexp <120'
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json
+    title: 'Toolbox game data: obols.character[*].levelReq'
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+  fromTopic: class-exp
+  status: draft
+

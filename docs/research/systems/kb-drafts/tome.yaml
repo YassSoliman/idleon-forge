@@ -1,0 +1,283 @@
+# SPDX-License-Identifier: GPL-3.0-only
+# M26 W4 synthesis: KB drafts copied from scratchpad/m26/maps/tome.json (entries). status: draft.
+# Target file: packages/knowledge/systems/tome.yaml (new; header '# SPDX-License-Identifier: GPL-3.0-only', 'system: tome', 'entries:')
+system: tome
+entries:
+- id: tome.fact.score
+  system: tome
+  type: fact
+  title: Your Tome score
+  subject: account
+  text: "Tome score {score:int} PTS ({counted:int} of {total:int} metrics count): +{dmg:pct} DMG"
+  why: Every metric your account level has unlocked adds its PTS; the score pays permanent damage from the first point, no pages needed.
+  detector:
+    id: tome/score
+  appliesTo:
+    stages:
+    - from: W1-late
+      to: W4-late
+  confidence: H
+  status: draft
+  notes: Dossier M1, M2, M6. DMG = 10*floor(PTS/100)^0.7 * extraBonus (bonuses[0]). Counts only metrics with accountLevel >= gate. No W4-visit gate in the parser (dossier C31, M), so the fact shows from
+    account LV 350.
+  sources:
+  - url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-4/tome.ts#L44"
+    title: "Toolbox getTome: tomeLvReq gate and totalPoints"
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  - url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-4/tome.ts#L229"
+    title: "Toolbox getTomeBonus index 0: DMG"
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  - url: "https://idleon.wiki/wiki/Tome"
+    title: "IdleOn Wiki: Tome"
+    tier: 3
+    claimDate: 2026-10-12
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+- id: tome.goal.unlock-metric
+  system: tome
+  type: goal
+  title: Unlock the next Tome metric
+  subject: account
+  text: "Reach Account LV {gate:int} ({levels:int} to go): {metric} starts counting, +{pts:int} PTS"
+  why: "Each Tome metric only counts once the sum of your characters' class levels reaches its gate. Your {metric} is already worth {pts:int} PTS, waiting for that gate."
+  values:
+    detail-next: "then Account LV {gate:int}: {metric} +{pts:int} PTS"
+    dmgAfter: "Tome DMG {from:pct} → {to:pct}"
+  detector:
+    id: tome/next-gate
+    params:
+      lookahead: 3
+  doneWhen:
+    field: account.tome.countedMetrics
+    change: higher
+  appliesTo:
+    stages:
+    - from: W1-late
+      to: W4-late
+  confidence: H
+  status: draft
+  notes: "Dossier M2 + Min-max W1 early: account level is the main early limiter (tier 1 gates, H). PTS shown are the metric's points at today's quantity (parser computes points for gated rows too). Gate\
+    \ 350+40i+5max(0,i-35)+10max(0,i-60)+10max(0,i-80)+15max(0,i-100)."
+  sources:
+  - url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-4/tome.ts#L44"
+    title: "Toolbox getTome: tomeLvReq per display position"
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  - url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/index.ts#L304"
+    title: Toolbox accountLevel (sum of class levels)
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  - url: "https://idleon.wiki/wiki/Tome"
+    title: "IdleOn Wiki: Tome"
+    tier: 3
+    claimDate: 2026-10-12
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+- id: tome.goal.metric-tier
+  system: tome
+  type: goal
+  title: Push a Tome metric to its next colour
+  subject: account
+  text: "{metric}: {quantity} → {target} for {tier} (+{pts:int} PTS)"
+  why: Tome bars turn silver at 40%, gold at 75% and blue at 99.9% of their curve. This is the counted metric with the most PTS to gain at its next colour.
+  values:
+    lowerIsBetter: "{metric}: get it down to {target} or less for {tier} (+{pts:int} PTS)"
+    detail-next: "then {metric} → {target} (+{pts:int} PTS)"
+  detector:
+    id: tome/metric-tier
+    params:
+      show: 3
+  doneWhen:
+    field: account.tome.totalPoints
+    change: higher
+  appliesTo:
+    stages:
+    - from: W2-early
+      to: W4-late
+  confidence: M
+  status: draft
+  notes: "Dossier M3, M4 (H: thresholds and requiredQuantities from Toolbox). Ranked by PTS gain only; effort per metric is not judged (the dossier's per-effort order is L, computed, no community Source),\
+    \ hence M. Linear (curve 2) metrics with low silver quantities (Trophies 9, Nametags 8, Premium Hats 30) surface naturally from PTS gain. Excludes metrics whose next threshold quantity is unreachable\
+    \ (log curves, e.g. Money gold 6.8e20)."
+  sources:
+  - url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-4/tome.ts#L29"
+    title: Toolbox segmentColors and requiredQuantities
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  - url: "https://idleon.wiki/wiki/Tome"
+    title: "IdleOn Wiki: Tome"
+    tier: 3
+    claimDate: 2026-10-12
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+- id: tome.check.blue-pages
+  system: tome
+  type: check
+  title: Buy the Blue Tome Pages
+  subject: account
+  effect: next-action
+  category: unlock
+  effortSeconds: 120
+  text: Buy 2 Blue Tome Pages in the W4 town shop and drop them on the Tome
+  why: "Blue pages are a one-time buy that adds Skill Efficiency from your Tome score above 4,000 PTS ({eff:pct} at your score now)."
+  values:
+    early: "Blue Tome Pages pay Skill Efficiency once your Tome passes 4,000 PTS ({left:int} to go); buy them when you can."
+  detector:
+    id: tome/blue-pages
+  doneWhen:
+    field: account.tome.pages.blue
+    change: becomes-true
+  appliesTo:
+    stages:
+    - from: W4-entry
+      to: W4-late
+  confidence: M
+  status: draft
+  notes: Dossier M7, Common mistakes. Formula and the accountOptions[196] flag are H (tier 1); the shop location and stack of 2 are wiki-level (M), hence M.
+  sources:
+  - url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-4/tome.ts#L230"
+    title: "Toolbox getTomeBonus index 1: Skill Efficiency if accountOptions[196] === 1"
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  - url: "https://idleon.wiki/wiki/Tome"
+    title: "IdleOn Wiki: Tome"
+    tier: 3
+    claimDate: 2026-10-12
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+- id: tome.check.red-pages
+  system: tome
+  type: check
+  title: Buy the Red Tome Pages
+  subject: account
+  effect: next-action
+  category: unlock
+  effortSeconds: 120
+  text: Buy 7 Red Tome Pages in the Magma Rivertown shop and drop them on the Tome
+  why: "Red pages are a one-time buy that adds Drop Rate from your Tome score above 8,000 PTS ({drop:pct} at your score now)."
+  detector:
+    id: tome/red-pages
+  doneWhen:
+    field: account.tome.pages.red
+    change: becomes-true
+  appliesTo:
+    stages:
+    - from: W4-late
+      to: W4-late
+  confidence: M
+  status: draft
+  notes: Dossier M8. W5 shop item; fires only when W5 is reached (detector), kept here so the Tome page lists both pages. Formula H, location M.
+  sources:
+  - url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-4/tome.ts#L232"
+    title: "Toolbox getTomeBonus index 2: Drop Rate if accountOptions[197] === 1"
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  - url: "https://idleon.wiki/wiki/Tome"
+    title: "IdleOn Wiki: Tome"
+    tier: 3
+    claimDate: 2026-10-12
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+- id: tome.check.claim-nametags
+  system: tome
+  type: check
+  title: Claim your Tome nametags
+  subject: account
+  effect: next-action
+  category: spendable
+  effortSeconds: 60
+  text: "Claim {available:int} Tome nametag{available:s} at the Tome (rank: {rank})"
+  why: "Your Tome score is in the {rank} this month; each tier reached gives one nametag, and the claim count resets monthly."
+  detector:
+    id: tome/nametags
+  doneWhen:
+    field: account.tome.nametags.available
+    change: lower
+  appliesTo:
+    stages:
+    - from: W4-entry
+      to: W4-late
+  confidence: H
+  status: draft
+  notes: "Dossier M12 (tier 1, H): available = max(0, top+1 - claimedThisMonth), month = floor(GlobalTime/2,628,000) vs accountOptions[448]; gated by serverVars.TomeOn === 1. Ranks 60-95% (tops 7-11) give\
+    \ no nametag."
+  sources:
+  - url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-4/tome.ts#L144"
+    title: "Toolbox nametagClaim: TomeOn, claimed, month stamp, available"
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  - url: "https://idleon.wiki/wiki/Tome"
+    title: "IdleOn Wiki: Tome"
+    tier: 3
+    claimDate: 2026-10-12
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+- id: tome.goal.bubble-stack
+  system: tome
+  type: goal
+  title: Next Tome bubble stack
+  subject: account
+  text: "Reach {next:int} Tome PTS ({left:int} to go) for Tome bubble stack {stacks:int}"
+  why: Each 2,000 Tome PTS above 5,000 adds one more stack to the Tome STR, AGI and WIS bubbles and the three Chapter bubbles you own.
+  detector:
+    id: tome/bubble-stack
+  doneWhen:
+    field: account.tome.bubbleStacks
+    change: higher
+  appliesTo:
+    stages:
+    - from: W4-entry
+      to: W4-late
+  confidence: H
+  status: draft
+  notes: "Dossier M10 (tier 1, H): stacks = floor(max(0,(PTS-5000)/2000)); first stack at 7,000. Fires only when one of the six bubbles is unlocked (alchemy bubbles power#27/#29, quicc#28/#29, high-iq#28/#29)."
+  sources:
+  - url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-4/tome.ts#L211"
+    title: Toolbox getTomeBubbleMulti
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  - url: "https://idleon.wiki/wiki/Tome"
+    title: "IdleOn Wiki: Tome"
+    tier: 3
+    claimDate: 2026-10-12
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+- id: tome.fact.statue-character
+  system: tome
+  type: fact
+  title: Statue LV counts your logged-in character
+  subject: account
+  text: The Tome's Statue Total LV reads the statues of the character you are logged in on
+  why: "Statues are per character, so your Tome score can change by up to {delta:int} PTS depending on who is active."
+  detector:
+    id: tome/statue-spread
+  appliesTo:
+    stages:
+    - from: W2-early
+      to: W4-late
+  confidence: H
+  status: draft
+  notes: Dossier M15, Scope (tier 1, H). Delta = PTS of the best minus the worst character's statue sum; silent when under 10 PTS.
+  sources:
+  - url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-4/tome.ts#L292"
+    title: Toolbox calcTomeQuantity (calcActiveCharacterStatueLevels)
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  - url: "https://idleon.wiki/wiki/Tome"
+    title: "IdleOn Wiki: Tome"
+    tier: 3
+    claimDate: 2026-10-12
+    verified: 2026-10-19
+    gameVersion: 2.3.540

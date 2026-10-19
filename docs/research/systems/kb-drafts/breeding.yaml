@@ -1,0 +1,360 @@
+# SPDX-License-Identifier: GPL-3.0-only
+# M26 W4 synthesis: KB drafts copied from scratchpad/m26/maps/breeding.json (entries). status: draft.
+# Target file: packages/knowledge/systems/breeding.yaml (new; header '# SPDX-License-Identifier: GPL-3.0-only', 'system: breeding')
+system: breeding
+entries:
+- id: breeding.check.full-nest
+  system: breeding
+  type: check
+  title: Hatch your full nest
+  subject: account
+  effect: next-action
+  usesExpectedReturn: true
+  category: spendable
+  priority:
+    frame: by-urgency
+  effortSeconds: 60
+  detector:
+    id: breeding/full-nest
+  text: "Your nest is full ({eggs:int} of {capacity:int}): breed or trash an egg"
+  values:
+    first: Your first breed is always a Green Mushroom; it starts the skill and Gobo's first quest
+  why: A full nest lays no more eggs. Every egg you breed or trash gives Breeding EXP, and trashed Mobs give Dead DNA for upgrades.
+  doneWhen:
+    field: account.breeding.eggs
+    change: lower
+  appliesTo:
+    stages:
+    - from: W4-entry
+      to: W4-entry
+  confidence: H
+  status: draft
+  notes: Dossier per-session action 1, C6, C8, C9, C17, C18. Replaces the page-frame-only nag with a Now card.
+  sources:
+  - url: "https://legendsofidleon.com/ytGl5oc/N.js"
+    title: "Game client N.js v1.23 TotalTimeForEgg / egg tick @10095300: an egg is added only into a free slot"
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+    notes: local copy in the M26 scratchpad; Last-Modified 2026-10-17
+  - url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-4/breeding.ts#L183-L184"
+    title: Toolbox eggCapacity
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+  - url: "https://legendsofidleon.com/ytGl5oc/N.js"
+    title: "Game client N.js v1.23 BREED_RIG @7924600: first breed is a forced Green Mushroom copy"
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+    notes: local copy in the M26 scratchpad; Last-Modified 2026-10-17
+- id: breeding.check.multiplier-unlock
+  system: breeding
+  type: check
+  title: Switch on a new-Mob multiplier
+  subject: account
+  effect: next-action
+  category: spendable
+  priority:
+    frame: by-urgency
+  effortSeconds: 60
+  detector:
+    id: breeding/multiplier-unlock
+  text: "Buy level 1 of {upgrade}: it switches on a new-Mob multiplier"
+  why: Level 1 of Breedability, Rarity of the Egg, Pastpresent Brood and Failsafe Restitution each turns on one more multiplier on every new-Mob chance (and Breedability starts pink Mobs). The first level
+    is the big step.
+  doneWhen:
+    field: account.breeding.upgrades[].level
+    change: higher
+  appliesTo:
+    stages:
+    - from: W4-entry
+      to: W4-entry
+  confidence: H
+  status: draft
+  notes: C24 (gate = level > 0, game indices 3/5/7/10), C23 unlock levels. The 'buy Lv 1 first' framing is the w4-research line in the coverage audit; the gate itself is code. Do not use Toolbox unlockedBreedingMulti
+    (C25).
+  sources:
+  - url: "https://legendsofidleon.com/ytGl5oc/N.js"
+    title: "Game client N.js v1.23 GenINFO[53] init @10085477: multipliers 2-5 gated by Breeding[2][3/5/7/10] > 0"
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+    notes: local copy in the M26 scratchpad; Last-Modified 2026-10-17
+  - url: "https://legendsofidleon.com/ytGl5oc/N.js"
+    title: "Game client N.js v1.23 @9881200: upgrade unlock level formula"
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+    notes: local copy in the M26 scratchpad; Last-Modified 2026-10-17
+  - url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json"
+    title: Toolbox website-data shared-data.json (petUpgrades, territory, arenaBonuses)
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+- id: breeding.check.idle-territory
+  system: breeding
+  type: check
+  title: Forage your won territory
+  subject: account
+  effect: next-action
+  category: spendable
+  priority:
+    frame: by-urgency
+  effortSeconds: 120
+  detector:
+    id: breeding/idle-territory
+  text: "{territory} is won but nobody forages there: give it forager Mobs"
+  why: A territory only makes its spice while a team forages it, and kitchens and Lab chips need spices. Progress runs while you are away.
+  doneWhen:
+    field: account.breeding.territories[].status
+    change: changed
+  appliesTo:
+    stages:
+    - from: W4-entry
+      to: W4-entry
+  confidence: H
+  status: draft
+  notes: C45, C47, C48. 'won' = spice found and Territory[i][3] blank (adapter).
+  sources:
+  - url: "https://legendsofidleon.com/ytGl5oc/N.js"
+    title: "Game client N.js v1.23 TotalTrekkingHR @7907545: forage speed from team"
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+    notes: local copy in the M26 scratchpad; Last-Modified 2026-10-17
+  - url: "https://legendsofidleon.com/ytGl5oc/N.js"
+    title: "Game client N.js v1.23 _event_AFKTime @9771300: progress += seconds*HR/3600 while AFK"
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+    notes: local copy in the M26 scratchpad; Last-Modified 2026-10-17
+  - url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-4/breeding.ts#L93-L137"
+    title: Toolbox territories forageSpeed
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+- id: breeding.check.combat-forager
+  system: breeding
+  type: check
+  title: Swap a combat Mob off foraging
+  subject: account
+  effect: next-action
+  category: compounding
+  priority:
+    frame: by-urgency
+  effortSeconds: 60
+  detector:
+    id: breeding/combat-forager
+  text: "{territory}: your {gene} Mob forages at 0 speed; swap in a forager-gene Mob"
+  why: Only Mobs with a foraging gene add forage speed; a combat gene adds nothing there (it only matters in battles and the Arena).
+  doneWhen:
+    field: account.breeding.territories[].team
+    change: changed
+  appliesTo:
+    stages:
+    - from: W4-entry
+      to: W4-entry
+  confidence: H
+  status: draft
+  notes: "C45 (abilityType 1 only), C46 (fight gate never blocks; combat Mobs give 0). Exception: Flashy/Fastidious team multipliers care about combat Mobs; the copy says 'forager-gene' only."
+  sources:
+  - url: "https://legendsofidleon.com/ytGl5oc/N.js"
+    title: "Game client N.js v1.23 Trekking @7904861: only abilityType 1 genes count"
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+    notes: local copy in the M26 scratchpad; Last-Modified 2026-10-17
+  - url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-4/breeding.ts#L385-L406"
+    title: Toolbox getForageSpeed
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+- id: breeding.goal.next-territory
+  system: breeding
+  type: goal
+  title: Win the next territory
+  subject: account
+  scope: account
+  category: compounding
+  unit: territory
+  progress:
+    id: breeding/next-territory
+  milestones:
+  - at: 1
+    reward: a new spice for Cooking and the Lab
+  text: "Win the {territory} battle ({won:int} of {total:int} won)"
+  why: Each won territory gives a new spice, and each spice discovers meals and pays kitchen upgrades. One win unlocks it for good.
+  appliesTo:
+    stages:
+    - from: W4-entry
+      to: W4-entry
+  confidence: M
+  status: draft
+  notes: "C48, C51 (one win unlocks: tier 1 data, M on the battle rule). Targets as counts (3/7/10/14) are AutoReview tier 4 (C63, L) and not used."
+  sources:
+  - url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json"
+    title: Toolbox website-data shared-data.json (petUpgrades, territory, arenaBonuses)
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+  - url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-4/breeding.ts#L93-L137"
+    title: Toolbox territories battleName / enemies
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+- id: breeding.goal.arena-wave
+  system: breeding
+  type: goal
+  title: Next Mob Arena bonus wave
+  subject: account
+  scope: account
+  category: compounding
+  unit: wave
+  progress:
+    id: breeding/arena-wave
+  milestones:
+  - at: 35
+    reward: kitchen upgrades cost half
+  - at: 100
+    reward: a 3rd large Alchemy bubble
+  - at: 125
+    reward: a 6th battle slot
+  text: "Reach Mob Arena wave {target:int} (best {best:int}): {reward}"
+  values:
+    reward-35: kitchen upgrades cost half
+    reward-100: a 3rd large Alchemy bubble
+    reward-125: a 6th battle slot
+  why: Arena wave bonuses are permanent account bonuses; wave 35 halves every kitchen upgrade and wave 100 adds a big bubble slot.
+  appliesTo:
+    stages:
+    - from: W4-entry
+      to: W4-entry
+  confidence: H
+  status: draft
+  notes: C52 (opens at Lv 8), C53 bonuses from shared-data arenaBonuses. alchemy-bubbles.yaml already counts wave 100 for bubble slots; link it.
+  sources:
+  - url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json"
+    title: Toolbox website-data shared-data.json (petUpgrades, territory, arenaBonuses)
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+  - url: "https://legendsofidleon.com/ytGl5oc/N.js"
+    title: "Game client N.js v1.23 PetBattleSlots @7924354: battle slots and arena open at level 8"
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+    notes: local copy in the M26 scratchpad; Last-Modified 2026-10-17
+- id: breeding.goal.egg-capacity
+  system: breeding
+  type: goal
+  title: Egg Capacity to 5
+  subject: account
+  scope: account
+  category: compounding
+  unit: level
+  progress:
+    id: breeding/egg-capacity
+  milestones:
+  - at: 5
+    reward: 8-egg nest (with no gems or merit)
+  text: "Raise Egg Capacity to 5 (level {level:int})"
+  why: Each level is one more nest slot, so the nest takes 2 hours longer to fill while you are away and you lose fewer eggs.
+  appliesTo:
+    stages:
+    - from: W4-entry
+      to: W4-entry
+  confidence: M
+  status: draft
+  notes: C6 (capacity), C8 (period 7200 s). Ordering 'maximise egg capacity early' is wiki tier 3 (C65, L); the Expected Return reasoning is ours (M).
+  sources:
+  - url: "https://legendsofidleon.com/ytGl5oc/N.js"
+    title: "Game client N.js v1.23 TotalEggCapacity @7921788: 3 + Egg Capacity level + gem + merit"
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+    notes: local copy in the M26 scratchpad; Last-Modified 2026-10-17
+  - url: "https://idleon.wiki/wiki/Breeding"
+    title: "IdleOn Wiki: Breeding"
+    tier: 3
+    claimDate: '2026-10-14'
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+- id: breeding.goal.next-row
+  system: breeding
+  type: goal
+  title: Open the next Mob row
+  subject: account
+  scope: account
+  category: compounding
+  unit: species
+  progress:
+    id: breeding/next-row
+  milestones:
+  - at: 1
+    reward: the next world's Mob row opens
+  text: "Breed a {opener} to open the World {world:int} Mobs ({found:int} of {need:int} in the row before)"
+  why: New species give far more Breeding EXP than copies, and each new row brings new genes, spices' foragers and shiny bonuses.
+  appliesTo:
+    stages:
+    - from: W4-entry
+      to: W4-entry
+  confidence: H
+  status: draft
+  notes: C5 (GenINFO[108]=[4,6,8,8]), C4 (W4 row also opens on the Massive Troll kill), C18 (EXP X=10 new vs 2 copy).
+  sources:
+  - url: "https://legendsofidleon.com/ytGl5oc/N.js"
+    title: "Game client N.js v1.23 breed handler @9873700: Breeding[1][w+1]=1 when the opener is bred"
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+    notes: local copy in the M26 scratchpad; Last-Modified 2026-10-17
+  - url: "https://legendsofidleon.com/ytGl5oc/N.js"
+    title: "Game client N.js v1.23 GiveBreedEXP @7940680: EXP per action"
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+    notes: local copy in the M26 scratchpad; Last-Modified 2026-10-17
+  - url: "https://idleon.wiki/wiki/Breeding"
+    title: "IdleOn Wiki: Breeding"
+    tier: 3
+    claimDate: '2026-10-14'
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+- id: breeding.check.fence-empty
+  system: breeding
+  type: check
+  title: Fill your Fence Yard
+  subject: account
+  effect: next-action
+  category: spendable
+  priority:
+    frame: by-urgency
+  effortSeconds: 60
+  detector:
+    id: breeding/fence-empty
+  text: "{free:int} Fence Yard slots are empty: put pink or shiny Mobs in them"
+  why: Breedability and shiny levels only grow for Mobs in the yard, a little more for each copy. An empty slot grows nothing.
+  doneWhen:
+    field: account.breeding.fence.used
+    change: higher
+  appliesTo:
+    stages:
+    - from: W4-entry
+      to: W4-entry
+  confidence: M
+  status: draft
+  notes: C44 (slots, accepted types), M31 (progress per copy in the yard; per-tick formula only read through Toolbox getTimeToLevel, dossier open question). M because yard-progress mechanics are not fully
+    re-read.
+  sources:
+  - url: "https://legendsofidleon.com/ytGl5oc/N.js"
+    title: "Game client N.js v1.23 FenceYardSlots @7924186: 5 + Fence Extension + 2 per gem"
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+    notes: local copy in the M26 scratchpad; Last-Modified 2026-10-17
+  - url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-4/breeding.ts#L75-L90"
+    title: Toolbox fencePetsObject
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540

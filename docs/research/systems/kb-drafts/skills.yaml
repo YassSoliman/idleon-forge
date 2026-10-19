@@ -1,0 +1,56 @@
+# SPDX-License-Identifier: GPL-3.0-only
+# M26 KB drafts for skills (W1 synthesis), copied from m26/maps/*.json. status: draft on every entry;
+# the live schema's status enum is active|contested|retired, so promotion flips draft -> active or contested.
+# Topics: smithing
+system: skills
+status: draft
+entries:
+- id: skills.goal.smithing-mastery
+  system: skills
+  type: goal
+  title: Smithing Skill Mastery
+  subject: account
+  effect: next-action
+  category: compounding
+  detector:
+    id: skills/mastery
+    params:
+      skill: smithing
+      thresholds:
+      - 150
+      - 200
+      - 300
+      - 400
+      - 500
+      - 750
+      - 1000
+  text: Total Smithing {total:int} -> {target:int} for Skill Mastery rank {rank:int}
+  why: Skill Mastery counts the Smithing levels of all characters together. Rank 1 adds +25 to the Smithing EXP
+    bracket, rank 2 +25% Forge ore capacity.
+  values:
+    detail: '{who}: Smithing {lv:int}'
+    locked: Skill Mastery opens at Rift {rift:int}
+  notes: Silent until rift.currentRift >= 15 (Toolbox gates the bonus on it even though totalSkillsLevels.rank is
+    computed regardless). Rank 3+ effects for Smithing are wiki-only (L) and are not named.
+  appliesTo:
+    stages:
+    - from: W4-mid
+      to: W4-late
+  confidence: M
+  status: draft
+  sources:
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/misc.ts
+    title: 'IdleOn Toolbox: totalSkillsLevels rank thresholds and getSkillMasteryBonusByIndex'
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-1/forge.ts
+    title: 'IdleOn Toolbox getForgeOreCapacity: +25 x Smithing mastery tier 2'
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  - url: https://idleon.wiki/wiki/The_Rift
+    title: 'IdleOn Wiki: The Rift (Skill Mastery)'
+    tier: 2
+    verified: 2026-10-19
+    gameVersion: 2.3.540

@@ -1,0 +1,56 @@
+# SPDX-License-Identifier: GPL-3.0-only
+# M26 KB drafts for spend (W1 synthesis), copied from m26/maps/*.json. status: draft on every entry;
+# the live schema's status enum is active|contested|retired, so promotion flips draft -> active or contested.
+# Topics: bribes
+# AW synthesis added: topics contradictions-2 (maps/<topic>.json).
+system: spend
+status: draft
+amendments:
+- _kind: amendment
+  id: spend.yaml
+  change: 'spend.yaml insider-trading why: ''Cheaper coin costs for every later stamp level'' -> add ''(8%, the game value)'';
+    source tier stays 2 (wiki), add the Toolbox stamps.ts#L237 tier 1 source.'
+  fromTopic: bribes
+  status: draft
+- _kind: amendment
+  id: spend.yaml
+  change: 'spend.yaml every-bribe / every-later-bribe: re-cite to the data file (tier 1) plus the wiki; current url ''https://idleon.wiki/wiki/Stamps#Bribes''
+    should be ''https://idleon.wiki/wiki/Bribes''.'
+  fromTopic: bribes
+  status: draft
+- _kind: amendment
+  amends: spend items insider-trading (W1-early and W3-early carry-forward)
+  target: spend.yaml
+  targetStatus: active
+  change: replace why and sources of both insider-trading items
+  replacement:
+    item: insider-trading
+    ref: bribes.acquisition.bribe-0
+    spend:
+      sink: bribe
+      target:
+        kind: once
+    text: 'Buy the bribe {name} on {payer}: {coins:coins}'
+    why: Every later stamp level then costs 8% fewer coins (the in-game text says 5%; the game data says 8%)
+    sources:
+    - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-1/stamps.ts#L237-L243
+      title: Toolbox stamp coin cost x (1 - bribe value/100) when Insider Trading is bought
+      tier: 1
+      verified: 2026-10-19
+      gameVersion: 2.3.540
+    - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json
+      title: 'Toolbox game data: bribes[0] Insider_Trading value 8, desc says 5%'
+      tier: 1
+      verified: 2026-10-19
+      gameVersion: 2.3.540
+    - url: https://idleon.wiki/wiki/Stamps#Bribes
+      title: IdleOn wiki, Bribes
+      tier: 2
+      claimDate: 2026-10-05
+      verified: 2026-10-17
+      gameVersion: 2.3.540
+    confidence: M
+    carryForward: true
+    notes: 'contradictions-2 verdict 2: the 8% value is H; the buy-first order stays M (PV confirmed, M7).'
+  fromTopic: contradictions-2
+  status: draft

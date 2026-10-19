@@ -1,0 +1,353 @@
+# SPDX-License-Identifier: GPL-3.0-only
+# M26 KB drafts for System trophies-nametags (area AW synthesis, verified 2026-10-19, Toolbox 6c37e3d, game 2.3.540).
+# status: draft is a workflow marker; the KB schema accepts active|contested|retired only.
+# entries = new entries; facts = new fact rows (land in <system>.facts.yaml at merge);
+# amendments = changes to entries already in packages/knowledge/systems (or to other drafts).
+# AW synthesis added: topics trophies-nametags (maps/<topic>.json).
+system: trophies-nametags
+status: draft
+entries:
+- id: trophies-nametags.check.fill-slots
+  system: trophies-nametags
+  type: check
+  title: Fill trophy, nametag and hat slots
+  subject: account
+  effect: next-action
+  category: compounding
+  effortSeconds: 60
+  priority:
+    frame: by-value
+  text: '{text}'
+  why: '{why}'
+  values:
+    many: Equip a held trophy, nametag or hat on {n:int} characters
+    one: Equip a held {kind} on the {who}
+    why: These cosmetic slots carry real stats (damage, drop rate, AFK gains) and give them while worn.
+    detail: '{who}: {item} ({line}) from {from}'
+  detector:
+    id: trophies-nametags/empty-slots
+  appliesTo:
+    stages:
+    - from: W1-early
+      to: W4-late
+  confidence: H
+  status: draft
+  notes: 'Mechanics M2, M3. Per character: equipment[10] trophy, [14] nametag, [8] premium hat empty AND the account holds
+    an item of that type (any character''s inventory or storage, rawName from Type TROPHY / NAMETAG / PREMIUM_HELMET) that
+    the character can wear (lvReqToEquip <= class level). Trophy/nametag lines count only while the character has NOT cleared
+    map 250 (Gallery off); the hat line only while map 50 is NOT cleared (Hat Rack off), so the detector drops the hat slot
+    once hatRackActive. Same rule as gear.check.equip-held (''no slot that can hold something should be empty''); merge into
+    it at build time if the gear module prefers one Check.'
+  sources:
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/items.ts#L82
+    title: 'Toolbox getStatsFromGear: gallery/rack items skipped once the gate map is cleared'
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-3/hatRack.ts#L118
+    title: Toolbox isMapClearedBy and HAT_RACK_UNLOCK_MAP 50
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/utility/wardrobeQuery.js#L7
+    title: 'Toolbox wardrobe: hat, trophy and nametag slot types'
+    tier: 2
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/items.json
+    title: 'Toolbox game data: trophy, nametag and premium hat stat lines and lvReqToEquip'
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  - url: https://old.reddit.com/r/idleon/comments/1w2v0m0/_/p6y45vg/
+    title: 'r/idleon: no slot that can hold something should be empty'
+    tier: 4
+    claimDate: 2026-08-31
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  fromTopic: trophies-nametags
+- id: trophies-nametags.check.first-trophy
+  system: trophies-nametags
+  type: check
+  title: My First Trophy
+  subject: account
+  effect: next-action
+  category: spendable
+  effortSeconds: 30
+  text: 'Equip any non-limited trophy once: My First Trophy pays 25 gems and a 4 h candy'
+  why: The achievement only needs one trophy equipped once; limited-edition trophies do not count.
+  detector:
+    id: trophies-nametags/first-trophy
+  appliesTo:
+    stages:
+    - from: W1-early
+      to: W4-late
+  confidence: H
+  status: draft
+  notes: 'Mechanic M2 + achievements map. Fires when achievement TaskAchB23 is not complete and the account holds (or wears)
+    a trophy that is not limited (exclude Trophy4 I Made This Game, Trophy7 Original Gamer: filteredLootyItems / wiki legacy;
+    confirm the full limited list, open question 3). If no eligible trophy is held, silent; the quest-trophy goal covers how
+    to get one. Coordinate with the achievements map (owns TaskAchB23 rows).'
+  sources:
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/achievements.json
+    title: 'Toolbox game data: My First Trophy (TaskAchB23), Two-Time Savior (TaskAchA45), Two Desserts (TaskAchB40)'
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/items.json
+    title: 'Toolbox game data: trophy, nametag and premium hat stat lines and lvReqToEquip'
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  - url: https://idleon.wiki/wiki/Trophies
+    title: 'IdleOn Wiki: Trophies'
+    tier: 3
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  fromTopic: trophies-nametags
+- id: trophies-nametags.goal.quest-trophy
+  system: trophies-nametags
+  type: goal
+  title: Earn a quest trophy
+  subject: account
+  scope: account
+  category: nice
+  unit: trophies
+  text: '{text}'
+  why: '{why}'
+  values:
+    text: Finish {quest} for the {trophy} trophy
+    why: '{trophy}: {line}. Worn from LV {lv:int}; it also unlocks a slot for My First Trophy and the duplicate-trophy achievements.'
+  detector:
+    id: trophies-nametags/quest-trophies
+  appliesTo:
+    stages:
+    - from: W1-mid
+      to: W4-late
+  confidence: M
+  status: draft
+  notes: 'Mechanic M5. Candidates in world order (quests.json): Scripticus12 Blunder Hero (3 Blunderhill Tokens of Completion,
+    LV 50 to wear, +3% skill AFK gain), Picnic_Stowaway12 King of Food (30 Picnic Tokens, LV 65, +20% food effect), Cowbo_Jones15
+    YumYum Sheriff (3 desert tokens, LV 90, +12% boss damage), Hoggindaz10 Frost Prince (W3, LV 120). Skip a quest any character
+    completed; show the first one whose NPC world is reached. Confidence M: reward table is tier 1 but quest requirements
+    were read from dialogue text (dossier C26).'
+  sources:
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/quests.json
+    title: 'Toolbox game data: quest rewards (Blunder Hero, King of Food, YumYum Sheriff, Frost Prince ...)'
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/items.json
+    title: 'Toolbox game data: trophy, nametag and premium hat stat lines and lvReqToEquip'
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  - url: https://idleon.wiki/wiki/Trophies
+    title: 'IdleOn Wiki: Trophies'
+    tier: 3
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  fromTopic: trophies-nametags
+- id: trophies-nametags.goal.hat-rack-gate
+  system: trophies-nametags
+  type: goal
+  title: Switch on the Hat Rack
+  subject: account
+  scope: account
+  category: compounding
+  unit: characters
+  text: '{text}'
+  why: '{why}'
+  values:
+    text: Clear YumYum Grotto on {n:int} more characters to switch on the Hat Rack
+    why: Your rack holds {hats:int} hats (+{multi:pct} each stat line). A character only gets them after clearing the map;
+      before that only the worn hat counts.
+  detector:
+    id: trophies-nametags/hat-rack-gate
+  appliesTo:
+    stages:
+    - from: W1-mid
+      to: W4-late
+  confidence: H
+  status: draft
+  notes: 'Mechanic M7. Fires when account.hatRack.totalHats > 0 and some character has hatRackActive false (map 50 YumYum
+    Grotto not cleared, kills[50] < portal req). Once a character clears it, every hat on the rack applies to that character
+    x HatrackBonusMulti instead of only the worn hat. Text names how many characters still miss it. The map index-to-world
+    mapping (YumYum Grotto, W2 desert) is from mapNames; the Toolbox file lives under world-3 (dossier says W3 area): treat
+    the map name as truth.'
+  sources:
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-3/hatRack.ts#L118
+    title: Toolbox isMapClearedBy and HAT_RACK_UNLOCK_MAP 50
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-3/hatRack.ts#L43
+    title: 'Toolbox getHatRackBonusMulti: 1 + (hats + boosts)/100'
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/items.ts#L82
+    title: 'Toolbox getStatsFromGear: gallery/rack items skipped once the gate map is cleared'
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/character.ts#L464
+    title: Toolbox character.kills = portal requirement minus KillsLeft2Advance
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  fromTopic: trophies-nametags
+- id: trophies-nametags.check.silkrode
+  system: trophies-nametags
+  type: check
+  title: Silkrode chip on your trophy wearer
+  subject: account
+  effect: next-action
+  category: compounding
+  effortSeconds: 60
+  text: Slot the Silkrode Motherboard on the {who} to double its {trophy} bonus
+  why: Lab chip 16 doubles the misc (UQ) lines of the worn trophy while the Gallery is off.
+  detector:
+    id: trophies-nametags/silkrode
+  appliesTo:
+    stages:
+    - from: W4-entry
+      to: W4-late
+  confidence: M
+  status: draft
+  notes: 'Mechanic M10. Fires when the account owns chip 16 unslotted and a character with a worn trophy whose UQ line is
+    valuable (drop rate, damage, AFK) is not using it. Toolbox applies x2 to equipment slot 10 UQ on the pre-gate path only
+    (dossier C35, M). Needs the lab adapter''s chip inventory (lab map). Priority low: competes with other chips; leave ranking
+    to the lab module.'
+  sources:
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/items.ts#L82
+    title: 'Toolbox getStatsFromGear: gallery/rack items skipped once the gate map is cleared'
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json
+    title: 'Toolbox game data: lab chip 16 Silkrode Motherboard text'
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  fromTopic: trophies-nametags
+- id: trophies-nametags.goal.found
+  system: trophies-nametags
+  type: goal
+  title: Trophies and nametags found
+  subject: account
+  scope: account
+  category: nice
+  unit: items
+  text: Trophies {trophies:int} of {trophyMax:int} · nametags {nametags:int} of {nametagMax:int} · rack hats {hats:int} of
+    {hatMax:int}
+  why: 'Each one found is permanent (slab) and later scores Tome points: 22 trophies, 20 nametags and 75 hats max their Tome
+    rows.'
+  detector:
+    id: trophies-nametags/found
+  appliesTo:
+    stages: all
+  confidence: H
+  status: draft
+  notes: Mechanic M1, M12. trophies/nametags from account.looty.lootyRaw substring counts (calcTrophiesFound/NametagsFound);
+    hats = hatRack.totalHats. Max shown = Tome x1 (22/20/75). Tome rows count only from Account LV 950/990/1030 (tomeLvReq),
+    so the Tome map owns the PTS; this goal only shows counts.
+  sources:
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/items.ts#L330
+    title: Toolbox calcTrophiesFound / calcNametagsFound count slab (lootyRaw) entries
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json
+    title: 'Toolbox game data: tomeData Trophies_Found / Nametags_Found_ / Premium_Hats_Found_'
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  fromTopic: trophies-nametags
+facts:
+- id: trophies-nametags.fact.hat-rack
+  system: trophies-nametags
+  type: fact
+  title: Hat Rack totals
+  subject: account
+  text: 'Hat Rack: {hats:int} of {eligible:int} hats, x{multi:num} ({lines})'
+  why: Every hat on the rack gives its stats to each character that cleared YumYum Grotto, and each hat adds +1% to the rack
+    multiplier.
+  detector:
+    id: trophies-nametags/hat-rack
+  appliesTo:
+    stages: all
+  confidence: H
+  status: draft
+  notes: Mechanic M7, M8. lines = top 3 hatBonuses by HAT_BONUS_ORDER (base stats first). eligible = allPremiumHelmets.length
+    (90 at 6c37e3d; excludes tournament hats lvReqToCraft 69420).
+  sources:
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-3/hatRack.ts#L43
+    title: 'Toolbox getHatRackBonusMulti: 1 + (hats + boosts)/100'
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-3/hatRack.ts#L130
+    title: Toolbox isHatRackEligible
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  fromTopic: trophies-nametags
+- id: trophies-nametags.fact.worn-inactive
+  system: trophies-nametags
+  type: fact
+  title: Worn hat gives nothing now
+  subject: character
+  text: 'The {who}''s worn {item} adds nothing: the Hat Rack already counts it'
+  why: Once a character clears YumYum Grotto the game skips worn premium hats; the rack supplies their stats.
+  detector:
+    id: trophies-nametags/worn-inactive
+  appliesTo:
+    stages: all
+  confidence: H
+  status: draft
+  notes: 'Mechanic M3. Informational: the slot can hold any cosmetic hat look. Same logic for trophy/nametag after map 250
+    (W7, extension, keep the same detector).'
+  sources:
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/items.ts#L82
+    title: 'Toolbox getStatsFromGear: gallery/rack items skipped once the gate map is cleared'
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-3/hatRack.ts#L118
+    title: Toolbox isMapClearedBy and HAT_RACK_UNLOCK_MAP 50
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  fromTopic: trophies-nametags
+- id: trophies-nametags.fact.keep-duplicates
+  system: trophies-nametags
+  type: fact
+  title: Keep spare nametags
+  subject: account
+  text: 'Keep duplicate nametags: copies stack in the W7 Gallery up to 2.5x'
+  why: Each extra copy of the same nametag raises its Gallery multiplier (1, 1.6, 2, 2.3, 2.5x at 1-5 copies), so a spare
+    is never junk.
+  detector:
+    id: trophies-nametags/held-duplicates
+  appliesTo:
+    stages:
+    - from: W1-early
+      to: W4-late
+  confidence: H
+  status: draft
+  notes: 'Mechanic M11. Show only when the account holds 2+ copies of one nametag (inventory + storage + worn) or 2+ of a
+    trophy that has a duplicate achievement (Blunder Hero, YumYum Sheriff). Fact, not a Check: nothing to do now except not
+    sell. Wiki and Toolbox agree (dossier C10, H).'
+  sources:
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-7/gallery.ts#L466
+    title: 'Toolbox getAllNametags: Spelunk[17] copies per nametag; galleryNametagMultipliers [1,1.6,2,2.3,2.5]'
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  - url: https://idleon.wiki/wiki/Gallery
+    title: 'IdleOn Wiki: Gallery'
+    tier: 3
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  fromTopic: trophies-nametags
