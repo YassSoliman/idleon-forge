@@ -1,0 +1,344 @@
+# SPDX-License-Identifier: GPL-3.0-only
+# M26 master-class Builds (tab 5): Royal Guardian, Death Bringer, Wind Walker, Arcane Cultist. Each inherits tabs 1-4 from its elite Build; stageHint W6.
+# Research note: docs/research/systems/classes/elite-builds.md (claims register, per-class sources and confidence).
+# Target file: packages/knowledge/systems/talents.yaml (append). status: draft. Generated from the Toolbox community builds API
+# snapshot of 2026-10-19 (127 builds) and talents.json at Toolbox 6c37e3d (game 2.3.540); every rawName is checked against the
+# tab it sits on (classPromotions.json talentTabs).
+#
+# Before promotion this needs (see the note, "Converter and engine requirements"):
+#   - schema: BuildEntry tabs[].tab accepts 4 and 5; status draft (M26 FR-1); stages W4-mid / W4-late (FR-3).
+#   - engine: lineOf() returns the elite or master class when a Build exists for it (today it walks up to the subclass and
+#     returns null for the Journeyman line); rawName -> skillIndex resolved within the character's own tabs
+#     (SYMBOLS_OF_BEYOND_~R/~G/~P and THE_FAMILY_GUY repeat across elite tabs).
+#   - Draft-only keys the converter maps or drops: stageHint (the world a Build or step applies from: W5, W6, W7; no W5+
+#     stage may be named yet, FR-3), sourceCount (independent dated authors), confidenceLabel (owner source bar,
+#     2026-10-19: "one source" ships with a label), supersedes, inherits (master-class Builds hold tab 5 only and take
+#     tabs 1-4 from the named Build), patch (third-class Builds extended past W4-entry).
+# Owner source bar (2026-10-19): most upvoted or most recent post-patch community build wins; one strong source is enough
+# with a label; disagreements keep the most upvoted recent one and note the other. No community source states a game
+# version, so gameVersion is the version each claim was checked against (2.3.540).
+system: talents
+entries:
+
+  - id: "talents.build.royal-guardian-fighting"
+    system: "talents"
+    type: "build"
+    variant: "afk"
+    title: "Royal Guardian fighting and kingdom build"
+    text: "Follow the Royal Guardian fighting and kingdom build"
+    why: "Tabs 1-4 as the Divine Knight; tab 5 takes Industrial and Warbound Politics, then Guardian Disciple and Lil' Orblets, per the newest Royal Guardian guide."
+    classLine: "Royal_Guardian"
+    role: "fighting"
+    serves: ["FIGHTING"]
+    tags: ["INDUSTRIAL_POLITICS", "WARBOUND_POLITICS", "GUARDIAN_DISCIPLE", "LIL'_ORBLETS", "CASTLE_CONVENE", "ROYAL_ARMORY", "AESTHETIC_POLITICS", "REGAL_INTERVENTION", "ORB_OF_VERISIMILITUDE", "BUILT_DIFFERENT"]
+    inherits: "talents.build.divine-knight-fighting"
+    tabs:
+      - tab: 5
+        steps:
+          - { talent: "INDUSTRIAL_POLITICS", target: "max" }
+          - { talent: "WARBOUND_POLITICS", target: "max" }
+          - { talent: "GUARDIAN_DISCIPLE", target: "max" }
+          - { talent: "LIL'_ORBLETS", target: "max" }
+          - { talent: "CASTLE_CONVENE", target: "max" }
+          - { talent: "ROYAL_ARMORY", target: "max" }
+          - { talent: "AESTHETIC_POLITICS", target: "max" }
+          - { talent: "REGAL_INTERVENTION", target: 1, tie: "a" }
+          - { talent: "ORB_OF_VERISIMILITUDE", target: 1, tie: "a" }
+          - { talent: "BUILT_DIFFERENT", target: 1, tie: "a" }
+    attacks: ["GUARDIAN_DISCIPLE"]
+    onePointOk: ["REGAL_INTERVENTION", "ORB_OF_VERISIMILITUDE", "BUILT_DIFFERENT"]
+    sources:
+      - { url: "https://gameslikefinder.com/article/idleon-royal-guardian-build-guide/", title: "Gameslikefinder: Royal Guardian build guide (damage/kingdom)", tier: 3, claimDate: "2026-10-15", verified: "2026-10-19", gameVersion: "2.3.540", note: "Industrial Politics > Warbound Politics > Guardian Disciple > Lil' Orblets > Castle Convene > Royal Armory > Aesthetic Politics; unlock W6, Masterius, level 600" }
+      - { url: "https://idleontoolbox.com/tools/builds/view?id=bO4Gxa", title: "Anonymiss, ROYAL GUARDIAN ACTIVE / AFK BUILD 600-800 (Toolbox community builds)", tier: 3, claimDate: "2026-09-21", verified: "2026-10-19", gameVersion: "2.3.540", note: "0 likes, 752 views; created 2026-09-21, updated 2026-09-21; RG active/AFK 600-800: Guardian Disciple > Regal Intervention > Orb of Verisimilitude > Lil' Orblets; Warbound Politics first for Outposts" }
+      - { url: "https://idleon.wiki/wiki/Royal_Guardian", title: "IdleOn Wiki: Royal Guardian (Spelunking specialty, Outposts)", tier: 2, claimDate: "2026-10-07", verified: "2026-10-19", gameVersion: "2.3.540" }
+      - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/talents.json", title: "IdleOn Toolbox game data: talents", tier: 1, verified: "2026-10-19", gameVersion: "2.3.540" }
+      - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/classPromotions.json", title: "IdleOn Toolbox game data: class promotions and talent tabs", tier: 1, verified: "2026-10-19", gameVersion: "2.3.540" }
+    appliesTo: { stages: [{ from: "W4-late", to: "W4-late" }], classes: ["Royal_Guardian"] }
+    confidence: "L"
+    status: "draft"
+    stageHint: "W6"
+    sourceCount: 2
+    confidenceLabel: "sources disagree"
+    notes: "Kept: Gameslikefinder (updated 2026-10-15), the newest ordered source. Alternative: Anonymiss (bO4Gxa, 0 likes, 2026-09-21) runs an active Orb build: Guardian Disciple > Regal Intervention > Orb of Verisimilitude > Lil' Orblets, and moves points to Warbound Politics only for an Outpost push; its payload has 1 point in each. Regal Intervention and Orb of Verisimilitude at 1 are our reading of the two. RG has its own talent points and cannot use all-talent-level bonuses or super talents until the Royal Armory shelves (patch notes, second-hand). Master classes unlock in W6 (Gameslikefinder RG guide: Masterius at Troll Playground, character level 600; assumed the same NPC for every master class), so stageHint W6; until W5+ stages exist the converter holds these back."
+
+  - id: "talents.build.royal-guardian-skilling"
+    system: "talents"
+    type: "build"
+    variant: "afk"
+    title: "Royal Guardian spelunking build"
+    text: "Follow the Royal Guardian spelunking build"
+    why: "Tabs 1-4 as the Divine Knight skilling preset; tab 5 takes Pit O' Pages, Spelunking Specialty, Grand Vein and Amber Hoard, per the newest Royal Guardian guide."
+    classLine: "Royal_Guardian"
+    role: "skilling"
+    serves: ["SPELUNKING"]
+    tags: ["PIT_O'_PAGES", "SPELUNKING_SPECIALTY", "GRAND_VEIN", "AMBER_HOARD"]
+    inherits: "talents.build.divine-knight-skilling"
+    tabs:
+      - tab: 5
+        steps:
+          - { talent: "PIT_O'_PAGES", target: "max" }
+          - { talent: "SPELUNKING_SPECIALTY", target: "max" }
+          - { talent: "GRAND_VEIN", target: "max" }
+          - { talent: "AMBER_HOARD", target: "max" }
+    attacks: []
+    onePointOk: []
+    sources:
+      - { url: "https://gameslikefinder.com/article/idleon-royal-guardian-build-guide/", title: "Gameslikefinder: Royal Guardian build guide (Spelunking)", tier: 3, claimDate: "2026-10-15", verified: "2026-10-19", gameVersion: "2.3.540", note: "Spelunking build: Pit O' Pages > Spelunking Specialty > Grand Vein > Amber Hoard" }
+      - { url: "https://idleon.wiki/wiki/Royal_Guardian", title: "IdleOn Wiki: Royal Guardian (Spelunking specialty)", tier: 2, claimDate: "2026-10-07", verified: "2026-10-19", gameVersion: "2.3.540" }
+      - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/talents.json", title: "IdleOn Toolbox game data: talents", tier: 1, verified: "2026-10-19", gameVersion: "2.3.540" }
+      - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/classPromotions.json", title: "IdleOn Toolbox game data: class promotions and talent tabs", tier: 1, verified: "2026-10-19", gameVersion: "2.3.540" }
+    appliesTo: { stages: [{ from: "W4-late", to: "W4-late" }], classes: ["Royal_Guardian"] }
+    confidence: "L"
+    status: "draft"
+    stageHint: "W6"
+    sourceCount: 1
+    confidenceLabel: "one source"
+    notes: "One ordered source. Spelunking is the RG's skill (wiki; SPELUNKING is an AFK type in the schema). Master classes unlock in W6 (Gameslikefinder RG guide: Masterius at Troll Playground, character level 600; assumed the same NPC for every master class), so stageHint W6; until W5+ stages exist the converter holds these back."
+
+  - id: "talents.build.death-bringer-fighting"
+    system: "talents"
+    type: "build"
+    variant: "afk"
+    title: "Death Bringer Wraith Form build"
+    text: "Follow the Death Bringer Wraith Form build"
+    why: "Tabs 1-4 as the Blood Berserker; tab 5 takes Graveyard Shift, Grimoire and Sentinel Axes, then Detonation and Marauder Style, per the dated Death Bringer guide."
+    classLine: "Death_Bringer"
+    role: "fighting"
+    serves: ["FIGHTING"]
+    tags: ["GRAVEYARD_SHIFT", "GRIMOIRE", "SENTINEL_AXES", "DETONATION", "MARAUDER_STYLE", "WRAITH_FORM", "BULWARK_STYLE"]
+    inherits: "talents.build.blood-berserker-fighting"
+    tabs:
+      - tab: 5
+        steps:
+          - { talent: "GRAVEYARD_SHIFT", target: "max" }
+          - { talent: "GRIMOIRE", target: "max" }
+          - { talent: "SENTINEL_AXES", target: "max" }
+          - { talent: "DETONATION", target: "max" }
+          - { talent: "MARAUDER_STYLE", target: "max" }
+          - { talent: "WRAITH_FORM", target: 1, tie: "a" }
+          - { talent: "BULWARK_STYLE", target: 1, tie: "a" }
+    attacks: ["GRAVEYARD_SHIFT"]
+    onePointOk: ["WRAITH_FORM", "BULWARK_STYLE"]
+    sources:
+      - { url: "https://gameslikefinder.com/article/idleon-death-bringer-build-guide/", title: "Gameslikefinder: Death Bringer build guide (Wraith Form damage)", tier: 3, claimDate: "2026-09-13", verified: "2026-10-19", gameVersion: "2.3.540", note: "Graveyard Shift > Grimoire > Sentinel Axes > Detonation > Marauder Style; per-world Wraith Form push notes W1-W7" }
+      - { url: "https://idleontoolbox.com/tools/builds/view?id=DLZQRu", title: "Anonymous, DB for me (Toolbox community builds)", tier: 3, claimDate: "2026-10-11", verified: "2026-10-19", gameVersion: "2.3.540", note: "1 likes, 532 views; created 2026-09-27, updated 2026-10-11; levels only: Graveyard Shift 173 (highest); Wraith Form, Grimoire, Sentinel Axes 141; Detonation, styles, Famine 75; Ribbon 25" }
+      - { url: "https://steamcommunity.com/sharedfiles/filedetails/?id=3440291354", title: "Steam: An In-Depth Guide about Classes (TheAlmightyHyduck)", tier: 3, claimDate: "2025-09-27", verified: "2026-10-19", gameVersion: "2.3.540", note: "weak claim: maxed Sentinel Axes 'coating the screen' is key for pushing W6; 5,350 visitors, 67 favourites" }
+      - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/talents.json", title: "IdleOn Toolbox game data: talents", tier: 1, verified: "2026-10-19", gameVersion: "2.3.540" }
+      - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/classPromotions.json", title: "IdleOn Toolbox game data: class promotions and talent tabs", tier: 1, verified: "2026-10-19", gameVersion: "2.3.540" }
+    appliesTo: { stages: [{ from: "W4-late", to: "W4-late" }], classes: ["Death_Bringer"] }
+    confidence: "L"
+    status: "draft"
+    stageHint: "W6"
+    sourceCount: 3
+    confidenceLabel: "few sources"
+    notes: "Order from Gameslikefinder (updated 2026-09-13); DLZQRu (1 like, levels only) also has Graveyard Shift highest and Grimoire and Sentinel Axes next. Wraith Form and Bulwark Style at 1 are our reading (DLZQRu has Wraith Form 141, Bulwark 75): check before promotion. Video leads: IdleManeZed 'Deathbringer progression W1 to W6' (2025-05-26, 86.7k views) and Titanicllama 'Early Deathbringer Guide' (2025-01-22, 77.7k views); captions not read. Master classes unlock in W6 (Gameslikefinder RG guide: Masterius at Troll Playground, character level 600; assumed the same NPC for every master class), so stageHint W6; until W5+ stages exist the converter holds these back."
+
+  - id: "talents.build.death-bringer-skilling"
+    system: "talents"
+    type: "build"
+    variant: "afk"
+    title: "Death Bringer farming build"
+    text: "Follow the Death Bringer farming build"
+    why: "Tabs 1-4 as the Blood Berserker skilling preset; tab 5 takes Agricultural 'Preciation, Dank Ranks and Mass Irrigation, then Ribbon Winning and Apocalypse Wow, per the dated guide."
+    classLine: "Death_Bringer"
+    role: "skilling"
+    serves: []
+    tags: ["AGRICULTURAL_'PRECIATION", "DANK_RANKS", "MASS_IRRIGATION", "RIBBON_WINNING", "APOCALYPSE_WOW", "WRAITH_OVERLORD", "BUILT_DIFFERENT"]
+    inherits: "talents.build.blood-berserker-skilling"
+    tabs:
+      - tab: 5
+        steps:
+          - { talent: "AGRICULTURAL_'PRECIATION", target: "max" }
+          - { talent: "DANK_RANKS", target: "max" }
+          - { talent: "MASS_IRRIGATION", target: "max" }
+          - { talent: "RIBBON_WINNING", target: "max" }
+          - { talent: "APOCALYPSE_WOW", target: "max" }
+          - { talent: "WRAITH_OVERLORD", target: "max" }
+          - { talent: "BUILT_DIFFERENT", target: "max" }
+    attacks: []
+    onePointOk: []
+    sources:
+      - { url: "https://gameslikefinder.com/article/idleon-death-bringer-build-guide/", title: "Gameslikefinder: Death Bringer build guide (Farming)", tier: 3, claimDate: "2026-09-13", verified: "2026-10-19", gameVersion: "2.3.540", note: "Farming build: Agricultural 'Preciation > Dank Ranks > Mass Irrigation > Ribbon Winning > Apocalypse Wow > Wraith Overlord > Built Different" }
+      - { url: "https://idleon.wiki/wiki/Death_Bringer", title: "IdleOn Wiki: Death Bringer (Farming specialty)", tier: 2, claimDate: "2026-10-12", verified: "2026-10-19", gameVersion: "2.3.540" }
+      - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/talents.json", title: "IdleOn Toolbox game data: talents", tier: 1, verified: "2026-10-19", gameVersion: "2.3.540" }
+      - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/classPromotions.json", title: "IdleOn Toolbox game data: class promotions and talent tabs", tier: 1, verified: "2026-10-19", gameVersion: "2.3.540" }
+    appliesTo: { stages: [{ from: "W4-late", to: "W4-late" }], classes: ["Death_Bringer"] }
+    confidence: "L"
+    status: "draft"
+    stageHint: "W6"
+    sourceCount: 1
+    confidenceLabel: "one source"
+    notes: "One ordered source. Farming is not an AFK type in the schema, so serves []. Apocalypse Wow needs 1e9 kills per map (class-barbarian dossier). Master classes unlock in W6 (Gameslikefinder RG guide: Masterius at Troll Playground, character level 600; assumed the same NPC for every master class), so stageHint W6; until W5+ stages exist the converter holds these back."
+
+  - id: "talents.build.wind-walker-fighting"
+    system: "talents"
+    type: "build"
+    variant: "afk"
+    title: "Wind Walker Tempest Form build"
+    text: "Follow the Wind Walker Tempest Form build"
+    why: "Tabs 1-4 as the Beast Master; on tab 5 put 1 point in every talent, then Some Commandments, Compass, Eternal Hunt and Spirit Ballista, per the newest Wind Walker guide."
+    classLine: "Wind_Walker"
+    role: "fighting"
+    serves: ["FIGHTING"]
+    tags: ["TEMPEST_FORM", "COMPASS", "SPIRIT_BALLISTA", "ETERNAL_HUNT", "SOME_COMMANDMENTS", "WINDBORNE", "ELEMENTAL_MAYHEM", "PUMPIN'_POWER", "UNREAL_AGILITY", "SHINY_MEDALLIONS", "PRICE_RECESSION", "SNEAKY_SKILLING", "GENERATIONAL_GEMSTONES", "DUSTWALKER", "SLAYER_ABOMINATOR"]
+    inherits: "talents.build.beast-master-fighting"
+    tabs:
+      - tab: 5
+        steps:
+          - { talent: "TEMPEST_FORM", target: 1, tie: "a" }
+          - { talent: "COMPASS", target: 1, tie: "a" }
+          - { talent: "SPIRIT_BALLISTA", target: 1, tie: "a" }
+          - { talent: "ETERNAL_HUNT", target: 1, tie: "a" }
+          - { talent: "SOME_COMMANDMENTS", target: 1, tie: "a" }
+          - { talent: "WINDBORNE", target: 1, tie: "a" }
+          - { talent: "ELEMENTAL_MAYHEM", target: 1, tie: "a" }
+          - { talent: "PUMPIN'_POWER", target: 1, tie: "a" }
+          - { talent: "UNREAL_AGILITY", target: 1, tie: "a" }
+          - { talent: "SHINY_MEDALLIONS", target: 1, tie: "a" }
+          - { talent: "PRICE_RECESSION", target: 1, tie: "a" }
+          - { talent: "SNEAKY_SKILLING", target: 1, tie: "a" }
+          - { talent: "GENERATIONAL_GEMSTONES", target: 1, tie: "a" }
+          - { talent: "DUSTWALKER", target: 1, tie: "a" }
+          - { talent: "SLAYER_ABOMINATOR", target: 1, tie: "a" }
+          - { talent: "SOME_COMMANDMENTS", target: "max" }
+          - { talent: "COMPASS", target: "max" }
+          - { talent: "ETERNAL_HUNT", target: "max" }
+          - { talent: "SPIRIT_BALLISTA", target: "max" }
+          - { talent: "ELEMENTAL_MAYHEM", target: "max" }
+          - { talent: "PUMPIN'_POWER", target: "max" }
+          - { talent: "TEMPEST_FORM", target: "max" }
+          - { talent: "WINDBORNE", target: "max" }
+    attacks: ["ETERNAL_HUNT"]
+    onePointOk: ["UNREAL_AGILITY", "SHINY_MEDALLIONS", "PRICE_RECESSION", "SNEAKY_SKILLING", "GENERATIONAL_GEMSTONES", "DUSTWALKER", "SLAYER_ABOMINATOR"]
+    sources:
+      - { url: "https://gameslikefinder.com/article/idleon-wind-walker-build-guide/", title: "Gameslikefinder: Wind Walker build guide (Tempest Form/damage)", tier: 3, claimDate: "2026-09-17", verified: "2026-10-19", gameVersion: "2.3.540", note: "1 in all, then Some Commandments > Compass > Eternal Hunt > Spirit Ballista > Elemental Mayhem > Pumpin' Power > Tempest Form > Windborne" }
+      - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/talents.json", title: "IdleOn Toolbox game data: talents", tier: 1, verified: "2026-10-19", gameVersion: "2.3.540" }
+      - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/classPromotions.json", title: "IdleOn Toolbox game data: class promotions and talent tabs", tier: 1, verified: "2026-10-19", gameVersion: "2.3.540" }
+    appliesTo: { stages: [{ from: "W4-late", to: "W4-late" }], classes: ["Wind_Walker"] }
+    confidence: "L"
+    status: "draft"
+    stageHint: "W6"
+    sourceCount: 1
+    confidenceLabel: "one source (two video leads agree)"
+    notes: "Gameslikefinder (updated 2026-09-17) is the only ordered source with a URL. Two launch-week videos found by the web pass agree that every talent takes 1 point and Some Commandments comes first: HarbingerIV '10 minute guide to Windwalker' (2025-04-23, 28k views; then Compass > Windborne > Tempest Form) and Jehdrid 'Wind Walker Guide in 10 Minutes' (2025-04-26, 13k views; then Spirit Ballista > Eternal Hunt > Compass). URLs not captured, so not counted. Move Windborne above Tempest Form if accuracy blocks (Gameslikefinder). Master classes unlock in W6 (Gameslikefinder RG guide: Masterius at Troll Playground, character level 600; assumed the same NPC for every master class), so stageHint W6; until W5+ stages exist the converter holds these back."
+
+  - id: "talents.build.wind-walker-skilling"
+    system: "talents"
+    type: "build"
+    variant: "afk"
+    title: "Wind Walker sneaking build"
+    text: "Follow the Wind Walker sneaking build"
+    why: "Tabs 1-4 as the Beast Master skilling preset; tab 5 takes Generational Gemstones, then Price Recession before spending Jade, then Sneaky Skilling, per the newest Wind Walker guide."
+    classLine: "Wind_Walker"
+    role: "skilling"
+    serves: []
+    tags: ["GENERATIONAL_GEMSTONES", "PRICE_RECESSION", "SNEAKY_SKILLING"]
+    inherits: "talents.build.beast-master-skilling"
+    tabs:
+      - tab: 5
+        steps:
+          - { talent: "GENERATIONAL_GEMSTONES", target: "max" }
+          - { talent: "PRICE_RECESSION", target: "max" }
+          - { talent: "SNEAKY_SKILLING", target: "max" }
+    attacks: []
+    onePointOk: []
+    sources:
+      - { url: "https://gameslikefinder.com/article/idleon-wind-walker-build-guide/", title: "Gameslikefinder: Wind Walker build guide (Sneaking)", tier: 3, claimDate: "2026-09-17", verified: "2026-10-19", gameVersion: "2.3.540", note: "Sneaking build: Generational Gemstones > Price Recession (swap to it before spending Jade) > Sneaky Skilling" }
+      - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/talents.json", title: "IdleOn Toolbox game data: talents", tier: 1, verified: "2026-10-19", gameVersion: "2.3.540" }
+      - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/classPromotions.json", title: "IdleOn Toolbox game data: class promotions and talent tabs", tier: 1, verified: "2026-10-19", gameVersion: "2.3.540" }
+    appliesTo: { stages: [{ from: "W4-late", to: "W4-late" }], classes: ["Wind_Walker"] }
+    confidence: "L"
+    status: "draft"
+    stageHint: "W6"
+    sourceCount: 1
+    confidenceLabel: "one source"
+    notes: "One ordered source; GriffyBit's super-talent video (2025-11-28, URL not captured) rates the same three 'strongly yes'. Sneaking is not an AFK type in the schema, so serves []. Master classes unlock in W6 (Gameslikefinder RG guide: Masterius at Troll Playground, character level 600; assumed the same NPC for every master class), so stageHint W6; until W5+ stages exist the converter holds these back."
+
+  - id: "talents.build.arcane-cultist-fighting"
+    system: "talents"
+    type: "build"
+    variant: "afk"
+    title: "Arcane Cultist fighting build"
+    text: "Follow the Arcane Cultist fighting build"
+    why: "Tabs 1-4 as the Bubonic Conjuror; on tab 5 put 1 point in every talent, then Backup Energy, Arcane Crystals, Tesseract and Arcane Skulls, per the dated Arcane Cultist guide."
+    classLine: "Arcane_Cultist"
+    role: "fighting"
+    serves: ["FIGHTING"]
+    tags: ["ARCANIST_FORM", "TESSERACT", "ARCANE_SKULLS", "ARCANE_CRYSTALS", "OVERWHELMING_ENERGY", "GHASTLY_POWER", "GHOULISH_POWER", "LABOTOMIZER", "INDIVIDUALITY", "PRIMO_PRISMA", "ESSENTIAL_ESSENCE", "PASSION_OF_THE_SUMMON", "ABSOLUTE_STARDOM", "TACHYON_TRUTH", "BACKUP_ENERGY"]
+    inherits: "talents.build.bubonic-conjuror-fighting"
+    tabs:
+      - tab: 5
+        steps:
+          - { talent: "ARCANIST_FORM", target: 1, tie: "a" }
+          - { talent: "TESSERACT", target: 1, tie: "a" }
+          - { talent: "ARCANE_SKULLS", target: 1, tie: "a" }
+          - { talent: "ARCANE_CRYSTALS", target: 1, tie: "a" }
+          - { talent: "OVERWHELMING_ENERGY", target: 1, tie: "a" }
+          - { talent: "GHASTLY_POWER", target: 1, tie: "a" }
+          - { talent: "GHOULISH_POWER", target: 1, tie: "a" }
+          - { talent: "LABOTOMIZER", target: 1, tie: "a" }
+          - { talent: "INDIVIDUALITY", target: 1, tie: "a" }
+          - { talent: "PRIMO_PRISMA", target: 1, tie: "a" }
+          - { talent: "ESSENTIAL_ESSENCE", target: 1, tie: "a" }
+          - { talent: "PASSION_OF_THE_SUMMON", target: 1, tie: "a" }
+          - { talent: "ABSOLUTE_STARDOM", target: 1, tie: "a" }
+          - { talent: "TACHYON_TRUTH", target: 1, tie: "a" }
+          - { talent: "BACKUP_ENERGY", target: 1, tie: "a" }
+          - { talent: "BACKUP_ENERGY", target: "max" }
+          - { talent: "ARCANE_CRYSTALS", target: "max" }
+          - { talent: "TESSERACT", target: "max" }
+          - { talent: "ARCANE_SKULLS", target: "max" }
+          - { talent: "GHOULISH_POWER", target: "max" }
+          - { talent: "LABOTOMIZER", target: "max" }
+          - { talent: "GHASTLY_POWER", target: "max" }
+          - { talent: "ARCANIST_FORM", target: "max" }
+          - { talent: "PRIMO_PRISMA", target: "max" }
+    attacks: []
+    onePointOk: ["INDIVIDUALITY", "OVERWHELMING_ENERGY", "ESSENTIAL_ESSENCE", "PASSION_OF_THE_SUMMON", "ABSOLUTE_STARDOM", "TACHYON_TRUTH"]
+    sources:
+      - { url: "https://gameslikefinder.com/article/idleon-arcane-cultist-build-guide/", title: "Gameslikefinder: Arcane Cultist build guide", tier: 3, claimDate: "2026-04-13", verified: "2026-10-19", gameVersion: "2.3.540", note: "1 point in every AC talent, then Backup Energy > Arcane Crystals > Tesseract > Arcane Skulls > Ghoulish > Labotomizer > Ghastly > Arcanist Form > Primo Prisma" }
+      - { url: "https://youtu.be/P4OKck3meJk", title: "IdleManeZed: Arcane Cultist Early Guide (video)", tier: 3, claimDate: "2025-06-27", verified: "2026-10-19", gameVersion: "2.3.540", note: "67k views; chapters on talents 1-15 and the action bar; captions not read, so no order taken" }
+      - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/talents.json", title: "IdleOn Toolbox game data: talents", tier: 1, verified: "2026-10-19", gameVersion: "2.3.540" }
+      - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/classPromotions.json", title: "IdleOn Toolbox game data: class promotions and talent tabs", tier: 1, verified: "2026-10-19", gameVersion: "2.3.540" }
+    appliesTo: { stages: [{ from: "W4-late", to: "W4-late" }], classes: ["Arcane_Cultist"] }
+    confidence: "L"
+    status: "draft"
+    stageHint: "W6"
+    sourceCount: 1
+    confidenceLabel: "one source"
+    notes: "One source with an order (Gameslikefinder, one author, updated 2026-04-13). Breakpoints it gives: Arcane Crystals 350 to pass Pincermin in W2, Tenteyecle 400 for W3 (cooldown cut 3 to 4 s); if stuck, level the character to 550-600 outside Arcanist Form. Put Arcanist Form on the second attack bar. After promotion the BC bar shrinks to Flatulent Spirit and Sizzling Skull (Gameslikefinder BC guide). Master classes unlock in W6 (Gameslikefinder RG guide: Masterius at Troll Playground, character level 600; assumed the same NPC for every master class), so stageHint W6; until W5+ stages exist the converter holds these back."
+
+  - id: "talents.build.arcane-cultist-skilling"
+    system: "talents"
+    type: "build"
+    variant: "afk"
+    title: "Arcane Cultist summoning build"
+    text: "Follow the Arcane Cultist summoning build"
+    why: "Tabs 1-4 as the Bubonic Conjuror skilling preset; tab 5 takes Absolute Stardom once Summoning Doublers are unlocked, then Essential Essence, Passion of the Summon and Tachyon Truth."
+    classLine: "Arcane_Cultist"
+    role: "skilling"
+    serves: ["CHOPPIN", "LABORATORY"]
+    tags: ["ABSOLUTE_STARDOM", "ESSENTIAL_ESSENCE", "PASSION_OF_THE_SUMMON", "TACHYON_TRUTH", "OVERWHELMING_ENERGY"]
+    inherits: "talents.build.bubonic-conjuror-skilling"
+    tabs:
+      - tab: 5
+        steps:
+          - { talent: "ABSOLUTE_STARDOM", target: "max" }
+          - { talent: "ESSENTIAL_ESSENCE", target: "max" }
+          - { talent: "PASSION_OF_THE_SUMMON", target: "max" }
+          - { talent: "TACHYON_TRUTH", target: "max" }
+          - { talent: "OVERWHELMING_ENERGY", target: "max" }
+    attacks: []
+    onePointOk: []
+    sources:
+      - { url: "https://gameslikefinder.com/article/idleon-arcane-cultist-build-guide/", title: "Gameslikefinder: Arcane Cultist build guide (Summoning preset)", tier: 3, claimDate: "2026-04-13", verified: "2026-10-19", gameVersion: "2.3.540", note: "on the choppin/lab preset, switch to it before summoning or the daily reset: Absolute Stardom (if Doublers) > Essential Essence > Passion > Tachyon > Overwhelming" }
+      - { url: "https://idleon.wiki/wiki/Arcane_Cultist", title: "IdleOn Wiki: Arcane Cultist (Choppin, Alchemy, Laboratory, Summoning)", tier: 2, claimDate: "2026-10-12", verified: "2026-10-19", gameVersion: "2.3.540" }
+      - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/talents.json", title: "IdleOn Toolbox game data: talents", tier: 1, verified: "2026-10-19", gameVersion: "2.3.540" }
+      - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/classPromotions.json", title: "IdleOn Toolbox game data: class promotions and talent tabs", tier: 1, verified: "2026-10-19", gameVersion: "2.3.540" }
+    appliesTo: { stages: [{ from: "W4-late", to: "W4-late" }], classes: ["Arcane_Cultist"] }
+    confidence: "L"
+    status: "draft"
+    stageHint: "W6"
+    sourceCount: 1
+    confidenceLabel: "one source"
+    notes: "One source with an order. Absolute Stardom pays only once Summoning Doublers are unlocked (the guide); until then Essential Essence leads. Summoning is not an AFK type in the schema, so serves stays the BC's. Master classes unlock in W6 (Gameslikefinder RG guide: Masterius at Troll Playground, character level 600; assumed the same NPC for every master class), so stageHint W6; until W5+ stages exist the converter holds these back."

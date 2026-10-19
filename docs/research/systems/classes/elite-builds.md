@@ -36,6 +36,19 @@ stops at the third class and at `W4-entry`. M26 held tab-4 orders back until eac
 | `voidwalker-fighting` | W4-entry to W4-late | 3 | L | few sources |
 | `voidwalker-skilling` | W4-entry to W4-late | 4 | L | sources disagree |
 
+**Master classes (kb-drafts/master-builds.yaml)**
+
+| Build | Stages | Sources | Confidence | Label |
+|---|---|---|---|---|
+| `royal-guardian-fighting` | W4-late to W4-late (+W6) | 2 | L | sources disagree |
+| `royal-guardian-skilling` | W4-late to W4-late (+W6) | 1 | L | one source |
+| `death-bringer-fighting` | W4-late to W4-late (+W6) | 3 | L | few sources |
+| `death-bringer-skilling` | W4-late to W4-late (+W6) | 1 | L | one source |
+| `wind-walker-fighting` | W4-late to W4-late (+W6) | 1 | L | one source (two video leads agree) |
+| `wind-walker-skilling` | W4-late to W4-late (+W6) | 1 | L | one source |
+| `arcane-cultist-fighting` | W4-late to W4-late (+W6) | 1 | L | one source |
+| `arcane-cultist-skilling` | W4-late to W4-late (+W6) | 1 | L | one source |
+
 ## Source bar (owner ruling, 2026-10-19)
 
 - **What counts:** the community meta, or the most upvoted / most recent build. One strong source is acceptable and
@@ -360,9 +373,75 @@ Each class below has:
   - Blood Marrow should stay maxed for cooking (wiki Tips and Tricks).
 - **Engine prerequisite:** `lineOf()` returns null for the whole Journeyman line today, so these Builds need that fixed.
 
+## Per class: the master classes (next after the elites)
+
+- **Where the drafts live:** `kb-drafts/master-builds.yaml`.
+- **When they apply:** master classes unlock in W6. The Gameslikefinder RG guide (2026-10-15) says: Masterius at Troll
+  Playground, character level 600. I assume every master class uses the same NPC. So every entry carries
+  `stageHint: W6`, and its stage range is set to `W4-late` only as the earliest stage that exists.
+- **Shape:** each Build holds tab 5 only, with `inherits` pointing at the elite Build for tabs 1-4. None of the sources
+  gives master-class-specific orders for tabs 1-4, except the notes below.
+- **Unreleased in the data:** Infinilyte and Spiritual Monk (`released: false`), so no Build exists for either.
+
+### Royal Guardian (after Divine Knight)
+
+- **Sources:** fighting 2, skilling 1. **Confidence:** L.
+- **Fighting/kingdom Build.**
+  - Order (Gameslikefinder, updated 2026-10-15, the newest): Industrial Politics > Warbound Politics > Guardian
+    Disciple > Lil' Orblets > Castle Convene > Royal Armory > Aesthetic Politics.
+  - Alternative: Anonymiss's active Orb build (bO4Gxa, 0 likes, 2026-09-21): Guardian Disciple > Regal Intervention >
+    Orb of Verisimilitude > Lil' Orblets. It moves points to Warbound Politics only for an Outpost push.
+- **Skilling Build (Spelunking):** Pit O' Pages > Spelunking Specialty > Grand Vein > Amber Hoard (Gameslikefinder).
+- **Own talent points.** The RG has its own talent points. It cannot use all-talent-level bonuses or super talents
+  until the Royal Armory shelves unlock. This comes from patch notes quoted second-hand by the web pass.
+- **Leads (titles only):**
+  - GriffyBit "What You DON'T Know About Royal Guardian!" (2026-08-29, 78k views)
+  - Pulse "Royal Guardian META Updated" (2026-09-23, 23k views)
+
+### Death Bringer (after Blood Berserker)
+
+- **Sources:** fighting 3, skilling 1. **Confidence:** L.
+- **Wraith Form Build** (Gameslikefinder, 2026-09-13): Graveyard Shift > Grimoire > Sentinel Axes > Detonation >
+  Marauder Style.
+  - The one Toolbox DB preset (DLZQRu, 1 like, levels only) also has Graveyard Shift highest.
+  - A Steam guide (2025-09-27) says maxed Sentinel Axes is key for pushing W6.
+- **Farming Build:** Agricultural 'Preciation > Dank Ranks > Mass Irrigation > Ribbon Winning > Apocalypse Wow >
+  Wraith Overlord > Built Different.
+- **Video leads** (chapters on talent points; captions not read):
+  - IdleManeZed (2025-05-26, 86.7k views)
+  - Titanicllama (2025-01-22, 77.7k views)
+
+### Wind Walker (after Beast Master)
+
+- **Sources:** fighting 1 counted, plus 2 video leads that agree. Skilling 1. **Confidence:** L.
+- **Tempest Form Build** (Gameslikefinder, 2026-09-17):
+  1. 1 point in every talent.
+  2. Then Some Commandments > Compass > Eternal Hunt > Spirit Ballista > Elemental Mayhem > Pumpin' Power > Tempest
+     Form > Windborne.
+- **The video leads** (URLs not captured):
+  - HarbingerIV (2025-04-23, 28k views)
+  - Jehdrid (2025-04-26, 13k views)
+  - Both agree on 1 point everywhere, then Some Commandments first. They differ on what comes second: Compass vs Spirit
+    Ballista.
+- **Sneaking Build:** Generational Gemstones > Price Recession (swap to this preset before spending Jade) > Sneaky
+  Skilling.
+- **Siege Breaker has no master class** in the data.
+
+### Arcane Cultist (after Bubonic Conjuror)
+
+- **Sources:** 1 each. **Confidence:** L.
+- **Fighting Build** (Gameslikefinder, 2026-04-13):
+  1. 1 point in every AC talent.
+  2. Then Backup Energy > Arcane Crystals > Tesseract > Arcane Skulls > Ghoulish Power > Labotomizer > Ghastly Power >
+     Arcanist Form > Primo Prisma.
+  - Breakpoints: Arcane Crystals 350 to pass Pincermin (W2); Tenteyecle 400 for W3.
+- **Summoning Build:** Absolute Stardom (only once Summoning Doublers are unlocked) > Essential Essence > Passion of
+  the Summon > Tachyon Truth > Overwhelming Energy.
+- **Elemental Sorcerer's master class:** Spiritual Monk is unreleased, so the ES has none.
+
 ## Claims register
 
-One row per (Build, Source); tier 1 game data omitted (it backs every Build). No community source states a patch; each was checked against talents.json at 2.3.540. Popularity is the Toolbox like and view count on 2026-10-19.
+One row per (Build, Source); tier 1 game data omitted (it backs every Build). No community source states a patch; each was checked against talents.json at 2.3.540. Popularity is the Toolbox like and view count on 2026-10-19 (other sites show none).
 
 | # | Build | Claim | Source | Date | Patch stated | Popularity | Tier |
 |---|---|---|---|---|---|---|---|
@@ -424,6 +503,22 @@ One row per (Build, Source); tier 1 game data omitted (it backs every Build). No
 | C56 | `voidwalker-skilling` | Maestro skilling ~100, legacy curated import: Happy Dude, Birthday, Looty Booty, Rares, Bliss N Chips, Hands, Printer | [mlZMaQ](https://idleontoolbox.com/tools/builds/view?id=mlZMaQ) | 2026-10-13 | none | 7 likes, 1704 views | 3 |
 | C57 | `voidwalker-skilling` | Blood Marrow > Species Epoch > Voodoo Statufication > Master of the System > Enhancement Eclipse (25-point steps up to 250) | [gameslikefinder.com](https://gameslikefinder.com/article/idleon-voidwalker-build-guide/) | 2026-05-26 | none | n/a | 3 |
 | C58 | `voidwalker-skilling` | IdleOn Wiki: Tips and Tricks (keep the Voidwalker on a preset with Blood Marrow maxed) | [idleon.wiki](https://idleon.wiki/wiki/Tips_and_Tricks) | 2025-12-24 | none | n/a | 2 |
+| C59 | `royal-guardian-fighting` | Industrial Politics > Warbound Politics > Guardian Disciple > Lil' Orblets > Castle Convene > Royal Armory > Aesthetic Politics; unlock W6, Masterius, level 600 | [gameslikefinder.com](https://gameslikefinder.com/article/idleon-royal-guardian-build-guide/) | 2026-10-15 | none | n/a | 3 |
+| C60 | `royal-guardian-fighting` | RG active/AFK 600-800: Guardian Disciple > Regal Intervention > Orb of Verisimilitude > Lil' Orblets; Warbound Politics first for Outposts | [bO4Gxa](https://idleontoolbox.com/tools/builds/view?id=bO4Gxa) | 2026-09-21 | none | 0 likes, 752 views | 3 |
+| C61 | `royal-guardian-fighting` | IdleOn Wiki: Royal Guardian (Spelunking specialty, Outposts) | [idleon.wiki](https://idleon.wiki/wiki/Royal_Guardian) | 2026-10-07 | none | n/a | 2 |
+| C62 | `royal-guardian-skilling` | Spelunking build: Pit O' Pages > Spelunking Specialty > Grand Vein > Amber Hoard | [gameslikefinder.com](https://gameslikefinder.com/article/idleon-royal-guardian-build-guide/) | 2026-10-15 | none | n/a | 3 |
+| C63 | `royal-guardian-skilling` | IdleOn Wiki: Royal Guardian (Spelunking specialty) | [idleon.wiki](https://idleon.wiki/wiki/Royal_Guardian) | 2026-10-07 | none | n/a | 2 |
+| C64 | `death-bringer-fighting` | Graveyard Shift > Grimoire > Sentinel Axes > Detonation > Marauder Style; per-world Wraith Form push notes W1-W7 | [gameslikefinder.com](https://gameslikefinder.com/article/idleon-death-bringer-build-guide/) | 2026-09-13 | none | n/a | 3 |
+| C65 | `death-bringer-fighting` | levels only: Graveyard Shift 173 (highest); Wraith Form, Grimoire, Sentinel Axes 141; Detonation, styles, Famine 75; Ribbon 25 | [DLZQRu](https://idleontoolbox.com/tools/builds/view?id=DLZQRu) | 2026-10-11 | none | 1 likes, 532 views | 3 |
+| C66 | `death-bringer-fighting` | weak claim: maxed Sentinel Axes 'coating the screen' is key for pushing W6; 5,350 visitors, 67 favourites | [3440291354](https://steamcommunity.com/sharedfiles/filedetails/?id=3440291354) | 2025-09-27 | none | n/a | 3 |
+| C67 | `death-bringer-skilling` | Farming build: Agricultural 'Preciation > Dank Ranks > Mass Irrigation > Ribbon Winning > Apocalypse Wow > Wraith Overlord > Built Different | [gameslikefinder.com](https://gameslikefinder.com/article/idleon-death-bringer-build-guide/) | 2026-09-13 | none | n/a | 3 |
+| C68 | `death-bringer-skilling` | IdleOn Wiki: Death Bringer (Farming specialty) | [idleon.wiki](https://idleon.wiki/wiki/Death_Bringer) | 2026-10-12 | none | n/a | 2 |
+| C69 | `wind-walker-fighting` | 1 in all, then Some Commandments > Compass > Eternal Hunt > Spirit Ballista > Elemental Mayhem > Pumpin' Power > Tempest Form > Windborne | [gameslikefinder.com](https://gameslikefinder.com/article/idleon-wind-walker-build-guide/) | 2026-09-17 | none | n/a | 3 |
+| C70 | `wind-walker-skilling` | Sneaking build: Generational Gemstones > Price Recession (swap to it before spending Jade) > Sneaky Skilling | [gameslikefinder.com](https://gameslikefinder.com/article/idleon-wind-walker-build-guide/) | 2026-09-17 | none | n/a | 3 |
+| C71 | `arcane-cultist-fighting` | 1 point in every AC talent, then Backup Energy > Arcane Crystals > Tesseract > Arcane Skulls > Ghoulish > Labotomizer > Ghastly > Arcanist Form > Primo Prisma | [gameslikefinder.com](https://gameslikefinder.com/article/idleon-arcane-cultist-build-guide/) | 2026-04-13 | none | n/a | 3 |
+| C72 | `arcane-cultist-fighting` | 67k views; chapters on talents 1-15 and the action bar; captions not read, so no order taken | [youtu.be](https://youtu.be/P4OKck3meJk) | 2025-06-27 | none | n/a | 3 |
+| C73 | `arcane-cultist-skilling` | on the choppin/lab preset, switch to it before summoning or the daily reset: Absolute Stardom (if Doublers) > Essential Essence > Passion > Tachyon > Overwhelming | [gameslikefinder.com](https://gameslikefinder.com/article/idleon-arcane-cultist-build-guide/) | 2026-04-13 | none | n/a | 3 |
+| C74 | `arcane-cultist-skilling` | IdleOn Wiki: Arcane Cultist (Choppin, Alchemy, Laboratory, Summoning) | [idleon.wiki](https://idleon.wiki/wiki/Arcane_Cultist) | 2026-10-12 | none | n/a | 2 |
 
 ## Converter and engine requirements
 
