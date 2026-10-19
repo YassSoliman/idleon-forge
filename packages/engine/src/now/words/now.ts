@@ -19,6 +19,8 @@ export const HEADER_WORDS = {
   noSave: 'no save yet',
   reconnecting: 'Reconnecting…',
   offline: (at: unknown) => `Offline · showing your save from ${s(at)}`,
+  /** The phone bar's short form (the full line is in the menu and for screen readers). */
+  offlineShort: 'offline',
   updating: 'updating…',
   /** A newer build is live (M12 FR-24): the quiet chip; a pasted save is kept across the reload. */
   newVersion: 'New version ready · Reload',

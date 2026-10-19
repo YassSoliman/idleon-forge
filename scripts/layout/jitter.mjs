@@ -9,6 +9,8 @@
 // counts too) it records the bounding boxes of the top bar (`.n-hdr`), the places (`nav.places`: the
 // bar's places from 720 px, the bottom dock under it) and the
 // content column (`.outlet`, left edge and width), and fails when any of them differs by a pixel. It
+// also fails when any piece of the top bar reaches past the viewport (M24 fix: the 390 px phone bar
+// overflowed to 424 px on a long "pasted · 45h 01m ago"; the public fixture's save is days old). It
 // reads the nav by its element, not its position, so it holds for a side rail, a top bar or a dock.
 // Scrollbars are shown (Playwright hides them by default), so a scrollbar that comes and goes counts.
 //
@@ -57,6 +59,15 @@ function record() {
       column: box('.outlet', ['x', 'width']),
       // The rail's top edge: sticky from 720 px, so it is read with the page at the top.
       railTop: box('nav.places', ['y']),
+      // How far the bar's furthest piece reaches past the viewport (0 when it fits).
+      overflow: String(
+        Math.max(
+          0,
+          ...[...document.querySelectorAll('.n-hdr__line > *')].map((el) =>
+            Math.ceil(el.getBoundingClientRect().right - document.documentElement.clientWidth),
+          ),
+        ),
+      ),
     });
     window.__raf = requestAnimationFrame(tick);
   };
@@ -133,6 +144,12 @@ async function main() {
         await page.screenshot({ path: path.join(o.shots, name) });
       }
     }
+    const over = [...(seen.get('overflow')?.keys() ?? [])].filter((v) => v !== '0');
+    if (over.length) {
+      console.log(`${width}px header  OVERFLOWS the viewport by ${over.join(', ')} px`);
+      failures.push(`${width}px header overflow`);
+    }
+    seen.delete('overflow');
     for (const [k, m] of seen) {
       const status = m.size === 1 ? 'same' : 'MOVES';
       console.log(`${width}px ${k.padEnd(7)} ${status}: ${[...m].map(([v, s]) => `${s} [${v}]`).join('  ')}`);
@@ -142,10 +159,10 @@ async function main() {
   }
   await browser.close();
   if (failures.length) {
-    console.error(`\nThe shell moved: ${failures.join(', ')}`);
+    console.error(`\nThe shell moved or overflowed: ${failures.join(', ')}`);
     process.exit(1);
   }
-  console.log('\nThe top bar, the places and the content column hold still at every width.');
+  console.log('\nThe top bar, the places and the content column hold still and fit at every width.');
 }
 
 main().catch((e) => {

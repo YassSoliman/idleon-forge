@@ -116,17 +116,32 @@
   .n-hdr__chips {
     flex: 1 1 auto;
     flex-wrap: nowrap;
+    justify-content: flex-end;
     gap: var(--space-1);
+    min-width: 0;
+    overflow: hidden;
     font-size: 13px;
   }
-  .n-hdr__chips .n-long {
-    display: none;
+  /* Phone (M24 fix): the bar never grows past the viewport. The wordmark and the two buttons keep their
+     size; the status gives way: a pip and a compact age ("45h"), the full line in the menu. The long
+     words stay for screen readers, visually hidden. */
+  .n-wm,
+  .n-hdr__end {
+    flex: none;
   }
-  .n-hdr__chips .n-short,
-  .n-hdr__chips .n-agechip.is-warn:not(.is-old) .n-long {
+  .n-hdr__chips .n-long {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+  .n-hdr__chips .n-short {
     display: inline;
   }
-  .n-hdr__chips .n-agechip.is-old {
+  .n-hdr__chips .n-agechip {
+    min-width: 0;
     white-space: nowrap;
   }
   .n-hdr__chips .n-crest {
@@ -585,6 +600,10 @@ textarea.n-drop__text {
   align-items: center;
   gap: var(--space-2);
   font-weight: var(--weight-bold);
+}
+.n-save-tile__age {
+  color: var(--fg2);
+  font-size: var(--text-sm);
 }
 .n-save-tile__hint {
   color: var(--fg2);

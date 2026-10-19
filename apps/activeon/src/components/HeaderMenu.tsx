@@ -24,8 +24,11 @@ export type MenuSaveKind = 'live' | 'paste' | 'none';
 
 export interface HeaderMenuProps {
   familyLevel: number | null;
-  /** Your save: live (signed in), a paste, or none yet; `action` is Sign out or Sign in. */
-  save?: { kind: MenuSaveKind; action: ReactNode | null };
+  /**
+   * Your save: live (signed in), a paste, or none yet; `action` is Sign out or Sign in; `age` is the
+   * full freshness line ("pasted · 45h 01m ago"), which the phone bar shortens to "45h".
+   */
+  save?: { kind: MenuSaveKind; action: ReactNode | null; age?: ReactNode };
   /** The paste box, opened by "Paste a save instead". Null: no paste here (it is the page already). */
   paste?: ReactNode | null;
   /** The Look section's rows (Theme, Times, Back in). */
@@ -81,6 +84,7 @@ function YourSave({ save, paste }: { save: NonNullable<HeaderMenuProps['save']>;
             {save.kind === 'live' ? <span className="n-fresh" aria-hidden="true" /> : <Pip />}
             {line}
           </span>
+          {save.age ? <span className="n-save-tile__age">{save.age}</span> : null}
           <span className="n-save-tile__hint">{hint}</span>
         </div>
         {save.action ? <div className="n-save-tile__action">{save.action}</div> : null}

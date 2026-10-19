@@ -104,6 +104,28 @@ function Crest({ stage }: { stage: NonNullable<HeaderProps['stage']> }) {
   );
 }
 
+/**
+ * The phone bar's compact age (M24 fix): the largest unit only, "45h 01m ago" -> "45h", "6m ago" ->
+ * "6m", so the 390 px bar never overflows; the full line is in the menu's Your save row.
+ */
+export const compactAge = (age: string): string => {
+  const first = age.replace(/ ago$/, '').split(' ')[0] ?? '';
+  return /\d/.test(first) ? first : age.replace(/ ago$/, '');
+};
+
+/** The full freshness line ("pasted · 45h 01m ago"), ticking, for the ••• menu's Your save row. */
+export function SaveAgeLine({ save }: { save: HeaderSave | null }) {
+  const now = useNow();
+  const saved = save?.state.account.lastCloudSave ?? null;
+  if (save === null || saved === null) return null;
+  const age = ago(saved, now);
+  return (
+    <span className="num">
+      {save.tag === 'last-good' ? W.lastGood(age) : save.source === 'paste' ? W.pasted(age) : W.read(age)}
+    </span>
+  );
+}
+
 /** The save's freshness: "saved 3m ago", "pasted · 5m ago", "last good save · 3h 02m ago". */
 function SaveAge({
   save,
@@ -122,7 +144,10 @@ function SaveAge({
     return (
       <span className="n-agechip is-warn">
         <Pip tone="gold" />
-        {connection}
+        <span className="n-long">{connection}</span>
+        <span className="n-short" aria-hidden="true">
+          {online ? W.reconnecting : W.offlineShort}
+        </span>
       </span>
     );
   if (save === null || saved === null) return <span className="n-agechip">{W.noSave}</span>;
@@ -139,7 +164,10 @@ function SaveAge({
         <span className="n-fresh" aria-hidden="true" />
       )}
       <span className="num n-long">{text}</span>
-      {save.tag === 'last-good' ? null : <span className="num n-short">{age}</span>}
+      {/* Phone: the pip and a compact age; the full line stays for screen readers (n-long). */}
+      <span className="num n-short" aria-hidden="true">
+        {compactAge(age)}
+      </span>
     </span>
   );
 }
