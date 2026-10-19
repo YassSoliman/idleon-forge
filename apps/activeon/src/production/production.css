@@ -419,3 +419,16 @@ dt.ar-mat {
 .pp-char__h a {
   color: inherit;
 }
+@media (max-width: 599px) {
+  /* The value chip drops under the words on a phone (board, phone 390), so the why keeps its width. */
+  .pp-row__main,
+  .pp-acct__row {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+  }
+  .pp-row__main > .pp-chip,
+  .pp-acct__row > .pp-chip {
+    grid-column: 2;
+    justify-self: start;
+  }
+}
