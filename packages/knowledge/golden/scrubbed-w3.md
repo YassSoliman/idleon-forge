@@ -1,4 +1,4 @@
-# golden v1: scrubbed-w3 · knowledge #ee299434 · parser 6c37e3d (game 2.3.540) · now 2026-10-17T16:12:33.140Z · return 8h · stage W3-early · stale: 4 of 1003
+# golden v1: scrubbed-w3 · knowledge #9761de04 · parser 6c37e3d (game 2.3.540) · now 2026-10-17T16:12:33.140Z · return 8h · stage W3-early · stale: 4 of 1003
 
 ## Verdict changes
 
@@ -56,7 +56,7 @@ purpose: Mining 29 → 40 opens Echoing Egress
 - Grow · Pay for the Death Note's first level: Refine 10 Explosive Salts for the Death Note's first level (have 0) [IdleOn Wiki: Construction · Calculated by IdleOn Toolbox · 2.3.540]
 - Extra · Claim the free Pet Mart gems: Claim today's free Pet Mart gems [IdleOn Wiki: Daily Checklist · Calculated by IdleOn Toolbox · 2.3.540]
 - Spend · Play a round of Darts: Play one round of Darts [IdleOn Wiki: Minigames, Throwy Darts · Calculated by IdleOn Toolbox · 2.3.540]
-show more (32)
+show more (31)
 Spend coins: 15 buys now on 4 characters
   1. Buy Duplicate Entries (Vault) on Bowman Lv 60 before redeeming tickets: 100M coins · Lv 0 → 1 · buy · total 100M coins on C3
   2. Raise the Lil' Mining Baggy Stamp cap, then buy Lv 10→20 on Bowman Lv 60: about 13k coins · buy · total 100M coins on C3
@@ -111,7 +111,7 @@ W0 · Daily tasks · Nothing to fix · Nothing to fix
 W0 · Guild tasks · Nothing to fix · Nothing to fix
 W1 · Stamps · Behind · Behind for your Stage · 7 to do
 W1 · Star Signs · Nothing to fix · Nothing to fix · 2 to do
-W1 · Anvil · Behind · Behind for your Stage · 2 to do · 6 full · collect
+W1 · Anvil · Behind · Behind for your Stage · 1 to do · 6 full · collect
 W1 · Forge · Not covered yet · Not covered yet
 W1 · Bribes · Not covered yet · Not covered yet · in the Spend Plan
 W1 · Statues · Not covered yet · Not covered yet · in the Spend Plan
@@ -466,8 +466,7 @@ Locked: smoker (Opens at Smoker)
 | anvil.check.caps-before-return | anvil/caps-before-return | C5 | fires | fromEmpty=20337884 fullIn=0 product=Thread |
 | anvil.check.caps-before-return | anvil/caps-before-return | C6 | fires | fromEmpty=9607482 fullIn=0 product=Thread |
 | anvil.check.fill-time | anvil/fill-time | — | silent |  |
-| anvil.check.respec | anvil/respec | C1 | fires | capacity=23 morePct=30 speed=7 times=1.3 |
-| anvil.check.respec | anvil/respec | account | fires | count=1 hours=8 mixedPct=1 morePct=30 startWith= times=1.3 |
+| anvil.check.respec | anvil/respec | — | silent |  |
 | anvil.check.spend-points | anvil/points | C3 | fires | capacity=0 points=3 speed=3 |
 | anvil.check.spend-points | anvil/points | account | fires | class=Bowman count=1 hours=8 level=60 oneSpeed=1 |
 | arcade.check.balls-cap | arcade/balls-cap | account | pass |  |
