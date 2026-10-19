@@ -1,4 +1,4 @@
-// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1.
+// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 3e14ee1dec06800dd5357337f9dc1b347f7a2f58.
 // Copyright (C) Morta1 and IdleOn Toolbox contributors. GPL-3.0-only; see vendor/LICENSE.
 // Copied unmodified by IdleOn Forge's scripts/sync.sh; UI-coupled imports are redirected to shims/ at build time.
 import { growth, tryToParse } from '@utility/helpers';
@@ -312,7 +312,7 @@ export interface SaltBalance {
   maxSafeRank: number;
   saltMaxSafeRank: number;
   printerLimits: PrinterLimit[];
-  limitedBy: { rawName: string; name: string; isPrinter: boolean } | null;
+  limitedBy: { rawName: string; name: string; isPrinter: boolean; active?: boolean } | null;
 }
 
 export interface PrinterLimit {
@@ -362,7 +362,8 @@ export const getSaltsBalance = (account: Account, characters: any[], precomputed
     if (unlocked) {
       // Per cycle, not via the per-hour rate: the round trip turns an exact 8 into 7.999... and
       // rejects a rank whose cost lands exactly on the previous salt's output.
-      const allowedCostPerCycle = (previous?.outputPerHour ?? 0) > 0
+      // Assumes the previous salt is turned on: a feeder toggled off would otherwise cap this at 0.
+      const allowedCostPerCycle = previous?.unlocked
         ? getPowerPerCycle(salts?.[index - 1]?.rank, account) * cycleTime / getSaltCycleTime(index - 1, cycleTimes)
         : 0;
       saltMaxSafeRank = previousCost
@@ -392,7 +393,7 @@ export const getSaltsBalance = (account: Account, characters: any[], precomputed
     const limitedBy = tightestPrinter && tightestPrinter.maxRank < saltMaxSafeRank
       ? { rawName: tightestPrinter.rawName, name: tightestPrinter.name, isPrinter: true }
       : previousCost
-        ? { rawName: previousSalt?.rawName, name: previousSalt?.saltName, isPrinter: false }
+        ? { rawName: previousSalt?.rawName, name: previousSalt?.saltName, isPrinter: false, active: !!previousSalt?.active }
         : null;
 
     return [...res, {

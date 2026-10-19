@@ -1,4 +1,4 @@
-// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1.
+// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 3e14ee1dec06800dd5357337f9dc1b347f7a2f58.
 // Copyright (C) Morta1 and IdleOn Toolbox contributors. GPL-3.0-only; see vendor/LICENSE.
 // Copied unmodified by IdleOn Forge's scripts/sync.sh; UI-coupled imports are redirected to shims/ at build time.
 import { getRawShopItems } from '@parsers/shops';
@@ -631,7 +631,12 @@ export const baseTrackers = {
           {
             name: 'idleGuards',
             checked: true,
-            helperText: 'Alert when an outpost has Guards whose range it does not need. Guards only add range, so they could be Traders or Surveyors and earn rank EXP instead. Also lists Guards that only reach an empty resource: swapping them drops that connection, so rewire it after the daily reset'
+            helperText: 'Alert when an outpost has Guards whose range it does not need. Guards only add range, so they could be Traders or Surveyors and earn rank EXP instead'
+          },
+          {
+            name: 'parkedGuards',
+            checked: false,
+            helperText: 'Alert when an outpost has Guards that only reach an empty resource, so they could be Traders or Surveyors until the daily reset. Swapping them drops that connection, so it has to be rewired after every reset'
           },
           {
             name: 'sharedNodes',
@@ -780,15 +785,45 @@ export const baseTrackers = {
         options: [
           { name: 'claimableMissions', checked: true, helperText: 'Alert when a Menagerie mission is ready to claim' },
           { name: 'affordableUnlocks', checked: true, helperText: 'Alert when you can afford a Menagerie unlock' },
+          { name: 'lumiBoost', checked: true, helperText: 'Alert when you can afford the Lumi/hr boost' },
+          { name: 'missionBoost', checked: true, helperText: 'Alert when you can afford the extra missions boost' },
           {
             name: 'affordableBoosts',
             checked: false,
             helperText: 'Alert when you can afford a Menagerie boost level'
           },
           {
-            name: 'unusedDoublers',
+            name: 'pinkJelly',
+            type: 'input',
             checked: true,
-            helperText: 'Alert when you have doublers, Black Stars, Organic Labels or Omnijade left to place'
+            helperText: 'Alert when you can afford a Pink jelly upgrade with your coins',
+            props: { label: 'Max coin spend', value: 25, minValue: 1, maxValue: 100, endAdornment: '%', helperText: '' }
+          },
+          { name: 'blueJelly', checked: true, helperText: 'Alert when you have ladles to give the Blue jelly' },
+          {
+            name: 'redJelly',
+            type: 'input',
+            checked: true,
+            helperText: 'Alert when the Red jelly reading multi reaches this value',
+            props: { label: 'Reading multi', value: 2, minValue: 1, endAdornment: 'x', helperText: '' }
+          },
+          { name: 'silverJelly', checked: true, helperText: 'Alert when you can afford a Silver jelly upgrade with Obol Fragments' },
+          { name: 'yellowJelly', checked: true, helperText: 'Alert when a Yellow jelly construction purchase is ready' },
+          {
+            name: 'unusedDoublers',
+            type: 'array',
+            checked: true,
+            helperText: 'Alert when you have doublers, Black Stars, Organic Labels or Omnijade left to place',
+            props: {
+              value: {
+                blackStars: true,
+                organicLabels: true,
+                minehead: true,
+                sushi: true,
+                jellyOperator: true,
+                omnijade: true
+              }
+            }
           }
         ]
       },

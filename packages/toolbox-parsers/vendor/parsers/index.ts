@@ -1,4 +1,4 @@
-// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1.
+// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 3e14ee1dec06800dd5357337f9dc1b347f7a2f58.
 // Copyright (C) Morta1 and IdleOn Toolbox contributors. GPL-3.0-only; see vendor/LICENSE.
 // Copied unmodified by IdleOn Forge's scripts/sync.sh; UI-coupled imports are redirected to shims/ at build time.
 import {
@@ -374,7 +374,7 @@ const serializeData = (idleonData: IdleonData, serverVars: ServerVars, staticDat
   accountData.coralReef = safeSection<any>('coralReef', {}, () => getCoralReef(idleonData, accountData, charactersData));
   accountData.clamWork = safeSection<any>('clamWork', {}, () => getClamWork(idleonData, accountData));
   accountData.minehead = safeSection<any>('minehead', {}, () => getMinehead(idleonData, accountData, serverVars));
-  accountData.tournament = safeSection<any>('tournament', {}, () => getTournament(idleonData, accountData, staticData.tournamentServerData));
+  accountData.tournament = safeSection<any>('tournament', {}, () => getTournament(idleonData, accountData, staticData.tournamentServerData, serverVars));
   accountData.research = safeSection<any>('research', {}, () => getResearch(idleonData, accountData, charactersData, serverVars));
   accountData.button = safeSection<any>('button', {}, () => getButton(accountData, charactersData));
   accountData.sushiStation = safeSection<any>('sushiStation', {}, () => getSushiStation(idleonData, accountData));

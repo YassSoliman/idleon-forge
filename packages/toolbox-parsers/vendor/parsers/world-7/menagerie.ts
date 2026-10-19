@@ -1,8 +1,8 @@
-// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1.
+// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 3e14ee1dec06800dd5357337f9dc1b347f7a2f58.
 // Copyright (C) Morta1 and IdleOn Toolbox contributors. GPL-3.0-only; see vendor/LICENSE.
 // Copied unmodified by IdleOn Forge's scripts/sync.sh; UI-coupled imports are redirected to shims/ at build time.
 import { commaNotation, lavaLog, notateNumber, tryToParse } from '@utility/helpers';
-import { gameTables, research as researchData, spelunkingChapters } from '@website-data';
+import { gameTables, legendTalents as legendTalentsData, research as researchData, spelunkingChapters } from '@website-data';
 import { isBundlePurchased, isCompanionBonusActive } from '@parsers/misc';
 import { getResearchGridBonus } from '@parsers/world-7/research';
 import { getJadeEmporiumBonus } from '@parsers/world-6/sneaking';
@@ -61,6 +61,23 @@ const CONST_BUILD_BONUS_PER_LEVEL: number[] = gameTables.menagerieConstBuildBonu
 // the game notates as bits (NotateNumber(10^req, "Bits"))
 const LOG_MISSIONS = [20, 24];
 const BITS_MISSION = 24;
+
+// game: "Thingies:LegendTalent_MaxLV" a flat +bonus to these legend talents once the unlock is owned
+export const MENAGERIE_LEGEND_TALENT_GROUPS: { indices: Set<number>; unlockIndex: number; bonus: number }[] =
+  ((gameTables as any).legendTalentMaxLevelGroups ?? [])
+    .filter(({ menagerieUnlock }: any) => menagerieUnlock != null)
+    .map(({ talents, menagerieUnlock, bonus }: any) => ({
+      indices: new Set<number>(talents),
+      unlockIndex: menagerieUnlock,
+      bonus: Number(bonus) || 0
+    }));
+
+const getLegendTalentsTooltip = (unlockIndex: number): string => MENAGERIE_LEGEND_TALENT_GROUPS
+  .filter((group) => group.unlockIndex === unlockIndex)
+  .map(({ indices, bonus }) => `+${bonus} max level to: ${[...indices]
+    .map((index) => formatText((legendTalentsData as any)?.[index]?.name))
+    .join(', ')}`)
+  .join('\n');
 
 const num = (value: any) => Number(value) || 0;
 const parseRaw = (value: any) => tryToParse(value) || value;
@@ -354,13 +371,22 @@ export const getMenagerie = (idleonData: any, account: any, dropRate: number = 1
   const missions = missionTexts.map((_, index) => {
     const cost = getMenagerieCost(account, 0, index);
     const current = progress?.[index] ?? null;
+    const claims = num(save?.[MISSION_CLAIMS]?.[index]);
+    const increment = missionReqIncrement?.[index] ?? 0;
+    // Claiming adds 1 shell and raises the requirement by the increment without spending progress,
+    // so every requirement step the progress already covers is one more claim
+    const claimable = current === null || current < cost ? 0 : increment > 0
+      ? Math.max(0, Math.floor((current - (missionBaseReq?.[index] ?? 0)) / increment) + 1 - claims)
+      : 1;
     return {
       index,
       name: formatText(missionShortNames?.[index]),
       description: formatMissionText(index, cost),
-      claims: num(save?.[MISSION_CLAIMS]?.[index]),
+      claims,
       progress: current,
       requirement: cost,
+      increment,
+      claimable,
       isLogScale: LOG_MISSIONS.includes(index),
       isBits: index === BITS_MISSION,
       // game: "MenagerieStuff:CanClaim" type 0
@@ -373,7 +399,9 @@ export const getMenagerie = (idleonData: any, account: any, dropRate: number = 1
   const unlocks = unlockNames.map((name, index) => {
     const cost = getMenagerieCost(account, 1, index);
     const owned = isMenagerieUnlockOwned(account, index);
-    const tooltip = String(name ?? '').includes(TOOLTIP_MARK) ? formatText(unlockTooltips?.[index]) : '';
+    const tooltip = String(name ?? '').includes(TOOLTIP_MARK)
+      ? formatText(unlockTooltips?.[index])
+      : getLegendTalentsTooltip(index);
     return {
       index,
       // game: "1 in $" fills max(1, 1 / (Drop_Rarity * OmegaArcBallChance))
@@ -447,7 +475,8 @@ export const getMenagerie = (idleonData: any, account: any, dropRate: number = 1
       // game: "MenagerieStuff:ConstBuildREQ"
       requirement: 1e5 * Math.pow(Math.max(3.2, 8 - 0.15 * constTotal), constTotal),
       progress: getScalar(account, 15),
-      bonuses: constLevels.map((_, index) => getMenagerieConstBuildBonus(account, index))
+      bonuses: constLevels.map((_, index) => getMenagerieConstBuildBonus(account, index)),
+      perLevel: constLevels.map((_, index) => CONST_BUILD_BONUS_PER_LEVEL?.[index] ?? 0)
     },
     // game: ActorEvents_672 Click, jelly 6 claims the Top 0.01% Tome nametag once 12 Top 0.1% nametags are turned in (Spelunk[17][28])
     green: {
