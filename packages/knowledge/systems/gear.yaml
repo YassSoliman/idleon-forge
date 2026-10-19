@@ -231,6 +231,8 @@ entries:
       why-none: "It covers Worlds 1-3; every piece it names is worn or out of reach."
       detail-also: "with {n:int} others: see Craft {k:int} {plural}"
       detail-also-one: "with 1 other: see Craft {k:int} {plural}"
+      detail-also-other: "Also a {item}, with {n:int} others: see Craft {k:int} {plural}"
+      detail-also-other-one: "Also a {item}, with 1 other: see Craft {k:int} {plural}"
       detail-also-label: "Craft {k:int} {plural}"
       shared: "Craft {k:int} {plural}"
       detail-shared: "{who} need one each; you hold enough for {enough}"

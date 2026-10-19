@@ -32,7 +32,7 @@ import { Meter } from '../design/atoms/Meter';
 import { VerdictStamp } from '../design/atoms/Pill';
 import { EmptyState } from '../design/atoms/States';
 import { span } from '../design/format';
-import { Loading } from '../lazy-part';
+import { Loading, lazyPart } from '../lazy-part';
 import { NOW_TAB, tabById, tabHref } from './character-tabs';
 import { ModalSheet as Sheet } from './chrome/ModalSheet';
 import { useNowActions } from './context';
@@ -49,6 +49,12 @@ import {
 import { characterStates } from './place/derive';
 import { NOW_PLACE_WORDS } from './place/words';
 import '../characters/now-tab.css';
+
+/** M26 F-C: the character's Production Plan, its own lazy chunk (the main chunk carries only this line). */
+const PlanSection = lazyPart(
+  () => import('../production/PlanSection'),
+  (m) => m.PlanSection,
+);
 
 export interface FocusProps {
   card: FocusCard;
@@ -420,6 +426,11 @@ export function Focus({
               ) : null}
 
               <BetterFit card={card} />
+
+              {/* M26 F-C: what this character's producers should make now (a lazy chunk). */}
+              <Suspense fallback={null}>
+                <PlanSection index={card.index} />
+              </Suspense>
 
               {card.activePlay.length > 0 ? (
                 <section aria-label={FOCUS_WORDS.ifYouHaveTime} className="n-extra">

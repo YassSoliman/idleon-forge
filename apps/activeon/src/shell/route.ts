@@ -13,6 +13,7 @@
 //   #map                 the Map (M21; opens Now until the Map place exists, `known.map`)
 //   #map-<mapIndex>      the Map with that map's sheet open; an unknown index opens #map, no sheet
 //   #spend, #goals       M24: the Spend Plan page and the Goals page (they belong to Now)
+//   #production          M26 F-C: the Production Plan page (it belongs to Now)
 // Legacy `?c=<i>` links are read once and rewritten (D-2). Anything unknown opens Now and leaves the
 // URL as it was, so M10's in-page anchors (#spend-plan) still scroll. Pure and total.
 
@@ -27,7 +28,7 @@ export type Route =
   | { place: 'account'; page: AccountPage };
 
 /** M24: the account's own pages, reached from Now (the Spend Plan, the Goals list). */
-export type AccountPage = 'spend' | 'goals';
+export type AccountPage = 'spend' | 'goals' | 'production';
 
 /** The places of the shell (FR-1, M21 FR-M6); a Character page or a System page belongs to one of them. */
 export type Place = 'now' | 'characters' | 'systems' | 'timeline' | 'map';
@@ -55,7 +56,7 @@ const TIMELINE_SECTION_RE = /^#(daily|slots)$/;
 /** Checked before TAB_RE, which `#map-3` would otherwise match as a tab named "map" (RT-27). */
 const MAP_RE = /^#map-(\d+)$/;
 const SECTION_RE = /^#(builds|cards|skills)$/;
-const ACCOUNT_RE = /^#(spend|goals)$/;
+const ACCOUNT_RE = /^#(spend|goals|production)$/;
 const SYSTEM_RE = /^#system-([a-z0-9-]+)(?:\?(.*))?$/;
 /** A tab id or a focus key: letters, digits, `-` and `_` only (M26 FR-C2). */
 const KEY_RE = /^[A-Za-z0-9_-]{1,64}$/;
@@ -98,7 +99,8 @@ export function routeOfHash(hash: string, known: KnownRoutes): Route {
     return { place: 'map', mapIndex: known.maps.includes(mapIndex) ? mapIndex : null };
   }
   const account = ACCOUNT_RE.exec(hash)?.[1];
-  if (account === 'spend' || account === 'goals') return { place: 'account', page: account };
+  if (account === 'spend' || account === 'goals' || account === 'production')
+    return { place: 'account', page: account };
   const section = SECTION_RE.exec(hash)?.[1];
   if (section === 'builds' || section === 'cards' || section === 'skills')
     return { place: 'characters', section };

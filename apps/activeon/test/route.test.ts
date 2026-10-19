@@ -38,6 +38,9 @@ describe('parseRoute (FR-7)', () => {
     expect(r('#goals').route).toEqual({ place: 'account', page: 'goals' });
     expect(formatRoute({ place: 'account', page: 'spend' })).toBe('#spend');
     expect(placeOf({ place: 'account', page: 'goals' })).toBe('now');
+    // M26 F-C: the Production Plan page.
+    expect(r('#production').route).toEqual({ place: 'account', page: 'production' });
+    expect(formatRoute({ place: 'account', page: 'production' })).toBe('#production');
   });
 
   it('M26 FR-C2: a System page with a tab and a focused row, round-tripping; junk params are dropped', () => {
