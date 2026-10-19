@@ -36,6 +36,8 @@
   );
 }
 .a-sheet:has(.wn-scroll) .a-sheet__title {
+  flex: 1 1 0;
+  min-width: 0;
   color: var(--wn-ink);
   font-size: 28px;
 }
