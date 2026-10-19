@@ -1,0 +1,157 @@
+# SPDX-License-Identifier: GPL-3.0-only
+# M26 W4 synthesis: KB drafts copied from scratchpad/m26/maps/breeding.json (facts). status: draft.
+# Target file: packages/knowledge/systems/breeding.facts.yaml (new; replaces engine/src/world4/facts.ts UPGRADE_FACTS and extends ARENA_WAVES)
+system: breeding
+facts:
+- id: breeding.fact.upgrades
+  system: breeding
+  origin: authored
+  title: Breeding upgrades
+  notes: "Game indices (Breeding[2][i]); opensAt = 5i + 5*max(0, i-6) (C23); costs: DNA = baseMatCost*(1+L)*costMatScale^L, meal = baseCost*(1+L)*costScale^L from shared-data petUpgrades (C21), computed\
+    \ in the adapter, not stored here. CI: names, max levels and foodIndex equal Toolbox petUpgrades. Paint Bucket: in-game text and wiki say +2% shiny chance per level; N.js v1.23 never reads it (C36,\
+    \ H); both views recorded, re-verify each sync."
+  rows:
+    upgrades:
+    - index: 1
+      name: Gene Splicing
+      opensAt: 1
+      max: 20
+      meal: Turkey of Thank
+      effect: -4% gene-boost cost per level
+    - index: 2
+      name: Egg Capacity
+      opensAt: 5
+      max: 5
+      meal: Pie
+      effect: +1 nest slot per level
+    - index: 3
+      name: Breedability Mobs
+      opensAt: 10
+      max: 10
+      meal: Corn
+      effect: +25% Breedability speed; level 1 switches on the 2nd multiplier and pink Mobs
+    - index: 4
+      name: Fence Extension
+      opensAt: 15
+      max: 10
+      meal: Pancakes
+      effect: +1 Fence Yard slot
+    - index: 5
+      name: Rarity of the Egg
+      opensAt: 20
+      max: 10
+      meal: Potato P Pastry
+      effect: egg rank-up x(1+0.25 per level); level 1 switches on the 3rd multiplier
+    - index: 6
+      name: Blooming Axe
+      opensAt: 25
+      max: 10
+      meal: Cannoli
+      effect: +6% Mob damage
+    - index: 7
+      name: Pastpresent Brood
+      opensAt: 30
+      max: 5
+      meal: Wild Boar
+      effect: 4th multiplier factor 1+0.15 per level; level 1 switches it on
+    - index: 8
+      name: Paint Bucket
+      opensAt: 40
+      max: 100
+      meal: Orange
+      effect: level 1 opens Shiny Mobs; higher levels do not change shiny odds (C36)
+    - index: 9
+      name: Overwhelmed Golden Egg
+      opensAt: 50
+      max: 20
+      meal: Pretzel
+      effect: new-Mob chance x(1+0.02 per level) per 100 kitchen levels
+    - index: 10
+      name: Failsafe Restitution Cloud
+      opensAt: 60
+      max: 25
+      meal: Eel
+      effect: +10 max fail stacks; level 1 switches on the 5th multiplier
+    - index: 11
+      name: Shattershell Iteration
+      opensAt: 70
+      max: 10
+      meal: Buncha Banana
+      effect: ceil(12 x level^0.698)% chance of two free eggs
+    - index: 12
+      name: Grand Martial of Shinytown
+      opensAt: 80
+      max: 300
+      meal: Bill Jack Pep
+      effect: +5% shiny level-up rate
+  status: draft
+  sources:
+  - url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json"
+    title: Toolbox website-data shared-data.json (petUpgrades, territory, arenaBonuses)
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+  - url: "https://legendsofidleon.com/ytGl5oc/N.js"
+    title: "Game client N.js v1.23 PetUpgBONUS @7934774 / PetUpgMaxLV @7934216 / PetUpgCostREAL @7933898: upgrade effects, max levels, costs"
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+    notes: local copy in the M26 scratchpad; Last-Modified 2026-10-17
+  - url: "https://legendsofidleon.com/ytGl5oc/N.js"
+    title: "Game client N.js v1.23 @9881200: unlock-level formula"
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+    notes: local copy in the M26 scratchpad; Last-Modified 2026-10-17
+  - url: "https://idleon.wiki/wiki/Breeding"
+    title: "IdleOn Wiki: Breeding"
+    tier: 3
+    claimDate: '2026-10-14'
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+- id: breeding.fact.arena-waves
+  system: breeding
+  origin: authored
+  title: Mob Arena wave bonuses
+  rows:
+    waves:
+    - wave: 2
+      what: 3rd battle slot
+    - wave: 5
+      what: +25% Library VIP
+    - wave: 8
+      what: 1.2x Total Damage
+    - wave: 12
+      what: Post Office crate
+    - wave: 15
+      what: 4th battle slot
+    - wave: 20
+      what: 1.5x monster cash
+    - wave: 25
+      what: Post Office crate
+    - wave: 35
+      what: kitchen upgrades half price
+    - wave: 50
+      what: 5th battle slot
+    - wave: 65
+      what: Post Office crate
+    - wave: 80
+      what: +60% Library VIP
+    - wave: 100
+      what: 3rd large Alchemy bubble
+    - wave: 125
+      what: 6th battle slot
+    - wave: 150
+      what: +20% Lab line width
+    - wave: 175
+      what: 2x monster cash
+    - wave: 200
+      what: 1.4x Total Damage
+  notes: "C53. CI: waves equal Toolbox shared-data arenaBonuses (type arena)."
+  status: draft
+  sources:
+  - url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json"
+    title: Toolbox website-data shared-data.json (petUpgrades, territory, arenaBonuses)
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540

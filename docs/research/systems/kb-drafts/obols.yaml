@@ -1,0 +1,378 @@
+# SPDX-License-Identifier: GPL-3.0-only
+# M26 KB drafts for System obols (area W2 synthesis, verified 2026-10-19, Toolbox 6c37e3d, game 2.3.540).
+# Copied from scratchpad/m26/maps: obols.json.
+# status: draft is a workflow marker; the KB schema accepts active|contested|retired only.
+# entries = new entries; amendments = changes to entries already in packages/knowledge/systems (fields shown are the changed keys);
+# facts = new fact rows (land in <system>.facts.yaml).
+system: obols
+status: draft
+entries:
+- id: obols.check.swap-better
+  system: obols
+  type: check
+  title: Swap in a better obol
+  subject: account
+  effect: next-action
+  category: compounding
+  effortSeconds: 60
+  detector:
+    id: obols/swap
+  text: Swap the {stored} from storage in for the {equipped} on {where}
+  why: It has at least as much of every stat the {equipped} gives and more of {better}, so the swap only adds.
+  values:
+    groupText: Swap {count:int} stored obols in for weaker ones
+    detailText: '{where}: {equipped} → {stored}'
+    maxDetails: 3
+  appliesTo:
+    stages:
+    - from: W2-early
+      to: W4-entry
+  confidence: H
+  status: draft
+  notes: 'Fires only for strict dominance on the same shape: every summed line of the equipped obol (final stats, rerolls
+    included) <= the stored obol''s catalogue line, one strictly greater. Stored obols are compared at base stats (their reroll
+    maps are not parsed), so a rerolled stored obol is under-rated, never over-rated. Family slots first. No stat-type judgment
+    (that would be L).'
+  sources:
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/obols.ts#L60-L78
+    title: 'Toolbox: obol stats summed, positive only'
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/items.json
+    title: 'Toolbox game data: obol item stats and typeGen shapes'
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  - url: https://idleon.wiki/wiki/Obols
+    title: 'IdleOn Wiki: Obols'
+    tier: 3
+    claimDate: 2026-10-07
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+- id: obols.check.main-stat
+  system: obols
+  type: check
+  title: Main-stat obols on each character
+  subject: character
+  effect: next-action
+  category: compounding
+  needsCharacter: true
+  effortSeconds: 60
+  detector:
+    id: obols/main-stat
+  text: Put the stored {stored} on {who} in place of the {equipped}
+  why: '{class} uses {stat}; the {equipped} gives {offStat}, which does less for this character.'
+  appliesTo:
+    stages:
+    - from: W2-early
+      to: W4-entry
+  confidence: M
+  status: draft
+  notes: 'Only pure stat obols (lines only in STR/AGI/WIS/LUK). Fires when a personal slot holds an off-stat one and a stored
+    obol of the same shape has the character''s main stat (Toolbox mainStatMap) at >= that obol''s value. Dossier per-class
+    rule: Warrior STR, Archer AGI, Mage WIS, Journeyman/Beginner LUK. M: LUK also feeds drop rate, so off-stat LUK on a farmer
+    is never flagged.'
+  sources:
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/talents.ts#L87
+    title: 'Toolbox: mainStatMap (class -> main stat)'
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/items.json
+    title: 'Toolbox game data: stat obols (Bronze 1 ... Dementia 12)'
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  - url: https://idleon.wiki/wiki/Obols
+    title: 'IdleOn Wiki: Obols'
+    tier: 3
+    claimDate: 2026-10-07
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+- id: obols.goal.reroll-dr
+  system: obols
+  type: goal
+  title: Reroll a drop-rate obol
+  scope: account
+  category: nice
+  unit: rerolled drop-rate obols
+  progress:
+    id: obols/reroll
+  text: Reroll the {obol} in {where} for a chance at +1 drop rate ({frags:int} fragments, {coins} coins)
+  why: A reroll costs little at Bronze and Silver; about 1 reroll in 6 or 7 lands +1 on the drop-rate line, and combining
+    keeps the left obol's rerolls.
+  values:
+    maxDetails: 2
+  appliesTo:
+    stages:
+    - from: W2-mid
+      to: W4-entry
+  confidence: M
+  status: draft
+  notes: 'Two views recorded: wiki ''reroll only high rarity'' vs r/idleon ''reroll fresh drops first''; the client cost (C31
+    H) and pass chain (C33 M) make low-rarity rerolls cheap, so the cheapest equipped non-rerolled %_DROP_RATE obol is picked.
+    Silent when fragments < cost. ''Rerolled'' = Toolbox flag (any bonus > 0, C62). Idleon Academy ''skip Obols early'' (tier
+    4, 2025-09-23) is why this starts at W2-mid. The ''left obol carries'' clause rests on C36 (L): keep it in why only as
+    ''combining keeps the left obol''s rerolls'' and drop it if contested.'
+  sources:
+  - url: https://www.legendsofidleon.com/ytGl5oc/N.js
+    title: 'Game client N.js v1.23 @4084680: ObolRerollCostMoney / ObolRerollCostFrag'
+    tier: 1
+    claimDate: 2026-10-17
+    verified: 2026-10-19
+    note: N.js-only claims sit at L in the dossier (not re-checked by both verifiers)
+  - url: https://www.legendsofidleon.com/ytGl5oc/N.js
+    title: 'Game client N.js v1.23 @6752045-@6755528: reroll pass chain'
+    tier: 1
+    claimDate: 2026-10-17
+    verified: 2026-10-19
+    note: N.js-only claims sit at L in the dossier (not re-checked by both verifiers)
+  - url: https://idleon.wiki/wiki/Obols
+    title: 'IdleOn Wiki: Obols'
+    tier: 3
+    claimDate: 2026-10-07
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  - url: https://reddit.com/r/idleon/comments/1o2djl4/when_should_i_start_obol_farming/
+    title: 'r/idleon: reroll a fresh drop first, upgraded/rerolled on the left'
+    tier: 4
+    claimDate: 2025-10-09
+    verified: 2026-10-19
+- id: obols.goal.combine
+  system: obols
+  type: goal
+  title: Combine a pair of obols
+  scope: account
+  category: nice
+  unit: combinable pairs
+  progress:
+    id: obols/combine
+  text: Combine your two {obol} into a {next} ({odds:int}% a try, {frags:int} fragments, {coins} coins)
+  why: Two identical obols can become one of the next rarity{shapeNote}.
+  values:
+    shapeNote-change: ; it becomes a {shape}, and you have a {shape} slot for it
+    maxDetails: 2
+  appliesTo:
+    stages:
+    - from: W2-mid
+      to: W4-entry
+  confidence: M
+  status: draft
+  notes: 'Pairs = identical rawName across storage and equipped slots. Odds 1/(4+ID) (C34 M, wiki agrees C65). Cost = 2x reroll
+    (C35 M). Silent when the successor does not exist (Dementia, boss, Hyper: C37 Disputed, wiki lists Dementia 12.5%) or
+    when the result''s shape has neither an open slot nor a weaker obol of that shape (C38 H). Silent while the pair''s shape
+    still has open slots for both (equipping both beats combining). Never claims ''safe'': Bronze/Silver failures can destroy
+    the right obol (C36 L, not stated).'
+  sources:
+  - url: https://www.legendsofidleon.com/ytGl5oc/N.js
+    title: 'Game client N.js v1.23 @6761082-@6762800: combine roll randomInt(1,4+ID), ObolRarities'
+    tier: 1
+    claimDate: 2026-10-17
+    verified: 2026-10-19
+    note: N.js-only claims sit at L in the dossier (not re-checked by both verifiers)
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/items.json
+    title: 'Toolbox game data: successor names and typeGen per rarity'
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  - url: https://idleon.wiki/wiki/Obols
+    title: 'IdleOn Wiki: Obols'
+    tier: 3
+    claimDate: 2026-10-07
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+- id: obols.goal.oh-boy
+  system: obols
+  type: goal
+  title: Obols Oh Boy! (10 Silver obols)
+  scope: account
+  category: nice
+  unit: Silver obols equipped
+  progress:
+    id: obols/achievements
+    params:
+      which: oh-boy
+  milestones:
+  - at: 10
+    reward: +2% Arcade balls/hr
+  text: Equip {left:int} more Silver obols on {who} (family slots count)
+  why: The achievement counts Silver obols equipped at once on one character, family tab included, and pays +2% Arcade balls
+    an hour.
+  appliesTo:
+    stages:
+    - from: W2-early
+      to: W4-entry
+  confidence: H
+  status: draft
+  notes: Progress = max over characters of (Silver obols in personal slots + Silver in family slots). Silent when account.achievements[83].completed.
+    Pick the character with the most.
+  sources:
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/achievements.json
+    title: 'Toolbox game data: achievement 83 Obols Oh Boy!'
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+- id: obols.goal.golden-obolden
+  system: obols
+  type: goal
+  title: Golden Obolden! before you destroy Gold obols
+  scope: account
+  category: nice
+  unit: Gold obols equipped
+  progress:
+    id: obols/achievements
+    params:
+      which: golden
+  milestones:
+  - at: 15
+    reward: +20% Obol Fragments when destroying
+  text: Equip {left:int} more Gold obols on {who} (family slots count)
+  why: With 15 Gold equipped at once, destroying an obol pays 20% more fragments (Gold 9 not 8, Platinum 24 not 20), so keep
+    spare Gold+ obols until then.
+  appliesTo:
+    stages:
+    - from: W3-early
+      to: W4-entry
+  confidence: M
+  status: draft
+  notes: H for the achievement and payout (achievements.json#99, N.js @8331721); M for the 'hold off destroying' advice built
+    on it. Silent when account.achievements[99].completed or the account owns no Gold+ obol.
+  sources:
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/achievements.json
+    title: 'Toolbox game data: achievement 99 Golden Obolden!'
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  - url: https://www.legendsofidleon.com/ytGl5oc/N.js
+    title: 'Game client N.js v1.23 @8331721: destroy payout floor(frags + (1+0.2*A99)*sellPrice)'
+    tier: 1
+    claimDate: 2026-10-17
+    verified: 2026-10-19
+    note: N.js-only claims sit at L in the dossier (not re-checked by both verifiers)
+- id: obols.check.liquid-shop
+  system: obols
+  type: check
+  title: Buy obols from the Liquid Shop
+  subject: account
+  effect: next-action
+  category: spendable
+  effortSeconds: 60
+  detector:
+    id: obols/liquid-shop
+  text: Buy {count:int} {kind} Obols from the Liquid Shop
+  why: Its obol prices reset daily, so the first buys each day are the cheapest obols you can get{fit}.
+  values:
+    fit: ; you have {open:int} open slots to fill
+  appliesTo:
+    stages:
+    - from: W2-early
+      to: W3-late
+  confidence: M
+  status: draft
+  notes: 'BLOCKED on data: the purchase counters (raw CauldronInfo[10]) are not in Toolbox output; until the adapter reads
+    them this entry stays draft and the page shows a static tip. Fires only while open slots exist (free gain). Daily reset
+    is wiki-only (M).'
+  sources:
+  - url: https://www.legendsofidleon.com/ytGl5oc/N.js
+    title: 'Game client N.js v1.23 @6047740: _customEvent_AlchShopPurchase obol cases 0/7/9'
+    tier: 1
+    claimDate: 2026-10-17
+    verified: 2026-10-19
+    note: N.js-only claims sit at L in the dossier (not re-checked by both verifiers)
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json
+    title: 'Toolbox game data: liquidsShop rows'
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  - url: https://idleon.wiki/wiki/Obols
+    title: 'IdleOn Wiki: Obols'
+    tier: 3
+    claimDate: 2026-10-07
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+amendments:
+- amends: obols.check.altar
+  target: obols.yaml
+  targetStatus: active
+  status: draft
+  from: obols
+  change: 'Source tier of https://idleon.wiki/wiki/Obol_Altar from 2 to 3 (ADR 0004: wiki is tier 3); add note ''wiki Amarok
+    gate not in quest data (C5, M)''; verified 2026-10-19.'
+- amends: obols.check.stored
+  target: obols.yaml
+  targetStatus: active
+  status: draft
+  from: obols
+  change: Wiki source tier 2 -> 3; add C27 (Toolbox obols.ts#L60-L78) as tier-1 source for 'any obol beats an empty slot';
+    record Idleon Academy 'skip Obols early' (tier 4) in notes as not contradicting (equipping is free).
+- amends: obols.goal.slots
+  target: obols.yaml
+  targetStatus: active
+  status: draft
+  from: obols
+  change: 'Add a personal Milestone line from the engine''s existing nextPersonal (values.personal: ''{who} Lv {level}: next
+    {shape} slot at Lv {levelReq}''); wiki tier 2 -> 3.'
+facts:
+- id: obols.fact.catalogue
+  system: obols
+  origin: generated
+  title: Obol catalogue
+  rows: 'every items.json entry with typeGen aObol*: rawName, displayName, shape, rarity (Bronze|Silver|Gold|Platinum|Dementia|Boss|Hyper),
+    ID, sellPrice, STR/AGI/WIS/LUK/Weapon_Power/Defence, UQ1txt/UQ1val, UQ2txt/UQ2val, successor, successorShape, combinable'
+  generator: packages/knowledge/generators/obols.gen.ts (extend)
+  sources:
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/items.json
+    title: 'Toolbox game data: items (obols)'
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  status: draft
+- id: obols.fact.costs
+  system: obols
+  origin: generated
+  title: Reroll, combine and destroy costs
+  rows: 'per sellPrice 1/3/8/20/50: rerollFragments ceil(0.8*sell), rerollCoins round(2*(50*sell^1.5)^1.5), combineOdds 1/(4+ID),
+    combineFragments 2x reroll, destroy floor(sell) and floor(1.2*sell)'
+  generator: obols.gen.ts (formula constants authored with N.js source)
+  sources:
+  - url: https://www.legendsofidleon.com/ytGl5oc/N.js
+    title: 'Game client N.js v1.23 @4084680: reroll costs'
+    tier: 1
+    claimDate: 2026-10-17
+    verified: 2026-10-19
+    note: N.js-only claims sit at L in the dossier (not re-checked by both verifiers)
+  - url: https://www.legendsofidleon.com/ytGl5oc/N.js
+    title: 'Game client N.js v1.23 @6761082: combine'
+    tier: 1
+    claimDate: 2026-10-17
+    verified: 2026-10-19
+    note: N.js-only claims sit at L in the dossier (not re-checked by both verifiers)
+  - url: https://www.legendsofidleon.com/ytGl5oc/N.js
+    title: 'Game client N.js v1.23 @8331721: destroy'
+    tier: 1
+    claimDate: 2026-10-17
+    verified: 2026-10-19
+    note: N.js-only claims sit at L in the dossier (not re-checked by both verifiers)
+  status: draft
+- id: obols.fact.storage
+  system: obols
+  origin: authored
+  title: Obol Storage size formula
+  rows: N0 = 5 + ceil(S/4) + G, N1 = 4 + ceil((S-1)/4) + floor(G/2), N2 = 3 + ceil((S-2)/4) + floor(G/3), N3 = 2 + ceil((S-3)/4)
+    + floor(G/3); slots = 4*N
+  confidence: M
+  sources:
+  - url: https://www.legendsofidleon.com/ytGl5oc/N.js
+    title: 'Game client N.js v1.23 @15238396: ObolInvOwn sizing'
+    tier: 1
+    claimDate: 2026-10-17
+    verified: 2026-10-19
+    note: N.js-only claims sit at L in the dossier (not re-checked by both verifiers)
+  - url: https://idleon.wiki/wiki/Obols
+    title: 'IdleOn Wiki: Obols'
+    tier: 3
+    claimDate: 2026-10-07
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  status: draft

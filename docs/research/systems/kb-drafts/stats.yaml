@@ -1,0 +1,165 @@
+# SPDX-License-Identifier: GPL-3.0-only
+# M26 KB drafts for System stats (area AW synthesis, verified 2026-10-19, Toolbox 6c37e3d, game 2.3.540).
+# status: draft is a workflow marker; the KB schema accepts active|contested|retired only.
+# entries = new entries; facts = new fact rows (land in <system>.facts.yaml at merge);
+# amendments = changes to entries already in packages/knowledge/systems (or to other drafts).
+# AW synthesis added: topics stats-damage (maps/<topic>.json).
+system: stats
+status: draft
+entries:
+- id: stats.check.hit-chance-short
+  system: stats
+  type: check
+  title: Misses on its AFK map
+  subject: character
+  effect: next-action
+  category: compounding
+  effortSeconds: 120
+  detector:
+    id: stats/hit-chance-short
+    params:
+      belowHit: 100
+  text: 'Raise accuracy: {hit:int}% hit chance on {map:name}'
+  values:
+    detail-plan: +{plus:int} {stat} reaches {hitAfter:int}% hit and about {gain:pct} more kills/h
+    detail-need: Accuracy {accuracy:int} of {need:int} for every hit
+    detail-levers: Accuracy also comes from the Frost card set, Bullseye and accuracy talents
+  why: This character hits {hit:int}% of the time. Hit chance counts twice in AFK kill time (fewer hits, and each hit lands
+    less often), so the gap costs more than it looks. {stat:name} is this class's accuracy stat.
+  doneWhen:
+    field: characters[*].fighting.hitChance
+    change: higher
+  appliesTo:
+    stages: all
+  confidence: M
+  status: draft
+  notes: 'Rule H: accuracy/Defence ratio, 100% at 1.5x Defence on Monster targets (hit-chance.mjs, damage.ts#L1255); hitChance
+    appears in both the damage-per-attack and the 1/hit term of hourlyKills (damage.ts#L1278-L1287). The plan numbers are
+    Toolbox getMaxDamage on stat clones (ADR 0005, no ActiveOn formula). M, not H: ActiveOn can''t see unspent stat points
+    or respec rules (Q1), so the entry names the stat as one lever among others and never says ''spend N points''. Monster
+    targets only; resource targets (mining ore 34% on the W4 test account) use another curve and are out of scope. Supersedes
+    the pusher-only signal: spend/combat-row-gate and the Frost card swap keep their own rules.'
+  sources:
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/utility/hit-chance.mjs
+    title: IdleOn Toolbox, hitChance and accuracyForHitChance (game HitChancePCT)
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/damage.ts#L1255-L1290
+    title: IdleOn Toolbox, getHitChance and getKillsPerHour
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/damage.ts#L984-L1047
+    title: IdleOn Toolbox, getAccuracy (accuracy stat per main stat)
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+  - url: https://idleon.wiki/wiki/Damage
+    title: 'IdleOn Wiki: Damage (accuracy and hit chance)'
+    tier: 3
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+    note: Hit% = 142.5*Acc/AccReq - 42.5 with AccReq = 1.5x Defence, equivalent to Toolbox's 95r - 42.5 (dossier C41, Disputed
+      details L)
+  fromTopic: stats-damage
+- id: stats.check.points-to-main-stat
+  system: stats
+  type: check
+  title: 'Accuracy to spare: put new stat points in the main stat'
+  subject: character
+  effect: next-action
+  category: nice
+  effortSeconds: 30
+  detector:
+    id: stats/points-to-main-stat
+    params:
+      surplus: 1.5
+  text: Put {class:name} Lv {level:int}'s next stat points in {mainStat:name}
+  values:
+    detail: '{accStat:name} {accValue:int} vs {mainStat:name} {mainValue:int}; accuracy {accuracy:int}, {next:name} needs
+      {need:int}'
+    detail-plan: '+100 {mainStat:name}: max hit {maxAfter:int} ({maxGain:pct} more)'
+  why: '{mainStat:name} is this class''s damage stat: it adds to base damage, to the capped Weapon Power term and to per-X
+    damage. Accuracy already hits every time here and on the next map, so more {accStat:name} adds nothing to kills.'
+  doneWhen:
+    field: characters[*].stats.mainValue
+    change: higher
+  appliesTo:
+    stages: all
+  confidence: M
+  status: draft
+  notes: 'Dossier Min-max C62 (M, code-derived: damageFromStat feeds base, the 150-capped term and per-X ^0.7) with C27 H
+    and C39 H. Community allocation meta not found (Q2), so M. Frames only future points: stats are totals with gear and bonuses
+    (A1) and ActiveOn can''t see unspent points or respec cost (Q1). Gated on fighters with hit 100% on the current map AND
+    accuracy >= surplus x accuracyForHitChance(next door''s monster Defence, 100), so it can never contradict stats.check.hit-chance-short.
+    Silent when the stat snapshot is stale (stats.level < level).'
+  sources:
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/damage.ts#L96-L120
+    title: IdleOn Toolbox, damageFromStat (main stat into damage)
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/damage.ts#L890-L982
+    title: IdleOn Toolbox, base damage incl. the 150 cap
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/talents.ts#L87
+    title: IdleOn Toolbox, mainStatMap
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/utility/hit-chance.mjs
+    title: IdleOn Toolbox, accuracyForHitChance
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+  - url: https://idleon.wiki/wiki/Damage
+    title: 'IdleOn Wiki: Damage'
+    tier: 3
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+  fromTopic: stats-damage
+facts:
+- id: stats.fact.class-stats
+  system: stats
+  origin: generated
+  title: Main stat and accuracy stat per class
+  generator: 'mainStatMap (parsers/talents.ts#L87) x getAccuracy''s accuracyStats (parsers/damage.ts#L986-L993); alsoFeeds
+    authored from dossier M2/M3/M14/M18 (STR: HP, crit damage; AGI: speed, crit chance; WIS: MP, brew speed; LUK: drops, class
+    EXP)'
+  rows: class -> { mainStat, accuracyStat, alsoFeeds[] }
+  sources:
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/talents.ts#L87
+    title: IdleOn Toolbox, mainStatMap
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/damage.ts#L984-L993
+    title: IdleOn Toolbox, getAccuracy
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+  status: draft
+  fromTopic: stats-damage
+- id: stats.fact.thresholds
+  system: stats
+  origin: authored
+  title: Damage and stat thresholds
+  rows: stat 1000 curve switch (C15); every 250 main stat Trione step (C34); WP+stat cap 150 (C27); base softcaps 4k/15k (C26);
+    per-X 100/2e6/1e8 (C32); % 100/2e7/5e8/2e9/1.5e10/6e10 (C35); mastery 80% cap (C38); hit 100% at 1.5x Defence (C40); K
+    1..2.2 (C51)
+  sources:
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/damage.ts
+    title: IdleOn Toolbox, getMaxDamage softcaps and caps
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/misc.ts#L711
+    title: IdleOn Toolbox, getStatCurveValue
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+  status: draft
+  fromTopic: stats-damage

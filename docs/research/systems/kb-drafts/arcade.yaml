@@ -1,0 +1,234 @@
+# SPDX-License-Identifier: GPL-3.0-only
+# M26 KB drafts for System arcade (area W2 synthesis, verified 2026-10-19, Toolbox 6c37e3d, game 2.3.540).
+# Copied from scratchpad/m26/maps: arcade.json.
+# status: draft is a workflow marker; the KB schema accepts active|contested|retired only.
+# entries = new entries; amendments = changes to entries already in packages/knowledge/systems (fields shown are the changed keys);
+# facts = new fact rows (land in <system>.facts.yaml).
+system: arcade
+status: draft
+entries:
+- id: arcade.check.launch-balls
+  system: arcade
+  type: check
+  title: Launch your Arcade balls
+  text: Launch your {balls:int} Arcade balls at the Arcade
+  why: Balls sitting in hand earn nothing; each launch lands in a bucket, and about half of them pay Gold Balls for the shop.
+  sources:
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-2/arcade.ts
+    title: IdleOn Toolbox parseArcade, getArcadeCapCost, getGoldBallMulti
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  - url: https://idleon.wiki/wiki/Arcade
+    title: 'IdleOn Wiki: Arcade'
+    tier: 2
+    claimDate: 2026-10-19
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  appliesTo:
+    stages:
+    - from: W2-early
+      to: W4-late
+  confidence: M
+  status: draft
+  subject: account
+  effect: next-action
+  category: spendable
+  effortSeconds: 60
+  detector:
+    id: arcade/launch-balls
+  doneWhen:
+    field: account.arcade.balls
+    change: lower
+  notes: Dossier per-session action (2), M3, M4. Balls in hand = OLA[74] (H). The 46.9% Gold Ball bucket share is wiki-only
+    (M), so the why says 'about half'. Gem Shop packs also add to OLA[74]; the detector does not care where the balls came
+    from.
+- id: arcade.check.spend-gold-balls
+  system: arcade
+  type: check
+  title: Spend your Gold Balls
+  text: 'Spend {goldBalls:int} Gold Balls: {bonus} Lv {from:int} → {to:int} costs {cost:int}'
+  why: Shop levels are permanent and only the bonuses in this week's rotation can be bought; Gold Balls in the bank do nothing.
+  sources:
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-2/arcade.ts
+    title: IdleOn Toolbox parseArcade, getArcadeCapCost, getGoldBallMulti
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json
+    title: 'IdleOn Toolbox game data: arcadeShop (curves x1, x2, func)'
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  - url: https://idleon.wiki/wiki/Arcade
+    title: 'IdleOn Wiki: Arcade'
+    tier: 2
+    claimDate: 2026-10-19
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  appliesTo:
+    stages:
+    - from: W2-early
+      to: W4-late
+  confidence: M
+  status: draft
+  subject: account
+  effect: next-action
+  category: spendable
+  priority:
+    frame: by-urgency
+  effortSeconds: 30
+  detector:
+    id: arcade/spend-gold-balls
+  doneWhen:
+    field: account.arcade.goldBalls
+    change: lower
+  tiers:
+  - - arcade.priority.shop
+  notes: 'Dossier M6 (rotation, H for the active flag), M8 (cost curve: wiki-matched, NOT in vendored code, M) and Common
+    mistakes (hoarding, M). {bonus} = first row of arcade.priority.shop that is active, unmaxed (< 100) and affordable; {to}
+    = the highest level the balance reaches on that bonus. Never names a bonus that is off rotation.'
+- id: arcade.priority.shop
+  system: arcade
+  type: priority
+  title: Arcade shop order
+  text: Gold Ball Gain first whenever it is in rotation, then bonuses for Systems you have open
+  why: Gold Ball Gain is the cheapest bonus to max (15,350 Gold Balls for +100%) and multiplies every later Gold Ball; a bonus
+    for a System you have not opened pays nothing yet.
+  values:
+    row-1: '39'
+    when-1: always
+    row-2: open-system
+    when-2: always
+    row-3: '*'
+    when-3: always
+    rows: 3
+  sources:
+  - url: https://www.reddit.com/r/idleon/comments/1txs94z/
+    title: 'r/idleon: Arcade shop priority (Gold Ball Gain first)'
+    tier: 3
+    claimDate: 2026-10-19
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json
+    title: 'IdleOn Toolbox game data: arcadeShop (curves x1, x2, func)'
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  - url: https://idleon.wiki/wiki/Arcade
+    title: 'IdleOn Wiki: Arcade'
+    tier: 2
+    claimDate: 2026-10-19
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  appliesTo:
+    stages:
+    - from: W2-early
+      to: W4-late
+  confidence: M
+  status: draft
+  list: order
+  notes: 'Dossier Min-max W2 early (Gold Ball Gain first: community tier 3 in the KB scheme, M) and Common mistakes (W5+/Spelunking/Sushi
+    bonuses while a W2-W4 bonus is in rotation, M). Row 2 ''open-system'' = active bonuses whose consumer System (map bonusSystem
+    table) is unlocked on the account; inside a row, lowest next cost first. The finer computed order (Drop Rate, Class XP
+    multi, Total Damage, Refinery Speed, then Construction/Cooking) is L in the dossier, so it is NOT encoded; revisit after
+    a community source confirms it.'
+- id: arcade.goal.ball-rate
+  system: arcade
+  type: goal
+  title: Raise the Arcade ball rate
+  text: 'Arcade balls: one every {secPerBall:dur} ({bonus:int}% of 122%). Next: {source}'
+  why: More balls per claim window means more Gold Balls; the rate stops helping at +122% (one ball per 30 minutes), so stop
+    there.
+  values:
+    source-vial: level the Ball Pickle Jar vial (+{gain:int}% per level)
+    source-merit: buy 'more balls' in the W2 merit shop (+5% per level, {left:int} left)
+    source-stamp: level the Arcade Ball stamp (counts up to +50%)
+    source-bribe: buy the Weighted Marbles bribe (+10%)
+  sources:
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/dungeons.ts#L80-L108
+    title: IdleOn Toolbox getMaxClaimTime, getSecPerBall, getArcadeBallsToClaim, getBallBonus
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  - url: https://idleon.wiki/wiki/Arcade
+    title: 'IdleOn Wiki: Arcade'
+    tier: 2
+    claimDate: 2026-10-19
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  appliesTo:
+    stages:
+    - from: W2-early
+      to: W4-late
+  confidence: H
+  status: draft
+  subject: account
+  effect: goal
+  category: nice
+  detector:
+    id: arcade/ball-rate
+  notes: 'Dossier M1 (formula and 1800 s floor: tier 1, H). The detector lists only sources that are not maxed (vial < 13,
+    merit < 5, stamp bonus < 50, bribe not bought); achievements are shown on the page but not named as a Next step (they
+    come from other play). Silent once bonus >= 122.2.'
+- id: arcade.fact.rate-floor
+  system: arcade
+  type: fact
+  title: The ball rate floor
+  text: 'The Arcade never gives more than one ball per 30 minutes: ball-rate bonus past +122% and Ball Timer stamp past level
+    150 are wasted'
+  why: Claims divide by max(seconds per ball, 1800) and the claim window is 48 h plus at most 10 h from the Ball Timer stamp.
+  sources:
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/dungeons.ts#L80-L108
+    title: IdleOn Toolbox getMaxClaimTime, getSecPerBall, getArcadeBallsToClaim, getBallBonus
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  appliesTo:
+    stages: all
+  confidence: H
+  status: draft
+  notes: Dossier M1 floor and M2 clamp (both computed from tier 1 code). Shown on the Arcade page Balls section and as the
+    meter cap marker.
+- id: arcade.check.cap-balls
+  system: arcade
+  type: check
+  title: Use your Royal or Omega balls
+  text: 'Use {n:int} {currency} balls on {bonus} (Lv {level:int}): it {effect}'
+  values:
+    effect-royal: doubles the bonus (Super, Lv 101)
+    effect-omega: makes it 6x (Omega, Lv 102)
+  why: 'A maxed bonus can go past Lv 100: 5 Royal (Cosmic) balls double it, 2 Omega balls then make it 6x.'
+  sources:
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-2/arcade.ts
+    title: IdleOn Toolbox parseArcade, getArcadeCapCost, getGoldBallMulti
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/gemShop.json#L1969
+    title: 'Gem Shop text: 5 Cosmic Balls double a maxed Gold Ball Shop bonus'
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  appliesTo:
+    stages: all
+  confidence: H
+  status: draft
+  subject: account
+  effect: next-action
+  category: spendable
+  effortSeconds: 30
+  detector:
+    id: arcade/cap-balls
+  notes: Dossier M9 (getArcadeCapCost, H; Cosmic = Royal via gemShop.json L1969, H). Rare before W5 (needs a Lv 100 bonus
+    and event balls); kept because the rule is exact. Which maxed bonus to pick follows arcade.priority.shop.
+amendments:
+- amends: arcade.check.balls-cap
+  target: arcade.yaml
+  targetStatus: active
+  status: draft
+  from: arcade
+  fields:
+    text: Claim your {balls:int} Arcade balls before you leave (at the cap {capsIn:in})
+    notes: 'M26 map M2: slot balls = account.arcade.ballsToClaim (getArcadeBallsToClaim at asOf, frozen clock). Falls back
+      to the current text when the field is unknown.'

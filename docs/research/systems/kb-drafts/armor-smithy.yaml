@@ -1,0 +1,198 @@
+# SPDX-License-Identifier: GPL-3.0-only
+# M26 KB drafts for System `armor-smithy` (W3 synthesis, 2026-10-19). Every entry is status: draft.
+# Copied from scratchpad/m26/maps/*.json; dossiers in scratchpad/m26/dossiers/. Not yet validated
+# against the knowledge schema (the schema has no draft status: flip to active at merge).
+system: armor-smithy
+entries:
+- id: armor-smithy.check.register
+  revision: true
+  system: armor-smithy
+  type: check
+  title: Register an armour set
+  text: '{text}'
+  why: '{why}'
+  values:
+    register: 'Register the {set} set: wear it all on one character, log in on it, tap a piece'
+    why: '{bonus} for every character, for good. The game counts the set on the character you''re logged in on.'
+    detail: '{parts}: {where}'
+    where-worn: worn by your {who}
+    where-held: in storage or a bag
+    where-missing: missing
+    card-registered: registered
+    card-parts: '{have:int} of {need:int} parts'
+    card-missing: '{have:int} of {need:int} parts: craft {item}'
+    card-held: '{have:int} of {need:int} parts: the {item} in storage'
+    card-one: '{have:int} of {need:int} on your {who}'
+    card-active: bonus on while you play your {who}
+  sources:
+  - url: https://idleon.wiki/wiki/Set_Bonuses
+    title: 'IdleOn Wiki: Set Bonuses'
+    tier: 3
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+    claimDate: '2026-10-07'
+  - url: https://idleon.wiki/wiki/Frostbite_Tundra
+    title: 'IdleOn Wiki: Frostbite Tundra (equip the set, tap a piece)'
+    tier: 3
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+    claimDate: '2025-07-21'
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-3/armorSmithy.ts
+    title: 'IdleOn Toolbox: getArmorSmithy, getSetPartsOn, getArmorSetBonus'
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json
+    title: 'IdleOn Toolbox game data: equipmentSets (parts, requiredTools, requiredWeapon, bonusValue)'
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+  appliesTo:
+    stages: all
+  confidence: M
+  status: draft
+  subject: account
+  effect: next-action
+  category: compounding
+  effortSeconds: 120
+  detector:
+    id: armor-smithy/state
+    params:
+      part: register
+  notes: 'Revision: covers all W1-W4 sets (13) from the 19-row fact, picks by armor-smithy.priority.order, adds
+    card-one / card-active. Drop the Reddit 1vlwxx5 source (title only, unverifiable, dossier C20) or relabel it
+    tier 4. M26 W3 synth (from maps/armor-smithy.json).'
+- id: armor-smithy.goal.next-set
+  system: armor-smithy
+  type: goal
+  title: Finish an armour set
+  text: 'Finish the {set} set: craft {item}'
+  why: '{have:int} of {need:int} parts already. Once registered, {bonus} for every character, for good.'
+  values:
+    text-held: 'Finish the {set} set: wear the {item} you already hold'
+    detail: '{parts}: {where}'
+  sources:
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json
+    title: 'IdleOn Toolbox game data: equipmentSets (parts, requiredTools, requiredWeapon, bonusValue)'
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/crafts.json
+    title: 'IdleOn Toolbox game data: Anvil recipes (each tier consumes the previous tier''s piece)'
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-3/armorSmithy.ts
+    title: 'IdleOn Toolbox: getArmorSmithy, getSetPartsOn, getArmorSetBonus'
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+  - url: https://idleon.wiki/wiki/Set_Bonuses
+    title: 'IdleOn Wiki: Set Bonuses'
+    tier: 3
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+    claimDate: '2026-10-07'
+  appliesTo:
+    stages:
+    - from: W3-early
+      to: W4-entry
+  confidence: M
+  status: draft
+  subject: account
+  effect: next-action
+  category: compounding
+  effortSeconds: 300
+  detector:
+    id: armor-smithy/next-set
+    params:
+      maxMissing: 2
+  notes: Facts are Tier 1 (H); the choice to push the closest set is M (no Source ranks sets, dossier C48). Silent
+    while waiting. M26 W3 synth (from maps/armor-smithy.json).
+- id: armor-smithy.check.keep-before-upgrade
+  system: armor-smithy
+  type: check
+  title: Keep a set piece before upgrading it
+  text: Register the {set} set before you craft {item}
+  why: The {item} recipe uses your {piece}, and the {set} set needs it. Register the set first, or craft a spare
+    {piece}.
+  values:
+    wait: 'The Smithy opens in {days:int} days, and the {set} set needs your {piece}: craft a spare before you make
+      {item}'
+  sources:
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/crafts.json
+    title: 'IdleOn Toolbox game data: Anvil recipes (each tier consumes the previous tier''s piece)'
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json
+    title: 'IdleOn Toolbox game data: equipmentSets (parts, requiredTools, requiredWeapon, bonusValue)'
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-3/armorSmithy.ts
+    title: 'IdleOn Toolbox: getArmorSmithy, getSetPartsOn, getArmorSetBonus'
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+  - url: https://github.com/YassSoliman/idleon-forge/blob/main/docs/specs/M18-gear-tools.md
+    title: IdleOn Forge M18 FR-18 (set-warning rule)
+    tier: 2
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+  appliesTo:
+    stages: all
+  confidence: M
+  status: draft
+  subject: account
+  effect: next-action
+  category: compounding
+  effortSeconds: 30
+  detector:
+    id: armor-smithy/keep-before-upgrade
+  notes: 'Generalises FR-18 to W3-W4 crafts (Dementia->Void, Void->Chizoar/Lustre, Lustre->Diabolical, Troll->Magma)
+    that no gear Goal recommends. Dedupe with gear why-set: when a gear Goal already carries the why line for the
+    same piece, suppress this Check. M26 W3 synth (from maps/armor-smithy.json).'
+- id: armor-smithy.priority.order
+  system: armor-smithy
+  type: priority
+  title: Set order
+  text: Register the sets the next crafts eat first
+  why: 'Each upgrade consumes the piece below it: Gold eats Copper, Platinum eats Iron and Gold Boots, Void eats
+    Dementia, Chizoar and Lustre eat Void, Diabolical eats Lustre, Magma eats Troll.'
+  values:
+    row-1: COPPER_SET|IRON_SET|GOLD_SET
+    row-2: AMAROK_SET|PLATINUM_SET|EFAUNT_SET
+    row-3: DEMENTIA_SET|VOID_SET
+    row-4: CHIZOAR_SET|LUSTRE_SET
+    row-5: TROLL_SET|DIABOLICAL_SET
+    row-6: MAGMA_SET
+    rows: 6
+  notes: 'Cost-of-loss order from the crafts.json chain (Tier 1, dossier C42/C43, confidence M for the ordering).
+    Within a row: Smithy list order. Benefit ordering is not authored (C48, L). M26 W3 synth (from maps/armor-smithy.json).'
+  sources:
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/crafts.json
+    title: 'IdleOn Toolbox game data: Anvil recipes (each tier consumes the previous tier''s piece)'
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json
+    title: 'IdleOn Toolbox game data: equipmentSets (parts, requiredTools, requiredWeapon, bonusValue)'
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/randomList.json
+    title: 'IdleOn Toolbox game data: randomList[113], the Smithy list order'
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+  appliesTo:
+    stages: all
+  confidence: M
+  status: draft
+  subject: account
+  effect: next-action
+  category: compounding
+  effortSeconds: 0
+  detector:
+    id: armor-smithy/order

@@ -1,0 +1,278 @@
+# SPDX-License-Identifier: GPL-3.0-only
+# M26 KB drafts for System `equinox` (W3 synthesis, 2026-10-19). Every entry is status: draft.
+# Copied from scratchpad/m26/maps/*.json; dossiers in scratchpad/m26/dossiers/. Not yet validated
+# against the knowledge schema (the schema has no draft status: flip to active at merge).
+system: equinox
+entries:
+- id: equinox.goal.find-mirror
+  system: equinox
+  type: goal
+  title: Get the Equinox Mirror
+  subject: account
+  effect: progress
+  category: compounding
+  priority:
+    frame: by-urgency
+  effortSeconds: 1800
+  detector:
+    id: equinox/mirror-missing
+  text: Farm Bloodbone in Hell Hath Frozen Over for the Equinox Mirror
+  values:
+    detail-door: 'First open the map: {kills:int}/{need:int} kills on Wam Wonderland''s door'
+    detail-farm: Bloodbone drops it 1 in 10; hold it to enter the Equinox Valley
+  why: The Mirror opens the Equinox Valley. Equinox is an account-wide bar that fills with time and buys permanent
+    Dream Upgrades (damage, Drop Rate, all talent levels).
+  notes: 'Drop chance 0.1 is the game''s drop table (tier 1, H); the Equinox_Visitor achievement text still says
+    ''1 in 1000'' (stale in-game text): both shown in the dossier, the drop table wins (ADR 0004). Map: Bloodbone
+    is the target of map 117 Hell Hath Frozen Over (maps.facts.json), card region Frostbite Tundra; this reconciles
+    the dossier''s map-name dispute (systems.facts.yaml says ''in Frostbite Tundra'', the region). Door: map 116''s
+    door to 117 needs 250,000 kills (maps.facts.json), so reuse portals/kills-on-map for the progress line. Priority
+    over other W3 goals is not sourced (L): the entry states the unlock, it does not rank it. M26 W3 synth (from
+    maps/equinox.json).'
+  doneWhen:
+    field: account.equinox.mirrorObtained
+    change: higher
+  appliesTo:
+    stages:
+    - from: W3-early
+      to: W4-late
+  confidence: M
+  status: draft
+  sources:
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/monsterDrops.json
+    title: 'Toolbox game data: Bloodbone (skele2) drops Quest78 Equinox Mirror, chance 0.1'
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/monsters.json
+    title: 'Toolbox game data: skele2 Bloodbone, mapIndex 117'
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-3/equinox.ts
+    title: 'IdleOn Toolbox parseEquinox: charge, chargeRequired (120 + 40n) x 1.02^n, chargeRate, upgrades, challenges
+      (vendored equinox.ts#L56, #L157-169, #L183-255)'
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  - url: https://idleon.wiki/wiki/Equinox
+    title: 'IdleOn Wiki: Equinox (Mirror unlock, Dream Upgrades, Dream clouds)'
+    tier: 2
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+- id: equinox.check.spend-bar
+  system: equinox
+  type: check
+  title: Spend your Equinox bar
+  subject: account
+  effect: next-action
+  usesExpectedReturn: true
+  category: spendable
+  priority:
+    frame: by-urgency
+  effortSeconds: 60
+  detector:
+    id: equinox/bar-full
+  text: 'Your Equinox bar is full: buy a Dream Upgrade level in the Equinox Valley'
+  values:
+    detail-open: 'Open upgrades below max: {list}'
+    detail-dreams: 'Equinox Dreams {dreams:int}/5: each level shows one more Dream cloud'
+    pill: Equinox full · spend
+    pill-soon: Equinox full {fullIn:in}
+    timelineKind: storage
+    timelineWhat: equinox
+  why: Each full bar ({required:int} charge) buys one upgrade level. At {rate:int}/h the next bar after this one
+    takes {nextBar:duration}; the requirement grows with every level bought.
+  notes: 'Rule: charge >= (120 + 40n) x 1.02^n, n = total upgrade levels, and at least one unlocked upgrade below
+    its max (equinox.ts#L157, H). The in-game clamp at the requirement (so waiting wastes fill) comes from prior
+    N.js research only, so the why does not claim it (L); the entry fires on ''full'' alone, which is H. No upgrade
+    order is given: every community ordering is tier 4, L (dossier Min-max). Silent when every unlocked upgrade
+    is maxed (the Idle state: only a new unlock cloud helps; equinox.goal.clouds says so). Expected Return: pass
+    with nextAt = fullAt for the Timeline when not yet full. M26 W3 synth (from maps/equinox.json).'
+  doneWhen:
+    field: account.equinox.charge
+    change: lower
+  appliesTo:
+    stages: all
+  confidence: H
+  status: draft
+  sources:
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-3/equinox.ts
+    title: 'IdleOn Toolbox parseEquinox: charge, chargeRequired (120 + 40n) x 1.02^n, chargeRate, upgrades, challenges
+      (vendored equinox.ts#L56, #L157-169, #L183-255)'
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  - url: https://idleon.wiki/wiki/Equinox
+    title: 'IdleOn Wiki: Equinox (Mirror unlock, Dream Upgrades, Dream clouds)'
+    tier: 2
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+- id: equinox.goal.clouds
+  system: equinox
+  type: goal
+  title: Work on your Dream clouds
+  subject: account
+  effect: progress
+  category: compounding
+  priority:
+    frame: by-urgency
+  effortSeconds: 300
+  detector:
+    id: equinox/active-clouds
+  text: '{n:int} Dream clouds are open: {list}'
+  values:
+    item: '{label} ({current:compact}/{goal:compact}) → {reward}'
+    detail-unlock: '{unlocks:int} of them open the next Dream Upgrade'
+    detail-idle: Every unlocked Dream Upgrade is maxed, so only a cloud adds anything now
+    detail-blocked: 'Only the first {visible:int} unfinished clouds show, in order: finishing one reveals the next'
+  why: Clouds consume nothing. Each one finished unlocks an upgrade, raises fill rate, raises a max level, or gives
+    a one-off bonus, and the next cloud in order appears.
+  notes: 'Visibility: the first min(5, Equinox Dreams level) unfinished clouds by index are active; index >= 36
+    also needs Research grid node 86 (W7) (equinox.ts, H). Progress is Toolbox''s WeeklyBoss d_<i> counter; done
+    = -1. A cloud whose goal is met in another system but not yet claimed is NOT detectable from Equinox data (dossier
+    rule 4, L), so the entry never says ''claim it''. Unlock clouds = 0, 2, 5, 7, 10, 13, 17, 20, 23, 28, 31, 36
+    (UPGRADE_UNLOCK_CLOUDS, H). No ranking among open clouds (no tier 1-3 Source). M26 W3 synth (from maps/equinox.json).'
+  doneWhen:
+    field: account.equinox.completedClouds
+    change: higher
+  appliesTo:
+    stages: all
+  confidence: H
+  status: draft
+  sources:
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-3/equinox.ts
+    title: 'IdleOn Toolbox parseEquinox: charge, chargeRequired (120 + 40n) x 1.02^n, chargeRate, upgrades, challenges
+      (vendored equinox.ts#L56, #L157-169, #L183-255)'
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json
+    title: 'Toolbox game data: equinoxChallenges (77 clouds: label, goal, reward)'
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  - url: https://idleon.wiki/wiki/Equinox
+    title: 'IdleOn Wiki: Equinox (Mirror unlock, Dream Upgrades, Dream clouds)'
+    tier: 2
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+facts:
+- id: equinox.fact.upgrades
+  system: equinox
+  origin: authored
+  title: Dream Upgrades (effect per level, base max, unlock-cloud count needed, max-level clouds)
+  rows:
+    '0':
+      name: Equinox Dreams
+      effect: +1 visible cloud
+      baseMax: 5
+      needs: 0
+      extra: ''
+    '1':
+      name: Equinox Resources
+      effect: opens a Valley resource (Marble, Willow, Fish, Dream Particulate)
+      baseMax: 4
+      needs: 1
+      extra: ''
+    '2':
+      name: Shades of K
+      effect: +1 Killroy end-of-run choice
+      baseMax: 3
+      needs: 2
+      extra: ''
+    '3':
+      name: Liquidvestment
+      effect: 9% of excess liquid into cauldron CAP/RATE
+      baseMax: 4
+      needs: 3
+      extra: +3 cloud 6, +4 cloud 15
+    '4':
+      name: Matching Scims
+      effect: +10% damage, own multiplier
+      baseMax: 8
+      needs: 4
+      extra: +5 cloud 12, +10 cloud 18, +10 cloud 34, +10 cloud 39
+    '5':
+      name: Slow Roast Wiz
+      effect: +1% Worship tower damage per second after 10 s
+      baseMax: 5
+      needs: 5
+      extra: +6 cloud 32
+    '6':
+      name: Laboratory Fuse
+      effect: +1 px Lab connection range
+      baseMax: 10
+      needs: 6
+      extra: ''
+    '7':
+      name: Metal Detector
+      effect: +1% nugget size per small nugget (Gaming, W5)
+      baseMax: 6
+      needs: 7
+      extra: W5+ only
+    '8':
+      name: Faux Jewels
+      effect: +5% Drop Rate, additive
+      baseMax: 6
+      needs: 8
+      extra: +5 cloud 21, +10 cloud 26
+    '9':
+      name: Food Lust
+      effect: -20% Meal upgrade cost per Random Event boss kill stack
+      baseMax: 10
+      needs: 9
+      extra: +4 cloud 25; cloud 33 makes it -42% per stack
+    '10':
+      name: Equinox Symbols
+      effect: +1 all talent levels
+      baseMax: 5
+      needs: 10
+      extra: +4 cloud 30
+    '11':
+      name: Voter Rights
+      effect: +1% Ballot bonus multiplier
+      baseMax: 15
+      needs: 11
+      extra: +15 cloud 35
+    '12':
+      name: Nonstop Studies
+      effect: +3% Research EXP (W7)
+      baseMax: 10
+      needs: 12
+      extra: clouds 37+ (W7)
+    '13':
+      name: Hmm...
+      effect: none
+      baseMax: 2
+      needs: 13
+      extra: never unlocks in Toolbox (count maxes at 12)
+  unlockClouds:
+  - 0
+  - 2
+  - 5
+  - 7
+  - 10
+  - 13
+  - 17
+  - 20
+  - 23
+  - 28
+  - 31
+  - 36
+  notes: 'Summoning winner bonus and the Equinox_Unending superbit add max levels from W5+ (not to 3, 6, 12/superbit).
+    Wiki max totals assume them (Disputed C17: Voter Rights 55 not reproducible from code, M). M26 W3 synth (from
+    maps/equinox.json).'
+  sources:
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-3/equinox.ts
+    title: 'IdleOn Toolbox parseEquinox: charge, chargeRequired (120 + 40n) x 1.02^n, chargeRate, upgrades, challenges
+      (vendored equinox.ts#L56, #L157-169, #L183-255)'
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  - url: https://idleon.wiki/wiki/Equinox
+    title: 'IdleOn Wiki: Equinox (Mirror unlock, Dream Upgrades, Dream clouds)'
+    tier: 2
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  status: draft

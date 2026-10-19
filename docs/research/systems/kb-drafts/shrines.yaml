@@ -1,0 +1,241 @@
+# SPDX-License-Identifier: GPL-3.0-only
+# M26 KB drafts for System `shrines` (W3 synthesis, 2026-10-19). Every entry is status: draft.
+# Copied from scratchpad/m26/maps/*.json; dossiers in scratchpad/m26/dossiers/. Not yet validated
+# against the knowledge schema (the schema has no draft status: flip to active at merge).
+system: shrines
+entries:
+- status: draft
+  id: shrines.check.idle
+  system: shrines
+  type: check
+  title: A shrine is levelling for nobody
+  subject: account
+  effect: next-action
+  category: compounding
+  priority:
+    frame: by-urgency
+  effortSeconds: 60
+  detector:
+    id: shrines/idle
+  text: Move the {shrine:name} to {bestMap:name}
+  why: A shrine only levels from AFK time claimed where it reaches, and no character is on {map:name}. Moved to
+    {bestMap:name}, {bestCount:int} characters level it and get its bonus.
+  values:
+    text-no-architect: Finish Hoggindaz's quest 5 for the Shrine Architect book
+    why-no-architect: Your {count:int} built shrines stand where no character is, so they never level. New shrines
+      appear in Blunder Hills town; the Shrine Architect star talent moves them, and its book is the reward of Hoggindaz
+      quest 5 (take 2 Printer samples).
+  doneWhen:
+    field: account.shrines[*].levelRate
+    change: higher
+  appliesTo:
+    stages:
+    - from: W3-early
+      to: W4-entry
+  confidence: H
+  notes: 'Rule is code: isGlobalApplicable needs same map, World Tour same world, or Legend 38 (shrines.ts#L123-L126);
+    levelRate 0 with level > 0 is exactly that. Never claims the move loses progress (C24, L). Do not suggest moving
+    more often than needed. M26 W3 synth (from maps/shrines.json).'
+  sources:
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-3/shrines.ts#L69-L126
+    title: Toolbox getShrineExpBonus / isGlobalApplicable (shrine EXP only from AFK on its map, world with World
+      Tour)
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-3/shrines.ts#L128-L140
+    title: Toolbox getShrineBonus (bonus only on its map unless World Tour / Moai Head)
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+  - url: https://idleon.wiki/wiki/Shrines
+    title: 'IdleOn Wiki: Shrines'
+    tier: 3
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+    claimDate: '2026-10-07'
+- status: draft
+  id: shrines.check.stack
+  system: shrines
+  type: check
+  title: Stack shrines where most characters AFK
+  subject: account
+  effect: next-action
+  category: compounding
+  priority:
+    frame: by-urgency
+  effortSeconds: 60
+  detector:
+    id: shrines/stack
+    params:
+      minGain: 2
+  text: Move the {shrine:name} to {bestMap:name}
+  why: Each character AFK where a shrine stands adds its own level-up time. On {map:name} {count:int} characters
+    level it; on {bestMap:name} {bestCount:int} would, and they would all get its bonus.
+  values:
+    text-crystal-alone: Put the Crystal Shrine with your other shrines on {bestMap:name}
+    why-crystal-alone: The Crystal Shrine only speeds up shrines that level on the same map as the character; alone
+      on {map:name} its bonus speeds nothing.
+  doneWhen:
+    field: account.shrines[*].levelRate
+    change: higher
+  appliesTo:
+    stages:
+    - from: W3-early
+      to: W4-entry
+  confidence: M
+  notes: 'Computed from code (rates add per character, shrines.ts#L72-L99; Crystal term evaluated at the character''s
+    map, #L77). No human Source states ''stack them''; the dossier marks AFK-setup stacking as computed (M). Not
+    about where to farm: it follows the characters, never moves them. M26 W3 synth (from maps/shrines.json).'
+  sources:
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-3/shrines.ts#L69-L113
+    title: 'Toolbox getShrineExpBonus: rate summed per character per shrine; Crystal term at the character''s map'
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+  - url: https://idleon.wiki/wiki/Shrines
+    title: 'IdleOn Wiki: Shrines'
+    tier: 3
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+    claimDate: '2026-10-07'
+- status: draft
+  id: shrines.goal.equinox-total
+  system: shrines
+  type: goal
+  title: Total shrine level 140
+  subject: account
+  effect: goal
+  category: milestone
+  effortSeconds: 0
+  detector:
+    id: shrines/total-level
+    params:
+      target: 140
+  text: Raise your total shrine level to 140 ({total:int} / 140)
+  why: An Equinox challenge asks for a total shrine level of 140 across all nine shrines.
+  doneWhen:
+    field: account.shrineTotals.totalLevel
+    atLeast: 140
+  appliesTo:
+    stages:
+    - from: W3-mid
+      to: W4-entry
+  confidence: H
+  notes: C35. Gate on the Equinox system being unlocked once Equinox has an Account State slice; until then show
+    only on the Shrines page. M26 W3 synth (from maps/shrines.json).
+  sources:
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-3/shrines.ts#L142-L145
+    title: Toolbox calcShrineLevels (sum of shrine levels)
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-3/equinox.ts
+    title: Toolbox Equinox challenges (total shrine level 140)
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+- status: draft
+  id: shrines.goal.same-map-total
+  system: shrines
+  type: goal
+  title: Shrine levels on one map
+  subject: account
+  effect: goal
+  category: milestone
+  effortSeconds: 0
+  detector:
+    id: shrines/same-map-total
+  text: Reach {next:int} total shrine levels on {map:name} ({total:int} now)
+  why: The 'My Shrines, m'lord.' achievement counts the total level of all shrines on a single map.
+  doneWhen:
+    field: account.shrines[*].level
+    change: higher
+  appliesTo:
+    stages:
+    - from: W3-early
+      to: W4-entry
+  confidence: M
+  notes: Breakpoints reported by the dossier's data verifier (4, 12, 24, 35, 48, 70, 86, 100...), not re-read; re-read
+    tasks.json L799 before shipping. Achievements are not in the System registry yet. M26 W3 synth (from maps/shrines.json).
+  sources:
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/tasks.json
+    title: Game data tasks.json L799 'In a single map, have the total lv of all shrines be at least {'
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+facts:
+- status: draft
+  id: shrines.fact.catalogue
+  system: shrines
+  origin: authored
+  title: 'Shrines: effect, bonus, building salt'
+  rows:
+  - index: 0
+    name: Woodular_Shrine
+    effect: Total Damage
+    base: 12
+    perLevel: 3
+    salt: Redox
+  - index: 1
+    name: Isaccian_Shrine
+    effect: Max HP and DEF
+    base: 12
+    perLevel: 3
+    salt: Redox
+  - index: 2
+    name: Crystal_Shrine
+    effect: level-up rate of shrines on its map
+    base: 20
+    perLevel: 4
+    salt: Explosive
+  - index: 3
+    name: Pantheon_Shrine
+    effect: Carry Capacity
+    base: 10
+    perLevel: 2
+    salt: Explosive
+  - index: 4
+    name: Clover_Shrine
+    effect: Drop Rate
+    base: 15
+    perLevel: 3
+    salt: Spontaneity
+  - index: 5
+    name: Summereading_Shrine
+    effect: ALL EXP
+    base: 6
+    perLevel: 1
+    salt: Spontaneity
+  - index: 6
+    name: Crescent_Shrine
+    effect: Crystal and Giant spawn
+    base: 50
+    perLevel: 7.5
+    salt: Dioxide
+  - index: 7
+    name: Undead_Shrine
+    effect: Respawn Rate
+    base: 5
+    perLevel: 1
+    salt: Purple
+  - index: 8
+    name: Primordial_Shrine
+    effect: AFK Gain Rate
+    base: 1
+    perLevel: 0.1
+    salt: Nullo
+  notes: 'Salt pairing verified 2026-10-19 in website-data towers[*].itemReq: Woodular/Isaccian Refinery1 (2/5),
+    Crystal/Pantheon Refinery2 (4/7), Clover/Summereading Refinery3 (5/10), Crescent Refinery4 (12), Undead Refinery5
+    (14), Primordial Refinery6 (10). M26 W3 synth (from maps/shrines.json).'
+  sources:
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json
+    title: website-data shrines (L38358) and towers
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-3/shrines.ts#L32-L34
+    title: Toolbox shrineBonus formula
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540

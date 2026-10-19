@@ -1,0 +1,327 @@
+# SPDX-License-Identifier: GPL-3.0-only
+# M26 KB drafts for System storage (area AW synthesis, verified 2026-10-19, Toolbox 6c37e3d, game 2.3.540).
+# status: draft is a workflow marker; the KB schema accepts active|contested|retired only.
+# entries = new entries; facts = new fact rows (land in <system>.facts.yaml at merge);
+# amendments = changes to entries already in packages/knowledge/systems (or to other drafts).
+# AW synthesis added: topics storage-inventory (maps/<topic>.json).
+system: storage
+status: draft
+entries:
+- id: storage.check.chest-full
+  system: storage
+  type: check
+  title: Storage Chest full
+  subject: account
+  effect: next-action
+  category: nice
+  priority:
+    frame: by-urgency
+  effortSeconds: 120
+  detector:
+    id: storage/chest-full
+  text: 'Your Storage Chest is full ({slots:int} of {slots:int}): free a slot or add one'
+  why: Nothing can be deposited until a slot is free, so a skiller at its carry cap cannot be emptied and loses its gains.
+  values:
+    freeText: '{free:int} Storage Chest slots free'
+  doneWhen:
+    field: account.storage.freeSlots
+    change: higher
+  appliesTo:
+    stages: all
+  confidence: H
+  status: draft
+  notes: Free = Toolbox storage.slots.value minus storage.list length (blanks and locked slots are already dropped, P storage.ts:155).
+    Same rule as account.afk.storageFreeSlots (afk-facts.ts:515). The W2 test account is at 91 of 91.
+  sources:
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/storage.ts#L84
+    title: Toolbox getStorageSlots (base 54 plus every slot source)
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  - url: https://idleon.wiki/wiki/Storage_Chest
+    title: 'IdleOn Wiki: Storage Chest'
+    tier: 2
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  fromTopic: storage-inventory
+- id: storage.check.quest-chest
+  system: storage
+  type: check
+  title: A quest gives free storage or bag slots
+  subject: account
+  effect: next-action
+  category: compounding
+  effortSeconds: 900
+  needsCharacter: true
+  detector:
+    id: storage/quest-capacity
+  text: Do {npc}'s {quest} for {reward} (+{slots:int} slots)
+  why: Quest chests and bags are one-time, permanent slots; a Storage Chest counts for the whole account, a bag for the character
+    who does the quest.
+  values:
+    groupText: '{count:int} quests still give free storage or bag slots'
+  walkthrough: walkthrough.acquisition.quest
+  appliesTo:
+    stages: all
+  confidence: H
+  status: draft
+  notes: 'Rewards from D quests.json: Hamish3 Slime for Storage (Chest 1, +3), Krunk2 (Chest 3, +3), Mutton1 (Chest 5, +3),
+    Snake_Jar2 Red Stuff Bad! (Chest 11, +5), Cowbo_Jones2 (Chest 4, +3); bags Scripticus4/8/9 (A-C, +1 each), Promotheus4
+    (D, +2), Cowbo_Jones8/10/13 (E, F, H, +2 each). Only quests in a world the account has reached. Chest fires once per account
+    (any character), bags per character. Hoov4 (Ninja Chest) is W6, out of scope. The walkthrough id is a placeholder for
+    the quest''s generated acquisition.'
+  sources:
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/quests.json
+    title: 'Toolbox game data: quest rewards (InvStorage / InvBag items)'
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/storage.ts#L58
+    title: 'Toolbox parseStorage: storageChests[].unlocked from InvStorageUsed'
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  fromTopic: storage-inventory
+- id: storage.check.held-capacity-item
+  system: storage
+  type: check
+  title: Unused storage chest or bag item
+  subject: account
+  effect: next-action
+  category: compounding
+  effortSeconds: 60
+  detector:
+    id: storage/held-capacity-item
+  text: Use the {item:name} you hold (+{slots:int} slots)
+  why: A storage chest or inventory bag does nothing until you use it; it is a permanent slot gain.
+  doneWhen:
+    field: account.storage.slots
+    change: higher
+  appliesTo:
+    stages: all
+  confidence: H
+  status: draft
+  notes: Item kinds from D items (Type STORAGE_ = chest, INVENTORY_G = bag) held in account.storageItems or characters[].inventoryItems
+    and not already in InvStorageUsed / InvBagsUsed. Neither test account holds one today.
+  sources:
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/character.ts#L321
+    title: Toolbox invBagsUsed (acquired from InvBagsUsed)
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/storage.ts#L58
+    title: Toolbox storageChests[].unlocked
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  fromTopic: storage-inventory
+- id: storage.check.pouch-upgrade
+  system: storage
+  type: check
+  title: Equip a better carry pouch
+  subject: character
+  effect: next-action
+  category: compounding
+  effortSeconds: 60
+  detector:
+    id: storage/pouch-upgrade
+  text: Equip the {item:name} on this character ({class} carry {from:int} to {to:int} base)
+  why: A pouch sets this character's base carry for one item class, and every carry multiplier scales from it; it sits unused
+    in your storage.
+  doneWhen:
+    field: characters[].maxCarryCap
+    change: changed
+  appliesTo:
+    stages: all
+  confidence: H
+  status: draft
+  notes: Pick the character whose AFK Target class matches the pouch (MINING -> Mining, CHOPPIN -> Chopping, FISHING -> Fishing,
+    CATCHING -> Bugs); otherwise the lowest MaxCarryCap for that class; one finding per held pouch. The data field lvReqToEquip
+    equals the capacity and does not gate equipping (both test saves have pouches above the character's class level), so it
+    is ignored; confidence on the target choice is M, on the gain H.
+  sources:
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/carryBags.json
+    title: 'Toolbox game data: carry pouch tiers per class'
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/misc.ts#L1185
+    title: Toolbox getItemCapacity (MaxCarryCap is the base)
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  fromTopic: storage-inventory
+- id: storage.check.zerg-on-skiller
+  system: storage
+  type: check
+  title: Zerg Rushogen on a skiller
+  subject: character
+  effect: next-action
+  category: nice
+  effortSeconds: 30
+  detector:
+    id: storage/zerg-on-skiller
+  text: Unequip Zerg Rushogen on this skiller
+  why: Zerg Rushogen's curse cuts every carry cap (down to x0.4), so a skiller's stacks fill and stop sooner.
+  appliesTo:
+    stages:
+    - from: W3-early
+      to: W4-entry
+  confidence: H
+  status: draft
+  notes: Fires when characters[].afk.prayers has Zerg_Rushogen and the AFK Target is MINING, CHOPPIN, FISHING or CATCHING.
+    Prayers map's Zerg vs Ruck Sack clash is a separate check.
+  sources:
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/misc.ts
+    title: 'Toolbox getAllCap: max(1 - ZergCurse/100, 0.4)'
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json
+    title: 'Toolbox game data: prayers Zerg_Rushogen curse x1 5, x2 12, maxLevel 20'
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  fromTopic: storage-inventory
+- id: storage.check.bag-full
+  system: storage
+  type: check
+  title: Bag full while AFK
+  subject: character
+  effect: next-action
+  category: nice
+  priority:
+    frame: by-urgency
+  effortSeconds: 120
+  detector:
+    id: storage/bag-full
+  text: 'Free up bag space: {used:int} of {slots:int} slots used'
+  why: With no free bag slot, any new item type this character gets while AFK is lost.
+  values:
+    groupText: '{count:int} characters have a full bag'
+  appliesTo:
+    stages: all
+  confidence: M
+  status: draft
+  notes: 'Stays silent when afk.check.skiller-carry fires on the same character (that one is the blocker). M: the ''new item
+    types are lost'' rule is the dossier''s tier-3 Inventory page reading, not code.'
+  sources:
+  - url: https://idleon.wiki/wiki/Inventory
+    title: 'IdleOn Wiki: Inventory'
+    tier: 2
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/character.ts#L378
+    title: Toolbox inventorySlots
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  fromTopic: storage-inventory
+- id: storage.goal.pouch-tier
+  system: storage
+  type: goal
+  title: Carry pouch for the AFK skill
+  scope: character
+  category: compounding
+  unit: carry
+  progress:
+    id: storage/pouch-tier
+  milestones:
+  - at: 25
+    reward: Miniature pouch
+  - at: 50
+    reward: Cramped pouch
+  - at: 100
+    reward: Small pouch
+  - at: 250
+    reward: Average pouch
+  - at: 500
+    reward: Sizable pouch
+  - at: 1000
+    reward: Big pouch
+  - at: 2000
+    reward: Large pouch
+  text: '{class} pouch {base:int} base · {perSlot:int} per slot'
+  why: The pouch is the base every carry multiplier scales, and a higher tier is crafted at the Anvil.
+  values:
+    unknownText: 'Carry: can''t tell right now'
+  appliesTo:
+    stages: all
+  confidence: H
+  status: draft
+  notes: Tiers from D carryBags.json (25 ... 35,000; Critters and Souls start at 50). Ladder cut at 2000 for W1-W4; the generator
+    may emit the full ladder. Only for characters whose AFK Target is a skill.
+  sources:
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/carryBags.json
+    title: 'Toolbox game data: carry pouch tiers'
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/index.ts#L344
+    title: Toolbox carryCapBags[].capacityPerSlot / maxCapacity
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  fromTopic: storage-inventory
+- id: storage.goal.greenstacks
+  system: storage
+  type: goal
+  title: Greenstacks
+  scope: account
+  category: compounding
+  unit: items
+  progress:
+    id: storage/greenstacks
+  milestones:
+  - at: 20
+    reward: Equinox greenstack challenge 1
+  - at: 75
+    reward: Equinox greenstack challenge 2
+  - at: 200
+    reward: Equinox greenstack challenge 3
+  text: '{count:int} greenstacks · closest: {item:name} at {amount:int} of 10M'
+  why: A greenstack is 10,000,000 of one item in storage; the registry is permanent and feeds Equinox, Research and greenstack
+    bonuses.
+  values:
+    unknownText: 'Greenstacks: can''t tell right now'
+  appliesTo:
+    stages:
+    - from: W3-early
+      to: W4-entry
+  confidence: H
+  status: draft
+  notes: Count = account.storage.greenStacks length (registry permanent since 2.3.508); closest = largest greenstackable storage
+    stack (P misc.ts#L460 isGreenstackable). Storage has no stack cap.
+  sources:
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/misc.ts#L460
+    title: Toolbox isGreenstackable
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/storage.ts#L53
+    title: Toolbox greenStacks registry (raw GreenStacks)
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  fromTopic: storage-inventory
+facts:
+- id: storage.fact.capacity-items
+  system: storage
+  origin: generated
+  title: Storage chests, inventory bags and carry pouches
+  notes: 'Generated from D shared-data invStorage (rawName, ID, capacity), invBags (capacity, lvReqToEquip), carryBags (class,
+    tier, rawName) and quests.json rewards (npc, quest key, item). One row per item: kind chest | bag | pouch, slots or capacity,
+    class, quest source when any. Chests sum 347 slots in data; Toolbox shows max 336 (open question).'
+  sources:
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json
+    title: 'Toolbox game data: invStorage, invBags'
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/carryBags.json
+    title: 'Toolbox game data: carryBags'
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  status: draft
+  fromTopic: storage-inventory

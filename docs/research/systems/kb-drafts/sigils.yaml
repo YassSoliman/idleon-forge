@@ -1,0 +1,212 @@
+# SPDX-License-Identifier: GPL-3.0-only
+# M26 W4 synthesis: KB drafts copied from scratchpad/m26/maps/sigils.json (entries). status: draft.
+# Target file: packages/knowledge/systems/sigils.yaml (new)
+system: sigils
+entries:
+- id: sigils.check.lab-off
+  system: sigils
+  type: check
+  title: Sigils aren't charging
+  subject: character
+  effect: next-action
+  category: idle
+  priority:
+    frame: by-urgency
+  effortSeconds: 120
+  detector:
+    id: sigils/lab-off
+  text: "Connect Sigils of Olden Alchemy in the Lab, or move {class} off {sigil}"
+  why: Sigils only charge while the Lab's Sigils of Olden Alchemy bonus is connected. Right now this character's cauldron seat earns nothing.
+  doneWhen:
+    field: account.sigils.labOn
+    change: 'true'
+  appliesTo:
+    stages:
+    - from: W4-entry
+  confidence: H
+  status: draft
+  sources:
+  - url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-2/alchemy.ts#L886-L887"
+    title: "Toolbox SIGILS_LAB_BONUS_INDEX = 12: without it no sigil charges"
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+  - url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-2/alchemy.ts#L957-L972"
+    title: Toolbox chargeRate 0 when the Lab bonus is off
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+  - url: "https://idleon.wiki/wiki/Laboratory"
+    title: "IdleOn Wiki: Laboratory (Sigils of Olden Alchemy, 1 sigil XP/hour)"
+    tier: 2
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+- id: sigils.check.seat-capped
+  system: sigils
+  type: check
+  title: Sigil at its max
+  subject: character
+  effect: next-action
+  category: idle
+  priority:
+    frame: by-urgency
+  effortSeconds: 60
+  detector:
+    id: sigils/seat-capped
+  text: "Move {class} off {sigil}: it can't level further yet"
+  why: "{sigil} is at {tierName}, and the next tier opens in a later world. Charging it adds nothing; seat this character on another sigil or back on a cauldron."
+  doneWhen:
+    field: characters[].slots.cauldron
+    change: any
+  appliesTo:
+    stages:
+    - from: W4-entry
+  confidence: H
+  status: draft
+  sources:
+  - url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-2/alchemy.ts#L939-L955"
+    title: "Toolbox getSigilNextCost: null when maxed or the next tier is locked"
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+  - url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-2/alchemy.ts#L929-L936"
+    title: "Toolbox getSigilTierUnlocks: Ionized needs Jade Emporium, Ethereal/Eclectic need W7 unlocks"
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+- id: sigils.check.ready
+  system: sigils
+  type: check
+  title: Sigils ready to level up
+  subject: account
+  effect: next-action
+  category: spendable
+  priority:
+    frame: by-urgency
+  effortSeconds: 30
+  detector:
+    id: sigils/ready
+  text: "Open Alchemy > Sigils: {list} can level up"
+  why: These sigils have charged enough for their next tier. Opening the Sigils page is where the level-up shows.
+  doneWhen:
+    field: account.sigils.sigils
+    change: any
+  appliesTo:
+    stages:
+    - from: W4-entry
+  confidence: M
+  notes: Rule is Toolbox's own dashboard alert (tier 1 logic). Whether the level-up happens only when the page is drawn is L (N.js reading, Open question 2), so the copy avoids claiming the cause.
+  status: draft
+  sources:
+  - url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/utility/dashboard/account.js#L473-L478"
+    title: "Toolbox alert: sigils with characters, nextCost set and progress >= nextCost"
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+  - url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/utility/dashboard/alertMeta.js#L203"
+    title: Toolbox alert label 'Sigils ready to level up'
+    tier: 2
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+- id: sigils.check.slot-over-ten
+  system: sigils
+  type: check
+  title: This slot never charges sigils
+  subject: character
+  effect: next-action
+  category: idle
+  priority:
+    frame: by-urgency
+  effortSeconds: 60
+  detector:
+    id: sigils/slot-over-ten
+  text: "Move {class} off {sigil}: only your first 10 characters charge sigils"
+  why: The game only charges sigils for character slots 1 to 10; this character's seat adds nothing there.
+  doneWhen:
+    field: characters[].slots.cauldron
+    change: any
+  appliesTo:
+    stages:
+    - from: W4-entry
+  confidence: H
+  status: draft
+  sources:
+  - url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-2/alchemy.ts#L888-L889"
+    title: "Toolbox SIGIL_CHARGING_SLOTS = 10: the charge loop walks CauldronJobs[1] to index 9"
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+- id: sigils.goal.lab-connect
+  system: sigils
+  type: goal
+  title: Turn on sigils
+  subject: account
+  effect: next-action
+  category: unlock
+  effortSeconds: 300
+  detector:
+    id: sigils/lab-connect
+  text: Connect Sigils of Olden Alchemy on the Lab mainframe
+  why: "This Lab bonus is what lets characters charge sigils: 24 permanent account-wide bonuses (stat, stamp cost, drop rate, Class EXP, refinery speed and more)."
+  doneWhen:
+    field: account.sigils.labOn
+    change: 'true'
+  appliesTo:
+    stages:
+    - from: W4-entry
+  confidence: M
+  notes: Gate is H (Toolbox code). Confidence M because the Lab geometry (which character, in range) is L in the dossier; the entry only names the node and links to the Laboratory page.
+  status: draft
+  sources:
+  - url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-2/alchemy.ts#L886-L887"
+    title: Toolbox Lab bonus 12 gate
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+  - url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/gemShop.json"
+    title: "Gem Shop Sigil Supercharge text: reach World 4 before sigils level"
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+  - url: "https://idleon.wiki/wiki/Laboratory"
+    title: "IdleOn Wiki: Laboratory"
+    tier: 2
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+- id: sigils.fact.speed
+  system: sigils
+  type: fact
+  title: What makes sigils charge faster
+  text: Sigil speed = (1 + Vial Junkee 20% + Pea Pod + 20% per Gem Shop Sigil Supercharge (max 10) + Willow Sippy vial + Sigil stamp) x later-world multipliers
+  why: Each charging character adds 1 sigil EXP per hour times this speed.
+  confidence: H
+  status: draft
+  sources:
+  - url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-2/alchemy.ts#L892-L925"
+    title: Toolbox getSigilSpeed
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+  - url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/gemShop.json"
+    title: Gem Shop item 110 Sigil Supercharge +20%, max 10
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+  - url: "https://idleon.wiki/wiki/Alchemy"
+    title: "IdleOn Wiki: Alchemy (Sigil stamp 40L/(150+L))"
+    tier: 2
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+- id: sigils.fact.catalogue
+  system: sigils
+  type: fact
+  title: Sigil catalogue
+  text: "generated by sigils.gen.ts: 24 sigils with effect, tier costs and bonuses"
+  confidence: H
+  status: draft
+  sources:
+  - url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json"
+    title: Toolbox game data `sigils`
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
