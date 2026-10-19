@@ -187,8 +187,10 @@ describe('TR-10 route path, reachability and the D1 margin', () => {
         () => 60,
         1.25,
       );
-    expect(at(1250).kind === 'pusher' && at(1250).pusher.index).toBe(1);
-    expect(at(1249).kind === 'pusher' && at(1249).pusher.index).toBe(0);
+    const exactly = at(1250);
+    const below = at(1249);
+    expect(exactly.kind === 'pusher' && exactly.pusher.index).toBe(1);
+    expect(below.kind === 'pusher' && below.pusher.index).toBe(0);
   });
 
   it('FR-13: nobody can fight the frontier: no pusher, the strongest candidate and its wall', () => {
