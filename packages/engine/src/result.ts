@@ -620,7 +620,7 @@ export interface EngineResult {
   expectedReturn: { usedSeconds: number; learnedSeconds: number | null };
   /** M2: `unknown` (Can't tell banner), `not-covered` (no Stage module or Knowledge Base), or a Stage id.
    *  `needs`: what the next Stage needs (M2 FR-4, D5), one line each. */
-  /** `beyond`: past the last Stage the model knows (World 4 finished); the id and label stay W4-entry. */
+  /** `beyond`: past the last Stage the model knows (World 4 finished); the id and label are W4-late (M26 FR-3). */
   stage: { id: string; label: string; needs?: string[]; beyond?: true };
   /** In save order. */
   characters: CharacterResult[];

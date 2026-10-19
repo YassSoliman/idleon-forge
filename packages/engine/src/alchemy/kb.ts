@@ -143,6 +143,8 @@ export function bandOf(stage: StageId | null): Band | null {
       return 'w3';
     case 'W3-late':
     case 'W4-entry':
+    case 'W4-mid':
+    case 'W4-late':
       return 'w3-late';
     default:
       return null;

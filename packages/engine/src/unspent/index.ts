@@ -8,6 +8,7 @@
 import type { AccountState } from '@idleon-forge/account-state';
 import {
   type AnyDetector,
+  appliesAtStage,
   type CheckFinding,
   type DetectorRegistry,
   type Entry,
@@ -18,7 +19,6 @@ import {
   runDetector,
   type SourceT,
   type StageId,
-  stagesBetween,
 } from '@idleon-forge/knowledge';
 import { AFK_SAFETY_ENTRIES, characterBuiltins, textOf, timelineWordsOf, whyOf } from '../afk/evaluate';
 import { AFK_INFO_ENTRIES } from '../afk/info';
@@ -106,11 +106,7 @@ const subjectKey = (f: CheckFinding): Subject =>
 
 /** Whether an entry's `appliesTo.stages` covers `stage`; true when the Stage is unknown (no gate to apply). */
 export function appliesAt(entry: Entry, stage: StageId | null): boolean {
-  const { stages } = entry.appliesTo;
-  if (stages === 'all' || stage === null) return true;
-  return stages.some((s) =>
-    typeof s === 'string' ? s === stage : stagesBetween(s.from, s.to).includes(stage),
-  );
+  return appliesAtStage(entry.appliesTo, stage);
 }
 
 function stageOrNull(state: AccountState, kb: UnspentKnowledge): StageId | null {
