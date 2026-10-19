@@ -14,7 +14,11 @@ export const BUDGETS = {
   // Lowered from 8 MiB in release 7 (perf/kb-slim): the worker went from 7.6 MiB to 4.7 MiB.
   workerChunkRaw: 6 * 1024 * 1024,
   anyFile: 20 * 1024 * 1024,
-  fileCount: 5000,
+  // M25 (game art): dist/ carries IdleOn Toolbox's whole image set (about 19,600 lossless WebPs under
+  // game-art/, ADR 0009 as amended 2026-10-19), so the cap is now Cloudflare's own: Workers Free allows
+  // 20,000 static assets per version (Paid 100,000). 100 under it, so a deploy never meets the platform
+  // limit first; a Toolbox re-sync that grows past it must pack the images or move to Paid.
+  fileCount: 19_900,
   whatsNew: 64 * 1024,
   // M21 TR-12: the font files the first screen downloads (FR-F2's five latin faces: Atkinson
   // Hyperlegible Next 400 and 700, JetBrains Mono 400, Pixelify Sans 500 and 600). Measured at 60.8 KB

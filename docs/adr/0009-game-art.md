@@ -22,13 +22,19 @@ the same, for the same kind of fan-made, read-only companion tool.
    repository's GPL-3.0 licence. Used as IdleOn Toolbox does, for a fan-made, read-only companion
    tool." The README's Licence section points at it, so the GPL never claims these files and a fork
    inherits the notice.
-2. **Copied by script, from the pin.** `scripts/game-art/sync.mjs` copies the files from Toolbox's image
-   folder at the commit pinned in `packages/toolbox-parsers/UPSTREAM` (one sparse, shallow fetch),
-   renames each to the id ActiveOn already holds (item rawName, card rawName, talent skillIndex,
-   bubble rawName, vial level, class index, monster rawName) and writes `manifest.json`. Never
-   hand-add, edit or redraw a file in that folder; a parser re-sync re-runs the script.
-3. **Only what we draw.** The seven kinds above, byte for byte (Toolbox's PNGs are already palette-
-   compressed). No backgrounds, UI frames, fonts, music or animations.
+2. **Mirrored by script, from the pin.** `scripts/game-art/sync.mjs` mirrors Toolbox's image folders
+   (`data/`, `etc/`, `monsters/`, `afk_targets/`, `npcs/`, `player-sprites/`) at the commit pinned in
+   `packages/toolbox-parsers/UPSTREAM` (one sparse, shallow fetch), keeping Toolbox's own folder and file
+   names, so any name Toolbox draws (`data/StampA4`) is our `/game-art/data/StampA4.webp` with no hand
+   mapping. It writes `manifest.json`. Never hand-add, edit or redraw a file in that folder; a parser
+   re-sync re-runs the script. (Amended 2026-10-19, M25: at first we copied only seven kinds; the owner
+   asked for the whole set, so every game thing a view names can wear its sprite.)
+3. **Lossless only.** Each PNG is re-encoded as lossless WebP (`cwebp -lossless -exact`) and decoded
+   again; the sync fails if any pixel differs. GIFs are copied byte for byte. Toolbox's own site
+   screenshots are left out. One format keeps one extension, so the app needs no per-file index.
+   The whole set is about 19,600 files and 24 MB (from 42.6 MB of PNG): under Cloudflare Workers Free's
+   20,000 static assets per version with the app's own ~125 files; `packages/release` caps dist/ at
+   19,900 files, and a re-sync that grows past it must pack the images or move to Workers Paid.
 4. **Self-hosted, lazy, never bundled.** Served from our own origin (CSP `img-src 'self'` unchanged),
    `loading="lazy"`, never imported into JS, so the first-load budget doesn't move. No runtime
    hotlinking of Toolbox's site, the wiki or any other third party.
