@@ -82,13 +82,15 @@ export interface BadgeProps {
   count: number;
   /** The count in words for screen readers ("2 to fix before you leave"). */
   label: string;
+  /** M24 rule 7: coral losing value now (default), gold do it, plain a count, text a bare gold number. */
+  tone?: 'coral' | 'gold' | 'plain' | 'text';
 }
 
 /** A count, named in words for screen readers (nav badges, tab badges). Zero renders nothing. */
-export function Badge({ count, label }: BadgeProps) {
+export function Badge({ count, label, tone = 'coral' }: BadgeProps) {
   if (count <= 0) return null;
   return (
-    <span className="a-badge">
+    <span className={tone === 'coral' ? 'a-badge' : `a-badge a-badge--${tone}`}>
       <span className="num" aria-hidden="true">
         {count}
       </span>

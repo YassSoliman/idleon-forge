@@ -2,6 +2,8 @@
 // Copyright (C) 2026 IdleOn Forge contributors.
 // The atom set every area uses (M21 FR-F5, TR-5). F owns these; a change an area needs is a
 // cross-module request for Integration.
+
+export { Blob, type BlobProps, HAT } from './Blob';
 export {
   Button,
   type ButtonProps,
@@ -47,5 +49,6 @@ export {
   Toast,
   type ToastProps,
 } from './States';
+export { Frame, type FrameProps, Pip, Tag, Tile, type TileProps, type Tone } from './Surfaces';
 export { ThemeToggle } from './ThemeToggle';
 export { TokenLine, type TokenLineProps } from './TokenLine';
