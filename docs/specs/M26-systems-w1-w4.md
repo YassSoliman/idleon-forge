@@ -552,6 +552,11 @@ golden.
   "Rift 36" (Vial Mastery), 40 -> "Rift 41" (Construct Mastery), 45 -> "Rift 46" (Ruby Cards). The three drafts that
   printed stored numbers were fixed on 2026-10-19 (`rift.yaml` twice, `construction.yaml`); the lint will catch the
   `elite-classes.facts` `riftGate` rows, whose base is unproven until V1.
+  **Built 2026-10-19:** `riftLabel()` / `riftText()` in `packages/engine/src/world4/rift-label.ts` with the six display
+  tests; `kb check` fails a bare number after "Rift" in any player string of an entry, draft or fact table (Sources and
+  notes excepted; write "Rift {rift}"), and an engine test fails one in the engine, knowledge or app source. The only
+  live hit was the Divine Knight Role "Clears Rift 8" (whose base waits on V1); it now reads "Clears the Rift levels
+  that need a Divine Knight".
 - **FR-5 Claimed by.** A finding may declare `claims: [{ system, key }]`. The engine's merge step keeps one card per
   claimed key, owned by the entry the System's FR names, and adds the other entry's reason as a detail line. Pairs at
   M26 start: MASTER.md section 5 X8-X16 and W3 #5.

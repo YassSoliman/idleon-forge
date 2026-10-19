@@ -31,3 +31,4 @@ export { metaPathModule } from './metapath/module';
 export { compareGoals, EMPTY_PRIORITY_LIST, positionOf } from './metapath/priority';
 export type { Rankable, ResolvedPriorityList, VisitHint } from './metapath/types';
 export type * from './result';
+export { riftLabel, riftText } from './world4/rift-label';

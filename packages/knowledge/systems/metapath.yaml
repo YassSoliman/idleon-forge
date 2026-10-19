@@ -280,7 +280,7 @@ entries:
       - { id: construction-builder, classLine: Squire, does: "Builds on the Cog Board", activeFrom: W3-early, owns: ["parallel:cog"] }
       - { id: refinery-throttle, classLine: Squire, does: "Runs Refinery Throttle", activeFrom: W3-early, visitHint: cooldown }
       - { id: construction-builder-2nd, classLine: Squire, does: "Builds on the Cog Board (2nd Squire)", activeFrom: W3-early, owns: ["parallel:cog"] }
-      - { id: rift-8, classLine: Divine_Knight, does: "Clears Rift 8", activeFrom: W4-entry }
+      - { id: rift-8, classLine: Divine_Knight, does: "Clears the Rift levels that need a Divine Knight", activeFrom: W4-entry }
 
   - id: metapath.metapath.role-bowman
     system: metapath
