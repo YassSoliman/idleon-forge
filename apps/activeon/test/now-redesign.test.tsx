@@ -308,7 +308,7 @@ describe('G1 the header and its overflow menu, G10 Settings', () => {
     );
     const foot = screen.getByRole('contentinfo');
     expect(foot.textContent).toContain('Numbers by IdleOn Toolbox 2.3.540');
-    expect(foot.textContent).toContain('Fan-made, read-only');
+    expect(foot.textContent).toContain('Fan-made, read-only, not affiliated with LavaFlame2');
     expect(within(foot).getByRole('button', { name: 'Suggest' })).toBeTruthy();
     expect(within(foot).queryByText(/Paste/)).toBeNull();
   });

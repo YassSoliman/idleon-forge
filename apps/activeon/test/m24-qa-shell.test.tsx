@@ -14,13 +14,14 @@ import { wikiName } from '../src/systems/frame/SystemFrame';
 afterEach(cleanup);
 
 describe('the footer (QA P2: one line)', () => {
-  it("keeps the boards' short legal line, Suggest and Source", () => {
+  it('shows the affiliation disclaimer on every page, then Suggest and Source', () => {
     render(
       <Footer credit="Numbers by IdleOn Toolbox 2.3.540 · facts from the IdleOn Wiki" onSuggest={() => {}} />,
     );
     const foot = screen.getByRole('contentinfo');
-    expect(foot.textContent).toContain('Fan-made, read-only');
-    expect(foot.textContent).not.toContain('not affiliated');
+    expect(foot.querySelector('.n-foot__end')?.textContent).toContain(
+      'Fan-made, read-only, not affiliated with LavaFlame2',
+    );
     // The Sources line carries its full text as a title, for when the ellipsis cuts it.
     expect(foot.querySelector('.n-foot__src')?.getAttribute('title')).toBe(
       'Numbers by IdleOn Toolbox 2.3.540 · facts from the IdleOn Wiki',

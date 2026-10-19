@@ -2,8 +2,8 @@
 // Copyright (C) 2026 IdleOn Forge contributors.
 // The footer (M24 rule 8: one line). Left: the page's Sources, or the default credit (numbers by IdleOn
 // Toolbox, facts from the IdleOn Wiki); a place fills it with <PageSources> (shell/page-sources.tsx).
-// Right: the legal line, kept short and always reachable ("Fan-made, read-only", the boards' words), then
-// Suggest and Source. The full disclaimer, the links, your data and the versions
+// Right: the legal line, on every page and never cut ("Fan-made, read-only, not affiliated with
+// LavaFlame2"), then Suggest and Source; when the line is too long, the Sources shrink, never this. The full disclaimer, the links, your data and the versions
 // live in the ••• menu. Paste, sign-in and the Account no longer sit under every page (rule 8).
 import { FOOTER_WORDS as W } from '@idleon-forge/engine/now';
 import { type Ref, useEffect, useRef } from 'react';

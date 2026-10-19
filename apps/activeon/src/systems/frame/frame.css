@@ -238,6 +238,18 @@
   text-overflow: ellipsis;
   white-space: nowrap;
 }
+/* On a phone the wiki link and the version may shrink too, after the checks list has. */
+@media (max-width: 719.98px) {
+  .sf-foot > * {
+    flex: 0 1 auto;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .sf-foot > .sf-foot__checks {
+    flex-shrink: 1000;
+  }
+}
 .sf-foot a {
   color: var(--muted);
 }

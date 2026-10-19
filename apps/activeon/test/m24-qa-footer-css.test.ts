@@ -19,7 +19,12 @@ describe('the one-line footer', () => {
     expect(rule(chrome, '.n-foot__in')).toMatch(/flex-wrap: nowrap/);
     expect(rule(chrome, '.n-foot__src')).toMatch(/text-overflow: ellipsis/);
     expect(rule(chrome, '.n-foot__src')).toMatch(/white-space: nowrap/);
+    // The legal part (the affiliation disclaimer) never shrinks or wraps; only the Sources give way.
     expect(rule(chrome, '.n-foot__end')).toMatch(/flex: none/);
+    expect(rule(chrome, '.n-foot__end')).toMatch(/white-space: nowrap/);
+    expect(rule(chrome, '.n-foot__end')).not.toMatch(/overflow: hidden|text-overflow/);
+    // The footer never widens the page column on a phone (a long Sources line or legal line).
+    expect(rule(chrome, '.n-foot')).toMatch(/contain: inline-size/);
   });
   it("a System page's checks list shrinks first, so the wiki link and Toolbox stay on screen", () => {
     const frame = read('systems/frame/frame.css');
