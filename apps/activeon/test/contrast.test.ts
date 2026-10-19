@@ -190,3 +190,29 @@ describe.each(themes)('%s %s', (_d, _mode, scope) => {
     expect(ratio(hex(fg, scope), hex(bg, scope))).toBeGreaterThanOrEqual(3);
   });
 });
+
+/**
+ * M21.1 refresh: the new surfaces in Field Guide, light and dark. The top bar's words (ink, muted, the
+ * gold active mark and counts, the coral Now badge) and the frame's words (the step, its muted
+ * who · where, the coral "Do it first") and its "1" tile.
+ */
+const REFRESH_TEXT: [string, string][] = [
+  ['fg', 'bar'],
+  ['muted', 'bar'],
+  ['accent', 'bar'],
+  ['warn', 'bar'],
+  ['on-bad', 'bad'],
+  ['fg', 'frame-bg'],
+  ['muted', 'frame-bg'],
+  ['bad', 'frame-bg'],
+  ['bad', 'frame-tile'],
+];
+describe.each(themes.filter(([d]) => d === 'field'))('M21.1 refresh: %s %s', (_d, _mode, scope) => {
+  it.each(REFRESH_TEXT)('text --%s on --%s passes 4.5:1', (fg, bg) => {
+    expect(ratio(hex(fg, scope), hex(bg, scope))).toBeGreaterThanOrEqual(4.5);
+  });
+  it('the bar and the frame are tonal steps off the page', () => {
+    expect(hex('bar', scope)).not.toBe(hex('bg', scope));
+    expect(hex('frame-bg', scope)).not.toBe(hex('bg', scope));
+  });
+});
