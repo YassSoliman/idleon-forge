@@ -7,7 +7,8 @@
 //   link to that tab, a big word and a small one, coloured gold (do it), mint (fine) or grey (later);
 // - the next character (the one framed block of the screen) beside the class tree;
 // - the Skills heat map: brighter is a higher level, gold is the skill the character should train.
-// Characters are class + level only (never a character's name). Every fact is the engine's.
+// Characters are labelled by class + level; the who column adds the in-game name under it, small and
+// quiet (M25), so two characters of one class can be told apart. Every fact is the engine's.
 import type { RosterRow, TabHealth } from '@idleon-forge/engine/now';
 import type { ClassFamily, NextCharacterCard } from '@idleon-forge/engine/result';
 import { Blob } from '../design/atoms/Blob';
@@ -20,6 +21,7 @@ import { StateWord } from '../now/place/LogOff';
 import { CHARACTERS_PLACE_WORDS as W } from '../now/place/words';
 import { TAB_HEALTH } from '../now/tab-health';
 import type { Session } from '../shell/session';
+import { shownName } from './name';
 import './place.css';
 
 const who = (r: RosterRow) => `${r.classLabel} ${r.level}`;
@@ -89,19 +91,27 @@ function Grid({ s, rows }: { s: Session; rows: RosterRow[] }) {
         <tbody>
           {rows.map((r) => {
             const state = cardState(r, full);
+            const name = shownName(s.result?.characters.find((c) => c.index === r.index));
             return (
               <tr key={r.index}>
                 <th scope="row">
                   <a
                     className="cp-who"
                     href={tabHref(NOW_TAB, r.index)}
-                    aria-label={`${r.position}. ${who(r)}, ${state}`}
+                    aria-label={`${r.position}. ${who(r)}${name ? `, ${name}` : ''}, ${state}`}
                     onClick={open(r.index, NOW_TAB)}
                   >
                     <span className="cp-n num">{r.position}</span>
                     <Blob family={(families[r.index] ?? 'beginner') as ClassFamily} size={40} />
                     <span className="cp-who-t">
-                      <b className="num">{who(r)}</b>
+                      <span className="cp-who-l">
+                        <b className="num">{who(r)}</b>
+                        {name ? (
+                          <span className="cp-who-name" title={name}>
+                            {name}
+                          </span>
+                        ) : null}
+                      </span>
                       <span className="cp-xs">
                         <StateWord state={state} />
                         {/* M24 QA P2: the state word and its reason read as two parts, not one run. */}

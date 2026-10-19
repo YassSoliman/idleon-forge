@@ -5,7 +5,8 @@
 // state pip; it replaces the old prev / dots / arrows / "switch to" bar and "All characters"), the
 // header (a big blob, "Hunter 70", where and what it does, its state word, the Role line on Now, and the
 // class path on the right), the cap pills, then the tabs with their count badges (FR-C7's health, a
-// number with its unit read out). Class and level everywhere, never a character's name (M24 rule 4).
+// number with its unit read out). Class and level are the label everywhere (M24 rule 4); the strip adds
+// the in-game name under it, small and quiet, so two characters of one class can be told apart (M25).
 import type { FocusCard, NowView, TabHealth } from '@idleon-forge/engine/now';
 import { forwardRef, type ReactNode } from 'react';
 import { Pip, Tag } from '../design/atoms';
@@ -15,6 +16,7 @@ import { type CardState, characterStates, PIP } from '../now/place/derive';
 import { StateWord } from '../now/place/LogOff';
 import { NOW_PLACE_WORDS } from '../now/place/words';
 import { Avatar } from './Avatar';
+import { shownName } from './name';
 import { PAGE_WORDS } from './words';
 import './shell.css';
 
@@ -101,6 +103,7 @@ export const CharacterShell = forwardRef<HTMLHeadingElement, CharacterShellProps
     view?.roster.find((x) => x.index === i)?.classLabel ??
     actions.result?.characters.find((x) => x.index === i)?.classLabel ??
     '';
+  const nameOf = (i: number) => shownName(actions.result?.characters.find((x) => x.index === i));
   const strip = card.strip ?? [];
   // One state word and pip for a character everywhere (M24 QA P1-10): the one Now's cards and the
   // Characters grid show (Fix first, Collect, Ready, Can't tell), not the bare Verdict.
@@ -116,20 +119,28 @@ export const CharacterShell = forwardRef<HTMLHeadingElement, CharacterShellProps
         <nav className="cp-strip" aria-label={PAGE_WORDS.strip}>
           {strip.map((s) => {
             const who = whoOf(s.index);
+            const name = nameOf(s.index);
             return (
               <a
                 key={s.index}
                 className="cp-chip"
                 href={tabHref(tab, s.index)}
                 aria-current={s.current ? 'page' : undefined}
-                aria-label={`${who}: ${NOW_PLACE_WORDS.verdict[stateOf(s.index, s.kind)]}`}
+                aria-label={`${who}${name ? `, ${name}` : ''}: ${NOW_PLACE_WORDS.verdict[stateOf(s.index, s.kind)]}`}
                 onClick={(e) => {
                   e.preventDefault();
                   if (!s.current) go(s.index);
                 }}
               >
                 <Avatar family={familyOf(s.index)} classLabel={classOf(s.index)} size={32} />
-                <span className="cp-chip-who">{who}</span>
+                <span className="cp-chip-t">
+                  <span className="cp-chip-who">{who}</span>
+                  {name ? (
+                    <span className="cp-chip-name" title={name}>
+                      {name}
+                    </span>
+                  ) : null}
+                </span>
                 <Pip tone={PIP[stateOf(s.index, s.kind)]} />
               </a>
             );
