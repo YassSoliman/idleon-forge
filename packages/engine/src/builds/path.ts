@@ -155,17 +155,19 @@ export function bandPath(
         ...(continues ? { from: first.current } : {}),
       });
     }
-    for (const { m, k } of members) {
+    for (const { m, k, saved } of members) {
+      // A later row shows the save's own level (M22 same-fact-everywhere); an earlier row's raise is its `from`.
       if (m.later !== null)
         out.push({
           ...base(m, k),
-          current: m.current,
+          current: saved,
           goal: m.goal,
           need: Math.max(0, m.goal - m.current),
           cumulative: null,
           band: 'later',
           condition: m.later,
           note: m.note,
+          ...(m.current !== saved ? { from: m.current } : {}),
         });
       else if (m.fixed !== null)
         out.push({

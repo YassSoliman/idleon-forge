@@ -4,7 +4,13 @@
 
 import { readFileSync } from 'node:fs';
 import { gzipSync } from 'node:zlib';
-import { canonicalJson, diffManifests, loadKnowledge, packKnowledge } from '@idleon-forge/knowledge';
+import {
+  canonicalJson,
+  diffManifests,
+  loadKnowledge,
+  packKnowledge,
+  shippedEntry,
+} from '@idleon-forge/knowledge';
 import { describe, expect, it } from 'vitest';
 import { compile } from '../src/compile';
 import { loadSource } from '../src/load';
@@ -243,9 +249,9 @@ describe('kb compile on the real Knowledge Base (TR-17 budgets)', () => {
       best = Math.min(best, performance.now() - t2);
     }
     expect(best).toBeLessThan(LOAD_BUDGET_MS);
-    // Unpacking restores every entry exactly, minus the authors' notes (never shipped).
+    // Unpacking restores every entry exactly, minus the authors' notes and Source notes (never shipped).
     const withoutNotes = Object.fromEntries(
-      Object.entries(kb.entries).map(([id, e]) => [id, { ...e, notes: undefined }]),
+      Object.entries(kb.entries).map(([id, e]) => [id, shippedEntry(e)]),
     );
     expect(canonicalJson(loaded.entries)).toBe(canonicalJson(withoutNotes));
     // The indexes the loader rebuilds are the ones `kb compile` built.
