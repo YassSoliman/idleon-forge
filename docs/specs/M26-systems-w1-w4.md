@@ -633,6 +633,20 @@ golden.
     `anvil.goal.next-tab` twice, the three Shaman / Squire / Bowman Build patches without confidence and Sources, the
     id string `engine/src/builds/diff.ts`, `spend.yaml` used as an id, a `talents.build.wizard-fighting,` typo).
   Output: one converted file per System, validated by the real schema, held as `status: draft` until its wave.
+  **Built 2026-10-19:** `pnpm kb convert-drafts` (`packages/kb-tools/src/convert-drafts.ts`; a test runs `--check`).
+  Inputs: the 65 `kb-drafts/*.yaml` files plus `kb-drafts/from-maps.yaml` (the 36 map-only drafts not already in a
+  draft file, copied from the area maps so CI can re-run the pass). Out of 497 records: **328 drafts** in
+  `systems/<system>.drafts.yaml` (63 files; the loader takes `.drafts.yaml` as drafts only), **35 edits** to live
+  entries in `packages/knowledge/drafts/edits/` (each applied to its live entry and re-parsed; 27 still list schema
+  problems for the promoting PR), **12 draft fact tables** in `drafts/facts/` (not loaded), and `drafts/report.json`
+  listing **115 records not converted** with their reasons (mostly Goals with no Milestone ladder, Builds and Priority
+  Lists without their tier structure, and fact tables whose rows or Sources need a generator) and **7 non-KB records**
+  (engine code-change notes, `info` types). No duplicate id remains (the patch files' repeats are edits to one live
+  entry). Every change a draft got is in its `notes` ("kb-convert: ..."): unit and category defaults, `doneWhen.change`
+  mapped, `<`/`>` spelled out, text over 240 characters cut, typed Rift numbers turned into `Rift {rift}`, and every
+  Source re-tiered: dossier self-citations to the committed `docs/research/systems` notes (tier 4), vendor paths to
+  Toolbox permalinks, wiki pages to tier 2 only with a post-patch `claimDate` else 4, N.js reads to tier 4 until their
+  excerpts are stored (FR-2b; an H verdict resting on them drops to M), undated tier 2-3 to 4.
 - **FR-0a Stage fixtures.** Wave 0.11 adds `stage-w1-early` and `stage-w3-mid` (Fixtures paragraph) and the per-story
   mutations as each wave needs them. Each wave's goldens include one story per Stage band the wave touches (US-S1 to
   US-S3 plus the wave's own stories), and every wave asserts US-S1 (locked Systems silent on `stage-w1-early`).

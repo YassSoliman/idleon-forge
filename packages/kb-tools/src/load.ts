@@ -203,7 +203,9 @@ export function loadSource(root: string = KNOWLEDGE): KbSource {
     const y = readYamlFile(file, issues);
     if (!y) continue;
     const isFacts = /\.facts\.ya?ml$/.test(file);
-    const stem = path.basename(file).replace(/(\.facts)?\.ya?ml$/, '');
+    // `<system>.drafts.yaml` (M26 FR-10) holds a System's drafts, written by `kb convert-drafts`.
+    const isDrafts = /\.drafts\.ya?ml$/.test(file);
+    const stem = path.basename(file).replace(/(\.facts|\.drafts)?\.ya?ml$/, '');
     const raw = y.value as {
       system?: unknown;
       entries?: { id?: unknown }[];
@@ -255,6 +257,14 @@ export function loadSource(root: string = KNOWLEDGE): KbSource {
           line: y.lineOf(['entries', i]),
           id: value.id,
           message: 'authored entries never set origin or generatedBy',
+        });
+      if (isDrafts && value.status !== 'draft')
+        issues.push({
+          level: 'error',
+          file: y.file,
+          line: y.lineOf(['entries', i, 'status']),
+          id: value.id,
+          message: 'a .drafts.yaml file holds drafts only (status: draft)',
         });
       const located: Located<AuthoredEntryT> = {
         file: y.file,
