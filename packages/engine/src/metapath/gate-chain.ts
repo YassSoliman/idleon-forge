@@ -215,8 +215,38 @@ export function worldTutorial(
   ];
 }
 
-/** The items Rocklyte's first two quests take (Toolbox quests.json#Rocklyte, dossier C4). */
-export const ROCKLYTE = { npc: 'Rocklyte', peanut: 'Peanut', goldenPeanut: 'PeanutG', quests: 3 } as const;
+/** Rocklyte's quest chain: its quest entries (generated from Toolbox quests.json#Rocklyte, dossier C4). */
+export const ROCKLYTE = { npc: 'Rocklyte', quests: 3 } as const;
+export const rocklyteQuestId = (n: number) => `quests.acquisition.rocklyte${n}`;
+
+/** What one of Rocklyte's quests takes, from its generated quest entry; null when it takes no item. */
+export function rocklyteNeed(
+  kb: FactLookup,
+  n: number,
+): {
+  rawName: string;
+  name: string;
+  amount: number;
+  map: number | null;
+  craft: { lvReqToCraft: number; materials: { amount: number; rawName: string; name?: string }[] } | null;
+} | null {
+  const e = kb.get(rocklyteQuestId(n)) as { data?: Record<string, unknown> } | undefined;
+  const d = e?.data as
+    | {
+        map?: number;
+        requires?: { kind?: string; rawName?: string; name?: string; amount?: number; craft?: unknown }[];
+      }
+    | undefined;
+  const r = d?.requires?.find((x) => x.kind === 'item');
+  if (!r?.rawName || typeof r.amount !== 'number') return null;
+  return {
+    rawName: r.rawName,
+    name: r.name ?? r.rawName,
+    amount: r.amount,
+    map: typeof d?.map === 'number' ? d.map : null,
+    craft: (r.craft as NonNullable<ReturnType<typeof rocklyteNeed>>['craft']) ?? null,
+  };
+}
 
 /** Rocklyte's quests this character finished in a row (1-3), or -1 when its quests can't be read. */
 function rocklyteDone(state: AccountState, c: AccountState['characters'][number]): number {
@@ -262,8 +292,14 @@ export function subclassPending(
             action: 'become-journeyman',
             next: 'Journeyman',
             done: rocklyteDone(state, c),
-            peanuts: heldOf(state, ROCKLYTE.peanut),
-            goldenPeanuts: heldOf(state, ROCKLYTE.goldenPeanut),
+            held1: (() => {
+              const need = rocklyteNeed(kb, 1);
+              return need ? heldOf(state, need.rawName) : -1;
+            })(),
+            held2: (() => {
+              const need = rocklyteNeed(kb, 2);
+              return need ? heldOf(state, need.rawName) : -1;
+            })(),
           },
           order: 0,
           provenance: {

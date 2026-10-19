@@ -5,7 +5,8 @@
 import { type Entry, render, type SlotValue } from '@idleon-forge/knowledge';
 import type { Goal, Milestone, NextAction, SourceRef, Subject, WalkthroughStepView } from '../result';
 import { FAMILY_UNLOCK_ID, type FamilyGate, type FamilyUnlock, OBOL_SLOTS_FACT } from './family';
-import { worldGates } from './knowledge';
+import { rocklyteNeed, rocklyteQuestId } from './gate-chain';
+import { lookupOf, worldGates } from './knowledge';
 import type { FactLookup, MetaPathGoal, MetaPathKnowledge, MetaPathResult, PushGoal } from './types';
 
 export interface MetaPathGoalOut {
@@ -158,25 +159,27 @@ function findingOut(kb: MetaPathKnowledge, g: MetaPathGoal): Goal | null {
   }
 }
 
-/** Rocklyte's quests (Toolbox quests.json#Rocklyte): the items each takes, and Froggy Fields' map. */
-const ROCKLYTE_STEPS = [
-  { key: 'rocklyte-1', item: 'Peanut', slot: 'peanuts', need: 500, label: '500 Peanuts' },
-  { key: 'rocklyte-2', item: 'PeanutG', slot: 'goldenPeanuts', need: 5, label: '5 Golden Peanuts' },
-  { key: 'rocklyte-3', item: null, slot: null, need: 0, label: 'Become a Journeyman' },
-] as const;
-/** Rocklyte stands in Froggy Fields, map 2 (Toolbox shared-data.json#npcPlacements). */
-const FROGGY_FIELDS = 2;
-
 /**
  * A Beginner planned as the Journeyman (owner report 2026-10-19): "don't pick a class at Lv 10", with
- * Rocklyte's three quests as a Walkthrough on the card, the ones the save's quest log shows done left
- * out, and the Peanuts the account holds as progress.
+ * Rocklyte's three quests as a Walkthrough on the card. The amounts, items, recipe and map come from the
+ * generated quest entries (Toolbox quests.json#Rocklyte); the ones the save's quest log shows done are
+ * left out, and the items the account holds are the progress.
  */
 function becomeJourneyman(kb: MetaPathKnowledge, g: MetaPathGoal, subject: Subject): Goal | null {
   const e = kb.entries[g.entryId];
   if (e?.type !== 'goal') return null;
+  const facts = lookupOf(kb);
   const v = e.values;
   const t = (k: string) => (typeof v[k] === 'string' ? (v[k] as string) : null);
+  const fill = (k: string, slots: Record<string, SlotValue>) => {
+    const tpl = t(k);
+    if (!tpl) return null;
+    try {
+      return render(tpl, slots);
+    } catch {
+      return null;
+    }
+  };
   const goal = goalOf(
     kb,
     g.entryId,
@@ -186,49 +189,59 @@ function becomeJourneyman(kb: MetaPathKnowledge, g: MetaPathGoal, subject: Subje
     {
       why: t('become-journeyman-why') ?? undefined,
       fields: g.provenance.fields,
-      entryIds: g.provenance.entryIds,
+      entryIds: [...g.provenance.entryIds, rocklyteQuestId(1), rocklyteQuestId(2), rocklyteQuestId(3)],
     },
   );
   if (!goal) return null;
   const done = typeof g.slots.done === 'number' ? Math.max(0, g.slots.done) : 0;
-  const left = ROCKLYTE_STEPS.slice(done);
   const sources = sourcesOf(e);
-  const steps: WalkthroughStepView[] = left.flatMap((s, i) => {
-    const text = t(s.key);
-    if (!text) return [];
-    const held = s.slot && typeof g.slots[s.slot] === 'number' ? (g.slots[s.slot] as number) : -1;
-    return [
-      {
-        order: i + 1,
-        text,
-        when: i === 0 ? 'now' : 'after',
-        after: i === 0 ? [] : [i],
-        subject,
-        progress: s.need > 0 && held >= 0 ? { held: Math.min(held, s.need), need: s.need } : null,
-        why: t(`${s.key}-why`),
-        sources,
-        mapIndex: FROGGY_FIELDS,
-      },
-    ];
+  const quests = [1, 2, 3].map((n) => {
+    const need = n < 3 ? rocklyteNeed(facts, n) : null;
+    const held = typeof g.slots[`held${n}`] === 'number' ? (g.slots[`held${n}`] as number) : -1;
+    const [a, b] = need?.craft?.materials ?? [];
+    const why =
+      need?.craft && a && b
+        ? fill(`rocklyte-${n}-why`, {
+            item: need.name,
+            a: a.amount,
+            ma: a.name ?? a.rawName,
+            b: b.amount,
+            mb: b.name ?? b.rawName,
+            lv: need.craft.lvReqToCraft,
+          })
+        : null;
+    const text = need
+      ? fill(`rocklyte-${n}`, { amount: need.amount, item: need.name })
+      : fill(`rocklyte-${n}`, {});
+    return { n, need, held, text, why };
   });
+  const map = rocklyteNeed(facts, 1)?.map ?? null;
+  const left = quests.slice(done).filter((q) => q.text !== null);
+  const steps: WalkthroughStepView[] = left.map((q, i) => ({
+    order: i + 1,
+    text: q.text as string,
+    when: i === 0 ? 'now' : 'after',
+    after: i === 0 ? [] : [i],
+    subject,
+    progress: q.need && q.held >= 0 ? { held: Math.min(q.held, q.need.amount), need: q.need.amount } : null,
+    why: q.why,
+    sources,
+    ...(map !== null ? { mapIndex: map } : {}),
+  }));
   if (steps.length === 0) return goal;
-  const collapsed = t('rocklyte-collapsed');
   const caveat = t('rocklyte-caveat');
   return {
     ...goal,
     walkthrough: {
-      targetId: 'quests.acquisition.rocklyte3',
-      collapsed: collapsed ? render(collapsed, { left: steps.length }) : '',
+      targetId: rocklyteQuestId(3),
+      collapsed: fill('rocklyte-collapsed', { left: steps.length }) ?? '',
       steps,
-      tree: left.map((s) => {
-        const held = s.slot && typeof g.slots[s.slot] === 'number' ? (g.slots[s.slot] as number) : -1;
-        return {
-          depth: 0,
-          text: s.label,
-          done: s.need === 0 || held < 0 ? null : held >= s.need,
-          ...(s.item ? { item: s.item } : {}),
-        };
-      }),
+      tree: left.map((q) => ({
+        depth: 0,
+        text: q.text as string,
+        done: !q.need || q.held < 0 ? null : q.held >= q.need.amount,
+        ...(q.need ? { item: q.need.rawName } : {}),
+      })),
       otherWays: [],
       caveats: caveat ? [caveat] : [],
     },

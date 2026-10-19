@@ -682,9 +682,14 @@ entries:
       become-journeyman: "Become a Journeyman at Rocklyte, not a Lv 10 class"
       become-journeyman-why: "The Meta Path holds this character's slot for the Journeyman line, and the Journeyman is not in the Lv 10 class pick: Rocklyte's quests give it."
       rocklyte-title: "Rocklyte's quests"
-      rocklyte-1: "Bring Rocklyte 500 Peanuts in Froggy Fields"
-      rocklyte-2: "Bring Rocklyte 5 Golden Peanuts, crafted at the Anvil"
-      rocklyte-2-why: "Each Golden Peanut takes 100 Peanuts and 50 Gold Bars, at Smithing Lv 10."
+      # The generated quest entries the steps read their items, amounts, recipe and map from (they ship
+      # because they are named here).
+      rocklyte-quest-1: quests.acquisition.rocklyte1
+      rocklyte-quest-2: quests.acquisition.rocklyte2
+      rocklyte-quest-3: quests.acquisition.rocklyte3
+      rocklyte-1: "Bring Rocklyte {amount:int} {item:name}s in Froggy Fields"
+      rocklyte-2: "Bring Rocklyte {amount:int} {item:name}s, crafted at the Anvil"
+      rocklyte-2-why: "Each {item:name} takes {a:int} {ma:name}s and {b:int} {mb:name}s, at Smithing Lv {lv:int}."
       rocklyte-3: "Talk to Rocklyte again: Become a Journeyman"
       rocklyte-collapsed: "{left:int} of 3 left: Rocklyte's quests in Froggy Fields"
       rocklyte-caveat: "From the save's quest log and the Peanuts held now"
