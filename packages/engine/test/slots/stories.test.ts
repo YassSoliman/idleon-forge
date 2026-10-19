@@ -6,7 +6,8 @@ import { fileURLToPath } from 'node:url';
 import { describe, expect, it } from 'vitest';
 import { runMetaPath } from '../../src/metapath';
 import { buildNowView, DEFAULT_UI, EMPTY_PREFS, renderNowText } from '../../src/now';
-import { buildChecklist, buildSlots, killroyRoomDone } from '../../src/slots';
+import { buildChecklist, buildSkills, buildSlots, killroyRoomDone } from '../../src/slots';
+import { openerOf } from '../../src/slots/skills';
 import { copy, HOUR, kb, m20Goals, row, run, scrubbedFile, slotOf, workerState } from './helpers';
 
 const w3 = () => copy(workerState(scrubbedFile('scrubbed-w3')));
@@ -221,6 +222,37 @@ describe('US-9 skills for a Role', () => {
     expect(w?.accountBest?.index).toBe(t?.index);
     expect(w?.nextGate?.label).toBe('Acorn Assault');
     expect(t?.slots.find((p) => p.kind === 'cog')?.text).toBe('on the shelf: makes cogs');
+  });
+  it('M24: a Role whose slot is shut says what opens it; Trapping before the quest names Lord of the Hunt', () => {
+    const s = w3();
+    const m = runMetaPath(s, kb, s.asOf);
+    const slots = buildSlots(s, kb, m, s.asOf, 8 * HOUR);
+    const wiz = slotOf(s, 'Wizard', 73);
+    const input = { state: s, kb, meta: m, slotGoalKey: () => null };
+    // As the save is, nothing blocks any train line.
+    expect(buildSkills({ ...input, pips: slots.pips }).every((c) => !c.train?.blocked)).toBe(true);
+    // The Wizard's worship slot shut: the line keeps its words and says what blocks it (no opener Check).
+    const shut = new Map(slots.pips);
+    shut.set(
+      wiz,
+      (slots.pips.get(wiz) ?? []).map((p) =>
+        p.kind === 'worship' ? { ...p, state: 'locked' as const, text: 'Opens in W3' } : p,
+      ),
+    );
+    const t = buildSkills({ ...input, pips: shut }).find((c) => c.index === wiz);
+    expect(t?.train?.skill).toBe('worship');
+    expect(t?.train?.blocked).toEqual({ text: 'Opens in W3', step: null, why: null });
+    // Trapping before Lord of the Hunt's first quest: its own Check's words (trapping.check.start).
+    const trap = { kind: 'trap' as const, state: 'unfillable' as const, linkKey: null };
+    expect(openerOf(kb, 'trapping', { ...trap, text: "needs Lord of the Hunt's quest" })).toEqual({
+      step: "Start Trapping: do Lord of the Hunt's first quest",
+      why: expect.stringMatching(/^The quest is Pelt for the Pelt God/),
+    });
+    // Quest done, no set: the slot's own words stand (its fix is a Goal link, not a prerequisite).
+    expect(openerOf(kb, 'trapping', { ...trap, text: 'needs a trap set', linkKey: 'k' })).toEqual({
+      step: null,
+      why: null,
+    });
   });
   it('the Bowman Lv 60 (fighting): a Role skill, never "Train"', () => {
     const s = w3();

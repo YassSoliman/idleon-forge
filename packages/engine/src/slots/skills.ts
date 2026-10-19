@@ -8,7 +8,7 @@ import { type AccountState, type CharacterState, SKILL_IDS, type SkillId } from 
 import { classTree, lookupOf, roleDefs } from '../metapath/knowledge';
 import type { MetaPathResult } from '../metapath/types';
 import { CAULDRONS, LIQUIDS } from './build';
-import { FACT, type M20Knowledge, rowsOf } from './kb';
+import { ENTRY, FACT, type M20Knowledge, rowsOf, say } from './kb';
 import type { CharacterSkills, SkillGrid, SkillRow, SlotPip } from './types';
 
 export const SKILL_NAME: Record<SkillId, string> = {
@@ -177,10 +177,29 @@ export function buildSkills(i: SkillsInput): CharacterSkills[] {
     return {
       index: c.index,
       rows,
-      train: trainLine(c, rows, roles, pips, specs, world, i.slotGoalKey),
+      train: trainLine(c, rows, roles, pips, specs, world, i.slotGoalKey, (skill, p) =>
+        openerOf(kb, skill, p),
+      ),
       slots: pips,
     };
   });
+}
+
+/**
+ * The Check that opens a shut Role slot, in its own words: Trapping before the first quest is Lord of the
+ * Hunt's (trapping.check.start). Other slots have no opener Check yet: null, and the slot's words stand.
+ */
+export function openerOf(
+  kb: M20Knowledge,
+  skill: SkillId,
+  p: SlotPip,
+): { step: string | null; why: string | null } {
+  if (skill === 'trapping' && p.linkKey === null && p.state === 'unfillable') {
+    const step = say(kb, ENTRY.trapStart, 'text');
+    const why = say(kb, ENTRY.trapStart, 'why');
+    return { step: step || null, why: why || null };
+  }
+  return { step: null, why: null };
 }
 
 function trainLine(
@@ -191,6 +210,7 @@ function trainLine(
   specs: SkillId[],
   world: number,
   slotGoalKey: SkillsInput['slotGoalKey'],
+  opener: (skill: SkillId, p: SlotPip) => { step: string | null; why: string | null },
 ): CharacterSkills['train'] {
   const name = (s: SkillId) => SKILL_NAME[s];
   const pipOf = (s: SkillId) => {
@@ -242,13 +262,17 @@ function trainLine(
   // (2) the first active Role skill
   const first = roleSkills[0];
   if (first) {
-    if (SLOT_OF[first.skill])
+    if (SLOT_OF[first.skill]) {
+      const p = pipOf(first.skill);
+      const shut = p && (p.state === 'unfillable' || p.state === 'locked');
       return {
         skill: first.skill,
         text: `Train: ${name(first.skill)} · ${slotWords(first.skill)}`,
         via: 'parallel-slot',
         linkKey: null,
+        ...(shut ? { blocked: { text: p.text, ...opener(first.skill, p) } } : {}),
       };
+    }
     if (afk === first.skill)
       return {
         skill: first.skill,
