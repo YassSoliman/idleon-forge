@@ -43,6 +43,7 @@ import { createSpendModule } from '@idleon-forge/engine/spend';
 import { createStarSignsModule } from '@idleon-forge/engine/starsigns';
 import { createUnspentModule } from '@idleon-forge/engine/unspent';
 import { createWalkthroughModule } from '@idleon-forge/engine/walkthrough';
+import { createWorld4Module } from '@idleon-forge/engine/world4';
 import {
   type CompiledKnowledge,
   coverage,
@@ -203,6 +204,8 @@ export function workerModules(kb: CompiledKnowledge | null = shippedKnowledge().
     createSessionModule(),
     createMapModule(),
     createPicturesModule(),
+    // M24: the read-only World 4 pages (no Goals).
+    createWorld4Module(),
   ];
 }
 

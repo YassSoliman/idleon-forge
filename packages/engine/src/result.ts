@@ -13,6 +13,7 @@ import type { GearResult } from './gear/types';
 import type { CharacterSkills, SkillGrid, SystemPicture } from './slots/types';
 import type { SpendPlan } from './spend/types';
 import type { StarSignsView } from './starsigns/types';
+import type { World4View } from './world4/types';
 
 export type {
   AlchemyResult,
@@ -69,6 +70,7 @@ export type {
   SpendStep,
 } from './spend/types';
 export type { CharacterSigns, NextConstellation, StarSignsView } from './starsigns/types';
+export type * from './world4/types';
 
 export type VerdictKind = 'ready' | 'fix' | 'unknown';
 export type Category = 'blocker' | 'compounding' | 'spendable' | 'nice';
@@ -679,6 +681,8 @@ export interface EngineResult {
   alchemy?: AlchemyResult | null;
   /** M23 TR-5: the Bubba System page's data (null when Bubba is locked). */
   bubba?: BubbaResult | null;
+  /** M24: the read-only World 4 pages and welcome (`world4` module); absent without it. */
+  world4?: World4View | null;
   /** M18 TR-5: the Gear tab, the Gear page's heat strip and the Smithy page; absent without M18. */
   gear?: GearResult | null;
   /**

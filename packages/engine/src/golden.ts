@@ -39,6 +39,7 @@ import { createSpendModule } from './spend';
 import { createStarSignsModule } from './starsigns';
 import { createUnspentModule } from './unspent';
 import { createWalkthroughModule } from './walkthrough';
+import { createWorld4Module } from './world4/module';
 
 /** The fields of M11's `GoldenInput` this engine reads. */
 export interface GoldenInput {
@@ -136,6 +137,8 @@ export function goldenModules(input: GoldenInput): readonly EngineModule[] {
     createSessionModule(),
     createMapModule(),
     createPicturesModule(),
+    // M24: the read-only World 4 pages (no Goals).
+    createWorld4Module(),
   ];
 }
 
