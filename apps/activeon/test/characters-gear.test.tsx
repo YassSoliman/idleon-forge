@@ -58,19 +58,25 @@ describe('the Gear tab', () => {
     expect(parseTabHash('#gear-2')).toEqual({ tab: 'gear', index: 2 });
   });
 
-  it("#gear-<i>: the Bowman Lv 60's doll lights the helmet, says the step, and opens a sheet", async () => {
+  it("#gear-<i> (M24): the Bowman Lv 60's next fix first, every slot names its piece and where, a path opens", async () => {
     window.history.replaceState(null, '', `/#gear-${bowman()}`);
     const { container } = renderNow(props(result, save()));
-    const helmet = screen.getByRole('button', { name: /^Helmet: nothing, empty · one held, next$/ });
-    expect(helmet.className).toContain('lit');
-    expect(container.querySelectorAll('.gs.lit')).toHaveLength(1);
-    expect(screen.getByText('Equip the Gold Helmet from storage')).toBeTruthy();
-    expect(screen.getByRole('button', { name: /^Shoes: nothing, empty$/ })).toBeTruthy();
-    fireEvent.click(screen.getByRole('button', { name: /^Weapon: Carrot Launcher, 32 levels behind$/ }));
-    const sheet = document.getElementById('gear-sheet') as HTMLElement;
-    expect(within(sheet).getByText(/Pharaoh Bow \(Lv 50\)/)).toBeTruthy();
-    expect(within(sheet).getByText(/Carrot Launcher · Lv 18/)).toBeTruthy();
-    // The tool ladder for the catching net it wears.
+    const answer = screen.getByRole('region', { name: 'Next fix' });
+    expect(within(answer).getByText('Equip the Gold Helmet from storage')).toBeTruthy();
+    // One lit slot, labelled "Next" (never a ring).
+    expect(container.querySelectorAll('.gd-slot[data-lit="yes"]')).toHaveLength(1);
+    const helmet = screen.getByRole('button', { name: /^Helmet.*Equip the Gold Helmet from storage.*Next$/ });
+    expect(helmet.getAttribute('aria-expanded')).toBe('false');
+    // A slot behind names the piece and where it comes from; no "Lv 50 to wear" for a Lv 60 (M24 QA P3).
+    const weapon = screen.getByRole('button', {
+      name: /^Weapon · wearing Carrot LauncherGet Pharaoh BowUnlock Spiked Menace at the W2 Task Board \(Unlocks tab\)$/,
+    });
+    expect(screen.queryByText(/levels behind/)).toBeNull();
+    fireEvent.click(weapon);
+    const path = screen.getByRole('region', { name: 'Weapon: the whole path' });
+    expect(within(path).getByText(/Pharaoh Bow \(Lv 50\)/)).toBeTruthy();
+    expect(within(path).getByText(/Carrot Launcher · Lv 18/)).toBeTruthy();
+    // The catching net's tile carries its tool ladder's next tier.
     expect(screen.getByText(/ at Catching \d+: /)).toBeTruthy();
     const a = await axe.run(container.querySelector('.gd') as HTMLElement, {
       rules: { 'color-contrast': { enabled: false } },
@@ -82,8 +88,8 @@ describe('the Gear tab', () => {
     window.history.replaceState(null, '', '/#characters');
     renderNow(props(result, save()));
     // M21 FR-C7: the health matrix's Gear cell, a 44 px link with a glyph and a word with a unit.
-    expect(
-      screen.getAllByRole('link', { name: /, Gear: fix, \d+ better pieces? held$/ }).length,
-    ).toBeGreaterThan(0);
+    expect(screen.getAllByRole('link', { name: /, Gear: \d+ better pieces? held$/ }).length).toBeGreaterThan(
+      0,
+    );
   });
 });

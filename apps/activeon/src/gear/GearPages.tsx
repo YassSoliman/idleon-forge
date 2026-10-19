@@ -24,7 +24,7 @@ const COLUMN: Readonly<Record<string, string>> = {
 
 const nameOf = (p: SystemPageBodyProps, index: number) => {
   const c = p.s.view.roster.find((r) => r.index === index);
-  return c ? `${c.name} (${c.classLabel} ${c.level})` : `Character ${index + 1}`;
+  return c ? `${c.classLabel} ${c.level}` : `Character ${index + 1}`;
 };
 const isLit = (p: SystemPageBodyProps, key: string | null) =>
   key !== null && (p.page.highlight === key || p.page.goals.some((g) => g.action.key === key));
@@ -132,46 +132,6 @@ export function GearPageBody(p: SystemPageBodyProps) {
           </button>
         ) : null}
       </div>
-    </section>
-  );
-}
-
-export function ArmorSmithyBody(p: SystemPageBodyProps) {
-  const sm = p.s.view.gear?.smithy;
-  if (!sm) return null;
-  const lit = litKey(
-    p,
-    sm.sets.map((x) => x.actionKey),
-  );
-  return (
-    <section className="sy-pic gd-smithy" aria-labelledby="gd-smithy-h">
-      <h3 id="gd-smithy-h" className="sy-h3">
-        Armour sets
-      </h3>
-      <p className="small">{sm.line}</p>
-      <ul className="gd-sets">
-        {sm.sets.map((set) => (
-          <li
-            key={set.set}
-            className={`gd-set${set.registered ? ' done' : ''}${set.actionKey && set.actionKey === lit ? ' is-now' : ''}`}
-          >
-            <p>
-              <b>{set.setName}</b> · {set.bonus}
-            </p>
-            <ul className="gd-parts" aria-label={`${set.setName} set parts`}>
-              {set.parts.map((pt) => (
-                <li key={pt.rawName} className={`gp ${pt.where}`}>
-                  <StateGlyph
-                    state={pt.where === 'worn' ? 'ok' : pt.where === 'held' ? 'held-upgrade' : 'empty'}
-                  />
-                  {pt.name} <span className="small muted">{pt.where}</span>
-                </li>
-              ))}
-            </ul>
-            <p className="small">{set.line}</p>
-          </li>
-        ))}
-      </ul>
     </section>
   );
 }

@@ -294,8 +294,10 @@ export function bestAnvilSplit(
  * The anvil point plan (#70 A2, A3), scored with Toolbox's `getPlayerAnvil` on a clone whose
  * `anvil.anvilStats` carries counterfactual Speed and Capacity points. `anvilSpeed` reads only
  * `speedPoints` and `anvilCapacity` only `capPoints` (vendor/parsers/world-1/anvil.ts getPlayerAnvil),
- * so one call at (k, k) gives both numbers for k points; calls are made on demand and kept. Output over T from empty is the sum over producing
- * products of min(anvilSpeed x hammers x T / requiredAmount, anvilCapacity).
+ * so one call at (k, k) gives both numbers for k points; calls are made on demand and kept. Output over
+ * T from empty is anvil progress: the sum over producing products of
+ * min(anvilSpeed x hammers x T / requiredAmount, anvilCapacity) x requiredAmount. Weighting each item by
+ * its work (M24) keeps a cheap product's item count from favouring Capacity over a slow product's Speed.
  */
 function anvilPlanOf(
   c: Dict,
@@ -360,7 +362,12 @@ function anvilPlanOf(
       const score = (s: number, k: number): number => {
         const v = at(s).speed;
         const cp = at(k).capacity;
-        return products.reduce((sum, p) => sum + Math.min((v * p.hammers * hours) / p.required, cp), 0);
+        // Each product is weighted by its work per item (`requiredAmount`): the score is anvil progress,
+        // so a cheap item (Thread) piling up to Capacity never outweighs Speed on a slow one (Leather Hide).
+        return products.reduce(
+          (sum, p) => sum + Math.min((v * p.hammers * hours) / p.required, cp) * p.required,
+          0,
+        );
       };
       const current = { speed, capacity: cap, output: score(speed, cap) };
       const spend = unspent > 0 ? bestAnvilSplit({ speed, capacity: cap }, unspent, score) : null;
@@ -375,7 +382,7 @@ function anvilPlanOf(
       speedPoints: speed,
       capPoints: cap,
       unspent,
-      products: products.map(({ item, name }) => ({ item, name })),
+      products: products.map(({ item, name, required }) => ({ item, name, required })),
       windows,
     };
   });

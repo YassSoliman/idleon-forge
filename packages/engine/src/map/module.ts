@@ -59,6 +59,12 @@ interface ConstellationRow {
   mapIndex: number;
   world: number;
 }
+interface StarFactExtra {
+  rawIndex: number;
+  players: number;
+  points: number;
+  requirement: string;
+}
 interface DeathNoteEntry {
   id: string;
   system?: string;
@@ -166,8 +172,19 @@ export function buildMap(state: AccountState, kb: Kb): MapResult | null {
     const gate = gates.find((g) => g.world === w);
     const bank = gate ? (state.account.keys ?? []).find((k) => k.rawName === gate.key) : undefined;
     const wg = worldGates.find((g) => g.world === w);
+    let route: { mapIndex: number; need: number | null }[] = [];
+    try {
+      const full = worldRoute(facts, w) ?? [];
+      route = full.map((d, i) => ({
+        mapIndex: d.mapIndex,
+        need: i === 0 ? null : (full[i - 1]?.requirement ?? null) || null,
+      }));
+    } catch {
+      route = [];
+    }
     worlds.push({
       world: w,
+      route,
       state: state_,
       cleared,
       total: path.length,
@@ -294,7 +311,70 @@ export function buildMap(state: AccountState, kb: Kb): MapResult | null {
     }
   }
 
-  return { worlds, frontier, markers, doors, overlays: { route, constellations, deathNote, cards } };
+  // ---- M24: the constellation grid (W1 to W3), the Death Note ranks and building ----
+  const signs = state.account.starSigns ?? null;
+  const reachable = state.account.supplyRates?.reachable ?? null;
+  const reached = (mapIndex: number): boolean =>
+    markers.some((m) => m.mapIndex === mapIndex) ||
+    (doors[mapIndex]?.length ?? 0) > 0 ||
+    (reachable !== null && Object.values(reachable).some((list) => list.includes(mapIndex)));
+  const starRows = (rowsOf<{ constellations?: (ConstellationRow & StarFactExtra)[] }>(
+    kb,
+    MAP_FACT.constellations,
+  )?.constellations ?? []) as (ConstellationRow & StarFactExtra)[];
+  const starsOut: NonNullable<MapResult['stars']> | undefined = signs
+    ? starRows
+        .filter((r) => r.world <= LAST_MAP_WORLD)
+        .map((r) => {
+          const progress = signs.progress.find((p) => p.rawIndex === r.rawIndex)?.letterCount ?? 0;
+          const state: NonNullable<MapResult['stars']>[number]['state'] = signs.claimed.includes(r.rawIndex)
+            ? 'claimed'
+            : progress >= r.players
+              ? 'ready'
+              : reached(r.mapIndex)
+                ? 'reach'
+                : 'far';
+          return {
+            name: r.name,
+            world: r.world,
+            mapIndex: r.mapIndex,
+            requirement: r.requirement.replace(/_/g, ' ').replace(/\.$/, ''),
+            points: r.points,
+            players: r.players,
+            progress,
+            state,
+          };
+        })
+    : undefined;
+  const deathNoteRanks: Record<number, number[]> = {};
+  for (const k of Object.keys(deathNote)) {
+    const m = byIndex.get(Number(k));
+    const list = m?.target ? ranks.get(m.target) : undefined;
+    if (list?.length) deathNoteRanks[Number(k)] = list.map((r) => r.at);
+  }
+  const dnb = state.account.deathNoteBuilding ?? null;
+  const salts = rowsOf<{ rawName: string; name: string }[]>(kb, 'refinery.fact.salts') ?? [];
+  const itemName = (raw: string) => (salts.find((x) => x.rawName === raw)?.name ?? raw).replace(/_/g, ' ');
+  const deathNoteBuilding: MapResult['deathNoteBuilding'] = dnb
+    ? {
+        level: state.account.buildings?.deathNote ?? null,
+        inBuildSlot: dnb.inBuildSlot,
+        cost: dnb.nextCost
+          ? { item: itemName(dnb.nextCost.rawName), amount: dnb.nextCost.amount, held: dnb.held }
+          : null,
+      }
+    : null;
+
+  return {
+    worlds,
+    frontier,
+    markers,
+    doors,
+    overlays: { route, constellations, deathNote, cards },
+    ...(starsOut ? { stars: starsOut } : {}),
+    deathNoteRanks,
+    deathNoteBuilding,
+  };
 }
 
 export function createMapModule(): EngineModule {

@@ -80,39 +80,47 @@ async function loadPlaywright() {
 }
 
 /**
- * Reads one character's Build tab (the M21 design, area C): per preset, the next-points lines and each
- * talent tab's Build path (`#bv-<i>-p<slot>-t<tab>`, tab 0 the star tab). The path replaced the old
- * talent table, so `rows` is empty; the path's levels are the numbers the page shows.
+ * Reads one character's Build tab (M24 design): it shows one preset and one talent tab at a time, so
+ * this clicks each preset card (`.bd-preset[data-slot]`) and each tab control (`.bd-segbtn[data-tab]`,
+ * tab 0 the star tab) and reads that tab's ladder: every Build step's levels ("12 → 50", or "50" when
+ * done), the line where the known points end, and the tab control's points. Runs in the page.
  */
-function readBuild() {
+async function readBuild() {
   const view = document.querySelector('.build-view');
   if (!view) return null;
+  const tick = () => new Promise((r) => setTimeout(r, 80));
   const n = (x) => Number(String(x).replace(/,/g, ''));
-  const panels = [...view.querySelectorAll('.bv-preset')].map((sec) => {
-    const slot = Number(/-p(\d)-h$/.exec(sec.getAttribute('aria-labelledby') ?? '')?.[1]);
-    // The next lines carry no tab of their own in the M21 design: the diff finds each talent by name.
-    const next = [
-      {
-        tab: Number.NaN,
-        lines: [...sec.querySelectorAll('.bv-next p')].map((p) =>
-          (p.firstChild?.textContent ?? p.textContent ?? '').trim(),
-        ),
-      },
-    ];
-    const tabs = [...sec.querySelectorAll('.bv-paths > div[id]')].map((d) => {
-      const h = d.querySelector('h5')?.textContent ?? '';
-      return {
-        tab: Number(/-t(\d)$/.exec(d.id)?.[1]),
-        spent: /([\d,]+) spent/.exec(h)?.[1] ?? null,
+  const panels = [];
+  const slots = [...view.querySelectorAll('.bd-preset')].map((b) => Number(b.getAttribute('data-slot')));
+  for (const slot of slots) {
+    const card = view.querySelector(`.bd-preset[data-slot="${slot}"]`);
+    if (card && card.getAttribute('aria-pressed') !== 'true') {
+      card.click();
+      await tick();
+    }
+    const active = !!view.querySelector(`.bd-preset[data-slot="${slot}"] .bd-inuse`);
+    const tabs = [];
+    const tiles = [];
+    const ids = [...view.querySelectorAll('.bd-segbtn')].map((b) => Number(b.getAttribute('data-tab')));
+    for (const t of ids) {
+      const btn = view.querySelector(`.bd-segbtn[data-tab="${t}"]`);
+      if (btn && btn.getAttribute('aria-pressed') !== 'true') {
+        btn.click();
+        await tick();
+      }
+      const d = view.querySelector('.bd-ladder');
+      if (!d) continue;
+      tabs.push({
+        tab: t,
+        spent: /([\d,]+) spent/.exec(d.querySelector('.bd-spent')?.textContent ?? '')?.[1] ?? null,
         unspent: null,
-        // "70 points waiting · they end here", "40 unspent · …", "As of your last save: at least 70 …".
-        marker: d.querySelector('.bv-marker')?.textContent ?? null,
-        // M21 FR-C1: "12 → 50", or "50" when done.
-        path: [...d.querySelectorAll('li.bv-ps')].map((li) => {
-          const lv = li.querySelector('.bv-ps-lv')?.textContent ?? '';
+        // "Your 70 Archer tab points end here", "At least 70 …", or the engine's marker words.
+        marker: d.querySelector('.bd-cut-t')?.textContent ?? null,
+        path: [...d.querySelectorAll('li.bd-step')].map((li) => {
+          const lv = li.querySelector('.bd-step-lv')?.textContent ?? '';
           const m = /([\d,]+)\s*→\s*([\d,]+)/.exec(lv);
           return {
-            label: (li.querySelector('.bv-ps-name')?.textContent ?? '').trim(),
+            label: (li.querySelector('.bd-step-name')?.textContent ?? '').trim(),
             done: li.getAttribute('data-band') === 'done',
             current: m ? n(m[1]) : null,
             goal: m ? n(m[2]) : n(lv.trim()) || null,
@@ -120,15 +128,13 @@ function readBuild() {
           };
         }),
         rows: [],
-      };
-    });
-    // The tab tiles' badges ("29 points", "at least 12", "13 unspent"), by the tab each one opens.
-    const tiles = [...sec.querySelectorAll('.bv-tile')].map((t) => ({
-      tab: Number(/-t(\d)$/.exec(t.querySelector('button')?.getAttribute('aria-controls') ?? '')?.[1]),
-      badge: t.querySelector('.bv-badge')?.textContent ?? null,
-    }));
-    return { slot, active: !!sec.querySelector('.bv-inuse'), unspent: null, next, tabs, tiles };
-  });
+      });
+      // The tab control's count is the engine's known points for that tab.
+      const pts = btn?.querySelector('.bd-segpts')?.textContent ?? null;
+      tiles.push({ tab: t, badge: pts ? `${pts} points` : null });
+    }
+    panels.push({ slot, active, unspent: null, next: [], tabs, tiles });
+  }
   return { status: view.querySelector('.bv-status')?.textContent ?? null, panels };
 }
 
@@ -152,7 +158,7 @@ async function browse(save, label, base, chromium, characters) {
   await page.waitForSelector('form.paste textarea');
   await page.locator('form.paste textarea').fill(JSON.stringify(timeShifted(save)));
   await page.click('form.paste button[type=submit]');
-  await page.waitForSelector('.n-roster, .cant-read, form.paste .error', { timeout: 60_000 });
+  await page.waitForSelector('.n-now, .cant-read, form.paste .error', { timeout: 60_000 });
   await page.waitForTimeout(800);
   const out = { label, characters: [], errors, csp: [], pageReport: null };
   for (const c of characters) {
@@ -166,8 +172,8 @@ async function browse(save, label, base, chromium, characters) {
       await page.waitForTimeout(400);
       const read = await page.evaluate(
         ({ tab, cant }) => {
-          // M21 FR-C5: the identity strip's "Squire 85" (class and level, never the name).
-          const sub = (document.querySelector('.cs-sub .num')?.textContent ?? '').trim();
+          // M24: the header's "Squire 85" (class and level, never the name).
+          const sub = (document.querySelector('#focus-h')?.textContent ?? '').trim();
           const main = document.querySelector('main')?.textContent ?? document.body.textContent ?? '';
           return {
             level: Number(/(\d+)$/.exec(sub)?.[1] ?? Number.NaN),
@@ -260,8 +266,10 @@ function diff(head, dom) {
         }
         // The marker's count is the engine's known count for that tab, and never below the save's floor.
         const known = ht?.known;
-        const shown = /^([\d,]+) (?:points? waiting|unspent)|at least ([\d,]+)/i.exec(t.marker ?? '');
-        const shownN = shown ? num(shown[1] ?? shown[2]) : null;
+        const shown = /^([\d,]+) (?:points? waiting|unspent)|at least ([\d,]+)|^your ([\d,]+) /i.exec(
+          t.marker ?? '',
+        );
+        const shownN = shown ? num(shown[1] ?? shown[2] ?? shown[3]) : null;
         if (known && known.points !== null && shownN !== null && shownN !== known.points)
           add('P1', `${where} · tab ${t.tab}`, 'Build marker count differs from the engine’s count', {
             shown: t.marker,

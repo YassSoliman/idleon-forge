@@ -33,6 +33,12 @@ export interface RefinerySalt {
    * cycles left out); 0 when full. Null for a locked salt or when the call failed.
    */
   fullInSeconds: number | null;
+  /**
+   * M24: the salt's fuel, its Toolbox `cost` inputs in order, with the account's total of each (Toolbox
+   * `totalAmount`: storage, bags and Refinery storage). Only names and holdings: the per-cycle amount
+   * grows with rank, so it is not repeated here. Optional for hand-built states.
+   */
+  fuel?: Array<{ rawName: string; name: string; held: number }>;
 }
 
 export interface RefineryState {

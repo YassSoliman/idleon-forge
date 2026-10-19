@@ -1,4 +1,4 @@
-# golden v1: fourth · knowledge #6e3245e2 · parser 6c37e3d (game 2.3.540) · now 2024-05-17T07:51:22.362Z · return 8h · stage W4-entry · stale: 4 of 1003
+# golden v1: fourth · knowledge #9761de04 · parser 6c37e3d (game 2.3.540) · now 2024-05-17T07:51:22.362Z · return 8h · stage W4-entry · stale: 4 of 1003
 
 ## Verdict changes
 
@@ -159,7 +159,7 @@ Can't read Bubba from this save
 
 ## Builds
 ### C1 (Voidwalker 476)
-- Builds cover World 1 to World 4 for now; these are your plain talent levels
+- No build for this stage yet (builds cover World 1 to World 4): these are your talent levels
 - Current preset (in use): Beginner · Journeyman · Maestro · Voidwalker · Star talents (over budget by about 201)
   - Star talents: Over budget by about 201: the totals show where new points go
     - done: Stonks! 30
@@ -176,7 +176,7 @@ Can't read Bubba from this save
     - and 6 more
 
 ### C2 (Beginner 1)
-- Builds cover World 1 to World 4 for now; these are your plain talent levels
+- No build for this stage yet (builds cover World 1 to World 4): these are your talent levels
 - Current preset (in use): Beginner · Star talents (243 unspent)
   - Star talents: 243 unspent · they end here
     - later: Stonks! 0 → 30 (find its book (Wellington's quest))
@@ -194,7 +194,7 @@ Can't read Bubba from this save
   - gate Efaunt (done): Glacier Quartz handed in; 0 keys waiting · 1 earned a day
 - World 3 · Frostbite Tundra [done] · 11 of 11 route doors open · 3 side maps not reached
   - gate Chizoar (done): Galaxial Amethyst handed in; 0 keys waiting · 1 earned a day
-- World 4 · Hyperion Nebula [done] · 3 of 3 route doors open · 2 side maps not reached
+- World 4 · Hyperion Nebula [done] · 3 of 3 route doors open · 1 side map not reached
   - gate Massive Troll (done)
 - Worlds 5+ · Not covered yet
 - Frontier: none

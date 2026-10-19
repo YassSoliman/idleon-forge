@@ -1,41 +1,39 @@
 // SPDX-License-Identifier: GPL-3.0-only
 // Copyright (C) 2026 IdleOn Forge contributors.
-// The Character page's sticky identity strip and tab bar (M21 FR-C5, Design Lab `character.shell`
-// "Sticky identity strip", with the runner-up's 44 px prev / next arrows merged). A 56 px strip: the
-// who-glyph chibi, the name with "Squire 85", pin + map, and the Verdict stamp (glyph + word). Under it,
-// the tab bar (Now, Build, Gear, Cards, Signs, Skills), one health badge per tab (FR-C7). On scroll it
-// shrinks to the chibi, the name and the stamp. It is in the first load because Focus renders it
-// (bundle-guards.ts allows this one file of characters/), so it stays small.
-import type { FocusCard, NowView } from '@idleon-forge/engine/now';
-import { forwardRef, type ReactNode, useEffect, useRef, useState } from 'react';
-import { PixelArt } from '../design/art/PixelArt';
-import { WhoGlyph } from '../design/who/WhoGlyph';
+// The Character page's shell (M24, boards `CharNow`, `Build`, `BuildPhone`; rule 5 "one way to move").
+// Top to bottom: the character strip (every character in Visit Order, a blob, class and level and a
+// state pip; it replaces the old prev / dots / arrows / "switch to" bar and "All characters"), the
+// header (a big blob, "Hunter 70", where and what it does, its state word, the Role line on Now, and the
+// class path on the right), the cap pills, then the tabs with their count badges (FR-C7's health, a
+// number with its unit read out). Class and level everywhere, never a character's name (M24 rule 4).
+import type { FocusCard, NowView, TabHealth } from '@idleon-forge/engine/now';
+import { forwardRef, type ReactNode } from 'react';
+import { Pip, Tag } from '../design/atoms';
 import { characterTabs, NOW_TAB, tabHref } from '../now/character-tabs';
 import { useNowActions } from '../now/context';
+import { type CardState, characterStates, PIP } from '../now/place/derive';
+import { StateWord } from '../now/place/LogOff';
+import { NOW_PLACE_WORDS } from '../now/place/words';
+import { Avatar } from './Avatar';
+import { PAGE_WORDS } from './words';
+import './shell.css';
 
 export interface CharacterShellProps {
-  card: Pick<FocusCard, 'index' | 'name' | 'classLabel' | 'level' | 'activity' | 'map'> &
-    Partial<Pick<FocusCard, 'pill' | 'strip'>>;
+  card: Pick<FocusCard, 'index' | 'classLabel' | 'level' | 'activity' | 'map'> &
+    Partial<Pick<FocusCard, 'pill' | 'strip' | 'playing'>>;
   /** The tab on show; "now" is Focus's own content. */
   tab: string;
   /** Without it the tab bar is not drawn (Focus outside a Character page). */
   onTab?: ((id: string) => void) | null;
-  /** The whole Now view, for the tab badges (FR-C7); without it the tabs carry no badge. */
+  /** The whole Now view: the strip's labels, the class path, the Role line and the tab badges. */
   view?: NowView | null;
-  /** Under the identity line (Focus puts the character's cap pills here). */
+  /** Under the header (Focus puts the character's cap pills here). */
   children?: ReactNode;
 }
 
-/** The Verdict stamps' glyphs (design/atoms/glyphs.ts VERDICT_GLYPH). */
-const STAMP_GLYPH = {
-  ready: 'now-glyph-check',
-  fix: 'now-glyph-wrench',
-  unknown: 'now-glyph-question',
-} as const;
+/** A character's state from its Verdict alone, where the Now view is not at hand (no Collect then). */
+const fromPill = (kind: 'ready' | 'fix' | 'unknown' | undefined): CardState => kind ?? 'unknown';
 
-// The strip's own labels live here, not in the engine's words: importing those would pull the Build
-// path's word functions into the first load (M12 TR-12). They mirror CHARACTERS_WORDS.matrix.level.
-const W = { prev: 'Previous character', next: 'Next character', tabs: 'Character page' } as const;
 const LEVEL_WORD = {
   fix: 'fix',
   behind: 'behind',
@@ -44,87 +42,143 @@ const LEVEL_WORD = {
   ok: 'fine',
 } as const;
 
-function Arrow({ dir, to, tab }: { dir: 'prev' | 'next'; to: number | null; tab: string }) {
-  const actions = useNowActions();
-  if (to === null) return <span className="cs-arrow cs-arrow--off" aria-hidden="true" />;
+/** The tab badge: the count with the tab's health in words for a screen reader. */
+function TabBadge({ id, h }: { id: string; h: TabHealth }) {
+  // Gold for points waiting to be spent (do it), coral for a fix (losing value now), plain otherwise.
+  const tone = h.level === 'fix' ? 'coral' : id === 'build' ? 'gold' : undefined;
   return (
-    <a
-      className="cs-arrow"
-      href={tabHref(tab, to)}
-      aria-label={dir === 'prev' ? W.prev : W.next}
-      onClick={(e) => {
-        e.preventDefault();
-        if (tab === NOW_TAB) actions.open(to);
-        else actions.openTab(to, tab);
-      }}
-    >
-      <PixelArt name={dir === 'prev' ? 'ui-arrow-left' : 'ui-arrow-right'} decorative />
-    </a>
+    <Tag tone={tone}>
+      <span aria-hidden="true">
+        {h.count !== undefined ? h.count.toLocaleString('en-US') : h.level === 'fix' ? '!' : '•'}
+      </span>
+      <span className="sr-only">
+        {LEVEL_WORD[h.level]}: {h.word}
+      </span>
+    </Tag>
   );
 }
 
-/** The identity strip (the `<h2>` takes the forwarded ref) and, when `onTab` is given, the tab bar. */
+/** The class path on the header's right: done ✓ › here › next. */
+function ClassPath({ view, index }: { view: NowView | null; index: number }) {
+  const r = view?.builds.find((b) => b.index === index);
+  const steps = (r?.path ?? []).filter((p) => p.state !== 'later');
+  if (!r || steps.length === 0) return null;
+  return (
+    <ol className="cp-path" aria-label={PAGE_WORDS.classPath}>
+      {steps.map((p, i) => (
+        <li key={`${p.class}-${p.state}`} data-state={p.state}>
+          {i > 0 ? (
+            <span className="cp-path-sep" aria-hidden="true">
+              ›
+            </span>
+          ) : null}
+          <span className="cp-path-step">
+            {p.label}
+            {p.state === 'done' ? ' ✓' : ''}
+          </span>
+          {p.state === 'next' && r.nextClass ? <span className="sr-only"> ({r.nextClass})</span> : null}
+        </li>
+      ))}
+    </ol>
+  );
+}
+
+/** The strip and the header (the `<h2>` takes the forwarded ref) and, when `onTab` is given, the tabs. */
 export const CharacterShell = forwardRef<HTMLHeadingElement, CharacterShellProps>(function CharacterShell(
   { card, tab, onTab = null, view = null, children },
   headingRef,
 ) {
   const actions = useNowActions();
-  const family = actions.result?.classFamilies?.[card.index] ?? 'beginner';
-  // Prev / next keep the tab, in Visit Order (the strip Focus shows), wrapping at the ends.
-  const order = (card.strip ?? []).map((s) => s.index);
-  const at = order.indexOf(card.index);
-  const prev = order.length > 1 && at >= 0 ? (order[(at - 1 + order.length) % order.length] ?? null) : null;
-  const next = order.length > 1 && at >= 0 ? (order[(at + 1) % order.length] ?? null) : null;
-  // Shrink on scroll: a sentinel above the sticky strip leaves the viewport.
-  const sentinel = useRef<HTMLDivElement>(null);
-  const [shrunk, setShrunk] = useState(false);
-  useEffect(() => {
-    const el = sentinel.current;
-    if (!el || typeof IntersectionObserver === 'undefined') return;
-    const io = new IntersectionObserver(([e]) => setShrunk(!(e?.isIntersecting ?? true)));
-    io.observe(el);
-    return () => io.disconnect();
-  }, []);
-  const pill = card.pill;
+  const families = view?.families ?? actions.result?.classFamilies ?? null;
+  const familyOf = (i: number) => families?.[i] ?? 'beginner';
+  const whoOf = (i: number) => {
+    const r = view?.roster.find((x) => x.index === i);
+    if (r) return `${r.classLabel} ${r.level}`;
+    const c = actions.result?.characters.find((x) => x.index === i);
+    return c ? `${c.classLabel} ${c.level}` : '';
+  };
+  const classOf = (i: number) =>
+    view?.roster.find((x) => x.index === i)?.classLabel ??
+    actions.result?.characters.find((x) => x.index === i)?.classLabel ??
+    '';
+  const strip = card.strip ?? [];
+  // One state word and pip for a character everywhere (M24 QA P1-10): the one Now's cards and the
+  // Characters grid show (Fix first, Collect, Ready, Can't tell), not the bare Verdict.
+  const states = view ? characterStates(view) : null;
+  const stateOf = (i: number, fallback: CardState) => states?.get(i) ?? fallback;
+  const state = stateOf(card.index, fromPill(card.pill?.kind));
+  const role =
+    tab === NOW_TAB ? (view?.skills.find((s) => s.index === card.index)?.train?.text ?? null) : null;
+  const go = (i: number) => (tab === NOW_TAB ? actions.open(i) : actions.openTab(i, tab));
   return (
     <>
-      <div ref={sentinel} className="cs-sentinel" aria-hidden="true" />
-      <div className="hero cs-strip" data-shrunk={shrunk ? 'yes' : 'no'}>
-        <Arrow dir="prev" to={prev} tab={tab} />
-        <WhoGlyph family={family} classLabel={card.classLabel} level={card.level} scale={2} decorative />
-        <div className="cs-ident">
-          <h2 id="focus-h" ref={headingRef} tabIndex={-1} className="cs-name" title={card.name}>
-            {card.name}
-          </h2>
-          <p className="cs-sub">
-            <span className="num">
-              {card.classLabel} {card.level}
-            </span>
-            {card.map ? (
-              <span className="cs-where">
-                <PixelArt name="now-pin" decorative />
-                {card.map}
-              </span>
-            ) : null}
-            {card.activity ? <span className="cs-activity">{card.activity}</span> : null}
-          </p>
-        </div>
-        {pill ? (
-          // The VerdictStamp atom's markup (a-stamp), inline so the strip adds no shared chunk to the first load.
-          <span className={`a-stamp a-stamp--${pill.kind}`}>
-            <PixelArt name={STAMP_GLYPH[pill.kind]} decorative />
-            <span className="a-stamp__word">{pill.text}</span>
+      {strip.length > 1 ? (
+        <nav className="cp-strip" aria-label={PAGE_WORDS.strip}>
+          {strip.map((s) => {
+            const who = whoOf(s.index);
+            return (
+              <a
+                key={s.index}
+                className="cp-chip"
+                href={tabHref(tab, s.index)}
+                aria-current={s.current ? 'page' : undefined}
+                aria-label={`${who}: ${NOW_PLACE_WORDS.verdict[stateOf(s.index, s.kind)]}`}
+                onClick={(e) => {
+                  e.preventDefault();
+                  if (!s.current) go(s.index);
+                }}
+              >
+                <Avatar family={familyOf(s.index)} classLabel={classOf(s.index)} size={32} />
+                <span className="cp-chip-who">{who}</span>
+                <Pip tone={PIP[stateOf(s.index, s.kind)]} />
+              </a>
+            );
+          })}
+        </nav>
+      ) : null}
+
+      <section className="cp-head">
+        <div className="cp-id">
+          <span className="cp-blob">
+            <Avatar family={familyOf(card.index)} classLabel={card.classLabel} size={64} />
           </span>
-        ) : null}
-        <Arrow dir="next" to={next} tab={tab} />
-      </div>
+          <div className="cp-id-text">
+            <h2 id="focus-h" ref={headingRef} tabIndex={-1} className="a-h1 cp-name">
+              {card.classLabel} {card.level}
+            </h2>
+            <p className="cp-sub">
+              {[card.map, card.activity].filter(Boolean).join(' · ')}
+              {card.map || card.activity ? ' · ' : ''}
+              <StateWord state={state} />
+              {card.playing ? <span className="cp-playing"> · {card.playing}</span> : null}
+            </p>
+            {role ? (
+              <p className="cp-sub">
+                {role} ·{' '}
+                <a
+                  href={tabHref('skills', card.index)}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    if (onTab) onTab('skills');
+                    else actions.openTab(card.index, 'skills');
+                  }}
+                >
+                  {PAGE_WORDS.skillsLink}
+                </a>
+              </p>
+            ) : null}
+          </div>
+        </div>
+        <ClassPath view={view} index={card.index} />
+      </section>
       {children ? <div className="cs-caps">{children}</div> : null}
 
       {onTab ? (
-        <nav aria-label={W.tabs} className="char-tabs">
+        <nav aria-label={PAGE_WORDS.tabs} className="char-tabs">
           {characterTabs.map((t) => {
             const h = view ? (t.health?.(view, card.index) ?? null) : null;
-            const flag = h && h.level !== 'ok' ? h : null;
+            // No badge for fine, nor for "not known" (a bare dot read as gold "do it"; M24 QA P1-9).
+            const flag = h && h.level !== 'ok' && h.level !== 'unknown' ? h : null;
             return (
               <a
                 key={t.id}
@@ -137,14 +191,7 @@ export const CharacterShell = forwardRef<HTMLHeadingElement, CharacterShellProps
                 }}
               >
                 <span>{t.label}</span>
-                {flag ? (
-                  <span className="cs-badge" data-level={flag.level}>
-                    <span aria-hidden="true">{flag.level === 'fix' ? '!' : '•'}</span>
-                    <span className="sr-only">
-                      {LEVEL_WORD[flag.level]}: {flag.word}
-                    </span>
-                  </span>
-                ) : null}
+                {flag ? <TabBadge id={t.id} h={flag} /> : null}
               </a>
             );
           })}

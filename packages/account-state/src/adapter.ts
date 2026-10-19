@@ -32,7 +32,9 @@ import {
   SCHEMA_VERSION,
 } from './types';
 import { readUnspentAccount, readUnspentCharacter } from './unspent';
+import { readW23 } from './w23';
 import { readWalkthrough } from './walkthrough';
+import { readWorld4 } from './world4';
 
 /** The parse produced no account. Toolbox swallows its own errors, so this is the failure signal. */
 export class EmptyAccountError extends Error {
@@ -538,6 +540,13 @@ export function toAccountState(
   );
   // ---- M23 Bubba (M23 TR-2) ----
   const bubba = readBubba({ account, data, failedSections, calls: options.toolbox?.calls ?? null }, c);
+  // ---- M24 World 4 (read-only pages) ----
+  const world4 = readWorld4(
+    { account, characters, data, failedSections, calls: options.toolbox?.calls ?? null },
+    c,
+  );
+  // ---- M24 the World 3 System pages: prayers and shrines (read-only facts) ----
+  const w23 = readW23({ account, failedSections, calls: options.toolbox?.calls ?? null }, c);
   // ---- M7 Spend Plan (M7 TR-2) ----
   const spend = readSpendInputs({
     parsed,
@@ -597,7 +606,9 @@ export function toAccountState(
       ...alchemyPlan,
       ...gear,
       ...redesign,
+      ...w23,
       ...bubba,
+      ...world4,
       // One salt list: M6's entries carry M2's rawName/unlocked plus the fuel state (M6 TR-3).
       salts: metaPath.salts === null ? null : (unspent.salts ?? metaPath.salts ?? null),
     },

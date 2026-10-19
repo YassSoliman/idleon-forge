@@ -1,4 +1,4 @@
-# golden v1: first · knowledge #6e3245e2 · parser 6c37e3d (game 2.3.540) · now 2024-06-07T21:16:34.518Z · return 8h · stage W4-entry · stale: 4 of 1003
+# golden v1: first · knowledge #9761de04 · parser 6c37e3d (game 2.3.540) · now 2024-06-07T21:16:34.518Z · return 8h · stage W4-entry · stale: 4 of 1003
 
 ## Verdict changes
 
@@ -394,7 +394,7 @@ Can't read Bubba from this save
     - and 6 more
 
 ### C7 (Maestro 73)
-- No build yet for this class (Journeyman line); these are your plain talent levels
+- No build yet for this class (Journeyman line): these are your talent levels
 - Current preset (in use): Beginner · Journeyman · Maestro · Star talents (all spent)
   - Star talents: All spent: the totals show where new points go
     - done: Stonks! 30
@@ -419,7 +419,7 @@ Can't read Bubba from this save
   - YumYum Grotto (town): C7 Maestro 73
 - World 3 · Frostbite Tundra [done] · 11 of 11 route doors open · 4 side maps not reached
   - gate Chizoar (done): Galaxial Amethyst handed in; No one earns these keys yet
-- World 4 · Hyperion Nebula [open] · 3 of 3 route doors open · 10 side maps not reached
+- World 4 · Hyperion Nebula [open] · 3 of 3 route doors open · 1 side map not reached
   - gate Massive Troll (open, next)
   - Outer World Town (town): C2 Bubonic Conjuror 87, C6 Beast Master 87, C3 Siege Breaker 86, C5 Elemental Sorcerer 87
   - Spaceway Raceway (cleared): C1 Blood Berserker 96, C4 Divine Knight 86

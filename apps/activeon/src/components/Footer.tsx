@@ -1,76 +1,56 @@
 // SPDX-License-Identifier: GPL-3.0-only
 // Copyright (C) 2026 IdleOn Forge contributors.
-// The footer (M21 `flows.footer` Fan disclaimer), a lazy part under the fold: who made it, who didn't
-// (LavaFlame2), that it is read-only, and every link 44 px (DS-15). The versions moved to the header's
-// overflow menu (G1).
-import { HEADER_WORDS, SETUP_WORDS } from '@idleon-forge/engine/now';
-import { PixelArt } from '../design/art/PixelArt';
-import type { ClearOptions } from '../use-activeon';
-import { ClearMyData } from './ClearMyData';
+// The footer (M24 rule 8: one line). Left: the page's Sources, or the default credit (numbers by IdleOn
+// Toolbox, facts from the IdleOn Wiki); a place fills it with <PageSources> (shell/page-sources.tsx).
+// Right: the legal line, on every page and never cut ("Fan-made, read-only, not affiliated with
+// LavaFlame2"), then Suggest and Source; when the line is too long, the Sources shrink, never this. The full disclaimer, the links, your data and the versions
+// live in the ••• menu. Paste, sign-in and the Account no longer sit under every page (rule 8).
+import { FOOTER_WORDS as W } from '@idleon-forge/engine/now';
+import { type Ref, useEffect, useRef } from 'react';
+
+export const SOURCE_URL = 'https://github.com/YassSoliman/idleon-forge';
 
 export function Footer({
-  persistent,
-  signedIn,
+  credit,
+  slotRef,
   onSuggest,
-  onYourSuggestions,
-  onClear,
 }: {
-  persistent: boolean;
-  signedIn: boolean;
+  /** The default left half when no page set its Sources. */
+  credit: string;
+  /** Where <PageSources> portals its line. */
+  slotRef?: Ref<HTMLSpanElement>;
   onSuggest(): void;
-  onYourSuggestions: (() => void) | null;
-  onClear(options: ClearOptions): Promise<void>;
 }) {
+  // The Sources line ends in an ellipsis when it is longer than the line; its full text is its title.
+  const src = useRef<HTMLParagraphElement>(null);
+  useEffect(() => {
+    const el = src.current;
+    if (!el || typeof MutationObserver === 'undefined') return;
+    const sync = () => {
+      el.title = (el.querySelector('.n-foot__page')?.textContent || el.textContent || '').trim();
+    };
+    sync();
+    const mo = new MutationObserver(sync);
+    mo.observe(el, { childList: true, subtree: true, characterData: true });
+    return () => mo.disconnect();
+  }, []);
   return (
     <footer className="foot n-foot">
-      <div className="n-foot__fan">
-        <PixelArt name="flows-fan-badge" scale={2} decorative />
-        <p>
-          <b>{SETUP_WORDS.fanMade}</b> {SETUP_WORDS.fanLine}
+      <div className="n-foot__in">
+        <p ref={src} className="n-foot__src">
+          <span ref={slotRef} className="n-foot__page" />
+          <span className="n-foot__default">{credit}</span>
+        </p>
+        <p className="n-foot__end">
+          <span>{W.legal}</span>
+          <button type="button" className="n-foot__link" onClick={onSuggest}>
+            {W.suggest}
+          </button>
+          <a className="n-foot__link" href={SOURCE_URL} target="_blank" rel="noopener noreferrer">
+            {W.source}
+          </a>
         </p>
       </div>
-      <p className="n-small">{SETUP_WORDS.readOnly}</p>
-      {!persistent ? <p className="n-small n-muted">{SETUP_WORDS.noMemory}</p> : null}
-      <ul className="n-foot__links">
-        <li>
-          <button type="button" className="n-link-btn" onClick={onSuggest}>
-            {HEADER_WORDS.suggest}
-          </button>
-        </li>
-        {onYourSuggestions ? (
-          <li>
-            <button type="button" className="n-link-btn" onClick={onYourSuggestions}>
-              {HEADER_WORDS.yourSuggestions}
-            </button>
-          </li>
-        ) : null}
-        {signedIn ? (
-          <li>
-            <ClearMyData onClear={onClear} />
-          </li>
-        ) : null}
-        <li>
-          <a
-            className="n-link-btn"
-            href="https://github.com/Morta1/IdleonToolbox"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            IdleOn Toolbox
-          </a>
-        </li>
-        <li>
-          <a
-            className="n-link-btn"
-            href="https://github.com/YassSoliman/idleon-forge"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            {SETUP_WORDS.source}
-          </a>
-        </li>
-      </ul>
-      <p className="legal">Read-only companion. Not affiliated with LavaFlame2.</p>
     </footer>
   );
 }

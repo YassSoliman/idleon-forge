@@ -170,6 +170,29 @@ describe('US-2 What to clear next (W3-early)', () => {
     expect(r.starSigns?.next.filter((n) => !n.shown).map((n) => n.name)).toEqual(['B-4', 'A-1', 'A-3']);
   });
 
+  it('19 points reach Chronus Cosmos: its own node costs 3 (Toolbox, the wiki), the 8 signs on the way 16', () => {
+    const s = W3();
+    const r = run(s);
+    const ctx = contextOf(s, kb, runMetaPath(s, kb, s.asOf), 3, DEFAULT_VALUES);
+    if (!ctx) throw new Error('no context');
+    const chart = chartState(ctx);
+    // Toolbox starSigns (and the wiki's Star Signs table): Chronus Cosmos itself costs 3.
+    expect(chart.nodes.get('Chronus_Cosmos')?.cost).toBe(3);
+    const onTheWay = LEG1.filter((x) => x !== 'Chronus_Cosmos');
+    expect(onTheWay.map((x) => chart.nodes.get(x)?.cost)).toEqual([2, 2, 2, 2, 2, 2, 2, 2]);
+    expect(r.starSigns?.cosmos).toEqual({
+      have: s.account.starSigns?.pointsUnspent ?? null,
+      need: 19,
+      onTheWay: onTheWay.map((x) => x.replace(/_/g, ' ')),
+      cost: 3,
+    });
+    // Once Cosmos is unlocked there is no path left to show.
+    const ss = s.account.starSigns;
+    if (!ss) throw new Error('no star signs');
+    ss.unlocked = signIds([...STARTERS, ...LEG1]);
+    expect(run(s).starSigns?.cosmos).toBeNull();
+  });
+
   it('never names C-6 (9 characters), C-1 (nobody Lv 90) or any D-row constellation', () => {
     const r = run(W3());
     const text = JSON.stringify({ goals: r.account.goals, starSigns: r.starSigns, ap: r.account.activePlay });

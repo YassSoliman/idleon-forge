@@ -181,15 +181,32 @@
     flex-direction: row;
     gap: var(--space-2);
     height: 100%;
-    min-height: 64px;
-    padding: 0 var(--space-3);
   }
   .place-item.on {
     color: var(--fg);
-    box-shadow: inset 0 -4px 0 var(--accent);
+    box-shadow: inset 0 -3px 0 var(--accent);
   }
   .place-label {
     font-size: 15px;
+  }
+  /* M24 (the canvas's bar): the places are words on a desktop; the glyphs stay on the phone dock. */
+  .place-item .glyph-wrap {
+    display: none;
+  }
+  .place-item {
+    min-height: 60px;
+    padding: 0 14px;
+  }
+  /* The canvas's counts: Now's a small coral square, the Timeline's a bare gold number. */
+  .badge {
+    min-width: 0;
+    height: auto;
+    padding: 1px 6px;
+    border-radius: var(--radius-xs);
+    line-height: var(--lh-snug);
+  }
+  .badge-timeline {
+    padding: 0;
   }
 }
 /* 720 to 1120 px: the places take the bar's second row, under the wordmark and the status. */
@@ -202,13 +219,13 @@
     min-height: 48px;
   }
 }
-/* One shell width for every place (the jitter fix): from 1000 px the shell is 980 px plus the 128 px the
-   rail used to take, in every place, so the bar, the dock and the content column never move when you
+/* One shell width for every place (the jitter fix): from 1000 px the shell is the canvas's content
+   column (M24: a 1200 px wrap less its two 32 px gutters, 1136 px), in every place, so the bar, the dock and the content column never move when you
    switch places, tabs or characters, nor while a place's chunk loads. Never key this on a place's
    content (`:has(.some-place)`): the shell would change width with the place (test/shell-width.test.ts). */
 @media (min-width: 1000px) {
   .app:has(.places) {
-    max-width: min(calc(980px + 128px), 100%);
+    max-width: min(1136px, 100%);
   }
 }
 

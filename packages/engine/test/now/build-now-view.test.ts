@@ -72,11 +72,18 @@ describe('US-2 know where to go next', () => {
     const v = view(r, { focus: 0, visited: new Set([3, 0]) });
     expect(v.focus?.next).toEqual({ index: 1, text: 'Next: switch to Shaman 44' });
   });
-  it('names the worst unvisited character wherever Focus opened; the last position reads "last one"', () => {
+  it('the last position leads back to Now and reads "last one", even with earlier ones unvisited (M24 QA P1-4)', () => {
     const v = view(r, { focus: 2 });
-    expect(v.focus?.next.index).toBe(3);
+    expect(v.focus?.next).toEqual({ index: null, text: 'Last one: back to Now' });
     // "n left" counts after this position, so the last one never reads "5 of 5 · 4 left" (#74 item 4).
     expect(v.focus?.position).toBe('5 of 5 · last one');
+  });
+  it('Next is the next character after this one in Visit Order, never one before it (M24 QA P1-4)', () => {
+    // [3,0,4,1,2]: index 4 (position 3) is Ready with nothing to do, so it is passed over.
+    expect(view(r, { focus: 3 }).focus?.next.index).toBe(0);
+    expect(view(r, { focus: 0 }).focus?.next.index).toBe(1);
+    expect(view(r, { focus: 4 }).focus?.next.index).toBe(1);
+    expect(view(r, { focus: 1 }).focus?.next.index).toBe(2);
   });
   it('"n left" counts unvisited characters after this position that have something to do', () => {
     // Position 2 of [3,0,4,1,2]: after it come 4 (Ready, nothing to do), 1 and 2.
@@ -89,16 +96,16 @@ describe('US-2 know where to go next', () => {
   });
   it('playing a different character than suggested only marks that one visited', () => {
     const v = view(r, { focus: 1, visited: new Set([1]) });
-    expect(v.focus?.next.index).toBe(3);
+    expect(v.focus?.next.index).toBe(2);
   });
   it('reads "Last one" when everyone with something to do is visited', () => {
     const v = view(r, { focus: 2, visited: new Set([3, 0, 1, 2]) });
-    expect(v.focus?.next).toEqual({ index: null, text: 'Last one: the Account list is next' });
+    expect(v.focus?.next).toEqual({ index: null, text: 'Last one: back to Now' });
   });
   it('says "Nothing left to visit", not "Last one", on an earlier position once everyone is visited (R6 QA)', () => {
     const v = view(r, { focus: 3, visited: new Set([3, 0, 1, 2]) });
     expect(v.focus?.position).toBe('1 of 5 · 4 after it');
-    expect(v.focus?.next).toEqual({ index: null, text: 'Nothing left to visit: the Account list is next' });
+    expect(v.focus?.next).toEqual({ index: null, text: 'Nothing left to visit: back to Now' });
   });
   it('D6: a reshuffled visitOrder keeps the frozen order while Verdicts update', () => {
     const later = fixture('mid-session');

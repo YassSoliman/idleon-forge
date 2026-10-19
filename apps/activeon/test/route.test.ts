@@ -33,6 +33,13 @@ describe('parseRoute (FR-7)', () => {
     expect(r('#cards').route).toEqual({ place: 'characters', section: 'cards' });
   });
 
+  it('M24: #spend and #goals open the account pages, and round-trip', () => {
+    expect(r('#spend').route).toEqual({ place: 'account', page: 'spend' });
+    expect(r('#goals').route).toEqual({ place: 'account', page: 'goals' });
+    expect(formatRoute({ place: 'account', page: 'spend' })).toBe('#spend');
+    expect(placeOf({ place: 'account', page: 'goals' })).toBe('now');
+  });
+
   it('opens Now for anything unknown, with no rewrite', () => {
     for (const hash of [
       '#system-nonsense',

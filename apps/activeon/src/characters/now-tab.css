@@ -1,0 +1,189 @@
+/* SPDX-License-Identifier: GPL-3.0-only */
+/* M24 (I-character-a): the character page's Now tab, board `CharNow`. Two columns from 1000 px (the
+   answer and Then on the left, Timers and About on the right), one column on a phone, then the one
+   "Next: <character>" tile. Lazy, with Focus. */
+.cp-page {
+  display: block;
+}
+.cp-cap {
+  margin: 0;
+}
+.cp-xs {
+  margin: 0;
+  font-size: 13px;
+  color: var(--muted);
+}
+.cp-sky {
+  color: var(--info);
+}
+.cp-now {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-7);
+  align-items: start;
+}
+@media (min-width: 1000px) {
+  .cp-now {
+    grid-template-columns: minmax(0, 1fr) 360px;
+    gap: var(--space-9);
+  }
+}
+.cp-main {
+  display: grid;
+  gap: var(--space-7);
+  min-width: 0;
+}
+
+/* ---- the answer: the screen's one frame ---- */
+.cp-hero {
+  display: grid;
+  gap: var(--space-4);
+}
+.cp-hero-k {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin: 0;
+}
+.cp-hero-open.n-step__open {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+}
+.cp-hero-ic {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 56px;
+  height: 56px;
+  background: var(--sunk);
+}
+.cp-hero-text {
+  display: grid;
+  gap: var(--space-1);
+  min-width: 0;
+}
+.cp-hero-t.a-h1 {
+  font-size: 26px;
+}
+.cp-hero-where {
+  font-size: var(--text-sm);
+  color: var(--muted);
+}
+.cp-hero-step {
+  display: grid;
+  gap: var(--space-2);
+}
+.cp-hero-steprow {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-3);
+  margin: 0;
+  font-size: var(--text-sm);
+  color: var(--muted);
+}
+.cp-hero-steprow b {
+  color: var(--fg);
+}
+.cp-hero-acts {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+/* ---- Then ---- */
+.cp-then {
+  display: grid;
+  gap: var(--space-2);
+}
+
+/* ---- the side column ---- */
+.cp-side {
+  display: grid;
+  gap: var(--space-6);
+}
+.cp-side-sec {
+  display: grid;
+  gap: var(--space-2);
+}
+.cp-timer {
+  display: grid;
+  gap: var(--space-1);
+}
+.cp-timer-top {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-3);
+  margin: 0;
+  font-size: var(--text-sm);
+}
+.cp-about {
+  list-style: none;
+  margin: 0;
+  padding-block: var(--space-1);
+}
+.cp-about li {
+  display: grid;
+  gap: var(--space-1);
+  padding: var(--space-3) 0;
+}
+.cp-about li + li {
+  box-shadow: 0 -1px 0 var(--line);
+}
+.cp-about-t {
+  font-size: var(--text-sm);
+  font-weight: var(--weight-bold);
+}
+.cp-about li.quiet .cp-about-t {
+  font-weight: var(--weight-semibold);
+  color: var(--muted);
+}
+.cp-side-more {
+  justify-self: start;
+}
+
+/* ---- Next: <character> ---- */
+.cp-next {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  width: 100%;
+  min-height: var(--tap-min);
+  margin-top: var(--space-7);
+  border: 0;
+  color: var(--fg);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+.cp-next:hover {
+  background: var(--sunk);
+}
+.cp-next:focus-visible {
+  outline: var(--focus-width) solid var(--focus);
+  outline-offset: calc(-1 * var(--focus-width));
+}
+.cp-next-text {
+  flex: 1;
+  display: grid;
+  gap: 2px;
+  min-width: 0;
+}
+.cp-next .px-art {
+  color: var(--accent);
+}
+
+@media (max-width: 719.98px) {
+  .cp-hero-t.a-h1 {
+    font-size: 22px;
+  }
+  .cp-hero-ic {
+    width: 44px;
+    height: 44px;
+  }
+  .cp-hero-ic .spr-art {
+    width: 32px;
+    height: 32px;
+  }
+}

@@ -368,7 +368,10 @@ export function assemble(input: EngineInput, ran: readonly Ran[]): EngineResult 
       const alchemy = outputs.find((o) => o.output.alchemy !== undefined)?.output.alchemy;
       // M23: the Bubba page's data rides through untouched.
       const bubba = outputs.find((o) => o.output.bubba !== undefined)?.output.bubba;
+      // M24: the World 4 pages' data rides through untouched.
+      const world4 = outputs.find((o) => o.output.world4 !== undefined)?.output.world4;
       return {
+        ...(world4 !== undefined ? { world4 } : {}),
         ...(alchemy !== undefined ? { alchemy } : {}),
         ...(bubba !== undefined ? { bubba } : {}),
         ...(checklist !== undefined ? { checklist } : {}),

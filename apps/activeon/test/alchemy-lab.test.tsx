@@ -7,13 +7,12 @@
 import type { AlchemyResult, BubblePick, PotView } from '@idleon-forge/engine/result';
 import { cleanup, render } from '@testing-library/react';
 import { afterEach, describe, expect, it } from 'vitest';
-import AlchemyLab from '../src/alchemy/AlchemyLab';
-import { SYSTEM_PAGES, type SystemPageBodyProps } from '../src/systems/pages';
+import { alchemySections } from '../src/alchemy/AlchemyTabs';
+import { FULL_PAGES, type SystemPageBodyProps } from '../src/systems/pages';
 
 afterEach(() => cleanup());
 
 const KEY = 'alchemy-bubbles.goal.level-next@account';
-const WATER = 'alchemy.check.liquid-cap-line@account';
 const pick = (o: Partial<BubblePick>): BubblePick => ({
   cauldron: 'power',
   rawName: 'aUpgradesO0',
@@ -67,6 +66,32 @@ const result: AlchemyResult = {
   ],
   vialPick: { name: 'Copper Corona', from: 1, to: 2, actionKey: 'alchemy-vials.goal.level-next@account' },
   rollTargets: [{ name: 'Dieter Drink', rollNeeded: 40, item: 'Bean Slices' }],
+  vialTries: {
+    tryable: [
+      {
+        index: 5,
+        name: 'Dieter Drink',
+        rollNeeded: 40,
+        item: 'Bean Slices',
+        held: 6561,
+        places: [
+          { place: 'storage', amount: 6552 },
+          { place: 'bag', index: 2, amount: 9 },
+        ],
+        elsewhere: { refinery: 0, forge: 0 },
+      },
+      {
+        index: 7,
+        name: 'Red Malt',
+        rollNeeded: 85,
+        item: 'Redox Salts',
+        held: 1,
+        places: [{ place: 'storage', amount: 1 }],
+        elsewhere: { refinery: 56, forge: 0 },
+      },
+    ],
+    missing: [{ index: 6, name: 'Thumb Pow', rollNeeded: 50, item: 'Trusty Nails' }],
+  },
   tubes: [
     {
       index: 0,
@@ -75,7 +100,7 @@ const result: AlchemyResult = {
       max: 32,
       open: true,
       opensAt: null,
-      actionKey: WATER,
+      actionKey: 'alchemy.check.liquid-cap-line@account',
       note: null,
     },
     {
@@ -106,35 +131,60 @@ const result: AlchemyResult = {
   attempts: { current: 11, max: 11 },
   topStep: { key: 'x@account', text: 'Use your 11 vial attempts on the W2 town cauldron' },
 };
-const props = (highlight: string | null) =>
-  ({ s: { result: { alchemy: result } }, page: { highlight, goals: [] } }) as unknown as SystemPageBodyProps;
+const props = (tile = 'alchemy') =>
+  ({
+    s: {
+      result: { alchemy: result, characters: [{ index: 2, classLabel: 'Shaman', level: 76 }] },
+      view: { roster: [{ index: 2, classLabel: 'Shaman', level: 76 }] },
+      toSpend: () => {},
+    },
+    page: { highlight: null, goals: [], tile: { id: tile } },
+  }) as unknown as SystemPageBodyProps;
+const tab = (id: string, tile?: string) => {
+  const t = alchemySections(props(tile))?.tabs.find((x) => x.id === id);
+  if (!t) throw new Error(`no ${id} tab`);
+  return render(t.render());
+};
 
-describe('the Alchemy page (M19 F6)', () => {
-  it('lights only the Power pot with no highlight, and each pot reads its own pick', () => {
-    const { container } = render(<AlchemyLab {...props(null)} />);
-    const lit = container.querySelectorAll('.al-pot.is-now');
+describe('the Alchemy page (M19 F6, M24 sections)', () => {
+  it('Cauldrons: lights only the Power pot, and each pot reads its own pick', () => {
+    const { container } = tab('cauldrons');
+    const lit = container.querySelectorAll('.al2-pot.is-now');
     expect(lit).toHaveLength(1);
     expect(lit[0]?.textContent).toContain('Next: Roid Ragin 3 → 12');
     const text = container.textContent ?? '';
     expect(text).toContain('Next: Swift Steppin 1 → 8');
     expect(text).toContain('Stable Jenius 1 → 12 · needs Water');
     expect(text).toContain('Nothing to level yet · spend brew');
-    expect(container.querySelector('.al-tube.is-now')).toBeNull();
   });
 
-  it("opened from M3's Water line, the Water tube is lit instead of the pot", () => {
-    const { container } = render(<AlchemyLab {...props(WATER)} />);
-    expect(container.querySelectorAll('.al-pot.is-now')).toHaveLength(0);
-    expect(container.querySelector('.al-tube.is-now')?.textContent).toContain('32 of 32 · full');
+  it("each Alchemy System opens on its own tab; the answer counts today's tries", () => {
+    expect(alchemySections(props('alchemy'))?.initialTab).toBe('cauldrons');
+    expect(alchemySections(props('alchemy-bubbles'))?.initialTab).toBe('bubbles');
+    expect(alchemySections(props('alchemy-vials'))?.initialTab).toBe('vials');
+    expect(alchemySections(props('alchemy-p2w'))?.initialTab).toBe('p2w');
+    expect(alchemySections(props())?.answer).toBeNull();
   });
 
-  it('labels only the lit vial and the roll targets on the shelf', () => {
-    const { container } = render(<AlchemyLab {...props(null)} />);
-    const labels = [...container.querySelectorAll('.al-shelf .al-vlab')].map((x) => x.textContent);
-    expect(labels).toEqual(['Copper Corona', 'Dieter Drink 40+']);
+  it('Liquids: Water full, Nitrogen opens at Alchemy 20', () => {
+    const { container } = tab('liquids');
+    expect(container.textContent).toContain('opens at Alchemy 20');
   });
 
-  it('is registered as the alchemy-lab page', () => {
-    expect(SYSTEM_PAGES['alchemy-lab']).toBeDefined();
+  it('Vials: every locked vial you can try, easiest first, with what you hold and where', () => {
+    const { container } = tab('vials');
+    const rows = [...container.querySelectorAll('.vt-row')].map((r) => r.textContent);
+    expect(rows).toEqual([
+      'Dieter Drinkroll 40+ to unlockBSBean SlicesStorage 6,552 · Shaman 76 has 96,561held',
+      'Red Maltroll 85+ to unlockRSRedox SaltsStorage · 56 more sit in the Refinery1held',
+    ]);
+    expect(container.textContent).toContain('2 of 3 locked vials');
+    const missing = [...container.querySelectorAll('.vt-tile')].map((r) => r.textContent);
+    expect(missing).toEqual(['Thumb Powneeds Trusty Nails50+']);
+  });
+
+  it('is the full page of all four Alchemy Systems', () => {
+    for (const id of ['alchemy', 'alchemy-bubbles', 'alchemy-vials', 'alchemy-p2w'])
+      expect(FULL_PAGES[id]).toBeDefined();
   });
 });

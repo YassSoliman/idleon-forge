@@ -80,6 +80,17 @@ export function Loading({
           </span>
         ) : null}
       </div>
+      {steps && steps.length > 1 ? (
+        // M24 States board: every step named, the current one gold, the rest grey (later).
+        <ol className="a-loading__steps" aria-hidden="true">
+          {steps.map((name, i) => (
+            <li key={name} className={i === Math.min(current, steps.length - 1) ? 'is-on' : undefined}>
+              <span className={i <= current ? 'a-pip a-pip--gold' : 'a-pip'} />
+              {name}
+            </li>
+          ))}
+        </ol>
+      ) : null}
       {hinted && hint ? <p className="a-loading__hint">{hint}</p> : null}
     </div>
   );
@@ -99,7 +110,7 @@ export function PartFailed({ line, retry, onRetry, busy }: PartFailedProps) {
     <section className="a-part-failed" role="alert" aria-label={line}>
       <PixelArt name={GLYPH.crackedGear} decorative />
       <span>{line}</span>
-      <Button tone="quiet" onClick={onRetry} disabled={Boolean(busy)}>
+      <Button tone="ghost" onClick={onRetry} disabled={Boolean(busy)}>
         {busy ?? retry}
       </Button>
     </section>

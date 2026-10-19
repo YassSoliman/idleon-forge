@@ -11,7 +11,8 @@ export interface MeterProps {
   max: number;
   /** The accessible name, with units ("1,010 of 2,000 teeth"). */
   label: string;
-  tone?: 'ok' | 'fix' | 'muted' | 'accent';
+  /** M21 names (ok, fix, muted, accent) and the canvas's (gold, coral, mint, sky: rule 7). */
+  tone?: 'ok' | 'fix' | 'muted' | 'accent' | 'gold' | 'coral' | 'mint' | 'sky';
   dashed?: boolean;
 }
 

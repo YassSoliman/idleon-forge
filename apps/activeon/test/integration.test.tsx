@@ -4,7 +4,7 @@
 // M21 Integration (spec §9 "I") in the DOM: the AFK strip on Now (FR-I1), "See it on the map" (FR-M7),
 // the shell's Esc leaving an open dialog alone, and StateGlyph drawing no SVG text (DS-20).
 import type { EngineResult, MapResult, TimelineBar } from '@idleon-forge/engine/result';
-import { act, cleanup, fireEvent, render, screen } from '@testing-library/react';
+import { act, cleanup, fireEvent, render, screen, within } from '@testing-library/react';
 import axe from 'axe-core';
 import { afterEach, beforeEach, describe, expect, it } from 'vitest';
 import { StateGlyph } from '../src/design/atoms';
@@ -58,19 +58,22 @@ function withLimits(): EngineResult {
 }
 
 describe('FR-I1: the compact AFK strip on Now', () => {
-  it('sits between the pause control and its content, as one link to the Timeline', async () => {
+  it('sits under the hero: how long you are away, the marks, and one link to the Timeline (M24)', async () => {
     const r = withLimits();
     const { container } = renderNow(props(r, saveOf(r, 1, 'first', null, 'paste')));
-    const strip = container.querySelector('a.afk-strip') as HTMLAnchorElement;
-    expect(strip).toBeTruthy();
-    expect(strip.getAttribute('href')).toBe('#timeline');
-    expect(strip.getAttribute('aria-label')).toMatch(/limits? binds? before you're back/);
-    // Placement (FR-N1 step 6): right after the pause control, before the Roster.
+    fireEvent.click(screen.getByRole('radio', { name: 'Log off' }));
+    const back = container.querySelector('.np-back') as HTMLElement;
+    expect(back).toBeTruthy();
+    const link = within(back).getByRole('link', { name: 'Timeline' });
+    expect(link.getAttribute('href')).toBe('#timeline');
+    // Placement: the pause control, the hero, then "Before you're back", then the cards.
     const now = container.querySelector('.n-now') as HTMLElement;
-    const order = [...now.querySelectorAll('.n-pause, .afk-strip, .n-roster')].map((e) => e.className);
-    expect(order).toEqual(['n-pause', 'afk-strip', 'n-roster']);
+    const order = [...now.querySelectorAll('.n-pause, .np-hero, .np-back, .np-cards')].map((e) =>
+      [...e.classList].find((c) => c.startsWith('n-') || c.startsWith('np-')),
+    );
+    expect(order).toEqual(['n-pause', 'np-hero', 'np-back', 'np-cards']);
     await noAxeViolations(container);
-    fireEvent.click(strip);
+    fireEvent.click(link);
     expect(window.location.hash).toBe('#timeline');
   });
 
@@ -79,7 +82,7 @@ describe('FR-I1: the compact AFK strip on Now', () => {
     const { container } = renderNow(
       props({ ...r, returnAt: undefined }, saveOf(r, 1, 'first', null, 'paste')),
     );
-    expect(container.querySelector('.afk-strip')).toBeNull();
+    expect(container.querySelector('.np-axis')).toBeNull();
   });
 });
 

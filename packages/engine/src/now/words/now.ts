@@ -12,13 +12,15 @@ const plural = (count: unknown, one: string, many = `${one}s`) =>
 
 /** The header (`now.header` One-line, G1 overflow menu, `now.stage-badge` crest). */
 export const HEADER_WORDS = {
-  /** The save-age chip ("save read 1 min ago"). */
-  read: (ago: unknown) => `save read ${s(ago)}`,
+  /** The save's freshness in the top bar ("saved 1 min ago", M24 canvas). */
+  read: (ago: unknown) => `saved ${s(ago)}`,
   pasted: (ago: unknown) => `pasted · ${s(ago)}`,
   lastGood: (ago: unknown) => `last good save · ${s(ago)}`,
   noSave: 'no save yet',
   reconnecting: 'Reconnecting…',
   offline: (at: unknown) => `Offline · showing your save from ${s(at)}`,
+  /** The phone bar's short form (the full line is in the menu and for screen readers). */
+  offlineShort: 'offline',
   updating: 'updating…',
   /** A newer build is live (M12 FR-24): the quiet chip; a pasted save is kept across the reload. */
   newVersion: 'New version ready · Reload',
@@ -36,6 +38,8 @@ export const HEADER_WORDS = {
   signOut: 'Sign out',
   /** The crest's sheet: what the next Stage needs (M2 D5). */
   stageTitle: (label: unknown) => `To move past ${s(label)}`,
+  /** The crest of an account past World 4, the last Stage the model knows. */
+  stageBeyond: 'World 4 or later',
   stageCount: (count: unknown) => plural(count, 'thing'),
   stageHint: 'Each box ticks itself when your save shows it done.',
   stageButton: (label: unknown, count: unknown) => `${s(label)}, ${plural(count, 'thing')} to go`,

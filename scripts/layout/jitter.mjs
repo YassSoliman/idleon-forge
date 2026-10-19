@@ -9,7 +9,13 @@
 // counts too) it records the bounding boxes of the top bar (`.n-hdr`), the places (`nav.places`: the
 // bar's places from 720 px, the bottom dock under it) and the
 // content column (`.outlet`, left edge and width), and fails when any of them differs by a pixel. It
+// also fails when any piece of the top bar reaches past the viewport (M24 fix: the 390 px phone bar
+// overflowed to 424 px on a long "pasted · 45h 01m ago"; the public fixture's save is days old). It
 // reads the nav by its element, not its position, so it holds for a side rail, a top bar or a dock.
+// M24 QA P0: it also fails when the content column's own content is wider than the column on any stop
+// (the 11-character fixture laid Now out at 572 px in a 390 px phone; `body{overflow-x:hidden}` cut
+// the right third off), and on Now at 390 it also tries the Log in and Rounds pause points. Content
+// inside its own scroller (a wide table that scrolls sideways) is fine.
 // Scrollbars are shown (Playwright hides them by default), so a scrollbar that comes and goes counts.
 //
 // Usage:
@@ -57,6 +63,43 @@ function record() {
       column: box('.outlet', ['x', 'width']),
       // The rail's top edge: sticky from 720 px, so it is read with the page at the top.
       railTop: box('nav.places', ['y']),
+      // How far the bar's furthest piece reaches past the viewport (0 when it fits).
+      // How far the column's content reaches past the column (0 when it fits): the column's own
+      // scrollWidth, and any element right edge past the viewport outside a sideways scroller.
+      content: String(
+        (() => {
+          const o = document.querySelector('.outlet');
+          if (!o) return 0;
+          const vw = document.documentElement.clientWidth;
+          let over = Math.max(0, o.scrollWidth - o.clientWidth);
+          for (const el of o.querySelectorAll('*')) {
+            const r = el.getBoundingClientRect();
+            if (r.width === 0 || r.right <= vw + 0.5) continue;
+            const cs = getComputedStyle(el);
+            if (cs.position === 'absolute' || cs.position === 'fixed') continue;
+            let p = el.parentElement;
+            let scrolled = false;
+            while (p && p !== o) {
+              const ox = getComputedStyle(p).overflowX;
+              if (ox === 'auto' || ox === 'scroll' || ox === 'hidden' || ox === 'clip') {
+                scrolled = true;
+                break;
+              }
+              p = p.parentElement;
+            }
+            if (!scrolled) over = Math.max(over, Math.ceil(r.right - vw));
+          }
+          return over;
+        })(),
+      ),
+      overflow: String(
+        Math.max(
+          0,
+          ...[...document.querySelectorAll('.n-hdr__line > *')].map((el) =>
+            Math.ceil(el.getBoundingClientRect().right - document.documentElement.clientWidth),
+          ),
+        ),
+      ),
     });
     window.__raf = requestAnimationFrame(tick);
   };
@@ -81,7 +124,7 @@ async function main() {
       ta.dispatchEvent(new Event('input', { bubbles: true }));
     }, save);
     await page.click('form.paste button[type=submit]');
-    await page.waitForSelector('.n-roster', { timeout: 60_000 });
+    await page.waitForSelector('.n-now', { timeout: 60_000 });
     await page.waitForTimeout(500);
     await page.evaluate(() => {
       location.hash = '#systems';
@@ -133,6 +176,42 @@ async function main() {
         await page.screenshot({ path: path.join(o.shots, name) });
       }
     }
+    // The pause points at the phone width: each lays the Now column out with other parts.
+    if (width === 390)
+      for (const pick of ['Log in', 'Rounds', 'Log off']) {
+        await page.evaluate(() => {
+          location.hash = '#now';
+          window.scrollTo(0, 0);
+        });
+        await page.waitForTimeout(600);
+        await page.getByRole('radio', { name: pick }).click({ force: true });
+        await page.waitForTimeout(600);
+        await page.evaluate(record);
+        await page.waitForTimeout(100);
+        const frames = await page.evaluate(() => {
+          cancelAnimationFrame(window.__raf);
+          return window.__boxes;
+        });
+        for (const f of frames) {
+          if (!seen.has('content')) seen.set('content', new Map());
+          const m = seen.get('content');
+          if (!m.has(f.content)) m.set(f.content, `#now ${pick}`);
+        }
+      }
+    const wide = [...(seen.get('content') ?? new Map())].filter(([v]) => v !== '0');
+    if (wide.length) {
+      console.log(
+        `${width}px content OVERFLOWS the column: ${wide.map(([v, st]) => `${st} [${v} px]`).join('  ')}`,
+      );
+      failures.push(`${width}px content overflow`);
+    }
+    seen.delete('content');
+    const over = [...(seen.get('overflow')?.keys() ?? [])].filter((v) => v !== '0');
+    if (over.length) {
+      console.log(`${width}px header  OVERFLOWS the viewport by ${over.join(', ')} px`);
+      failures.push(`${width}px header overflow`);
+    }
+    seen.delete('overflow');
     for (const [k, m] of seen) {
       const status = m.size === 1 ? 'same' : 'MOVES';
       console.log(`${width}px ${k.padEnd(7)} ${status}: ${[...m].map(([v, s]) => `${s} [${v}]`).join('  ')}`);
@@ -142,10 +221,12 @@ async function main() {
   }
   await browser.close();
   if (failures.length) {
-    console.error(`\nThe shell moved: ${failures.join(', ')}`);
+    console.error(`\nThe shell moved or overflowed: ${failures.join(', ')}`);
     process.exit(1);
   }
-  console.log('\nThe top bar, the places and the content column hold still at every width.');
+  console.log(
+    '\nThe top bar, the places and the content column hold still and fit at every width, and the content fits the column.',
+  );
 }
 
 main().catch((e) => {

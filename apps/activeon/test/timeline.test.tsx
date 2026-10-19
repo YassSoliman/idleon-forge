@@ -17,7 +17,7 @@ import {
 } from '@idleon-forge/engine/now';
 import type { EngineResult, InfoLine, SystemSummary, TimelineBar } from '@idleon-forge/engine/result';
 import { isAdviceShaped } from '@idleon-forge/knowledge';
-import { cleanup, fireEvent, render, screen, within } from '@testing-library/react';
+import { cleanup, fireEvent, render, screen, waitFor, within } from '@testing-library/react';
 import axe from 'axe-core';
 import { afterEach, beforeAll, beforeEach, describe, expect, it, vi } from 'vitest';
 import { AfkStrip } from '../src/timeline/AfkStrip';
@@ -32,7 +32,8 @@ const H = 3_600_000;
 // The Timeline is a lazy chunk: under a cold full suite its first import can take longer than Testing
 // Library's 1 s default, so warm the module once and give the heading a CI-aware wait (R7 QA flake).
 const ARRIVE = { timeout: process.env.CI ? 15_000 : 5_000 };
-const timelineHeading = () => screen.findByRole('heading', { level: 2, name: 'Timeline' }, ARRIVE);
+const timelineHeading = () =>
+  screen.findByRole('heading', { level: 2, name: 'When does everyone stop earning?' }, ARRIVE);
 vi.setConfig({ testTimeout: ARRIVE.timeout + 5_000 });
 beforeAll(async () => {
   await import('../src/timeline/TimelinePlace');
@@ -151,10 +152,12 @@ function withTimeline(over: Partial<EngineResult> = {}): EngineResult {
 }
 
 const places = () => screen.getByRole('navigation', { name: 'Places' });
-const openTimeline = async (r: EngineResult, savedAgoMs = 30_000) => {
+const openTimeline = async (r: EngineResult, savedAgoMs = 30_000, list = true) => {
   window.history.replaceState(null, '', '/#timeline');
   const out = renderNow(props(r, saveOf(r, 1, 'first', null, 'paste', savedAgoMs)));
   await timelineHeading();
+  // M24: the limits show as a Chart or a List; the List carries every fix link.
+  if (list) fireEvent.click(screen.getByRole('radio', { name: BOARD_WORDS.list }));
   return out;
 };
 const lists = () => document.querySelector('.tl-lists') as HTMLElement;
@@ -186,7 +189,17 @@ describe('US-10: lanes, the Back marker and what binds before it', () => {
     const r = withTimeline();
     const { container } = await openTimeline(r);
     const heads = [...lists().querySelectorAll('.tl-lane-link')].map((a) => a.textContent);
-    expect(heads).toEqual(['1 · Dahlia', '2 · Alder', '3 · Elm', '4 · Birch', '5 · Cedar', 'Arcade']);
+    // QA P1-8 (rule 4): class + level, never a character's name.
+    expect(heads).toEqual([
+      '1 · Barbarian 51',
+      '2 · Squire 43',
+      '3 · Wizard 40',
+      '4 · Shaman 44',
+      '5 · Bowman 38',
+      'Arcade',
+    ]);
+    for (const name of ['Dahlia', 'Alder', 'Elm', 'Birch', 'Cedar'])
+      expect(lists().textContent).not.toContain(name);
     // The Times setting's default, "in 3h 10m" (G10); the clock form is tested below.
     expect(screen.getByText(/^Back in 8h 00m$/)).toBeTruthy();
     await noAxeViolations(container);
@@ -194,7 +207,7 @@ describe('US-10: lanes, the Back marker and what binds before it', () => {
 
   it('outlines the blocker before Back with the words and a fix link, and reads the US-10 sentence', async () => {
     await openTimeline(withTimeline());
-    const lane = screen.getByRole('region', { name: '1 · Dahlia' });
+    const lane = screen.getByRole('region', { name: '1 · Barbarian 51' });
     const item = lane.querySelector('.tl-item.outlined') as HTMLElement;
     expect(item.textContent).toContain('health food runs out · in 2h 00m');
     expect(item.textContent).toContain("before you're back");
@@ -230,17 +243,68 @@ describe('US-10: lanes, the Back marker and what binds before it', () => {
 
   it('lists an untimed limit as "can\'t tell when", with no bar', async () => {
     await openTimeline(withTimeline());
-    const lane = screen.getByRole('region', { name: '3 · Elm' });
+    const lane = screen.getByRole('region', { name: '3 · Wizard 40' });
     expect(within(lane).getByText("health food runs out, can't tell when")).toBeTruthy();
   });
 
-  it('draws the board aria-hidden in one labelled, focusable frame with nothing focusable inside', async () => {
-    await openTimeline(withTimeline());
-    const frame = screen.getByRole('region', { name: TIMELINE_WORDS.scrollLabel });
-    expect(frame.getAttribute('tabindex')).toBe('0');
-    const board = frame.querySelector('.tl-board') as HTMLElement;
-    expect(board.getAttribute('aria-hidden')).toBe('true');
-    expect(board.querySelectorAll('a, button, [tabindex]')).toHaveLength(0);
+  it('M24: the Chart draws each lane aria-hidden, with its limits as text and its head as a link', async () => {
+    const { container } = await openTimeline(withTimeline(), 30_000, false);
+    const chart = screen.getByRole('region', { name: BOARD_WORDS.chartLabel });
+    const tracks = [...chart.querySelectorAll('.tl-lr-t')];
+    expect(tracks.length).toBe(6);
+    for (const t of tracks) {
+      expect(t.getAttribute('aria-hidden')).toBe('true');
+      expect(t.querySelectorAll('a, button, [tabindex]')).toHaveLength(0);
+    }
+    expect(within(chart).getAllByRole('link').length).toBe(6);
+    expect(chart.textContent).toContain("health food runs out · can't tell when");
+    // The Chart | List toggle switches the content: no lists until List is picked.
+    expect(document.querySelector('.tl-lists')).toBeNull();
+    fireEvent.click(screen.getByRole('radio', { name: BOARD_WORDS.list }));
+    expect(document.querySelector('.tl-chart')).toBeNull();
+    expect(document.querySelector('.tl-lists')).not.toBeNull();
+    await noAxeViolations(container);
+  });
+});
+
+describe('M24 QA: the Chart and the counts', () => {
+  it('P1-7: a lane whose limit is full already draws no earning rail, its stripes start at now', async () => {
+    await openTimeline(withTimeline(), 30_000, false);
+    const chart = screen.getByRole('region', { name: BOARD_WORDS.chartLabel });
+    const rows = [...chart.querySelectorAll('.tl-lr')];
+    const full = rows.filter((l) => /Anvil full · collect · now/.test(l.textContent ?? ''));
+    expect(full.length).toBe(3);
+    for (const l of full)
+      expect((l.querySelector('.tl-lr-t') as HTMLElement).style.getPropertyValue('--stop')).toBe('0');
+    // ...and they come first ("soonest first"): full now is sooner than any later limit.
+    expect(rows.slice(0, 3)).toEqual(full);
+  });
+
+  it('P1-6: the nav badge, the Lanes tab badge and the subtitle say the same count', async () => {
+    await openTimeline(withTimeline(), 30_000, false);
+    const nav = within(places())
+      .getByRole('link', { name: /^Timeline/ })
+      .querySelector('.badge')?.textContent;
+    const tab = document.querySelector('.tl-tab .tl-badge')?.textContent;
+    const sub = document.querySelector('.tl-sub')?.textContent?.match(/^(\d+) limits?/)?.[1];
+    // 3 anvils full now, the health food before Back, and the account's Arcade balls before Back.
+    expect([nav, tab, sub]).toEqual(['5', '5', '5']);
+  });
+
+  it('P2: a "can\'t tell when" line on several lanes is said once, "the same on n more"', async () => {
+    const r = withTimeline();
+    const food = r.timeline?.find((b) => b.untimed);
+    if (!food) throw new Error('withTimeline has an untimed bar');
+    r.timeline = [...(r.timeline ?? []), { ...food, barId: 'food@c0', key: 'food@c0', subject: 'c0' }];
+    await openTimeline(r, 30_000, false);
+    const chart = screen.getByRole('region', { name: BOARD_WORDS.chartLabel });
+    const lines = [...chart.querySelectorAll('.tl-ln')].filter((l) =>
+      /can't tell when/.test(l.textContent ?? ''),
+    );
+    expect(lines).toHaveLength(1);
+    expect(lines[0]?.textContent).toContain("health food runs out · can't tell when · the same on 1 more");
+    // Both lanes keep their own "?" mark on the chart.
+    expect(chart.querySelectorAll('.tl-mk.is-unknown')).toHaveLength(2);
   });
 });
 
@@ -254,17 +318,24 @@ describe('US-11: from the bar to the fix (FR-27)', () => {
     expect(
       within(places()).getByRole('link', { current: true }).querySelector('.place-label')?.textContent,
     ).toBe('Timeline');
-    fireEvent.click(screen.getByRole('button', { name: 'Back' }));
+    // M24: no in-page back button (the strip and the places move); Esc goes back to where it came from.
+    fireEvent.keyDown(window, { key: 'Escape' });
     await timelineHeading();
     expect(window.location.hash).toBe('#timeline');
   });
 
-  it('expands "show more" first for an account Next Action past the cap', async () => {
+  it('an account Next Action lands on the Goals page, outlined (M24 QA P1-1: no Account column on Now)', async () => {
     await openTimeline(withTimeline());
-    fireEvent.click(within(lists()).getByRole('link', { name: 'See the fix: Arcade balls lost' }));
-    expect(window.location.hash).toBe('#now');
-    const na = document.querySelector('[data-na-key="arcade.check.g5@account"]');
-    expect(na?.classList.contains('lit')).toBe(true);
+    const link = within(lists()).getByRole('link', { name: 'See the fix: Arcade balls lost' });
+    expect(link.getAttribute('href')).toBe('#goals');
+    fireEvent.click(link);
+    expect(window.location.hash).toBe('#goals');
+    const na = await waitFor(() => {
+      const el = document.querySelector('[data-na-key="arcade.check.g5@account"]');
+      if (!el) throw new Error('not on the page yet');
+      return el;
+    });
+    expect(na.classList.contains('lit')).toBe(true);
   });
 });
 
@@ -278,7 +349,7 @@ describe('§6: states', () => {
 
   it('says the Timeline needs AFK safety without M3 (no returnAt)', async () => {
     const { returnAt: _, timeline: __, ...rest } = withTimeline();
-    await openTimeline(rest as EngineResult);
+    await openTimeline(rest as EngineResult, 30_000, false);
     expect(screen.getByText(TIMELINE_WORDS.unavailable)).toBeTruthy();
   });
 });
@@ -323,6 +394,8 @@ describe('TR-9: the Timeline adds no words of its own', () => {
     collect(TIMELINE_WORDS);
     collect(BOARD_WORDS);
     collect(KIND_WORDS);
+    // M24: the frame names who as "<class> <level>", as every lane head does.
+    for (const row of nowView.roster) allowed.add(`${row.classLabel} ${row.level}`);
     // The lanes part; the Parallel Slots and Daily & Weekly sections have their own tests.
     const place = document.querySelector('.tl-lanes-part') as HTMLElement;
     const texts: string[] = [];
@@ -352,18 +425,19 @@ describe('M21 FR-T1: the return-time control and the NOW box', () => {
   it('the NOW box names the first limit with a fix before Back, with who and its fix link', async () => {
     await openTimeline(withTimeline());
     const box = document.querySelector('.tl-next') as HTMLElement;
-    expect(box.textContent).toContain(BOARD_WORDS.nowBadge);
+    expect(box.classList.contains('a-frame')).toBe(true);
+    expect(box.textContent).toContain(BOARD_WORDS.beforeBack);
     expect(box.textContent).toContain('health food runs out · in 2h 00m');
     expect(within(box).getByRole('link', { name: 'See the fix: health food runs out' })).toBeTruthy();
-    // On the board, that bar carries the Now tag (the board itself stays aria-hidden).
-    expect(document.querySelectorAll('.tl-board .tl-bar.is-now')).toHaveLength(1);
+    // One frame per screen.
+    expect(document.querySelectorAll('.timeline-place .a-frame')).toHaveLength(1);
   });
 
   it('draws a who-glyph on every character lane head, and no slot codes or names on the board', async () => {
-    await openTimeline(withTimeline());
-    const heads = [...document.querySelectorAll('.tl-lanes .tl-head')];
+    await openTimeline(withTimeline(), 30_000, false);
+    const heads = [...document.querySelectorAll('.tl-chart .tl-lr-h')];
     expect(heads.filter((h) => h.querySelector('.who'))).toHaveLength(5);
-    const board = document.querySelector('.tl-board')?.textContent ?? '';
+    const board = [...document.querySelectorAll('.tl-lr-t')].map((t) => t.textContent).join(' ');
     expect(board).not.toMatch(/\bC\d\b|Dahlia|Alder/);
   });
 });
@@ -451,5 +525,29 @@ describe("TR-9: the Timeline's own words are not advice", () => {
     collect([BOARD_WORDS, SLOTS_UI_WORDS, DAILY_WORDS]);
     expect(strings.length).toBeGreaterThan(40);
     expect(strings.filter(isAdviceShaped)).toEqual([]);
+  });
+});
+
+describe('M24: the three tabs switch the panel, as routes', () => {
+  it('Lanes, Parallel slots and Daily & weekly are links; each shows only its own panel', async () => {
+    const r = withM20(withTimeline());
+    window.history.replaceState(null, '', '/#timeline');
+    renderNow(props(r, saveOf(r, 1, 'first', null, 'paste')));
+    await timelineHeading();
+    const tabs = screen.getByRole('navigation', { name: BOARD_WORDS.tabsLabel });
+    const current = () =>
+      within(tabs).getByRole('link', { current: 'page' }).querySelector('.tl-tab-l')?.textContent;
+    expect(current()).toBe(BOARD_WORDS.tabLanes);
+    expect(document.querySelector('.tl-chart')).not.toBeNull();
+    expect(document.getElementById('slots')).toBeNull();
+    fireEvent.click(within(tabs).getByRole('link', { name: /Parallel slots/ }));
+    expect(window.location.hash).toBe('#slots');
+    expect(current()).toBe(BOARD_WORDS.tabSlots);
+    expect(document.getElementById('slots')).not.toBeNull();
+    expect(document.querySelector('.tl-chart')).toBeNull();
+    fireEvent.click(within(tabs).getByRole('link', { name: /Daily & weekly/ }));
+    expect(window.location.hash).toBe('#daily');
+    expect(document.getElementById('daily')).not.toBeNull();
+    expect(document.getElementById('slots')).toBeNull();
   });
 });

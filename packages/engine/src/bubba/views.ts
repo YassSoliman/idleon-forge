@@ -301,9 +301,15 @@ export function buildBubbaView(input: ViewInput): BubbaResult {
   const future = timeline
     .filter((t) => t.at !== null && t.at > n.now)
     .sort((x, y) => (x.at ?? 0) - (y.at ?? 0))[0];
+  // Meat made this run by now: the save's count plus what the run has made since (the held meat's
+  // growth). Past the bar, say it is reached instead of "opens at 25B" beside "This run 28B" (QA P2).
+  const madeNow = n.projected === null ? b.produced : b.produced + Math.max(0, n.projected - b.meat);
+  const nextName = ups[b.types]?.name ?? 'The next upgrade';
   const nextType =
     b.types < 28
-      ? `${ups[b.types]?.name ?? 'The next upgrade'} opens at ${meatText(b.nextTypeAt)} made this run`
+      ? madeNow >= b.nextTypeAt
+        ? `This run has made the ${meatText(b.nextTypeAt)} that opens ${nextName}`
+        : `${nextName} opens at ${meatText(b.nextTypeAt)} made this run`
       : null;
   return {
     state: n.notStarted ? 'not-started' : 'ok',

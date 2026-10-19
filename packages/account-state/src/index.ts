@@ -269,6 +269,9 @@ export type {
   UnspentAccountFields,
   UnspentCharacterFields,
 } from './unspent-types';
+// M24 the World 3 System pages (prayers, shrines)
+export { prayersOf, shrinesOf } from './w23';
+export type { PrayerInfo, ShrineInfo, W23AccountFields } from './w23-types';
 export { PRINTER, WALKTHROUGH_SKILLS } from './walkthrough';
 export type {
   CardPresets,
@@ -281,3 +284,22 @@ export type {
   WalkthroughAccountFields,
   WalkthroughCharacterFields,
 } from './walkthrough-types';
+export { KITCHENS, LAB_CHIP_SLOTS } from './world4';
+export type {
+  BreedingState,
+  BreedingUpgrade,
+  CookingState,
+  Kitchen,
+  KitchenStatus,
+  LabCharacter,
+  LabJewel,
+  LabNode,
+  LabShopItem,
+  LabShopWeek,
+  LabState,
+  Meal,
+  Spice,
+  Territory,
+  TerritoryStatus,
+  World4AccountFields,
+} from './world4-types';

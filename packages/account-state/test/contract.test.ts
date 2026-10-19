@@ -115,6 +115,28 @@ const shapeOf = (state: AccountState) => ({
     anvilRecipes: state.account.anvilRecipes?.map((t) => t.length).join('/') ?? state.account.anvilRecipes,
     // M21 TR-3: one line, "level/grade" per statue (per-character levels checked in redesign.test.ts).
     statues: state.account.statues?.map((x) => `${x.level}/${x.grade}`).join(' ') ?? state.account.statues,
+    // M24: digests of the World 4 fields (their values are checked in world4.test.ts).
+    lab: state.account.lab && {
+      uploaded: state.account.lab.characters.filter((c) => c.uploaded).length,
+      connected: state.account.lab.characters.filter((c) => c.connected).length,
+      lit: state.account.lab.bonuses.filter((b) => b.lit).length,
+      jewels: `${state.account.lab.jewels.filter((j) => j.owned).length}/${state.account.lab.jewels.length}`,
+      repositoryOpen: state.account.lab.repositoryOpen,
+      spinnerOpen: state.account.lab.spinnerOpen,
+    },
+    cooking: state.account.cooking && {
+      kitchens: state.account.cooking.kitchens.map((k) => k.status).join(' '),
+      mealsFound: `${state.account.cooking.meals.filter((m) => m.level > 0).length}/${state.account.cooking.meals.length}`,
+      spicesFound: `${state.account.cooking.spices.filter((x) => x.held !== null).length}/${state.account.cooking.spices.length}`,
+      mealMaxLevel: state.account.cooking.mealMaxLevel,
+    },
+    breeding: state.account.breeding && {
+      level: state.account.breeding.level,
+      nest: `${state.account.breeding.eggs}/${state.account.breeding.eggCapacity}`,
+      territories: state.account.breeding.territories.map((t) => t.status[0]).join(''),
+      upgrades: state.account.breeding.upgrades.map((u) => u.level).join(' '),
+      arenaBestWave: state.account.breeding.arenaBestWave,
+    },
   },
   characters: state.characters.map(({ name: _name, talents, ...c }) => ({
     ...compact(c as unknown as Record<string, unknown>, CHARACTER_MAPS),
@@ -187,10 +209,13 @@ describe('across all public saves', () => {
   // which holds 122 kinds of gear; +5 KB on a real W3 account), so the guard was 340 KB.
   // M21 TR-3 adds door kills on every map (one small array per map, clamped at 0) and the statue levels
   // per character (+19 KB on highend.json's 11 late characters, 351.9 KB in all; +4 KB on a real W3
-  // account), so the guard is 360 KB.
-  it('keeps every Account State under the 360 KB history cap (TR-16, M20 TR-2, M18 TR-2, M21 TR-3)', () => {
+  // account), so the guard was 360 KB.
+  // M24 adds the World 4 fields (Lab board and chips, the 10 kitchens, all 74 meals with their bonus
+  // text, spices, territories, upgrades; numbers rounded to 4 digits): +24 KB on the late saves, ~3 KB on
+  // a real account just in World 4 and 0 before it, so the guard is 392 KB.
+  it('keeps every Account State under the 392 KB history cap (TR-16, M20 TR-2, M18 TR-2, M21 TR-3, M24)', () => {
     const largest = Math.max(...states.map((s) => new TextEncoder().encode(JSON.stringify(s)).length));
-    expect(largest).toBeLessThan(360 * 1024);
+    expect(largest).toBeLessThan(392 * 1024);
   });
 
   it('has the 11 public saves', () => {

@@ -188,6 +188,11 @@
   --cauldron-kazam-2: #6b5a00;
   --cauldron-kazam-3: #8f7a00;
   --cauldron-kazam-4: #fff59a;
+  /* A cauldron's name as text (QA P2): 4.5:1 on the page and its tiles; light mode uses the shadow step. */
+  --cauldron-power-ink: var(--cauldron-power-2);
+  --cauldron-quicc-ink: var(--cauldron-quicc-2);
+  --cauldron-highiq-ink: var(--cauldron-highiq-2);
+  --cauldron-kazam-ink: var(--cauldron-kazam-2);
 
   /* World accents (our own values): "which character goes where", the who-glyph's frame tint */
   --w1: #12854f;
@@ -232,6 +237,10 @@ html {
   --cauldron-kazam-2: #b8ac10;
   --cauldron-kazam-3: #f6f031;
   --cauldron-kazam-4: #fffbc8;
+  --cauldron-power-ink: var(--cauldron-power-3);
+  --cauldron-quicc-ink: var(--cauldron-quicc-3);
+  --cauldron-highiq-ink: var(--cauldron-highiq-3);
+  --cauldron-kazam-ink: var(--cauldron-kazam-3);
 }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
@@ -258,6 +267,10 @@ html {
     --cauldron-kazam-2: #b8ac10;
     --cauldron-kazam-3: #f6f031;
     --cauldron-kazam-4: #fffbc8;
+    --cauldron-power-ink: var(--cauldron-power-3);
+    --cauldron-quicc-ink: var(--cauldron-quicc-3);
+    --cauldron-highiq-ink: var(--cauldron-highiq-3);
+    --cauldron-kazam-ink: var(--cauldron-kazam-3);
   }
 }
 
@@ -346,96 +359,119 @@ html {
   --bar: #ece6d9;
   --frame-bg: var(--bad-soft);
   --frame-tile: #f0d0c3;
+  /* M24 (the UX rework canvas, NowLight board): the third surface step, the secondary ink, the frame
+     tints for "do it" and "done", violet, and the grey of a "later" pip. */
+  --raised: #d6cdb9;
+  --fg2: #4a453c;
+  --frame-gold: #f1e2be;
+  --frame-ok: #d9ebdd;
+  --violet: #5b3fa0;
+  --violet-soft: #e8e1f5;
+  --pip-later: #a8a090;
   color-scheme: light;
 }
 
 :root[data-theme="dark"][data-direction="field"],
 :root[data-theme="dark"] [data-direction="field"] {
-  --bg: #15171c;
-  --surface: #1c1f26;
-  --sunk: #242833;
+  --bg: #14161b;
+  --surface: #1a1d24;
+  --sunk: #21252e;
   --fg: #ede6d6;
-  --muted: #a49e90;
-  --line: #2a2e38;
+  --muted: #a29c8f;
+  --line: #272b34;
   --line-strong: #77736a;
   --frame: #000000;
   --accent-rule: #e9b949;
   --accent: #e9b949;
-  --accent-soft: #2e2817;
-  --on-accent: #15171c;
+  --accent-soft: #3a3220;
+  --on-accent: #17140c;
   --ok: #7fd4a6;
-  --ok-soft: #1a2a23;
+  --ok-soft: #1e3329;
   --on-ok: #15171c;
   --warn: #e9b949;
-  --warn-soft: #2e2817;
+  --warn-soft: #3a3220;
   --on-warn: #15171c;
   --bad: #f07a5a;
-  --bad-soft: #2a2026;
+  --bad-soft: #3a2420;
   --on-bad: #15171c;
   --unk: #b3ada0;
   --unk-soft: #262830;
   --on-unk: #15171c;
-  --info: #8ec5e8;
-  --info-soft: #1a2633;
+  --info: #82b9f0;
+  --info-soft: #1d2b3b;
   --on-info: #15171c;
   --speech: #0f1428;
   --speech-fg: #ede6d6;
-  --speech-gap: #15171c;
+  --speech-gap: #14161b;
   --focus: #e9b949;
-  --now-line: #8ec5e8;
+  --now-line: #82b9f0;
   --return-line: #e9b949;
   --shadow-1: none;
   --shadow-2: 0 6px 20px rgb(0 0 0 / 0.45);
   --scrim: rgb(0 0 0 / 0.6);
   --px-ui-ink: #ede6d6;
-  --bar: #1b1e25;
-  --frame-bg: var(--bad-soft);
+  --bar: #1a1d24;
+  --frame-bg: #2a2228;
   --frame-tile: #3a2c33;
+  --raised: #2b303b;
+  --fg2: #bdb6a6;
+  --frame-gold: #2c2719;
+  --frame-ok: #1d2a25;
+  --violet: #b79cf2;
+  --violet-soft: #2a2440;
+  --pip-later: #4a4e58;
   color-scheme: dark;
 }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"])[data-direction="field"],
   :root:not([data-theme="light"]) [data-direction="field"] {
-    --bg: #15171c;
-    --surface: #1c1f26;
-    --sunk: #242833;
+    --bg: #14161b;
+    --surface: #1a1d24;
+    --sunk: #21252e;
     --fg: #ede6d6;
-    --muted: #a49e90;
-    --line: #2a2e38;
+    --muted: #a29c8f;
+    --line: #272b34;
     --line-strong: #77736a;
     --frame: #000000;
     --accent-rule: #e9b949;
     --accent: #e9b949;
-    --accent-soft: #2e2817;
-    --on-accent: #15171c;
+    --accent-soft: #3a3220;
+    --on-accent: #17140c;
     --ok: #7fd4a6;
-    --ok-soft: #1a2a23;
+    --ok-soft: #1e3329;
     --on-ok: #15171c;
     --warn: #e9b949;
-    --warn-soft: #2e2817;
+    --warn-soft: #3a3220;
     --on-warn: #15171c;
     --bad: #f07a5a;
-    --bad-soft: #2a2026;
+    --bad-soft: #3a2420;
     --on-bad: #15171c;
     --unk: #b3ada0;
     --unk-soft: #262830;
     --on-unk: #15171c;
-    --info: #8ec5e8;
-    --info-soft: #1a2633;
+    --info: #82b9f0;
+    --info-soft: #1d2b3b;
     --on-info: #15171c;
     --speech: #0f1428;
     --speech-fg: #ede6d6;
-    --speech-gap: #15171c;
+    --speech-gap: #14161b;
     --focus: #e9b949;
-    --now-line: #8ec5e8;
+    --now-line: #82b9f0;
     --return-line: #e9b949;
     --shadow-1: none;
     --shadow-2: 0 6px 20px rgb(0 0 0 / 0.45);
     --scrim: rgb(0 0 0 / 0.6);
     --px-ui-ink: #ede6d6;
-    --bar: #1b1e25;
-    --frame-bg: var(--bad-soft);
+    --bar: #1a1d24;
+    --frame-bg: #2a2228;
     --frame-tile: #3a2c33;
+    --raised: #2b303b;
+    --fg2: #bdb6a6;
+    --frame-gold: #2c2719;
+    --frame-ok: #1d2a25;
+    --violet: #b79cf2;
+    --violet-soft: #2a2440;
+    --pip-later: #4a4e58;
     color-scheme: dark;
   }
 }
@@ -837,6 +873,24 @@ html {
   /* Deltas ("will give you") */
   --delta-up: var(--ok);
   --delta-down: var(--bad);
+
+  /* M24: the UX rework canvas's names (ux/canvas/ao.css), as aliases of the tokens above, so a board's
+     classes map 1:1 without a second token set. Colour means one thing (rule 7): coral losing value
+     now, gold do it, mint done or fine, sky a timer, grey later. */
+  --s1: var(--surface);
+  --s2: var(--sunk);
+  --s3: var(--raised, var(--sunk));
+  --ink: var(--fg);
+  --ink2: var(--fg2, var(--fg));
+  --ink3: var(--muted);
+  --gold: var(--accent);
+  --gold-soft: var(--accent-soft);
+  --coral: var(--bad);
+  --coral-soft: var(--bad-soft);
+  --mint: var(--ok);
+  --mint-soft: var(--ok-soft);
+  --sky: var(--info);
+  --sky-soft: var(--info-soft);
 
   /* Surfaces */
   --card-bg: var(--surface);

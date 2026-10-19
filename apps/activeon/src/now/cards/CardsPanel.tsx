@@ -1,48 +1,21 @@
 // SPDX-License-Identifier: GPL-3.0-only
 // Copyright (C) 2026 IdleOn Forge contributors.
-// The Cards view (M8 "Cards view"), drawn as the Design Lab picks (M21 FR-C8, `character.cards.*`):
-// - "Card rack": each card preset as a rack of our own card frames with level pips, the worn preset
-//   ringed and its set as a badge on the rack; a card's effect sits in its tap sheet (DS-20), never
-//   small text in the frame;
-// - "Before / after racks": the rack in use, an arrow, the best rack from cards you own, one sentence;
-// - "By map": the cards to grind next grouped by the map that drops them;
-// - the Cards overview on Characters: one line per character, then the account's grind list.
-// The engine (collections/cards-view.ts, now/cards-view.ts) builds and words everything; this file only
-// renders it. Text is React text and styles are classes, never inline (CSP).
-import type { CardsNowView, CharacterCardsView, NowView } from '@idleon-forge/engine/now';
-import type { CardChip, GrindItem, PresetRecommendation } from '@idleon-forge/engine/result';
-import { useState } from 'react';
+// The Cards overview on Characters (M8 "Cards view", M21 FR-C8 "By map"): one line per character, then
+// the account's cards to grind grouped by the map that drops them. The character page's Cards tab is
+// CardsTab.tsx (M24). The engine builds and words everything; this file only renders it (CSP: text and
+// classes, never inline styles).
+import type { CardsNowView, NowView } from '@idleon-forge/engine/now';
+import type { GrindItem } from '@idleon-forge/engine/result';
 import { PixelArt } from '../../design/art/PixelArt';
-import { GLYPH, Sheet, SourceLabel } from '../../design/atoms';
+import { GLYPH, SourceLabel } from '../../design/atoms';
 import { SeeOnMap } from '../../map/SeeOnMap';
-import type { CharacterTabProps } from '../character-tabs';
 import { useNowActions } from '../context';
 import { CARDS_OPEN } from '../open-keys';
 import './cards.css';
 
-const levelWords = (c: CardChip) =>
-  c.level > 0
-    ? `Lv ${c.level}${c.stars > 0 ? ` · ${c.stars} ${c.stars === 1 ? 'star' : 'stars'}` : ''}`
-    : 'not owned';
-
-/** One card frame; a tap opens its sheet (name, level, what it gives). */
-function Card({ card, onOpen }: { card: CardChip | null; onOpen(c: CardChip): void }) {
-  if (!card)
-    return (
-      <li className="cv-card" data-empty="yes">
-        <span className="cv-card-name">empty slot</span>
-      </li>
-    );
-  return (
-    <li className="cv-card" data-passive={card.passive ? 'yes' : 'no'}>
-      <button type="button" className="cv-card-btn" onClick={() => onOpen(card)}>
-        <PixelArt name="v2-character-card" decorative />
-        <span className="cv-card-name">{card.name}</span>
-        <span className="cv-pips num">{levelWords(card)}</span>
-      </button>
-    </li>
-  );
-}
+// M24: the character page's Cards tab body lives in CardsTab.tsx (board `Cards`); the registry
+// (character-tabs.ts) still loads it from here.
+export { CardsTab } from './CardsTab';
 
 /** How the Cards view counts, and its Sources (#74: the wiki Cards page first, then the Toolbox credit). */
 function Footer({ cards }: { cards: CardsNowView }) {
@@ -116,134 +89,6 @@ function GrindByMap({ items, account = false }: { items: readonly GrindItem[]; a
       ))}
     </div>
   );
-}
-
-/** "Before / after racks": the cards that change, from the rack in use to the best you own. */
-function BestSwap({ r }: { r: PresetRecommendation }) {
-  return (
-    <li className="cv-rec">
-      <p className="cv-rec-head">
-        <b>For {r.activity}</b>{' '}
-        <span className="cv-muted">
-          {r.reason === 'afk-target' ? '(its AFK Target)' : '(another of its Roles)'}
-        </span>
-      </p>
-      <p className="cv-line">{r.where}</p>
-      {r.done ? (
-        <p className="cv-line cv-done">
-          <PixelArt name={GLYPH.check} decorative /> Already the best you own
-        </p>
-      ) : (
-        <ul className="cv-swaps">
-          {r.swaps.map((s) => (
-            <li key={s.text} className="cv-swap">
-              <span className="cv-swap-from" data-empty={s.from ? 'no' : 'yes'}>
-                {s.from ? s.from.name : 'empty slot'}
-              </span>
-              <PixelArt name={GLYPH.arrowRight} decorative />
-              <span className="sr-only">swap for</span>
-              <span className="cv-swap-to">
-                {s.to.name} <span className="cv-muted num">{levelWords(s.to)}</span>
-              </span>
-              <span className="cv-muted cv-swap-fx">{s.to.effect}</span>
-            </li>
-          ))}
-        </ul>
-      )}
-      {r.setNote ? (
-        <p className="cv-line">{r.setNote}</p>
-      ) : r.set ? (
-        <p className="cv-muted">Card set: {r.set.name}</p>
-      ) : null}
-    </li>
-  );
-}
-
-/** One character's Cards view. */
-export function CharacterCardsPanel({ c, cards }: { c: CharacterCardsView; cards: CardsNowView }) {
-  const [open, setOpen] = useState<CardChip | null>(null);
-  if (c.unknown) return <p className="cv-muted">{c.unknown}</p>;
-  return (
-    <div className="cv">
-      <p className="cv-summary">{c.overview}</p>
-      <section aria-labelledby={`cv-${c.index}-racks`}>
-        <h3 id={`cv-${c.index}-racks`} className="cv-h">
-          Card presets{' '}
-          <span className="cv-muted num">
-            {c.slotCount} slots{c.presetsLocked ? ` · ${c.presetsLocked}` : ''}
-          </span>
-        </h3>
-        <ul className="cv-racks">
-          {c.presets.map((p) => (
-            <li key={p.n} className="cv-rack" data-active={p.active ? 'yes' : 'no'}>
-              <p className="cv-rack-head">
-                <b>{c.presets.length > 1 ? `Preset ${p.n}` : 'Equipped'}</b>
-                {p.active && c.presets.length > 1 ? <span className="cv-tag cv-tag--use">in use</span> : null}
-                <span className="cv-tag" data-fit={p.fitsTarget ? 'yes' : 'no'}>
-                  {p.fitsTarget ? <PixelArt name={GLYPH.check} decorative /> : null}
-                  {p.label}
-                </span>
-                {p.set ? (
-                  <span className="cv-tag cv-tag--set">
-                    {p.set.name} set · tier {p.set.tier}
-                  </span>
-                ) : null}
-              </p>
-              <ul className="cv-cards" aria-label={`Preset ${p.n} slots`}>
-                {p.slots.map((s, i) => (
-                  // biome-ignore lint/suspicious/noArrayIndexKey: slots are positional.
-                  <Card key={i} card={s} onOpen={setOpen} />
-                ))}
-              </ul>
-              {p.set ? (
-                <p className="cv-muted">Set bonus: {p.set.bonus}</p>
-              ) : p.active ? (
-                <p className="cv-muted">No card set equipped</p>
-              ) : null}
-            </li>
-          ))}
-        </ul>
-      </section>
-
-      {c.recommendations.length ? (
-        <section aria-labelledby={`cv-${c.index}-best`}>
-          <h3 id={`cv-${c.index}-best`} className="cv-h">
-            Best preset from cards you own
-          </h3>
-          <ul className="cv-recs">
-            {c.recommendations.map((r) => (
-              <BestSwap key={r.activity} r={r} />
-            ))}
-          </ul>
-        </section>
-      ) : null}
-
-      <section aria-labelledby={`cv-${c.index}-grind`}>
-        <h3 id={`cv-${c.index}-grind`} className="cv-h">
-          Cards to grind next
-        </h3>
-        {c.grind.length ? <GrindByMap items={c.grind} /> : <p className="cv-muted">{c.grindEmpty}</p>}
-        {c.grindNote ? <p className="cv-muted">{c.grindNote}</p> : null}
-      </section>
-      <Footer cards={cards} />
-      <Sheet open={open !== null} title={open ? `${open.name} card` : ''} onClose={() => setOpen(null)}>
-        {open ? (
-          <div className="cv-sheet">
-            <p className="num">{levelWords(open)}</p>
-            <p>{open.effect}</p>
-            {open.passive ? <p className="cv-muted">Passive: it works without being equipped.</p> : null}
-          </div>
-        ) : null}
-      </Sheet>
-    </div>
-  );
-}
-
-/** The character page's Cards tab (character-tabs.ts). */
-export function CardsTab({ view, index }: CharacterTabProps) {
-  const c = view.cards?.characters.find((x) => x.index === index);
-  if (!view.cards || !c) return <p className="cv-muted">No card data for this character yet.</p>;
-  return <CharacterCardsPanel c={c} cards={view.cards} />;
 }
 
 /** The Cards overview's collapsed line: "2 presets to fix". */

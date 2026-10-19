@@ -200,6 +200,9 @@ export interface ToolboxCalls {
   getBuildCost(towers: unknown, level: number, bonusInc: number, index: number): number;
   /** `{ minBookLv, maxBookLv }`: the Talent Book Library's book level range. */
   getBookLvRange(account: unknown): unknown;
+  // ---- M24 World 4 (read-only pages) ----
+  /** Toolbox `getChipsAndJewels`: per week from the save's, `{ items: [chip, chip, jewel], date }` (chips and jewel are Toolbox objects with `name`). */
+  getChipsAndJewels(account: unknown, weeks: number): unknown;
   // ---- M20 Skills, Parallel Slots and the Daily & Weekly Checklist (TR-1) ----
   /** Killroy room classes ("Warrior", ...) for this account week (index 0) and the next (1), `rooms` rooms each. */
   killroyWeeks(account: unknown, characters: unknown[], rooms: number): { classes: string[] }[];
@@ -241,6 +244,8 @@ export interface ToolboxCalls {
   bubbaParse(rawBubba: unknown, account: unknown): ToolboxBubba | null;
   /** The Charisma and gift tables, and Toolbox's Smoker cap constant. */
   bubbaTables(): ToolboxBubbaTables;
+  /** M24: each live shrine's bonus at level 1 and per level, in `account.shrines` order. */
+  shrineBonuses(): Array<{ baseBonus: number; bonusPerLevel: number }>;
 }
 
 /** M7 TR-4: one Vault row's Toolbox `cost` at levels L, L+1, ... (`costs[0]` is the parse's `cost`). */

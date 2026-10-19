@@ -1,18 +1,18 @@
 // SPDX-License-Identifier: GPL-3.0-only
 // Copyright (C) 2026 IdleOn Forge contributors.
-// The top bar (M21.1 refresh, nav option A; M21 `now.header`, G1, G2): the wordmark on the left, the five
-// places, then the status on the right (the
-// Preview badge on a PR Preview, the World crest, the save-age chip, a "New version ready" chip), the
-// light/dark toggle and the 44 px overflow menu (G1). Family level, Settings, Suggest, versions and Sign
-// out live in that menu; a new update or a failed check puts one dot on its button (`flows.banners`).
-// Only the age chip ticks every second (M10 TR-5), and it is never a live region (TR-14).
+// The top bar (M24, the UX rework canvas's bar; M21 `now.header`, G1, G2): the wordmark on the left,
+// the five places, then the status on the right: the Preview badge on a PR Preview, the Stage
+// ("World 3 · early · 2 to go", a tap opens what the next Stage needs), the save's freshness (a mint
+// square and "saved 6m ago"; gold once the save is older than your time away, rule 4: said once, here),
+// a "New version ready · Reload" line, the light/dark toggle and the 44 px ••• menu (G1). Everything
+// else (your save, paste, settings, suggestions, your data, links) lives in that menu; a new notice or
+// a failed check puts one dot on its button. Only the age ticks every second (M10 TR-5), and it is never
+// a live region (TR-14).
 import type { AccountState } from '@idleon-forge/account-state';
 import { HEADER_WORDS as W } from '@idleon-forge/engine/now';
 import { type ReactNode, useEffect, useState } from 'react';
-import { PixelArt } from '../design/art/PixelArt';
-import { Chip } from '../design/atoms/Chip';
-import { GLYPH } from '../design/atoms/glyphs';
 import { Pill } from '../design/atoms/Pill';
+import { Pip } from '../design/atoms/Surfaces';
 import { ThemeToggle } from '../design/atoms/ThemeToggle';
 import { ago, clockAt, localOffsetMinutes } from '../design/format';
 import { freshnessHint } from '../format';
@@ -35,8 +35,13 @@ export interface HeaderProps {
   lastSnapshotAt: number | null;
   /** "updating…" in the chip row while a later save is parsed (§6). */
   busy?: boolean;
+  /**
+   * M24 States board "Old save": once the save is older than this (the Expected Return, M10 §6) the
+   * age turns gold with a gold pip. Null: never (no result yet).
+   */
+  staleAfterSeconds?: number | null;
   /** EngineResult.stage (M2 D5): the World crest; what the next Stage needs opens in a sheet. */
-  stage?: { id: string; label: string; needs?: string[] } | null;
+  stage?: { id: string; label: string; needs?: string[]; beyond?: true } | null;
   /** G2: "Preview of PR #123, not the live app", on PR Previews only. */
   preview?: string | null;
   /** A newer build is live (M12 FR-24): the quiet "New version ready · Reload" chip. */
@@ -67,7 +72,8 @@ function Crest({ stage }: { stage: NonNullable<HeaderProps['stage']> }) {
   const [open, setOpen] = useState(false);
   if (stage.id === 'not-covered' || stage.id === 'unknown') return null;
   const needs = stage.needs ?? [];
-  const text = stageText(stage.label);
+  // Past World 4 the Stage model has no later Stage: say "World 4 or later", never "entry" (QA P2).
+  const text = stage.beyond ? W.stageBeyond : stageText(stage.label);
   return (
     <>
       <button
@@ -78,7 +84,6 @@ function Crest({ stage }: { stage: NonNullable<HeaderProps['stage']> }) {
         onClick={() => setOpen(true)}
         disabled={needs.length === 0}
       >
-        <PixelArt name="now-crest" w={worldOf(stage.label)} decorative />
         <span className="n-long">{text}</span>
         {/* R12 QA: the phone bar is one 56 px line, so the World shortens to "W3" there (Phone canvas). */}
         {worldOf(stage.label) ? <span className="n-short">W{worldOf(stage.label)}</span> : null}
@@ -100,8 +105,35 @@ function Crest({ stage }: { stage: NonNullable<HeaderProps['stage']> }) {
   );
 }
 
-/** The save-age chip: "save read 3m ago", "pasted · 5m ago", "last good save · 3h 02m ago". */
-function SaveAge({ save, sync, online }: Pick<HeaderProps, 'save' | 'sync' | 'online'>) {
+/**
+ * The phone bar's compact age (M24 fix): the largest unit only, "45h 01m ago" -> "45h", "6m ago" ->
+ * "6m", so the 390 px bar never overflows; the full line is in the menu's Your save row.
+ */
+export const compactAge = (age: string): string => {
+  const first = age.replace(/ ago$/, '').split(' ')[0] ?? '';
+  return /\d/.test(first) ? first : age.replace(/ ago$/, '');
+};
+
+/** The full freshness line ("pasted · 45h 01m ago"), ticking, for the ••• menu's Your save row. */
+export function SaveAgeLine({ save }: { save: HeaderSave | null }) {
+  const now = useNow();
+  const saved = save?.state.account.lastCloudSave ?? null;
+  if (save === null || saved === null) return null;
+  const age = ago(saved, now);
+  return (
+    <span className="num">
+      {save.tag === 'last-good' ? W.lastGood(age) : save.source === 'paste' ? W.pasted(age) : W.read(age)}
+    </span>
+  );
+}
+
+/** The save's freshness: "saved 3m ago", "pasted · 5m ago", "last good save · 3h 02m ago". */
+function SaveAge({
+  save,
+  sync,
+  online,
+  staleAfterSeconds,
+}: Pick<HeaderProps, 'save' | 'sync' | 'online' | 'staleAfterSeconds'>) {
   const now = useNow();
   const saved = save?.state.account.lastCloudSave ?? null;
   const connection = !online
@@ -109,16 +141,34 @@ function SaveAge({ save, sync, online }: Pick<HeaderProps, 'save' | 'sync' | 'on
     : sync.status === 'reconnecting'
       ? W.reconnecting
       : null;
-  if (connection) return <span className="n-agechip is-warn">{connection}</span>;
+  if (connection)
+    return (
+      <span className="n-agechip is-warn">
+        <Pip tone="gold" />
+        <span className="n-long">{connection}</span>
+        <span className="n-short" aria-hidden="true">
+          {online ? W.reconnecting : W.offlineShort}
+        </span>
+      </span>
+    );
   if (save === null || saved === null) return <span className="n-agechip">{W.noSave}</span>;
   const age = ago(saved, now);
   const text =
     save.tag === 'last-good' ? W.lastGood(age) : save.source === 'paste' ? W.pasted(age) : W.read(age);
+  const old = staleAfterSeconds != null && staleAfterSeconds > 0 && now - saved > staleAfterSeconds * 1000;
+  const cls = save.tag === 'last-good' ? 'n-agechip is-warn' : old ? 'n-agechip is-warn is-old' : 'n-agechip';
   return (
-    <span className={save.tag === 'last-good' ? 'n-agechip is-warn' : 'n-agechip'}>
-      <PixelArt name={GLYPH.howLong} decorative />
+    <span className={cls}>
+      {old || save.tag === 'last-good' ? (
+        <Pip tone="gold" />
+      ) : (
+        <span className="n-fresh" aria-hidden="true" />
+      )}
       <span className="num n-long">{text}</span>
-      {save.tag === 'last-good' ? null : <span className="num n-short">{age}</span>}
+      {/* Phone: the pip and a compact age; the full line stays for screen readers (n-long). */}
+      <span className="num n-short" aria-hidden="true">
+        {compactAge(age)}
+      </span>
     </span>
   );
 }
@@ -154,7 +204,20 @@ function useThemeVersion(): number {
 }
 
 export function Header(props: HeaderProps) {
-  const { save, sync, online, lastSnapshotAt, busy, stage, preview, update, menu, dot, navRef } = props;
+  const {
+    save,
+    sync,
+    online,
+    lastSnapshotAt,
+    busy,
+    stage,
+    preview,
+    update,
+    menu,
+    dot,
+    navRef,
+    staleAfterSeconds,
+  } = props;
   const [ownOpen, setOwnOpen] = useState(false);
   const menuOpen = props.menuOpen ?? ownOpen;
   const setMenu = props.onMenu ?? setOwnOpen;
@@ -169,12 +232,15 @@ export function Header(props: HeaderProps) {
         <div className="n-hdr__chips">
           {preview ? <Pill urgency="fine" glyph="cards-src-gear" verb={preview} /> : null}
           {stage ? <Crest stage={stage} /> : null}
-          <SaveAge save={save} sync={sync} online={online} />
+          <SaveAge save={save} sync={sync} online={online} staleAfterSeconds={staleAfterSeconds} />
           {busy ? <span className="n-agechip">{W.updating}</span> : null}
           {update ? (
-            <Chip glyph={GLYPH.arrowRight} onClick={update.onReload}>
-              {update.text}
-            </Chip>
+            // M24 States board: a sky pip (a timer: the new build is waiting), the line, then Reload.
+            <button type="button" className="n-update" aria-label={update.text} onClick={update.onReload}>
+              <Pip tone="sky" />
+              <span className="n-update__text">{update.text.replace(/ · [^·]+$/, '')}</span>
+              <span className="n-update__go">{update.text.replace(/^.* · /, '')}</span>
+            </button>
           ) : null}
         </div>
         <div className="n-hdr__end">

@@ -1,15 +1,11 @@
 /* SPDX-License-Identifier: GPL-3.0-only */
-/* M20's Skills tab and Skill Grid (area C, M21 FR-C8): the Design Lab's "Bar list with gate ticks" and
-   "Role matrix" in Field Guide tokens. A lazy chunk's stylesheet; replaces the rules the tab borrowed
-   from checklist.css. Wide tables scroll in their own frame, never the page. */
-.sk,
+/* The Skills tab (M24 board `Skills`, I-character-b) and the Skill Grid (M21 FR-C8 "Role matrix"). The
+   tab: a 3x3 of skill tiles and a row of Parallel Slot tiles, tonal steps only (surface guard); the
+   Role's tile is gold, never ringed. Wide tables scroll in their own frame, never the page. */
 .sk-grid-sec {
   display: grid;
   gap: var(--space-3);
   min-width: 0;
-}
-.sk {
-  margin-top: var(--space-3);
 }
 .sk-muted,
 .sk-grid-sec .sk-muted {
@@ -17,130 +13,74 @@
   color: var(--muted);
   font-size: var(--text-sm);
 }
-.sk-h {
-  margin: 0;
-  font-size: var(--text-md);
-}
-.sk-train {
-  margin: 0;
-  padding: var(--space-2) var(--space-3);
-  background: var(--accent-soft);
-  border-radius: var(--radius-sm);
-  font-weight: var(--weight-semibold);
-}
-/* R12 QA: hairline rows, no tile per skill; the trained skill takes the gold tone. */
-.sk-bars {
-  list-style: none;
-  margin: 0;
-  padding: 0;
+
+/* ---- the Skills tab ---- */
+.sk-tiles {
   display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
 }
-.sk-bar {
-  display: grid;
-  gap: var(--space-1);
-  padding: var(--space-2) var(--space-1);
-  box-shadow: 0 1px 0 var(--line);
-  border: 0;
+.sk-tile {
+  gap: var(--space-3);
+  padding: var(--space-4) 18px;
 }
-.sk-bar[data-lit="yes"] {
-  background: var(--accent-soft);
-}
-.sk-bar[data-locked="yes"] {
-  color: var(--muted);
-}
-.sk-bar-top {
+.sk-tile__top {
   display: flex;
-  flex-wrap: wrap;
   align-items: center;
-  gap: var(--space-1) var(--space-2);
+  gap: var(--space-3);
 }
-.sk-bar-name {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--space-1);
-  font-weight: var(--weight-semibold);
-}
-.sk-tag {
-  font-size: var(--text-xs);
-  font-weight: var(--weight-bold);
-  border-radius: var(--radius-chip);
-  padding: 0 var(--space-1);
-  border: 0;
-}
-.sk-nowtag {
-  font-size: var(--text-xs);
-  font-weight: var(--weight-bold);
-  color: var(--on-accent);
-  background: var(--accent);
-  border-radius: var(--radius-chip);
-  padding: 1px var(--space-2);
-}
-.sk-track {
-  position: relative;
-  display: block;
-  padding-right: var(--space-1);
-}
-.sk-tick {
-  position: absolute;
-  right: 0;
-  top: -3px;
-  bottom: -3px;
-  width: 3px;
-  background: var(--fg);
-  border-radius: 1px;
-}
-.sk-meta {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0 var(--space-3);
-  color: var(--muted);
-  font-size: var(--text-sm);
-}
-.sk-pips {
-  list-style: none;
-  margin: 0;
-  padding: 0;
+.sk-tile__name {
+  flex: 1 1 auto;
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  min-width: 0;
+}
+.sk-tile__lv {
+  display: grid;
+  justify-items: end;
+}
+.sk-big {
+  font-family: var(--font-display);
+  font-weight: var(--display-weight);
+  font-size: 24px;
+  line-height: 1;
+  font-variant-ligatures: var(--font-ligatures);
+  font-feature-settings: var(--font-features);
+}
+.sk-slots {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
   gap: var(--space-2);
 }
-.sk-pip {
-  display: grid;
-  gap: var(--space-1);
-  padding: var(--space-2);
-  border-radius: var(--radius-control);
-  background: var(--surface);
-  min-width: 0;
-  overflow-wrap: anywhere;
-  border: 0;
+.sk-slot {
+  align-content: start;
+  padding: 14px var(--space-4);
 }
-/* R12 QA: the state is the tone (filled green, free gold, closed sunk), never a ring. */
-.sk-pip[data-state="filled"],
-.sk-pip[data-state="capped"] {
-  background: var(--ok-soft);
-}
-.sk-pip[data-state="fillable"] {
-  background: var(--warn-soft);
-}
-.sk-pip[data-state="locked"],
-.sk-pip[data-state="not-covered"] {
-  background: var(--sunk);
-}
-.sk-pip-top {
+.sk-slot__top {
   display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  gap: var(--space-1);
-}
-.sk-pip-state {
-  font-size: var(--text-sm);
-}
-.sk-fill {
-  display: inline-flex;
   align-items: center;
-  min-height: var(--tap-min);
-  color: var(--fg);
-  font-size: var(--text-sm);
+  gap: var(--space-2);
+}
+.sk-slot__top b {
+  flex: 1 1 auto;
+}
+.sk-slot .tb-link {
+  font-size: var(--text-xs);
+}
+@media (max-width: 1023.98px) {
+  .sk-tiles {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .sk-slots {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+@media (max-width: 719.98px) {
+  .sk-tiles {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .sk-slots {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
 }
 
 /* ---- the role matrix ----

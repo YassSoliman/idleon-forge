@@ -26,7 +26,7 @@ import {
 import { playerBehind } from './p2w';
 import { accountPick, type BubbleCost, firstBlocked, type PlanResult, runPlan } from './plan';
 import type { AlchemyResult } from './types';
-import { rollTargets, vialLevels } from './vials';
+import { rollTargets, vialLevels, vialTries } from './vials';
 import { buildView } from './views';
 
 export interface AlchemyModuleDeps {
@@ -316,6 +316,8 @@ export function buildAlchemy(
     vialPick,
     // FR-11: roll targets only while M6's attempts line fires (none with 0 attempts left).
     targets: attemptsGoal ? targets : [],
+    // M24: every locked vial for the Vials section, whatever today's attempts.
+    tries: vialTries(state, catalogue),
     tubeNote,
     goals,
     prior,

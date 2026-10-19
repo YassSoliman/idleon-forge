@@ -4,7 +4,7 @@
 // The Now screen in the DOM (M10 §4 "screen" assertions, TR-14 semantics, TR-15 axe on each state).
 
 import type { SourceView } from '@idleon-forge/engine/now';
-import { act, cleanup, fireEvent, render, screen, within } from '@testing-library/react';
+import { act, cleanup, fireEvent, render, screen, waitFor, within } from '@testing-library/react';
 import axe from 'axe-core';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { CantRead } from '../src/components/CantRead';
@@ -37,17 +37,19 @@ async function noAxeViolations(container: HTMLElement) {
 }
 
 describe('US-1 / TR-14 Roster', () => {
-  it('is an ordered list of buttons whose accessible names carry the whole row', () => {
+  it('is an ordered list of character cards whose accessible names carry the whole card (M24)', () => {
     const r = fixture('mid-session');
     const { container } = renderNow(props(r, saveOf(r, 1, 'first', null, 'paste')));
-    const list = container.querySelector('ol.roster') as HTMLElement;
+    fireEvent.click(screen.getByRole('radio', { name: 'Log off' }));
+    const list = container.querySelector('ol.np-cards') as HTMLElement;
     expect(list.tagName).toBe('OL');
-    // M21 FR-N2: the Unknown row sits in its own fold list, still a row button in Visit Order.
-    const buttons = [...container.querySelectorAll<HTMLElement>('ol.roster .r-btn')];
-    expect(buttons).toHaveLength(5);
-    expect(buttons[0]?.getAttribute('aria-label')).toBe(
-      '1., Dahlia, Barbarian level 51, Fishing Goldfish, Fishing Camp, Fix before you leave, Food runs out in about 2h',
+    const cards = [...container.querySelectorAll<HTMLElement>('ol.np-cards .np-card')];
+    expect(cards).toHaveLength(5);
+    // Class and level, never the character's name (M24 rule 4).
+    expect(cards[0]?.getAttribute('aria-label')).toBe(
+      '1. Barbarian 51, Fishing Camp, Fix first. Food runs out in about 2h',
     );
+    expect(list.textContent).not.toContain('Dahlia');
     expect(screen.queryByText(/Following the game/)).toBeNull(); // D8
   });
 });
@@ -56,48 +58,46 @@ describe('Focus: opening, Back and keyboard focus (FR-6, FR-13, TR-5, TR-14)', (
   it('a row opens Focus with keyboard focus on its heading; Back returns focus to the row', () => {
     const r = fixture('mid-session');
     renderNow(props(r, saveOf(r, 1, 'first', null, 'paste')));
+    fireEvent.click(screen.getByRole('radio', { name: 'Log off' }));
     const before = window.history.length;
-    fireEvent.click(screen.getAllByRole('button').find((b) => b.dataset.index === '2') as HTMLElement);
-    const h = screen.getByRole('heading', { level: 2, name: 'Cedar' });
+    fireEvent.click(document.querySelector('.np-card[data-index="2"]') as HTMLElement);
+    const h = screen.getByRole('heading', { level: 2, name: 'Bowman 38' });
     expect(document.activeElement).toBe(h);
     expect(window.location.hash).toBe('#now-2');
     expect(window.history.length).toBe(before + 1);
-    fireEvent.click(screen.getByRole('button', { name: '← All characters' }));
+    // M24: no "All characters" button; Esc goes back.
+    fireEvent.keyDown(window, { key: 'Escape' });
     expect(document.activeElement?.getAttribute('data-index')).toBe('2');
   });
   it('Esc closes Focus', () => {
     const r = fixture('mid-session');
     window.history.replaceState(null, '', '/?c=3');
     renderNow(props(r, saveOf(r, 1, 'first', null, 'paste')));
-    expect(screen.getByRole('heading', { level: 2, name: 'Dahlia' })).toBeTruthy();
+    expect(screen.getByRole('heading', { level: 2, name: 'Barbarian 51' })).toBeTruthy();
     fireEvent.keyDown(window, { key: 'Escape' });
-    expect(screen.queryByRole('heading', { level: 2, name: 'Dahlia' })).toBeNull();
+    expect(screen.queryByRole('heading', { level: 2, name: 'Barbarian 51' })).toBeNull();
   });
-  it('the pager: prev and Next, and the dots open every character with aria-current on this one', () => {
+  it('the character strip: every character in Visit Order by class and level, this one current (M24)', () => {
     const r = fixture('mid-session');
     window.history.replaceState(null, '', '/?c=4');
     renderNow(props(r, saveOf(r, 1, 'first', null, 'paste')));
-    const nav = screen.getByRole('navigation', { name: 'Characters in Visit Order' });
-    expect(within(nav).getByRole('link', { name: 'Previous: Squire 43' }).getAttribute('href')).toBe(
-      '#now-0',
-    );
-    expect(
-      within(nav)
-        .getByRole('link', { name: /^Next: Shaman 44/ })
-        .getAttribute('href'),
-    ).toBe('#now-1');
-    fireEvent.click(within(nav).getByRole('button', { name: 'Show every character' }));
-    const sheet = screen.getByRole('dialog', { name: 'Characters in Visit Order' });
-    const links = within(sheet).getAllByRole('link');
+    const nav = screen.getByRole('navigation', { name: 'Characters' });
+    const links = within(nav).getAllByRole('link');
     expect(links.map((l) => l.textContent)).toEqual([
-      '1 · DahliaFix',
-      '2 · AlderUnknown',
-      '3 · ElmReady',
-      '4 · BirchReady',
-      '5 · CedarReady',
+      'Barbarian 51',
+      'Squire 43',
+      'Wizard 40',
+      'Shaman 44',
+      'Bowman 38',
     ]);
-    expect(links[2]?.getAttribute('aria-current')).toBe('true');
-    expect(links[0]?.getAttribute('aria-label')).toBe('Dahlia, Fix before you leave');
+    expect(links[2]?.getAttribute('aria-current')).toBe('page');
+    // The same state word as Now's cards and the Characters grid (M24 QA P1-10).
+    expect(links[0]?.getAttribute('aria-label')).toBe('Barbarian 51: Fix first');
+    expect(nav.textContent).not.toMatch(/Dahlia|Elm|Cedar/);
+    fireEvent.click(links[3] as HTMLElement);
+    expect(window.location.hash).toBe('#now-1');
+    // The one way on at the end of the Now tab: "Next: <class level>".
+    expect(screen.getByRole('button', { name: /^Next: / })).toBeTruthy();
   });
 });
 
@@ -106,11 +106,11 @@ describe('US-3 Focus follows the game (FR-14 as ruled on #38)', () => {
     const r = fixture('mid-session');
     const view = render(<NowScreenRerender r={r} seq={1} kind="autosave" slot={3} />);
     // First load: the stamped character, fresh save: Focus opens on it.
-    expect(screen.getByRole('heading', { level: 2, name: 'Dahlia' })).toBeTruthy();
+    expect(screen.getByRole('heading', { level: 2, name: 'Barbarian 51' })).toBeTruthy();
     expect(screen.getByText(/you are on this character/)).toBeTruthy();
     const length = window.history.length;
     view.rerender(<NowScreenRerender r={r} seq={2} kind="switch-leave" slot={3} />);
-    expect(screen.getByRole('heading', { level: 2, name: 'Alder' })).toBeTruthy();
+    expect(screen.getByRole('heading', { level: 2, name: 'Squire 43' })).toBeTruthy();
     expect(screen.getByText(/Left Dahlia ✓ 1 done · Fix before you leave/)).toBeTruthy();
     expect(screen.getByText(/Next up/)).toBeTruthy();
     expect(screen.getByText(/press Cloud Save in the game/)).toBeTruthy();
@@ -123,7 +123,7 @@ describe('US-3 Focus follows the game (FR-14 as ruled on #38)', () => {
     view.rerender(<NowScreenRerender r={r} seq={3} kind="switch-leave" slot={1} />);
     // The player went to Birch instead: a save that stamps Birch as current wins.
     view.rerender(<NowScreenRerender r={r} seq={4} kind="autosave" slot={1} />);
-    expect(screen.getByRole('heading', { level: 2, name: 'Birch' })).toBeTruthy();
+    expect(screen.getByRole('heading', { level: 2, name: 'Shaman 44' })).toBeTruthy();
     expect(screen.getByText(/you are on this character/)).toBeTruthy();
   });
   it('a save with no stamped slot never moves the view', () => {
@@ -140,20 +140,20 @@ describe('US-3 Focus follows the game (FR-14 as ruled on #38)', () => {
     const skip = screen.getAllByRole('button', { name: 'Skip today' })[0] as HTMLElement;
     skip.focus();
     view.rerender(<NowScreenRerender r={r} seq={2} kind="autosave" slot={4} />);
-    expect(screen.getByRole('heading', { level: 2, name: 'Cedar' })).toBeTruthy();
+    expect(screen.getByRole('heading', { level: 2, name: 'Bowman 38' })).toBeTruthy();
     expect(screen.getByRole('button', { name: 'Now playing Elm · go' })).toBeTruthy();
     expect(document.activeElement).toBe(skip);
   });
   it('an old save (game closed) opens the Roster with no "● playing" marker', () => {
     const r = fixture('mid-session');
     renderNow(props(r, saveOf(r, 1, 'autosave', 3, 'live', 45 * 60_000)));
-    expect(screen.queryByRole('heading', { level: 2, name: 'Dahlia' })).toBeNull();
+    expect(screen.queryByRole('heading', { level: 2, name: 'Barbarian 51' })).toBeNull();
     expect(screen.queryByText('● playing')).toBeNull();
   });
   it('paste mode never auto-opens', () => {
     const r = fixture('mid-session');
     renderNow(props(r, saveOf(r, 1, 'autosave', 3, 'paste')));
-    expect(screen.queryByRole('heading', { level: 2, name: 'Dahlia' })).toBeNull();
+    expect(screen.queryByRole('heading', { level: 2, name: 'Barbarian 51' })).toBeNull();
   });
 });
 
@@ -174,17 +174,21 @@ describe('US-6 Sources open in a new tab', () => {
 });
 
 describe('Goal.details under an account Goal', () => {
-  it('sit in the why sheet as glyph chips, one line per character; a chip opens that character', () => {
-    const r = fixture('mid-session');
-    const g = r.account.goals[0];
-    if (!g) throw new Error('fixture has no account Goal');
+  it('sit in the why sheet as glyph chips, one line per character; a chip opens that character', async () => {
+    // M24 QA P1-1: an account fix's why sheet is on the Goals page (Now's rail only lists the fix).
+    const r = fixture('account-stockpile');
+    const g = r.account.goals.find((x) => x.category === 'blocker');
+    if (!g) throw new Error('fixture has no account blocker');
     g.details = [
       { subject: 'c3', text: 'Barbarian Lv 51: 2 into Capacity' },
       { subject: 'c0', text: 'Bowman Lv 60: 1 into Capacity' },
     ];
+    window.history.replaceState(null, '', '/#goals');
     renderNow(props(r, saveOf(r, 1, 'first', null, 'paste')));
-    const acct = screen.getByRole('region', { name: 'Account' });
-    fireEvent.click(within(acct).getByRole('button', { name: /Open why and controls$/ }));
+    const fix = (await screen.findByRole('heading', { name: 'Fix these first' })).closest(
+      'section',
+    ) as HTMLElement;
+    fireEvent.click(within(fix).getAllByRole('button', { name: /Open why and controls$/ })[0] as HTMLElement);
     const list = within(screen.getByRole('dialog')).getByRole('list', { name: '2 characters' });
     expect(
       within(list)
@@ -265,9 +269,8 @@ describe('US-8 Expected Return chips', () => {
     const r = fixture('all-set');
     const set = vi.fn();
     renderNow(props(r, saveOf(r, 1, 'first', null, 'paste'), { setExpectedReturn: set }));
-    // M21 FR-N1: the chips are the Now screen's own, in the return line's sheet.
-    fireEvent.click(screen.getByRole('button', { name: 'Change' }));
-    const group = screen.getByRole('group', { name: 'Back in about' });
+    // M24: the chips sit inline under "Before you're back", as "How long are you away?".
+    const group = screen.getByRole('group', { name: 'How long are you away?' });
     const radios = within(group).getAllByRole('radio') as HTMLInputElement[];
     expect(radios.filter((x) => x.checked).map((x) => x.value)).toEqual([String(8 * 3600)]);
     fireEvent.click(radios[1] as HTMLElement);
@@ -356,39 +359,64 @@ describe('US-14 never advice from a broken save', () => {
 });
 
 describe('US-22 / D9 account stockpiles', () => {
-  it('lead the Account section under "Fix before you leave"', () => {
+  it('are rows in the Now rail, and the first fix opens them on the Goals page (M24 QA P1-1)', async () => {
     const r = fixture('account-stockpile');
     renderNow(props(r, saveOf(r, 1, 'first', null, 'paste')));
     const acct = screen.getByRole('region', { name: 'Account' });
-    // A blocker opens the Account's summary header (`cards.account-section`).
-    expect(within(acct).getByRole('button', { expanded: true, name: /^Account/ })).toBeTruthy();
-    expect(within(acct).getByRole('heading', { name: 'Before you leave' })).toBeTruthy();
+    // The rail only: no folding body, no copy of the hero, the Goals list or the Spend Plan.
+    expect(within(acct).queryByRole('button', { name: /^Account/ })).toBeNull();
+    expect(within(acct).queryByRole('heading', { name: 'Before you leave' })).toBeNull();
+    expect(acct.querySelector('#account-body, #spend-plan, .n-goals')).toBeNull();
+    const fixes = within(acct).getByRole('list', { name: 'Account fixes' });
+    expect(within(fixes).getAllByRole('listitem')).toHaveLength(2);
     // M21 FR-N2: the counter counts the 2 account blockers; its first fix jumps to them (R5 QA P2-2).
-    expect(screen.getByRole('heading', { name: '2 fixes before you leave' })).toBeTruthy();
-    fireEvent.click(screen.getByRole('button', { name: /^Do it first/ }));
-    expect(document.activeElement?.id).toBe('account-fix');
+    expect(screen.getByText('2 fixes before you leave')).toBeTruthy();
+    fireEvent.click(screen.getByRole('button', { name: /Show me/ }));
+    expect(window.location.hash).toBe('#goals');
+    await waitFor(() => expect(document.activeElement?.id).toBe('account-fix'));
+  });
+
+  it('a rail row opens that fix on the Goals page, outlined', async () => {
+    const r = fixture('account-stockpile');
+    renderNow(props(r, saveOf(r, 1, 'first', null, 'paste')));
+    const fixes = within(screen.getByRole('region', { name: 'Account' })).getByRole('list', {
+      name: 'Account fixes',
+    });
+    const row = within(fixes).getAllByRole('link')[1] as HTMLElement;
+    const text = row.querySelector('b')?.textContent ?? '';
+    fireEvent.click(row);
+    expect(window.location.hash).toBe('#goals');
+    await waitFor(() => {
+      const lit = document.querySelector('#account-fix .lit');
+      expect(lit?.textContent).toContain(text);
+    });
+  });
+
+  it('an Unknown account safety is a rail row with Skip today, never the old column', () => {
+    const r = fixture('mid-session');
+    r.account.safety = 'unknown';
+    renderNow(props(r, saveOf(r, 1, 'first', null, 'paste')));
+    const acct = screen.getByRole('region', { name: 'Account' });
+    const fixes = within(acct).getByRole('list', { name: 'Account fixes' });
+    expect(fixes.textContent).toContain("can't tell from the save");
+    fireEvent.click(within(fixes).getByRole('button', { name: 'Skip today' }));
+    expect(within(fixes).getByRole('button', { name: 'Skipped · undo' })).toBeTruthy();
+    expect(acct.querySelector('#account-body')).toBeNull();
   });
 });
 
-describe('the Spend Plan chip jumps to the Spend Plan (FR-4)', () => {
-  it('the one Spend card lists the payers and opens the plan, unfolding the Account', () => {
+describe('the Spend Plan chip opens the Spend Plan page (FR-4, M24)', () => {
+  it('the one Spend card lists the payers and opens #spend, the page with the plan in order', async () => {
     const r = fixture('spend-plan');
     renderNow(props(r, saveOf(r, 1, 'first', null, 'paste')));
-    const card = screen.getByRole('region', { name: 'Spend Plan' });
-    expect(within(card).getAllByRole('button').length).toBeGreaterThan(1);
-    const acct = screen.getByRole('region', { name: 'Account' });
-    expect(
-      within(acct)
-        .getByRole('button', { name: /^Account/ })
-        .getAttribute('aria-expanded'),
-    ).toBe('false');
+    fireEvent.click(screen.getByRole('radio', { name: 'Log off' }));
+    const card = screen.getByRole('region', { name: 'Coins to spend' });
+    expect(card.textContent).toMatch(/Coins to spend · \d+ buys? on \d+ characters?/);
     fireEvent.click(within(card).getByRole('button', { name: 'Open the Spend Plan' }));
-    expect(
-      within(acct)
-        .getByRole('button', { name: /^Account/ })
-        .getAttribute('aria-expanded'),
-    ).toBe('true');
-    expect(document.getElementById('spend-plan')).toBeTruthy();
+    expect(window.location.hash).toBe('#spend');
+    const page = await screen.findByRole('article', { name: /buys? your coins cover today/ });
+    expect(within(page).getByRole('heading', { name: 'In this order' })).toBeTruthy();
+    expect(within(page).getByRole('navigation', { name: 'Breadcrumb' }).textContent).toContain('Spend Plan');
   });
 });
 
@@ -399,26 +427,26 @@ describe('copy pass rule 3: unknown tokens are hidden, never printed', () => {
     if (!c) throw new Error('no character 2');
     c.activityLabel = 'AFK target unknown';
     renderNow(props(r, saveOf(r, 1, 'first', null, 'paste')));
-    const row = screen.getAllByRole('button').find((b) => b.dataset.index === '2') as HTMLElement;
+    fireEvent.click(screen.getByRole('radio', { name: 'Log off' }));
+    const row = document.querySelector('.np-card[data-index="2"]') as HTMLElement;
     expect(row.textContent).not.toContain('AFK target unknown');
     fireEvent.click(row);
-    const hero = screen.getByRole('heading', { level: 2, name: 'Cedar' }).closest('.hero') as HTMLElement;
+    const hero = screen
+      .getByRole('heading', { level: 2, name: 'Bowman 38' })
+      .closest('.cp-head') as HTMLElement;
     expect(hero.textContent).not.toContain('AFK target unknown');
     expect(hero.textContent).not.toMatch(/·\s*$/);
   });
 
-  it('an unpriced Spend Plan line shows no cost token, only the "cost not checked" pill', () => {
+  it('an unpriced Spend Plan line shows no cost token: the Spend Plan page lists it under "Price not checked"', async () => {
     const r = fixture('spend-plan');
+    window.history.replaceState(null, '', '/#spend');
     renderNow(props(r, saveOf(r, 1, 'first', null, 'paste')));
-    fireEvent.click(screen.getByRole('button', { name: 'Open the Spend Plan' }));
-    const plan = document.getElementById('spend-plan') as HTMLElement;
-    const more = within(plan).queryByRole('button', { name: /^\+\d+ more/ });
-    if (more) fireEvent.click(more);
-    const line = plan.querySelector('.spend-line.unpriced');
-    expect(line).toBeTruthy();
-    expect(line?.textContent).not.toContain('see the price in game');
-    expect(line?.querySelector('.n-sline__status')?.textContent).toBe('cost not checked');
-    expect(line?.querySelector('.n-sline__cost')).toBeNull();
+    const page = await screen.findByRole('article', { name: /buys? your coins cover today/ });
+    expect(page.textContent).toMatch(/Price not checked · \d+/);
+    expect(page.textContent).not.toContain('see the price in game');
+    // M24 QA P1-1: the Spend Plan is said once, on its page; Now's rail has no copy of it.
+    expect(document.getElementById('spend-plan')).toBeNull();
   });
 });
 

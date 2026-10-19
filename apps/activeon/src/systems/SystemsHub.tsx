@@ -1,248 +1,301 @@
 // SPDX-License-Identifier: GPL-3.0-only
 // Copyright (C) 2026 IdleOn Forge contributors.
-// M21 FR-S1, FR-S2 (Design Lab `systems.hub`, pick "Stage report card" with "World bands of tiles" as
-// the full index under it). Top to bottom: the "Wasting now" strip (glyph chips with their count), the
-// report card (one Stage axis, one row per behind System with its gap drawn as length, the worst row
-// open with its one step), then "All Systems": M17's world bands, each tile with its own glyph and a
-// status glyph + word (never colour alone, DS-8), "not covered yet" said once per band (v2 #3). Every
-// word comes from `buildSystemsView` (M17 TR-9): this component adds none of its own.
-import { HUB_WORDS, type TileStatus, type TileView } from '@idleon-forge/engine/now';
+// M24 (board after/Systems.dc.html): the Systems place. Top to bottom: the title and one summary line;
+// the answer, "Wasting now" (the screen's one frame: each wasting System's first step, fix before you
+// leave) beside "Behind for World N" (each behind System's next step); then "All Systems", a dense
+// grid of tiles by world with filters (Needs you, All, Not covered yet, Locked). Locked and "not covered
+// yet" read differently: a lock glyph and "locked", or "not covered yet". Every word comes from the
+// engine's `buildSystemsHubView` (`index`), never from this component.
+import { HUB_WORDS } from '@idleon-forge/engine/now';
 import {
-  BAND_WORDS,
   buildSystemsHubView,
   buildSystemsView,
-  REPORT_WORDS,
+  INDEX_WORDS,
+  type IndexTileView,
 } from '@idleon-forge/engine/systems-ui';
-import { type CSSProperties, useMemo } from 'react';
-import { PixelArt } from '../design/art/PixelArt';
-import { cx, StatusGlyph as StatusMark, TokenLine } from '../design/atoms';
+import { type MouseEvent, useMemo, useState } from 'react';
+import { Frame } from '../design/atoms/Surfaces';
+import { WhoGlyph } from '../design/who/WhoGlyph';
 import { toNowPrefs } from '../now/prefs-store';
 import { formatRoute } from '../shell/route';
 import type { Session } from '../shell/session';
-import { systemArt } from './glyphs';
+import { Pip } from './frame/SystemFrame';
+import './hub.css';
+import { SystemIcon } from './frame/SystemIcon';
+import './frame/frame.css';
 
-type Hub = ReturnType<typeof buildSystemsHubView>;
-type ReportRow = NonNullable<Hub['report']>['rows'][number];
-
-/** The status glyph and word (DS-8): the design system's StatusGlyph atom. */
-export function StatusGlyph({ status, word }: { status: TileStatus; word: string }) {
-  return <StatusMark status={status} word={word} />;
-}
-
-/** The reason line; a leading piece equal to the status word isn't said twice on screen. */
-export function Reason({ tile }: { tile: TileView }) {
-  const parts = tile.reason[0]?.text === tile.statusWord.text ? tile.reason.slice(2) : tile.reason;
-  if (parts.length === 0) return null;
-  return (
-    <span className="sy-reason">
-      {parts.map((p, i) => (
-        // biome-ignore lint/suspicious/noArrayIndexKey: segments are positional and never reorder
-        <span key={i}>{p.text}</span>
-      ))}
-    </span>
-  );
-}
-
-const go = (s: Session, id: string) => (e: React.MouseEvent) => {
+const go = (s: Session, id: string) => (e: MouseEvent) => {
   e.preventDefault();
   s.navigate({ place: 'system', id }, 'push');
 };
 
-function Tile({ tile, s }: { tile: TileView; s: Session }) {
-  const art = systemArt(tile.id);
-  // v2 #3: "not covered yet" is said once per band, so its tile shows the glyph with the word as a title.
-  const quiet = tile.status === 'not-covered';
+/** Rule 3: the next three, the rest on demand. */
+const WASTE_FOLD = 3;
+
+type Filter = 'needs' | 'all' | 'notCovered' | 'locked';
+const FILTERS: readonly Filter[] = ['needs', 'all', 'notCovered', 'locked'];
+const keep = (f: Filter) => (t: IndexTileView) =>
+  f === 'all'
+    ? true
+    : f === 'needs'
+      ? t.needsYou
+      : f === 'notCovered'
+        ? t.status === 'not-covered' && !t.readOnly
+        : t.status === 'locked';
+// Read-only is grey: sky is for timers (QA P3).
+const PIP = { wasting: 'coral', todo: 'gold', ok: 'mint', off: 'mut', readonly: 'mut' } as const;
+
+function Tile({ t, s }: { t: IndexTileView; s: Session }) {
+  const off = t.tone === 'off';
   return (
     <li>
       <a
-        className={cx('sy-tile', `sy-tile--${tile.status}`)}
-        href={`#system-${tile.id}`}
-        aria-label={tile.accessibleName}
-        onClick={go(s, tile.id)}
+        className={`sx-tile${off ? ' sx-tile--off' : ''}${t.status === 'locked' ? ' sx-tile--locked' : ''}`}
+        href={formatRoute({ place: 'system', id: t.id })}
+        aria-label={t.accessibleName}
+        onClick={go(s, t.id)}
       >
-        <PixelArt name={art.name} ramp={art.ramp} decorative className="sy-tile__art" />
-        <span className="sy-tile__name">{tile.name}</span>
-        <StatusMark status={tile.status} word={tile.statusWord.text} glyphOnly={quiet} />
-        <Reason tile={tile} />
-      </a>
-    </li>
-  );
-}
-
-function ReportRowItem({ row, s, here }: { row: ReportRow; s: Session; here: number }) {
-  const style = {
-    '--at': `${(row.at ?? here) * 100}%`,
-    '--gap': `${Math.max(0, here - (row.at ?? here)) * 100}%`,
-  } as CSSProperties;
-  return (
-    <li className={cx('sy-rc__row', row.open && 'is-now')}>
-      <a
-        className="sy-rc__link"
-        href={`#system-${row.id}`}
-        onClick={go(s, row.id)}
-        aria-label={row.accessibleName}
-      >
-        <span className="sy-rc__name">{row.name}</span>
-        <span className="sy-rc__track" style={style} aria-hidden="true">
-          {row.at !== null ? <span className="sy-rc__gap" /> : null}
-          {row.at !== null ? <span className="sy-rc__tick" /> : null}
+        <span className="sx-tile__ic">
+          <SystemIcon id={t.id} size={24} />
         </span>
-        {row.behindText ? <span className="sy-rc__word">{row.behindText}</span> : null}
-      </a>
-      {row.open && row.step ? (
-        <div className="sy-rc__detail">
-          <span className="sy-nowtag">
-            <PixelArt name="v2-systems-st-now" decorative />
-            <span>{REPORT_WORDS.nextStep}</span>
-          </span>
-          <p className="sy-rc__act">{row.step.text}</p>
-          <TokenLine who={row.step.who} />
-        </div>
-      ) : null}
-    </li>
-  );
-}
-
-function ReportCard({ v, s }: { v: Hub; s: Session }) {
-  const r = v.report;
-  return (
-    <section className="sy-card sy-rc" aria-labelledby="sy-rc-h">
-      <header className="sy-card__head">
-        <h3 id="sy-rc-h" className="sy-h3">
-          {REPORT_WORDS.title}
-        </h3>
-        {v.wastingLabel ? (
-          <span className="sy-rc__count">
-            <PixelArt name="v2-systems-st-waste" decorative />
-            <span>{v.wastingLabel}</span>
+        <span className="sx-tile__text">
+          <span className="sx-tile__name">{t.name}</span>
+          {t.sub ? <span className="sx-tile__sub">{t.sub}</span> : null}
+        </span>
+        {t.count ? (
+          <span className={`sx-tile__n ${t.tone === 'wasting' ? 'sf-t--coral' : 'sf-t--gold'}`}>
+            {t.count}
           </span>
         ) : null}
-      </header>
-      {r ? (
-        <>
-          <p className="sy-rc__lede">{r.lede}</p>
-          <div
-            className="sy-rc__axis"
-            style={{ '--here': `${r.here * 100}%` } as CSSProperties}
+        {t.status === 'locked' ? (
+          <svg
+            className="sx-lock"
             aria-hidden="true"
+            width="12"
+            height="12"
+            viewBox="0 0 6 6"
+            shapeRendering="crispEdges"
           >
-            {r.axis.map((a) => (
-              <span key={a.id} className={cx('sy-rc__ax', a.here && 'is-here')}>
-                {a.short ?? ''}
-              </span>
-            ))}
-            <span className="sy-rc__you">{REPORT_WORDS.you}</span>
-          </div>
-          <ol className="sy-rc__rows">
-            {r.rows.map((row) => (
-              <ReportRowItem key={row.id} row={row} s={s} here={r.here} />
-            ))}
-          </ol>
-          <button
-            type="button"
-            className="a-btn a-btn--quiet sy-rc__all"
-            onClick={() => {
-              // The hash is the route (M17 TR-3), so this moves focus to the bands instead of linking.
-              const h = document.getElementById('sy-all-h');
-              h?.focus();
-              h?.scrollIntoView?.({ block: 'start' });
-            }}
-          >
-            {r.allSystems}
-          </button>
-        </>
-      ) : (
-        <p className="sy-muted">{REPORT_WORDS.nothingBehind}</p>
-      )}
-    </section>
-  );
-}
-
-function Band({ g, v, s }: { g: Hub['groups'][number]; v: Hub; s: Session }) {
-  const b = v.bands[g.world];
-  return (
-    <section
-      className="sy-band"
-      aria-labelledby={`world-${g.world}-h`}
-      style={g.world > 0 && g.world <= 7 ? ({ '--band': `var(--w${g.world})` } as CSSProperties) : undefined}
-    >
-      <h4 id={`world-${g.world}-h`} className="sy-band__h">
-        <span>{g.heading}</span>
-        {b?.needYou ? <span className="sy-band__sub">{b.needYou}</span> : null}
-      </h4>
-      <ul className="sy-tiles">
-        {g.tiles.map((t) => (
-          <Tile key={t.id} tile={t} s={s} />
-        ))}
-      </ul>
-      {b?.notCovered ? (
-        <p className="sy-band__nc">
-          <StatusMark status="not-covered" word={b.notCovered} />
-        </p>
-      ) : null}
-    </section>
+            <rect x="1" y="0" width="4" height="1" fill="currentColor" />
+            <rect x="1" y="1" width="1" height="2" fill="currentColor" />
+            <rect x="4" y="1" width="1" height="2" fill="currentColor" />
+            <rect x="0" y="3" width="6" height="3" fill="currentColor" />
+          </svg>
+        ) : (
+          <Pip tone={PIP[t.tone]} />
+        )}
+      </a>
+    </li>
   );
 }
 
 export function SystemsHub({ s }: { s: Session }) {
-  // M21 FR-S1: M17's view and the hub's report card are both built here, in the lazy hub, so neither
-  // is in the first load (the Systems nav badge is gone, D-7).
+  // The view is built here, in the lazy hub, so it never weighs on the first load (M21 TR-12).
   const v = useMemo(() => {
     const prefs = toNowPrefs(s.prefs.data, null);
     const ui = { now: s.now, lastCloudSave: s.lastCloudSave };
     return buildSystemsHubView(s.result, prefs, ui, buildSystemsView(s.result, prefs, ui));
   }, [s.result, s.prefs.data, s.now, s.lastCloudSave]);
+  const ix = v.index;
+  const [filter, setFilter] = useState<Filter>('all');
+  const [allWaste, setAllWaste] = useState(false);
+  const waste = allWaste ? ix.wasting : ix.wasting.slice(0, WASTE_FOLD);
+  const worlds = ix.worlds
+    .map((w) => ({ ...w, shown: w.tiles.filter(keep(filter)) }))
+    .filter((w) => w.shown.length > 0 || (filter === 'all' && w.how));
+  const later = v.later?.tiles ?? [];
   return (
-    <section className="systems-hub" aria-labelledby="systems-h">
-      <h2 id="systems-h" className="place-h sy-place-h" data-place-heading tabIndex={-1}>
-        {HUB_WORDS.title}
-      </h2>
-      {v.wastingNow.length > 0 ? (
-        <section className="sy-wasting" aria-labelledby="sy-wasting-h">
-          <h3 id="sy-wasting-h" className="sy-h3">
-            {REPORT_WORDS.wastingTitle}
+    <section className="systems-hub sx" aria-labelledby="systems-h">
+      <div className="sx-title">
+        <h2 id="systems-h" className="a-h1" data-place-heading tabIndex={-1}>
+          {HUB_WORDS.title}
+        </h2>
+        <p className="sf-muted">{ix.summary}</p>
+      </div>
+
+      {ix.wasting.length > 0 || ix.behind.length > 0 ? (
+        <div className={`sx-top${ix.wasting.length > 0 && ix.behind.length > 0 ? ' sx-top--two' : ''}`}>
+          {ix.wasting.length > 0 ? (
+            <Frame tone="coral" pad className="sx-waste" aria-labelledby="sy-wasting-h">
+              <div className="sf-sec__head">
+                <h3 id="sy-wasting-h" className="a-cap sf-t--coral">
+                  {INDEX_WORDS.wastingTitle}
+                </h3>
+                <span className="sf-muted">{INDEX_WORDS.wastingHint}</span>
+              </div>
+              <ul className="sx-waste__rows">
+                {waste.map((w, i) => (
+                  <li key={w.id} className="sx-waste__row">
+                    <span className="sx-waste__ic">
+                      <SystemIcon id={w.id} size={32} />
+                    </span>
+                    <span className="sx-waste__text">
+                      <span className="sx-waste__title">{w.step?.text ?? w.name}</span>
+                      <span className={`sf-small ${i === 0 ? 'sf-t--coral' : 'sf-muted'}`}>
+                        {[w.step?.who?.label, w.sub].filter(Boolean).join(' · ')}
+                      </span>
+                    </span>
+                    <a
+                      className={`a-btn ${i === 0 ? 'a-btn--primary' : 'a-btn--ghost'} sx-waste__go`}
+                      href={formatRoute({ place: 'system', id: w.id })}
+                      onClick={go(s, w.id)}
+                      aria-label={`${i === 0 ? INDEX_WORDS.seeFix : INDEX_WORDS.open}: ${w.name}`}
+                    >
+                      {i === 0 ? INDEX_WORDS.seeFix : INDEX_WORDS.open} →
+                    </a>
+                  </li>
+                ))}
+              </ul>
+              {ix.wasting.length > WASTE_FOLD ? (
+                <button
+                  type="button"
+                  className="sf-link sf-linkbtn"
+                  aria-expanded={allWaste}
+                  onClick={() => setAllWaste((x) => !x)}
+                >
+                  {allWaste ? INDEX_WORDS.fewer : INDEX_WORDS.moreWasting(ix.wasting.length - WASTE_FOLD)}
+                </button>
+              ) : null}
+            </Frame>
+          ) : null}
+          {ix.behind.length > 0 && ix.behindTitle ? (
+            <section className="sf-sec sx-behind" aria-labelledby="sx-behind-h">
+              <div className="sf-sec__head">
+                <h3 id="sx-behind-h" className="a-h2">
+                  {ix.behindTitle}
+                </h3>
+                <span className="sf-hint">{INDEX_WORDS.behindHint}</span>
+              </div>
+              <ul className="sf-hair">
+                {ix.behind.map((b) => {
+                  return (
+                    <li key={b.id}>
+                      <a
+                        className="sx-behind__row"
+                        href={formatRoute({ place: 'system', id: b.id })}
+                        onClick={go(s, b.id)}
+                      >
+                        <span className="sx-behind__top">
+                          <span className="sf-strong">{b.name}</span>
+                          {b.by ? <span className="sf-hint">{b.by}</span> : null}
+                        </span>
+                        {b.step ? (
+                          <span className="sx-behind__step">
+                            <Pip tone="gold" />
+                            {b.step.who ? (
+                              <WhoGlyph
+                                family={b.step.who.family}
+                                classLabel={b.step.who.label}
+                                scale={1}
+                                decorative
+                              />
+                            ) : null}
+                            <span className="sf-grow">
+                              {b.step.who ? `${b.step.who.label}: ` : ''}
+                              {b.step.text}
+                            </span>
+                            <span className="sf-muted" aria-hidden="true">
+                              ›
+                            </span>
+                          </span>
+                        ) : null}
+                      </a>
+                    </li>
+                  );
+                })}
+              </ul>
+            </section>
+          ) : null}
+        </div>
+      ) : null}
+
+      <section className="sx-all" aria-labelledby="sy-all-h">
+        <div className="sx-all__head">
+          <h3 id="sy-all-h" className="a-h2" tabIndex={-1}>
+            {INDEX_WORDS.allTitle}
           </h3>
-          <ul className="sy-chips">
-            {v.wastingNow.map((n) => {
-              const art = systemArt(n.id);
+          <fieldset className="a-seg sx-seg">
+            <legend className="sr-only">{INDEX_WORDS.filterLabel}</legend>
+            {FILTERS.map((f) => {
+              const n = ix.counts[f];
+              const on = filter === f;
               return (
-                <li key={n.id}>
-                  <a
-                    className="a-chip sy-chip"
-                    href={formatRoute({ place: 'system', id: n.id })}
-                    onClick={go(s, n.id)}
-                  >
-                    <PixelArt name={art.name} ramp={art.ramp} decorative />
-                    <span>{n.name}</span>
-                  </a>
-                </li>
+                <button
+                  key={f}
+                  type="button"
+                  className={`a-seg__option sx-seg__opt sf-seg-opt${on ? ' a-seg__option--on' : ''}`}
+                  aria-pressed={on}
+                  onClick={() => setFilter(f)}
+                >
+                  {INDEX_WORDS.filters[f]}{' '}
+                  <span className={f === 'needs' && n > 0 && !on ? 'sf-t--gold' : ''}>{n}</span>
+                </button>
               );
             })}
-          </ul>
-        </section>
-      ) : null}
-      <ReportCard v={v} s={s} />
-      <section className="sy-all" aria-labelledby="sy-all-h">
-        <h3 id="sy-all-h" className="sy-h3" tabIndex={-1}>
-          {BAND_WORDS.title}
-        </h3>
-        {v.groups.map((g) => (
-          <Band key={g.world} g={g} v={v} s={s} />
+          </fieldset>
+        </div>
+
+        {worlds.map((w) => (
+          <section key={w.world} className="sx-world" aria-labelledby={`world-${w.world}-h`}>
+            <div className="sx-world__head">
+              <h4 id={`world-${w.world}-h`} className="sx-world__h">
+                {w.heading}
+              </h4>
+              <span className="sf-hint">{w.sub}</span>
+            </div>
+            {w.how && (filter === 'all' || filter === 'locked') ? (
+              <p className="sx-how">
+                <Pip tone="gold" />
+                <span className="sf-grow">{w.how}</span>
+                <a
+                  className="sf-link"
+                  href={formatRoute({ place: 'map', mapIndex: null })}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    s.navigate({ place: 'map', mapIndex: null }, 'push');
+                  }}
+                >
+                  {INDEX_WORDS.seeOnMap} ›
+                </a>
+              </p>
+            ) : null}
+            <ul className="sx-tiles">
+              {w.shown.map((t) => (
+                <Tile key={t.id} t={t} s={s} />
+              ))}
+            </ul>
+          </section>
         ))}
-        {v.later ? (
+        {worlds.length === 0 ? <p className="sf-muted">{INDEX_WORDS.nothingHere}</p> : null}
+
+        {later.length > 0 && filter === 'all' && v.later ? (
           <details className="sy-later">
             <summary>{v.later.label}</summary>
-            <ul className="sy-tiles">
-              {v.later.tiles.map((t) => (
-                <Tile key={t.id} tile={t} s={s} />
+            <ul className="sx-tiles">
+              {later.map((t) => (
+                <Tile
+                  key={t.id}
+                  t={{
+                    id: t.id,
+                    name: t.name,
+                    status: t.status,
+                    tone: 'off',
+                    count: null,
+                    sub: INDEX_WORDS.tileSub[t.status] ?? null,
+                    accessibleName: t.accessibleName,
+                    needsYou: false,
+                    readOnly: false,
+                  }}
+                  s={s}
+                />
               ))}
             </ul>
           </details>
         ) : null}
-        {v.beyond ? <p className="sy-muted">{v.beyond}</p> : null}
-        {v.otherGaps.length > 0 ? (
+        {v.beyond && filter === 'all' ? <p className="sf-muted">{v.beyond}</p> : null}
+        {v.otherGaps.length > 0 && filter === 'all' ? (
           <section className="sy-gaps" aria-labelledby="other-gaps-h">
-            <h4 id="other-gaps-h" className="sy-band__h">
+            <h4 id="other-gaps-h" className="sx-world__h">
               {HUB_WORDS.otherGaps}
             </h4>
             <ul>
@@ -252,6 +305,40 @@ export function SystemsHub({ s }: { s: Session }) {
             </ul>
           </section>
         ) : null}
+
+        <p className="sf-legend" aria-hidden="true">
+          <span>
+            <Pip tone="coral" />
+            {INDEX_WORDS.legend.wasting}
+          </span>
+          <span>
+            <Pip tone="gold" />
+            {INDEX_WORDS.legend.todo}
+          </span>
+          <span>
+            <Pip tone="mint" />
+            {INDEX_WORDS.legend.ok}
+          </span>
+          <span>
+            <Pip tone="mut" />
+            {INDEX_WORDS.legend.notCovered}
+          </span>
+          {ix.worlds.some((w) => w.tiles.some((t) => t.readOnly)) ? (
+            <span>
+              <Pip tone="mut" />
+              {INDEX_WORDS.legend.readOnly}
+            </span>
+          ) : null}
+          <span>
+            <svg width="10" height="10" viewBox="0 0 6 6" shapeRendering="crispEdges" aria-hidden="true">
+              <rect x="1" y="0" width="4" height="1" fill="currentColor" />
+              <rect x="1" y="1" width="1" height="2" fill="currentColor" />
+              <rect x="4" y="1" width="1" height="2" fill="currentColor" />
+              <rect x="0" y="3" width="6" height="3" fill="currentColor" />
+            </svg>
+            {INDEX_WORDS.legend.locked}
+          </span>
+        </p>
       </section>
     </section>
   );

@@ -1,12 +1,13 @@
 // SPDX-License-Identifier: GPL-3.0-only
 // Copyright (C) 2026 IdleOn Forge contributors.
 // M19 F3 vials (docs/specs/M19-alchemy.md FR-9 to FR-11, D-6, D-7): the next vial levels the chest and
-// the liquid left after the bubble pick can pay for, and today's easiest rolls. Pure.
+// the liquid left after the bubble pick can pay for, and today's easiest rolls; M24: every locked vial
+// split into the ones you can try and the ones missing their item. Pure.
 import type { AccountState } from '@idleon-forge/account-state';
 import { STAGES, type StageId } from '@idleon-forge/knowledge';
 import { holdingsOf } from '../walkthrough/holdings';
 import { BREW_STAT, LIQUID_NAMES, titleName, type VialPlanRow, type VialRow } from './kb';
-import type { Band } from './types';
+import type { Band, VialHolding, VialMissing, VialTry } from './types';
 
 export interface VialLevel {
   index: number;
@@ -89,26 +90,59 @@ export function vialLevels(x: VialInput): VialLevel[] {
   return out;
 }
 
+/**
+ * M24 (FR-11 without the top-three cap): every locked vial, split into those whose item the account
+ * holds outside the Refinery and the Forge (the ones a try can use, easiest roll first) and those still
+ * missing their item (easiest roll first). Holdings are M14's (`holdingsOf`). Null without the plan.
+ */
+export function vialTries(
+  state: AccountState,
+  catalogue: readonly VialRow[],
+): { tryable: VialTry[]; missing: VialMissing[] } | null {
+  const plan = state.account.alchemyPlan;
+  if (!plan) return null;
+  const tryable: VialTry[] = [];
+  const missing: VialMissing[] = [];
+  const locked = catalogue
+    .filter((v) => plan.vialLevels[v.index] === 0)
+    .sort((a, b) => a.score - b.score || a.index - b.index);
+  for (const v of locked) {
+    const base = {
+      index: v.index,
+      name: titleName(v.name),
+      rollNeeded: v.score,
+      item: titleName(v.itemName),
+    };
+    const h = holdingsOf(state, v.item);
+    const places: VialHolding[] = [];
+    let refinery = 0;
+    let forge = 0;
+    for (const x of h) {
+      if (x.place === 'refinery') refinery += x.amount;
+      else if (x.place === 'forge') forge += x.amount;
+      else if (x.place === 'storage') places.push({ place: 'storage', amount: x.amount });
+      else places.push({ place: 'bag', index: Number(x.place.slice(5)), amount: x.amount });
+    }
+    const held = places.reduce((n, p) => n + p.amount, 0);
+    if (held <= 0) {
+      missing.push(base);
+      continue;
+    }
+    places.sort(
+      (a, b) => b.amount - a.amount || (a.place === 'storage' ? -1 : b.place === 'storage' ? 1 : 0),
+    );
+    tryable.push({ ...base, held, places, elsewhere: { refinery, forge } });
+  }
+  return { tryable, missing };
+}
+
 /** FR-11: up to `max` locked vials whose item is held outside the Refinery and the Forge, easiest first. */
 export function rollTargets(
   state: AccountState,
   catalogue: readonly VialRow[],
   max: number,
 ): { index: number; name: string; rollNeeded: number; item: string }[] {
-  const plan = state.account.alchemyPlan;
-  if (!plan) return [];
-  return catalogue
-    .filter(
-      (v) =>
-        plan.vialLevels[v.index] === 0 &&
-        holdingsOf(state, v.item).some((h) => h.place !== 'refinery' && h.place !== 'forge' && h.amount > 0),
-    )
-    .sort((a, b) => a.score - b.score || a.index - b.index)
+  return (vialTries(state, catalogue)?.tryable ?? [])
     .slice(0, max)
-    .map((v) => ({
-      index: v.index,
-      name: titleName(v.name),
-      rollNeeded: v.score,
-      item: titleName(v.itemName),
-    }));
+    .map(({ index, name, rollNeeded, item }) => ({ index, name, rollNeeded, item }));
 }

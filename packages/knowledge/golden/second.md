@@ -1,4 +1,4 @@
-# golden v1: second · knowledge #6e3245e2 · parser 6c37e3d (game 2.3.540) · now 2024-06-08T06:05:26.262Z · return 8h · stage W4-entry · stale: 4 of 1003
+# golden v1: second · knowledge #9761de04 · parser 6c37e3d (game 2.3.540) · now 2024-06-08T06:05:26.262Z · return 8h · stage W4-entry · stale: 4 of 1003
 
 ## Verdict changes
 
@@ -241,7 +241,7 @@ Can't read Bubba from this save
 
 ## Builds
 ### C1 (Beast Master 507)
-- Builds cover World 1 to World 4 for now; these are your plain talent levels
+- No build for this stage yet (builds cover World 1 to World 4): these are your talent levels
 - Current preset (in use): Calm Basics · Archer · Hunter · Beast Master · Star talents (all spent)
   - Star talents: All spent: the totals show where new points go
     - done: Stonks! 30
@@ -258,7 +258,7 @@ Can't read Bubba from this save
     - and 6 more
 
 ### C2 (Divine Knight 544)
-- Builds cover World 1 to World 4 for now; these are your plain talent levels
+- No build for this stage yet (builds cover World 1 to World 4): these are your talent levels
 - Current preset (in use): Rage Basics · Warrior · Squire · Divine Knight · Star talents (all spent)
   - Star talents: All spent: the totals show where new points go
     - done: Stonks! 30
@@ -275,7 +275,7 @@ Can't read Bubba from this save
     - and 6 more
 
 ### C3 (Bubonic Conjuror 567)
-- Builds cover World 1 to World 4 for now; these are your plain talent levels
+- No build for this stage yet (builds cover World 1 to World 4): these are your talent levels
 - Current preset (in use): Savvy Basics · Mage · Shaman · Bubonic Conjuror · Star talents (all spent)
   - Star talents: All spent: the totals show where new points go
     - done: Stonks! 30
@@ -292,7 +292,7 @@ Can't read Bubba from this save
     - and 6 more
 
 ### C4 (Blood Berserker 501)
-- Builds cover World 1 to World 4 for now; these are your plain talent levels
+- No build for this stage yet (builds cover World 1 to World 4): these are your talent levels
 - Current preset (in use): Rage Basics · Warrior · Barbarian · Blood Berserker · Star talents (all spent)
   - Star talents: All spent: the totals show where new points go
     - done: Stonks! 30
@@ -309,7 +309,7 @@ Can't read Bubba from this save
     - and 6 more
 
 ### C5 (Wizard 501)
-- Builds cover World 1 to World 4 for now; these are your plain talent levels
+- No build for this stage yet (builds cover World 1 to World 4): these are your talent levels
 - Current preset (in use): Savvy Basics · Mage · Wizard · Star talents (all spent)
   - Star talents: All spent: the totals show where new points go
     - done: Stonks! 30
@@ -326,7 +326,7 @@ Can't read Bubba from this save
     - and 6 more
 
 ### C6 (Siege Breaker 530)
-- Builds cover World 1 to World 4 for now; these are your plain talent levels
+- No build for this stage yet (builds cover World 1 to World 4): these are your talent levels
 - Current preset (in use): Calm Basics · Archer · Bowman · Siege Breaker · Star talents (all spent)
   - Star talents: All spent: the totals show where new points go
     - done: Stonks! 30
@@ -343,7 +343,7 @@ Can't read Bubba from this save
     - and 6 more
 
 ### C7 (Voidwalker 510)
-- Builds cover World 1 to World 4 for now; these are your plain talent levels
+- No build for this stage yet (builds cover World 1 to World 4): these are your talent levels
 - Current preset (in use): Beginner · Journeyman · Maestro · Voidwalker · Star talents (all spent)
   - Star talents: All spent: the totals show where new points go
     - done: Stonks! 30
@@ -360,7 +360,7 @@ Can't read Bubba from this save
     - and 6 more
 
 ### C8 (Elemental Sorcerer 525)
-- Builds cover World 1 to World 4 for now; these are your plain talent levels
+- No build for this stage yet (builds cover World 1 to World 4): these are your talent levels
 - Current preset (in use): Savvy Basics · Mage · Wizard · Elemental Sorcerer · Star talents (all spent)
   - Star talents: All spent: the totals show where new points go
     - done: Stonks! 30
@@ -377,7 +377,7 @@ Can't read Bubba from this save
     - and 6 more
 
 ### C9 (Hunter 503)
-- Builds cover World 1 to World 4 for now; these are your plain talent levels
+- No build for this stage yet (builds cover World 1 to World 4): these are your talent levels
 - Current preset (in use): Calm Basics · Archer · Hunter · Star talents (all spent)
   - Star talents: All spent: the totals show where new points go
     - done: Stonks! 30
@@ -394,7 +394,7 @@ Can't read Bubba from this save
     - and 6 more
 
 ### C10 (Barbarian 501)
-- Builds cover World 1 to World 4 for now; these are your plain talent levels
+- No build for this stage yet (builds cover World 1 to World 4): these are your talent levels
 - Current preset (in use): Rage Basics · Warrior · Barbarian · Star talents (all spent)
   - Star talents: All spent: the totals show where new points go
     - done: Stonks! 30
@@ -419,7 +419,7 @@ Can't read Bubba from this save
 - World 3 · Frostbite Tundra [done] · 11 of 11 route doors open · 3 side maps not reached
   - gate Chizoar (done): Galaxial Amethyst handed in; 0 keys waiting · 10 earned a day
   - Signature Slopes (cleared): C3 Bubonic Conjuror 567, C2 Divine Knight 544, C6 Siege Breaker 530, C1 Beast Master 507, C9 Hunter 503, C5 Wizard 501, C10 Barbarian 501, C8 Elemental Sorcerer 525
-- World 4 · Hyperion Nebula [done] · 3 of 3 route doors open · 1 side map not reached
+- World 4 · Hyperion Nebula [done] · 3 of 3 route doors open
   - gate Massive Troll (done)
   - The Rift (reached): C4 Blood Berserker 501
 - Worlds 5+ · Not covered yet

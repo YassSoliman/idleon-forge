@@ -330,16 +330,10 @@ describe('US-9 and US-10 Post Office and anvil points', () => {
 });
 
 describe('#70 A3 the Whetstone respec', () => {
-  it('W3-early: the Wizard Lv 73 gains about 30% from 7 Speed / 23 Capacity at 8 h', () => {
-    const fs = fired(run('anvil/respec', w3, { params: { minGain: 0.25, shopWorld: 3 } }));
-    const account = fs.find((f) => f.subject.kind === 'account');
-    expect(account?.slots).toMatchObject({ count: 1, hours: 8, mixedPct: 1 });
-    expect(Math.round(Number(account?.slots.morePct))).toBe(30);
-    const detail = fs.filter((f) => f.subject.kind === 'character');
-    expect(detail.map((f) => f.subject.kind === 'character' && label(w3, f.subject.index))).toEqual([
-      'Wizard 73',
-    ]);
-    expect(detail[0]?.slots).toMatchObject({ speed: 7, capacity: 23 });
+  it('W3-early: silent; weighted by work (M24), no character gains 25% at 8 h', () => {
+    // Before M24 the plan scored item counts, so the Wizard Lv 73's cheap Thread piling up to Capacity
+    // read as "about 30% more" for 7 Speed / 23 Capacity; in anvil work its best respec gains about 4%.
+    expect(fired(run('anvil/respec', w3, { params: { minGain: 0.25, shopWorld: 3 } }))).toEqual([]);
   });
   it('W2-late: silent until the W3 town shop is reached; then about 2x Thread on 4 characters', () => {
     expect(fired(run('anvil/respec', w2))).toEqual([]);

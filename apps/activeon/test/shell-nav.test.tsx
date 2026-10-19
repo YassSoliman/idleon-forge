@@ -75,7 +75,7 @@ describe('US-2 deep links that survive a reload', () => {
     window.history.replaceState(null, '', '/#cards-2');
     const r = withSystems();
     renderNow(props(r, saveOf(r, 1, 'first', null, 'paste')));
-    expect(screen.getByRole('heading', { level: 2, name: 'Cedar' })).toBeTruthy();
+    expect(screen.getByRole('heading', { level: 2, name: 'Bowman 38' })).toBeTruthy();
     expect(within(places()).getByRole('link', { current: true }).textContent).toContain('Now');
   });
 
@@ -87,7 +87,7 @@ describe('US-2 deep links that survive a reload', () => {
     expect(window.location.search).toBe('');
     expect(window.location.hash).toBe('#now-3');
     expect(window.history.length).toBe(before);
-    expect(screen.getByRole('heading', { level: 2, name: 'Dahlia' })).toBeTruthy();
+    expect(screen.getByRole('heading', { level: 2, name: 'Barbarian 51' })).toBeTruthy();
   });
 
   it('?c=1#build-1 becomes #build-1', () => {
@@ -102,7 +102,7 @@ describe('US-2 deep links that survive a reload', () => {
       window.history.replaceState(null, '', `/${hash}`);
       const r = withSystems();
       const view = renderNow(props(r, saveOf(r, 1, 'first', null, 'paste')));
-      expect(document.querySelector('ol.roster')).toBeTruthy();
+      expect(document.querySelector('.n-now')).toBeTruthy();
       expect(window.location.hash).toBe(hash);
       view.unmount();
     }
@@ -130,19 +130,20 @@ describe('US-3 Back goes back', () => {
         window.dispatchEvent(new PopStateEvent('popstate'));
       });
     back('#system-alchemy-bubbles');
-    expect(screen.getByRole('heading', { level: 2, name: 'Alchemy bubbles' })).toBeTruthy();
+    expect(screen.getByRole('heading', { level: 2, name: 'Alchemy' })).toBeTruthy();
     back('#systems');
     expect(screen.getByRole('heading', { level: 2, name: 'Systems' })).toBeTruthy();
     back('');
-    expect(document.querySelector('ol.roster')).toBeTruthy();
+    expect(document.querySelector('.n-now')).toBeTruthy();
   });
 
   it('"Back" on a Character page opened by a deep link returns to Now', () => {
     window.history.replaceState(null, '', '/#build-1');
     const r = withSystems();
     renderNow(props(r, saveOf(r, 1, 'first', null, 'paste')));
-    fireEvent.click(screen.getByRole('button', { name: '← All characters' }));
-    expect(document.querySelector('ol.roster')).toBeTruthy();
+    // M24: no "All characters" button; Esc goes back.
+    fireEvent.keyDown(window, { key: 'Escape' });
+    expect(document.querySelector('.n-now')).toBeTruthy();
     expect(window.location.hash).toBe('#now');
   });
 
@@ -153,9 +154,10 @@ describe('US-3 Back goes back', () => {
     fireEvent.click(
       screen.getAllByRole('link').find((a) => a.getAttribute('href') === '#now-2') as HTMLElement,
     );
-    expect(screen.getByRole('heading', { level: 2, name: 'Cedar' })).toBeTruthy();
+    expect(screen.getByRole('heading', { level: 2, name: 'Bowman 38' })).toBeTruthy();
     expect(within(places()).getByRole('link', { current: true }).textContent).toBe('Characters');
-    fireEvent.click(screen.getByRole('button', { name: 'Back' }));
+    // M24: no in-page back button (the strip and the places move); Esc goes back to where it came from.
+    fireEvent.keyDown(window, { key: 'Escape' });
     expect(window.location.hash).toBe('#characters');
   });
 });
@@ -179,7 +181,7 @@ describe('US-4 following the game where it helps, never where it would yank me',
     const r = withSystems();
     const view = render(<Live r={r} seq={1} kind="first" slot={null} />);
     view.rerender(<Live r={r} seq={2} kind="autosave" slot={4} />);
-    expect(screen.getByRole('heading', { level: 2, name: 'Elm' })).toBeTruthy();
+    expect(screen.getByRole('heading', { level: 2, name: 'Wizard 40' })).toBeTruthy();
     expect(within(places()).getByRole('link', { current: true }).textContent).toContain('Now');
   });
 
@@ -202,7 +204,7 @@ describe('US-4 following the game where it helps, never where it would yank me',
     const r = withSystems();
     const view = render(<Live r={r} seq={1} kind="first" slot={null} />);
     view.rerender(<Live r={r} seq={2} kind="autosave" slot={4} />);
-    expect(screen.getByRole('heading', { level: 2, name: 'Cedar' })).toBeTruthy();
+    expect(screen.getByRole('heading', { level: 2, name: 'Bowman 38' })).toBeTruthy();
     expect(screen.getByRole('button', { name: 'Now playing Elm · go' })).toBeTruthy();
   });
 
@@ -212,9 +214,9 @@ describe('US-4 following the game where it helps, never where it would yank me',
     const view = render(<Live r={r} seq={1} kind="first" slot={null} />);
     view.rerender(<Live r={r} seq={2} kind="autosave" slot={3} />);
     go(/^Now/);
-    fireEvent.click(screen.getAllByRole('button').find((b) => b.dataset.index === '0') as HTMLElement);
+    fireEvent.click(document.querySelector('[data-index="0"]') as HTMLElement);
     // Dahlia (index 3) was played: "Next" never points back at her.
-    expect(screen.getByRole('button', { name: /^Next: switch to/ }).textContent).not.toContain('Dahlia');
+    expect(screen.getByRole('button', { name: /^Next: / }).textContent).not.toContain('Dahlia');
   });
 });
 
@@ -285,20 +287,39 @@ describe('US-9 the Map place (FR-M1, FR-M2, FR-M5)', () => {
     expect(within(places()).getByRole('link', { current: 'page' }).textContent).toBe('Map');
     expect(document.title).toBe('Map · ActiveOn');
     expect(screen.getByText('2 of 2 worlds open · 5 characters')).toBeTruthy();
-    // The frontier ring: the pusher's kills against the door, with the time (Gate-first).
-    const front = container.querySelector('.map-front') as HTMLElement;
-    expect(within(front).getByRole('img', { name: '120 of 500 kills' })).toBeTruthy();
-    expect(front.textContent).toContain('The Mimic Hole');
+    // M24: the next door first, in the one frame: the pusher's kills against the door, with the time.
+    const front = container.querySelector('.map-hero.a-frame') as HTMLElement;
+    expect(front.textContent).toContain('Kill 380 more here');
+    expect(front.textContent).toContain('120');
+    // QA P3: "in about 2h 00m", never "about in 2h 00m".
+    expect(front.textContent).toContain('is there · in about 2h 00m at its kill rate');
+    expect(container.querySelectorAll('.map-place .a-frame')).toHaveLength(1);
     // TR-17: the map's nodes are buttons named in words (map, state, who, door).
     expect(
       screen.getAllByRole('button', {
         name: 'The Mimic Hole, next door, Here: Barbarian 51, 500 kills for its door',
       }).length,
     ).toBeGreaterThan(0);
-    // FR-M3: the overlay switcher is one radio group of four, Route first.
-    const group = screen.getByRole('group', { name: 'What the map shows' });
-    expect(within(group).getAllByRole('radio')).toHaveLength(4);
+    // M24: four tabs, Route first, that switch the content.
+    const tabs = screen.getByRole('tablist', { name: 'Map views' });
+    expect(
+      within(tabs)
+        .getAllByRole('tab')
+        .map((t) => t.textContent),
+    ).toEqual(['Route', 'Constellations', 'Death Note', 'Cards']);
     await noAxeViolations(container);
+  });
+
+  it('M24: the tabs switch the content: Death Note replaces the route, Route brings it back', () => {
+    window.history.replaceState(null, '', '/#map');
+    const r = withMap();
+    const { container } = renderNow(props(r, saveOf(r, 1, 'first', null, 'paste')));
+    expect(container.querySelectorAll('.map-tile').length).toBe(2);
+    fireEvent.click(screen.getByRole('tab', { name: /^Death Note/ }));
+    expect(container.querySelectorAll('.map-tile')).toHaveLength(0);
+    expect(screen.getByText('No Death Note kills in your save yet.')).toBeTruthy();
+    fireEvent.click(screen.getByRole('tab', { name: /^Route/ }));
+    expect(container.querySelectorAll('.map-tile').length).toBe(2);
   });
 
   it('a tap opens the map sheet at #map-<n>, in the FR-M2 order; Esc closes it back to #map', () => {

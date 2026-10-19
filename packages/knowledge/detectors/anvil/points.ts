@@ -5,7 +5,8 @@
 // module turns into the account Goal's per-character detail (never a Goal of their own). The split is
 // the adapter's brute force over integer splits with Toolbox getPlayerAnvil
 // (`characters[].afk.anvilPlan`, M3 TR-2), for the window of the player's Expected Return ("Back in
-// about", 8 h by default): most items in that time from empty, ties to Speed.
+// about", 8 h by default): the most anvil work in that time from empty (each item weighted by its
+// requiredAmount, M24), ties to Speed.
 // Unspent is recomputed from its sources (the stored value goes stale after a Smithing level-up).
 import { anvilPlanWindow } from '@idleon-forge/account-state';
 import { z } from 'zod';

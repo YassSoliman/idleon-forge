@@ -37,6 +37,10 @@ const SystemPage = lazyPart(
   () => import('../systems/SystemPage'),
   (m) => m.SystemPage,
 );
+const AccountPage = lazyPart(
+  () => import('../account/AccountPage'),
+  (m) => m.AccountPage,
+);
 
 /** The outlet's id: a plain in-page target, never a route (FR-7 leaves unknown anchors to Now). */
 const CONTENT_ANCHOR = `#${'place-content'}`;
@@ -144,6 +148,8 @@ function PlaceView({ s }: { s: Session }) {
       return <TimelinePlace s={s} />;
     case 'map':
       return <MapPlace s={s} />;
+    case 'account':
+      return <AccountPage s={s} page={s.route.page} />;
     default:
       return <NowPlace s={s} />;
   }

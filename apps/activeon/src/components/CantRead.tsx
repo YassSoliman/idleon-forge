@@ -37,32 +37,33 @@ export function CantRead({ failure, lastGood, busy, onPaste, onUseLastGood = nul
   const lastSave = lastGood?.account.lastCloudSave ?? null;
   // With no last good save to offer, pasting is the way out: open it at once.
   const [paste, setPaste] = useState(() => lastSave === null || !onUseLastGood);
+  // M24 States board: the one frame on the screen, coral (losing value now: no advice until it reads).
   return (
-    <section className="broken n-cantread" role="alert" aria-label={W.cantRead}>
+    <section className="broken n-cantread a-frame a-frame--pad" role="alert" aria-label={W.cantRead}>
       <div className="n-cantread__head">
         <PixelArt name="flows-gremlin" scale={2} decorative />
-        <div>
-          <h2 className="n-cantread__title broken-title">Can't read your save right now</h2>
-          <p>{EXPLAIN[failure.kind]}</p>
+        <div className="n-cantread__words">
+          <h2 className="a-h1 n-cantread__title broken-title">Can't read your save right now</h2>
+          <p className="n-cantread__why">{EXPLAIN[failure.kind]}</p>
         </div>
       </div>
-      <p className="mono n-muted n-small detail">{failure.message}</p>
       {lastSave !== null && onUseLastGood ? (
-        <div className="n-lastgood">
+        <>
           <p>{W.cantReadLine}</p>
           <Button tone="primary" className="n-wide" onClick={onUseLastGood}>
             {W.lastGoodButton(clockAt(lastSave, localOffsetMinutes(lastSave)))}
           </Button>
-          <p className="n-muted n-small">{W.lastGoodNote(ago(lastSave, now).replace(/ ago$/, ''))}</p>
-        </div>
+          <p className="n-cantread__note">{W.lastGoodNote(ago(lastSave, now).replace(/ ago$/, ''))}</p>
+        </>
       ) : null}
       {paste ? (
-        <PasteSave busy={busy} error={null} onPaste={onPaste} />
+        <PasteSave busy={busy} error={null} onPaste={onPaste} plain />
       ) : (
-        <Button tone="quiet" className="n-wide" onClick={() => setPaste(true)}>
+        <Button tone="ghost" className="n-wide" onClick={() => setPaste(true)}>
           {W.pasteInstead}
         </Button>
       )}
+      <p className="mono n-cantread__detail detail">{failure.message}</p>
     </section>
   );
 }

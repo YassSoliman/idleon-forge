@@ -7,7 +7,7 @@
 // plan, the bank pips, and the row links that land on their Goal (R7 QA).
 
 import type { Checklist, EngineResult } from '@idleon-forge/engine/result';
-import { cleanup, fireEvent, screen, within } from '@testing-library/react';
+import { cleanup, fireEvent, screen, waitFor, within } from '@testing-library/react';
 import axe from 'axe-core';
 import { afterEach, beforeAll, beforeEach, describe, expect, it, vi } from 'vitest';
 import { bankPips, planFor, ringFractions } from '../src/timeline/daily-model';
@@ -37,30 +37,54 @@ const openBand = (section: HTMLElement, title: string) =>
   fireEvent.click(within(section).getByRole('button', { name: new RegExp(`^Open ${title}`) }));
 const sheet = () => screen.getByRole('dialog');
 
-describe("Now's Account: the one ring line (FR-T2)", () => {
-  it('shows both rings as text and the daily reset, as one link to the Timeline’s #daily', async () => {
+describe("Now's rail: the Daily ring (FR-T2; M24 board after/Now)", () => {
+  it('shows the Daily ring once, with its reset; the full picture is the Timeline’s #daily', async () => {
     const r = withM20(fixture('mid-session'));
     renderNow(props(r, saveOf(r, 1, 'first', null, 'paste')));
-    const line = document.getElementById('checklist') as HTMLElement;
-    expect(line.textContent).toContain('Today 1 of 3 · Week 0 of 1');
-    expect(line.textContent).toContain('daily reset in 12h');
-    const link = within(line).getByRole('link');
-    expect(link.getAttribute('href')).toBe('#daily');
-    fireEvent.click(link);
-    await screen.findByRole('heading', { level: 3, name: DAILY_WORDS.title }, ARRIVE);
-    expect(window.location.hash).toBe('#daily');
+    const rail = screen.getByRole('region', { name: 'Account' });
+    expect(within(rail).getAllByRole('img', { name: /^Daily: \d+ of \d+ done$/ })).toHaveLength(1);
+    expect(rail.textContent).toContain('daily reset in 12h');
+    // M24 QA P1-1: the pre-M24 checklist line ("Today 1 of 3 · Week 0 of 1") is not repeated beside it.
+    expect(document.getElementById('checklist')).toBeNull();
   });
 });
 
 describe('the Daily & Weekly section on the Timeline (FR-T2)', () => {
+  it('QA P1-2: after a long break, at most 3 lost-day boxes and the rest in words, inside the column', async () => {
+    const r = withM20(fixture('mid-session'));
+    const cl = r.checklist as Checklist;
+    const base = cl.rows[0];
+    if (!base) throw new Error('withM20 has rows');
+    r.checklist = {
+      ...cl,
+      rows: [
+        ...cl.rows,
+        {
+          ...base,
+          id: 'colosseum',
+          band: 'banks',
+          label: 'Colosseum tickets',
+          details: ['Lonely Hunter: 3 days banked, 860 lost'],
+        },
+      ],
+    };
+    const { section } = await daily(r);
+    const bank = section.querySelector('.dw-band-bank .dw-bank') as HTMLElement;
+    expect(bank.querySelectorAll('.dw-pip.s-banked')).toHaveLength(3);
+    expect(bank.querySelectorAll('.dw-pip.s-lostday')).toHaveLength(3);
+    expect(bank.querySelector('.dw-bank-more')?.textContent).toBe('857 more days lost');
+  });
+
   it('draws the clock with its words, the bands as pip rows, and passes axe', async () => {
     const r = withM20(fixture('mid-session'));
     const { container, section } = await daily(r);
     expect(section.textContent).toContain(DAILY_WORDS.ringKey);
-    expect(section.textContent).toContain('in 12h');
-    expect(section.textContent).toContain('2 to do before the reset');
-    expect(section.textContent).toContain('Today 1 of 3 · Week 0 of 1');
-    expect(section.textContent).toContain('Week ring: your weekly reset in 36h 00m');
+    expect(section.textContent).toContain('12h 00m');
+    expect(section.querySelector('.dw-count')?.textContent).toBe('2things to do before the daily reset');
+    expect(section.textContent).toContain('today: 1 of 3 done');
+    expect(section.textContent).toContain('this week: 0 of 1 · resets in 36h 00m');
+    // M24: the one frame on this tab.
+    expect(document.querySelectorAll('.timeline-place .a-frame')).toHaveLength(1);
     const bands = within(section).getAllByRole('button', { name: /^Open / });
     expect(bands.map((b) => b.getAttribute('aria-label'))).toEqual([
       'Open No bank: lost at the reset: 2 of 3 to do',
@@ -84,7 +108,7 @@ describe('the Daily & Weekly section on the Timeline (FR-T2)', () => {
     fireEvent.keyDown(document, { key: 'Escape' });
     expect(screen.queryByRole('dialog')).toBeNull();
     // The weekly row is lost before you are back: its pip and its line say so.
-    expect(section.querySelectorAll('.dw-band-weekly .dw-pip.lost')).toHaveLength(1);
+    expect(section.querySelectorAll('.dw-band-weekly .dw-wk.is-lost')).toHaveLength(1);
     openBand(section, 'Weekly');
     expect(sheet().textContent).toContain('lost before you are back');
   });
@@ -109,20 +133,22 @@ describe('the Daily & Weekly section on the Timeline (FR-T2)', () => {
     const { section } = await daily(r);
     openBand(section, 'No bank');
     fireEvent.click(within(sheet()).getByRole('button', { name: 'Done' }));
-    expect(section.textContent).toContain('Today 2 of 3');
+    expect(section.textContent).toContain('today: 2 of 3 done');
     expect(within(sheet()).getByRole('button', { name: 'Done ✓ · undo' })).toBeTruthy();
   });
 
-  it('the Five-minute plan lists what fits, no-bank rows first', async () => {
+  it('M24: the time planner shows 15 minutes first, the losing job first, and switches on a pick', async () => {
     const r = withM20(fixture('mid-session'));
     const { section } = await daily(r);
-    fireEvent.click(within(section).getByRole('button', { name: '5 min' }));
     const plan = section.querySelector('.dw-plan') as HTMLElement;
-    expect(within(plan).getByRole('button', { name: '5 min' }).getAttribute('aria-pressed')).toBe('true');
-    expect(plan.textContent).toContain('of 5 min planned · no-bank rows first');
-    expect(plan.querySelectorAll('.cl-row').length).toBeGreaterThan(0);
-    fireEvent.click(within(plan).getByRole('button', { name: '5 min' }));
-    expect(plan.querySelectorAll('.cl-row')).toHaveLength(0);
+    expect((within(plan).getByRole('radio', { name: '15 min' }) as HTMLInputElement).checked).toBe(true);
+    expect(plan.textContent).toMatch(/\d+ jobs? fits? in 15 minutes/);
+    const jobs = [...plan.querySelectorAll('.dw-jobr')];
+    expect(jobs.length).toBeGreaterThan(0);
+    // The weekly row lost before you're back comes first.
+    expect(jobs[0]?.querySelector('.dw-n')?.classList.contains('is-lost')).toBe(true);
+    fireEvent.click(within(plan).getByRole('radio', { name: '5 min' }));
+    expect(plan.textContent).toMatch(/in 5 minutes|Nothing to do fits in 5 min/);
   });
 });
 
@@ -161,8 +187,9 @@ describe('the checklist links land on their Goal (R7 QA)', () => {
     const { section } = await daily(r);
     openBand(section, 'No bank');
     fireEvent.click(within(sheet()).getByRole('link', { name: 'in your list ↓' }));
-    expect(window.location.hash).toBe('#now');
-    expect(lit('arcade.check.g5@account')).toBe(true);
+    // M24 QA P1-1: an account Goal lives on the Goals page (past its group's "Show N more").
+    expect(window.location.hash).toBe('#goals');
+    await waitFor(() => expect(lit('arcade.check.g5@account')).toBe(true));
   });
 
   it('a character Goal (@cN) opens that character\'s Now tab, past its "show more", outlined', async () => {
@@ -181,7 +208,12 @@ describe('the checklist links land on their Goal (R7 QA)', () => {
     const { section } = await daily(r);
     openBand(section, 'No bank');
     fireEvent.click(within(sheet()).getByRole('link', { name: 'If you have time ↓' }));
-    const item = document.querySelector(`[data-na-key="${key}"]`);
+    expect(window.location.hash).toBe('#goals');
+    const item = await waitFor(() => {
+      const el = document.querySelector(`[data-na-key="${key}"]`);
+      if (!el) throw new Error('not on the page yet');
+      return el;
+    });
     expect(item?.tagName).toBe('LI');
     expect(item?.textContent).toContain('Play the Hoops minigame');
     expect(lit(key)).toBe(true);
@@ -206,7 +238,7 @@ describe('the Daily & Weekly arithmetic (daily-model)', () => {
     expect(ringFractions(undefined, now)).toEqual({ day: null, week: null });
   });
 
-  it('plans no-bank rows first, adding efforts until the next would not fit', () => {
+  it('plans the losing rows first, then no-bank rows, adding efforts until the next would not fit', () => {
     const row = (id: string, band: 'no-bank' | 'banks' | 'weekly') => ({ id, band, state: 'todo' }) as never;
     const view = {
       bands: [
@@ -218,5 +250,14 @@ describe('the Daily & Weekly arithmetic (daily-model)', () => {
     const plan = planFor(view, (id) => effort[id] ?? null, 5);
     expect(plan.rows.map((r) => r.id)).toEqual(['a', 'w']);
     expect(plan.usedSeconds).toBe(180);
+    // M24: a row already being lost goes before every band.
+    const lost = { id: 'w', band: 'weekly', state: 'todo', lostBeforeReturn: true } as never;
+    const view2 = {
+      bands: [
+        { band: 'no-bank', rows: [row('a', 'no-bank')], done: [], later: [], title: '' },
+        { band: 'weekly', rows: [lost], done: [], later: [], title: '' },
+      ],
+    } as never;
+    expect(planFor(view2, (id) => effort[id] ?? null, 5).rows.map((r) => r.id)).toEqual(['w', 'a']);
   });
 });

@@ -43,8 +43,9 @@ export function bankPips(details: readonly string[]): { pips: BankPips[]; rest: 
 const BAND_ORDER: Record<ChecklistRowView['band'], number> = { 'no-bank': 0, banks: 1, weekly: 2 };
 
 /**
- * The Five-minute plan (the Lab's runner-up, as a filter): the to-do rows that fit in `minutes`, no-bank
- * rows first, each row's own effort from the engine, added up until the next one would not fit.
+ * The time planner (M24 `TimelineDaily`; M21's Five-minute plan): the to-do rows that fit in `minutes`,
+ * the ones already being lost first (a banking row past its bank), then no-bank, banking and weekly rows,
+ * each row's own effort from the engine, added up until the next one would not fit.
  */
 export function planFor(
   view: ChecklistView,
@@ -55,7 +56,12 @@ export function planFor(
     .flatMap((b) => b.rows)
     .filter((r) => r.state === 'todo')
     .map((r, i) => ({ r, i }))
-    .sort((a, z) => BAND_ORDER[a.r.band] - BAND_ORDER[z.r.band] || a.i - z.i);
+    .sort(
+      (a, z) =>
+        (z.r.lostBeforeReturn ? 1 : 0) - (a.r.lostBeforeReturn ? 1 : 0) ||
+        BAND_ORDER[a.r.band] - BAND_ORDER[z.r.band] ||
+        a.i - z.i,
+    );
   const budget = minutes * 60;
   const rows: ChecklistRowView[] = [];
   let used = 0;

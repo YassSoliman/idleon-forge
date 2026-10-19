@@ -10,7 +10,7 @@ import { goldenResult } from '../../src/golden';
 import { buildNowView, DEFAULT_UI } from '../../src/now/build-now-view';
 import { EMPTY_PREFS } from '../../src/now/prefs';
 import { buildSlotsView, SLOT_KINDS } from '../../src/now/slots-view';
-import { buildAfkStripView, buildTimelineView } from '../../src/now/timeline-view';
+import { buildAfkStripView, buildTimelineView, limitsBeforeBack } from '../../src/now/timeline-view';
 import { AFK_STRIP_WORDS, SLOTS_WORDS } from '../../src/now/words/time';
 
 const ctx = await goldenContext();
@@ -94,9 +94,14 @@ describe('FR-T5 the compact AFK strip', () => {
     expect(strip?.sentence).toMatch(
       /^\d+ limits bind before you're back: the .+ on .+ first, (full now|in \d)/,
     );
-    // It reads only the Timeline's own bars: the badge count is the bars before the return.
-    const before = timeline?.lanes.flatMap((l) => l.bars).filter((b) => b.state === 'open' && b.beforeReturn);
-    expect(strip?.before).toBe(before?.length);
+    // It reads only the Timeline's own bars: the badge count is the bars before the return, on the
+    // character lanes and the account lanes alike, already-full ones included (QA P1-6: one count).
+    const before = [...(timeline?.lanes ?? []), ...(timeline?.accountLanes ?? [])]
+      .flatMap((l) => l.bars)
+      .filter((b) => b.state === 'open' && !b.untimed && b.beforeReturn);
+    expect(strip?.before).toBe(before.length);
+    if (timeline) expect(strip?.before).toBe(limitsBeforeBack(timeline));
+    expect(timeline?.accountLanes.some((l) => l.bars.some((b) => b.beforeReturn))).toBe(true);
   });
 
   it('is null without a Timeline, and says nothing binds when nothing does', () => {
@@ -104,7 +109,11 @@ describe('FR-T5 the compact AFK strip', () => {
     expect(buildAfkStripView(null, view)).toBeNull();
     const { timeline } = on('scrubbed-w3');
     if (!timeline) throw new Error('scrubbed-w3 has a Timeline');
-    const quiet = { ...timeline, lanes: timeline.lanes.map((l) => ({ ...l, bars: [] })) };
+    const quiet = {
+      ...timeline,
+      lanes: timeline.lanes.map((l) => ({ ...l, bars: [] })),
+      accountLanes: timeline.accountLanes.map((l) => ({ ...l, bars: [] })),
+    };
     expect(buildAfkStripView(quiet, view)?.sentence).toBe(AFK_STRIP_WORDS.nothing);
   });
 });
@@ -115,7 +124,7 @@ describe('R11 QA: the return line, All set and the AFK strip say the same facts'
     const strip = buildAfkStripView(timeline, view);
     if (!strip || !timeline) throw new Error('scrubbed-w3 has a strip');
     const now = timeline.axis.start;
-    const binding = timeline.lanes
+    const binding = [...timeline.lanes, ...timeline.accountLanes]
       .flatMap((l) => l.bars)
       .filter((b) => b.state === 'open' && !b.untimed && b.beforeReturn);
     expect(strip.fullNow).toBe(binding.filter((b) => (b.at ?? now) <= now).length);
@@ -167,5 +176,39 @@ describe('TR-9: the Time area words are not advice', () => {
     };
     collect([AFK_STRIP_WORDS, SLOTS_WORDS]);
     expect(strings.filter(isAdviceShaped)).toEqual([]);
+  });
+});
+
+describe('M24 fix: the NOW cell sits on the character the step names', () => {
+  it('on a synthetic seat Goal naming the third linked character, the cell is on that row', () => {
+    const { r, view } = on('scrubbed-w3');
+    const order = view.roster.map((x) => x.index);
+    const [a, b, c] = order as [number, number, number];
+    const key = 'construction.check.cog-seat-free@account';
+    // Three characters on the shelf, all linked to the seat Goal; its Next Action names the third.
+    const skills = (r.skills ?? []).map((s) => ({
+      ...s,
+      slots: s.slots.map((p) =>
+        p.kind === 'cog'
+          ? [a, b, c].includes(s.index)
+            ? { ...p, state: 'filled' as const, text: 'on the shelf: makes cogs', linkKey: key }
+            : { ...p, state: 'filled' as const, text: 'builds on the Cog Board', linkKey: null }
+          : { ...p, linkKey: null },
+      ),
+    }));
+    const goal = r.account.goals.find((g) => g.nextAction.key === key) ?? r.account.goals[0];
+    if (!goal) throw new Error('scrubbed-w3 has Goals');
+    const seat = {
+      ...goal,
+      nextAction: { ...goal.nextAction, key, text: 'Seat the third one' },
+      details: [
+        { subject: `c${a}` as const, text: 'Seat the first one' },
+        { subject: `c${b}` as const, text: 'Seat the second one' },
+      ],
+    };
+    const v = buildSlotsView({ ...r, skills, account: { ...r.account, goals: [seat] } }, view);
+    expect(v?.now?.index).toBe(c);
+    const cells = v?.rows.flatMap((x) => x.cells.filter((k) => k.now).map(() => x.index));
+    expect(cells).toEqual([c]);
   });
 });

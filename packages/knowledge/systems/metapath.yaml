@@ -452,8 +452,9 @@ entries:
     detector: { id: metapath/pusher }
     pusherRule: { margin: 1.25 }
     notes: >-
-      M2 D1: keep the incumbent unless a challenger has at least margin x its final kills per hour on the
-      frontier door. The margin is far above the few-percent noise of one-shot maps.
+      M2 D1: keep the incumbent unless a challenger opens the frontier door at least margin x sooner (kills
+      left over final kills per hour; with equal kills left, margin x the rate). The margin is far above
+      the few-percent noise of one-shot maps.
 
   # ---------------------------------------------------------------- Gate chains (M2 TR-11)
   # Step refs: route = npc:<NPC whose map ends the route path> or map:<index>; quest = a Toolbox quest

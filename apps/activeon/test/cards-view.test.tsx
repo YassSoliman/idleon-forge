@@ -11,7 +11,7 @@ import type {
   EngineResult,
   GrindItem,
 } from '@idleon-forge/engine/result';
-import { cleanup, fireEvent, screen, within } from '@testing-library/react';
+import { act, cleanup, fireEvent, screen, within } from '@testing-library/react';
 import axe from 'axe-core';
 import { afterEach, beforeAll, beforeEach, describe, expect, it } from 'vitest';
 import { characterTabs, healthReady, parseTabHash } from '../src/now/character-tabs';
@@ -150,6 +150,16 @@ async function noAxeViolations(container: HTMLElement) {
   expect(res.violations.map((v) => `${v.id}: ${v.nodes.map((n) => n.html).join(' | ')}`)).toEqual([]);
 }
 
+/** M24: the Characters place's square for one tab of one character (the Roster's tab chips are gone). */
+function openSquare(tab: string, index: number) {
+  act(() => {
+    window.history.replaceState(null, '', '/#characters');
+    window.dispatchEvent(new HashChangeEvent('hashchange'));
+  });
+  const grid = document.querySelector('.cp-grid') as HTMLElement;
+  fireEvent.click(grid.querySelector(`a[href="#${tab}-${index}"]`) as HTMLElement);
+}
+
 describe('Cards tab', () => {
   it('is registered after Build and Gear and parses its deep link', () => {
     expect(characterTabs.map((t) => t.id).slice(0, 4)).toEqual(['now', 'build', 'gear', 'cards']);
@@ -157,50 +167,76 @@ describe('Cards tab', () => {
     expect(parseTabHash('#cards')).toBeNull();
   });
 
-  it('Characters lists every character in the Cards overview; each Roster row keeps a Cards chip', () => {
+  it('Characters has a Card preset square for every character with cards, each a link (M24)', () => {
     const r = withCards();
+    window.history.replaceState(null, '', '/#cards');
     renderNow(props(r, saveOf(r, 1, 'first', null, 'paste')));
-    expect(screen.getByRole('link', { name: /^Cedar: cards/ })).toBeTruthy();
-    // M17 D-7: one "Builds and cards → Characters" link replaces "Builds ↓" and "Cards ↓".
-    expect(screen.queryByRole('link', { name: 'Cards ↓' })).toBeNull();
-    fireEvent.click(screen.getByRole('link', { name: 'Builds and cards → Characters' }));
-    const overview = screen.getByRole('region', { name: 'Cards' });
-    const links = within(overview)
-      .getAllByRole('link')
-      .filter((a) => a.classList.contains('cv-row'));
-    expect(links.map((a) => a.getAttribute('href'))).toEqual(['#cards-2', '#cards-1']);
-    expect(links[0]?.textContent).toContain('next grind: Frost Flake card (about 1.2 h)');
-  });
-
-  it('R5 QA P2-2: the Cards overview is one folded row with a count', () => {
-    const r = withCards();
-    window.history.replaceState(null, '', '/#characters');
-    renderNow(props(r, saveOf(r, 1, 'first', null, 'paste')));
-    const overview = screen.getByRole('region', { name: 'Cards' });
-    expect(overview.querySelector('details')?.open).toBe(false);
-    expect(overview.querySelector('summary')?.textContent).toBe('Cardsevery preset fits');
+    expect(document.getElementById('cards')?.textContent).toBe('Card preset');
+    const grid = document.querySelector('.cp-grid') as HTMLElement;
+    const links = [...grid.querySelectorAll<HTMLAnchorElement>('a[href^="#cards-"]')];
+    expect(links.map((a) => a.getAttribute('href')).sort()).toEqual(['#cards-1', '#cards-2']);
+    expect(screen.queryByRole('region', { name: 'Cards' })).toBeNull();
   });
 
   it('the Cards chip opens the character page on its Cards tab: presets, swaps and grind', async () => {
     const r = withCards();
     const { container } = renderNow(props(r, saveOf(r, 1, 'first', null, 'paste')));
-    fireEvent.click(screen.getByRole('link', { name: /^Cedar: cards/ }));
+    openSquare('cards', 2);
     expect(window.location.hash).toBe('#cards-2');
     const nav = screen.getByRole('navigation', { name: 'Character page' });
     expect(within(nav).getByRole('link', { current: 'page' }).textContent).toBe(
-      'Cards•empty: 2 of 4 slots empty',
+      'Cards2empty: 2 of 4 slots empty',
     );
     const slots = screen.getByRole('list', { name: 'Preset 1 slots' });
     expect(within(slots).getAllByRole('listitem')).toHaveLength(4);
     expect(within(slots).getAllByText('empty slot')).toHaveLength(2);
-    expect(screen.getByText('in use')).toBeTruthy();
-    expect(screen.getByText('In your active card preset 1')).toBeTruthy();
-    expect(screen.getByText('Mimic')).toBeTruthy();
+    // M24: the swaps first, as card tiles before → after with what each gives.
+    const answer = screen.getByRole('region', { name: 'Card preset 1 · in use · for fighting' });
+    expect(within(answer).getByText('Swap 2 cards for fighting')).toBeTruthy();
     expect(
-      screen.getByText('about 1.2 h at the base drop chance (likely sooner)', { exact: false }),
+      within(answer).getByText('In your active card preset 1 · from cards you already own'),
     ).toBeTruthy();
-    expect(screen.getByRole('link', { name: 'IdleOn Wiki: Cards' })).toBeTruthy();
+    const swaps = within(answer).getByRole('list', { name: 'Swaps' });
+    expect(
+      within(swaps).getByRole('listitem', { name: 'Swap Copper → Mimic: +4% Total Drop Rate' }),
+    ).toBeTruthy();
+    expect(within(swaps).getByText('Mimic')).toBeTruthy();
+    expect(within(swaps).getByText('+4%')).toBeTruthy();
+    // Stars, the game's word: never "Lv".
+    expect(screen.queryByText(/^Lv \d/)).toBeNull();
+    expect(screen.getByText('about 1.2 h')).toBeTruthy();
     await noAxeViolations(container);
+  });
+
+  it('M24: the card sets closest to their next tier, as tiles with a meter', () => {
+    const base = withCards();
+    const r = {
+      ...base,
+      cards: {
+        ...cards,
+        account: {
+          ...cards.account,
+          sets: [
+            {
+              rawName: 'CardSet2',
+              name: 'Easy Resources',
+              tier: 0,
+              bonus: null,
+              points: 8,
+              nextAt: 13,
+              away: 5,
+              nextBonus: '+8% Skill Efficiency',
+            },
+          ],
+        },
+      },
+    };
+    window.history.replaceState(null, '', '/#cards-2');
+    renderNow(props(r, saveOf(r, 1, 'first', null, 'paste')));
+    expect(screen.getByRole('heading', { name: 'Card sets close to their next tier' })).toBeTruthy();
+    expect(screen.getByRole('meter', { name: 'Easy Resources: 8 of 13 card levels' })).toBeTruthy();
+    expect(screen.getByText('5 card levels')).toBeTruthy();
+    expect(screen.getByText('to tier 1: +8% Skill Efficiency')).toBeTruthy();
   });
 
   it("a card Goal on the Now list sees its character's Cards tab (M17 FR-31, FR-23a)", () => {
@@ -223,7 +259,10 @@ describe('Cards tab', () => {
       ],
     };
     renderNow(props(r, saveOf(r, 1, 'first', null, 'paste')));
-    fireEvent.click(screen.getByRole('button', { name: /Cedar/ }));
+    act(() => {
+      window.history.replaceState(null, '', '/#now-2');
+      window.dispatchEvent(new HashChangeEvent('hashchange'));
+    });
     const links = screen.getAllByRole('link', { name: 'See it: Cards' });
     expect(links[0]?.getAttribute('href')).toBe('#cards-2');
     fireEvent.click(links[0] as HTMLElement);

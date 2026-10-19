@@ -1,4 +1,4 @@
-# golden v1: fresh · knowledge #6e3245e2 · parser 6c37e3d (game 2.3.540) · now 2026-08-20T18:41:58.956Z · return 8h · stage W4-entry · stale: 4 of 1003
+# golden v1: fresh · knowledge #9761de04 · parser 6c37e3d (game 2.3.540) · now 2026-08-20T18:41:58.956Z · return 8h · stage W4-entry · stale: 4 of 1003
 
 ## Verdict changes
 
@@ -204,7 +204,7 @@ Locked: pats (Opens at Happi Boi), smoker (Opens at Smoker), charisma (Opens at 
 
 ## Builds
 ### C1 (Siege Breaker 478)
-- Builds cover World 1 to World 4 for now; these are your plain talent levels
+- No build for this stage yet (builds cover World 1 to World 4): these are your talent levels
 - Other preset: Calm Basics · Archer · Bowman · Siege Breaker · Star talents (1,534 unspent)
   - Star talents: 1,534 unspent · they end here (Stonks! returns more as it levels)
     - can add now: Stonks! 0 → 30 · +30 (pays for itself: it returns star points as it levels)
@@ -221,7 +221,7 @@ Locked: pats (Opens at Happi Boi), smoker (Opens at Smoker), charisma (Opens at 
     - and 6 more
 
 ### C2 (Blood Berserker 534)
-- Builds cover World 1 to World 4 for now; these are your plain talent levels
+- No build for this stage yet (builds cover World 1 to World 4): these are your talent levels
 - Other preset: Rage Basics · Warrior · Barbarian · Blood Berserker · Star talents (1,835 unspent)
   - Star talents: 1,835 unspent · they end here (Stonks! returns more as it levels)
     - can add now: Stonks! 0 → 30 · +30 (pays for itself: it returns star points as it levels)
@@ -238,7 +238,7 @@ Locked: pats (Opens at Happi Boi), smoker (Opens at Smoker), charisma (Opens at 
     - and 7 more
 
 ### C3 (Beginner 1)
-- Builds cover World 1 to World 4 for now; these are your plain talent levels
+- No build for this stage yet (builds cover World 1 to World 4): these are your talent levels
 - Current preset (in use): Beginner · Star talents (413 unspent)
   - Star talents: 413 unspent · they end here (Stonks! returns more as it levels)
     - can add now: Stonks! 0 → 30 · +30 (pays for itself: it returns star points as it levels)
@@ -257,7 +257,7 @@ Locked: pats (Opens at Happi Boi), smoker (Opens at Smoker), charisma (Opens at 
 - World 3 · Frostbite Tundra [done] · 11 of 11 route doors open · 3 side maps not reached
   - gate Chizoar (done): Galaxial Amethyst handed in; 6 keys waiting · 2 earned a day
   - Frostbite Towndra (town): C1 Siege Breaker 478
-- World 4 · Hyperion Nebula [done] · 3 of 3 route doors open · 2 side maps not reached
+- World 4 · Hyperion Nebula [done] · 3 of 3 route doors open · 1 side map not reached
   - gate Massive Troll (done)
 - Worlds 5+ · Not covered yet
 - Frontier: none

@@ -117,6 +117,17 @@ function readRefinery(
       autoRefine: num(salt.autoRefinePercentage) > 0,
       saltMaxSafeRank: balance === null ? null : safe,
       fullInSeconds,
+      fuel: list(salt.cost).flatMap((x) =>
+        isDict(x) && typeof x.rawName === 'string'
+          ? [
+              {
+                rawName: x.rawName,
+                name: typeof x.name === 'string' ? x.name : x.rawName,
+                held: Math.max(0, num(x.totalAmount)),
+              },
+            ]
+          : [],
+      ),
     };
   });
   return { salts };

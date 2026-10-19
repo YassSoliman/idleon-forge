@@ -33,6 +33,8 @@ export const engineStage = (r: MetaPathResult) => ({
   id: r.stage.id ?? 'unknown',
   label: r.stage.label,
   needs: r.stage.next?.needs ?? [],
+  // QA P2: an account past World 4 still reads as the last Stage ("World 4, entry"); the top bar says so.
+  ...(r.stage.coverage === 'beyond' ? { beyond: true as const } : {}),
 });
 
 export interface MetaPathModuleOptions {

@@ -163,6 +163,8 @@ export interface ModuleOutput {
   goalNotes?: { key: string; details: GoalDetail[] }[];
   /** M23 `bubba` only (EngineResult.bubba). */
   bubba?: EngineResult['bubba'];
+  /** M24 `world4` only (EngineResult.world4). */
+  world4?: EngineResult['world4'];
   /** M18 `gear` only (EngineResult.gear). */
   gear?: EngineResult['gear'];
   /** M21 `session` only (EngineResult.session, TR-11). */

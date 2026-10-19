@@ -1,0 +1,327 @@
+// SPDX-License-Identifier: GPL-3.0-only
+// Copyright (C) 2026 IdleOn Forge contributors.
+// M24 (board after/sys/_Simple.dc.html): the thin System page every System without its own page renders
+// through, and the shared sections a dedicated page can reuse: the steps (M10's Goal list, so Skip today,
+// Not for me and Report this act on the same item as on Now, FR-33), the quick collects, the Timeline
+// bars, the Spend Plan lines and the "What ActiveOn checks" tile.
+
+import { shortDuration } from '@idleon-forge/engine/now';
+import {
+  type buildSystemPageFrameView,
+  type FrameTone,
+  PAGE_FRAME_WORDS,
+  SIMPLE_WORDS,
+  SYSTEM_BLURBS,
+} from '@idleon-forge/engine/systems-ui';
+import type { ReactNode } from 'react';
+import { GoalList } from '../../design/atoms/GoalList';
+import { tabById, tabHref } from '../../now/character-tabs';
+import { useNowActions } from '../../now/context';
+import { buildInfo } from '../../now/release';
+import { suggestUrl } from '../../now/report';
+import { formatRoute } from '../../shell/route';
+import type { Session } from '../../shell/session';
+import { type FrameAnswer, Pip, SystemFrame, wikiName } from './SystemFrame';
+
+/** The engine's System page view plus the M24 frame (buildSystemPageFrameView). */
+export type FullPage = NonNullable<ReturnType<typeof buildSystemPageFrameView>>;
+
+/** The Characters overview a tab home opens (#builds, #cards). */
+const OVERVIEWS: Record<string, 'builds' | 'cards'> = { build: 'builds', cards: 'cards' };
+
+/** The System's Timeline bars: account lanes and character lanes (by class and level, never a name). */
+export function timelineBarsOf(s: Session, id: string) {
+  if (!s.timeline) return [];
+  return [...s.timeline.lanes, ...s.timeline.accountLanes].flatMap((lane) =>
+    [...lane.bars, ...lane.untimed]
+      .filter((bar) => bar.system === id)
+      .map((bar) => ({ bar, who: lane.kind === 'account' ? null : lane.short })),
+  );
+}
+
+/** A timer answer when the System has nothing to fix but a bar that caps later (board: Arcade). */
+export function timerAnswer(s: Session, page: FullPage): FrameAnswer | null {
+  if (page.goals.length > 0 || page.tile.status !== 'ok') return null;
+  const next = timelineBarsOf(s, page.tile.id)
+    .map((x) => x.bar)
+    .filter((b) => b.at !== null && b.at > s.now && b.state === 'open')
+    .sort((a, b) => (a.at ?? 0) - (b.at ?? 0))[0];
+  if (!next || next.at === null) return null;
+  const t = shortDuration((next.at - s.now) / 1000);
+  return {
+    tone: 'sky',
+    cap: SIMPLE_WORDS.beforeCap,
+    hero: `${capitalise(next.label)}: ${t}`,
+    sub: null,
+    big: { value: t, unit: null, note: SIMPLE_WORDS.untilCap },
+  };
+}
+const capitalise = (t: string) => t.charAt(0).toUpperCase() + t.slice(1);
+
+/** The steps, as M10's Goal list (numbered by CSS), each with who it is for. */
+export function StepsSection({
+  page,
+  title,
+  quiet = false,
+}: {
+  page: FullPage;
+  title?: string;
+  quiet?: boolean;
+}) {
+  const actions = useNowActions();
+  const key = `system:${page.tile.id}`;
+  const unfolded = actions.expanded.has(key);
+  const shown = unfolded ? page.goals : page.goals.slice(0, 5);
+  // How it opens is the answer's line on a locked or uncovered page: it isn't said again here.
+  if (page.goals.length === 0 && page.skippedKeys.length === 0 && page.dismissed.length === 0) return null;
+  const list = (
+    <>
+      <GoalList
+        goals={shown}
+        subject={key}
+        hiddenCount={unfolded ? 0 : page.goals.length - shown.length}
+        skipped={page.skippedKeys}
+        dismissed={page.dismissed}
+        seeIt={false}
+        who={(_, n) => page.frame.steps.find((x) => x.key === shown[n]?.action.key)?.who ?? null}
+      />
+    </>
+  );
+  // On a full page the picture already says what to do: the steps fold (say it once), and open when a
+  // "See it" lands on one of them (FR-31).
+  if (quiet) {
+    const lands =
+      page.highlight !== null &&
+      (page.goals.some((g) => g.action.key === page.highlight) || page.skippedKeys.includes(page.highlight));
+    return (
+      <details className="sf-sec sf-steps sf-steps--quiet sf-fold" open={lands || undefined}>
+        <summary className="a-cap">{title ?? PAGE_FRAME_WORDS.everyStep(page.goals.length)}</summary>
+        {list}
+      </details>
+    );
+  }
+  return (
+    <section className="sf-sec sf-steps" aria-labelledby="sf-steps-h">
+      <span id="sf-steps-h" className="a-cap">
+        {title ?? (page.locked ? PAGE_FRAME_WORDS.howItOpens : PAGE_FRAME_WORDS.inGame)}
+      </span>
+      {list}
+    </section>
+  );
+}
+
+/** Quick collects, Timeline bars and Spend Plan lines: real data the page has, shown when present. */
+export function ExtrasSections({ s, page }: { s: Session; page: FullPage }) {
+  const bars = timelineBarsOf(s, page.tile.id);
+  const actions = useNowActions();
+  const overview = page.tabHome ? OVERVIEWS[page.tabHome] : undefined;
+  const tab = page.tabHome ? tabById(page.tabHome) : undefined;
+  return (
+    <>
+      {overview && tab ? (
+        <a
+          className="sf-link"
+          href={`#${overview}`}
+          onClick={(e) => {
+            e.preventDefault();
+            actions.navigate?.({ place: 'characters', section: overview });
+          }}
+        >
+          {SIMPLE_WORDS.seeEvery(tab.label)} →
+        </a>
+      ) : null}
+      {page.pills.length > 0 ? (
+        <section className="sf-sec" aria-labelledby="sf-pills-h">
+          <span id="sf-pills-h" className="a-cap">
+            {SIMPLE_WORDS.quickCollects}
+          </span>
+          <ul className="sf-plain">
+            {page.pills.map((p) => (
+              <li key={p.key}>
+                <Pip tone={p.fullNow ? 'coral' : 'sky'} />
+                <a
+                  href={tabHref('now', p.index)}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    s.open(p.index, 'now');
+                  }}
+                >
+                  {p.label}
+                </a>
+                <span className="sf-muted">{shortWho(s, p.index)}</span>
+              </li>
+            ))}
+          </ul>
+        </section>
+      ) : null}
+      {bars.length > 0 ? (
+        <section className="sf-sec" aria-labelledby="sf-tl-h">
+          <span id="sf-tl-h" className="a-cap">
+            {SIMPLE_WORDS.onTimeline}
+          </span>
+          <ul className="sf-hair">
+            {bars.map(({ bar, who }) => (
+              <li key={bar.barId} className="sf-hair__row">
+                <span className="sf-grow">
+                  {bar.label}
+                  {who ? <span className="sf-muted"> · {who}</span> : null}
+                </span>
+                <span className="sf-muted">
+                  {bar.timeText}
+                  {bar.flag ? ` · ${bar.flag}` : ''}
+                </span>
+              </li>
+            ))}
+          </ul>
+          <a
+            className="sf-link"
+            href={formatRoute({ place: 'timeline', section: null })}
+            onClick={(e) => {
+              e.preventDefault();
+              s.navigate({ place: 'timeline', section: null }, 'push');
+            }}
+          >
+            {SIMPLE_WORDS.timelineLink} →
+          </a>
+        </section>
+      ) : null}
+      {page.spendLines.length > 0 ? <SpendSection s={s} page={page} /> : null}
+    </>
+  );
+}
+
+export function SpendSection({ s, page, title }: { s: Session; page: FullPage; title?: string }) {
+  if (page.spendLines.length === 0) return null;
+  return (
+    <section className="sf-sec" aria-labelledby="sf-spend-h">
+      <span id="sf-spend-h" className="a-cap">
+        {title ?? SIMPLE_WORDS.spendPlan}
+      </span>
+      <ul className="sf-hair">
+        {page.spendLines.map((l) => (
+          <li key={l.lineId} className="sf-hair__row">
+            {l.text}
+          </li>
+        ))}
+      </ul>
+      <button type="button" className="sf-link sf-linkbtn" onClick={() => s.toSpend()}>
+        {SIMPLE_WORDS.spendPlanLink} →
+      </button>
+    </section>
+  );
+}
+
+const shortWho = (s: Session, index: number) => {
+  const c = s.result.characters.find((x) => x.index === index);
+  return c ? `${c.classLabel} ${c.level}` : '';
+};
+
+/** The checks tile lists this many, fired first; the rest are counted. */
+const CHECKS_SHOWN = 6;
+
+/** "What ActiveOn checks": each check with its state, or the suggest link when there are none. */
+export function ChecksTile({ s, page }: { s: Session; page: FullPage }) {
+  const checks = [...page.frame.checks].sort((a, b) => Number(a.tone === 'mint') - Number(b.tone === 'mint'));
+  const shown = checks.slice(0, CHECKS_SHOWN);
+  const more = checks.length - shown.length;
+  const suggest = () =>
+    s.suggestions?.open({ kind: 'suggest', type: 'idea', screen: 'account', characterIndex: null });
+  return (
+    <aside className="a-tile sf-tile sf-checks" aria-labelledby="sf-checks-h">
+      <span id="sf-checks-h" className="a-cap">
+        {PAGE_FRAME_WORDS.whatChecks}
+      </span>
+      {checks.length > 0 ? (
+        <ul className="sf-hair">
+          {shown.map((c) => (
+            <li key={c.title} className="sf-hair__row">
+              <Pip tone={c.tone} />
+              <span className="sf-grow">{c.title}</span>
+              <span className={`sf-xs sf-t--${c.tone}`}>{c.word}</span>
+            </li>
+          ))}
+          {more > 0 ? <li className="sf-hair__row sf-muted">{PAGE_FRAME_WORDS.moreChecks(more)}</li> : null}
+        </ul>
+      ) : (
+        <>
+          <p className="sf-muted">{PAGE_FRAME_WORDS.noChecksYet}</p>
+          {s.suggestions ? (
+            <button type="button" className="sf-link sf-linkbtn" onClick={suggest}>
+              {PAGE_FRAME_WORDS.suggestCheck(page.tile.name)} →
+            </button>
+          ) : (
+            <a
+              className="sf-link"
+              href={suggestUrl('idea', {
+                screen: 'account',
+                character: null,
+                stage: s.result.stage.id,
+                knowledge: s.result.versions.knowledge,
+                gameBuild: s.result.versions.gameBuild,
+                build: buildInfo,
+              })}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              {PAGE_FRAME_WORDS.suggestCheck(page.tile.name)} →
+            </a>
+          )}
+        </>
+      )}
+      {page.wiki ? (
+        <a className="sf-link sf-link--quiet" href={page.wiki} target="_blank" rel="noopener noreferrer">
+          {PAGE_FRAME_WORDS.wiki(wikiName(page.wiki, page.tile.name))} ↗
+        </a>
+      ) : null}
+    </aside>
+  );
+}
+
+/** M24: the thin page. `body` is an older picture (pages.ts) shown above the steps until it moves. */
+export function SimplePage({ s, page, body }: { s: Session; page: FullPage; body?: ReactNode }) {
+  const blurb = SYSTEM_BLURBS[page.tile.id];
+  const answer = timerAnswer(s, page);
+  const status: { tone: FrameTone; word: string; reason?: string | null } | undefined = answer
+    ? {
+        tone: 'sky',
+        word: SIMPLE_WORDS.capsIn(answer.big?.value ?? ''),
+        reason: page.frame.status.reason || null,
+      }
+    : undefined;
+  // A read-only World 4 body draws its own frame (one per screen), so the template draws none.
+  const frameAnswer = page.frame.readOnly ? { answer: null } : answer ? { answer } : {};
+  // A page body with no Next Actions has no side column: its checks and Sources are the footer line.
+  if (body) {
+    const hasSteps = page.goals.length > 0 || page.skippedKeys.length > 0 || page.dismissed.length > 0;
+    return (
+      <SystemFrame s={s} page={page} {...frameAnswer} {...(status ? { status } : {})}>
+        <div className="sf-col">{body}</div>
+        {hasSteps ? (
+          <div className="sf-col">
+            <StepsSection page={page} />
+            <ExtrasSections s={s} page={page} />
+          </div>
+        ) : null}
+      </SystemFrame>
+    );
+  }
+  return (
+    <SystemFrame s={s} page={page} {...frameAnswer} {...(status ? { status } : {})}>
+      <div className="sf-split">
+        <div className="sf-col">
+          {blurb ? (
+            <section className="sf-sec" aria-labelledby="sf-what-h">
+              <span id="sf-what-h" className="a-cap">
+                {SIMPLE_WORDS.whatItIs}
+              </span>
+              <p className="sf-text">{blurb}</p>
+            </section>
+          ) : null}
+          <StepsSection page={page} />
+          <ExtrasSections s={s} page={page} />
+        </div>
+        <ChecksTile s={s} page={page} />
+      </div>
+    </SystemFrame>
+  );
+}

@@ -185,7 +185,7 @@ export function useSession(props: ShellProps) {
   const cardRef = useRef<HTMLDivElement | null>(null);
   const accountRef = useRef<HTMLElement | null>(null);
   const outletRef = useRef<HTMLDivElement | null>(null);
-  const rows = useRef(new Map<number, HTMLButtonElement>());
+  const rows = useRef(new Map<number, HTMLElement>());
   const focusHeading = useRef(false);
   const focusRowAfterBack = useRef<number | null>(null);
   const scrolls = useRef(new Map<string, number>());
@@ -266,7 +266,17 @@ export function useSession(props: ShellProps) {
   );
   const validFocus = route.place === 'character' ? route.index : null;
   const pageTab = route.place === 'character' ? route.tab : NOW_TAB;
-  const view = useMemo(() => viewFor(validFocus, visited), [viewFor, validFocus, visited]);
+  // M24: the Spend Plan and Goals pages show every line and every Goal, so the view is built unfolded there.
+  const accountPage = route.place === 'account';
+  const view = useMemo(
+    () =>
+      viewFor(
+        validFocus,
+        visited,
+        accountPage ? { expanded: new Set([...expanded, 'account', 'spend']) } : {},
+      ),
+    [viewFor, validFocus, visited, accountPage, expanded],
+  );
   // M17 TR-6: the Timeline from the same result and the Roster's frozen order; null without M3.
   // M21 G10: the Timeline and the AFK strip say times in the player's Times setting.
   const { times } = useNowSettings();
@@ -511,7 +521,8 @@ export function useSession(props: ShellProps) {
         setExpanded((prev) => new Set([...prev, index === null ? 'account' : `c${index}`]));
       pendingReveal.current = { key: fix.key, details: fix.expand === 'behind-details' };
       if (fix.where === 'account' || index === null) {
-        navigate({ place: 'now' }, 'push', { highlight: fix.key });
+        // M24: an account Next Action sits on the Goals page (the Now rail has no list of them).
+        navigate({ place: 'account', page: 'goals' }, 'push', { highlight: fix.key });
         return;
       }
       setFollow((f) => onTap(f, index, live));
@@ -600,11 +611,8 @@ export function useSession(props: ShellProps) {
     return true;
   }, []);
 
-  const toSpend = useCallback(() => {
-    if (route.place !== 'now' && route.place !== 'character') navigate({ place: 'now' }, 'push');
-    setExpanded((prev) => new Set([...prev, 'spend-open']));
-    requestAnimationFrame(() => document.getElementById('spend-plan')?.scrollIntoView({ block: 'start' }));
-  }, [route, navigate]);
+  // M24: the Spend Plan has its own page (canvas board SpendPlan).
+  const toSpend = useCallback(() => navigate({ place: 'account', page: 'spend' }, 'push'), [navigate]);
   const onNext = (index: number | null) => {
     if (index === null) {
       accountRef.current?.focus();
@@ -613,20 +621,30 @@ export function useSession(props: ShellProps) {
     }
     open(index);
   };
-  const toAccountFix = () => {
+  /**
+   * M24 QA P1-1: an account fix lives on the Goals page under "Fix these first" (the Now rail lists it
+   * as a row; the old Account column is gone). Goes there, then focuses the block (or reveals one fix).
+   */
+  const toAccountFix = (key?: string) => {
+    if (key) pendingReveal.current = { key, details: false };
+    navigate({ place: 'account', page: 'goals' }, 'push', key ? { highlight: key } : {});
+    let tries = 0;
     const go = () => {
-      const el = document.getElementById('account-fix') ?? accountRef.current;
-      el?.focus({ preventScroll: true });
-      el?.scrollIntoView?.({ block: 'start' });
+      const el = document.getElementById('account-fix');
+      if (!el) {
+        if (tries++ < 60) requestAnimationFrame(go);
+        return;
+      }
+      el.focus({ preventScroll: true });
+      if (!key) el.scrollIntoView?.({ block: 'start' });
     };
-    // The Account section is on Now and on every Character page; from another place, go there first.
-    if (route.place === 'now' || route.place === 'character') return go();
-    navigate({ place: 'now' }, 'push');
     requestAnimationFrame(go);
   };
 
   return {
     result,
+    /** M24: the save's Account State, for the read-only facts a System page draws (the anvil plan). */
+    state: save.state,
     prefs,
     view,
     timeline,

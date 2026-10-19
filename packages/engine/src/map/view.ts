@@ -68,6 +68,46 @@ export interface MapBandView {
   nodes: MapNodeView[];
   /** Everyone standing in this world (the folded band's glyph stack). */
   here: MapWho[];
+  /**
+   * M24 (the Route board): the route path in walking order, town first, each stop with the door's kill
+   * count on the map before it ("8k", null for the town) and whether it is the door the frontier opens.
+   * Empty when the facts have no path for this world.
+   */
+  route: { node: MapNodeView; need: string | null; next: boolean }[];
+  /** M24: the fighting maps off the route path (side maps). */
+  side: MapNodeView[];
+  /** M24: the skilling maps. */
+  skill: MapNodeView[];
+}
+
+/** M24 (the Constellations tab): one constellation, by world. */
+export interface MapStarView {
+  /** "A-9". */
+  code: string;
+  world: number;
+  mapIndex: number;
+  /** "Rollin' Tundra", or null when the map is not on the map (an arena, a colosseum). */
+  map: string | null;
+  requirement: string;
+  points: number;
+  /** "5 of 3". */
+  progress: string;
+  state: 'claimed' | 'ready' | 'reach' | 'far';
+}
+
+/** M24 (the Death Note tab): one map's Death Note kills against its ranks. */
+export interface MapDeathNoteRow {
+  mapIndex: number;
+  map: string;
+  kills: number;
+  /** The rank thresholds in kills, ascending. */
+  ranks: number[];
+  /** Ranks reached. */
+  rank: number;
+  /** "17,857 kills to rank 1"; "Top rank reached". */
+  next: string;
+  left: number | null;
+  who: MapWho[];
 }
 
 export interface MapFrontierView {
@@ -140,6 +180,12 @@ export interface MapPlaceView extends MapView {
   sheets: Record<number, MapSheetView>;
   /** Every map index with a sheet, in world order (the routes' `known.maps`). */
   maps: number[];
+  /** M24: every constellation the facts cover, in fact order; null without the star-sign state. */
+  stars: MapStarView[] | null;
+  /** M24: the Death Note's maps, closest to its next rank first. */
+  deathNote: MapDeathNoteRow[];
+  /** M24: the Death Note building (level, building now, the next level's cost and holding). */
+  deathNoteBuilding: MapResult['deathNoteBuilding'] | null;
 }
 
 const pretty = (name: string) => humanize(name).replace(/\s+/g, ' ').trim();
@@ -263,6 +309,9 @@ export function buildMapView(
         gate: null,
         nodes: [],
         here: [],
+        route: [],
+        side: [],
+        skill: [],
       };
     const nodes: MapNodeView[] = w.maps.map((m) => {
       const state = nodeState(m.mapIndex, m.kind);
@@ -314,6 +363,40 @@ export function buildMapView(
     if (g && g.keysHeld !== null && g.keysPerDay !== null && w.state !== 'next')
       lines.push({ kind: 'keys', text: W.keysWaiting(g.keysHeld, g.keysPerDay) });
     const prev = map.worlds.find((x) => x.world === w.world - 1);
+    const byNode = new Map(nodes.map((n) => [n.mapIndex, n]));
+    const routeSteps: { node: MapNodeView; need: string | null; next: boolean }[] = (w.route ?? []).flatMap(
+      (r, i, all) => {
+        const node = byNode.get(r.mapIndex);
+        const prev = all[i - 1];
+        return node
+          ? [{ node, need: r.need !== null ? tag(r.need) : null, next: !!f && prev?.mapIndex === f.mapIndex }]
+          : [];
+      },
+    );
+    // The facts' path can end at the world's gate NPC well before its last map (W4: its third of 13);
+    // then the route walks on door by door (each map's first door to a map of this world), so the whole
+    // door ladder shows. A path that already covers most of the world (W1 to W3) is left as it is.
+    const raw = new Map(w.maps.map((m) => [m.mapIndex, m]));
+    const fights = nodes.filter((n) => n.kind === 'fight').length;
+    const short = routeSteps.length > 0 && routeSteps.length * 2 < fights;
+    for (let guard = 0; short && guard < 40; guard++) {
+      const last = routeSteps[routeSteps.length - 1];
+      const door = last ? raw.get(last.node.mapIndex)?.doors[0] : undefined;
+      const node = door ? byNode.get(door.destination) : undefined;
+      if (
+        !door ||
+        !node ||
+        node.kind !== 'fight' ||
+        routeSteps.some((r) => r.node.mapIndex === node.mapIndex)
+      )
+        break;
+      routeSteps.push({ node, need: tag(door.requirement), next: !!f && last?.node.mapIndex === f.mapIndex });
+    }
+    const onPath = new Set(routeSteps.map((r) => r.node.mapIndex));
+    // The locked fighting maps off the walked route (M24: the route now runs past the gate's path).
+    const sideOff = routeSteps.length
+      ? nodes.filter((n) => n.state === 'locked' && n.kind === 'fight' && !onPath.has(n.mapIndex)).length
+      : side;
     const line =
       w.state === 'next'
         ? prev?.gate?.crystal
@@ -322,10 +405,13 @@ export function buildMapView(
             ? W.opensAfter(prev.gate.boss)
             : ''
         : w.state === 'done'
-          ? W.fold(w.cleared, w.total, side)
-          : W.doorsOpen(w.cleared, w.total, side);
+          ? W.fold(w.cleared, w.total, sideOff)
+          : W.doorsOpen(w.cleared, w.total, sideOff);
     return {
       world: w.world,
+      route: routeSteps,
+      side: nodes.filter((n) => n.kind === 'fight' && !onPath.has(n.mapIndex)),
+      skill: nodes.filter((n) => n.kind === 'skill' && !onPath.has(n.mapIndex)),
       heading: WORLD_NAMES[w.world] ?? `World ${w.world}`,
       state: w.state,
       beyond: false,
@@ -482,8 +568,46 @@ export function buildMapView(
     },
   ];
 
+  // ---- M24: the Constellations and Death Note tabs ----
+  const stars: MapStarView[] | null = map.stars
+    ? map.stars.map((x) => ({
+        code: x.name,
+        world: x.world,
+        mapIndex: x.mapIndex,
+        map: nameOf(x.mapIndex),
+        requirement: x.requirement,
+        points: x.points,
+        progress: W.starProgress(x.progress, x.players),
+        state: x.state,
+      }))
+    : null;
+  const deathNote: MapDeathNoteRow[] = Object.entries(map.overlays.deathNote)
+    .map(([k, d]) => {
+      const mapIndex = Number(k);
+      const ranks = map.deathNoteRanks?.[mapIndex] ?? (d.nextAt !== null ? [d.nextAt] : []);
+      return {
+        mapIndex,
+        map: nm(mapIndex),
+        kills: d.kills,
+        ranks,
+        rank: ranks.filter((r) => d.kills >= r).length,
+        next:
+          d.nextAt !== null && d.nextRank ? W.deathNoteNext(d.nextAt - d.kills, d.nextRank) : W.deathNoteTop,
+        left: d.nextAt !== null ? d.nextAt - d.kills : null,
+        who: here.get(mapIndex) ?? [],
+      };
+    })
+    .sort(
+      (a, b) =>
+        (a.left ?? Number.POSITIVE_INFINITY) - (b.left ?? Number.POSITIVE_INFINITY) ||
+        a.mapIndex - b.mapIndex,
+    );
+
   const covered = worlds.filter((b) => !b.beyond);
   return {
+    stars,
+    deathNote,
+    deathNoteBuilding: map.deathNoteBuilding ?? null,
     worlds,
     summary: W.summary(
       covered.filter((b) => b.state !== 'next').length,

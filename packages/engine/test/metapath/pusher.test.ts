@@ -144,6 +144,55 @@ describe('TR-10 route path, reachability and the D1 margin', () => {
     expect(below.kind === 'pusher' && below.pusher.index).toBe(0);
   });
 
+  it('M24 fix: door kills are per character, so a faster character far from the door does not take over', () => {
+    // The live W3 case: the incumbent is 864 kills from the door at 2,016/h (about 26 minutes); the
+    // challenger kills 1.34x faster but is 7,998 away (about 3 hours). The incumbent pushes.
+    const sel = choosePusher(
+      frontierOf([
+        { i: 0, kph: 2695, count: 5, killsLeft: 7998 },
+        { i: 3, kph: 2016, count: 5, killsLeft: 864 },
+      ]),
+      () => 60,
+      1.25,
+    );
+    expect(sel.kind === 'pusher' && [sel.pusher.index, sel.pusher.incumbent, sel.pusher.fastest]).toEqual([
+      3, 3, 3,
+    ]);
+  });
+
+  it('M24 fix: the margin is on the time to open the door: exactly 1.25x sooner switches', () => {
+    // Incumbent: 1,000 left at 1,000/h = 1h. Challenger: 800 left at 1,000/h = 0.8h (1.25x sooner).
+    const at = (left: number) =>
+      choosePusher(
+        frontierOf([
+          { i: 0, kph: 1000, count: 9, killsLeft: 1000 },
+          { i: 1, kph: 1000, count: 8, killsLeft: left },
+        ]),
+        () => 60,
+        1.25,
+      );
+    const exactly = at(800);
+    const below = at(801);
+    expect(exactly.kind === 'pusher' && exactly.pusher.index).toBe(1);
+    expect(below.kind === 'pusher' && below.pusher.index).toBe(0);
+  });
+
+  it('M24 fix: an incumbent already through the door keeps the D1 rate rule', () => {
+    const at = (kph: number) =>
+      choosePusher(
+        frontierOf([
+          { i: 0, kph: 1000, count: 9, killsLeft: 0 },
+          { i: 1, kph, count: 9, killsLeft: 0 },
+        ]),
+        () => 60,
+        1.25,
+      );
+    const exactly = at(1250);
+    const below = at(1249);
+    expect(exactly.kind === 'pusher' && exactly.pusher.index).toBe(1);
+    expect(below.kind === 'pusher' && below.pusher.index).toBe(0);
+  });
+
   it('FR-13: nobody can fight the frontier: no pusher, the strongest candidate and its wall', () => {
     const f = frontierOf([
       { i: 0, kph: 0, raw: 0.4, count: 9, hit: 40 },
