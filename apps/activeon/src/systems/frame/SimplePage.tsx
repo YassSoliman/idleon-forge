@@ -72,22 +72,10 @@ export function StepsSection({
   const key = `system:${page.tile.id}`;
   const unfolded = actions.expanded.has(key);
   const shown = unfolded ? page.goals : page.goals.slice(0, 5);
-  const opens =
-    page.locked || page.tile.status === 'not-covered'
-      ? (page.unlock?.text ?? (page.alwaysOpen ? PAGE_FRAME_WORDS.openFromStart : null))
-      : null;
-  if (page.goals.length === 0 && page.skippedKeys.length === 0 && page.dismissed.length === 0 && !opens)
-    return null;
+  // How it opens is the answer's line on a locked or uncovered page: it isn't said again here.
+  if (page.goals.length === 0 && page.skippedKeys.length === 0 && page.dismissed.length === 0) return null;
   const list = (
     <>
-      {opens && page.goals.length === 0 ? (
-        <ol className="sf-plain">
-          <li>
-            <span className="sf-n">1</span>
-            <span>{opens}</span>
-          </li>
-        </ol>
-      ) : null}
       <GoalList
         goals={shown}
         subject={key}
@@ -115,7 +103,7 @@ export function StepsSection({
   return (
     <section className="sf-sec sf-steps" aria-labelledby="sf-steps-h">
       <span id="sf-steps-h" className="a-cap">
-        {title ?? (opens && page.goals.length === 0 ? PAGE_FRAME_WORDS.howItOpens : PAGE_FRAME_WORDS.inGame)}
+        {title ?? (page.locked ? PAGE_FRAME_WORDS.howItOpens : PAGE_FRAME_WORDS.inGame)}
       </span>
       {list}
     </section>
