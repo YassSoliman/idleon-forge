@@ -1,4 +1,4 @@
-# golden v1: scrubbed-w2 · knowledge #2fa8175b · parser 6c37e3d (game 2.3.540) · now 2026-10-17T15:47:05.447Z · return 8h · stage W2-late · stale: 4 of 1030
+# golden v1: scrubbed-w2 · knowledge #a9a05a18 · parser 6c37e3d (game 2.3.540) · now 2026-10-17T15:47:05.447Z · return 8h · stage W2-late · stale: 4 of 1030
 
 ## Verdict changes
 
@@ -67,6 +67,18 @@ If you have time
 - Run the Weekly Battle with every character (Yum Yum Desert) · about 5m of hands-on play
 
 ## Not covered yet
+Achievements
+Coins
+Drop rate
+Dungeons
+Event Shop
+Family bonuses
+Food
+Friend bonuses
+Stats and damage
+Storage and inventory
+Town shops
+Trophies and nametags
 Bribes
 Forge
 Quests
@@ -94,6 +106,18 @@ W0 · Random Events · Nothing to fix · Nothing to fix
 W0 · Pet Tournament · Nothing to fix · Nothing to fix
 W0 · Daily tasks · Nothing to fix · Nothing to fix
 W0 · Guild tasks · Nothing to fix · Nothing to fix
+W0 · Achievements · Not covered yet · Not covered yet
+W0 · Dungeons · Not covered yet · Not covered yet
+W0 · Family bonuses · Not covered yet · Not covered yet
+W0 · Food · Not covered yet · Not covered yet
+W0 · Storage and inventory · Not covered yet · Not covered yet
+W0 · Stats and damage · Not covered yet · Not covered yet
+W0 · Coins · Not covered yet · Not covered yet
+W0 · Friend bonuses · Not covered yet · Not covered yet
+W0 · Event Shop · Not covered yet · Not covered yet
+W0 · Trophies and nametags · Not covered yet · Not covered yet
+W0 · Town shops · Not covered yet · Not covered yet
+W0 · Drop rate · Not covered yet · Not covered yet
 W1 · Stamps · Behind · Behind for your Stage · 6 to do
 W1 · Star Signs · Nothing to fix · Nothing to fix · 1 to do
 W1 · Anvil · Nothing to fix · Nothing to fix · 1 full · collect
@@ -126,10 +150,10 @@ W3 · Armor-set Smithy · Locked · Opens in World 3 · Frostbite Tundra
 W3 · Salt Lick · Locked · Opens in World 3 · Frostbite Tundra
 W3 · Prayers · Locked · Opens in World 3 · Frostbite Tundra
 W3 · Shrines · Locked · Opens in World 3 · Frostbite Tundra
-W3 · Equinox · Locked · Opens in World 3 · Frostbite Tundra
+W3 · Equinox · Locked · Needs an Equinox Mirror, a rare drop from Bloodbone in Frostbite Tundra
 W3 · Atom Collider · Locked · Opens in World 3 · Frostbite Tundra
 W3 · Bubba · Locked · Opens once a character opens YumYum Grotto's door to Frostbite Tundra (World 3); find it in the Codex
-Later worlds: 3 Systems: Laboratory, Cooking, Breeding
+Later worlds: 7 Systems: Laboratory, Cooking, Breeding, Sigils, The Rift, The Tome, Elite classes
 Needs you: Companions and pets (wasting), Minigames (wasting), Colosseum (wasting), Arcade (wasting), Talent presets (behind), Cards (behind), Gear & Tools (behind), Stamps (behind), Alchemy bubbles (behind)
 Other gaps: Stamp cap raises that need farming or carry capacity
 Wasting: 4
@@ -453,18 +477,19 @@ step: Use your 11 vial attempts on the W2 town cauldron
 | systems.yaml#atom-collider | worlds/reached | account | reached no |  |
 | systems.yaml#ballot | worlds/reached | account | reached yes |  |
 | systems.yaml#boss-keys | worlds/reached | account | reached yes |  |
-| systems.yaml#breeding | worlds/reached | account | reached no |  |
+| systems.yaml#breeding | systems/unlocked | account | reached no |  |
 | systems.yaml#bribes | worlds/reached | account | reached yes |  |
 | systems.yaml#bubba | bubba/unlocked | account | reached no |  |
 | systems.yaml#colosseum | worlds/reached | account | reached yes |  |
 | systems.yaml#construction | worlds/reached | account | reached no |  |
-| systems.yaml#cooking | worlds/reached | account | reached no |  |
+| systems.yaml#cooking | systems/unlocked | account | reached no |  |
 | systems.yaml#death-note | worlds/reached | account | reached no |  |
-| systems.yaml#equinox | worlds/reached | account | reached no |  |
+| systems.yaml#elite-classes | worlds/reached | account | reached no |  |
+| systems.yaml#equinox | systems/unlocked | account | reached no |  |
 | systems.yaml#forge | worlds/reached | account | reached yes |  |
-| systems.yaml#islands | worlds/reached | account | reached yes |  |
+| systems.yaml#islands | systems/unlocked | account | reached yes |  |
 | systems.yaml#killroy | worlds/reached | account | reached yes |  |
-| systems.yaml#lab | worlds/reached | account | reached no |  |
+| systems.yaml#lab | systems/unlocked | account | reached no |  |
 | systems.yaml#library | worlds/reached | account | reached no |  |
 | systems.yaml#owl | worlds/reached | account | reached yes |  |
 | systems.yaml#poppy | worlds/reached | account | reached yes |  |
@@ -473,11 +498,14 @@ step: Use your 11 vial attempts on the W2 town cauldron
 | systems.yaml#printer | worlds/reached | account | reached no |  |
 | systems.yaml#quests | worlds/reached | account | reached yes |  |
 | systems.yaml#refinery | worlds/reached | account | reached no |  |
+| systems.yaml#rift | systems/unlocked | account | reached no |  |
 | systems.yaml#salt-lick | worlds/reached | account | reached no |  |
 | systems.yaml#shrines | worlds/reached | account | reached no |  |
+| systems.yaml#sigils | systems/unlocked | account | reached no |  |
 | systems.yaml#stamps | worlds/reached | account | reached yes |  |
 | systems.yaml#star-signs | worlds/reached | account | reached yes |  |
 | systems.yaml#statues | worlds/reached | account | reached yes |  |
+| systems.yaml#tome | worlds/reached | account | reached no |  |
 | systems.yaml#trapping | worlds/reached | account | reached no |  |
 | systems.yaml#weekly-battles | worlds/reached | account | reached yes |  |
 | systems.yaml#worship | worlds/reached | account | reached no |  |

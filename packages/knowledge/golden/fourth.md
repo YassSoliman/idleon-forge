@@ -1,4 +1,4 @@
-# golden v1: fourth · knowledge #2fa8175b · parser 6c37e3d (game 2.3.540) · now 2024-05-17T07:51:22.362Z · return 8h · stage W4-late · stale: 4 of 1030
+# golden v1: fourth · knowledge #a9a05a18 · parser 6c37e3d (game 2.3.540) · now 2024-05-17T07:51:22.362Z · return 8h · stage W4-late · stale: 4 of 1030
 
 ## Verdict changes
 
@@ -27,6 +27,18 @@ If you have time
 - Run the Weekly Battle with every character (Yum Yum Desert) · about 2m of hands-on play
 
 ## Not covered yet
+Achievements
+Coins
+Drop rate
+Dungeons
+Event Shop
+Family bonuses
+Food
+Friend bonuses
+Stats and damage
+Storage and inventory
+Town shops
+Trophies and nametags
 Bribes
 Forge
 Quests
@@ -40,7 +52,11 @@ Salt Lick
 Shrines
 Breeding
 Cooking
+Elite classes
 Laboratory
+Sigils
+The Rift
+The Tome
 
 ## Systems
 W0 · Classes and subclasses · Nothing to fix · Nothing to fix
@@ -62,6 +78,18 @@ W0 · Random Events · Wasting · 1 to fix before you leave
 W0 · Pet Tournament · Nothing to fix · Nothing to fix
 W0 · Daily tasks · Nothing to fix · Nothing to fix
 W0 · Guild tasks · Nothing to fix · Nothing to fix
+W0 · Achievements · Not covered yet · Not covered yet
+W0 · Dungeons · Not covered yet · Not covered yet
+W0 · Family bonuses · Not covered yet · Not covered yet
+W0 · Food · Not covered yet · Not covered yet
+W0 · Storage and inventory · Not covered yet · Not covered yet
+W0 · Stats and damage · Not covered yet · Not covered yet
+W0 · Coins · Not covered yet · Not covered yet
+W0 · Friend bonuses · Not covered yet · Not covered yet
+W0 · Event Shop · Not covered yet · Not covered yet
+W0 · Trophies and nametags · Not covered yet · Not covered yet
+W0 · Town shops · Not covered yet · Not covered yet
+W0 · Drop rate · Not covered yet · Not covered yet
 W1 · Stamps · Nothing to fix · Nothing to fix · 2 to do
 W1 · Star Signs · Nothing to fix · Nothing to fix
 W1 · Anvil · Can't tell · Can't tell from the save
@@ -100,6 +128,10 @@ W3 · Bubba · Can't tell · Can't tell from the save
 W4 · Laboratory · Not covered yet · Not covered yet
 W4 · Cooking · Not covered yet · Not covered yet
 W4 · Breeding · Not covered yet · Not covered yet
+W4 · Sigils · Not covered yet · Not covered yet
+W4 · The Rift · Not covered yet · Not covered yet
+W4 · The Tome · Not covered yet · Not covered yet
+W4 · Elite classes · Not covered yet · Not covered yet
 Worlds 5–7: not covered yet
 Needs you: Minigames (wasting), Random Events (wasting)
 Other gaps: Talent builds past World 4, W4+ constellations and Infinite Stars
@@ -289,18 +321,19 @@ Can't read Bubba from this save
 | systems.yaml#atom-collider | worlds/reached | account | reached yes |  |
 | systems.yaml#ballot | worlds/reached | account | reached yes |  |
 | systems.yaml#boss-keys | worlds/reached | account | reached yes |  |
-| systems.yaml#breeding | worlds/reached | account | reached yes |  |
+| systems.yaml#breeding | systems/unlocked | account | reached yes |  |
 | systems.yaml#bribes | worlds/reached | account | reached yes |  |
 | systems.yaml#bubba | bubba/unlocked | account | reached yes |  |
 | systems.yaml#colosseum | worlds/reached | account | reached yes |  |
 | systems.yaml#construction | worlds/reached | account | reached yes |  |
-| systems.yaml#cooking | worlds/reached | account | reached yes |  |
+| systems.yaml#cooking | systems/unlocked | account | reached yes |  |
 | systems.yaml#death-note | worlds/reached | account | reached yes |  |
-| systems.yaml#equinox | worlds/reached | account | reached yes |  |
+| systems.yaml#elite-classes | worlds/reached | account | reached yes |  |
+| systems.yaml#equinox | systems/unlocked | account | reached yes |  |
 | systems.yaml#forge | worlds/reached | account | reached yes |  |
-| systems.yaml#islands | worlds/reached | account | reached yes |  |
+| systems.yaml#islands | systems/unlocked | account | reached yes |  |
 | systems.yaml#killroy | worlds/reached | account | reached yes |  |
-| systems.yaml#lab | worlds/reached | account | reached yes |  |
+| systems.yaml#lab | systems/unlocked | account | reached yes |  |
 | systems.yaml#library | worlds/reached | account | reached yes |  |
 | systems.yaml#owl | worlds/reached | account | reached yes |  |
 | systems.yaml#poppy | worlds/reached | account | reached yes |  |
@@ -309,11 +342,14 @@ Can't read Bubba from this save
 | systems.yaml#printer | worlds/reached | account | reached yes |  |
 | systems.yaml#quests | worlds/reached | account | reached yes |  |
 | systems.yaml#refinery | worlds/reached | account | reached yes |  |
+| systems.yaml#rift | systems/unlocked | account | reached yes |  |
 | systems.yaml#salt-lick | worlds/reached | account | reached yes |  |
 | systems.yaml#shrines | worlds/reached | account | reached yes |  |
+| systems.yaml#sigils | systems/unlocked | account | reached yes |  |
 | systems.yaml#stamps | worlds/reached | account | reached yes |  |
 | systems.yaml#star-signs | worlds/reached | account | reached yes |  |
 | systems.yaml#statues | worlds/reached | account | reached yes |  |
+| systems.yaml#tome | worlds/reached | account | reached yes |  |
 | systems.yaml#trapping | worlds/reached | account | reached yes |  |
 | systems.yaml#weekly-battles | worlds/reached | account | reached yes |  |
 | systems.yaml#worship | worlds/reached | account | reached yes |  |

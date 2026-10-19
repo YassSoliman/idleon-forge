@@ -9,7 +9,7 @@
 // Return, so `rerun` re-runs only the dependent ones (M3's Verdicts, firstFill, M6 urgencies) and
 // re-assembles, including Visit Order.
 
-import { STAGES, type StageId } from '@idleon-forge/knowledge';
+import { hasUnlockRule, STAGES, type StageId, unlocked } from '@idleon-forge/knowledge';
 import { behindAnalysis } from '../metapath/behind';
 import { lookupOf } from '../metapath/knowledge';
 import { metaPathModule } from '../metapath/module';
@@ -117,13 +117,25 @@ export function assemble(input: EngineInput, ran: readonly Ran[]): EngineResult 
   const spendPlan = outputs.find((o) => o.output.account?.spendPlan)?.output.account?.spendPlan ?? null;
   const lastPlayed = state.lastPlayedCharacterIndex;
   const taggedOf = new Map<number, TaggedGoal[]>();
+  // M26 FR-6: a System with its own unlock fact says nothing while that fact (or, when it is null, the
+  // world) says it is locked. 'unknown' keeps the Goal: a guard that can't tell never hides advice.
+  const locked = new Map<string, boolean>();
+  const open = (system: string) => {
+    if (!hasUnlockRule(system)) return true;
+    let l = locked.get(system);
+    if (l === undefined) {
+      l = unlocked(system, state) === 'no';
+      locked.set(system, l);
+    }
+    return !l;
+  };
 
   const characters: CharacterResult[] = state.characters.map((c) => {
     const parts = outputs.flatMap(({ module, output }) =>
       (output.characters ?? []).filter((x) => x.index === c.index).map((x) => ({ module, x })),
     );
     const tagged: TaggedGoal[] = parts.flatMap(({ module, x }) =>
-      (x.goals ?? []).map((g) => ({ ...g, moduleId: module.id })),
+      (x.goals ?? []).filter((g) => open(g.goal.system)).map((g) => ({ ...g, moduleId: module.id })),
     );
     taggedOf.set(c.index, tagged);
     const given = parts.find((p) => p.x.verdict)?.x.verdict;
@@ -183,7 +195,9 @@ export function assemble(input: EngineInput, ran: readonly Ran[]): EngineResult 
   characters.sort((a, b) => a.index - b.index);
 
   const accountTagged: TaggedGoal[] = outputs.flatMap(({ module, output }) =>
-    (output.account?.goals ?? []).map((g) => ({ ...g, moduleId: module.id })),
+    (output.account?.goals ?? [])
+      .filter((g) => open(g.goal.system))
+      .map((g) => ({ ...g, moduleId: module.id })),
   );
   const givenSafety = outputs.find((o) => o.output.account?.safety)?.output.account?.safety;
   const safety: EngineResult['account']['safety'] = blockerFailure

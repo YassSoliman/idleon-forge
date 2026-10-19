@@ -287,3 +287,31 @@ facts:
         sources:
           - { url: https://idleon.wiki/wiki/Breeding, title: "IdleOn Wiki: Breeding", tier: 2, claimDate: 2026-10-14, verified: 2026-10-18, gameVersion: 2.3.540 }
           - { url: https://idleon.wiki/wiki/Hyperion_Nebula, title: "IdleOn Wiki: Hyperion Nebula", tier: 2, claimDate: 2025-02-06, verified: 2026-10-18, gameVersion: 2.3.540 }
+      # ---- M26 Wave 0 (FR-6): World 4 rows for the new registry Systems ----
+      - system: sigils
+        world: 4
+        text: "Needs the Lab's Sigils of Olden Alchemy bonus (node 12) connected; a sigil charges on a cauldron seat"
+        gameVersion: 2.3.540
+        sources:
+          - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-2/alchemy.ts", title: "IdleOn Toolbox sigils (CauldronP2W[4] progress and tier per sigil)", tier: 1, verified: 2026-10-19, gameVersion: 2.3.540 }
+          - { url: https://idleon.wiki/wiki/Laboratory, title: "IdleOn Wiki: Laboratory (Sigils of Olden Alchemy)", tier: 2, claimDate: 2026-10-18, verified: 2026-10-19, gameVersion: 2.3.540 }
+      - system: rift
+        world: 4
+        text: "Opens once a character finishes the Rift Ripper quest in The Untraveled Octopath (World 4)"
+        gameVersion: 2.3.540
+        sources:
+          - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-4/rift.ts", title: "IdleOn Toolbox getRift (Rift[0], the Rift level)", tier: 1, verified: 2026-10-19, gameVersion: 2.3.540 }
+          - { url: https://idleon.wiki/wiki/Rift, title: "IdleOn Wiki: Rift", tier: 2, claimDate: 2026-10-07, verified: 2026-10-19, gameVersion: 2.3.540 }
+      - system: tome
+        world: 4
+        text: "Opens in Outer World Town (World 4); each metric counts from account level 350 and up"
+        gameVersion: 2.3.540
+        sources:
+          - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-4/tome.ts", title: "IdleOn Toolbox getTome (the account level gate per metric)", tier: 1, verified: 2026-10-19, gameVersion: 2.3.540 }
+          - { url: https://idleon.wiki/wiki/Tome, title: "IdleOn Wiki: Tome (in Outer World Town)", tier: 2, claimDate: 2026-10-12, verified: 2026-10-19, gameVersion: 2.3.540 }
+      - system: elite-classes
+        world: 4
+        text: "Opens in World 4: Eliteus, on Outskirts of Fallstar Isle, gives a subclass its elite after two quests"
+        gameVersion: 2.3.540
+        sources:
+          - { url: https://idleon.wiki/wiki/Eliteus, title: "IdleOn Wiki: Eliteus", tier: 2, claimDate: 2026-09-27, verified: 2026-10-19, gameVersion: 2.3.540 }
