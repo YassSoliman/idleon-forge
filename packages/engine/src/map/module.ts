@@ -152,6 +152,7 @@ export function buildMap(state: AccountState, kb: Kb): MapResult | null {
         mapIndex: m.index,
         name: m.name,
         kind: nodeKind(m, town),
+        monster: m.target ?? null,
         doors: m.doors.flatMap((d) =>
           d.destination === null || d.requirement <= 0
             ? []
@@ -192,6 +193,8 @@ export function buildMap(state: AccountState, kb: Kb): MapResult | null {
         ? {
             boss: gate.boss,
             bossMap: byIndex.has(gate.bossMap) ? gate.bossMap : null,
+            key: gate.key ?? null,
+            keyName: gate.keyName ?? null,
             keysHeld: bank ? bank.banked : null,
             keysPerDay: bank ? bank.perDay : null,
             crystal:
@@ -336,6 +339,7 @@ export function buildMap(state: AccountState, kb: Kb): MapResult | null {
                 : 'far';
           return {
             name: r.name,
+            rawIndex: r.rawIndex,
             world: r.world,
             mapIndex: r.mapIndex,
             requirement: r.requirement.replace(/_/g, ' ').replace(/\.$/, ''),

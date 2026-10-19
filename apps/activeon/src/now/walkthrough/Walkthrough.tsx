@@ -107,7 +107,7 @@ export function WalkthroughSteps({ view }: { view: View }) {
             // biome-ignore lint/suspicious/noArrayIndexKey: tree lines are positional and never reorder.
             <li key={i} className="wt-missing">
               <PixelArt name="cards-req-missing" decorative />
-              {t.item ? <GameIcon art={itemArt(t.item)} size={24} decorative /> : null}
+              {t.item ? <GameIcon art={itemArt(t.item)} fallback="item-ore" size={24} decorative /> : null}
               <span>{t.text}</span>
             </li>
           ))}
@@ -146,7 +146,7 @@ export function WalkthroughSteps({ view }: { view: View }) {
                 }
                 decorative
               />
-              {t.item ? <GameIcon art={itemArt(t.item)} size={24} decorative /> : null}
+              {t.item ? <GameIcon art={itemArt(t.item)} fallback="item-ore" size={24} decorative /> : null}
               <span className="sr-only">
                 {t.done === true ? 'Done: ' : t.done === false ? 'Missing: ' : ''}
               </span>

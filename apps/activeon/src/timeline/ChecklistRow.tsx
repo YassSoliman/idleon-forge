@@ -7,11 +7,12 @@
 // everything; this file only renders. It lives with the Timeline so it never joins the first load.
 import type { ChecklistRowView, TimelineFix } from '@idleon-forge/engine/now';
 import { LINK_WORDS, PLACE_WORDS } from '@idleon-forge/engine/now';
+import { GameIcon } from '../art/game/GameIcon';
 import { PixelArt } from '../design/art/PixelArt';
 import { Button, cx, SourceLabel } from '../design/atoms';
 import { useNowActions } from '../now/context';
 import { formatRoute } from '../shell/route';
-import { rowArt } from './art';
+import { rowArt, rowGameArt } from './art';
 import { bankPips } from './daily-model';
 import { DAILY_WORDS } from './words';
 
@@ -108,7 +109,12 @@ export function ChecklistRow({ r }: { r: ChecklistRowView }) {
   return (
     <li className={`cl-row s-${r.state}${r.lostBeforeReturn ? ' lost' : ''}`}>
       <span className="cl-ic">
-        <PixelArt name={rowArt(r.id)} decorative animate={false} />
+        <GameIcon
+          art={rowGameArt(r.id)}
+          fallback={<PixelArt name={rowArt(r.id)} decorative animate={false} />}
+          size={32}
+          decorative
+        />
       </span>
       <div className="cl-m">
         <p className="cl-head">

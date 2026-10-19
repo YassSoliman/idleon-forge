@@ -4,6 +4,8 @@
 // row (M21 DS-12: art says what kind, never wallpaper). By System first, then by the bar's kind.
 import type { TimelineBarView } from '@idleon-forge/engine/now';
 import type { SlotKind } from '@idleon-forge/engine/result';
+import { dataArt, type GameArt } from '../art/game/game-art';
+import { systemGameArt } from '../art/game/system-art';
 import type { ArtName } from '../design/art/names';
 
 const BY_SYSTEM: Record<string, ArtName> = {
@@ -56,7 +58,7 @@ const ROW_ART: Record<string, ArtName> = {
   'pet-tournament': 'v2-time-paw',
   'minigame-plays': 'v2-time-dart',
   spiketrap: 'v2-time-dart',
-  'liquid-shop-gem': 'v2-time-flask',
+  'liquid-shop-gem': 'v2-time-flask', // our flask stays the fallback; ROW_GAME draws the game's
   'vial-attempts': 'v2-time-flask',
   'post-office': 'v2-time-mailbox',
   'boss-keys': 'v2-time-key',
@@ -68,3 +70,34 @@ const ROW_ART: Record<string, ArtName> = {
 };
 
 export const rowArt = (id: string): ArtName => ROW_ART[id] ?? 'now-hourglass';
+
+/**
+ * M25 (ADR 0009 as amended): the game's own sprite for a Daily & Weekly row, by the System or thing it
+ * counts; our motif above stays the fallback. Toolbox paths (SYSTEM_ART for a System).
+ */
+const ROW_GAME: Record<string, GameArt | null> = {
+  'pet-mart': systemGameArt('pets'),
+  'pet-pull': systemGameArt('pets'),
+  'pet-tournament': systemGameArt('pet-tournament'),
+  'minigame-plays': systemGameArt('minigames'),
+  spiketrap: dataArt('MGfsh1'),
+  'liquid-shop-gem': dataArt('PremiumGem'),
+  'vial-attempts': systemGameArt('alchemy-vials'),
+  'post-office': systemGameArt('post-office'),
+  'boss-keys': systemGameArt('boss-keys'),
+  tickets: systemGameArt('colosseum'),
+  ballot: systemGameArt('ballot'),
+  'killroy-rooms': systemGameArt('killroy'),
+  'killroy-skulls': systemGameArt('killroy'),
+  'weekly-battle': systemGameArt('weekly-battles'),
+  'daily-tasks': systemGameArt('task-board'),
+  'guild-daily': systemGameArt('guild'),
+  'guild-weekly': systemGameArt('guild'),
+};
+
+/** A Daily & Weekly row's game sprite, or null (our motif draws). */
+export const rowGameArt = (id: string): GameArt | null => ROW_GAME[id] ?? systemGameArt(id);
+
+/** A Timeline bar's game sprite: its System's (SYSTEM_ART), or null (our motif draws). */
+export const barGameArt = (b: Pick<TimelineBarView, 'system' | 'kind'>): GameArt | null =>
+  b.kind === 'food' && b.system === 'afk' ? null : systemGameArt(b.system);
