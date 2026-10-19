@@ -166,6 +166,7 @@ describe('IdleOn Wiki links', () => {
     expect(wikiHref('Sword Stamp')).toBe('https://idleon.wiki/wiki/Sword_Stamp');
     expect(wikiHref('Green_Mushroom')).toBe('https://idleon.wiki/wiki/Green_Mushroom');
     expect(wikiHref("Bored Bean's Card")).toBe("https://idleon.wiki/wiki/Bored_Bean's_Card");
+    expect(wikiHref('Bumble_Bee_Card')).toBe('https://idleon.wiki/wiki/Worker_Bee_Card');
     expect(wikiHref('  ')).toBeNull();
     expect(wikiLabel('Power_Statue')).toBe('Open Power Statue on the IdleOn Wiki');
   });

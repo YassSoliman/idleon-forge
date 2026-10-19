@@ -6,7 +6,11 @@
 const BASE = 'https://idleon.wiki/wiki/';
 
 /** Display name (as the app shows it) -> the wiki's page title, where the two differ. */
-const SPECIAL: Readonly<Record<string, string>> = {};
+const SPECIAL: Readonly<Record<string, string>> = {
+  // The game's data still calls it Bumble Bee; the wiki titles it by its in-game name, Worker Bee.
+  'Bumble Bee': 'Worker Bee',
+  'Bumble Bee Card': 'Worker Bee Card',
+};
 
 /** The wiki page title for a display name: spaces as underscores, game underscores kept. */
 export function wikiTitle(name: string): string | null {
