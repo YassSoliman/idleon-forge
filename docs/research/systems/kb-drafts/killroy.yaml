@@ -1,0 +1,388 @@
+# SPDX-License-Identifier: GPL-3.0-only
+# M26 KB drafts for System killroy (area W2 synthesis, verified 2026-10-19, Toolbox 6c37e3d, game 2.3.540).
+# Copied from scratchpad/m26/maps: killroy.json.
+# status: draft is a workflow marker; the KB schema accepts active|contested|retired only.
+# entries = new entries; amendments = changes to entries already in packages/knowledge/systems (fields shown are the changed keys);
+# facts = new fact rows (land in <system>.facts.yaml).
+# AW synthesis added: topics contradictions-1 (maps/<topic>.json).
+system: killroy
+status: draft
+entries:
+- id: killroy.check.run-upgrades
+  system: killroy
+  type: check
+  title: One point in every Killroy run upgrade
+  text: 'After your next Killroy run, pick {name}: it is still at level 0'
+  why: Each run lets you pick one permanent upgrade; the first point of each opens its effect (talent ribbons, bonus skulls,
+    respawn), so spread one point before stacking the timer.
+  sources:
+  - url: https://idleon.wiki/wiki/Killroy%27s_Slaughterhouse
+    title: 'IdleOn Wiki: Killroy''s Slaughterhouse'
+    tier: 2
+    claimDate: 2026-10-05
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/misc.ts
+    title: IdleOn Toolbox getKillRoy / getKillRoyClasses / getKillroySchedule
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  - url: https://reddit.com/r/idleon/comments/1skfgco/best_killroy_upgrade_im_in_w3/
+    title: 'r/idleon: Best Killroy upgrade? (W3)'
+    tier: 3
+    claimDate: 2026-04-13
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  appliesTo:
+    stages:
+    - from: W2-early
+      to: W4-late
+  confidence: M
+  status: draft
+  subject: account
+  effect: next-action
+  category: nice
+  activePlay:
+    minutes: 0
+  effortSeconds: 10
+  detector:
+    id: killroy/run-upgrades
+  notes: Dossier M6 + Common mistakes. Fires only alongside an unrun room this week (the pick happens at the end of a run).
+    Unlock-by-run counts (2/16/36/64/100) are wiki-only (L), so the detector names only upgrades whose level is 0 AND that
+    the parser lists; it never claims an upgrade is unlocked. Dungeon/Pearl Drops excluded until their gate (runs vs Equinox)
+    is settled (Disputed).
+- id: killroy.priority.run-upgrades
+  system: killroy
+  type: priority
+  title: Killroy run upgrade order
+  text: 'Run upgrades: 1 point in each, then the +1 Second Timer, then Bonus Skulls and Faster Respawn'
+  why: Base time is 100 s; more seconds mean more kills, skulls and Prime kills in every later run.
+  values:
+    row-1: timer|talent|skulls|respawn
+    target-1: '1'
+    row-2: timer
+    target-2: '160'
+    row-3: skulls|respawn
+    target-3: '*'
+    rows: 3
+  sources:
+  - url: https://idleon.wiki/wiki/Killroy%27s_Slaughterhouse
+    title: 'IdleOn Wiki: Killroy''s Slaughterhouse'
+    tier: 2
+    claimDate: 2026-10-05
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/misc.ts
+    title: IdleOn Toolbox getKillRoy / getKillRoyClasses / getKillroySchedule
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  - url: https://reddit.com/r/idleon/comments/1skfgco/best_killroy_upgrade_im_in_w3/
+    title: 'r/idleon: Best Killroy upgrade? (W3)'
+    tier: 3
+    claimDate: 2026-04-13
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  appliesTo:
+    stages:
+    - from: W2-early
+      to: W4-late
+  confidence: M
+  status: draft
+  notes: 'Dossier Min-max W2 late/W3. The 160 target (about 260 s, the spawn peak) is community-only (L) and shown as a hint,
+    not a Milestone. If an Equinox kill challenge is open, Respawn goes before Bonus Skulls (dossier). Contested-check per
+    ADR 0004 amendment: one human source only, so not Contested.'
+- id: killroy.check.third-room
+  system: killroy
+  type: check
+  title: Roll for Killroy's 3rd room
+  text: Buy the 3rd room roll at the Skull Shop ({n:int} rolls with your {skulls:int} skulls, 1% each)
+  why: The 3rd room is a permanent extra run every week; each roll costs 4 skulls and has a 1% chance, so expect about 100
+    rolls (about 400 skulls) in total.
+  sources:
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json
+    title: 'Toolbox game data: killRoySkullShop, Equinox challenges'
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/misc.ts
+    title: IdleOn Toolbox getKillRoy / getKillRoyClasses / getKillroySchedule
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  - url: https://idleon.wiki/wiki/Killroy%27s_Slaughterhouse
+    title: 'IdleOn Wiki: Killroy''s Slaughterhouse'
+    tier: 2
+    claimDate: 2026-10-05
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  appliesTo:
+    stages:
+    - from: W3-early
+      to: W4-late
+  confidence: M
+  status: draft
+  subject: account
+  effect: next-action
+  category: spendable
+  priority:
+    frame: by-urgency
+  effortSeconds: 30
+  detector:
+    id: killroy/third-room
+  notes: 'Cost 4 and 1% are H (shared-data killRoySkullShop[10], OLA[227]); placing it before the Arcade packs is community
+    (S tier, M). Merges into killroy.check.skulls as its second line rather than a separate Now card: line = ''Arcade packs
+    first, then the 3rd room roll'' while OLA[417] < 50, then the roll alone. Silent once OLA[227] = 1.'
+- id: killroy.priority.skull-shop
+  system: killroy
+  type: priority
+  title: Skull Shop order (W1-W4)
+  text: 'Spend skulls: Arcade ball packs, the 3rd room roll, then time candy, Refinery cycles and Library checkouts'
+  why: Skulls are wiped at the weekly reset; the permanent items 11-20 pay off from World 5 on, so a W1-W4 account spends
+    on weekly value.
+  values:
+    row-1: '5'
+    why-1: 'Arcade balls: 4 skulls for a pack, 50 packs a week'
+    row-2: '10'
+    why-2: '3rd room: 4 skulls, 1% roll, permanent'
+    row-3: '0'
+    why-3: 'Time candy: 5 skulls'
+    row-4: 7|6
+    why-4: Refinery cycle (1), Library checkouts (8)
+    avoid: 8|9|12
+    why-avoid: Mob eggs, kitchen ladles and nuggets are low value for skulls
+    rows: 4
+  sources:
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json
+    title: 'Toolbox game data: killRoySkullShop, Equinox challenges'
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  - url: https://reddit.com/r/idleon/comments/1skfgco/best_killroy_upgrade_im_in_w3/
+    title: 'r/idleon: Best Killroy upgrade? (W3)'
+    tier: 3
+    claimDate: 2026-04-13
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  - url: https://idleon.wiki/wiki/Killroy%27s_Slaughterhouse
+    title: 'IdleOn Wiki: Killroy''s Slaughterhouse'
+    tier: 2
+    claimDate: 2026-10-05
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  appliesTo:
+    stages:
+    - from: W2-early
+      to: W4-late
+  confidence: M
+  status: draft
+  ship: display-only
+  shipReason: 'Red team P1: one community thread, W7 list pared down; below the two-Source rule.'
+  notes: Dossier Min-max W3 late/W4 'practical W4 order'. Row values are killRoySkullShop indices. The community tier list
+    targets W7 accounts; the W1-W4 order is derived from it with the W5+ items removed (M). Arcade pack quantity and the 50
+    cap are L (not in Toolbox code); keep 'Arcade packs' wording without the 10-ball number until verified. On W2 (no Refinery
+    yet) row 4 drops Refinery.
+- id: killroy.check.equinox-kills
+  system: killroy
+  type: check
+  title: Killroy monsters under 100 kills
+  text: '{n:int} of this week''s Killroy monsters are under 100 Killroy kills: {monsters}'
+  why: The Equinox challenges count monsters with at least 100 Killroy kills (40 for +15 Voter Rights levels, 80 for bigger
+    Research Grid bonuses); your best run per monster is what counts.
+  sources:
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/utility/dashboard/account.js#L644
+    title: IdleOn Toolbox Killroy alerts (general, underHundredKills)
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json
+    title: 'Toolbox game data: killRoySkullShop, Equinox challenges'
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/misc.ts
+    title: IdleOn Toolbox getKillRoy / getKillRoyClasses / getKillroySchedule
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  appliesTo:
+    stages:
+    - from: W3-early
+      to: W4-late
+  confidence: H
+  status: draft
+  subject: account
+  effect: next-action
+  category: nice
+  effortSeconds: 0
+  detector:
+    id: killroy/equinox-kills
+  notes: Toolbox underHundredKills alert, gated on the Equinox challenge being present and not complete. A detail line on
+    killroy.check.room, never its own Now card (the action is the same run). KRbest is best-in-one-run per monster (H).
+- id: killroy.goal.prime
+  system: killroy
+  type: goal
+  title: Killroy Prime
+  scope: account
+  category: compounding
+  unit: Prime kills
+  progress:
+    id: killroy/prime
+  milestones:
+  - at: 1000
+    reward: x1.15 Total Damage
+  - at: 10000
+    reward: x1.39 Total Damage
+  - at: 100000
+    reward: x2.00 Total Damage
+  text: 'Killroy Prime: {kills:int} kills, x{multi} Total Damage'
+  why: Your best single-run kills on each monster add up to Killroy Prime; it multiplies Total Damage by 1 + floor(kills^0.4)/100,
+    up to x3.
+  sources:
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/misc.ts
+    title: IdleOn Toolbox getKillRoy / getKillRoyClasses / getKillroySchedule
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/damage.ts#L491
+    title: 'IdleOn Toolbox damage: Killroy Prime multiplier (max x3)'
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  - url: https://idleon.wiki/wiki/Killroy%27s_Slaughterhouse
+    title: 'IdleOn Wiki: Killroy''s Slaughterhouse'
+    tier: 2
+    claimDate: 2026-10-05
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  appliesTo:
+    stages:
+    - from: W4-entry
+      to: W4-late
+  confidence: H
+  status: draft
+  notes: 'Dossier M11. Shown only once The Rift is unlocked (W4, Hyperion Nebula). Cap: Toolbox math ~565,685 kills, wiki
+    573K (both kept; out of W1-4 range, so no cap Milestone). Milestone values are the formula''s outputs (H).'
+- id: killroy.goal.equinox-run
+  system: killroy
+  type: goal
+  title: Killroy single-run kills
+  scope: account
+  category: nice
+  unit: kills in one run
+  progress:
+    id: killroy/equinox-run
+  milestones:
+  - at: 400
+    reward: +1 Trophy per Weekly Battle boss kill (Equinox challenge)
+  - at: 2000
+    reward: +35% Equinox Bar fill rate (Equinox challenge)
+  text: 'Best Killroy run: {current:int} kills'
+  why: Two Equinox challenges ask for a big single Killroy run; a longer timer, faster respawn and an AoE character get there.
+  sources:
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json
+    title: 'Toolbox game data: killRoySkullShop, Equinox challenges'
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  - url: https://idleon.wiki/wiki/Killroy%27s_Slaughterhouse
+    title: 'IdleOn Wiki: Killroy''s Slaughterhouse'
+    tier: 2
+    claimDate: 2026-10-05
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  appliesTo:
+    stages:
+    - from: W3-early
+      to: W4-late
+  confidence: H
+  status: draft
+  notes: Dossier M13. Progress = account.equinox.challenges[label ~ 'Killroy run'].current (Toolbox). Show only when the challenge
+    exists and is not done. Shared with the Equinox map; the Equinox page owns the challenge, this Goal is the Killroy-side
+    view.
+- id: killroy.priority.runner
+  system: killroy
+  type: priority
+  title: Who runs each Killroy room
+  text: Run each room with the strongest area-damage character of its class, not your AFK pusher
+  why: Kills per run decide skulls, talent ribbons and Prime kills; area attacks clear the waves.
+  values:
+    Warrior: Barbarian|Squire
+    Archer: Bowman|Beast Master
+    Mage: Shaman
+    Beginner: Journeyman|Maestro|Voidwalker
+  sources:
+  - url: https://idleon.wiki/wiki/Killroy%27s_Slaughterhouse
+    title: 'IdleOn Wiki: Killroy''s Slaughterhouse'
+    tier: 2
+    claimDate: 2026-10-05
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  - url: https://reddit.com/r/idleon/comments/1skfgco/best_killroy_upgrade_im_in_w3/
+    title: 'r/idleon: Best Killroy upgrade? (W3)'
+    tier: 3
+    claimDate: 2026-04-13
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  appliesTo:
+    stages: all
+  confidence: M
+  status: draft
+  ship: display-only
+  shipReason: 'Red team P1: one community thread, W7 list pared down; below the two-Source rule.'
+  notes: Dossier 'Each stage' + C62 (community, M). Extends killroyRunner (rows.ts L76) from 'highest level of the line, not
+    the pusher' to a preferred subclass order. Barbarian before World 3 then Squire; Bowman until Beast Master. Only reorders
+    when two characters of the class exist.
+- id: killroy.goal.second-room
+  system: killroy
+  type: goal
+  title: Open Killroy's second room
+  text: Finish World 3 to open Killroy's second weekly room
+  why: 'The second room opens as soon as World 4 is reachable: one more class run and more skulls every week.'
+  notes: 'contradictions-1 verdict 4 (H gate, M proxy): game gate GenINFO[58] >= 4 (N.js @4337500-4338300); ActiveOn reads
+    it as finishedWorlds includes 3 (Carpenter Cardinal dialogue, Toolbox quests.ts#L29-L44), the same proxy Toolbox uses
+    for currentWorld. Toolbox getKillRoy returns rooms 2 with no world check (misc.ts#L1592-L1593), so account.killroy.rooms
+    from Toolbox must never be read. Shown only to accounts in World 3.'
+  sources:
+  - url: https://www.legendsofidleon.com/ytGl5oc/N.js
+    title: 'Game client: Killroy rooms 1, GenINFO[58] >= 4 -> 2, nested OLA[227]==1 -> 3 (@4337500)'
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/quests.ts#L29-L44
+    title: IdleOn Toolbox isWorldFinished (gatekeeper NPC dialog)
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  - url: https://idleon.wiki/wiki/Killroy%27s_Slaughterhouse
+    title: 'IdleOn Wiki: Killroy''s Slaughterhouse'
+    tier: 3
+    claimDate: 2026-10-05
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  appliesTo:
+    stages:
+    - from: W3-early
+      to: W3-late
+  confidence: H
+  status: draft
+  scope: account
+  category: unlock
+  detector:
+    id: killroy/second-room
+  milestones:
+  - at: 1
+    reward: A second weekly Killroy room
+  fromTopic: contradictions-1
+amendments:
+- _kind: amendment
+  amends: killroy.check.room
+  target: killroy.yaml
+  targetStatus: active
+  change: replace notes (text and status unchanged)
+  notes: 'F-c: room 2 once World 3 is finished (game gate GenINFO[58] >= 4, N.js @4337500; Toolbox''s getKillRoy ignores the
+    gate, so never read account.killroy.rooms). Room 3 needs BOTH that gate and OLA[227] == 1 (nested in the game). OLA[113]
+    is per-digit: room r is done when the code contains digit r (N.js @4314131). D-20: never the pusher unless it is the only
+    one of the class.'
+  fromTopic: contradictions-1
+  status: draft

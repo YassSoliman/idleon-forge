@@ -1,0 +1,29 @@
+# SPDX-License-Identifier: GPL-3.0-only
+# M26 CL synthesis (class lines): KB drafts copied from scratchpad/m26/maps/class-*.json. status: draft.
+# Target file: packages/knowledge/systems/journeyman-line.facts.yaml (new; ladder fact is generated, eclipse authored tier 1, family generated)
+# Tier scale: M26 workflow (1 game data/Toolbox code, 2 Toolbox dashboard, 3 wiki, 4 community); existing KB YAML labels the wiki tier 2 and Toolbox community builds tier 3: align at merge.
+system: journeyman-line
+entries:
+# from maps/class-journeyman.json
+- id: journeyman-line.fact.ladder
+  origin: generated (quests.json + shared-data.json npcPlacements)
+  title: Beginner-line promotion quests
+  rows: 'per step: npc, map, quest key, requirement list (customArray / itemReq), rewards; generator classes-ladder in packages/knowledge/generators'
+  status: draft
+  system: journeyman-line
+
+# from maps/class-journeyman.json
+- id: journeyman-line.fact.eclipse
+  origin: authored tier 1 (talents.ts#L459-L512)
+  title: Enhancement Eclipse targets
+  rows: 25 Left Hand of Learning (42); 50 Pirate Flag (318); 75 Radiant Chainbolt (497); 100 Sleepin' On The Job (79); 125 Apocalypse Chow (146); 150 Whale Wallop (362); 175 Right Hand of Action (43); 200 Green Tube (536); 225 Knightly Disciple (165); 250 Lucky Charms (35)
+  status: draft
+  system: journeyman-line
+
+# from maps/class-journeyman.json
+- id: journeyman-line.fact.family
+  origin: generated (shared-data.json classFamilyBonuses[2..4])
+  title: Beginner-line family bonuses
+  rows: 'Journeyman intervalAdd 1/5 from Lv 9 (wiki says none: disputed, M); Maestro decay 6/100 from 29; Voidwalker decay 5/250 from 69'
+  status: draft
+  system: journeyman-line

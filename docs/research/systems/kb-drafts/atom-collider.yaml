@@ -1,0 +1,346 @@
+# SPDX-License-Identifier: GPL-3.0-only
+# M26 KB drafts for System `atom-collider` (W3 synthesis, 2026-10-19). Every entry is status: draft.
+# Copied from scratchpad/m26/maps/*.json; dossiers in scratchpad/m26/dossiers/. Not yet validated
+# against the knowledge schema (the schema has no draft status: flip to active at merge).
+system: atom-collider
+entries:
+- id: atom-collider.check.upgrade
+  system: atom-collider
+  type: check
+  status: draft
+  title: Atom upgrade affordable
+  subject: account
+  effect: next-action
+  category: spendable
+  effortSeconds: 30
+  detector:
+    id: atom-collider/state
+    params:
+      part: upgrade
+  text: '{text}'
+  why: '{why}'
+  values:
+    text: Buy {atom} {from:int} → {to:int} at the Atom Collider ({cost:int} particles)
+    why: Atom levels are permanent and account-wide; you hold {particles:int} particles.
+    detail-more: '{count:int} more atom upgrades are affordable'
+    detail-first: You built the Atom Collider but haven't bought an atom yet
+  notes: 'Pick: among available atoms (index < totalAtomsAvailable) with level < maxLevel and cost <= particles,
+    the first in the Stage''s atom order (atom-collider.priority.order), else the cheapest. Helium is skipped once
+    its next cost exceeds the cheapest other affordable row x 10 (its cost grows x10 per level, code H); Fluoride
+    is skipped while no meal is Lv 30+ (its value is 0, code H). Lithium, Beryllium and Sodium are listed but their
+    value is not modelled. Particles are only ever spent here, so there is no hold. M26 W3 synth (from maps/atom-collider.json).'
+  doneWhen:
+    field: account.atomCollider.levels
+    change: higher
+  sources:
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-3/atomCollider.ts#L18-L150
+    title: 'Toolbox parsers/world-3/atomCollider.ts: particles = Divinity[39], per-atom level/maxLevel/cost/nextLeveCost/costToMax/value,
+      totalAtomsAvailable, stampReducer'
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-3/atomCollider.ts#L118-L143
+    title: 'Toolbox atomCollider.ts getCost / getCostToMax: base 1/(1+R/100) x (x3 + x1*L) x x2^L, R includes collider
+      level/10, Neon, Atom Split, stamp, palette, Bubba'
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+  - url: https://idleon.wiki/wiki/Atom_Collider
+    title: 'IdleOn Wiki: Atom Collider (10M per atom, 1,050M auto-convert even when off, max level 20/+20/+20, unlock
+      order)'
+    tier: 3
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+    claimDate: '2026-10-07'
+  appliesTo:
+    stages:
+    - from: W3-late
+      to: W4-entry
+  confidence: H
+- id: atom-collider.priority.order
+  system: atom-collider
+  type: priority
+  status: draft
+  ship: display-only
+  shipReason: 'Red team P1: gist through v1.21, pre-patch; Contested at best (N4).'
+  title: Atom order
+  text: Level the atoms that pay most for this Stage
+  why: Hydrogen is the cheapest big saving; Boron and Neon follow once bubbles cost 100M+ and damage matters.
+  values:
+    row-1: '0'
+    when-1: always
+    target-1: 10|20
+    row-2: '1'
+    when-2: always
+    target-2: 5|8
+    row-3: 2|3
+    when-3: always
+    target-3: 5|10
+    row-4: '4'
+    when-4: always
+    target-4: 5|20
+    from-4: W4-entry
+    row-5: '9'
+    when-5: always
+    target-5: 10|20
+    from-5: W4-entry
+    row-6: '8'
+    when-6: cooking-lv30-meal
+    target-6: 5|10
+    from-6: W4-entry
+    rows: 6
+  notes: 'Dossier Min-max W3-late / W4-early (confidence M): the gist''s ''Hydrogen + Helium -> Boron -> Neon''
+    (tier 4, through v1.21, pre-patch) merged with this dossier''s cost-to-20 ordering (computed from code: Hydrogen
+    21K, Lithium 61K, Beryllium 148K to Lv 20). Helium target is a cost guard, not a Source (10^L cost). Fluoride
+    only with a Lv 30+ meal (its formula is 1 at zero such meals). W4 mid/late order (Carbon, Nitrogen, Oxygen)
+    is confidence L and not included. M26 W3 synth (from maps/atom-collider.json).'
+  sources:
+  - url: https://gist.github.com/shnaps/161a370ed795e6141e0553eb30ddc8fa
+    title: 'shnaps IdleOn progression gist: Hydrogen + Helium, then Boron, then Neon; Fluoride only while cooking
+      (self-declared through v1.21, pre-patch)'
+    tier: 4
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+    claimDate: '2026-09-18'
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-3/atomCollider.ts#L118-L143
+    title: 'Toolbox atomCollider.ts getCost / getCostToMax: base 1/(1+R/100) x (x3 + x1*L) x x2^L, R includes collider
+      level/10, Neon, Atom Split, stamp, palette, Bubba'
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json
+    title: 'Toolbox game data: atomsInfo[17] (name, desc, baseBonus, x1, x2, x3) and towers.Atom_Collider'
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+  - url: https://idleon.wiki/wiki/Atom_Collider
+    title: 'IdleOn Wiki: Atom Collider (10M per atom, 1,050M auto-convert even when off, max level 20/+20/+20, unlock
+      order)'
+    tier: 3
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+    claimDate: '2026-10-07'
+  appliesTo:
+    stages:
+    - from: W3-late
+      to: W4-entry
+  confidence: L
+- id: atom-collider.check.hydrogen-full
+  system: atom-collider
+  type: check
+  status: draft
+  title: Hydrogen discount is full
+  subject: account
+  effect: next-action
+  category: spendable
+  detector:
+    id: atom-collider/state
+    params:
+      part: hydrogen-full
+  text: 'Hydrogen is at its 90% cap: raise a stamp cap now'
+  why: Waiting past 90% adds nothing; the first cap raise takes the full discount and resets the counter.
+  notes: 'Fires when account.spend.hydrogen.discountPct >= 90 and at least one stamp is at cap with its raise material
+    in storage (reuse spend/stamp-raise-ready positive side). Must be deduped with spend.check.hydrogen-hold: when
+    this fires, hold is silent by construction (neededPct <= 90). Owner may prefer moving this into spend.yaml.
+    M26 W3 synth (from maps/atom-collider.json).'
+  doneWhen:
+    field: account.spend.hydrogen.discountPct
+    change: lower
+  sources:
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-3/atomCollider.ts#L18-L150
+    title: 'Toolbox parsers/world-3/atomCollider.ts: particles = Divinity[39], per-atom level/maxLevel/cost/nextLeveCost/costToMax/value,
+      totalAtomsAvailable, stampReducer'
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-1/stamps.ts#L165-L175
+    title: 'Toolbox stamps.ts: Hydrogen per-day reduction projected for future stamp cap-raise cost'
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+  - url: https://idleon.wiki/wiki/Atom_Collider
+    title: 'IdleOn Wiki: Atom Collider (10M per atom, 1,050M auto-convert even when off, max level 20/+20/+20, unlock
+      order)'
+    tier: 3
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+    claimDate: '2026-10-07'
+  appliesTo:
+    stages:
+    - from: W3-late
+      to: W4-entry
+  confidence: H
+- id: atom-collider.check.threshold
+  system: atom-collider
+  type: check
+  status: draft
+  title: Collider threshold is eating stockpiles
+  subject: account
+  effect: next-action
+  category: nice
+  detector:
+    id: atom-collider/state
+    params:
+      part: threshold
+  text: '{count:int} storage stacks are over the {threshold} collider threshold'
+  why: While the collider is on, anything over the threshold turns into particles at 10M each; raise the threshold
+    if you need {item} (refinery fuel or bubble material).
+  notes: Fires when the collider is built, the threshold tier is below 1.05B (accountOptions[133] in 0..3), and
+    a storage stack of a Refinery fuel or alchemy bubble cost item is over the threshold. The switch state is not
+    in the save, so the text says 'while the collider is on'. Dossier common mistake (2), confidence M. M26 W3 synth
+    (from maps/atom-collider.json).
+  sources:
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-3/printer.ts#L160-L190
+    title: 'Toolbox printer.ts: atom threshold from accountOptions[133], 1 particle per 10M over threshold for printed
+      items'
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+  - url: https://idleon.wiki/wiki/Atom_Collider
+    title: 'IdleOn Wiki: Atom Collider (10M per atom, 1,050M auto-convert even when off, max level 20/+20/+20, unlock
+      order)'
+    tier: 3
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+    claimDate: '2026-10-07'
+  appliesTo:
+    stages:
+    - from: W3-late
+      to: W4-entry
+  confidence: M
+- id: atom-collider.goal.collider-level
+  system: atom-collider
+  type: goal
+  status: draft
+  title: Build and raise the Atom Collider
+  text: '{text}'
+  why: '{why}'
+  detector:
+    id: atom-collider/state
+    params:
+      part: building
+  values:
+    build: Build the Atom Collider (10 Nullo Salt)
+    level: 'Atom Collider Lv {from:int} → {to:int}: atom costs -{pct}%'
+    why-build: It is the only way to buy atom upgrades; Storage overflow already makes particles.
+    why-level: Each level cuts every atom cost by 0.1%, up to 20% at Lv 200.
+  notes: 'Progress: level / 200. ''build'' when level 0 and Nullo Salt is unlocked (account.salts[5].unlocked);
+    silent before Nullo. Cost of building levels beyond Lv 1 not verified (dossier C15 conf L for the Nullo total),
+    so no cost is shown. M26 W3 synth (from maps/atom-collider.json).'
+  sources:
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json
+    title: 'Toolbox game data: atomsInfo[17] (name, desc, baseBonus, x1, x2, x3) and towers.Atom_Collider'
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-3/atomCollider.ts#L118-L143
+    title: 'Toolbox atomCollider.ts getCost / getCostToMax: base 1/(1+R/100) x (x3 + x1*L) x x2^L, R includes collider
+      level/10, Neon, Atom Split, stamp, palette, Bubba'
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+  - url: https://idleon.wiki/wiki/Atom_Collider
+    title: 'IdleOn Wiki: Atom Collider (10M per atom, 1,050M auto-convert even when off, max level 20/+20/+20, unlock
+      order)'
+    tier: 3
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+    claimDate: '2026-10-07'
+  appliesTo:
+    stages:
+    - from: W3-late
+      to: W4-entry
+  confidence: H
+facts:
+- id: atom-collider.fact.atoms
+  system: atom-collider
+  origin: authored
+  status: draft
+  title: Atom effects and where they pay
+  rows:
+    '0':
+      atom: Hydrogen
+      effect: stamp cap-raise materials -level x days%, cap 90% (reset by any cap raise)
+      world: W3
+      confidence: H
+    '1':
+      atom: Helium
+      effect: +level to the power-of-10 talents' lavaLog term
+      world: W3
+      confidence: H
+    '2':
+      atom: Lithium
+      effect: chance for +1 extra bubble level on No Bubble Left Behind
+      world: W3
+      confidence: M
+    '3':
+      atom: Beryllium
+      effect: converts 7 x level silver pens to PO boxes per day
+      world: W3
+      confidence: M
+    '4':
+      atom: Boron
+      effect: 2 x level uses per day of paying 1e8+ bubble costs in particles
+      world: W3
+      confidence: H
+    '5':
+      atom: Carbon
+      effect: +2 x level max level to max-50 towers; +2% wizard damage per tower level over 50
+      world: W3
+      confidence: H
+    '6':
+      atom: Nitrogen
+      effect: +1 trimmed build slot at Lv 1; trimmed multiplier 3 + 15 x level/100
+      world: W3
+      confidence: H
+    '7':
+      atom: Oxygen
+      effect: +2 x level% library checkout speed; +level min book level; +10 max book level at Lv 1
+      world: W3
+      confidence: H
+    '8':
+      atom: Fluoride
+      effect: cooking speed x(1 + level/100)^(meals at Lv 30+)
+      world: W4
+      confidence: H
+    '9':
+      atom: Neon
+      effect: +level% total damage and level% off every atom cost
+      world: W3
+      confidence: H
+    '10':
+      atom: Sodium
+      effect: snail failure resets to the nearest 5 up to Lv 5 x level
+      world: W5
+      confidence: M
+  notes: Rows 11-16 (W6/W7) left out of the W1-W4 fact. Boron pays only the first ingredient of a 1e8+ bubble cost,
+    excluding Bits/W6 items and salts. M26 W3 synth (from maps/atom-collider.json).
+  sources:
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json
+    title: 'Toolbox game data: atomsInfo[17] (name, desc, baseBonus, x1, x2, x3) and towers.Atom_Collider'
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-3/atomCollider.ts#L18-L150
+    title: 'Toolbox parsers/world-3/atomCollider.ts: particles = Divinity[39], per-atom level/maxLevel/cost/nextLeveCost/costToMax/value,
+      totalAtomsAvailable, stampReducer'
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-2/alchemy.ts#L991-L1006
+    title: 'Toolbox alchemy.ts: Boron particle price for bubble costs >= 1e8 (first ingredient only)'
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-3/construction.ts#L446-L503
+    title: 'Toolbox construction.ts: Carbon raises max-50 tower caps by 2 per level'
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+  - url: https://idleon.wiki/wiki/Atom_Collider
+    title: 'IdleOn Wiki: Atom Collider (10M per atom, 1,050M auto-convert even when off, max level 20/+20/+20, unlock
+      order)'
+    tier: 3
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+    claimDate: '2026-10-07'

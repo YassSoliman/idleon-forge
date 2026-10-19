@@ -1,0 +1,480 @@
+# SPDX-License-Identifier: GPL-3.0-only
+# M26 KB drafts for star-signs (W1 synthesis), copied from m26/maps/*.json. status: draft on every entry;
+# the live schema's status enum is active|contested|retired, so promotion flips draft -> active or contested.
+# Topics: star-signs
+system: star-signs
+status: draft
+entries:
+- id: star-signs.check.claim-ready
+  system: star-signs
+  type: check
+  title: Claim a finished constellation
+  subject: account
+  effect: next-action
+  category: spendable
+  priority:
+    frame: by-urgency
+  effortSeconds: 120
+  detector:
+    id: star-signs/claim-ready
+  text: 'Click star {name} at {map} (W{world:int}): {points:int} Star Chart Points are waiting'
+  why: Every character it needs is already recorded ({recorded:int} of {players:int}); the points are paid only
+    when a character with the Telescope quest clicks the star.
+  doneWhen:
+    field: account.starSigns.claimed
+    change: higher
+  appliesTo:
+    stages:
+    - from: W1-mid
+      to: W4-late
+  confidence: M
+  status: draft
+  sources:
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/starSigns.ts#L56-L69
+    title: 'IdleOn Toolbox parser: parseConstellations (completedChars, done)'
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json
+    title: 'IdleOn Toolbox game data: starSigns and constellations (cost, bonuses, requiredPlayers)'
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  - url: https://idleon.wiki/wiki/Telescope
+    title: 'IdleOn Wiki: Telescope (click the star once the requirement is met)'
+    tier: 2
+    claimDate: 2026-09-27
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  notes: M26 star-signs M2. Dossier C16 (claim needs a click while letters >= requiredPlayers and done = 0) is L
+    on its own (N.js + Reddit relay); raised to M because the W2 test account shows letters 4 of 3 still unclaimed,
+    which only the click rule explains. Silent until telescopeQuestDone (the click does nothing without the Telescope
+    dialogue).
+- id: star-signs.check.empty-slot
+  system: star-signs
+  type: check
+  title: Empty star sign slot
+  subject: character
+  effect: next-action
+  category: spendable
+  priority:
+    frame: by-urgency
+  effortSeconds: 180
+  detector:
+    id: star-signs/slots
+  text: 'On your {who}, at the Telescope: fill {empty:int} empty sign slot(s)'
+  why: It can wear {slots:int} signs (Chronus Cosmos gives 2, Hydron Cosmos 3) but wears {worn:int}. An empty slot
+    gives nothing.
+  doneWhen:
+    field: characters[].starSigns
+    change: higher
+  appliesTo:
+    stages:
+    - from: W4-mid
+      to: W4-late
+  confidence: H
+  status: draft
+  sources:
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json
+    title: 'IdleOn Toolbox game data: Chronus_Cosmos / Hydron_Cosmos Signs_at_once 2 / 3'
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/character.ts#L381-L388
+    title: 'IdleOn Toolbox parser: characters[].starSigns (empty slots dropped)'
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  - url: https://idleon.wiki/wiki/Star_Signs
+    title: 'IdleOn Wiki: Star Signs (slots, charts, Infinite Star Signs)'
+    tier: 2
+    claimDate: 2026-10-05
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  notes: Dossier C13, C7. Below W4-mid the M16 goal.signs 'empty' line already says this; this check carries it
+    past W4-entry where M16 stops.
+- id: star-signs.check.infinite-worn
+  system: star-signs
+  type: check
+  title: Wearing a sign that is already Infinite
+  subject: character
+  effect: next-action
+  category: spendable
+  priority:
+    frame: by-urgency
+  effortSeconds: 180
+  detector:
+    id: star-signs/infinite-worn
+  text: 'On your {who}, at the Telescope: swap out {sign}, it already counts as an Infinite Star'
+  why: Infinite Stars make the first {n:int} unlocked signs count on every character. A worn Infinite sign is counted
+    once, so its slot gives nothing extra.
+  doneWhen:
+    field: characters[].starSigns
+    change: lower
+  appliesTo:
+    stages:
+    - from: W4-mid
+      to: W4-late
+  confidence: H
+  status: draft
+  sources:
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/starSigns.ts#L92-L131
+    title: 'IdleOn Toolbox parser: getStarSignBonus (equipped or Infinite, Lv gate, negatives)'
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/starSigns.ts#L33-L56
+    title: 'IdleOn Toolbox parser: getInfiniteStarsCount, parseStarSigns isInfiniteStar'
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  - url: https://idleon.wiki/wiki/Star_Signs
+    title: 'IdleOn Wiki: Star Signs (slots, charts, Infinite Star Signs)'
+    tier: 2
+    claimDate: 2026-10-05
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  notes: 'Dossier C28, C29, C57. Code: isCounted = equipped || isInfiniteStar, a boolean, so no double count (starSigns.ts#L106-L108).
+    The first five Infinite signs are the four starters and Dwarfo Beardus, so every starter-only character wastes
+    its slot once Rift Infinite_Stars is open. ''Rift 10'' vs ''Rift 11'' label: both views kept, the detector reads
+    the count, not the label.'
+- id: star-signs.check.major-below-level
+  system: star-signs
+  type: check
+  title: Major sign below its level
+  subject: character
+  effect: next-action
+  category: spendable
+  priority:
+    frame: by-urgency
+  effortSeconds: 180
+  detector:
+    id: star-signs/major-below-level
+  text: 'On your {who}: {sign} gives nothing until class Lv {level:int} (now {have:int})'
+  why: Major signs only count at their class level. Wear another sign until then.
+  appliesTo:
+    stages:
+    - from: W3-mid
+      to: W4-late
+  confidence: H
+  status: draft
+  sources:
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/starSigns.ts#L92-L131
+    title: 'IdleOn Toolbox parser: getStarSignBonus (equipped or Infinite, Lv gate, negatives)'
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json
+    title: 'IdleOn Toolbox game data: Lv pseudo-bonus of Grim_Reaper_Major 60, Sir_Savvy_Major 70, Big_Brain_Major
+      80, Comatose_Major 90, S._Snoozer_Major 100'
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  notes: Dossier C26, C27, C58 (class level, per character). The level comes from data, never hard-coded.
+- id: star-signs.check.negative-worn
+  system: star-signs
+  type: check
+  title: A sign with a downside
+  subject: character
+  effect: next-action
+  category: nice
+  detector:
+    id: star-signs/negative-worn
+  text: 'Your {who} wears {sign}: {downside}'
+  why: Most guides skip it; some AFK fighters wear The Forsaken on purpose for its +6% Fight AFK gains. Keep it
+    only if you planned for the downside.
+  appliesTo:
+    stages:
+    - from: W1-mid
+      to: W4-late
+  confidence: M
+  status: draft
+  sources:
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json
+    title: 'IdleOn Toolbox game data: negative bonuses (The_Forsaken -80 HP -50 Def, Mr_No_Sleep -6 AFK, The_Bulwark
+      -12 Speed, The_Overachiever -7 Fight AFK)'
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  - url: https://www.digitaltq.com/wiki/idleon/star-signs-constellations
+    title: 'DigitalTQ: star signs tiers (skip The Forsaken, Mr No Sleep)'
+    tier: 4
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  - url: https://gameslikefinder.com/article/idleon-best-star-sign/
+    title: Best star signs guide (AFK fighting picks incl. The Forsaken)
+    tier: 4
+    claimDate: 2026-05-26
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  notes: 'Dossier C36, C38, C39, C56 (sources disagree: DigitalTQ and ActiveOn M16 say skip; gameslikefinder allows
+    The Forsaken with planning). Phrased as a note, never as ''wrong''. Fatty_Doodoo (-3% speed) is excluded: M16
+    fit-fighting lists it. Silent on Infinite Stars rows (negatives never apply there).'
+- id: star-signs.check.points-idle
+  system: star-signs
+  type: check
+  title: Star Chart Points to spend
+  subject: account
+  effect: next-action
+  category: spendable
+  priority:
+    frame: by-urgency
+  effortSeconds: 120
+  detector:
+    id: star-signs/points-idle
+  text: 'Spend {points:int} Star Chart Points at the Telescope: unlock {signs}'
+  why: Unlocks are account-wide and permanent; a point in the bank gives nothing.
+  doneWhen:
+    field: account.starSigns.pointsUnspent
+    change: lower
+  appliesTo:
+    stages:
+    - from: W4-mid
+      to: W4-late
+  confidence: H
+  status: draft
+  sources:
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json
+    title: 'IdleOn Toolbox game data: starSigns cost per node'
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  - url: https://idleon.wiki/wiki/Star_Signs
+    title: 'IdleOn Wiki: Star Signs (slots, charts, Infinite Star Signs)'
+    tier: 2
+    claimDate: 2026-10-05
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  notes: 'Dossier C8, C9, C36. Past W4-entry, where goal.signs stops: fires when pointsUnspent covers the next node(s)
+    in the M16 chart order (the same leg lists on star-signs.goal.signs), so it never contradicts the M16 bank rule.'
+- id: star-signs.check.more-characters
+  system: star-signs
+  type: check
+  title: Constellations that need more characters
+  subject: account
+  effect: next-action
+  category: nice
+  detector:
+    id: star-signs/more-characters
+  text: '{names} need {players:int} characters; you have {have:int} ({points:int} points waiting on new characters)'
+  why: Each constellation needs that many different characters to reach it; points are paid once.
+  appliesTo:
+    stages:
+    - from: W3-early
+      to: W4-late
+  confidence: H
+  status: draft
+  sources:
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json
+    title: 'IdleOn Toolbox game data: starSigns and constellations (cost, bonuses, requiredPlayers)'
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  notes: 'Dossier C25, C53: C-6 needs 9, D-1 needs 8; A-C mostly 3-6.'
+- id: star-signs.goal.constellation-w4
+  system: star-signs
+  type: goal
+  title: W4 constellations
+  text: '{text}'
+  why: '{why}'
+  values:
+    task-d-2: kill every monster at Spaceway Raceway before any respawns
+    task-d-3: with Cooking 15 or more, reach the star at Donut Drive-In
+    task-d-5: kill every monster at Cocoa Tunnel before any respawns
+    task-d-7: land a megacrit on a Clammy at Shelled Shores
+    task-d-2-short: a no-respawn clear of Spaceway Raceway on {players:int} characters
+    task-d-3-short: Cooking 15 on {players:int} characters
+    task-d-5-short: a no-respawn clear of Cocoa Tunnel on {players:int} characters
+    task-d-7-short: a Clammy megacrit on {players:int} characters
+  sources:
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json
+    title: 'IdleOn Toolbox game data: starSigns and constellations (cost, bonuses, requiredPlayers)'
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  - url: https://idleon.wiki/wiki/Constellation_Locations
+    title: 'IdleOn Wiki: Constellation Locations (D series)'
+    tier: 2
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  appliesTo:
+    stages:
+    - from: W4-entry
+      to: W4-late
+  confidence: H
+  status: draft
+  scope: account
+  category: compounding
+  unit: constellation
+  progress:
+    id: star-signs/constellations
+  milestones:
+  - at: 7
+    reward: All 25 W4 Star Chart Points
+  notes: 'Dossier C23. Merge path: these values join star-signs.goal.constellation and its appliesTo widens to W4-late;
+    the D rows join star-signs.fact.constellations (draft below). Lifts W4_NOT_COVERED for the constellation half.'
+- id: star-signs.goal.signs-w4
+  system: star-signs
+  type: goal
+  title: Star signs for W3-W4 jobs
+  text: '{text}'
+  why: '{why}'
+  values:
+    fit-trapping: Trapezoidburg, The_Big_Comatose, The_OG_Skiller, Pack_Mule
+    fit-worship: Preys_Bea, The_Big_Comatose, The_OG_Skiller
+    fit-cooking: Gordonius_Major
+    fit-breeding: Breedabilli, Power_Bowower
+    fit-lab: Scienscion
+    fit-construction: Sawsaw_Salala
+  sources:
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json
+    title: 'IdleOn Toolbox game data: starSigns[44]-[60] (Gordonius_Major, Breedabilli, Power_Bowower, Scienscion,
+      Sawsaw_Salala, Preys_Bea, Trapezoidburg)'
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-4/cooking.ts#L775-L780
+    title: 'IdleOn Toolbox parser: Cooking_SPD from star signs'
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-4/breeding.ts#L423-L477
+    title: 'IdleOn Toolbox parser: Breedable_Spd / Shiny speed from star signs'
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  appliesTo:
+    stages:
+    - from: W3-mid
+      to: W4-late
+  confidence: M
+  status: draft
+  scope: account
+  category: compounding
+  unit: sign
+  progress:
+    id: star-signs/signs
+  notes: 'Dossier C46 (effects H) + C37 pattern (job sign first, then AFK/skill generics). Merge path: the fit-*
+    values join star-signs.goal.signs. Account-wide terms (breeding, cooking) use the logged-in best character (C33,
+    C61), so the line names that character. Cooking/Lab characters cannot use Time Candies (C18).'
+- id: star-signs.goal.infinite-stars
+  system: star-signs
+  type: goal
+  title: Infinite Star Signs
+  text: '{text}'
+  why: '{why}'
+  values:
+    locked: 'Infinite Stars opens in the Rift: then your first 5 unlocked signs count on every character'
+    open: '{n:int} Infinite signs on every character: {signs}'
+    next: 'Next Infinite sign: {sign} ({how})'
+    how-unlock: unlock it on the Star Chart
+    how-shiny: level a shiny pet with the Infinite Star Signs passive
+    why: Infinite signs always count and never apply their downsides. The order is fixed by the chart, you only
+      choose what you unlock.
+  sources:
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/starSigns.ts#L33-L56
+    title: 'IdleOn Toolbox parser: getInfiniteStarsCount, parseStarSigns isInfiniteStar'
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-4/rift.ts#L23-L26
+    title: 'IdleOn Toolbox parser: isRiftBonusUnlocked (riftInfo index 10)'
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  - url: https://idleon.wiki/wiki/Star_Signs
+    title: 'IdleOn Wiki: Star Signs (slots, charts, Infinite Star Signs)'
+    tier: 2
+    claimDate: 2026-10-05
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  appliesTo:
+    stages:
+    - from: W4-entry
+      to: W4-late
+  confidence: H
+  status: draft
+  scope: account
+  category: compounding
+  unit: sign
+  progress:
+    id: star-signs/infinite
+  milestones:
+  - at: 5
+    reward: The four starters and Dwarfo Beardus count everywhere
+  notes: 'Dossier C28, C29, C42 (pre-patch Steam claim rejected by code), C57. Rift 10 (wiki, 0-based code index)
+    vs Rift 11 (some guides): both recorded, text avoids the number. Shiny-pet sources are tier 2 (wiki names Squirrel,
+    Piggo, Glublin, Sir Stache, Penguin, Bop Box).'
+amendments:
+- _kind: amendment
+  id: star-signs.fact.constellations
+  change: Append the W4 constellations D-1..D-7 to rows.constellations; title becomes "W1 to W4 constellations".
+    mapIndex, x/y and requirement strings must be copied from Toolbox constellations rawIndex 34-40 (mapNames 150-160)
+    by the implementer; the existing CI test (kb-tools star-signs-facts.test.ts) checks them against Toolbox. Dossier
+    C23, H.
+  rows:
+  - name: D-1
+    rawIndex: 34
+    world: 4
+    type: 1
+    min: 120
+    players: 8
+    points: 5
+    kind: level
+    anchor: D-1
+  - name: D-2
+    rawIndex: 35
+    world: 4
+    type: 4
+    players: 3
+    points: 3
+    kind: challenge
+    anchor: D-2
+  - name: D-3
+    rawIndex: 36
+    world: 4
+    type: 4
+    min: 15
+    players: 4
+    points: 4
+    kind: task
+    anchor: D-3
+  - name: D-4
+    rawIndex: 37
+    world: 4
+    type: 0
+    min: 0
+    max: 99
+    players: 3
+    points: 4
+    kind: visit
+    anchor: D-4
+  - name: D-5
+    rawIndex: 38
+    world: 4
+    type: 4
+    players: 4
+    points: 3
+    kind: challenge
+    anchor: D-5
+  - name: D-6
+    rawIndex: 39
+    world: 4
+    type: 0
+    min: 0
+    max: 99
+    players: 4
+    points: 3
+    kind: visit
+    anchor: D-6
+  - name: D-7
+    rawIndex: 40
+    world: 4
+    type: 4
+    players: 4
+    points: 3
+    kind: challenge
+    anchor: D-7
+  confidence: H
+  fromTopic: star-signs
+  status: draft
