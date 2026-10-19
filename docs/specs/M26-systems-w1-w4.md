@@ -539,6 +539,12 @@ golden.
   unless it cites at least two independent (different author and site), dated, post-patch Sources; tier-1 data counts
   as one only for the facts it supplies, not for the ordering. Entries that fail ship display only or Contested. The
   2026-10-19 re-grade marked 12 drafts display only (`ship: display-only` in the drafts; section 16, P1-9).
+  **Built 2026-10-19** in `kb check` (`kb-tools/src/two-source.ts`): types priority, build and metapath; a Source counts
+  when it is tier 2 or 3, dated on or after the newest `majors.yaml` row, and not this project's own notes; one per site.
+  **Spec gap found:** the rule as written fails 75 of the live KB's 88 active judgment entries (most cite one wiki page
+  or our own research notes). Rather than block CI or demote them in Wave 0, they are listed in
+  `packages/knowledge/two-source-debt.json`, which only shrinks: a new failure and a listed entry that now passes are
+  both errors. Each wave that touches one of them re-sources it or ships it display only.
 - **FR-4 Rift label.** `riftLabel(level) = level + 1` in `packages/engine`; every UI string and draft text gets its Rift
   number from `riftLabel()`; Detectors compare `account.rift.level` (= `Rift[0]`). A lint fails on player text
   (`text`, `why`, `values`, page strings) with a bare number after "Rift" that `riftLabel` did not produce. Display
