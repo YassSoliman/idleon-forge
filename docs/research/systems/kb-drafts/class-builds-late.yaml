@@ -1,0 +1,420 @@
+# SPDX-License-Identifier: GPL-3.0-only
+# M26 Journeyman-line Builds (Journeyman, Maestro) and patches extending the third-class Builds past W4-entry.
+# Research note: docs/research/systems/classes/elite-builds.md (claims register, per-class sources and confidence).
+# Target file: packages/knowledge/systems/talents.yaml (append). status: draft. Generated from the Toolbox community builds API
+# snapshot of 2026-10-19 (127 builds) and talents.json at Toolbox 6c37e3d (game 2.3.540); every rawName is checked against the
+# tab it sits on (classPromotions.json talentTabs).
+#
+# Before promotion this needs (see the note, "Converter and engine requirements"):
+#   - schema: BuildEntry tabs[].tab accepts 4 and 5; status draft (M26 FR-1); stages W4-mid / W4-late (FR-3).
+#   - engine: lineOf() returns the elite or master class when a Build exists for it (today it walks up to the subclass and
+#     returns null for the Journeyman line); rawName -> skillIndex resolved within the character's own tabs
+#     (SYMBOLS_OF_BEYOND_~R/~G/~P and THE_FAMILY_GUY repeat across elite tabs).
+#   - Draft-only keys the converter maps or drops: stageHint (the world a Build or step applies from: W5, W6, W7; no W5+
+#     stage may be named yet, FR-3), sourceCount (independent dated authors), confidenceLabel (owner source bar,
+#     2026-10-19: "one source" ships with a label), supersedes, inherits (master-class Builds hold tab 5 only and take
+#     tabs 1-4 from the named Build), patch (third-class Builds extended past W4-entry).
+# Owner source bar (2026-10-19): most upvoted or most recent post-patch community build wins; one strong source is enough
+# with a label; disagreements keep the most upvoted recent one and note the other. No community source states a game
+# version, so gameVersion is the version each claim was checked against (2.3.540).
+system: talents
+entries:
+
+  - id: "talents.build.journeyman-fighting"
+    system: "talents"
+    type: "build"
+    variant: "afk"
+    title: "Journeyman fighting build"
+    text: "Follow the Journeyman fighting build"
+    why: "The two damage talents and Sleepin' On The Job first, then Two Punch Man and Indiana Attack, then Lucky Hit, per the most-liked current Journeyman AFK build."
+    classLine: "Journeyman"
+    role: "fighting"
+    serves: ["FIGHTING"]
+    tags: ["SHARPENED_AXE", "GILDED_SWORD", "SLEEPIN'_ON_THE_JOB", "LUCKY_CLOVER", "TWO_PUNCH_MAN", "INDIANA_ATTACK", "LUCKY_HIT", "LUCKY_HORSESHOE", "ITS_YOUR_BIRTHDAY!"]
+    tabs:
+      - tab: 1
+        steps:
+          - { talent: "SHARPENED_AXE", target: 75, tie: "a" }
+          - { talent: "GILDED_SWORD", target: 75, tie: "a" }
+          - { talent: "SLEEPIN'_ON_THE_JOB", target: 50, core: true }
+          - { talent: "SLEEPIN'_ON_THE_JOB", target: 100 }
+          - { talent: "LUCKY_CLOVER", target: 50 }
+          - { talent: "SHARPENED_AXE", target: "max", tie: "b", when: [{ kind: "stageAtLeast", stage: "W3-early" }] }
+          - { talent: "GILDED_SWORD", target: "max", tie: "b", when: [{ kind: "stageAtLeast", stage: "W3-early" }] }
+      - tab: 2
+        steps:
+          - { talent: "TWO_PUNCH_MAN", target: "max", tie: "a" }
+          - { talent: "INDIANA_ATTACK", target: 75, tie: "a" }
+          - { talent: "LUCKY_HIT", target: 75 }
+          - { talent: "LUCKY_HORSESHOE", target: "max" }
+          - { talent: "ITS_YOUR_BIRTHDAY!", target: 1 }
+    attacks: ["INDIANA_ATTACK"]
+    onePointOk: ["ITS_YOUR_BIRTHDAY!"]
+    sources:
+      - { url: "https://idleontoolbox.com/tools/builds/view?id=CDkeGs", title: "Community Guide, Journeyman AFK (~70) (Toolbox community builds)", tier: 3, claimDate: "2026-10-11", verified: "2026-10-19", gameVersion: "2.3.540", note: "10 likes, 3326 views; created 2026-04-26, updated 2026-10-11; AFK ~70, legacy curated import: max Two Punch Man and Indiana Attack, then Lucky Hit; excess to Lucky Horseshoe" }
+      - { url: "https://idleontoolbox.com/tools/builds/view?id=Ro7g0A", title: "Community Guide, Journeyman AFK (~55) (Toolbox community builds)", tier: 3, claimDate: "2026-08-18", verified: "2026-10-19", gameVersion: "2.3.540", note: "1 likes, 840 views; created 2026-04-26, updated 2026-08-18; AFK ~55: Axe 50, Gilded 50, Sleepin' 100; Indiana 75, Two Punch 45, Birthday 1" }
+      - { url: "https://idleontoolbox.com/tools/builds/view?id=3Qc6gN", title: "Community Guide, Journeyman AFK (~40) (Toolbox community builds)", tier: 3, claimDate: "2026-08-18", verified: "2026-10-19", gameVersion: "2.3.540", note: "2 likes, 1002 views; created 2026-04-26, updated 2026-08-18; AFK ~40: Axe 35, Gilded 20, Sleepin' 50; Indiana 50, Two Punch 45, Birthday 1" }
+      - { url: "https://docs.google.com/spreadsheets/d/e/2PACX-1vST3HcgBgeq8H9jztaMhUXZAAAHl120PvDVo_48qJpn6n9qnpa-TWmuG_kN9cmtr66M-OtO482XIOAk/pubhtml", title: "Talents guide sheet (Fibster, later Tetsu), linked from the wiki Builds page", tier: 3, claimDate: "2024-07-12", verified: "2026-10-19", gameVersion: "2.3.540", note: "stale (last changelog 2024-07-12); Start with / Work towards / Extra columns per class" }
+      - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/talents.json", title: "IdleOn Toolbox game data: talents", tier: 1, verified: "2026-10-19", gameVersion: "2.3.540" }
+      - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/classPromotions.json", title: "IdleOn Toolbox game data: class promotions and talent tabs", tier: 1, verified: "2026-10-19", gameVersion: "2.3.540" }
+    appliesTo: { stages: [{ from: "W1-mid", to: "W4-late" }], classes: ["Journeyman"] }
+    confidence: "L"
+    status: "draft"
+    sourceCount: 2
+    confidenceLabel: "few sources"
+    notes: "Ordered by the Community Guide ladder (~40, ~55, ~70; legacy curated imports, updated 2026-08 to 10); the ~70 targets are the Build. The stale sheet agrees: Indiana Attack 50 then Two Punch Man max, then Lucky Hit, Lucky Horseshoe, F'luk'ey Fabrics. Sleepin' On The Job is the Beginner line's AFK fighting talent (data), so 50 is core. No Journeyman-line Build exists in the KB today because lineOf() returns null for this line; that must change first."
+
+  - id: "talents.build.journeyman-skilling"
+    system: "talents"
+    type: "build"
+    variant: "afk"
+    title: "Journeyman luck and EXP build"
+    text: "Follow the Journeyman luck and EXP build"
+    why: "Happy Dude and Lucky Clover first, the three skill stats evenly, then Lucky Horseshoe, Looty Booty and F'luk'ey Fabrics, per the current Journeyman utility build."
+    classLine: "Journeyman"
+    role: "skilling"
+    serves: []
+    tags: ["HAPPY_DUDE", "LUCKY_CLOVER", "FIST_OF_RAGE", "QUICKNESS_BOOTS", "BOOK_OF_THE_WISE", "LUCKY_HORSESHOE", "CURSE_OF_MR_LOOTY_BOOTY", "F'LUK'EY_FABRICS", "CARDS_GALORE", "RARES_EVERYWHERE!", "ITS_YOUR_BIRTHDAY!"]
+    tabs:
+      - tab: 1
+        steps:
+          - { talent: "HAPPY_DUDE", target: "max", tie: "a" }
+          - { talent: "LUCKY_CLOVER", target: "max", tie: "a" }
+          - { talent: "FIST_OF_RAGE", target: "max", tie: "b" }
+          - { talent: "QUICKNESS_BOOTS", target: "max", tie: "b" }
+          - { talent: "BOOK_OF_THE_WISE", target: "max", tie: "b" }
+      - tab: 2
+        steps:
+          - { talent: "LUCKY_HORSESHOE", target: "max", tie: "a" }
+          - { talent: "CURSE_OF_MR_LOOTY_BOOTY", target: "max", tie: "a" }
+          - { talent: "F'LUK'EY_FABRICS", target: "max" }
+          - { talent: "CARDS_GALORE", target: "max", tie: "b" }
+          - { talent: "RARES_EVERYWHERE!", target: "max", tie: "b" }
+          - { talent: "ITS_YOUR_BIRTHDAY!", target: "max" }
+    attacks: []
+    onePointOk: []
+    sources:
+      - { url: "https://idleontoolbox.com/tools/builds/view?id=BBB6kd", title: "Community Guide, Journeyman (Toolbox community builds)", tier: 3, claimDate: "2026-10-09", verified: "2026-10-19", gameVersion: "2.3.540", note: "3 likes, 1890 views; created 2026-04-26, updated 2026-10-09; utility/EXP, legacy curated import: max Happy Dude and Lucky Clover; Horseshoe and Looty Booty, F'luk'ey; excess Cards, Rares, Birthday" }
+      - { url: "https://docs.google.com/spreadsheets/d/e/2PACX-1vST3HcgBgeq8H9jztaMhUXZAAAHl120PvDVo_48qJpn6n9qnpa-TWmuG_kN9cmtr66M-OtO482XIOAk/pubhtml", title: "Talents guide sheet (Fibster, later Tetsu), linked from the wiki Builds page", tier: 3, claimDate: "2024-07-12", verified: "2026-10-19", gameVersion: "2.3.540", note: "stale (last changelog 2024-07-12); Start with / Work towards / Extra columns per class" }
+      - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/talents.json", title: "IdleOn Toolbox game data: talents", tier: 1, verified: "2026-10-19", gameVersion: "2.3.540" }
+      - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/classPromotions.json", title: "IdleOn Toolbox game data: class promotions and talent tabs", tier: 1, verified: "2026-10-19", gameVersion: "2.3.540" }
+    appliesTo: { stages: [{ from: "W1-mid", to: "W4-late" }], classes: ["Journeyman"] }
+    confidence: "L"
+    status: "draft"
+    sourceCount: 2
+    confidenceLabel: "few sources"
+    notes: "BBB6kd (3 likes, updated 2026-10-09) is the Build. The stale sheet's skilling column starts It's Your Birthday! max, then Cards Galore, Looty Booty, Rares Everywhere: recorded as the alternative. Looty Booty 'gives drop rate but lowers your damage' (sheet), so it belongs on this preset only. serves []: the Journeyman has no skill specialty of its own."
+
+  - id: "talents.build.maestro-fighting"
+    system: "talents"
+    type: "build"
+    variant: "afk"
+    title: "Maestro fighting build"
+    text: "Follow the Maestro fighting build"
+    why: "The Journeyman damage core stays; the Maestro tab takes Coin Toss to 35 and Triple Jab, then Skillage Damage, Bliss N Chips and Colloquial Containers as points allow."
+    classLine: "Maestro"
+    role: "fighting"
+    serves: ["FIGHTING"]
+    tags: ["GILDED_SWORD", "SHARPENED_AXE", "SLEEPIN'_ON_THE_JOB", "FEATHER_FLIGHT", "TWO_PUNCH_MAN", "INDIANA_ATTACK", "LUCKY_HIT", "LUCKY_HORSESHOE", "CHACHING!", "RARES_EVERYWHERE!", "COIN_TOSS", "TRIPLE_JAB", "SKILLAGE_DAMAGE", "LUCKY_CHARMS", "SKILLIEST_STATUE", "BLISS_N_CHIPS", "COLLOQUIAL_CONTAINERS", "JMAN_WAS_BETTER"]
+    tabs:
+      - tab: 1
+        steps:
+          - { talent: "GILDED_SWORD", target: "max", tie: "a" }
+          - { talent: "SHARPENED_AXE", target: "max", tie: "a" }
+          - { talent: "SLEEPIN'_ON_THE_JOB", target: 50, core: true }
+          - { talent: "SLEEPIN'_ON_THE_JOB", target: 100 }
+          - { talent: "FEATHER_FLIGHT", target: "max", when: [{ kind: "stageAtLeast", stage: "W4-mid" }] }
+          - { talent: "SLEEPIN'_ON_THE_JOB", target: "max", when: [{ kind: "stageAtLeast", stage: "W4-mid" }] }
+      - tab: 2
+        steps:
+          - { talent: "TWO_PUNCH_MAN", target: "max", tie: "a" }
+          - { talent: "INDIANA_ATTACK", target: 40, tie: "a" }
+          - { talent: "LUCKY_HIT", target: 100 }
+          - { talent: "LUCKY_HORSESHOE", target: 100 }
+          - { talent: "CHACHING!", target: "max", when: [{ kind: "stageAtLeast", stage: "W4-mid" }] }
+          - { talent: "RARES_EVERYWHERE!", target: "max", when: [{ kind: "stageAtLeast", stage: "W4-mid" }] }
+      - tab: 3
+        steps:
+          - { talent: "COIN_TOSS", target: 35 }
+          - { talent: "TRIPLE_JAB", target: "max" }
+          - { talent: "SKILLAGE_DAMAGE", target: "max" }
+          - { talent: "LUCKY_CHARMS", target: 1 }
+          - { talent: "SKILLIEST_STATUE", target: 1 }
+          - { talent: "BLISS_N_CHIPS", target: "max", when: [{ kind: "stageAtLeast", stage: "W4-mid" }] }
+          - { talent: "COLLOQUIAL_CONTAINERS", target: "max", when: [{ kind: "stageAtLeast", stage: "W4-mid" }] }
+          - { talent: "JMAN_WAS_BETTER", target: 1 }
+    attacks: ["INDIANA_ATTACK", "COIN_TOSS"]
+    onePointOk: ["LUCKY_CHARMS", "SKILLIEST_STATUE", "JMAN_WAS_BETTER"]
+    sources:
+      - { url: "https://idleontoolbox.com/tools/builds/view?id=SpRNmm", title: "Community Guide, Maestro AFK (~70) (Toolbox community builds)", tier: 3, claimDate: "2026-09-13", verified: "2026-10-19", gameVersion: "2.3.540", note: "1 likes, 882 views; created 2026-04-26, updated 2026-09-13; AFK ~70, legacy curated import: max Gilded, Axe, 100 Sleepin'; Two Punch, Indiana, then Lucky Hit; Coin Toss 35 then Triple Jab" }
+      - { url: "https://idleontoolbox.com/tools/builds/view?id=RekesX", title: "Community Guide, Maestro / AFK  (150) (Toolbox community builds)", tier: 3, claimDate: "2026-10-09", verified: "2026-10-19", gameVersion: "2.3.540", note: "4 likes, 2808 views; created 2026-04-26, updated 2026-10-09; AFK 150, legacy curated import: Sleepin' 260; Two Punch, Chaching!, Rares 160; Skillage, Triple Jab, Bliss, Colloquial 160" }
+      - { url: "https://idleontoolbox.com/tools/builds/view?id=hGbIJJ", title: "Community Guide, Maestro / AFK / Money (170) (Toolbox community builds)", tier: 3, claimDate: "2026-07-09", verified: "2026-10-19", gameVersion: "2.3.540", note: "3 likes, 1302 views; created 2026-04-26, updated 2026-07-09; AFK money 170: as RekesX plus Looty Booty, Knucklebuster, Skilliest Statue, JMan Was Better 160 (needs many points)" }
+      - { url: "https://docs.google.com/spreadsheets/d/e/2PACX-1vST3HcgBgeq8H9jztaMhUXZAAAHl120PvDVo_48qJpn6n9qnpa-TWmuG_kN9cmtr66M-OtO482XIOAk/pubhtml", title: "Talents guide sheet (Fibster, later Tetsu), linked from the wiki Builds page", tier: 3, claimDate: "2024-07-12", verified: "2026-10-19", gameVersion: "2.3.540", note: "stale (last changelog 2024-07-12); Start with / Work towards / Extra columns per class" }
+      - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/talents.json", title: "IdleOn Toolbox game data: talents", tier: 1, verified: "2026-10-19", gameVersion: "2.3.540" }
+      - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/classPromotions.json", title: "IdleOn Toolbox game data: class promotions and talent tabs", tier: 1, verified: "2026-10-19", gameVersion: "2.3.540" }
+    appliesTo: { stages: [{ from: "W2-early", to: "W4-late" }], classes: ["Maestro"] }
+    confidence: "L"
+    status: "draft"
+    sourceCount: 3
+    confidenceLabel: "few sources"
+    notes: "Mid-game steps from SpRNmm (~70), W4-mid steps from RekesX (~150, 4 likes, updated 2026-10-09). Colloquial Containers and the Lotto Skills bubble raise Sleepin' past 100 (class-journeyman dossier C28), hence its second max step. JMan Was Better at 1 only if tab 2 needs points (SpRNmm). Sheet alternative (stale): Coin Toss 10, Skillage Damage 40, Triple Jab max first. Triple Jab steps every 4 levels (intervalAdd 20/4, data)."
+
+  - id: "talents.build.maestro-skilling"
+    system: "talents"
+    type: "build"
+    variant: "afk"
+    title: "Maestro skilling build"
+    text: "Follow the Maestro skilling build"
+    why: "Happy Dude first, the gem and statue-drop talents on tab 2, then Bliss N Chips, the Hands, Transfusion and Printer Go Brrr on the Maestro tab, per the current Maestro skilling build."
+    classLine: "Maestro"
+    role: "skilling"
+    serves: []
+    tags: ["HAPPY_DUDE", "HEALTH_BOOSTER", "MANA_BOOSTER", "FIST_OF_RAGE", "QUICKNESS_BOOTS", "BOOK_OF_THE_WISE", "ITS_YOUR_BIRTHDAY!", "CURSE_OF_MR_LOOTY_BOOTY", "RARES_EVERYWHERE!", "CARDS_GALORE", "F'LUK'EY_FABRICS", "LUCKY_HORSESHOE", "BLISS_N_CHIPS", "MAESTRO_TRANSFUSION", "LEFT_HAND_OF_LEARNING", "RIGHT_HAND_OF_ACTION", "PRINTER_GO_BRRR", "SKILLIEST_STATUE"]
+    tabs:
+      - tab: 1
+        steps:
+          - { talent: "HAPPY_DUDE", target: "max" }
+          - { talent: "HEALTH_BOOSTER", target: 1, tie: "a" }
+          - { talent: "MANA_BOOSTER", target: 1, tie: "a" }
+          - { talent: "FIST_OF_RAGE", target: 1, tie: "a" }
+          - { talent: "QUICKNESS_BOOTS", target: 1, tie: "a" }
+          - { talent: "BOOK_OF_THE_WISE", target: 1, tie: "a" }
+      - tab: 2
+        steps:
+          - { talent: "ITS_YOUR_BIRTHDAY!", target: "max" }
+          - { talent: "CURSE_OF_MR_LOOTY_BOOTY", target: "max", tie: "a" }
+          - { talent: "RARES_EVERYWHERE!", target: "max", tie: "a" }
+          - { talent: "CARDS_GALORE", target: "max" }
+          - { talent: "F'LUK'EY_FABRICS", target: "max", tie: "b" }
+          - { talent: "LUCKY_HORSESHOE", target: "max", tie: "b" }
+      - tab: 3
+        steps:
+          - { talent: "BLISS_N_CHIPS", target: "max" }
+          - { talent: "MAESTRO_TRANSFUSION", target: "max" }
+          - { talent: "LEFT_HAND_OF_LEARNING", target: "max", tie: "a" }
+          - { talent: "RIGHT_HAND_OF_ACTION", target: "max", tie: "a" }
+          - { talent: "PRINTER_GO_BRRR", target: "max" }
+          - { talent: "SKILLIEST_STATUE", target: 1 }
+    attacks: []
+    onePointOk: ["HEALTH_BOOSTER", "MANA_BOOSTER", "FIST_OF_RAGE", "QUICKNESS_BOOTS", "BOOK_OF_THE_WISE", "SKILLIEST_STATUE"]
+    sources:
+      - { url: "https://idleontoolbox.com/tools/builds/view?id=mlZMaQ", title: "Community Guide, Maestro Skilling (~100) (Toolbox community builds)", tier: 3, claimDate: "2026-10-13", verified: "2026-10-19", gameVersion: "2.3.540", note: "7 likes, 1704 views; created 2026-04-26, updated 2026-10-13; skilling ~100, legacy curated import: Happy Dude as high as possible; Birthday, Looty Booty, Rares 100; Bliss N Chips 100; *2 Transfusion, " }
+      - { url: "https://idleontoolbox.com/tools/builds/view?id=JXWkLU", title: "Community Guide, Maestro Skilling: Left + Right Hands (~100) (Toolbox community builds)", tier: 3, claimDate: "2026-04-26", verified: "2026-10-19", gameVersion: "2.3.540", note: "0 likes, 1104 views; created 2026-04-26, updated 2026-04-26; Left + Right Hands ~100 variant: Hands 100 so other characters reach skill 20+" }
+      - { url: "https://docs.google.com/spreadsheets/d/e/2PACX-1vST3HcgBgeq8H9jztaMhUXZAAAHl120PvDVo_48qJpn6n9qnpa-TWmuG_kN9cmtr66M-OtO482XIOAk/pubhtml", title: "Talents guide sheet (Fibster, later Tetsu), linked from the wiki Builds page", tier: 3, claimDate: "2024-07-12", verified: "2026-10-19", gameVersion: "2.3.540", note: "stale (last changelog 2024-07-12); Start with / Work towards / Extra columns per class" }
+      - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/talents.json", title: "IdleOn Toolbox game data: talents", tier: 1, verified: "2026-10-19", gameVersion: "2.3.540" }
+      - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/classPromotions.json", title: "IdleOn Toolbox game data: class promotions and talent tabs", tier: 1, verified: "2026-10-19", gameVersion: "2.3.540" }
+    appliesTo: { stages: [{ from: "W2-early", to: "W4-late" }], classes: ["Maestro"] }
+    confidence: "L"
+    status: "draft"
+    sourceCount: 2
+    confidenceLabel: "sources disagree"
+    notes: "Kept: mlZMaQ (7 likes, updated 2026-10-13); its footnote numbers *2, *3, *4 set the tab-3 order after Bliss N Chips. Sheet alternative (stale): Printer Go Brrr max first, then Bliss, Right Hand, Colloquial Containers, Left Hand. Hands pay most when this character leads the account in W1-W3 skills (sheet; wiki Classes page). serves []: Maestro levels many skills."
+
+  - id: "talents.build.barbarian-fighting"
+    system: talents
+    type: build
+    status: draft
+    patch:
+      change: "extend to W4-late; no order change: the ~150 guide maxes the same talents (Library levels) and keeps Bear Swipe and Axe Hurl at 25"
+      appliesTo: { stages: [{ to: "W4-late" }] }
+    sources:
+      - { url: "https://idleontoolbox.com/tools/builds/view?id=3HAFdX", title: "Community Guide, Barbarian / AFK (~150) (Toolbox community builds)", tier: 3, claimDate: "2026-10-19", verified: "2026-10-19", gameVersion: "2.3.540", note: "25 likes, 3389 views; created 2026-04-26, updated 2026-10-19; AFK ~150: attacks 25 is enough for the damage cap; No Pain No Gain, Monster Decimator, Strongest Statues 160, Zow 132" }
+    confidence: "L"
+    sourceCount: 1
+    confidenceLabel: "one source"
+    notes: "Only a character still a Barbarian past W4-entry uses this; a Blood Berserker uses blood-berserker-fighting."
+
+  - id: "talents.build.barbarian-skilling"
+    system: talents
+    type: build
+    status: draft
+    patch:
+      change: "extend to W4-late; no order change"
+      appliesTo: { stages: [{ to: "W4-late" }] }
+    sources:
+      - { url: "https://idleontoolbox.com/tools/builds/view?id=hrQHqr", title: "Community Guide, Fishing Active / AFK (Barb) 100+ (Toolbox community builds)", tier: 3, claimDate: "2026-10-08", verified: "2026-10-19", gameVersion: "2.3.540", note: "9 likes, 2227 views; created 2026-04-26, updated 2026-10-08; fishing 100+: Brute Efficiency, Fist of Rage, Idle Skilling; Firmly, Absolute Unit, Tempestuous; Worming, Str Summore, Statues, All Fish, Z" }
+    confidence: "L"
+    sourceCount: 1
+    confidenceLabel: "one source"
+    notes: "hrQHqr orders the same talents; Bobbin' Bobbers is levelled to the minigame score (its *1), as the bobbers-cap Check drafts."
+
+  - id: "talents.build.squire-fighting"
+    system: talents
+    type: build
+    status: draft
+    patch:
+      change: "extend to W4-late; from W4-mid Shockwave Slash and Daggerang go to 25 and the refinery talents are levelled on this preset"
+      appliesTo: { stages: [{ to: "W4-late" }] }
+      appendSteps:
+        - tab: 3
+          steps:
+            - { talent: "SHOCKWAVE_SLASH", target: 25, tie: "d", when: [{ kind: "stageAtLeast", stage: "W4-mid" }] }
+            - { talent: "DAGGERANG", target: 25, tie: "d", when: [{ kind: "stageAtLeast", stage: "W4-mid" }] }
+            - { talent: "REFINERY_THROTTLE", target: "max", when: [{ kind: "stageAtLeast", stage: "W4-mid" }] }
+            - { talent: "SHARPER_SAWS", target: "max", when: [{ kind: "stageAtLeast", stage: "W4-mid" }] }
+            - { talent: "SHIELDIEST_STATUES", target: "max", when: [{ kind: "stageAtLeast", stage: "W4-mid" }] }
+    sources:
+      - { url: "https://idleontoolbox.com/tools/builds/view?id=xqKgSd", title: "RyuNumber1, Squire AFK Combat (Toolbox community builds)", tier: 3, claimDate: "2026-10-02", verified: "2026-10-19", gameVersion: "2.3.540", note: "12 likes, 3730 views; created 2026-06-03, updated 2026-10-02; AFK combat: Power Strike = Whirl 55, Double Strike 41; Shockwave Slash, Daggerang 25; Precision Power, Throttle, Saws, Statues 160" }
+      - { url: "https://idleontoolbox.com/tools/builds/view?id=1loA9z", title: "Community Guide, Squire / AFK (~150) (Toolbox community builds)", tier: 3, claimDate: "2026-10-19", verified: "2026-10-19", gameVersion: "2.3.540", note: "10 likes, 2127 views; created 2026-04-26, updated 2026-10-19; AFK ~150, legacy curated import: the same levels as xqKgSd" }
+    confidence: "L"
+    sourceCount: 2
+    confidenceLabel: "few sources"
+    notes: "Both late builds put 25 in Shockwave Slash and Daggerang (they join the bar) and level Refinery Throttle on the AFK preset. A Divine Knight uses divine-knight-fighting instead."
+
+  - id: "talents.build.bowman-fighting"
+    system: talents
+    type: build
+    status: draft
+    patch:
+      change: "extend to W4-late; from W4-mid Broken Time and Focused Soul go on this preset and the attacks settle at 25"
+      appliesTo: { stages: [{ to: "W4-late" }] }
+      appendSteps:
+        - tab: 1
+          steps:
+            - { talent: "BROKEN_TIME", target: "max", when: [{ kind: "stageAtLeast", stage: "W4-mid" }] }
+        - tab: 2
+          steps:
+            - { talent: "FOCUSED_SOUL", target: "max", when: [{ kind: "stageAtLeast", stage: "W4-mid" }] }
+            - { talent: "ROBBINGHOOD", target: "max", when: [{ kind: "stageAtLeast", stage: "W4-mid" }] }
+    sources:
+      - { url: "https://idleontoolbox.com/tools/builds/view?id=FEXoK0", title: "Community Guide, Bowman / AFK (~150) (Toolbox community builds)", tier: 3, claimDate: "2026-10-19", verified: "2026-10-19", gameVersion: "2.3.540", note: "22 likes, 2879 views; created 2026-04-26, updated 2026-10-19; AFK ~150: attacks 25 enough for the damage cap; Quickness Boots 260; Broken Time, Focused Soul, Robbinghood 160" }
+    confidence: "L"
+    sourceCount: 1
+    confidenceLabel: "one source"
+    notes: "A Siege Breaker uses siege-breaker-fighting instead. FEXoK0 says more points into attacks and Have Another! only for prayers that raise mob HP."
+
+  - id: "talents.build.hunter-fighting"
+    system: talents
+    type: build
+    status: draft
+    patch:
+      change: "extend to W4-late; from W4-mid Eagle Eye 140 and Straightshot Statues on the damage preset"
+      appliesTo: { stages: [{ to: "W4-late" }] }
+      appendSteps:
+        - tab: 3
+          steps:
+            - { talent: "EAGLE_EYE", target: 140, when: [{ kind: "stageAtLeast", stage: "W4-mid" }] }
+            - { talent: "STRAIGHTSHOT_STATUES", target: "max", when: [{ kind: "stageAtLeast", stage: "W4-mid" }] }
+            - { talent: "REFLECTIVE_EYESIGHT", target: "max", when: [{ kind: "stageAtLeast", stage: "W4-mid" }] }
+    sources:
+      - { url: "https://idleontoolbox.com/tools/builds/view?id=crUlTp", title: "Community Guide, Hunter / AFK (~170) (Toolbox community builds)", tier: 3, claimDate: "2026-10-13", verified: "2026-10-19", gameVersion: "2.3.540", note: "17 likes, 2707 views; created 2026-04-26, updated 2026-10-13; AFK ~170: Looty, Agi Again 160; Eagle Eye 140; Straightshot Statues, Reflective Eyesight 100; 360 Noscope, Bear Trap 25" }
+    confidence: "L"
+    sourceCount: 1
+    confidenceLabel: "one source"
+    notes: "Eagle Eye 140 on the damage preset matches the class-hunter dossier (build XVxy5U 'up to 140'). A Beast Master uses beast-master-fighting."
+
+  - id: "talents.build.wizard-fighting"
+    system: talents
+    type: build
+    status: draft
+    patch:
+      change: "extend to W4-late; from W4-mid every attack goes to max"
+      appliesTo: { stages: [{ to: "W4-late" }] }
+      appendSteps:
+        - tab: 2
+          steps:
+            - { talent: "ENERGY_BOLT", target: "max", when: [{ kind: "stageAtLeast", stage: "W4-mid" }] }
+            - { talent: "MINI_FIREBALL", target: "max", when: [{ kind: "stageAtLeast", stage: "W4-mid" }] }
+        - tab: 3
+          steps:
+            - { talent: "ICE_SHARDS", target: "max", tie: "d", when: [{ kind: "stageAtLeast", stage: "W4-mid" }] }
+            - { talent: "FLOOR_IS_LAVA", target: "max", tie: "d", when: [{ kind: "stageAtLeast", stage: "W4-mid" }] }
+            - { talent: "TORNADO", target: "max", tie: "d", when: [{ kind: "stageAtLeast", stage: "W4-mid" }] }
+            - { talent: "SPEEDY_BOOK", target: "max", when: [{ kind: "stageAtLeast", stage: "W4-mid" }] }
+    sources:
+      - { url: "https://idleontoolbox.com/tools/builds/view?id=8kt1td", title: "Community Guide, Active/Afk Wizard (150+) (Toolbox community builds)", tier: 3, claimDate: "2026-10-17", verified: "2026-10-19", gameVersion: "2.3.540", note: "29 likes, 4246 views; created 2026-04-26, updated 2026-10-17; Active/AFK 150+, the most-liked Wizard build: Energy Bolt, Mini Fireball, Ice Shards, Floor Is Lava, Tornado max" }
+      - { url: "https://gameslikefinder.com/article/idleon-wizard-build-guide/", title: "Gameslikefinder: Wizard build guide", tier: 3, claimDate: "2026-03-09", verified: "2026-10-19", gameVersion: "2.3.540", note: "Speedy Book matters after the ES promotion (ES is played active): max it, then go back to the attack talents" }
+    confidence: "L"
+    sourceCount: 2
+    confidenceLabel: "few sources"
+    notes: "eQ2XPx (AFK/Worship 170, 2 likes) keeps attacks at 25: the alternative for a pure AFK Wizard."
+
+  - id: "talents.build.shaman-fighting"
+    system: talents
+    type: build
+    status: draft
+    patch:
+      change: "extend to W4-late; from W4-mid Book of the Wise and the alchemy talents are levelled on the AFK preset too"
+      appliesTo: { stages: [{ to: "W4-late" }] }
+      appendSteps:
+        - tab: 3
+          steps:
+            - { talent: "BUBBLE_BREAKTHROUGH", target: "max", when: [{ kind: "stageAtLeast", stage: "W4-mid" }] }
+            - { talent: "SHARING_SOME_SMARTS", target: "max", when: [{ kind: "stageAtLeast", stage: "W4-mid" }] }
+            - { talent: "STUPENDOUS_STATUES", target: "max", when: [{ kind: "stageAtLeast", stage: "W4-mid" }] }
+    sources:
+      - { url: "https://idleontoolbox.com/tools/builds/view?id=CgmyGf", title: "Community Guide, Shaman / AFK (~150) (Toolbox community builds)", tier: 3, claimDate: "2026-10-09", verified: "2026-10-19", gameVersion: "2.3.540", note: "11 likes, 1824 views; created 2026-04-26, updated 2026-10-09; AFK ~150: Book of the Wise 260; attacks 25; Virile Vials, Wis Wumbo, Busy Brewin', Bubble Breakthrough, Sharing Some Smarts 160" }
+    confidence: "L"
+    sourceCount: 1
+    confidenceLabel: "one source"
+    notes: "Gameslikefinder's Shaman guide (2026-03-09): Busy Brewin' stops mattering once every cauldron upgrade is 170; Sharing Some Smarts drops once one character has Alchemy 120. A Bubonic Conjuror uses bubonic-conjuror-fighting."
+
+  - id: "talents.build.squire-skilling"
+    system: talents
+    type: build
+    status: draft
+    patch:
+      change: "extend to W4-late; no order change"
+      appliesTo: { stages: [{ to: "W4-late" }] }
+    sources:
+      - { url: "https://idleontoolbox.com/tools/builds/view?id=9atDdI", title: "Community Guide, Mining / Construction Hybrid (Squire) 100+ (Toolbox community builds)", tier: 3, claimDate: "2026-10-07", verified: "2026-10-19", gameVersion: "2.3.540", note: "4 likes, 1261 views; created 2026-04-26, updated 2026-10-07; mining/construction 100+: same order as SFipox" }
+    confidence: "L"
+    sourceCount: 1
+    confidenceLabel: "one source"
+    notes: "The 100+ skilling build orders the same talents as the live Build."
+
+  - id: "talents.build.bowman-skilling"
+    system: talents
+    type: build
+    status: draft
+    patch:
+      change: "extend to W4-late; no order change"
+      appliesTo: { stages: [{ to: "W4-late" }] }
+    sources:
+      - { url: "https://idleontoolbox.com/tools/builds/view?id=1CzVlL", title: "Community Guide, Catching Active / AFK 100+ (Toolbox community builds)", tier: 3, claimDate: "2026-10-09", verified: "2026-10-19", gameVersion: "2.3.540", note: "12 likes, 2353 views; created 2026-04-26, updated 2026-10-09; catching 100+: Elusive Efficiency, Quickness Boots 200, Broken Time; Sanic, Garb, Focused Soul" }
+    confidence: "L"
+    sourceCount: 1
+    confidenceLabel: "one source"
+    notes: "The 100+ skilling build orders the same talents as the live Build."
+
+  - id: "talents.build.hunter-skilling"
+    system: talents
+    type: build
+    status: draft
+    patch:
+      change: "extend to W4-late; no order change"
+      appliesTo: { stages: [{ to: "W4-late" }] }
+    sources:
+      - { url: "https://idleontoolbox.com/tools/builds/view?id=vh8Z0k", title: "Community Guide, Hunter Trapping (~100) (Toolbox community builds)", tier: 3, claimDate: "2026-10-15", verified: "2026-10-19", gameVersion: "2.3.540", note: "16 likes, 2256 views; created 2026-04-26, updated 2026-10-15; trapping ~100: 100+ in each trapping talent, excess to Agi Again for Quickness Boots 200" }
+    confidence: "L"
+    sourceCount: 1
+    confidenceLabel: "one source"
+    notes: "The 100+ skilling build orders the same talents as the live Build."
+
+  - id: "talents.build.wizard-skilling"
+    system: talents
+    type: build
+    status: draft
+    patch:
+      change: "extend to W4-late; no order change"
+      appliesTo: { stages: [{ to: "W4-late" }] }
+    sources:
+      - { url: "https://idleontoolbox.com/tools/builds/view?id=38A1rv", title: "Community Guide, Worship / Choppin Hybrid (Wizard) 100+ (Toolbox community builds)", tier: 3, claimDate: "2026-10-13", verified: "2026-10-19", gameVersion: "2.3.540", note: "9 likes, 1809 views; created 2026-04-26, updated 2026-10-13; worship/choppin 100+: same order as the live Build" }
+    confidence: "L"
+    sourceCount: 1
+    confidenceLabel: "one source"
+    notes: "The 100+ skilling build orders the same talents as the live Build."
+
+  - id: "talents.build.shaman-skilling"
+    system: talents
+    type: build
+    status: draft
+    patch:
+      change: "extend to W4-late; no order change"
+      appliesTo: { stages: [{ to: "W4-late" }] }
+    sources:
+      - { url: "https://idleontoolbox.com/tools/builds/view?id=KvJlQh", title: "Community Guide, Alchemy / Choppin Hybrid (Shaman) 100+ (Toolbox community builds)", tier: 3, claimDate: "2026-10-07", verified: "2026-10-19", gameVersion: "2.3.540", note: "26 likes, 2674 views; created 2026-04-26, updated 2026-10-07; alchemy/choppin 100+, 26 likes: Busy Brewin' > Bubble Breakthrough (only if the Shaman still needs Alchemy EXP)" }
+    confidence: "L"
+    sourceCount: 1
+    confidenceLabel: "one source"
+    notes: "The 100+ skilling build orders the same talents as the live Build."

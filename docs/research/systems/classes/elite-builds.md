@@ -8,11 +8,19 @@ stops at the third class and at `W4-entry`. M26 held tab-4 orders back until eac
 
 **Bottom line.**
 - Every W4 elite now has a fighting and a skilling Build draft (14 entries).
-- Every elite clears a two-source bar except the ES skilling preset (2, and both thin).
+- Every elite preset has at least two independent dated sources. The thinnest is ES skilling, with 2.
 - **Divine Knight fighting** is the best supported: 6 independent dated authors, who agree on the tab-4 core, so
   confidence M.
 - The weakest are Siege Breaker and Voidwalker. Their orders rest on one Toolbox author plus Gameslikefinder and a
   stale sheet.
+- **Master classes** (Royal Guardian, Death Bringer, Wind Walker, Arcane Cultist) get tab-5 Builds at stageHint W6.
+  - Most rest on one ordered source (Gameslikefinder).
+  - Royal Guardian fighting and Death Bringer fighting have 2 and 3.
+- **Journeyman line:** Journeyman and Maestro get their first Builds.
+- **Third classes:** the six fighting and five skilling third-class Builds are extended to `W4-late` by patch.
+- **Failing a two-source bar** (ordered, dated sources with a URL):
+  - every master-class Build except RG fighting and DB fighting;
+  - the Barbarian, Bowman, Hunter and Shaman fighting patches and all five skilling patches.
 - Everything is tier 3 (community), checked against tier 1 game data. Nothing is confidence H.
 
 ## Builds at a glance
@@ -48,6 +56,32 @@ stops at the third class and at `W4-entry`. M26 held tab-4 orders back until eac
 | `wind-walker-skilling` | W4-late to W4-late (+W6) | 1 | L | one source |
 | `arcane-cultist-fighting` | W4-late to W4-late (+W6) | 1 | L | one source |
 | `arcane-cultist-skilling` | W4-late to W4-late (+W6) | 1 | L | one source |
+
+**Journeyman line (kb-drafts/class-builds-late.yaml)**
+
+| Build | Stages | Sources | Confidence | Label |
+|---|---|---|---|---|
+| `journeyman-fighting` | W1-mid to W4-late | 2 | L | few sources |
+| `journeyman-skilling` | W1-mid to W4-late | 2 | L | few sources |
+| `maestro-fighting` | W2-early to W4-late | 3 | L | few sources |
+| `maestro-skilling` | W2-early to W4-late | 2 | L | sources disagree |
+
+**Third-class Builds extended past W4-entry (patches in kb-drafts/class-builds-late.yaml)**
+
+| Build | Change | Sources | Confidence | Label |
+|---|---|---|---|---|
+| `barbarian-fighting` | extend to W4-late; no order change: the ~150 guide maxes the same talents (Library levels) and keeps Bear Swipe and Axe Hurl at 25 | 1 | L | one source |
+| `barbarian-skilling` | extend to W4-late; no order change | 1 | L | one source |
+| `squire-fighting` | extend to W4-late; from W4-mid Shockwave Slash and Daggerang go to 25 and the refinery talents are levelled on this preset | 2 | L | few sources |
+| `bowman-fighting` | extend to W4-late; from W4-mid Broken Time and Focused Soul go on this preset and the attacks settle at 25 | 1 | L | one source |
+| `hunter-fighting` | extend to W4-late; from W4-mid Eagle Eye 140 and Straightshot Statues on the damage preset | 1 | L | one source |
+| `wizard-fighting` | extend to W4-late; from W4-mid every attack goes to max | 2 | L | few sources |
+| `shaman-fighting` | extend to W4-late; from W4-mid Book of the Wise and the alchemy talents are levelled on the AFK preset too | 1 | L | one source |
+| `squire-skilling` | extend to W4-late; no order change | 1 | L | one source |
+| `bowman-skilling` | extend to W4-late; no order change | 1 | L | one source |
+| `hunter-skilling` | extend to W4-late; no order change | 1 | L | one source |
+| `wizard-skilling` | extend to W4-late; no order change | 1 | L | one source |
+| `shaman-skilling` | extend to W4-late; no order change | 1 | L | one source |
 
 ## Source bar (owner ruling, 2026-10-19)
 
@@ -439,6 +473,55 @@ Each class below has:
   the Summon > Tachyon Truth > Overwhelming Energy.
 - **Elemental Sorcerer's master class:** Spiritual Monk is unreleased, so the ES has none.
 
+## Per class: the rest (Journeyman line, and the third classes past W4-entry)
+
+The drafts are in `kb-drafts/class-builds-late.yaml`.
+
+### Journeyman and Maestro (no Build exists today)
+
+These Builds are new. `lineOf()` returns null for the whole line, so they need the same engine change as the
+Voidwalker Builds.
+
+- **Journeyman fighting.**
+  - Sources: 2 (the Community Guide ladder ~40 / ~55 / ~70, plus the stale sheet). Confidence: L.
+  - Tab 1: Axe 75 = Gilded 75 > Sleepin' On The Job 50 (core), then 100 > Lucky Clover 50.
+  - Tab 2: Two Punch Man max = Indiana Attack 75 > Lucky Hit 75 > Lucky Horseshoe > It's Your Birthday! 1.
+  - The ~70 build is CDkeGs (10 likes, updated 2026-10-11).
+- **Journeyman luck and EXP preset.**
+  - Sources: 2 (BBB6kd, 3 likes, 2026-10-09; plus the sheet). Confidence: L.
+  - Happy Dude = Lucky Clover > the three skill stats evenly > Lucky Horseshoe = Looty Booty > F'luk'ey Fabrics >
+    Cards Galore = Rares Everywhere > Birthday.
+  - Alternative (sheet): Birthday first.
+- **Maestro fighting.**
+  - Sources: 3 (SpRNmm ~70; RekesX ~150, 4 likes, 2026-10-09; hGbIJJ money 170). Confidence: L.
+  - The ~70 order, then from W4-mid: Feather Flight, Sleepin' past 100 (Colloquial Containers), Chaching!, Rares,
+    Bliss N Chips and Colloquial Containers.
+  - Coin Toss stays at 35 in both the ~70 and ~150 builds.
+- **Maestro skilling.**
+  - Sources: 2 (mlZMaQ, 7 likes, 2026-10-13; JXWkLU; plus the sheet). Confidence: L (sources disagree).
+  - Happy Dude > Birthday > Looty Booty = Rares > Cards > Bliss N Chips > Transfusion > Hands > Printer Go Brrr.
+  - Alternative (sheet): Printer Go Brrr first.
+
+### Third-class Builds past W4-entry (patches)
+
+- **What a patch does:** each live third-class Build gets `appliesTo.to: W4-late` and, where a later build changes the
+  order, extra steps gated `stageAtLeast: W4-mid`.
+- **Who still uses them:** a promoted character uses its elite Build, so these patches only serve characters still on
+  a third class past W4-entry. The W4 test account has six of those.
+- **Source quality:** each change rests on the ~150 / 100+ Community Guide builds (legacy imports, updated 2026-08 to
+  2026-10) and, for the Wizard, Gameslikefinder.
+- **What the later builds change:**
+  - Squire: Shockwave Slash and Daggerang go to 25 (they join the bar). The refinery talents are levelled on the AFK
+    preset (xqKgSd, 12 likes; 1loA9z).
+  - Bowman: Broken Time, Focused Soul and Robbinghood go on the AFK preset; attacks settle at 25 (FEXoK0, 22 likes).
+  - Hunter: Eagle Eye 140 on the damage preset, plus Straightshot Statues and Reflective Eyesight (crUlTp, 17 likes).
+  - Wizard: every attack goes to max, then Speedy Book (8kt1td, 29 likes; Gameslikefinder).
+  - Shaman: the alchemy talents are also levelled on the AFK preset (CgmyGf, 11 likes).
+  - Barbarian and the five skilling Builds: no order change, only the stage extension.
+- **Super talents and late caps** come from GriffyBit (2025-11-28) and IdleManeZed (2025-11-13). Examples: SB move
+  speed is now capped; Veins of the Infernal is capped; Stacked Skulls stops working in W7. These are W5-W7 notes and
+  are not applied.
+
 ## Claims register
 
 One row per (Build, Source); tier 1 game data omitted (it backs every Build). No community source states a patch; each was checked against talents.json at 2.3.540. Popularity is the Toolbox like and view count on 2026-10-19 (other sites show none).
@@ -519,6 +602,33 @@ One row per (Build, Source); tier 1 game data omitted (it backs every Build). No
 | C72 | `arcane-cultist-fighting` | 67k views; chapters on talents 1-15 and the action bar; captions not read, so no order taken | [youtu.be](https://youtu.be/P4OKck3meJk) | 2025-06-27 | none | n/a | 3 |
 | C73 | `arcane-cultist-skilling` | on the choppin/lab preset, switch to it before summoning or the daily reset: Absolute Stardom (if Doublers) > Essential Essence > Passion > Tachyon > Overwhelming | [gameslikefinder.com](https://gameslikefinder.com/article/idleon-arcane-cultist-build-guide/) | 2026-04-13 | none | n/a | 3 |
 | C74 | `arcane-cultist-skilling` | IdleOn Wiki: Arcane Cultist (Choppin, Alchemy, Laboratory, Summoning) | [idleon.wiki](https://idleon.wiki/wiki/Arcane_Cultist) | 2026-10-12 | none | n/a | 2 |
+| C75 | `journeyman-fighting` | AFK ~70, legacy curated import: max Two Punch Man and Indiana Attack, then Lucky Hit; excess to Lucky Horseshoe | [CDkeGs](https://idleontoolbox.com/tools/builds/view?id=CDkeGs) | 2026-10-11 | none | 10 likes, 3326 views | 3 |
+| C76 | `journeyman-fighting` | AFK ~55: Axe 50, Gilded 50, Sleepin' 100; Indiana 75, Two Punch 45, Birthday 1 | [Ro7g0A](https://idleontoolbox.com/tools/builds/view?id=Ro7g0A) | 2026-08-18 | none | 1 likes, 840 views | 3 |
+| C77 | `journeyman-fighting` | AFK ~40: Axe 35, Gilded 20, Sleepin' 50; Indiana 50, Two Punch 45, Birthday 1 | [3Qc6gN](https://idleontoolbox.com/tools/builds/view?id=3Qc6gN) | 2026-08-18 | none | 2 likes, 1002 views | 3 |
+| C78 | `journeyman-fighting` | stale (last changelog 2024-07-12); Start with / Work towards / Extra columns per class | [Talents guide sheet](https://docs.google.com/spreadsheets/d/e/2PACX-1vST3HcgBgeq8H9jztaMhUXZAAAHl120PvDVo_48qJpn6n9qnpa-TWmuG_kN9cmtr66M-OtO482XIOAk/pubhtml) | 2024-07-12 | none | n/a | 3 |
+| C79 | `journeyman-skilling` | utility/EXP, legacy curated import: max Happy Dude and Lucky Clover; Horseshoe and Looty Booty, F'luk'ey; excess Cards, Rares, Birthday | [BBB6kd](https://idleontoolbox.com/tools/builds/view?id=BBB6kd) | 2026-10-09 | none | 3 likes, 1890 views | 3 |
+| C80 | `journeyman-skilling` | stale (last changelog 2024-07-12); Start with / Work towards / Extra columns per class | [Talents guide sheet](https://docs.google.com/spreadsheets/d/e/2PACX-1vST3HcgBgeq8H9jztaMhUXZAAAHl120PvDVo_48qJpn6n9qnpa-TWmuG_kN9cmtr66M-OtO482XIOAk/pubhtml) | 2024-07-12 | none | n/a | 3 |
+| C81 | `maestro-fighting` | AFK ~70, legacy curated import: max Gilded, Axe, 100 Sleepin'; Two Punch, Indiana, then Lucky Hit; Coin Toss 35 then Triple Jab | [SpRNmm](https://idleontoolbox.com/tools/builds/view?id=SpRNmm) | 2026-09-13 | none | 1 likes, 882 views | 3 |
+| C82 | `maestro-fighting` | AFK 150, legacy curated import: Sleepin' 260; Two Punch, Chaching!, Rares 160; Skillage, Triple Jab, Bliss, Colloquial 160 | [RekesX](https://idleontoolbox.com/tools/builds/view?id=RekesX) | 2026-10-09 | none | 4 likes, 2808 views | 3 |
+| C83 | `maestro-fighting` | AFK money 170: as RekesX plus Looty Booty, Knucklebuster, Skilliest Statue, JMan Was Better 160 (needs many points) | [hGbIJJ](https://idleontoolbox.com/tools/builds/view?id=hGbIJJ) | 2026-07-09 | none | 3 likes, 1302 views | 3 |
+| C84 | `maestro-fighting` | stale (last changelog 2024-07-12); Start with / Work towards / Extra columns per class | [Talents guide sheet](https://docs.google.com/spreadsheets/d/e/2PACX-1vST3HcgBgeq8H9jztaMhUXZAAAHl120PvDVo_48qJpn6n9qnpa-TWmuG_kN9cmtr66M-OtO482XIOAk/pubhtml) | 2024-07-12 | none | n/a | 3 |
+| C85 | `maestro-skilling` | skilling ~100, legacy curated import: Happy Dude as high as possible; Birthday, Looty Booty, Rares 100; Bliss N Chips 100; *2 Transfusion,  | [mlZMaQ](https://idleontoolbox.com/tools/builds/view?id=mlZMaQ) | 2026-10-13 | none | 7 likes, 1704 views | 3 |
+| C86 | `maestro-skilling` | Left + Right Hands ~100 variant: Hands 100 so other characters reach skill 20+ | [JXWkLU](https://idleontoolbox.com/tools/builds/view?id=JXWkLU) | 2026-04-26 | none | 0 likes, 1104 views | 3 |
+| C87 | `maestro-skilling` | stale (last changelog 2024-07-12); Start with / Work towards / Extra columns per class | [Talents guide sheet](https://docs.google.com/spreadsheets/d/e/2PACX-1vST3HcgBgeq8H9jztaMhUXZAAAHl120PvDVo_48qJpn6n9qnpa-TWmuG_kN9cmtr66M-OtO482XIOAk/pubhtml) | 2024-07-12 | none | n/a | 3 |
+| C88 | `barbarian-fighting` | AFK ~150: attacks 25 is enough for the damage cap; No Pain No Gain, Monster Decimator, Strongest Statues 160, Zow 132 | [3HAFdX](https://idleontoolbox.com/tools/builds/view?id=3HAFdX) | 2026-10-19 | none | 25 likes, 3389 views | 3 |
+| C89 | `barbarian-skilling` | fishing 100+: Brute Efficiency, Fist of Rage, Idle Skilling; Firmly, Absolute Unit, Tempestuous; Worming, Str Summore, Statues, All Fish, Z | [hrQHqr](https://idleontoolbox.com/tools/builds/view?id=hrQHqr) | 2026-10-08 | none | 9 likes, 2227 views | 3 |
+| C90 | `squire-fighting` | AFK combat: Power Strike = Whirl 55, Double Strike 41; Shockwave Slash, Daggerang 25; Precision Power, Throttle, Saws, Statues 160 | [xqKgSd](https://idleontoolbox.com/tools/builds/view?id=xqKgSd) | 2026-10-02 | none | 12 likes, 3730 views | 3 |
+| C91 | `squire-fighting` | AFK ~150, legacy curated import: the same levels as xqKgSd | [1loA9z](https://idleontoolbox.com/tools/builds/view?id=1loA9z) | 2026-10-19 | none | 10 likes, 2127 views | 3 |
+| C92 | `bowman-fighting` | AFK ~150: attacks 25 enough for the damage cap; Quickness Boots 260; Broken Time, Focused Soul, Robbinghood 160 | [FEXoK0](https://idleontoolbox.com/tools/builds/view?id=FEXoK0) | 2026-10-19 | none | 22 likes, 2879 views | 3 |
+| C93 | `hunter-fighting` | AFK ~170: Looty, Agi Again 160; Eagle Eye 140; Straightshot Statues, Reflective Eyesight 100; 360 Noscope, Bear Trap 25 | [crUlTp](https://idleontoolbox.com/tools/builds/view?id=crUlTp) | 2026-10-13 | none | 17 likes, 2707 views | 3 |
+| C94 | `wizard-fighting` | Active/AFK 150+, the most-liked Wizard build: Energy Bolt, Mini Fireball, Ice Shards, Floor Is Lava, Tornado max | [8kt1td](https://idleontoolbox.com/tools/builds/view?id=8kt1td) | 2026-10-17 | none | 29 likes, 4246 views | 3 |
+| C95 | `wizard-fighting` | Speedy Book matters after the ES promotion (ES is played active): max it, then go back to the attack talents | [gameslikefinder.com](https://gameslikefinder.com/article/idleon-wizard-build-guide/) | 2026-03-09 | none | n/a | 3 |
+| C96 | `shaman-fighting` | AFK ~150: Book of the Wise 260; attacks 25; Virile Vials, Wis Wumbo, Busy Brewin', Bubble Breakthrough, Sharing Some Smarts 160 | [CgmyGf](https://idleontoolbox.com/tools/builds/view?id=CgmyGf) | 2026-10-09 | none | 11 likes, 1824 views | 3 |
+| C97 | `squire-skilling` | mining/construction 100+: same order as SFipox | [9atDdI](https://idleontoolbox.com/tools/builds/view?id=9atDdI) | 2026-10-07 | none | 4 likes, 1261 views | 3 |
+| C98 | `bowman-skilling` | catching 100+: Elusive Efficiency, Quickness Boots 200, Broken Time; Sanic, Garb, Focused Soul | [1CzVlL](https://idleontoolbox.com/tools/builds/view?id=1CzVlL) | 2026-10-09 | none | 12 likes, 2353 views | 3 |
+| C99 | `hunter-skilling` | trapping ~100: 100+ in each trapping talent, excess to Agi Again for Quickness Boots 200 | [vh8Z0k](https://idleontoolbox.com/tools/builds/view?id=vh8Z0k) | 2026-10-15 | none | 16 likes, 2256 views | 3 |
+| C100 | `wizard-skilling` | worship/choppin 100+: same order as the live Build | [38A1rv](https://idleontoolbox.com/tools/builds/view?id=38A1rv) | 2026-10-13 | none | 9 likes, 1809 views | 3 |
+| C101 | `shaman-skilling` | alchemy/choppin 100+, 26 likes: Busy Brewin' > Bubble Breakthrough (only if the Shaman still needs Alchemy EXP) | [KvJlQh](https://idleontoolbox.com/tools/builds/view?id=KvJlQh) | 2026-10-07 | none | 26 likes, 2674 views | 3 |
 
 ## Converter and engine requirements
 
