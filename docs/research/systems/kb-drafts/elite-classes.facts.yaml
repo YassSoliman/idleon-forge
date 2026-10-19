@@ -1,0 +1,152 @@
+# SPDX-License-Identifier: GPL-3.0-only
+# M26 W4 synthesis: KB drafts copied from scratchpad/m26/maps/elite-classes.json (facts). status: draft.
+# Target file: packages/knowledge/systems/elite-classes.yaml (new; header '# SPDX-License-Identifier: GPL-3.0-only', 'system: elite-classes', 'entries:'); facts in elite-classes.facts.yaml; the metapath patch goes in metapath.yaml
+system: elite-classes
+facts:
+- id: elite-classes.fact.elites
+  system: elite-classes
+  origin: generated (classPromotions.json + shared-data.json classFamilyBonuses + riftInfo)
+  title: "The six elites: subclass, skill, family bonus, Rift gate"
+  rows:
+  - subclass: Barbarian
+    subclassIndex: 8
+    elite: Blood_Berserker
+    eliteIndex: 10
+    w4Skill: Cooking
+    family: +% Total Damage
+    x1: 20
+    x2: 180
+    x3: 69
+    atLv100: 2.94
+    atLv150: 6.21
+    atLv200: 8.42
+    riftGate: null
+  - subclass: Squire
+    subclassIndex: 9
+    elite: Divine_Knight
+    eliteIndex: 12
+    w4Skill: Gaming
+    family: +% Refinery Speed
+    x1: 50
+    x2: 150
+    x3: 69
+    atLv100: 8.56
+    atLv150: 17.53
+    atLv200: 23.31
+    riftGate: Orb of Remembrance score 180 at Rift 8, 18, 29, 43
+  - subclass: Bowman
+    subclassIndex: 20
+    elite: Siege_Breaker
+    eliteIndex: 22
+    w4Skill: Sailing
+    family: +% faster min boat travel
+    x1: 20
+    x2: 170
+    x3: 69
+    atLv100: 3.08
+    atLv150: 6.45
+    atLv200: 8.7
+    riftGate: Pirate Flag score 75 at Rift 16, 22, 36, 65
+  - subclass: Hunter
+    subclassIndex: 21
+    elite: Beast_Master
+    eliteIndex: 25
+    w4Skill: Breeding
+    family: +% All Skill AFK gains
+    x1: 5
+    x2: 180
+    x3: 69
+    atLv100: 0.73
+    atLv150: 1.55
+    atLv200: 2.11
+    riftGate: null
+  - subclass: Wizard
+    subclassIndex: 32
+    elite: Elemental_Sorcerer
+    eliteIndex: 34
+    w4Skill: Divinity
+    family: +N levels to all talents above Lv 1
+    x1: 20
+    x2: 350
+    x3: 69
+    atLv100: 1.63
+    atLv150: 3.76
+    atLv200: 5.45
+    riftGate: Dimensional Wormhole score 60 at Rift 9, 27, 44
+  - subclass: Shaman
+    subclassIndex: 33
+    elite: Bubonic_Conjuror
+    eliteIndex: 36
+    w4Skill: Laboratory
+    family: +% All Stat
+    x1: 5
+    x2: 180
+    x3: 69
+    atLv100: 0.73
+    atLv150: 1.55
+    atLv200: 2.11
+    riftGate: null
+  sources:
+  - url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/classPromotions.json"
+    title: "Game data: class promotions (each subclass has one promotesTo)"
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+  - url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json"
+    title: "Game data: classFamilyBonuses (x1/x2/x3 per class)"
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+    note: key classFamilyBonuses
+  - url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json"
+    title: "Game data: riftInfo class gates"
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+  confidence: H
+  status: draft
+- id: elite-classes.fact.troll
+  system: elite-classes
+  origin: generated (monsters.json, cards.json, tasks.json)
+  title: Massive Troll and Mutated Mush
+  rows:
+  - boss: Massive Troll
+    tier: Normal
+    hp: 80000000.0
+    card: +6% Kitchen Speed
+    keysWiki: 1
+  - boss: Massive Troll
+    tier: Chaotic
+    hp: 350000000.0
+    card: +10% All Skill Efficiency
+    keysWiki: 5
+  - boss: Massive Troll
+    tier: Blitzkrieg
+    hp: 2000000000.0
+    card: +7% Total Damage
+    keysWiki: 60
+  - boss: Mutated Mush
+    tier: mini
+    hp: 120000000.0
+    card: +6% Cooking EXP
+    keysWiki: null
+  notes: "Key costs are wiki only (C29, L). Troll EXP disagrees: data 12,000 vs wiki 750K / 30M / 1B (C25, M), not shown."
+  sources:
+  - url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/monsters.json"
+    title: "Game data: Boss4A/B/C Massive Troll 80M / 350M / 2B HP; mini4a Mutated Mush 120M HP"
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+  - url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/cards.json"
+    title: "Game data: Massive Troll cards (+6% Kitchen Speed, +10% All Skill Efficiency, +7% Total Damage)"
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+  - url: "https://idleon.wiki/wiki/Massive_Troll"
+    title: "IdleOn Wiki: Massive Troll (entry 1 / 5 / 60 keys; mindgames)"
+    tier: 2
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+    claimDate: '2026-10-02'
+  confidence: H (HP, cards); L (keys)
+  status: draft

@@ -1,0 +1,308 @@
+# SPDX-License-Identifier: GPL-3.0-only
+# M26 KB drafts for System `trapping` (W3 synthesis, 2026-10-19). Every entry is status: draft.
+# Copied from scratchpad/m26/maps/*.json; dossiers in scratchpad/m26/dossiers/. Not yet validated
+# against the knowledge schema (the schema has no draft status: flip to active at merge).
+system: trapping
+entries:
+- id: trapping.check.free-slots
+  system: trapping
+  type: check
+  title: Empty trap slots
+  text: 'Place {free:int} more traps: {placed:int} of {capacity:int} out'
+  groupText: Place traps in your empty trap slots
+  values:
+    timelineKind: timer
+    timelineWhat: traps
+  why: Each character places as many traps as its trap set allows, plus one with Call Me Ash. An empty slot catches
+    nothing while you are away.
+  sources:
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/items.json
+    title: 'IdleOn Toolbox game data: TrapBoxSet1..11 (ID, lvReqToEquip, stats)'
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/cauldrons.json
+    title: 'IdleOn Toolbox game data: Call Me Ash ("+1 Placeable Trap ALWAYS, even when this isn''t equipped")'
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+  - url: https://idleon.wiki/wiki/Trapping
+    title: 'IdleOn Wiki: Trapping'
+    tier: 2
+    claimDate: '2026-10-07'
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+  appliesTo:
+    stages: all
+  confidence: M
+  status: draft
+  subject: character
+  effect: next-action
+  category: compounding
+  effortSeconds: 120
+  detector:
+    id: trapping/free-slots
+  notes: 'M3 FR-21 branch (i). Count rule (set ID + Call Me Ash) is N.js (dossier C4, C5, M): research/w3-systems:
+    worship-trapping-death-note.md (N.js v1.23 reading of NumOfTrapsPlaceable, verified 2026-10-17, not re-checked
+    on 2.3.540). Upgrade to H once the count is checked in game. M26 W3 synth (from maps/trapping.json).'
+- id: trapping.check.call-me-ash
+  system: trapping
+  type: check
+  title: Level Call Me Ash once
+  text: 'Level Call Me Ash to 1: +1 trap on {chars:int} characters'
+  why: Its first level adds one placeable trap to every character, even when the bubble isn't equipped. It costs
+    Tundra Logs and Nitrogen.
+  sources:
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/cauldrons.json
+    title: 'IdleOn Toolbox game data: Call Me Ash ("+1 Placeable Trap ALWAYS, even when this isn''t equipped")'
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+  - url: https://idleon.wiki/wiki/Trapping
+    title: 'IdleOn Wiki: Trapping'
+    tier: 2
+    claimDate: '2026-10-07'
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+  appliesTo:
+    stages:
+    - from: W3-early
+      to: W4-entry
+  confidence: M
+  status: draft
+  subject: account
+  effect: next-action
+  category: compounding
+  effortSeconds: 60
+  detector:
+    id: trapping/call-me-ash
+  doneWhen:
+    field: account.alchemy.bubbleLevels.quicc.11
+    change: higher
+  notes: Bubble text is tier 1 (H); that one level is enough is the N.js count rule (M). Cross-link alchemy-bubbles.json
+    "Big bubbles for parallel roles". M26 W3 synth (from maps/trapping.json).
+- id: trapping.goal.next-set
+  system: trapping
+  type: goal
+  title: A better trap set
+  text: '{text}'
+  why: '{why}'
+  values:
+    equip: '{who}: equip {set} (you hold one)'
+    craft: 'Craft {set} for {who}: {materials}'
+    why: A higher set adds one trap per tier up to Royal Traps and longer timers. Each recipe uses up the set before
+      it.
+    detail: '{who}: Trapping {level:int}, can equip {set}'
+  sources:
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/items.json
+    title: 'IdleOn Toolbox game data: TrapBoxSet1..11 (ID, lvReqToEquip, stats)'
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/crafts.json
+    title: 'IdleOn Toolbox game data: trap set and critter pouch recipes'
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+  appliesTo:
+    stages: all
+  confidence: H
+  status: draft
+  subject: account
+  effect: next-action
+  category: compounding
+  effortSeconds: 300
+  detector:
+    id: trapping/next-set
+  notes: 'Dossier T2, C2, C36 (H). Sets 8-11 add no slots (C4, M): the why says "up to Royal Traps". M26 W3 synth
+    (from maps/trapping.json).'
+- id: trapping.goal.lord-of-the-hunt
+  system: trapping
+  type: goal
+  title: Next Lord of the Hunt quest
+  text: '{text}'
+  why: '{why}'
+  values:
+    ready: 'Hand in Lord of the Hunt quest {quest:int}: you hold the critters'
+    progress: 'Lord of the Hunt quest {quest:int}: {items}'
+    why: Lord of the Hunt is in Trappers Folley. Each quest asks for critters and gives rewards like EXP balloons,
+      gems or talent resets.
+  sources:
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/quests.json
+    title: 'IdleOn Toolbox game data: Lord of the Hunt quests 1-11'
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+  - url: https://idleon.wiki/wiki/Lord_of_the_Hunt
+    title: 'IdleOn Wiki: Lord of the Hunt'
+    tier: 2
+    claimDate: '2026-09-27'
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+  appliesTo:
+    stages: all
+  confidence: H
+  status: draft
+  subject: account
+  effect: next-action
+  category: compounding
+  effortSeconds: 300
+  detector:
+    id: trapping/lord-of-the-hunt
+  notes: 'Dossier C33, C34 (H for requirements and rewards). The +1 base critter per quest 2-11 is N.js only (C34,
+    L): not stated in the text. M26 W3 synth (from maps/trapping.json).'
+- id: trapping.check.eagle-eye
+  system: trapping
+  type: check
+  title: Use Eagle Eye
+  text: Put Eagle Eye in a talent preset on your {who}
+  why: Eagle Eye collects and re-places every character's traps in one cast, at a share of the critters and EXP
+    that grows with its level.
+  sources:
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/talents.json
+    title: 'IdleOn Toolbox game data: Hunter EAGLE_EYE (talent 310)'
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-3/traps.ts#L63-L160
+    title: IdleOn Toolbox, getTrapsBonuses (Eagle Eye critter and EXP rates)
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+  - url: https://idleon.wiki/wiki/Hunter
+    title: 'IdleOn Wiki: Hunter (Eagle Eye)'
+    tier: 2
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+  appliesTo:
+    stages: all
+  confidence: M
+  status: draft
+  subject: character
+  effect: next-action
+  category: compounding
+  effortSeconds: 120
+  detector:
+    id: trapping/eagle-eye
+  notes: Rates (C21, H). That a Hunter should run it is community meta ("Hunter for traps", Idleon Academy, coverage
+    audit) plus the metapath role (M). M26 W3 synth (from maps/trapping.json).
+- id: trapping.check.shiny-snitch
+  system: trapping
+  type: check
+  title: Shiny Snitch is on
+  text: Shiny Snitch divides shiny odds on your {who}'s traps
+  why: Shiny Snitch makes shinies come in bundles but divides the chance to get one. Keep it only for traps where
+    the bundle is worth more than the lost chance.
+  sources:
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-3/traps.ts#L178-L264
+    title: IdleOn Toolbox, getShinyChance / getShinyChanceInfo (Shiny Snitch divider and bundle)
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json
+    title: 'IdleOn Toolbox game data: prayers[3] Shiny Snitch'
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+  appliesTo:
+    stages: all
+  confidence: M
+  status: draft
+  subject: character
+  effect: next-action
+  category: nice
+  effortSeconds: 60
+  detector:
+    id: trapping/shiny-snitch
+  notes: Mechanic H (C19, C20); "turn it off for normal runs" is derived (dossier mistakes list, M). M26 W3 synth
+    (from maps/trapping.json).
+- id: trapping.info.durations
+  system: trapping
+  type: info
+  title: Which trap time to pick
+  text: '{set}: {best} fits your return'
+  values:
+    exp: 'Most EXP per hour: {row}'
+    critters: 'Most critters per hour: {row}'
+    shiny: 'Best shiny odds per hour: {row}'
+    shinyRow: '{set} {time} gives x{mult} shiny but only x1 EXP'
+  why: Each trap set has fixed times. Short traps pay more per hour, so if you will collect soon, use the short
+    one; overnight, the longest that ends before you are back.
+  sources:
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json
+    title: 'IdleOn Toolbox game data: traps (trapTime, quantity, EXP/shiny column, flag per trap set)'
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+  - url: https://idleon.wiki/wiki/Trapping
+    title: 'IdleOn Wiki: Trapping'
+    tier: 2
+    claimDate: '2026-10-07'
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+  appliesTo:
+    stages: all
+  confidence: M
+  status: draft
+  subject: character
+  effect: info
+  detector:
+    id: trapping/duration-fit
+    params:
+      goal: exp
+  notes: Rows and per-hour numbers are tier-1 derived (C6, C47-C49, H); the shiny-vs-EXP meaning of the third column
+    is N.js (C7, M). Wooden 120 h rows are ambiguous (M1). M26 W3 synth (from maps/trapping.json).
+facts:
+- id: trapping.fact.trap-rows
+  system: trapping
+  origin: generated
+  title: Trap times and multipliers per set
+  generator: shared-data.json#traps[0..6] -> rows { set, trapTimeSec, quantity, third, flag, ambiguous }
+  sources:
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json
+    title: 'IdleOn Toolbox game data: traps (trapTime, quantity, EXP/shiny column, flag per trap set)'
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+  status: draft
+  notes: M26 W3 synth (from maps/trapping.json).
+- id: trapping.fact.critters
+  system: trapping
+  origin: generated
+  title: Critter spots
+  generator: shared-data.json#trappingInfo + mapNames -> rows { rawName, shinyRawName, map, effReq, exp, shinyPct
+    }
+  sources:
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json
+    title: 'IdleOn Toolbox game data: trappingInfo (critter spot, efficiency requirement, EXP, base shiny %)'
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+  status: draft
+  notes: M26 W3 synth (from maps/trapping.json).
+- id: trapping.fact.trap-set-recipes
+  system: trapping
+  origin: generated
+  title: Trap set recipes
+  generator: crafts.json TrapBoxSet2..11 -> rows { rawName, materials [{item, qty}] }
+  sources:
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/crafts.json
+    title: 'IdleOn Toolbox game data: trap set and critter pouch recipes'
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+  status: draft
+  notes: M26 W3 synth (from maps/trapping.json).
+- id: trapping.fact.lord-of-the-hunt
+  system: trapping
+  origin: generated
+  title: Lord of the Hunt quests
+  generator: quests.json#Lord_of_the_Hunt -> rows { quest, items [{item, qty}], rewards }
+  sources:
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/quests.json
+    title: 'IdleOn Toolbox game data: Lord of the Hunt quests 1-11'
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+  status: draft
+  notes: M26 W3 synth (from maps/trapping.json).

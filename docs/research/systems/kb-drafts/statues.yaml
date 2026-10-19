@@ -1,0 +1,261 @@
+# SPDX-License-Identifier: GPL-3.0-only
+# M26 KB drafts for statues (W1 synthesis), copied from m26/maps/*.json. status: draft on every entry;
+# the live schema's status enum is active|contested|retired, so promotion flips draft -> active or contested.
+# Topics: statues
+system: statues
+status: draft
+entries:
+- id: statues.check.town-marble
+  system: statues
+  type: check
+  title: Unlock statue deposits on this character
+  subject: character
+  effect: next-action
+  category: unlock
+  effortSeconds: 120
+  detector:
+    id: statues/town-marble
+  text: Buy Sculpting Tools in the W1 town shop and give them to Town Marble on {character}
+  why: '{character} holds {count:int} statues but cannot deposit them until Town Marble''s quest is done; the quest
+    is per character.'
+  notes: 'C13 (M): quests.json Town_Marble[1] consumes SmithingHammerChisel and rewards a Power Statue; per-character
+    scope from the wiki. Fires only when the character holds statue items (not on class level: the Lv 22 gate C14
+    is L).'
+  doneWhen:
+    field: characters[].quests.Town_Marble.1
+    change: higher
+  sources:
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/quests.json
+    title: 'Toolbox game data: quests.json (Town_Marble, Krunk, Monolith)'
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+  - url: https://idleon.wiki/wiki/Town_Marble
+    title: 'IdleOn Wiki: Town Marble'
+    tier: 3
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+    claimDate: '2026-10-19'
+  - url: https://idleon.wiki/wiki/Statues
+    title: 'IdleOn Wiki: Statues (Gold, Onyx and Zenith grades)'
+    tier: 3
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+    claimDate: '2026-10-19'
+  appliesTo:
+    stages: all
+  confidence: M
+  status: draft
+- id: statues.check.deposit-held
+  system: statues
+  type: check
+  title: Deposit the statues you hold
+  subject: account
+  effect: next-action
+  category: spendable
+  effortSeconds: 90
+  detector:
+    id: statues/deposit-held
+    params:
+      keepOneEachFrom: W3-late
+  text: '{text}'
+  why: '{why}'
+  values:
+    text: 'Deposit {count:int} statues at the Statue Man: {list}'
+    why: Statues in a bag or the chest give nothing; each deposit adds statue EXP toward the next level.
+    detail-who: '{statue}: deposit on {character}, it has the highest {statue} level and the statue is not Gold
+      yet'
+    detail-keep-krunk: Keep 20 Power statues for Krunk's second quest
+    detail-keep-monolith: Keep one of each statue in a bag for Monolith's first quest (17 types)
+    detail-keep-onyx: Keep your Power statues for Monolith's Onyx Tools (20,000)
+    maxDetails: 3
+  notes: 'Fires when held (storageItems + inventoryItems of characters with Town_Marble done) exceeds the reserves.
+    Reserves are game data (H): Krunk2 consumes 20 Power (C65), Monolith1 checks 17 unique statues in the bag (C15),
+    Monolith2 consumes 20,000 Power (C16). Depositing on the highest-level character for a non-Gold statue follows
+    from C9 (H, Toolbox takes the highest) and C10 (L, the wiki says Gold keeps only the highest), so the entry
+    is M. Silent from W4-entry for Power while Monolith2 is open.'
+  doneWhen:
+    field: account.statues[].level
+    change: higher
+  sources:
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-1/statues.ts#L13-L60
+    title: 'Toolbox parsers/world-1/statues.ts: grades (StuG), highest level across characters'
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/quests.json
+    title: 'Toolbox game data: quests.json (Town_Marble, Krunk, Monolith)'
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+  - url: https://idleon.wiki/wiki/Statues
+    title: 'IdleOn Wiki: Statues (Gold, Onyx and Zenith grades)'
+    tier: 3
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+    claimDate: '2026-10-19'
+  appliesTo:
+    stages: all
+  confidence: M
+  status: draft
+- id: statues.goal.monolith-1
+  system: statues
+  type: goal
+  title: Monolith's first quest
+  text: Reach {levels:int}/250 total statue levels and {types:int}/17 statue types in one bag
+  why: Monolith's first quest opens the Onyx Tools quest; it consumes nothing, so keep one of each statue in a bag.
+  detector:
+    id: statues/monolith
+    params:
+      part: surface
+  notes: 'C15 (H): quests.json Monolith[1] customArray Total_Statue_LV 250, Unique_Statues_in_Inv 17, ConsumeItems
+    false. Which total the game sums (account max vs the character''s own) is not in vendored code; ActiveOn shows
+    the account max sum (Toolbox calcStatueLevels) and says so.'
+  doneWhen:
+    field: characters[].quests.Monolith.1
+    change: higher
+  sources:
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/quests.json
+    title: 'Toolbox game data: quests.json (Town_Marble, Krunk, Monolith)'
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-1/statues.ts#L200-L203
+    title: 'Toolbox calcStatueLevels: sum of statue levels'
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+  appliesTo:
+    stages:
+    - W4-entry
+  confidence: M
+  status: draft
+- id: statues.goal.onyx-tools
+  system: statues
+  type: goal
+  title: Onyx Tools from Monolith
+  text: Collect {held:int}/20,000 Power statues for Monolith's Onyx Tools
+  why: Monolith's second quest takes 20,000 Power statues and gives the Onyx Tools; Onyx doubles a statue's bonus.
+    The game marks it DO THIS QUEST ASAP.
+  detector:
+    id: statues/monolith
+    params:
+      part: onyx-tools
+  notes: 'C16 (H): Monolith[2] consumes 20,000 EquipmentStatues1, Reclaimable, rewards Onyx Tools; dialogue text
+    says DO THIS QUEST ASAP. Onyx x2 from C22 (H). Held = storageItems + all inventoryItems.'
+  doneWhen:
+    field: characters[].quests.Monolith.2
+    change: higher
+  sources:
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/quests.json
+    title: 'Toolbox game data: quests.json (Town_Marble, Krunk, Monolith)'
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/items.json
+    title: 'Toolbox game data: items.json (SmithingHammerChisel 1-4, EquipmentStatues1-32)'
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-1/statues.ts#L108-L198
+    title: 'Toolbox parsers/world-1/statues.ts: applyStatuesMulti and getStatueBonus (Onyx x2, multipliers)'
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+  appliesTo:
+    stages:
+    - W4-entry
+  confidence: H
+  status: draft
+- id: statues.check.onyx-ready
+  system: statues
+  type: check
+  title: Make a statue Onyx
+  subject: account
+  effect: next-action
+  category: spendable
+  effortSeconds: 60
+  detector:
+    id: statues/onyx-ready
+  text: Drop a stack of 20,000 {statue} statues on the Statue Man to make it Onyx
+  why: Onyx doubles the statue's bonus for good; it must be Gold first and the Onyx Tools must be on the Statue
+    Man.
+  notes: 'C19 (M: wiki + Steam) for the 20,000-stack and Gold-first rule; C22 (H) for x2. Fires when any character
+    finished Monolith[2] and a Gold (grade 1) statue has >= 20,000 held. Order among several ready stacks is not
+    advised (AutoReview C49 is L): it names the one with the most held.'
+  doneWhen:
+    field: account.statues[].grade
+    change: higher
+  sources:
+  - url: https://idleon.wiki/wiki/Statues
+    title: 'IdleOn Wiki: Statues (Gold, Onyx and Zenith grades)'
+    tier: 3
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+    claimDate: '2026-10-19'
+  - url: https://steamcommunity.com/app/1476970/discussions/3/4635988976587615911
+    title: 'Steam: Onyx statue needs the statue Gold first (solved 2025-01-21)'
+    tier: 4
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+    claimDate: '2025-01-21'
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-1/statues.ts#L108-L198
+    title: 'Toolbox parsers/world-1/statues.ts: applyStatuesMulti and getStatueBonus (Onyx x2, multipliers)'
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/quests.json
+    title: 'Toolbox game data: quests.json (Town_Marble, Krunk, Monolith)'
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+  appliesTo:
+    stages:
+    - W4-entry
+  confidence: M
+  status: draft
+facts:
+- id: statues.fact.drop-sources
+  system: statues
+  type: fact
+  origin: generated
+  title: Where each statue drops
+  notes: 'Proposed generator extension (statues.gen.ts): from monsterDrops.json rows with EquipmentStatues<N>, per
+    statue the monsters/chests and base chance, best first; quest rewards from quests.json. Data only, shown in
+    the drawer; no ranking advice (community farm picks C44 are tier 4).'
+  sources:
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/monsterDrops.json
+    title: 'Toolbox game data: monsterDrops.json (EquipmentStatuesN)'
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/quests.json
+    title: 'Toolbox game data: quests.json (Town_Marble, Krunk, Monolith)'
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+  confidence: H
+  status: draft
+- id: statues.fact.exp-curve
+  system: statues
+  type: fact
+  origin: authored
+  title: Statue EXP to next level
+  rows:
+    formula: round(L^1.17 * 1.35^(L/10) + 1)
+    examples:
+      '1': 2
+      '10': 21
+      '20': 62
+      '50': 437
+      '100': 4400
+      '200': 199014
+  notes: C5 (M, Toolbox Statues.jsx nextLv tier 2); C6 (game rounds only to 300, L).
+  sources:
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/components/account/Worlds/World1/Statues.jsx
+    title: 'Toolbox Statues page: nextLv EXP formula'
+    tier: 2
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+  confidence: M
+  status: draft

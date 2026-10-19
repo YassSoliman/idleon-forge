@@ -1,0 +1,181 @@
+# SPDX-License-Identifier: GPL-3.0-only
+# M26 KB drafts for System friend-bonuses (area AW synthesis, verified 2026-10-19, Toolbox 6c37e3d, game 2.3.540).
+# status: draft is a workflow marker; the KB schema accepts active|contested|retired only.
+# entries = new entries; facts = new fact rows (land in <system>.facts.yaml at merge);
+# amendments = changes to entries already in packages/knowledge/systems (or to other drafts).
+# AW synthesis added: topics friend-bonuses (maps/<topic>.json).
+system: friend-bonuses
+status: draft
+entries:
+- id: friend-bonuses.check.free-slots
+  system: friend-bonuses
+  type: check
+  title: Fill your Friend Bonus slots
+  subject: account
+  effect: next-action
+  category: nice
+  priority:
+    frame: by-urgency
+  effortSeconds: 120
+  detector:
+    id: friend-bonuses/free-slots
+  text: '{free:int} of your {slots:int} Friend Bonus slots are empty'
+  why: Each filled slot adds a flat account-wide bonus (up to +{bestValue:int}% Total Damage at your multiplier); an empty
+    slot gives nothing. A friend sends it from the Codex Friends tab.
+  doneWhen:
+    field: account.friendBonuses.entriesRead
+    change: higher
+  appliesTo:
+    stages: all
+  confidence: H
+  status: draft
+  notes: 'Needs another player: never urgent. Entries beyond the slot count are ignored, so ''free'' is slots - min(slots,
+    stored).'
+  sources:
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/misc.ts#L132-L227
+    title: 'Toolbox getFriendBonusStats: slots and entries read'
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  - url: https://idleon.wiki/wiki/Friend_Bonuses
+    title: 'IdleOn Wiki: Friend Bonuses'
+    tier: 3
+    claimDate: 2026-10-14
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  fromTopic: friend-bonuses
+- id: friend-bonuses.check.weak-sender
+  system: friend-bonuses
+  type: check
+  title: Swap a low-level friend's bonus
+  subject: account
+  effect: next-action
+  category: nice
+  priority:
+    frame: by-urgency
+  effortSeconds: 120
+  detector:
+    id: friend-bonuses/weak-sender
+  text: Your {stat} Friend Bonus comes from a level {level:int} account and gives {pct:int}% of its full value
+  why: 'A bonus scales with the sender''s Account Level: level 12,000 gives the base value, level 1,000 only about 37% of
+    it. A higher-level friend''s bonus in the same slot is worth more.'
+  doneWhen:
+    field: account.friendBonuses.bonuses
+    change: higher
+  appliesTo:
+    stages: all
+  confidence: M
+  status: draft
+  notes: Fires when a read entry's sender level < 2,400 (scaling < 0.5, i.e. under 38% of the 30,000-level max). Maths is
+    tier 1 (H); that a higher-level friend is available is not knowable, hence M and category nice. Never name the friend.
+  sources:
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/misc.ts#L199-L223
+    title: 'Toolbox getFriendBonusQuantity: level scaling'
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  - url: https://idleon.wiki/wiki/Friend_Bonuses
+    title: 'IdleOn Wiki: Friend Bonuses (max values agree)'
+    tier: 3
+    claimDate: 2026-10-14
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  fromTopic: friend-bonuses
+- id: friend-bonuses.goal.friendly-slot
+  system: friend-bonuses
+  type: goal
+  title: Buy the Friendly Slot
+  subject: account
+  effect: goal
+  category: spendable
+  detector:
+    id: friend-bonuses/friendly-slot
+  text: Buy Friendly Slot in the Event Shop (12 points) for a 3rd Friend Bonus slot
+  why: It is a one-time +1 Friend Bonus slot, a permanent extra account-wide bonus once a friend fills it.
+  doneWhen:
+    field: account.friendBonuses.sources.friendlySlot
+    change: higher
+  appliesTo:
+    stages: all
+  confidence: M
+  status: draft
+  notes: Item and effect are tier 1 (H). M because the Event Shop is only open during events and ActiveOn does not read event-point
+    balances; show as a goal, not an urgent action.
+  sources:
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/misc.ts#L1938-L1941
+    title: Toolbox getEventShopBonus (accountOptions[311] letters)
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/shared-data.json
+    title: Event Shop item 22 Friendly Slot, cost 12 (ninjaExtraInfo[39])
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  fromTopic: friend-bonuses
+- id: friend-bonuses.goal.companion-upgrade
+  system: friend-bonuses
+  type: goal
+  title: Pet Mart+ your friend-bonus companion
+  subject: account
+  effect: goal
+  category: spendable
+  detector:
+    id: friend-bonuses/companion-upgrade
+  text: '{text}'
+  why: '{why}'
+  values:
+    pig: 'Upgrade Mr Pig in the Pet Mart (3,500): Friend Bonuses x2 -> x2.5 and 2 -> 3 slots'
+    why-pig: Mr Pig's upgrade raises every Friend Bonus by a quarter of base and adds a slot.
+    spearfish: 'Upgrade Spearfish in the Pet Mart (1,800): +25% to all Friend Bonuses'
+    why-spearfish: Spearfish's upgrade adds +0.25 to the Friend Bonus multiplier.
+  doneWhen:
+    field: account.friendBonuses.multiplier
+    change: higher
+  appliesTo:
+    stages: all
+  confidence: H
+  status: draft
+  notes: 'Fires only for an acquired companion (30 Mr Pig, 44 Spearfish) with level < 1 (not Pet Mart+). Getting the companion
+    itself is random (pet pulls), so no entry asks for that; the page shows it as a greyed source chip. Pig first: larger
+    effect.'
+  sources:
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/companions.json
+    title: 'Companions 30 Mr_Pig and 44 Spearfish: bonus text, upgrade cost'
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/misc.ts#L1506-L1509
+    title: Toolbox isCompanionLvl2Active
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  fromTopic: friend-bonuses
+facts:
+- id: friend-bonuses.fact.values
+  system: friend-bonuses
+  type: fact
+  title: Friend Bonus values
+  text: 'Value = base x scaling x multiplier. Bases: Total Damage 100, Class EXP 30, Skill Efficiency 50, Drop Rate 25, Skill
+    EXP 30, Coins 40, Extra Kills 10. Scaling = 0.25 + L/(L+12000) x 1.5 for sender level L (capped 30,000): 0.25 at 0, 1.0
+    at 12,000, 1.32 at 30,000. Multiplier 1, 2 (Mr Pig), 2.5 (Pet Mart+), +0.25 (Spearfish Pet Mart+).'
+  why: Shown on the Friend bonuses page.
+  appliesTo:
+    stages: all
+  confidence: H
+  status: draft
+  notes: 'Formula changed 2026-06-21 (wiki, M); pre-patch guides quote min(1, 0.2+L/(L+3000)) with a 12K cap (L): treat older
+    numbers as stale.'
+  sources:
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/misc.ts#L199-L223
+    title: Toolbox getFriendBonusQuantity
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  - url: https://idleon.wiki/wiki/Friend_Bonuses
+    title: 'IdleOn Wiki: Friend Bonuses'
+    tier: 3
+    claimDate: 2026-10-14
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  fromTopic: friend-bonuses

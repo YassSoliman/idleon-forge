@@ -1,0 +1,737 @@
+# SPDX-License-Identifier: GPL-3.0-only
+# M26 KB drafts for System `worship` (W3 synthesis, 2026-10-19). Every entry is status: draft.
+# Copied from scratchpad/m26/maps/*.json; dossiers in scratchpad/m26/dossiers/. Not yet validated
+# against the knowledge schema (the schema has no draft status: flip to active at merge).
+system: worship
+entries:
+- id: worship.check.play-new-totem
+  system: worship
+  type: check
+  title: Play your new totem once
+  subject: account
+  effect: next-action
+  category: compounding
+  priority:
+    frame: by-urgency
+  effortSeconds: 300
+  detector:
+    id: worship/play-new-totem
+  text: 'Summon {totem} once with your {who}: until it has a best wave it pays nothing'
+  why: A totem's EXP and Souls scale with its best wave, and a totem you have never played has none, so it pays
+    0 and cannot be claimed. One Tower Defense run sets the wave; {totem} pays {ratio:int}x Gorefest's EXP per charge
+    at the same wave.
+  doneWhen:
+    field: account.totems
+    change: changed
+  appliesTo:
+    stages:
+    - from: W3-early
+      to: W4-entry
+  confidence: H
+  status: draft
+  notes: C2 (WaveMultiplier = 0 at best wave 0) and C4 (unlock by Worship level). Fires once per account for the
+    lowest-index totem with levelReq <= the best character Worship level and maxWave === 0; slot who = that character.
+    ratio = ((i+1)^2/chargeReq_i) / (1/25), C51. Needs account.totems extended past index 3 (Clash of Cans is W4).
+    M26 W3 synth (from maps/worship.json).
+  sources:
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-3/worship.ts#L28-L47
+    title: 'IdleOn Toolbox getTotems: waveMulti 0 when maxWave is 0'
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json
+    title: Toolbox website-data totems (skillReq, chargeReq)
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  - url: scratchpad/m26/dossiers/worship.md
+    title: M26 Worship & Tower Defense dossier (verified 2026-10-19)
+    tier: 4
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+    note: replace with the committed docs/research path when the dossier lands
+- id: worship.check.best-totem
+  system: worship
+  type: check
+  title: Worship at your best totem
+  subject: character
+  effect: next-action
+  category: compounding
+  priority:
+    frame: by-urgency
+  effortSeconds: 60
+  detector:
+    id: worship/best-totem
+  text: 'Spend {who}''s {charge:int} charge at {totem}: {claims:int} claims, {perCharge:int} Worship EXP per charge'
+  why: Every claim costs the totem's charge and pays EXP that grows with the totem's number squared and its best
+    wave, so the same charge pays most at {totem}. {lower} pays {lowerPerCharge:int} per charge.
+  values:
+    detail-souls: Need {soul} for a skull or prayer? Claim at {soulTotem} instead
+  doneWhen:
+    field: characters[].afk.worship.charge
+    change: lower
+  appliesTo:
+    stages:
+    - from: W3-early
+      to: W4-entry
+  confidence: H
+  status: draft
+  notes: C1, C2, C51 (EXP per claim floor(15*(i+1)^2*multi*waveMulti^0.9); the character's EXP multi is the same
+    at every totem, so expReward/chargeReq ranks them). Fires per character with charge >= the best totem's chargeReq,
+    only among totems the character can open (levelReq <= its Worship level) and has played (maxWave > 0). Shown
+    as the place-detail of worship.check.charge-caps-* when both fire (one line per character, not two). Souls are
+    wave-based, not totem-based (C3), so the Soul detail is a choice, not a rule. M26 W3 synth (from maps/worship.json).
+  sources:
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-3/worship.ts#L22-L68
+    title: IdleOn Toolbox getTotems / getTotemExpReward
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json
+    title: Toolbox website-data totems (chargeReq)
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  - url: scratchpad/m26/dossiers/worship.md
+    title: M26 Worship & Tower Defense dossier (verified 2026-10-19)
+    tier: 4
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+    note: replace with the committed docs/research path when the dossier lands
+- id: worship.check.prayer-wave-close
+  system: worship
+  type: check
+  title: A prayer is a few waves away
+  subject: account
+  effect: next-action
+  category: compounding
+  priority:
+    frame: by-urgency
+  effortSeconds: 600
+  detector:
+    id: worship/prayer-wave-close
+  text: Push {totem} from wave {best:int} to {wave:int} to unlock {prayer}
+  why: Each prayer unlocks the first time a totem's Tower Defense run reaches its wave, and it stays unlocked. {left:int}
+    waves to go; runs save at every 10th wave.
+  doneWhen:
+    field: account.prayers
+    change: changed
+  appliesTo:
+    stages:
+    - from: W3-early
+      to: W4-entry
+  confidence: M
+  status: draft
+  notes: C37 unlock waves (H), C26 save every 10 waves (M). 'Within reach' is the map author's threshold (left <=
+    10 waves, so one saved stretch), hence M. Fires for the totem with the smallest left among played totems; silent
+    once every W1-W4 prayer of that totem is unlocked. Prayer choice itself is the Prayers map's job. M26 W3 synth
+    (from maps/worship.json).
+  sources:
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json
+    title: Toolbox website-data prayers (unlockWave, unlockZone)
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-3/prayers.ts#L11-L26
+    title: IdleOn Toolbox getPrayers
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  - url: https://idleon.wiki/wiki/Prayers
+    title: 'IdleOn Wiki: Prayers (unlock waves)'
+    tier: 2
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+    note: revision date not shown by the fetch; earlier research saw 2026-10-07
+  - url: scratchpad/m26/dossiers/worship.md
+    title: M26 Worship & Tower Defense dossier (verified 2026-10-19)
+    tier: 4
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+    note: replace with the committed docs/research path when the dossier lands
+- id: worship.goal.gorefest-wave
+  system: worship
+  type: goal
+  title: Goblin Gorefest best wave
+  text: Push Goblin Gorefest's best Tower Defense wave
+  why: A higher best wave raises every claim's EXP and Souls at this totem (((5+wave)/10)^2.6) and unlocks prayers.
+  scope: account
+  category: compounding
+  unit: wave
+  progress:
+    id: worship/best-wave
+    params:
+      totem: Goblin_Gorefest
+  milestones:
+  - at: 10
+    reward: Unlocks the prayer Big Brain Time
+  - at: 25
+    reward: Unlocks the prayer Skilled Dimwit
+  - at: 51
+    reward: Unlocks the prayer Unending Energy
+  - at: 81
+    reward: Unlocks the prayer Shiny Snitch
+  - at: 121
+    reward: Unlocks the prayer Zerg Rushogen
+  appliesTo:
+    stages:
+    - from: W3-early
+      to: W4-entry
+  confidence: H
+  status: draft
+  notes: Milestones are game data (C37); waveMulti C2. Hidden while no character's Worship level reaches the totem's
+    levelReq. M26 W3 synth (from maps/worship.json).
+  sources:
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json
+    title: Toolbox website-data prayers (unlockWave per totem)
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-3/worship.ts#L28-L47
+    title: IdleOn Toolbox getTotems (maxWave, waveMulti)
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  - url: scratchpad/m26/dossiers/worship.md
+    title: M26 Worship & Tower Defense dossier (verified 2026-10-19)
+    tier: 4
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+    note: replace with the committed docs/research path when the dossier lands
+- id: worship.goal.wakawaka-wave
+  system: worship
+  type: goal
+  title: Wakawaka War best wave
+  text: Push Wakawaka War's best Tower Defense wave
+  why: A higher best wave raises every claim's EXP and Souls at this totem (((5+wave)/10)^2.6) and unlocks prayers.
+  scope: account
+  category: compounding
+  unit: wave
+  progress:
+    id: worship/best-wave
+    params:
+      totem: Wakawaka_War
+  milestones:
+  - at: 11
+    reward: Unlocks the prayer Tachion of the Titans
+  - at: 31
+    reward: Unlocks the prayer Balance of Precision
+  - at: 71
+    reward: Unlocks the prayer Midas Minded
+  - at: 101
+    reward: Unlocks the prayer Jawbreaker
+  appliesTo:
+    stages:
+    - from: W3-early
+      to: W4-entry
+  confidence: H
+  status: draft
+  notes: Milestones are game data (C37); waveMulti C2. Hidden while no character's Worship level reaches the totem's
+    levelReq. M26 W3 synth (from maps/worship.json).
+  sources:
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json
+    title: Toolbox website-data prayers (unlockWave per totem)
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-3/worship.ts#L28-L47
+    title: IdleOn Toolbox getTotems (maxWave, waveMulti)
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  - url: scratchpad/m26/dossiers/worship.md
+    title: M26 Worship & Tower Defense dossier (verified 2026-10-19)
+    tier: 4
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+    note: replace with the committed docs/research path when the dossier lands
+- id: worship.goal.acorn-wave
+  system: worship
+  type: goal
+  title: Acorn Assault best wave
+  text: Push Acorn Assault's best Tower Defense wave
+  why: A higher best wave raises every claim's EXP and Souls at this totem (((5+wave)/10)^2.6) and unlocks prayers.
+  scope: account
+  category: compounding
+  unit: wave
+  progress:
+    id: worship/best-wave
+    params:
+      totem: Acorn_Assault
+  milestones:
+  - at: 21
+    reward: Unlocks the prayer The Royal Sampler
+  - at: 41
+    reward: Unlocks the prayer Antifun Spirit
+  - at: 71
+    reward: Unlocks the prayer Circular Criticals
+  - at: 111
+    reward: Unlocks the prayer Ruck Sack
+  appliesTo:
+    stages:
+    - from: W3-early
+      to: W4-entry
+  confidence: H
+  status: draft
+  notes: Milestones are game data (C37); waveMulti C2. Hidden while no character's Worship level reaches the totem's
+    levelReq. M26 W3 synth (from maps/worship.json).
+  sources:
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json
+    title: Toolbox website-data prayers (unlockWave per totem)
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-3/worship.ts#L28-L47
+    title: IdleOn Toolbox getTotems (maxWave, waveMulti)
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  - url: scratchpad/m26/dossiers/worship.md
+    title: M26 Worship & Tower Defense dossier (verified 2026-10-19)
+    tier: 4
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+    note: replace with the committed docs/research path when the dossier lands
+- id: worship.goal.frosty-wave
+  system: worship
+  type: goal
+  title: Frosty Firefight best wave
+  text: Push Frosty Firefight's best Tower Defense wave
+  why: A higher best wave raises every claim's EXP and Souls at this totem (((5+wave)/10)^2.6) and unlocks prayers.
+  scope: account
+  category: compounding
+  unit: wave
+  progress:
+    id: worship/best-wave
+    params:
+      totem: Frosty_Firefight
+  milestones:
+  - at: 21
+    reward: Unlocks the prayer Fibers of Absence
+  - at: 51
+    reward: Unlocks the prayer Vacuous Tissue
+  - at: 121
+    reward: Unlocks the prayer Beefy For Real
+  appliesTo:
+    stages:
+    - from: W3-early
+      to: W4-entry
+  confidence: H
+  status: draft
+  notes: Milestones are game data (C37); waveMulti C2. Hidden while no character's Worship level reaches the totem's
+    levelReq. M26 W3 synth (from maps/worship.json).
+  sources:
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json
+    title: Toolbox website-data prayers (unlockWave per totem)
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-3/worship.ts#L28-L47
+    title: IdleOn Toolbox getTotems (maxWave, waveMulti)
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  - url: scratchpad/m26/dossiers/worship.md
+    title: M26 Worship & Tower Defense dossier (verified 2026-10-19)
+    tier: 4
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+    note: replace with the committed docs/research path when the dossier lands
+- id: worship.goal.clash-wave
+  system: worship
+  type: goal
+  title: Clash of Cans best wave
+  text: Push Clash of Cans's best Tower Defense wave
+  why: A higher best wave raises every claim's EXP and Souls at this totem (((5+wave)/10)^2.6) and unlocks prayers.
+  scope: account
+  category: compounding
+  unit: wave
+  progress:
+    id: worship/best-wave
+    params:
+      totem: Clash_of_Cans
+  milestones:
+  - at: 21
+    reward: Unlocks the prayer Balance of Pain
+  - at: 51
+    reward: Unlocks the prayer Balance of Proficiency
+  - at: 131
+    reward: Unlocks the prayer Glitterbug
+  appliesTo:
+    stages:
+    - from: W3-early
+      to: W4-entry
+  confidence: H
+  status: draft
+  notes: Milestones are game data (C37); waveMulti C2. Hidden while no character's Worship level reaches the totem's
+    levelReq. M26 W3 synth (from maps/worship.json).
+  sources:
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json
+    title: Toolbox website-data prayers (unlockWave per totem)
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-3/worship.ts#L28-L47
+    title: IdleOn Toolbox getTotems (maxWave, waveMulti)
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  - url: scratchpad/m26/dossiers/worship.md
+    title: M26 Worship & Tower Defense dossier (verified 2026-10-19)
+    tier: 4
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+    note: replace with the committed docs/research path when the dossier lands
+- id: worship.check.skull-next
+  system: worship
+  type: check
+  title: A better skull is ready
+  subject: character
+  effect: next-action
+  category: compounding
+  priority:
+    frame: by-urgency
+  effortSeconds: 180
+  detector:
+    id: worship/skull-next
+  text: '{verb} a {skull} for your {who}: max charge {fromMax:int} → {toMax:int}'
+  why: A skull sets most of a character's max charge and part of its charge rate ({fromRate}/h → {toRate}/h at Worship
+    50). Your {who} is Worship {level:int}, enough for the {skull}.
+  values:
+    verb-equip: Equip
+    verb-craft: Craft (Smithing)
+    detail-cost: '{cost}; you hold {held}'
+  doneWhen:
+    field: characters[].slots.skull
+    change: changed
+  appliesTo:
+    stages:
+    - from: W3-early
+      to: W4-entry
+  confidence: M
+  status: draft
+  notes: 'Ladder, level reqs and recipes are game data (C9, C10, H); ''wear the best skull your level allows'' is
+    the wiki''s advice (C12, tier 3, M), so M overall. Fires when the character has a skull (no skull = worship.check.no-skull)
+    and a higher ladder skull it may equip is in storage (equip) or its whole recipe is held (craft). Slush Skull
+    is skipped: it charges slower than no skull (C57) and is a Dreadnaught ingredient. Wax Skull stays with worship.check.no-skull.
+    M26 W3 synth (from maps/worship.json).'
+  sources:
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/items.json
+    title: Toolbox website-data items WorshipSkull1..12 (Speed, lvReqToCraft)
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/crafts.json
+    title: Toolbox website-data crafts (skull recipes)
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-3/worship.ts#L149-L185
+    title: IdleOn Toolbox getMaxCharge / getChargeRate
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  - url: https://idleon.wiki/wiki/Worship_Skulls
+    title: 'IdleOn Wiki: Worship Skulls (pick the skull matching your level)'
+    tier: 2
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+    note: revision date not shown by the fetch; earlier research saw 2026-10-07
+  - url: scratchpad/m26/dossiers/worship.md
+    title: M26 Worship & Tower Defense dossier (verified 2026-10-19)
+    tier: 4
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+    note: replace with the committed docs/research path when the dossier lands
+- id: worship.check.syphon-first
+  system: worship
+  type: check
+  title: Syphon before you claim
+  subject: account
+  effect: next-action
+  category: nice
+  priority:
+    frame: by-urgency
+  effortSeconds: 60
+  detector:
+    id: worship/syphon-first
+  text: Cast Charge Syphon on your {who}, then claim with the pooled charge
+  why: Charge Syphon takes {pct:int}% of every character's charge into the Wizard and lifts its cap by {cap:int}%
+    for a minute (cooldown 1 h), so one character claims for all. {total:int} charge is waiting across {n:int} characters.
+  doneWhen:
+    field: characters[].afk.worship.charge
+    change: lower
+  appliesTo:
+    stages:
+    - from: W3-mid
+      to: W4-entry
+  confidence: M
+  status: draft
+  notes: C13, C62 (talent values and cooldown, H); doing it first each session is the dossier's per-session synthesis
+    (M). Fires when a Wizard-line character has CHARGE_SYPHON level >= 1 and at least 2 other characters hold >=
+    50% of their max. Toolbox also exposes the overflow time (getChargeWithSyphon.timeToOverCharge, dashboard timer
+    'Charge Syphon overflow'); that is a Timeline marker, not a second line. M26 W3 synth (from maps/worship.json).
+  sources:
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/talents.json
+    title: Toolbox website-data talents Wizard CHARGE_SYPHON (x1, y1, cooldown 3600 s)
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-3/worship.ts#L209-L221
+    title: IdleOn Toolbox getChargeWithSyphon
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/utility/dashboard/alertMeta.js#L1152
+    title: 'Toolbox dashboard timer: Charge Syphon overflow'
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  - url: scratchpad/m26/dossiers/worship.md
+    title: M26 Worship & Tower Defense dossier (verified 2026-10-19)
+    tier: 4
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+    note: replace with the committed docs/research path when the dossier lands
+- id: worship.check.first-towers
+  system: worship
+  type: check
+  title: Build your first Tower Defense towers
+  subject: account
+  effect: next-action
+  category: compounding
+  priority:
+    frame: by-urgency
+  effortSeconds: 120
+  detector:
+    id: worship/first-towers
+  text: 'Put {tower} in a build slot: {salt:int} {saltName} for Lv 1, then it can be placed in Tower Defense'
+  why: Tower Defense uses the towers you have built in Construction. Pulse Mage hits several monsters and knocks
+    them back, the usual first tower; Fireball Lobber is the second. Each Construction level adds {perLevel}% damage
+    and cuts in-run upgrade cost.
+  doneWhen:
+    field: account.construction.buildings
+    change: changed
+  appliesTo:
+    stages:
+    - from: W3-early
+      to: W3-late
+  confidence: M
+  status: draft
+  notes: Order is the wiki's (C47, tier 3, M); salt costs (C34, C67) and per-level bonus (C34) are game data, H;
+    'a tower needs Lv 1 to be usable' is N.js only (C36, L), so the text says 'then it can be placed' and the why
+    names Construction levels only. Fires when some character has Worship >= 1 and Pulse Mage or Fireball Lobber
+    is level 0 and not in a build slot, and the salt is unlocked. Leave Construction's own build-slot check (construction.check.slot-empty)
+    to fill slots; this one names which tower. M26 W3 synth (from maps/worship.json).
+  sources:
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json
+    title: Toolbox website-data towers[9..17] (itemReq, bonusInc)
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-3/construction.ts#L392-L441
+    title: IdleOn Toolbox getTowers / getBuildCost
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  - url: https://idleon.wiki/wiki/Tower_Defense
+    title: 'IdleOn Wiki: Tower Defense (Pulse Mage first, tower roles)'
+    tier: 2
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+    note: revision date not shown by the fetch; earlier research saw 2026-10-07
+  - url: scratchpad/m26/dossiers/worship.md
+    title: M26 Worship & Tower Defense dossier (verified 2026-10-19)
+    tier: 4
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+    note: replace with the committed docs/research path when the dossier lands
+- id: worship.check.soul-achievement
+  system: worship
+  type: check
+  title: Stop at an exact Soul count
+  subject: account
+  effect: next-action
+  category: nice
+  priority:
+    frame: by-urgency
+  effortSeconds: 60
+  detector:
+    id: worship/soul-achievement
+    params:
+      soul: Soul2
+      amount: 10000
+      achievement: Fat_Souls
+  text: Hold exactly {amount:int} {soulName} for the {achievement} achievement (you have {held:int})
+  why: '{achievement} needs exactly {amount:int} {soulName} in storage at once; {reward}. Spend or claim to land
+    on the number before crafting the next skull.'
+  values:
+    reward-Fat_Souls: it gives +15 starting Tower Defense points
+    reward-Sad_Souls: it is one of the Soul achievements
+    reward-Smirky_Souls: it is one of the Soul achievements
+  doneWhen:
+    field: account.worshipAchievements
+    change: changed
+  appliesTo:
+    stages:
+    - from: W3-early
+      to: W4-entry
+  confidence: M
+  status: draft
+  notes: 'C46 (achievements.json, M: the ''exactly'' wording is the achievement text; the check is not decoded).
+    Three instances by params: Sad_Souls Soul1 1000, Fat_Souls Soul2 10000, Smirky_Souls Soul3 250000. Fires when
+    the achievement is not completed and held is within 10% of amount (below or above). Fat Souls reward from C21/C68.
+    M26 W3 synth (from maps/worship.json).'
+  sources:
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/achievements.json
+    title: Toolbox website-data achievements (Sad/Fat/Smirky Souls)
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  - url: scratchpad/m26/dossiers/worship.md
+    title: M26 Worship & Tower Defense dossier (verified 2026-10-19)
+    tier: 4
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+    note: replace with the committed docs/research path when the dossier lands
+facts:
+- id: worship.fact.skull-ladder
+  system: worship
+  origin: authored
+  title: Worship skulls
+  status: draft
+  rows:
+  - rawName: WorshipSkull1
+    name: Wax Skull
+    levelReq: 1
+    speed: 4
+    maxCharge: 100
+    ratePerHourAt50: 1.45
+    recipe: 'shop: Frostbite Towndra'
+  - rawName: WorshipSkull2
+    name: Ceramic Skull
+    levelReq: 10
+    speed: 5
+    maxCharge: 200
+    ratePerHourAt50: 1.61
+    recipe: 250 Forest Soul, 5 Redox Salts
+  - rawName: WorshipSkull3
+    name: Horned Skull
+    levelReq: 25
+    speed: 5
+    maxCharge: 400
+    ratePerHourAt50: 1.61
+    recipe: 1200 Dune Soul, 25 Redox Salts
+  - rawName: WorshipSkull4
+    name: Prickle Skull
+    levelReq: 35
+    speed: 6
+    maxCharge: 750
+    ratePerHourAt50: 1.82
+    recipe: 7000 Rooted Soul, 50 Redox Salts, Horned Skull
+  - rawName: WorshipSkull5
+    name: Manifested Skull
+    levelReq: 40
+    speed: 7
+    maxCharge: 1250
+    ratePerHourAt50: 2.12
+    recipe: 8000 Frigid Soul, Prickle Skull, 5 Pure Water
+  - rawName: WorshipSkull6
+    name: Glauss Skull
+    levelReq: 50
+    speed: 7
+    maxCharge: 1750
+    ratePerHourAt50: 2.12
+    recipe: 40000 Frigid Soul, Manifested Skull, 1000 Dioxide Synthesis
+  - rawName: WorshipSkull7
+    name: Luciferian Skull
+    levelReq: 60
+    speed: 8
+    maxCharge: 2500
+    ratePerHourAt50: 2.55
+    recipe: 60000 Squishy Soul, Glauss Skull
+  - rawName: WorshipSkull8
+    name: Slush Skull
+    levelReq: 10
+    speed: 2
+    maxCharge: 1000
+    ratePerHourAt50: 0.6
+    recipe: see crafts.json; Dreadnaught ingredient, +250 base damage
+  notes: C9, C10, C57. Rates computed from worship.ts#L164-L185 at Worship 50 with no other multipliers (dossier).
+    W5+ skulls (Dreadnaught onward) stay out until W5. M26 W3 synth (from maps/worship.json).
+  sources:
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/items.json
+    title: Toolbox website-data items WorshipSkull1..12
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/crafts.json
+    title: Toolbox website-data crafts (skull recipes)
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-3/worship.ts#L149-L185
+    title: IdleOn Toolbox getMaxCharge / getChargeRate
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+- id: worship.fact.totems
+  system: worship
+  origin: authored
+  title: Worship totems (W1-W4)
+  status: draft
+  rows:
+  - rawName: Goblin_Gorefest
+    name: Goblin Gorefest
+    world: 1
+    levelReq: 1
+    chargeReq: 25
+    minEfficiency: 60
+    soul: Soul1
+    expPerChargeIndex: 0.6
+  - rawName: Wakawaka_War
+    name: Wakawaka War
+    world: 2
+    levelReq: 10
+    chargeReq: 40
+    minEfficiency: 250
+    soul: Soul2
+    expPerChargeIndex: 1.5
+  - rawName: Acorn_Assault
+    name: Acorn Assault
+    world: 1
+    levelReq: 30
+    chargeReq: 60
+    minEfficiency: 1000
+    soul: Soul3
+    expPerChargeIndex: 2.25
+  - rawName: Frosty_Firefight
+    name: Frosty Firefight
+    world: 3
+    levelReq: 40
+    chargeReq: 90
+    minEfficiency: 3000
+    soul: Soul4
+    expPerChargeIndex: 2.67
+  - rawName: Clash_of_Cans
+    name: Clash of Cans
+    world: 4
+    levelReq: 50
+    chargeReq: 120
+    minEfficiency: 8000
+    soul: Soul5
+    expPerChargeIndex: 3.13
+  notes: 'C4, C51. expPerChargeIndex = 15*(i+1)^2/chargeReq: the EXP per charge at equal best wave. Worlds are the
+    totem maps'' worlds: Forest Outskirts, Up Up Down Down, The Roots, Rollin'' Tundra, Mountainous Deugh (shared-data
+    mapNames 26, 63, 30, 107, 155, verified 2026-10-19). M26 W3 synth (from maps/worship.json).'
+  sources:
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json
+    title: Toolbox website-data totems
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-3/worship.ts#L22-L47
+    title: IdleOn Toolbox getTotems
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540

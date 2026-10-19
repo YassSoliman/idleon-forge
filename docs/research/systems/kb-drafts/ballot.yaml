@@ -1,0 +1,36 @@
+# SPDX-License-Identifier: GPL-3.0-only
+# M26 KB drafts for System ballot (area W2 synthesis, verified 2026-10-19, Toolbox 6c37e3d, game 2.3.540).
+# Copied from scratchpad/m26/maps: weekly-battles.json.
+# status: draft is a workflow marker; the KB schema accepts active|contested|retired only.
+# entries = new entries; amendments = changes to entries already in packages/knowledge/systems (fields shown are the changed keys);
+# facts = new fact rows (land in <system>.facts.yaml).
+system: ballot
+status: draft
+entries: []
+amendments:
+- amends: ballot.check.vote
+  target: ballot.yaml
+  targetStatus: active
+  status: draft
+  from: weekly-battles
+  fields:
+    values:
+      row: Vote in the Bonus Ballot (YumYum Grotto)
+      why: Each week the vote picks one bonus for everyone; voting is free.
+      active: 'Active now: {bonus}'
+      locked: 'needs World {gate:int}: you get 1.25x damage instead until then'
+      multi: 'your ballot multiplier: x{multi}'
+    sources:
+    - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-2/voteBallot.ts
+      title: IdleOn Toolbox getVoteBallot (bonus table, world gates, winner, voteMulti)
+      tier: 1
+      verified: 2026-10-19
+      gameVersion: 2.3.540
+    - url: https://idleon.wiki/wiki/Ballot
+      title: 'IdleOn Wiki: Ballot (locked winner becomes a 1.25x damage bonus)'
+      tier: 2
+      claimDate: 2026-10-09
+      verified: 2026-10-19
+      gameVersion: 2.3.540
+    notes: Still a row only and never advises how to vote (D-4; community voting advice is L). 'locked' is wiki only (M);
+      Toolbox does not model it, so ActiveOn derives it from bonuses[i][2] (world gate) vs currentWorld.
