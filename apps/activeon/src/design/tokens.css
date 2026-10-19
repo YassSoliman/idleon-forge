@@ -312,41 +312,41 @@ html {
   --stack-gap: var(--space-3);
   --row-height: 64px;
 
-  --bg: #f5f1e8;
-  --surface: #ece6d9;
-  --sunk: #e3dccb;
-  --fg: #1e1c18;
-  --muted: #5c564a;
-  --line: #d6cdb9;
-  --line-strong: #857c6a;
-  --frame: #1e1c18;
+  --bg: #f4f6f9;
+  --surface: #ffffff;
+  --sunk: #eaeef3;
+  --fg: #141821;
+  --muted: #555e6e;
+  --line: #dde2e9;
+  --line-strong: #7b8494;
+  --frame: #141821;
   --bevel-hi: transparent;
   --bevel-lo: transparent;
-  --accent-rule: #7d5400;
-  --accent: #7d5400;
-  --accent-soft: #f1e2be;
+  --accent-rule: #935000;
+  --accent: #935000;
+  --accent-soft: #ffedbe;
   --on-accent: #ffffff;
-  --ok: #1b6b47;
-  --ok-soft: #d9ebdd;
+  --ok: #00755d;
+  --ok-soft: #d6fde6;
   --on-ok: #ffffff;
-  --warn: #7d5400;
-  --warn-soft: #f1e2be;
+  --warn: #935000;
+  --warn-soft: #ffedbe;
   --on-warn: #ffffff;
-  --bad: #9e3b1c;
-  --bad-soft: #f6ddd2;
+  --bad: #a10036;
+  --bad-soft: #fdd1d6;
   --on-bad: #ffffff;
-  --unk: #5a5a66;
-  --unk-soft: #e3e0d8;
+  --unk: #5e6a7a;
+  --unk-soft: #eaeef3;
   --on-unk: #ffffff;
-  --info: #1d5c8f;
-  --info-soft: #dce7f0;
+  --info: #004991;
+  --info-soft: #c8e1fb;
   --on-info: #ffffff;
-  --speech: #1e1c18;
+  --speech: #141821;
   --speech-fg: #ffffff;
-  --speech-gap: #f5f1e8;
-  --focus: #7d5400;
-  --now-line: #1d5c8f;
-  --return-line: #7d5400;
+  --speech-gap: #f4f6f9;
+  --focus: #935000;
+  --now-line: #004991;
+  --return-line: #935000;
   --shadow-1: none;
   --shadow-2: 0 4px 16px rgb(29 36 51 / 0.1), 0 1px 3px rgb(29 36 51 / 0.06);
   --scrim: rgb(13 16 22 / 0.45);
@@ -355,20 +355,23 @@ html {
   --px-shadow: var(--mat-blob-2);
   --px-base: var(--mat-blob-3);
   --px-hi: var(--mat-blob-4);
-  --px-ui-ink: #1e1c18;
+  --px-ui-ink: #141821;
 
-  --bar: #ece6d9;
+  --bar: #ffffff;
   --frame-bg: var(--bad-soft);
-  --frame-tile: #f0d0c3;
+  --frame-tile: #f9c5cb;
+  /* M25 light palette (ux m25-light, direction A "Daylight"): cool-white page, white cards, and the
+     five meaning inks spread apart in lightness and hue so they stay distinct under protanopia,
+     deuteranopia and tritanopia (Machado 2009), every text pair still at 4.5:1. */
   /* M24 (the UX rework canvas, NowLight board): the third surface step, the secondary ink, the frame
      tints for "do it" and "done", violet, and the grey of a "later" pip. */
-  --raised: #d6cdb9;
-  --fg2: #4a453c;
-  --frame-gold: #f1e2be;
-  --frame-ok: #d9ebdd;
-  --violet: #5b3fa0;
-  --violet-soft: #e8e1f5;
-  --pip-later: #a8a090;
+  --raised: #dce2ea;
+  --fg2: #394150;
+  --frame-gold: #ffedbe;
+  --frame-ok: #d6fde6;
+  --violet: #7e1cd8;
+  --violet-soft: #f1ebff;
+  --pip-later: #7e8899;
   color-scheme: light;
 }
 
