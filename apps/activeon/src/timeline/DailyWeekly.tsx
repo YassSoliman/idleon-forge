@@ -26,6 +26,11 @@ import { DAILY_WORDS as W } from './words';
 type Vars = CSSProperties & Record<`--${string}`, string | number>;
 
 const ROWS_IN_SHEET = 3;
+/**
+ * QA P1-2: a save that comes back after a long break has lost hundreds of days. At most this many lost-day
+ * boxes are drawn (the bank's own size); the rest are a count in words, so the tile never outgrows its column.
+ */
+const LOST_PIPS = 3;
 const PLANS = [5, 15, 30] as const;
 const BAND_CLASS: Record<ChecklistBandView['band'], string> = {
   'no-bank': 'nobank',
@@ -220,11 +225,14 @@ function BandTile({ b, onOpen }: { b: ChecklistBandView; onOpen(): void }) {
                       {[0, 1, 2].map((i) => (
                         <span key={i} className={cx('dw-pip', i < p.kept ? 's-banked' : 's-empty')} />
                       ))}
-                      {Array.from({ length: p.lost }, (_, i) => (
+                      {Array.from({ length: Math.min(p.lost, LOST_PIPS) }, (_, i) => (
                         // biome-ignore lint/suspicious/noArrayIndexKey: identical lost-day pips
                         <span key={`l${i}`} className="dw-pip s-lostday" />
                       ))}
                     </span>
+                    {p.lost > LOST_PIPS ? (
+                      <span className="dw-bank-more">{W.moreLost(p.lost - LOST_PIPS)}</span>
+                    ) : null}
                   </span>
                 )),
               )}

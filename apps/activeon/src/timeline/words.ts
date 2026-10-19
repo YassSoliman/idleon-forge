@@ -111,6 +111,8 @@ export const DAILY_WORDS = {
   pips: (kept: number, lost: number) =>
     `${kept} of 3 days banked${kept >= 3 ? ', lost tomorrow' : ''}${lost ? `, ${lost} lost` : ''}`,
   lost: (n: number) => `${n} lost`,
+  /** Past the three lost-day boxes: "412 more days lost". */
+  moreLost: (n: number) => `${n.toLocaleString('en-US')} more ${n === 1 ? 'day' : 'days'} lost`,
   opensLater: (list: string) => `Opens later: ${list}`,
   lostBeforeBack: 'lost before you are back',
   // ---- M24 (the Daily & weekly board) ----
