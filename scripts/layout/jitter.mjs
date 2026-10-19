@@ -16,6 +16,7 @@
 // (the 11-character fixture laid Now out at 572 px in a 390 px phone; `body{overflow-x:hidden}` cut
 // the right third off), and on Now at 390 it also tries the Log in and Rounds pause points. Content
 // inside its own scroller (a wide table that scrolls sideways) is fine.
+// M25: on #systems it also fails when a tile's count and pip come within 12 px of its name (at 360 px too).
 // Scrollbars are shown (Playwright hides them by default), so a scrollbar that comes and goes counts.
 //
 // Usage:
@@ -169,6 +170,37 @@ async function main() {
           if (!seen.has(k)) seen.set(k, new Map());
           const m = seen.get(k);
           if (!m.has(v)) m.set(v, stop);
+        }
+      // M25 (owner review): on the Systems grid a tile's count and pip never touch its name, at this
+      // width and, from the phone stop, at 360 px too; every System name is checked.
+      if (stop === '#systems')
+        for (const w of width === 390 ? [390, 360] : [width]) {
+          if (w !== width) await page.setViewportSize({ width: w, height: 900 });
+          await page.waitForTimeout(300);
+          const bad = await page.evaluate((phone) => {
+            const out = [];
+            for (const a of document.querySelectorAll('.sx-tile')) {
+              const label = a.querySelector('.sx-tile__name');
+              const end = a.querySelector('.sx-tile__end')?.getBoundingClientRect();
+              if (!label || !end || !label.getBoundingClientRect().width) continue;
+              // The drawn glyphs, not the box: a word that overflows its box still counts.
+              const r = document.createRange();
+              r.selectNodeContents(label);
+              const ink = [...r.getClientRects()].reduce((m, x) => Math.max(m, x.right), 0);
+              const gap = end.left - ink;
+              const lines = Math.round(
+                label.getBoundingClientRect().height / Number.parseFloat(getComputedStyle(label).lineHeight),
+              );
+              if (gap < 11.5 || end.right > a.getBoundingClientRect().right + 0.5 || (phone && lines > 2))
+                out.push(`${label.textContent} (gap ${Math.round(gap)} px, ${lines} lines)`);
+            }
+            return out;
+          }, w <= 480);
+          if (bad.length) {
+            console.log(`${w}px Systems grid: count or pip crowds the name: ${bad.join('; ')}`);
+            failures.push(`${w}px Systems grid overlap`);
+          }
+          if (w !== width) await page.setViewportSize({ width, height: 900 });
         }
       if (o.shots) {
         mkdirSync(o.shots, { recursive: true });

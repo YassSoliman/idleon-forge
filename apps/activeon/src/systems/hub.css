@@ -156,14 +156,16 @@
   padding: 0;
   list-style: none;
 }
+/* M25 (owner review): three, then five columns, so the longest names (Killroy's Slaughterhouse,
+   Companions and pets) fit beside their count and pip without breaking a word. */
 @media (min-width: 720px) {
   .sx-tiles {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 }
 @media (min-width: 1120px) {
   .sx-tiles {
-    grid-template-columns: repeat(6, minmax(0, 1fr));
+    grid-template-columns: repeat(5, minmax(0, 1fr));
   }
 }
 .sx-tile {
@@ -198,12 +200,19 @@
   font-size: var(--text-sm);
   font-weight: var(--weight-semibold);
   line-height: 1.2;
-  overflow-wrap: break-word;
-  hyphens: auto;
+  /* Never hyphenated; a word breaks only when it could not fit at all (a safety net). */
+  overflow-wrap: anywhere;
+  hyphens: manual;
 }
 .sx-tile__sub {
   color: var(--muted);
   font-size: var(--text-xs);
+}
+.sx-tile__end {
+  display: flex;
+  flex: none;
+  align-items: center;
+  gap: var(--space-2);
 }
 .sx-tile__n {
   flex: none;
@@ -526,5 +535,20 @@
   .sx-fset__legend {
     width: 100%;
     margin: 0 0 var(--space-1);
+  }
+}
+
+/* M25 (owner review): a phone gets one column of rows. The name keeps one line, wraps to two at most,
+   never hyphenates; the count and pip sit in their own column at least 12 px from it. */
+@media (max-width: 480px) {
+  .sx-tiles {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .sx-tile__name {
+    display: -webkit-box;
+    overflow: hidden;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
   }
 }

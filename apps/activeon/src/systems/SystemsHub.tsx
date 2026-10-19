@@ -111,12 +111,15 @@ function Tile({ t, s }: { t: IndexTileView; s: Session }) {
           <span className="sx-tile__name">{t.name}</span>
           {t.sub ? <span className="sx-tile__sub">{t.sub}</span> : null}
         </span>
-        {t.count ? (
-          <span className={`sx-tile__n ${t.tone === 'wasting' ? 'sf-t--coral' : 'sf-t--gold'}`}>
-            {t.count}
-          </span>
-        ) : null}
-        {t.status === 'locked' ? <LockGlyph size={12} /> : <Pip tone={PIP[t.tone]} />}
+        {/* M25: the count and the pip are one column that never shrinks, so they never cover the name. */}
+        <span className="sx-tile__end">
+          {t.count ? (
+            <span className={`sx-tile__n ${t.tone === 'wasting' ? 'sf-t--coral' : 'sf-t--gold'}`}>
+              {t.count}
+            </span>
+          ) : null}
+          {t.status === 'locked' ? <LockGlyph size={12} /> : <Pip tone={PIP[t.tone]} />}
+        </span>
       </a>
     </li>
   );
