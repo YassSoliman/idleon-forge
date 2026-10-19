@@ -635,8 +635,8 @@ golden.
   Output: one converted file per System, validated by the real schema, held as `status: draft` until its wave.
   **Built 2026-10-19:** `pnpm kb convert-drafts` (`packages/kb-tools/src/convert-drafts.ts`; a test runs `--check`).
   Inputs: the 65 `kb-drafts/*.yaml` files plus `kb-drafts/from-maps.yaml` (the 36 map-only drafts not already in a
-  draft file, copied from the area maps so CI can re-run the pass). Out of 497 records: **328 drafts** in
-  `systems/<system>.drafts.yaml` (63 files; the loader takes `.drafts.yaml` as drafts only), **35 edits** to live
+  draft file, copied from the area maps so CI can re-run the pass). Out of 497 records: **327 drafts** in
+  `systems/<system>.drafts.yaml` (63 files; the loader takes `.drafts.yaml` as drafts only), **36 edits** to live
   entries in `packages/knowledge/drafts/edits/` (each applied to its live entry and re-parsed; 27 still list schema
   problems for the promoting PR), **12 draft fact tables** in `drafts/facts/` (not loaded), and `drafts/report.json`
   listing **115 records not converted** with their reasons (mostly Goals with no Milestone ladder, Builds and Priority
