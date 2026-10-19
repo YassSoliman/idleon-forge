@@ -14,8 +14,11 @@
     display: none;
   }
 }
+/* The heat table is tonal: each cell is its heat fill, cells part by a 2 px gap, the rows by a
+   hairline. No ring around every cell (R12). */
 .gd-heat-table {
-  border-collapse: collapse;
+  border-collapse: separate;
+  border-spacing: 2px;
   font-size: 0.8rem;
 }
 .gd-heat-table th,
@@ -23,8 +26,10 @@
   padding: 4px 6px;
   text-align: left;
   white-space: nowrap;
-  box-shadow: inset 0 0 0 1px var(--line);
   border: 0;
+}
+.gd-heat-table thead th {
+  box-shadow: 0 1px 0 var(--line);
 }
 .hc.st-ok {
   background: var(--ok-soft);

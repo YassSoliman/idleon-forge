@@ -193,8 +193,7 @@
   height: 14px;
   margin-left: -7px;
   border-radius: 0;
-  background: var(--bad-soft);
-  box-shadow: inset 0 0 0 2px var(--bad);
+  background: var(--bad);
   border: 0;
 }
 .sy-rc__word {
@@ -403,6 +402,18 @@
   align-items: center;
   min-height: var(--tap-min);
   cursor: pointer;
+}
+/* R12 QA: a flex summary loses its disclosure marker, so the folded heading read as an empty one. */
+.sp-opens > summary::after {
+  content: "+";
+  margin-left: var(--space-2);
+  font: var(--weight-bold) var(--text-md) / 1 var(--font-numeral);
+  font-variant-ligatures: var(--font-ligatures);
+  font-feature-settings: var(--font-features);
+  color: var(--muted);
+}
+.sp-opens[open] > summary::after {
+  content: "\2212";
 }
 .sp-pills,
 .sp-timeline {
