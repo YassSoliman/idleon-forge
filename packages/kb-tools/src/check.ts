@@ -190,6 +190,37 @@ export async function checkSource(src: KbSource, registries?: Registries): Promi
   issues.push(...gameClientIssues(src));
   issues.push(...twoSourceIssues(src));
   issues.push(...riftLabelIssues(src));
+  // M26 FR-5: a claim names a registry System, and that System's own entry should claim the key too.
+  {
+    const systemIds = new Set(src.systems.map((x) => x.value.id));
+    const owners = new Set<string>();
+    const claimers: Array<{ e: (typeof src.authored)[number]; k: string; i: number }> = [];
+    for (const e of [...src.authored, ...src.drafts]) {
+      const v = e.value;
+      if (v.type !== 'check' && v.type !== 'goal') continue;
+      for (const [i, c] of (v.claims ?? []).entries()) {
+        const k = `${c.system}:${c.key}`;
+        if (!systemIds.has(c.system))
+          err(
+            e.file,
+            e.lineOf(['claims', i]),
+            v.id,
+            `claims ${k}: ${c.system} is not a System in systems.yaml`,
+          );
+        if (v.system === c.system) owners.add(k);
+        else claimers.push({ e, k, i });
+      }
+    }
+    for (const { e, k, i } of claimers)
+      if (!owners.has(k))
+        warn(
+          e.file,
+          e.lineOf(['claims', i]),
+          e.value.id,
+          `claims ${k}, which no entry of that System claims yet`,
+          'claim-no-owner',
+        );
+  }
   const facts = new Map<string, Located<FactTableT>>();
   for (const f of src.facts) {
     if (facts.has(f.value.id) || byId.has(f.value.id))
