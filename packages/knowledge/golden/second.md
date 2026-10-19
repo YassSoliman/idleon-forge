@@ -356,20 +356,20 @@ Can't read Bubba from this save
     - and 6 more
 
 ### C7 (Voidwalker 510)
-- Fighting preset (in use): Beginner [Start here] · Journeyman · Maestro · Voidwalker · Star talents (all spent)
-  - Beginner: No unspent points known from your last save: the totals show where new points go
-    - done: Sharpened Axe 245
-    - done: Gilded Sword 245
-    - done: Lucky Clover 210
-    - done: Health Booster 100
-    - and 4 more
+- Fighting preset (in use): Beginner · Journeyman · Maestro · Voidwalker · Star talents (all spent)
   - Star talents: All spent: the totals show where new points go
     - done: Stonks! 30
     - done: Will of the Eldest 50 (useful up to 56 (best level 567); its max for now)
     - done: Beginner Best Class 50 (useful up to 51 (best Beginner-line level 510); its max for now)
     - done: Tick Tock 196
     - and 7 more
-- Skilling preset: Beginner · Journeyman (at least 710 unspent) · Maestro (at least 66 unspent) · Voidwalker · Star talents (all spent)
+- Skilling preset: Beginner · Journeyman (at least 710 unspent) · Maestro (at least 66 unspent) · Voidwalker [Start here] · Star talents (all spent)
+  - Voidwalker: No unspent points known from your last save: the totals show where new points go
+    - done: Void Trial Rerun 1
+    - next after these: Blood Marrow 102 → 270 · +168
+    - next after these: Species Epoch 100 → 270 · +338
+    - next after these: Voodoo Statufication 245 → 270 · +363
+    - and 4 more
   - Star talents: All spent: the totals show where new points go
     - done: Stonks! 30
     - done: Tick Tock 196
