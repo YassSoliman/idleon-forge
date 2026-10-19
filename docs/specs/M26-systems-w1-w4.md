@@ -560,6 +560,11 @@ golden.
 - **FR-5 Claimed by.** A finding may declare `claims: [{ system, key }]`. The engine's merge step keeps one card per
   claimed key, owned by the entry the System's FR names, and adds the other entry's reason as a detail line. Pairs at
   M26 start: MASTER.md section 5 X8-X16 and W3 #5.
+  **Built 2026-10-19:** `claims: [{ system, key }]` on Checks and Goals; the engine core runs `applyClaims` per subject
+  before ranking (the owning System's card stays, else the first; the others' `why` become detail lines); `kb check` fails
+  a claim on an unknown System and warns while no entry of the owning System claims the key. Every listed pair involves
+  at least one entry that is still a draft, so no live entry carries `claims` yet: each pair is wired when its entries are
+  promoted.
 - **FR-6 Unlock guards and registry.** A shared `unlocked(system)` guard keyed on **each System's own unlock fact**
   (Rift: the Rift Ripper quest; Lab: any character in a tube or the Lab built; Breeding: `breeding.started` or
   Breeding level > 0; Cooking: a kitchen owned; Sigils: Lab node 12 or any sigil progress; Equinox: the FR-8 rule;

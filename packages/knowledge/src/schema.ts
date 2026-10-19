@@ -134,6 +134,13 @@ export const DetectorRef = z.strictObject({
 export const Side = z.strictObject({ position: Template, sources: z.array(Source).min(1) });
 const ActivePlay = z.strictObject({ minutes: z.int().positive() });
 
+/**
+ * M26 FR-5, "claimed by": the thing a Check or Goal is about, when another System's entry can fire on the
+ * same thing (golden food in storage, an empty friend slot). The engine keeps one card per claimed key,
+ * the one from the entry whose own System is `system`, and adds the others' reasons to it as detail lines.
+ */
+export const Claim = z.strictObject({ system: SystemId, key: z.string().regex(new RegExp(`^${SLUG}$`)) });
+
 const Base = z.strictObject({
   id: EntryId,
   system: SystemId,
@@ -168,6 +175,7 @@ const FieldPathSchema = z.string().min(1).max(200);
 
 export const GoalEntry = Base.extend({
   type: z.literal('goal'),
+  claims: z.array(Claim).min(1).optional(),
   scope: z.enum(['character', 'account']),
   category: Category,
   unit: z.string().min(1).max(24),
@@ -214,6 +222,7 @@ export const ContributionEntry = Base.extend({
 
 export const CheckEntry = Base.extend({
   type: z.literal('check'),
+  claims: z.array(Claim).min(1).optional(),
   subject: z.enum(['character', 'account']),
   /** blocker = Verdict "Fix before you leave"; next-action = a Next Action under `goal`. */
   effect: z.enum(['blocker', 'next-action']),

@@ -26,7 +26,7 @@ import type {
 import { classFamilies } from './families';
 import { activityLabel, classLabel, mapLabel } from './labels';
 import type { EngineHistory, EngineInput, EngineModule, ModuleOutput } from './module';
-import { rankGoals, type TaggedGoal } from './rank';
+import { applyClaims, rankGoals, type TaggedGoal } from './rank';
 import { systemSummaries } from './systems';
 import { visitOrder } from './visit-order';
 
@@ -244,8 +244,17 @@ export function assemble(input: EngineInput, ran: readonly Ran[]): EngineResult 
       : null;
   const behind = analysis?.result ?? null;
   const kept = (gs: readonly TaggedGoal[]) => (behind ? gs.filter((g) => !behind.moved.has(g)) : [...gs]);
-  for (const c of characters) c.goals = rankGoals(kept(taggedOf.get(c.index) ?? []), list);
-  const accountGoals = rankGoals([...kept(accountTagged), ...(behind ? [behind.goal] : [])], list);
+  // M26 FR-5: one card per claimed thing, before the rank (the owner's place is its own).
+  const claimsOf = (entryId: string) => {
+    const e = kb?.entries[entryId];
+    return e && (e.type === 'check' || e.type === 'goal') ? e.claims : undefined;
+  };
+  for (const c of characters)
+    c.goals = rankGoals(applyClaims(kept(taggedOf.get(c.index) ?? []), claimsOf, `c${c.index}`), list);
+  const accountGoals = rankGoals(
+    applyClaims([...kept(accountTagged), ...(behind ? [behind.goal] : [])], claimsOf, 'account'),
+    list,
+  );
   const blockerSet = new Set(outputs.flatMap(({ output }) => output.account?.blockerKeys ?? []));
   const blockerKeys = accountGoals
     .filter((g) => g.category === 'blocker' && blockerSet.has(g.nextAction.key))
