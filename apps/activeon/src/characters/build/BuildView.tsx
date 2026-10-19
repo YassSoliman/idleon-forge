@@ -798,10 +798,11 @@ function ComingUp({ r }: { r: BuildRoadmapView }) {
   );
 }
 
-/** The level-gate line (FR-C5): the class pick at Lv 10 and the second preset at 15. */
+/** The level-gate line (FR-C5): the class pick at Lv 10 (when the Planned Path takes one) and the second preset at 15. */
 function GateRuler({ r }: { r: BuildRoadmapView }) {
+  const pick = r.classPickAt === undefined ? 10 : r.classPickAt;
   const gates = [
-    { at: 10, word: 'class pick' },
+    ...(pick === null ? [] : [{ at: pick, word: 'class pick' }]),
     { at: 15, word: 'second preset' },
   ].filter((g) => r.level < g.at);
   if (gates.length === 0) return null;

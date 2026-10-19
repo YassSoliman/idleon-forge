@@ -85,6 +85,10 @@ export const createMetaPathModule = (opts: MetaPathModuleOptions = {}): EngineMo
       priorityList: r.list,
       visitHints: r.visitHints,
       notCovered: r.stage.coverage === 'beyond' ? [WORLDS_5_7_NOT_COVERED] : [],
+      // A Goal's own steps (the Journeyman-to-be's Rocklyte quests) ride on its card like M14's (FR-23).
+      walkthroughs: goals.flatMap(({ goal }) =>
+        goal.walkthrough ? [{ parentKey: goal.nextAction.key, view: goal.walkthrough }] : [],
+      ),
     };
   },
 });

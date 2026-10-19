@@ -675,8 +675,24 @@ entries:
     why: "A base class misses its subclass talents and its Meta Path Role."
     values:
       subclass: "Take your subclass at Speccius"
+      subclass-planned: "Take {next:name} at Speccius"
       journeyman: "Take your Maestro subclass"
       pick-class: "Pick your class"
+      pick-planned: "Pick {next:name} at Promotheus"
+      become-journeyman: "Become a Journeyman at Rocklyte, not a Lv 10 class"
+      become-journeyman-why: "The Meta Path holds this character's slot for the Journeyman line, and the Journeyman is not in the Lv 10 class pick: Rocklyte's quests give it."
+      rocklyte-title: "Rocklyte's quests"
+      rocklyte-1: "Bring Rocklyte 500 Peanuts in Froggy Fields"
+      rocklyte-2: "Bring Rocklyte 5 Golden Peanuts, crafted at the Anvil"
+      rocklyte-2-why: "Each Golden Peanut takes 100 Peanuts and 50 Gold Bars, at Smithing Lv 10."
+      rocklyte-3: "Talk to Rocklyte again: Become a Journeyman"
+      rocklyte-collapsed: "{left:int} of 3 left: Rocklyte's quests in Froggy Fields"
+      rocklyte-caveat: "From the save's quest log and the Peanuts held now"
+      roadmap-journeyman: "Skip the Lv 10 class pick: Rocklyte's quests make a Journeyman"
+      roadmap-maestro: "Next class: Maestro, through Cactolyte's quests in Djonnuttown"
+      roadmap-voidwalker: "Elite class: Voidwalker, through Nebulyte's quests in Outer World Town"
+      build-journeyman: "Journeyman line: keep the Beginner build, skip the class pick"
+      build-journeyman-past: "No Beginner build past Lv 15: finish Rocklyte's quests for Journeyman"
     sources:
       - url: https://github.com/YassSoliman/idleon-forge/blob/research/priority-verification/docs/research/2026-10-17-priority-verification.md
         title: Priority verification, PV 4.8 (Speccius subclass for every base character)
@@ -691,6 +707,15 @@ entries:
         verified: 2026-10-17
         gameVersion: 2.3.540
       - { url: "https://idleon.wiki/wiki/Classes", title: "IdleOn Wiki: Classes", tier: 2, claimDate: 2026-10-13, verified: 2026-10-17, gameVersion: 2.3.540 }
+      - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/quests.json", title: "IdleOn Toolbox game data: quests (Rocklyte 1-3: 500 Peanuts, 5 Golden Peanuts, Become a Journeyman)", tier: 1, verified: 2026-10-19, gameVersion: 2.3.540 }
+      - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/classPromotions.json", title: "IdleOn Toolbox game data: class promotions (Journeyman is not a Beginner promotion)", tier: 1, verified: 2026-10-19, gameVersion: 2.3.540 }
+      - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/crafts.json", title: "IdleOn Toolbox game data: crafts (Golden Peanut: 100 Peanuts, 50 Gold Bars, Smithing Lv 10)", tier: 1, verified: 2026-10-19, gameVersion: 2.3.540 }
+      - url: https://github.com/YassSoliman/idleon-forge/blob/b74454e107b680cd8510e08ebed2141e3b8af8a1/docs/research/systems/classes/class-journeyman.md
+        title: Class dossier, Beginner / Journeyman line, claims C3, C4, C5, C6, C10
+        tier: 3
+        claimDate: 2026-10-19
+        verified: 2026-10-19
+        gameVersion: 2.3.540
     appliesTo: { stages: [{ from: W2-early, to: W4-entry }] }
     confidence: H
     status: active

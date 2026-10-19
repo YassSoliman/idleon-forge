@@ -580,6 +580,11 @@ export interface BuildRoadmap {
   path: BuildPathStep[];
   /** "Next class: take Hunter at Speccius", or null at the end of the covered path. */
   nextClass: string | null;
+  /**
+   * The level of the class pick this character takes at Promotheus (10), or null when it takes none: a
+   * class already picked, the slot-11 Beginner, or a Beginner planned as the Journeyman (Planned Path).
+   */
+  classPickAt?: number | null;
   presets: BuildPresetView[];
   /** What opens at the next milestones (class pick, new tab, second preset, stage-gated steps). */
   comingUp: string[];

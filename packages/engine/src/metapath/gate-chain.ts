@@ -3,8 +3,9 @@
 // The Meta Path Goals (M2 FR-9, FR-10, FR-12 to FR-17, TR-11): the push Goal (the next gate-chain step
 // for the pusher), the W3 tutorial, subclass and elite nudges, the next character and the swap token.
 // Each is a finding with slots; every word a player reads lives in the Goal's entry (M11 TR-4).
-import type { AccountState, RouteDoor } from '@idleon-forge/account-state';
+import { type AccountState, isKnown, type RouteDoor } from '@idleon-forge/account-state';
 import { STAGE_DEFINITIONS, type StageId, stageIndex, stagesBetween } from '@idleon-forge/knowledge';
+import { holdingsKnown, holdingsOf, totalOf } from '../walkthrough/holdings';
 import {
   classTree,
   ENTRY,
@@ -15,6 +16,7 @@ import {
   routeTo,
   worldGates,
 } from './knowledge';
+import { plannedPaths } from './planned';
 import type { PusherSelection } from './pusher';
 import { CLASS_PICK_LEVEL } from './roster';
 import type { FactLookup, MetaPathGoal, PushGoal, PushStep, RosterResult, StageResult } from './types';
@@ -213,25 +215,75 @@ export function worldTutorial(
   ];
 }
 
-/** FR-15: a subclass nudge per base-class character (W2-early on); "Pick your class" for a Beginner. */
-export function subclassPending(state: AccountState, kb: FactLookup, stage: StageResult): MetaPathGoal[] {
+/** The items Rocklyte's first two quests take (Toolbox quests.json#Rocklyte, dossier C4). */
+export const ROCKLYTE = { npc: 'Rocklyte', peanut: 'Peanut', goldenPeanut: 'PeanutG', quests: 3 } as const;
+
+/** Rocklyte's quests this character finished in a row (1-3), or -1 when its quests can't be read. */
+function rocklyteDone(state: AccountState, c: AccountState['characters'][number]): number {
+  if (!isKnown(state, `characters[${c.index}].quests`) || !c.quests) return -1;
+  const q = c.quests[ROCKLYTE.npc];
+  if (!q) return -1;
+  let n = 0;
+  while (n < ROCKLYTE.quests && q[String(n + 1)] === 1) n++;
+  return n;
+}
+
+const heldOf = (state: AccountState, rawName: string) =>
+  holdingsKnown(state) ? totalOf(holdingsOf(state, rawName)) : -1;
+
+/**
+ * FR-15: a subclass nudge per base-class character (W2-early on); "Pick your class" for a Beginner.
+ * Both name the class the Planned Path gives (owner report 2026-10-19), and a Beginner planned as the
+ * Journeyman is told not to pick a class and to do Rocklyte's quests instead, at any level.
+ */
+export function subclassPending(
+  state: AccountState,
+  kb: FactLookup,
+  stage: StageResult,
+  roster?: RosterResult | null,
+): MetaPathGoal[] {
   if (stage.coverage === 'beyond' || stage.id === null || stageIndex(stage.id) < stageIndex('W2-early'))
     return [];
   const tree = classTree(kb);
+  const plans = plannedPaths(state, kb, stage.id, roster);
   return state.characters.flatMap((c): MetaPathGoal[] => {
     const row = c.classIndex == null ? undefined : tree.byIndex.get(c.classIndex);
-    if (!row || c.level < CLASS_PICK_LEVEL) return [];
+    if (!row) return [];
     if (row.tier !== 'base' && row.tier !== 'beginner') return [];
+    const plan = plans.find((p) => p.characterIndex === c.index);
+    const fields = [`characters[${c.index}].classIndex`, `characters[${c.index}].level`];
+    if (row.tier === 'beginner' && plan?.via === 'rocklyte')
+      return [
+        {
+          entryId: 'metapath.goal.subclass',
+          subject: { kind: 'character', index: c.index },
+          slots: {
+            class: row.class,
+            action: 'become-journeyman',
+            next: 'Journeyman',
+            done: rocklyteDone(state, c),
+            peanuts: heldOf(state, ROCKLYTE.peanut),
+            goldenPeanuts: heldOf(state, ROCKLYTE.goldenPeanut),
+          },
+          order: 0,
+          provenance: {
+            entryIds: [ENTRY.slotPlan],
+            fields: [...fields, `characters[${c.index}].quests`, 'account.storageItems'],
+          },
+        },
+      ];
+    if (c.level < CLASS_PICK_LEVEL) return [];
     return [
       {
         entryId: 'metapath.goal.subclass',
         subject: { kind: 'character', index: c.index },
-        slots: { class: row.class, action: row.tier === 'beginner' ? 'pick-class' : 'subclass' },
-        order: 0,
-        provenance: {
-          entryIds: [],
-          fields: [`characters[${c.index}].classIndex`, `characters[${c.index}].level`],
+        slots: {
+          class: row.class,
+          action: row.tier === 'beginner' ? 'pick-class' : 'subclass',
+          next: plan?.basis === 'roster' ? (plan.next ?? '') : '',
         },
+        order: 0,
+        provenance: { entryIds: [], fields },
       },
     ];
   });
