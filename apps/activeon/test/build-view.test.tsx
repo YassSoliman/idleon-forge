@@ -182,22 +182,27 @@ describe('Build view', () => {
     const path = screen.getByRole('list', { name: 'Class path' });
     expect(path.textContent).toContain('Shaman');
     expect(path.textContent).toContain('(Elite class: Bubonic Conjuror at Eliteus)');
-    // Two preset cards: the one with points waiting opens first, as the screen's one frame.
-    const presets = screen.getByRole('group', { name: 'Talent presets' });
-    const cards = within(presets).getAllByRole('button');
-    expect(cards.map((b) => b.getAttribute('aria-pressed'))).toEqual(['true', 'false']);
-    expect(cards[0]?.querySelector('.a-frame')).toBeTruthy();
-    expect(cards[0]?.textContent).toContain('Skilling preset');
-    expect(cards[0]?.textContent).toContain(
+    // M25: the two presets are tabs, Fighting then Skilling; the one in use is tagged and open first,
+    // and each tab says what is waiting in it (gold when points are waiting).
+    const list = screen.getByRole('tablist', { name: 'Talent presets' });
+    const tabs = within(list).getAllByRole('tab');
+    expect(tabs.map((t) => t.getAttribute('aria-selected'))).toEqual(['true', 'false']);
+    expect(tabs[0]?.textContent).toBe('Fightingin useevery point placed');
+    expect(tabs[1]?.textContent).toBe('Skillingat least 44 talent points to spend');
+    expect(tabs[1]?.querySelector('.bd-ptab-sub.is-open .a-pip--gold')).toBeTruthy();
+    const panel = screen.getByRole('tabpanel', { name: /^Fighting/ });
+    expect(panel.querySelector('.a-frame')?.textContent).toContain('Every point is placed');
+    expect(screen.getByRole('group', { name: 'Fighting preset: talent tabs (talent points)' })).toBeTruthy();
+    // Arrow keys move to the Skilling tab and open it: its answer becomes the frame.
+    fireEvent.keyDown(tabs[0] as HTMLElement, { key: 'ArrowRight' });
+    const after = within(screen.getByRole('tablist', { name: 'Talent presets' })).getAllByRole('tab');
+    expect(after.map((t) => t.getAttribute('aria-selected'))).toEqual(['false', 'true']);
+    expect(document.activeElement).toBe(after[1]);
+    const skilling = screen.getByRole('tabpanel', { name: /^Skilling/ });
+    expect(skilling.querySelector('.a-frame')?.textContent).toContain(
       'Spend at least 44 talent points, starting with Book of the Wise',
     );
-    expect(cards[1]?.textContent).toContain('Fighting preset');
-    // The fighting card opens the fighting preset, and it becomes the frame.
-    fireEvent.click(cards[1] as HTMLElement);
-    const after = within(screen.getByRole('group', { name: 'Talent presets' })).getAllByRole('button');
-    expect(after.map((b) => b.getAttribute('aria-pressed'))).toEqual(['false', 'true']);
-    // The talent tabs as a control with each tab's points.
-    expect(screen.getByRole('group', { name: 'Fighting preset: talent tabs (talent points)' })).toBeTruthy();
+    expect(screen.getByRole('group', { name: 'Skilling preset: talent tabs (talent points)' })).toBeTruthy();
     expect(screen.getByText(/Low-confidence build/)).toBeTruthy();
     expect(screen.getByRole('link', { name: 'IdleOn Wiki: Shaman' })).toBeTruthy();
     await noAxeViolations(container);
@@ -272,8 +277,10 @@ describe('Build view', () => {
     const text = document.body.textContent ?? '';
     expect(text).not.toMatch(/No points waiting/);
     expect(text).not.toMatch(/can't/i);
-    // The preset with known points opens first (M24): its ladder lists every step in spend order, each
-    // with its band in words, and the gold line where the known points end.
+    // M25: the preset in use opens first; the Skilling tab opens the one with known points. Its ladder
+    // lists every step in spend order, each with its band in words, and the gold line where they end.
+    expect(document.getElementById('bv-1-p0-t1')).toBeTruthy();
+    fireEvent.click(screen.getByRole('tab', { name: /^Skilling/ }));
     const skilling = document.getElementById('bv-1-p1-t1') as HTMLElement;
     const bands = [...skilling.querySelectorAll('.bd-step')].map((li) => li.getAttribute('data-band'));
     expect(bands).toEqual(['now', 'part', 'next', 'later']);
@@ -297,7 +304,7 @@ describe('Build view', () => {
     expect(side.textContent).toContain('Mana Booster');
     expect(side.textContent).toContain('20 of 100 points');
     // No known points (the fighting preset): the line sits where the open steps start, in the engine's words.
-    fireEvent.click(screen.getByRole('button', { name: /^Fighting preset/ }));
+    fireEvent.click(screen.getByRole('tab', { name: /^Fighting/ }));
     const fighting = document.getElementById('bv-1-p0-t1') as HTMLElement;
     expect(fighting.querySelector('.bd-cut')?.textContent).toContain(
       'No unspent points known from your last save: the totals show where new points go',
@@ -347,6 +354,7 @@ describe('Build view', () => {
     };
     renderNow(props(r, saveOf(r, 1, 'first', null, 'paste')));
     openSquare('build', 1);
+    fireEvent.click(screen.getByRole('tab', { name: /^Skilling/ }));
     const ladder = document.getElementById('bv-1-p1-t1') as HTMLElement;
     const cut = ladder.querySelector('.bd-cut-t')?.textContent ?? '';
     expect(cut).toMatch(/^Build complete at 300 · 66 points have no talent in this build yet/);
@@ -407,10 +415,12 @@ describe('Build view', () => {
     const r: EngineResult = { ...fixture('mid-session'), builds: [shaman, plain] };
     renderNow(props(r, saveOf(r, 1, 'first', null, 'paste')));
     expect(screen.getByText(plain.note ?? '')).toBeTruthy();
-    // The preset with points opens first; the empty one says so.
-    const presets = screen.getByRole('group', { name: 'Talent presets' });
-    expect(within(presets).getByRole('button', { pressed: true }).textContent).toContain('1,354 points in');
-    expect(within(presets).getByRole('button', { pressed: false }).textContent).toContain('empty');
+    // The preset in use opens first (M25 tabs); the empty one says so.
+    const presets = screen.getByRole('tablist', { name: 'Talent presets' });
+    expect(within(presets).getByRole('tab', { selected: true }).textContent).toBe(
+      'Preset 2in use1,354 points in',
+    );
+    expect(within(presets).getByRole('tab', { selected: false }).textContent).toBe('Preset 1empty');
     // The talent tabs, the one shown pressed, and its talents with their levels.
     const tabs = screen.getByRole('group', { name: 'Preset 2: talent tabs' });
     expect(within(tabs).getByRole('button', { pressed: true }).textContent).toBe('Calm Basics');
