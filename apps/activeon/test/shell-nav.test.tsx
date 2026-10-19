@@ -130,7 +130,7 @@ describe('US-3 Back goes back', () => {
         window.dispatchEvent(new PopStateEvent('popstate'));
       });
     back('#system-alchemy-bubbles');
-    expect(screen.getByRole('heading', { level: 2, name: 'Alchemy bubbles' })).toBeTruthy();
+    expect(screen.getByRole('heading', { level: 2, name: 'Alchemy' })).toBeTruthy();
     back('#systems');
     expect(screen.getByRole('heading', { level: 2, name: 'Systems' })).toBeTruthy();
     back('');
