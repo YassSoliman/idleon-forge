@@ -53,6 +53,9 @@ export interface RailProps {
   onFix(key: string): void;
   onDaily(): void;
   onSpend(): void;
+  /** M26 F-C: the Production Plan's one account line ("6 of 7 anvils should switch"), and #production. */
+  production?: string | null;
+  onProduction?(): void;
 }
 
 /** The account fixes and the account safety doubt, one row each (never names: an account row has none). */
@@ -109,6 +112,8 @@ export function Rail({
   onFix,
   onDaily,
   onSpend,
+  production,
+  onProduction,
 }: RailProps) {
   const daily = dailyPart(view.checklist);
   const lossIds = new Set(losses.map((l) => l.entryId));
@@ -182,6 +187,18 @@ export function Rail({
         </div>
       ) : null}
       {tab !== 'logoff' ? <CoinsRow payers={payers} onSpend={onSpend} compact /> : null}
+      {production && onProduction && tab !== 'logoff' ? (
+        <div className="np-rail__part">
+          <span className="a-cap">Production Plan</span>
+          <Go href="#production" onGo={onProduction} className="np-rail__row">
+            <Pip tone="gold" />
+            <span className="np-rail__rt">
+              <b className="np-sm">{production}</b>
+            </span>
+            <PixelArt name="ui-arrow-right" decorative />
+          </Go>
+        </div>
+      ) : null}
     </div>
   );
 }

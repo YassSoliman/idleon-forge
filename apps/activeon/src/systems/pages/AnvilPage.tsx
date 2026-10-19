@@ -10,6 +10,7 @@ import { GameIcon } from '../../art/game/GameIcon';
 import { itemArt } from '../../art/game/game-art';
 import { WHETSTONE_ART } from '../../art/game/systems-art';
 import { WhoGlyph } from '../../design/who/WhoGlyph';
+import { AnvilPlanTab } from '../../production/AnvilPlanTab';
 import { AnvilRecipes } from '../../production/AnvilRecipes';
 import { AnvilWalkthrough } from '../../production/AnvilWalkthrough';
 import { SimplePage, StepsSection } from '../frame/SimplePage';
@@ -93,10 +94,19 @@ export default function AnvilPage({ s, page }: FullPageProps) {
         },
       ]
     : [];
-  // Without the point plan (an old pasted save), the page still has its Recipes and Walkthrough tabs.
+  // M26 section 8: the Production Plan tab comes first and replaces "What each anvil makes".
+  const planTab: FrameTab[] = prod
+    ? [{ id: 'plan', label: W.tabs.plan, render: () => <AnvilPlanTab s={s} p={prod} /> }]
+    : [];
+  // Without the point plan (an old pasted save), the page still has its Plan, Recipes and Walkthrough.
   if (!v)
     return prodTabs.length ? (
-      <SystemFrame s={s} page={page} answer={pageAnswer ?? frameAnswer(page)} tabs={prodTabs} />
+      <SystemFrame
+        s={s}
+        page={page}
+        answer={pageAnswer ?? frameAnswer(page)}
+        tabs={[...planTab, ...prodTabs]}
+      />
     ) : (
       <SimplePage s={s} page={page} />
     );
@@ -107,6 +117,7 @@ export default function AnvilPage({ s, page }: FullPageProps) {
       page={page}
       answer={answer}
       tabs={[
+        ...planTab,
         {
           id: 'points',
           label: W.tabs.points,
@@ -190,6 +201,7 @@ export default function AnvilPage({ s, page }: FullPageProps) {
                         <li
                           key={r.index}
                           className={`sf-row an-row${r.tone === 'gold' ? ' sf-row--gold' : ''}`}
+                          data-focus-key={`c${r.index}`}
                         >
                           <span className="an-row__who">
                             {r.who ? (
@@ -292,47 +304,54 @@ export default function AnvilPage({ s, page }: FullPageProps) {
             </div>
           ),
         },
-        {
-          id: 'makes',
-          label: W.tabs.makes,
-          badge: makers,
-          render: () => (
-            <section className="sf-sec" aria-labelledby="an-makes-h">
-              <h3 id="an-makes-h" className="a-h2">
-                {W.makesTitle}
-              </h3>
-              <ul className="sf-rows">
-                {v.makes.map((m) => (
-                  <li key={m.index} className="sf-row">
-                    <span className="an-row__who">
-                      {m.who ? (
-                        <WhoGlyph family={m.who.family} classLabel={m.who.label} scale={2} decorative />
-                      ) : null}
-                      <span className="sf-strong">{m.who?.label}</span>
-                    </span>
-                    <ul className="an-makes">
-                      {m.items.map((it) => (
-                        <li key={it.name} className="sf-small an-item">
-                          <GameIcon
-                            art={itemArt(rawOf(m.index, it.name))}
-                            size={16}
-                            wiki={it.name}
-                            decorative
-                          />
-                          <span className="sf-strong">{it.name}</span>{' '}
-                          <span className="sf-muted">
-                            {W.of(it.amount.toLocaleString('en-US'), it.capacity.toLocaleString('en-US'))} ·{' '}
-                            {it.full}
+        ...(prod
+          ? []
+          : [
+              {
+                id: 'makes',
+                label: W.tabs.makes,
+                badge: makers,
+                render: () => (
+                  <section className="sf-sec" aria-labelledby="an-makes-h">
+                    <h3 id="an-makes-h" className="a-h2">
+                      {W.makesTitle}
+                    </h3>
+                    <ul className="sf-rows">
+                      {v.makes.map((m) => (
+                        <li key={m.index} className="sf-row">
+                          <span className="an-row__who">
+                            {m.who ? (
+                              <WhoGlyph family={m.who.family} classLabel={m.who.label} scale={2} decorative />
+                            ) : null}
+                            <span className="sf-strong">{m.who?.label}</span>
                           </span>
+                          <ul className="an-makes">
+                            {m.items.map((it) => (
+                              <li key={it.name} className="sf-small an-item">
+                                <GameIcon
+                                  art={itemArt(rawOf(m.index, it.name))}
+                                  size={16}
+                                  wiki={it.name}
+                                  decorative
+                                />
+                                <span className="sf-strong">{it.name}</span>{' '}
+                                <span className="sf-muted">
+                                  {W.of(
+                                    it.amount.toLocaleString('en-US'),
+                                    it.capacity.toLocaleString('en-US'),
+                                  )}{' '}
+                                  · {it.full}
+                                </span>
+                              </li>
+                            ))}
+                          </ul>
                         </li>
                       ))}
                     </ul>
-                  </li>
-                ))}
-              </ul>
-            </section>
-          ),
-        },
+                  </section>
+                ),
+              },
+            ]),
         ...prodTabs,
       ]}
     />
