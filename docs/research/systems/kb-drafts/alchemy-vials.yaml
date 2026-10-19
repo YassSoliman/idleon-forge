@@ -1,0 +1,345 @@
+# SPDX-License-Identifier: GPL-3.0-only
+# M26 KB drafts for System alchemy-vials (area W2 synthesis, verified 2026-10-19, Toolbox 6c37e3d, game 2.3.540).
+# Copied from scratchpad/m26/maps: alchemy-vials.json.
+# status: draft is a workflow marker; the KB schema accepts active|contested|retired only.
+# entries = new entries; amendments = changes to entries already in packages/knowledge/systems (fields shown are the changed keys);
+# facts = new fact rows (land in <system>.facts.yaml).
+# AW synthesis added: topics contradictions-1 (maps/<topic>.json).
+system: alchemy-vials
+status: draft
+entries:
+- id: alchemy-vials.goal.green-vials
+  system: alchemy-vials
+  type: goal
+  title: Green vials for Virile Vials
+  text: '{text}'
+  why: '{why}'
+  values:
+    level: Level {vial} {from} → 4 ({items} {item}, {liquidCost:int} {liquid})
+    why-level: 'Virile Vials gives your Shaman damage for every vial at level 4 or higher: {green:int} of {unlocked:int} are
+      there.'
+    detail-next: then {vial} {from} → 4
+    maxDetails: 2
+  notes: 'Applies only when a Shaman-line character is on the account. Rule from Toolbox damage.ts L712 (level > 3). Progress
+    = green count. Picks the cheapest affordable step toward 4 (cost ladder alchemy-vials.fact.costs: cumulative 3,600 per
+    vial). Complements priority.plan row-6.'
+  sources:
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/damage.ts#L712-L715
+    title: 'Toolbox: Virile Vials counts vials with level > 3'
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  - url: https://idleon.wiki/wiki/Alchemy/Vials
+    title: 'IdleOn Wiki: Alchemy/Vials'
+    tier: 3
+    claimDate: 2026-09-29
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  - url: https://gameslikefinder.com/article/idleon-shaman-build-guide/
+    title: 'gameslikefinder: Shaman build guide (level 4 vials for Virile Vials)'
+    tier: 4
+    claimDate: 2026-03-09
+    verified: 2026-10-19
+  appliesTo:
+    stages:
+    - from: W2-early
+      to: W4-late
+  confidence: H
+  status: draft
+  scope: account
+  category: compounding
+  unit: vials
+  detector:
+    id: alchemy-vials/green
+  progress:
+    id: alchemy-vials/green
+  milestones:
+  - at: 1
+    reward: One more vial counts for Virile Vials
+- id: alchemy-vials.check.ladder
+  system: alchemy-vials
+  type: check
+  title: Even out your vials first
+  subject: account
+  effect: next-action
+  category: compounding
+  effortSeconds: 60
+  detector:
+    id: alchemy-vials/ladder
+  text: Bring {count:int} vials to level 4 before levelling {vial} past {level:int}
+  why: 'Each vial level costs 2.5x to 10x the one before: {vial} {level} → {next} costs {items}, enough for {cheaper:int}
+    vials 1 → 4.'
+  notes: Common mistake (c) in the dossier. Fires when the player's next affordable step is a vial at level >= 5 while some
+    unlocked vial is below 4. Cost math is H (vialCostsArray); the advice is community (idleon.guide 'upgrade all easy vials
+    up to level 5 first', 2024, pre-patch) and the wiki's level-4 note, so M.
+  doneWhen:
+    field: account.alchemyPlan.vialLevels
+    change: higher
+  sources:
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-2/alchemy.ts#L989
+    title: Toolbox vialCostsArray (level costs)
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  - url: https://idleon.wiki/wiki/Alchemy/Vials
+    title: 'IdleOn Wiki: Alchemy/Vials'
+    tier: 3
+    claimDate: 2026-09-29
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  - url: https://idleon.guide/vials/
+    title: 'idleon.guide: Vials (pre-patch)'
+    tier: 4
+    claimDate: 2024-03-04
+    verified: 2026-10-19
+    prePatch: true
+  appliesTo:
+    stages:
+    - from: W3-early
+      to: W4-late
+  confidence: M
+  status: draft
+- id: alchemy-vials.goal.chemistry-set
+  system: alchemy-vials
+  type: goal
+  title: Light My 1st Chemistry Set
+  text: 'Connect a character to My 1st Chemistry Set in the Lab: every vial gives 2x'
+  why: It doubles all {unlocked:int} vial bonuses at once, the biggest vial multiplier.
+  notes: Fires when the Lab is open (account.lab non-null, a character connected) and bonus 10 is not lit. Lab x2 is H (getVialMultiplier).
+    Ordering vs other Lab nodes is not claimed.
+  sources:
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-2/alchemy.ts#L524-L547
+    title: Toolbox getVialMultiplier (Lab bonus 10 x2)
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  - url: https://idleon.wiki/wiki/Alchemy/Vials
+    title: 'IdleOn Wiki: Alchemy/Vials'
+    tier: 3
+    claimDate: 2026-09-29
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  appliesTo:
+    stages:
+    - from: W4-entry
+      to: W4-late
+  confidence: H
+  status: draft
+  scope: account
+  category: compounding
+  unit: x
+  detector:
+    id: alchemy-vials/multiplier
+    params:
+      part: chemistry-set
+  milestones:
+  - at: 1
+    reward: All vials x2
+- id: alchemy-vials.goal.vial-overtune
+  system: alchemy-vials
+  type: goal
+  title: Vial Overtune
+  text: 'Upgrade Vault: Vial Overtune {from:int} → {to:int} (+10% to every vial)'
+  why: Vial Overtune adds 10% to every vial per level, up to 3 levels.
+  notes: Shown once the Vault row is unlocked. Progress = level 0-3. Effect H (x5=10, max 3); no Source ranks it against other
+    Vault rows, so no priority claim; coordinate with the upgrade-vault map.
+  sources:
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-2/alchemy.ts#L526
+    title: Toolbox getUpgradeVaultBonus(upgrades, 42)
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/upgrade-vault.json
+    title: 'Toolbox game data: Vial_Overtune'
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  appliesTo:
+    stages:
+    - from: W3-early
+      to: W4-late
+  confidence: H
+  status: draft
+  scope: account
+  category: compounding
+  unit: levels
+  detector:
+    id: alchemy-vials/multiplier
+    params:
+      part: overtune
+  progress:
+    id: alchemy-vials/multiplier
+    params:
+      part: overtune
+  milestones:
+  - at: 3
+    reward: Vials x1.3 (Vault part)
+- id: alchemy-vials.goal.vial-mastery
+  system: alchemy-vials
+  type: goal
+  title: Crown vials for Vial Mastery
+  text: '{crowned:int} vials at level 13: +{pct:int}% to every vial'
+  why: With Rift Vial Mastery, each vial at level 13 adds 2% to every vial.
+  notes: Only when isRiftBonusUnlocked(rift,'Vial_Mastery'). Progress meter, no pick (level 13 costs 1e9 items; 'endgame loop',
+    dossier W5+).
+  sources:
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-2/alchemy.ts#L528-L532
+    title: 'Toolbox Vial_Mastery: 2 x vials at MAX_VIAL_LEVEL'
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  appliesTo:
+    stages:
+    - from: W4-late
+      to: W4-late
+  confidence: H
+  status: draft
+  scope: account
+  category: compounding
+  unit: vials
+  progress:
+    id: alchemy-vials/multiplier
+    params:
+      part: mastery
+  milestones:
+  - at: 1
+    reward: +2% all vials
+- id: alchemy-vials.check.pickle-jar
+  system: alchemy-vials
+  type: check
+  title: Pickle Jar for Equinox
+  subject: account
+  effect: next-action
+  category: spendable
+  effortSeconds: 60
+  detector:
+    id: alchemy-vials/pickle-jar
+  text: Level the Pickle Jar vial to 2 for the Equinox challenge
+  why: Pickle Jar gives nothing itself, but level 2 completes an Equinox challenge (+5 Max LV for Faux Jewels).
+  notes: Fires only while that Equinox challenge is open and Pickle Jar (idx 20) is level 1 with 100 BobJoePickle and 3 Nitrogen
+    held; otherwise the tile says 'does nothing'. Dossier C27 H, C42 M.
+  doneWhen:
+    field: account.alchemyPlan.vialLevels
+    change: higher
+  sources:
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/vials.json
+    title: 'Toolbox game data: Pickle Jar stat Nothing'
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/equinox.json
+    title: 'Toolbox game data: Equinox challenge ''Upgrade the Bobjoepickle vial to Lv 2'''
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  appliesTo:
+    stages:
+    - from: W3-early
+      to: W4-late
+  confidence: H
+  status: draft
+- id: alchemy-vials.fact.multiplier
+  system: alchemy-vials
+  origin: authored
+  title: Vial multiplier sources
+  rows:
+  - source: 'Lab: My 1st Chemistry Set'
+    effect: x2
+    gate: Lab bonus 10 lit
+  - source: 'Upgrade Vault: Vial Overtune'
+    effect: +10%/level, max 3
+    group: additive
+  - source: 'Rift: Vial Mastery'
+    effect: +2% per level-13 vial
+    group: additive
+  - source: 'Vote Ballot: Meritocracy 20'
+    effect: x(1+bonus/100)
+    gate: selected this week, W6 town
+  sources:
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-2/alchemy.ts#L524-L547
+    title: Toolbox getVialMultiplier
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  confidence: H
+  status: draft
+amendments:
+- amends: alchemy-vials.goal.level-next
+  target: alchemy-vials.yaml
+  targetStatus: active
+  status: draft
+  from: alchemy-vials
+  change: appliesTo to W4-late (red team 2026-10-19, no W5+ stage, N1); catalogue read extended to idx 0-51 (W4 vials) so W4 accounts get W4 vial levels; confidence
+    unchanged L
+- amends: alchemy-vials.check.daily-attempts
+  target: alchemy-vials.yaml
+  targetStatus: active
+  status: draft
+  from: alchemy-vials
+  change: appliesTo stays; no change
+- amends: alchemy-vials.priority.plan
+  target: alchemy-vials.yaml
+  targetStatus: active
+  status: draft
+  from: alchemy-vials
+  change: no change to rows (L); row-6 complemented by goal.green-vials (H)
+- _kind: supersede
+  amends: alchemy-vials.goal.vial-mastery
+  target: alchemy-vials.yaml (draft above)
+  change: AW verdict version of the same id; both views kept, choose at promotion
+  replacement:
+    id: alchemy-vials.goal.vial-mastery
+    system: alchemy-vials
+    type: goal
+    title: Max vials for Vial Mastery
+    text: '{text}'
+    why: '{why}'
+    values:
+      locked: 'Rift {display:int} (Vial Mastery) is {left:int} Rifts away: every vial at level 13 will then add +2% to all
+        vial bonuses'
+      active: 'Vial Mastery: {maxed:int} vials at level 13 give +{pct:int}% to all vial bonuses; next: {vial} {from} -> 13'
+      why: Vial Mastery counts every level-13 vial, so each vial you max is a permanent +2% on every vial.
+    notes: 'contradictions-1 verdict 2: code gate Rift[0] >= 35, the game shows it as Rift 36 (display = Rift[0]+1). Formula
+      2 x (#vials level >= 13) in the vial additive group with Upgrade Vault 42. Which N.js site applies it by name is not
+      found (M); the offset itself is H. Only shown from 5 Rifts before the gate.'
+    sources:
+    - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-2/alchemy.ts#L529-L545
+      title: 'IdleOn Toolbox vial multiplier: Vial Mastery 2 x maxed vials'
+      tier: 1
+      verified: 2026-10-19
+      gameVersion: 2.3.540
+    - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-4/rift.ts#L24-L28
+      title: 'IdleOn Toolbox isRiftBonusUnlocked: index <= currentRift'
+      tier: 1
+      verified: 2026-10-19
+      gameVersion: 2.3.540
+    - url: https://www.legendsofidleon.com/ytGl5oc/N.js
+      title: 'Game client: Rift banner draws Rift[0]+1 (@8924838)'
+      tier: 1
+      verified: 2026-10-19
+      gameVersion: 2.3.540
+    - url: https://idleon.wiki/wiki/Rift
+      title: 'IdleOn Wiki: Rift (Vial Mastery listed at Rift 36)'
+      tier: 3
+      verified: 2026-10-19
+      gameVersion: 2.3.540
+      claimDate: 2026-10-19
+    appliesTo:
+      stages:
+      - from: W4-entry
+        to: W4-entry
+    confidence: H
+    status: draft
+    scope: account
+    category: compounding
+    unit: vials
+    detector:
+      id: alchemy-vials/mastery
+    progress:
+      id: alchemy-vials/mastery
+    milestones:
+    - at: 1
+      reward: +2% to every vial bonus
+    fromTopic: contradictions-1
+  fromTopic: contradictions-1
+  status: draft

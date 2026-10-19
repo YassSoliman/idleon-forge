@@ -1,0 +1,149 @@
+# Anvil and production (W1)
+
+Verified 2026-10-19 against Toolbox pin 6c37e3d (game 2.3.540). Paths below are relative to `packages/toolbox-parsers/vendor/` in the reference checkout. "T1" = game data / Toolbox code, "T2" = Toolbox logic, "T3" = wiki, "T4" = community. Test accounts: "the W2 test account", "the W4 test account"; no real names used.
+
+## Anvil and production
+
+- **What it is:** each character's Anvil "Produce" tab turns time into crafting materials (Thread, Trusty Nails, Boring Brick, ...) and is the main source of Smithing EXP. Anvil points tune it (EXP, Speed, Capacity). The same Anvil also has the Crafting tabs (equipment, bags, Anvil Expansions), which gate W1-W4 progression. [C1][C22]
+- **Unlocks:**
+  - Produce works from the start (Scripticus quest has you use the anvil). [C26]
+  - Since v2.27 (2025-02-03) Quick Ref in the Codex collects anvil mats from anywhere. [C26]
+  - Products unlock by Smithing level (`levelReq`). [C1]
+  - Slots ("hammers"): base 1; Infinity Hammer (gem shop, 300 gems, once, account-wide) +1; Hammer Hammer (equipped active bubble) +1; max 3. [C11][C12][C13]
+  - Anvil Tabs 2-7 are crafted expansions (gate levels disagree between sources). [C23][C24]
+- **Scope:** per character for production, points, hammers, capacity; account-wide for several multipliers (stamps, statue, vault, bubbles, gem shop, products' crafting tabs "for all anvils"). [C27][C16][C17][C19]
+- **Inputs -> outputs:**
+  - Time (also AFK) in, products and Smithing EXP out. Per hammer progress per second is `anvilSpeed/3600`; a product completes per `requiredAmount` progress; items floored, capped at capacity. [C4][C29]
+  - Speed formula: [C2]; AGI factor [C3]; capacity [C5]; EXP [C6][C7].
+- **Goals and Milestones:**
+
+| Milestone | Meaning | Source |
+|---|---|---|
+| All hammer slots producing (1 to 3) | no idle production | [C13] |
+| Coin points 20 / 60 / 100 / 150 / 200 / 600 | AutoReview smithing tiers 1-6 (carried over, unverified) | [C39] |
+| Monster points 85 / 150 / 225 / 350 / 500 / 700 | same tiers; cumulative cost in monster mats: 30.6K / 122K / 331K / 981K / 2.37M / 5.44M (no Anvilnomics) | [C39][C43] |
+| Smithing 15 / 35 / 50 / 65 / 80 / 80 | Anvil Tabs 2-7 craftable per wiki | [C23] |
+| Capacity 2,000,000,000 | cap points wasted past this | [C5] |
+| Max total points | Smithing level + Acme + 600 coin + 700 mat | [C22][C8][C9] |
+
+- **Feeds / fed by:**
+  - Fed by: AGI; Anvil Zoomer stamp; Blacksmith Box (Post Office); Anvil Statue; Hammer Hammer and Anvilnomics bubbles; Bob Build Guy star sign; Broken Time talent; Upgrade Vault 24; material bag capacity; Smithing EXP stamps, cards, talents. [C2][C16][C17][C18][C19][C20][C49][C7]
+  - Feeds: Smithing EXP; gear/bag crafting; Anvil Expansions; Empty Boxes (Post Office); stamp cap raises; later-world construction. [C1][C24]
+- **Per-session actions:** (1) collect/Quick Deposit; (2) every hammer on a product; (3) spend unspent points (recompute unspent from sources, the stored value goes stale after level-up [C15]); (4) buy cheap coin/monster points; (5) check fill time against the Expected Return [C29]. Capped state: product at capacity stops; idle state: fewer products selected than hammers owned; unspent points.
+- **AFK Setup implications:** every character leaves with all hammers on a product that will not fill before the Expected Return. EXP goal: all hammers on Thread. Material goal: the product the Goal needs. Archer-line characters give the biggest point pool. [C30][C14]
+- **Min-max by stage:** see the dedicated section below.
+- **Common mistakes:** idle hammers or capped products; points dumped into Capacity when the material bag already scales it [C31]; making high-tier products for EXP (Thread has the best EXP per progress [C30]); forgetting alt characters' unspent points [C38]; spending Acme points then resetting talents without knowing points go negative until re-spent [C14][C35].
+- **Save and Toolbox fields:** see Mechanics catalogue (field column) and [C27][C28].
+- **Sources:** inline per claim; claim list at the end.
+
+## Mechanics catalogue (Worlds 1-4)
+
+Field paths are Toolbox output on `account.anvil[i]` (== `characters[i].anvil`), i = character index; raw keys per character `AnvilPA_i`, `AnvilPAstats_i`, `AnvilPAselect_i`.
+
+| # | Mechanic | Rule / formula | Caps / max | Unlock | Cost | Field |
+|---|---|---|---|---|---|---|
+| M1 | Products (11 real) | progress needed per item `requiredAmount`, EXP per item `exp`: Thread 100/6 (Lv1), Trusty Nails 200/10 (5), Boring Brick 350/16 (12), Chain Link 700/25 (17), Leather Hide 1200/35 (25), Pinion Spur 2000/50 (30), Lugi Bracket 3000/65 (35), Purple Screw 4000/75 (43), Thingymabob 6000/90 (50), Tangled Cords 8500/110 (60), PVC Pipe 12000/140 (70). Indices 11-13 are filler (levelReq 999) [C1] | n/a | Smithing level `levelReq` | none | `anvil.anvilProduction[idx] = [currentAmount, currentXP, currentProgress, totalProduced]`; `production[].requiredAmount/exp/levelReq/hammers` |
+| M2 | Hammer slots | base 1, +1 Infinity Hammer, +1 Hammer Hammer; each slot picks a product; same product on several slots multiplies progress [C11-C13] | 3 | Gem shop GemP1 (300 gems, 1 purchase); bubble `a2` HAMMER_HAMMER | gems / liquid + Iron | `anvil.anvilSelected` (array of product indices; length = slots); `production[].hammers` |
+| M3 | Speed | `(1+(stamp+2*speedPts)/100)*(1+(box+statue+vault)/100)*(1+HH/100)*AGIfactor*(1+(starSign+BrokenTime)/100)`, x3600 per hour [C2] | no cap | n/a | point | `stats.anvilSpeed`; `anvilStats.speedPoints` |
+| M4 | AGI factor | `2*Stat2num(AGI)+1`; `Stat2num = ((s+1)^0.37-1)/40` below 1000, `((s-1000)/(s+2500))*0.5+0.297` from 1000 [C3]. Examples: 100 AGI 1.23x, 1000 1.59x, 5000 2.13x | asymptote 2.297x | n/a | n/a | `characters[i].stats.agility` |
+| M5 | Capacity | `round(min(2e9, bCraft.capacityPerSlot*(2+0.1*capPts)))` [C5][C49] | 2e9 | n/a | point | `stats.anvilCapacity`; `anvilStats.capPoints` |
+| M6 | EXP multiplier | `(1+3*xpPts/100)*SmithingEXPmulti`; below 20 linear, above `min(20+(x-20)/(x-20+70)*50, 75)` [C6]; `SmithingEXPmulti` [C7] | asymptote 70x (the 75 clamp is dead code, never binds) | n/a | point | `anvilStats.xpPoints`; `calcAnvilExp` |
+| M7 | Points from level | +1 per Smithing level | Smithing cap | n/a | free | `skillsInfo.smithing.level` |
+| M8 | Points from coins | point p (0-based) costs `round((p^3+50)*(1+p/100)*max(0.1,1-red/100))` [C8]; cumulative 20: 42.8K, 60: 4.6M, 100: 44M, 150: 274M, 200: 1.03B, 400: 26.7B, 600: 187B [C43] | 600 | n/a | coins | `anvilStats.pointsFromCoins`; `stats.anvilCost.{nextCoinUpgrade,totalCoins,coinsToMax}` |
+| M9 | Points from monster mats | point p costs `round(((p+1)^1.5+p)*max(0.1,1-red/100))` of a drop whose item changes at thresholds 5,15,25,40,55,70,85,100,115,130,150,175,200,225,250,280,310,350,375,410,440,470,500,540,600, then 601+ [C9] (Spore Cap, Frog Leg, Bean Slices, Slime Sludge, Carrot Cube, Glublin Ear, Bullfrog Horn, Pocket Sand, Crabby Cakey, Coconotnotto, Pincer Arm, High Steaks, Wakka Cherry, Shrapshell, Melty Cube, Sticky Stick, Pen, Sippy Straw, Ram Wool, Purple Mush Cap, Half Eaten Donut, Genie Lamp, Bottle Cap, Tongue Bone, Empty Oyster Shell, Condensed Zap) | 700 per wiki; Toolbox table has no stop at 700 | n/a | monster mats | `anvilStats.pointsFromMats`; `stats.anvilCost.{itemName,nextMatUpgrade,totalMats}` |
+| M10 | Anvilnomics | reduces coin and mat point costs by bubble %, floor 10% of cost; stronger on Archer (class multiplier) [C10] | 90% off | Alchemy bubble `a4` (Quicc cauldron) | liquid + Forest Fibres | `getBubbleBonus(account,'ANVILNOMICS',false,isArcher)` |
+| M11 | Acme Anvil | Archer talent: points = `SkillLevels[281] + talentLvl*floor(smithing/10)` [C14] | talent max | Archer line | talent points | `anvilStats.pointsFromAcme` |
+| M12 | Unspent points | `smithing + acme + coins + mats - (xp+speed+cap)` [C15] | n/a | n/a | n/a | derived; stored `availablePoints` goes stale |
+| M13 | Anvil Reset Whetstone | holding it resets all spent points for that character; sold in Frostbite Towndra (W3) [C21] | 1/day, per wiki | W3 | 1.2M coins per wiki (market price unverified in data) | item `Whetstone` |
+| M14 | Fill time | `(capacity - futureProduction)/(speed/3600/required*hammers)` [C29] | n/a | n/a | n/a | `getTimeTillCap` |
+| M15 | Speed sources (flat list) | Anvil Zoomer stamp +1% per level [C16]; Anvil Statue 0.5% per level times talent/onyx/zenith/dragon/event/merit multipliers (no Upgrade Vault 25 multiplier) [C17]; Blacksmith Box [C18]; Hammer Hammer `23 + 2/level`-style bigBase [C11]; Production Revolution (Upgrade Vault 24) [C19]; Bob Build Guy 10% [C20]; Broken Time [C20] | none | various | various | see C-refs |
+| M16 | Blacksmith Box | PO box: +SmithExp% (50/200 decay), +ProdSpd% (75/200 decay), +% to craft +1 slot (30/150 decay); tier thresholds 24.9/99.9/400.1 [C18] | box max 400 | Post Office (W3) | PO points | `getPostOfficeBonus(po,'Blacksmith_Box',0..2)` |
+| M17 | Smithing EXP multiplier inputs | Focused Soul + SmithExp stamps + Happy Dude + 25*Skill Mastery, times cards, times Blacksmith Box, plus all-skill EXP and Maestro Left Hand [C7][C47] | floor 0.1 | n/a | n/a | `calcAnvilExp` |
+| M18 | Anvil Expansions (crafting tabs 2-7) | craft once, all characters get tab; materials per `crafts.json` [C24] | 7 tabs | Smithing 15/35/50/65/80/80 per wiki [C23] | see C24 | `crafts.json` entries `Anvil_Tab_N` |
+| M19 | Anvil crafting side | Archer talent Godly Creation: % chance of special bonus on anvil-crafted equips; Sculpting/Guilding Tools shop items for quests; recipes `SmithingRecipes*` [C48] | n/a | Archer | n/a | talents.json |
+| M20 | Quick Deposit / Quick Ref | Quick Deposit sends mats to storage; Codex Quick Ref collects from anywhere [C26] | n/a | v2.27 | free | UI only |
+| M21 | Material bag capacity | feeds Capacity: `floor(bCraftCap*(1+MattyBag/100)*(1+25*gemCarry/100)*(1+(MasonJar+starSign)/100)*(1+extraBagsTalent/100)*allCaps)` [C49] | n/a | n/a | n/a | `carryCapBags[Class=bCraft].capacityPerSlot` |
+| M22 | Craft +1 slot (OneSlot) | third Blacksmith Box stat, `+% to craft +1 slot`: concerns the anvil Craft tab (equipment crafting), NOT the Produce tab. Not computed by Toolbox (no `OneSlot` reference in `parsers/**`) [C18][C50] | box max 400 | Post Office | PO points | none in Toolbox |
+| M23 | Prisma multiplier on bubbles | an equipped (or Companion-4 unequipped) Hammer Hammer and Anvilnomics bubble that is Prisma'd gets `max(1, getPrismaMulti)` on top of its value [C11][C51] | n/a | Prisma (W3+ tesseract content) | n/a | `alchemy.prismaBubbles`, `getPrismaMulti` |
+| M24 | Smithing skill mastery | Rift skill-mastery bonus 0 gives 25 per unlocked tier into the Smithing EXP multiplier (already inside M17) [C7][C52] | per rift tiers | Rift, smithing rank | n/a | `isMasteryBonusUnlocked(rift, smithing rank, 0)` |
+| M25 | Yea I Already Know | Archer talent; community lists it as a smithing EXP talent. Toolbox `anvil.ts` does not reference it; confidence L [C35][C53] | n/a | Archer line | talent points | none |
+| M26 | Onyx Tools / Zenith Tools | quest items `SmithingHammerChisel3` (Onyx Tools) and `SmithingHammerChisel4` (Zenith Tools) are listed in `parseMaps.ts` and not modelled by ActiveOn; their anvil effect is not in Toolbox code (confidence L) [C54] | n/a | quest | n/a | `parseMaps.ts#L202-L203` |
+| M27 | Offline accumulation | production runs while AFK/offline, floored at capacity; `getAnvilFutureProduction` extrapolates to `now`. The auto-depositer / Quick Deposit limit side is wiki-only (confidence L) [C4][C33] | capacity | n/a | n/a | `getAnvilFutureProduction` |
+
+W5+ extensions (one line each): Production Revolution (Upgrade Vault 24) needs vault unlock level 750 and scales to level 100 [C19]; no W5+ parser in the pin touches Anvil production (grep of `parsers/**` finds only `world-1/anvil.ts`, character, misc, statues) [C44]; Anvil Tabs 5-7 recipe costs use W5+/W6+ materials [C24]; "Anvil Production Pipeline" (W3 Automation, named in a 2026 guide) has no data in the pin [C32].
+
+## Min-max by stage
+
+Community meta is thin and mostly about points. Priority orders below; disagreement is flagged.
+
+- **W1 early (Smithing < 30):** produce Thread on every hammer; put points into Speed ("maximise items produced") [C32]. Alternative (2023): spread EXP/Speed/Capacity until main characters are level 60 [C33]. Buy coin points to about 20 and monster points to about 85 [C39]. Quick Deposit and check the anvil regularly so it does not fill [C36].
+- **W1 mid/late:** Speed first, add Capacity when the anvil fills before your collection time (target a fill time equal to your away time, 24 h is a common goal), EXP last [C32][C33]. Capacity should come from material bags first [C31]. Disagreement: a 2021 poster AFKing 20-26 h/day preferred capacity (pre-Whetstone, stale) [C34].
+- **W2:** equip Hammer Hammer on characters not using the slot for a more valuable bubble; buy Infinity Hammer (300 gems) [C11][C12]; make Anvil Tab 2 for Empty Boxes (Post Office) [C23][C24]; Anvilnomics worth levelling before large point buys [C10].
+- **W3:** Whetstone to re-split early points (Speed vs Capacity) [C21]; Post Office Blacksmith Box levels [C18]; Archer talents order Acme Anvil, Broken Time, Focused Soul, Yea I Already Know [C35]; ACME loan trick: spend Acme points then swap talent preset back [C35]. Late W3: players go near 100% Speed [C33].
+- **W4:** same, plus Upgrade Vault 24 if unlocked [C19]; endgame benchmark one player cited was 2-3k% XP and about 350k speed (2M+ on archers) (2023, pre-patch) [C33].
+- **Per class:** Archer-line characters have Acme Anvil, class-multiplied Anvilnomics and Broken Time, so make big point purchases there [C10][C14]. Mage/Warrior lack smithing talents and use their second preset for their own skills [C35].
+- **ActiveOn rule:** Speed until a product would fill before the Expected Return, then Capacity, ties to Speed; computed with `getPlayerAnvil` at counterfactual points, each product weighted by its `requiredAmount` [C15].
+
+## Open questions
+- Does the 3-slot maximum have further sources (e.g. other +1 hammer effects; the gem shop text says "stacks with other bonuses")? Toolbox does not compute slot count. [C13]
+- Anvil Tab gate levels: wiki says 15/35/50/65/80/80, `items.json` `lvReqToCraft` says 15 for all, digitaltq quotes different Tab 2 quantities. [C23][C24]
+- Monster-point cap 700 is wiki-only; Toolbox's cost table continues past 601. [C9]
+- Whetstone market price and daily limit are not in data (wiki). [C21]
+- "Golden anvil" (P2W double-click) and the "Anvil Production Pipeline" are named in text sources but absent from Toolbox data. [C32][C36]
+- Resolved by verifiers: the "OneSlot" Blacksmith Box stat concerns the anvil Craft tab, not Produce (M22). Its exact crafting effect is still not in Toolbox code. [C18][C50]
+
+## Claims
+See the structured claim list (C1-C49) for each claim's text, source, tier, verification date 2026-10-19.
+
+## Claims (verified 2026-10-19; paths relative to packages/toolbox-parsers/vendor/ unless URL or stated)
+
+- [C1] 11 anvil products: Thread 100/6 Lv1, Trusty Nails 200/10 Lv5, Boring Brick 350/16 Lv12, Chain Link 700/25 Lv17, Leather Hide 1200/35 Lv25, Pinion Spur 2000/50 Lv30, Lugi Bracket 3000/65 Lv35, Purple Screw 4000/75 Lv43, Thingymabob 6000/90 Lv50, Tangled Cords 8500/110 Lv60, PVC Pipe 12000/140 Lv70 (requiredAmount/exp/levelReq). Indices 11-13 are filler with levelReq 999. Source: data/website-data/shared-data.json#anvilProducts (tier 1).
+- [C2] Anvil speed = (1+(stamp+2*speedPoints)/100) * (1+(postOfficeBox+statue+upgradeVault)/100) * (1+hammerHammer/100) * agilityFactor * (1+(starSignTownSpeed+brokenTime)/100); stats.anvilSpeed is 3600x that. Source: parsers/world-1/anvil.ts#getAnvilSpeed,getPlayerAnvil (tier 1).
+- [C3] AGI factor = 2*Stat2num(AGI)+1, Stat2num=((s+1)^0.37-1)/40 below 1000 and ((s-1000)/(s+2500))*0.5+0.297 from 1000. Source: parsers/misc.ts#getSpeedBonusFromAgility,getStatCurveValue (tier 1).
+- [C4] Each hammer adds anvilSpeed/3600 progress per second to its product; whole requiredAmount chunks become items, floored and capped at capacity (game AFKcode AnvilPA). Source: parsers/world-1/anvil.ts#getAnvilFutureProduction (tier 1).
+- [C5] Anvil capacity = round(min(2e9, bCraft bag capacityPerSlot * (2 + 0.1*capPoints))). Source: parsers/world-1/anvil.ts#getPlayerAnvil (tier 1).
+- [C6] Anvil EXP multiplier = (1+3*xpPoints/100)*SmithingEXPmulti; linear below 20, else min(20+((x-20)/(x-20+70))*50, 75). **Corrected (gamedata lens refuted the original "hard cap 75x"):** the fraction is always below 1, so the result approaches 70x asymptotically; the 75 min() is dead code, not a cap. Confidence H. Source: parsers/world-1/anvil.ts#getAnvilExp (tier 1).
+- [C7] SmithingEXPmulti = max(0.1, (1+(FocusedSoul+SmithExpStamps+HappyDude+25*skillMastery)/100)*(1+cards/100)*(1+blacksmithBox0/100) + (allSkillExp+LeftHand)/100). Source: parsers/world-1/anvil.ts#calcAnvilExp; parsers/character.ts (smithing) (tier 1).
+- [C8] Coin point p (0-based) costs round((p^3+50)*(1+p/100)*max(0.1,1-anvilnomics/100)); max 600 coin points. Source: parsers/world-1/anvil.ts#getCoinCost,MAX_POINTS_FROM_COINS (tier 1).
+- [C9] Monster-mat point p costs round(((p+1)^1.5+p)*max(0.1,1-anvilnomics/100)) of an item that changes at thresholds 5,15,25,40,55,70,85,100,115,130,150,175,200,225,250,280,310,350,375,410,440,470,500,540,600 then 601+ (Spore Cap ... Empty Oyster Shell, Condensed Zap). Source: parsers/world-1/anvil.ts#getMonsterMatCost; data/website-data/shared-data.json#anvilUpgradeCost (tier 1).
+- [C10] Anvilnomics bubble (Alchemy a4, Quicc cauldron, decay x1=40 x2=100) cuts coin and mat point costs with a 10% cost floor; class-multiplied for Archers. Source: parsers/world-1/anvil.ts#getPlayerAnvil; data/website-data/cauldrons.json#ANVILNOMICS (tier 1).
+- [C11] Hammer Hammer (bubble a2, bigBase x1=23 x2=2) gives +1 anvil item at once plus production speed; it must be equipped unless the Companion bonus 4 is active, in which case the bubble level counts unequipped. Source: data/website-data/cauldrons.json#HAMMER_HAMMER; parsers/world-2/alchemy.ts#getActiveBubbleBonus (tier 1).
+- [C12] Infinity Hammer (GemP1): gem shop bonus costing 300 gems, max 1 purchase, +1 anvil item at once for all characters, stacking with other +1 hammer sources. Source: data/website-data/gemShop.json#GemP1 (tier 1).
+- [C13] (confidence L, unverifiable against game data) Wiki: base 1 slot, Infinity Hammer +1, Hammer Hammer +1, max 3 items at once. Toolbox does not compute slot count; it reads the saved AnvilPAselect array (one product index per slot). Source: https://idleon.wiki/wiki/Smithing (fetched 2026-10-19); parsers/world-1/anvil.ts#getPlayerAnvil (tier 3).
+- [C14] Acme Anvil (Archer talent, intervalAdd x1=1 x2=15, skillIndex 281): points = SkillLevels[281] + talentBonus*floor(smithingLevel/10); resetting talents keeps spent points while the pool goes negative until re-spent (wiki). Source: parsers/world-1/anvil.ts#getAnvil; data/website-data/talents.json#ACME_ANVIL; https://idleon.wiki/wiki/Smithing (tier 1).
+- [C15] Unspent anvil points = smithingLevel + acme + pointsFromCoins + pointsFromMats - (xpPoints+speedPoints+capPoints); ActiveOn splits them by brute force over getPlayerAnvil, weighting each product by requiredAmount, Speed on ties. Source: packages/account-state/src/afk-facts.ts#anvilPlanOf (reference checkout) (tier 2).
+- [C16] Anvil Zoomer stamp (StampB3, stat AnvilPAspd, func add x1=1): +1% anvil production speed per level. Source: data/website-data/stamps.json#StampB3 (tier 1).
+- [C17] Anvil Statue (index 11, bonus 0.5 per level, PRODUCT_SPD) = level*0.5*(1+(Straightshot or Shwifty)/100)*Voodoo Statufication talent multi*onyx*zenith*dragon*event shop*Meritocracy. **Corrected (both lenses refuted the original claim):** the Upgrade Vault 25 statue multiplier is applied only to statue indexes [0,1,2,6] (statues.ts L126), so the Anvil statue does NOT get it. Confidence H. Source: data/website-data/shared-data.json#statues[11]; parsers/world-1/statues.ts#L126-L195 (tier 1).
+- [C18] Blacksmith Box: +SmithExp% (decay 50/200), +ProdSpd% (decay 75/200), +% to craft +1 slot (decay 30/150); tier thresholds 24.9/99.9/400.1, max level 400. Source: data/website-data/shared-data.json#postOffice (Blacksmith_Box) (tier 1).
+- [C19] Production Revolution (Upgrade Vault 24): +% faster anvil production, x1=1300 x2=1.15, maxLevel 100, unlockLevel 750. Source: data/website-data/shared-data.json#upgradeVault[24] (tier 1).
+- [C20] Bob Build Guy star sign gives +10% Speed in Town (base); Broken Time (Calm Basics talent, decay 100/75) gives town-skill production speed; both enter anvil speed. Source: data/website-data/shared-data.json#starSigns[23]; data/website-data/talents.json#BROKEN_TIME (tier 1).
+- [C21] Anvil Reset Whetstone is sold in the Frostbite Towndra shop and resets spent anvil points for the holding character; wiki lists 1.2M coins, 1 per day (price and limit unverifiable in game data; items.json sellPrice 300000 is the sell price, not the buy price; confidence L for price/limit, H for shop location and reset effect). Source: data/website-data/shared-data.json#shops[4]; data/website-data/items.json#Whetstone; https://idleon.wiki/wiki/Vendors (via existing KB, not refetched) (tier 3).
+- [C22] (confidence L, unverifiable against game data) Wiki: +1 anvil point per Smithing level, up to 600 from coins and 700 from monster drops (1,300 on top of level points). Source: https://idleon.wiki/wiki/Smithing (fetched 2026-10-19) (tier 3).
+- [C23] Wiki gates Anvil Tabs 2-7 at Smithing 15/35/50/65/80/80 via crafted expansions; items.json lvReqToCraft is 15 for all six, so sources disagree (confidence M). Source: https://idleon.wiki/wiki/Anvil (fetched 2026-10-19); data/website-data/items.json#EquipmentSmithingTabs2-7 (tier 3).
+- [C24] Anvil Expansion recipes: Tab2 100 Iron Bar+100 Chain Link+100 Jungle Logs+100 Bullfrog Horn; Tab3 2000 Platinum Bar+2000 Bloach+2000 Fruitfly+1500 High Steaks; Tab4 1000 Void Bar+2500 Frigid Soul+10 Eternal Lord of The Undying Ember+400 Spontaneity Salts; Tab5 5000 Starfire Bar+200000 Cubed Logs+150000 Fairy+600 Nullo Salt; Tab6 8500 Dreadlo Bar+2M Dandielogs+1M Dust Mote+10 Kruk Cavity Tooth; Tab7 100000 Godshard Bar+25M Effervescent Logs+25M Firefly+50 Emperor Ribbon. digitaltq quotes Tab 2 as 100/200/400/250 (disagrees; game data wins). Source: data/website-data/crafts.json#Anvil_Tab_2..7; https://www.digitaltq.com/wiki/idleon/anvil-tab-2 (fetched 2026-10-19) (tier 1).
+- [C26] (confidence L, unverifiable against game data) Quick Deposit sends mats to storage; since v2.27 (2025-02-03) Codex Quick Ref collects anvil mats from anywhere; the Scripticus main quest introduces the anvil. Source: https://idleon.wiki/wiki/Anvil (fetched 2026-10-19); https://idleon.wiki/wiki/Changelog_2025 (earlier research); data/website-data/quests.json#Scripticus (tier 3).
+- [C27] Anvil state is per character (confidence H; note character.ts L175 special-cases only AnvilPA_, while AnvilPAstats/AnvilPAselect are read as generic keys inside getAnvil): raw keys AnvilPA_N, AnvilPAstats_N, AnvilPAselect_N; parsed as character.anvil and account.anvil[i] = {anvilProduction, anvilStats, anvilSelected}. Source: parsers/character.ts#L175,L554; parsers/index.ts#L318; parsers/generated-firebase-types.ts#L188 (tier 1).
+- [C28] AnvilPAstats order is [availablePoints, pointsFromCoins, pointsFromMats, xpPoints, speedPoints, capPoints]; AnvilPA per product is [currentAmount, currentXP, currentProgress, totalProduced]. Source: parsers/world-1/anvil.ts#getAnvil,getPlayerAnvil (tier 1).
+- [C29] Time to cap = (capacity - futureProduction)/(anvilSpeed/3600/requiredAmount*hammers); fromZero uses capacity/rate. Source: parsers/world-1/anvil.ts#getTimeTillCap (tier 1).
+- [C30] EXP per progress is highest for Thread (6/100 = 0.060) and falls to about 0.0117 for PVC Pipe (140/12000), so Thread is the best EXP product (computed from C1). Source: data/website-data/shared-data.json#anvilProducts (derived) (tier 1).
+- [C31] (confidence L, unverifiable against game data) Wiki: best to raise capacity with Material Capacity Pouches rather than anvil points; Beginner Guide says monster-drop bags raise anvil capacity. Source: https://idleon.wiki/wiki/Smithing; https://idleon.wiki/wiki/Beginner_Guide (fetched 2026-10-19) (tier 3).
+- [C32] (confidence L, unverifiable against game data) Guide: early Speed first; mid game add Capacity to match your collection schedule; EXP last; produce all unlocked materials as needed; names a W3 'Anvil Production Pipeline' for automatic collection (not in Toolbox data). Source: https://gameslikefinder.com/article/idleon-smithing-build-guide/ (dated 2026-05-26, fetched 2026-10-19) (tier 4).
+- [C33] (confidence L, unverifiable against game data) Steam: balance points until mains reach level 60, later 100% Speed; aim for about 24h fill time to match the auto-depositer; one endgame player kept 2-3k% XP and about 350k speed (2M+ on archers). Partly pre-patch. Source: https://steamcommunity.com/app/1476970/discussions/0/3816292540679290012 (2023-09/10, fetched 2026-10-19) (tier 4).
+- [C34] (confidence L, unverifiable against game data) Steam (stale, pre-Whetstone): 'you can't' reset anvil points; posters argued capacity matters late game for 20-26h AFK. Source: https://steamcommunity.com/app/1476970/discussions/0/3035977540368512302 (2021-08/09, fetched 2026-10-19) (tier 4).
+- [C35] (confidence L, unverifiable against game data) Archer smithing talents in order: Acme Anvil, Broken Time, Focused Soul, Yea I Already Know; talent preset loan trick (spend Acme points, swap back); Mages and Warriors lack smithing talents. Source: https://gameslikefinder.com/article/idleon-smithing-build-guide/; https://steamcommunity.com/app/1476970/discussions/0/3783625216795098550 (2023-03-12; fetched 2026-10-19) (tier 4).
+- [C36] (confidence L, unverifiable against game data) Beginner Guide: start producing Thread (no EXP until you start) and check so it doesn't fill; a P2W golden anvil doubles one item's speed (not in Toolbox data); candies affect anvil production (wording may be pre-patch). Source: https://idleon.wiki/wiki/Beginner_Guide (fetched 2026-10-19) (tier 3).
+- [C38] (confidence L, unverifiable against game data) r/idleon 2026-05-07: argument for EXP once Speed is high, and a player with 700 forgotten points across characters. Source: https://www.reddit.com/r/idleon/comments/1t5xhj0/ (via research/w1-systems anvil-smithing.md; not refetched) (tier 4).
+- [C39] AutoReview smithing tiers (carried over, unverified, confidence L): coin points 20/60/100/150/200/600; monster points 85/150/225/350/500/700. Source: origin/research/w1-systems:docs/research/systems/w1-systems/anvil-smithing.md (AutoReview @ 05ac449) (tier 4).
+- [C43] Cumulative cost without Anvilnomics: coin points 20=42.8K, 60=4.63M, 100=44.0M, 150=274M, 200=1.03B, 400=26.7B, 600=187B; monster points 85=30.6K, 150=122K, 225=331K, 350=981K, 500=2.37M, 700=5.44M mats. Source: derived from parsers/world-1/anvil.ts#getCoinCost,getMonsterMatCost (tier 1).
+- [C44] Only world-1/anvil.ts, character.ts, misc.ts, statues.ts reference anvil production; no W5+ production extension besides Upgrade Vault 24 is modelled by Toolbox. Source: parsers/** (grep, pin 6c37e3d) (tier 1).
+- [C47] Maestro's Left Hand of Learning (decay x1=200 x2=100) adds to Smithing EXP for lower-level characters and is included in calcAnvilExp. Source: parsers/world-1/anvil.ts#calcAnvilExp; data/website-data/talents.json#LEFT_HAND_OF_LEARNING (tier 1).
+- [C48] Archer talent Godly Creation (decay x1=50 x2=75): chance of a special bonus on equips crafted at the anvil; Sculpting Tools (Blunder Hills) and Guilding Tools (YumYum Grotto) are shop quest items. Source: data/website-data/talents.json#GODLY_CREATION; data/website-data/shared-data.json#shops[0],[2] (tier 1).
+- [C49] Material capacity per slot = floor(bCraftCap*(1+MattyBagStamp/100)*(1+25*gemShopCarry/100)*(1+(MasonJarStamp+starSignExtraCap)/100)*(1+extraBagsTalent/100)*allCapacity); anvil Capacity reads the bCraft bag capacityPerSlot. Source: parsers/misc.ts#getMaterialCapacity; parsers/world-1/anvil.ts#getPlayerAnvil (tier 1).
+- [C50] Blacksmith Box third stat (OneSlot, "+% to craft +1 slot", decay 30/150) belongs to the anvil Craft tab, not Produce; no reference in parsers/**. Added from verifier missed-mechanics (both lenses). Confidence M. Source: data/website-data/shared-data.json#postOffice (Blacksmith_Box); grep of parsers/** (tier 1).
+- [C51] Prisma'd bubbles get max(1, getPrismaMulti) applied, including equipped active bubbles; this applies to Hammer Hammer and Anvilnomics when Prisma'd. Confidence H. Source: parsers/world-2/alchemy.ts#L389-L391 (tier 1).
+- [C52] Smithing skill mastery (rift bonus 0) contributes 25 per unit to the Smithing EXP multiplier. Confidence H. Source: parsers/world-1/anvil.ts#L209-L217 (tier 1).
+- [C53] Yea I Already Know (Archer talent) is named as a smithing talent only by community guides; not referenced in anvil.ts. Confidence L. Source: https://gameslikefinder.com/article/idleon-smithing-build-guide/ (tier 4).
+- [C54] Onyx Tools (SmithingHammerChisel3) and Zenith Tools (SmithingHammerChisel4) are quest items present in parseMaps and are not modelled; effects unverified. Confidence L. Source: parsers/parseMaps.ts#L202-L203 (tier 1).
+
+## Confidence summary
+H: C1-C5, C7-C12, C16, C18-C20, C27-C30, C43, C44, C47-C49, C51, C52 (verified against code/data by the gamedata lens). M: C14, C15, C23, C24, C50 (partly wiki or sources disagree). L: C13 wiki half, C21 price/limit, C22, C26, C31-C39, C53, C54 (wiki/community only, unverifiable in data). C6 and C17 corrected (see claims).

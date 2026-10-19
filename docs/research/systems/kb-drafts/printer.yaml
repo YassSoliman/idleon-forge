@@ -1,0 +1,260 @@
+# SPDX-License-Identifier: GPL-3.0-only
+# M26 KB drafts for System `printer` (W3 synthesis, 2026-10-19). Every entry is status: draft.
+# Copied from scratchpad/m26/maps/*.json; dossiers in scratchpad/m26/dossiers/. Not yet validated
+# against the knowledge schema (the schema has no draft status: flip to active at merge).
+# AW synthesis added: topics event-shop (maps/<topic>.json).
+system: printer
+entries:
+- id: printer.check.empty-active-slot
+  system: printer
+  type: check
+  title: Fill an empty printing slot
+  subject: character
+  effect: next-action
+  category: compounding
+  priority:
+    frame: by-urgency
+  effortSeconds: 60
+  detector:
+    id: printer/empty-active-slot
+  text: '{step}'
+  why: '{reason}'
+  values:
+    swap: Set {item} active in the {who}'s printer slot
+    sample: Take a printer sample on the {who}
+    learn: Put a point in Printer Sampling on the {who}
+    why-swap: The {who} prints, but {blank:int} of its {slots:int} active slots are empty, and an empty slot prints nothing.
+      {item} is already stored (about {perHour:int}/h); switching between stored samples resets nothing.
+    why-sample: 'The {who} prints, but {blank:int} of its {slots:int} active slots are empty and nothing is stored. Put Printer
+      Sampling on the attack bar and use it while AFK on {target}: the sample is a share of that AFK gain.'
+    why-learn: The {who} prints, but its active slot is empty and Printer Sampling (Star Talent tab 2) is at 0, so it can't
+      take a sample.
+  notes: Only characters in save slots below the 3D Printer level print (index < level, C4). Active slots = 1 + Crystal 3D
+    Printer (C5); Toolbox always lists 2 active rows, so gate on activeSlots, never on the row count. Stored-to-active swap
+    resets no day counter (M14 FR-28, C17). Silent for a character that M14's printer.check.slot-plan already changes this
+    pass (dedupe on characterIndex). The swap picks the stored sample with the highest perHour that is not already active
+    on that character. M26 W3 synth (from maps/printer.json).
+  doneWhen:
+    field: account.printer.characters[*].active
+    change: higher
+  appliesTo:
+    stages:
+    - from: W3-early
+  confidence: H
+  status: draft
+  sources:
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-3/printer.ts#L34-L91
+    title: 'Toolbox getPrinter: stored rows, the last 4 elements are the active samples'
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  - url: https://www.legendsofidleon.com/ytGl5oc/N.js
+    title: Game code N.js WorkbenchStuff PrinterSampleSlots / PrinterBigSlots (@7816583) and printer UI (@9011365)
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  - url: https://idleon.wiki/wiki/3D_Printer
+    title: 'IdleOn Wiki: 3D Printer (one player slot per level; samples are per character)'
+    tier: 2
+    claimDate: 2026-10-14
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+- id: printer.priority.sample-size
+  system: printer
+  type: priority
+  title: Sample size order
+  text: Raise printer sample size with the cheapest levers first
+  why: Every sample is that share of an hour of AFK gain, so a bigger share makes every future sample bigger. The game counts
+    at most 90%.
+  values:
+    row-1: talent-first-point|character|1
+    row-2: merit-sample-size|account|10
+    row-3: salt-lick-redox|account|20
+    row-4: stamps-sample|account|0
+    row-5: bubble-sample-it|account|0
+    row-6: vial-snow-slurry|account|0
+    row-7: talent-super-samples|character|0
+    rows: 7
+    cap: 90
+  notes: 'Sizes (T1): Printer Sampling 10 + 0.075/level (the first point gives 10 of the 17.5 at level 100, C13); Merit +0.5
+    per purchase, counted to 5 (C33); Salt Lick Redox +0.5/level, 20 levels (C28); Stample 4L/(30+L) and Amplestample 5L/(30+L)
+    (C29); Sample It 12L/(40+L), Snow Slurry +0.5/level (C30); Super Samples 9L/(75+L), Squire only (C31). Max 0 = no fixed
+    max (decay curves). Arcade slot 5, Utilitarian Capsule, gear stat 60, Maestro family and achievement 158 are shown but
+    not ranked (each belongs to another System''s plan). The Royal Sampler is never ranked: EXP curse and it can''t be unequipped
+    while samples exist (C31). M26 W3 synth (from maps/printer.json).'
+  appliesTo:
+    stages:
+    - from: W3-early
+  confidence: M
+  status: draft
+  list: order
+  tiers:
+  - - printer.check.sample-size-lever
+  sources:
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/character.ts#L3013-L3040
+    title: 'Toolbox getPrinterSampleRate: the 13 sample-size terms'
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/talents.json
+    title: Game data PRINTER_SAMPLING x1=10 x2=0.075 bigBase; SUPER_SAMPLES x1=9 x2=75
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/stamps.json
+    title: Game data Stample / Amplestample Stamp, +% 3D Printer Sampling Size
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  - url: https://idleon.wiki/wiki/3D_Printer
+    title: 'IdleOn Wiki: 3D Printer (sample size sources)'
+    tier: 2
+    claimDate: 2026-10-14
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+- id: printer.check.sample-size-lever
+  system: printer
+  type: check
+  title: Raise your printer sample size
+  subject: account
+  effect: next-action
+  category: compounding
+  priority:
+    frame: by-urgency
+  effortSeconds: 120
+  detector:
+    id: printer/sample-size-lever
+  text: '{step}'
+  why: '{reason}'
+  values:
+    talent-first-point: Put 1 point in Printer Sampling on the {who}
+    merit-sample-size: Buy Printer Sample Size in the W3 Merit Shop ({now:int} of 10)
+    salt-lick-redox: Level Redox Salts in the Salt Lick ({now:int} of 20)
+    stamps-sample: Level the Stample Stamp
+    bubble-sample-it: Level the Sample It bubble (Kazam cauldron)
+    vial-snow-slurry: Level the Snow Slurry vial
+    talent-super-samples: Level Super Samples on the {who}
+    why-lever: +{gain}% sample size on {scope}. Samples you take after this are that much bigger; samples already taken keep
+      their size.
+    why-talent: The first point gives +10% sample size; the next 99 add 7.5% between them.
+  notes: Walks printer.priority.sample-size and names the first lever below its max (or, for no-max levers, the first not
+    yet started) that is unlocked. Silent when every printing character's samplePct >= 90 (see sample-size-cap). Merit/Salt
+    Lick/stamps/bubble/vial dedupe with their own Systems' entries on the same item (one Now card, this one says why it matters
+    for the printer). Gate on the printer being built (level >= 1). M26 W3 synth (from maps/printer.json).
+  doneWhen:
+    field: account.printer.levers
+    change: higher
+  appliesTo:
+    stages:
+    - from: W3-early
+  confidence: M
+  status: draft
+  sources:
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/character.ts#L3013-L3040
+    title: Toolbox getPrinterSampleRate (merit = tasks[2][2][4], min(5, 0.5 x buys))
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json
+    title: Game data saltLicks[0] Redox Salts +0.5%/level; merits W3 'Printer Sample Size' 10 levels
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+- id: printer.check.sample-size-cap
+  system: printer
+  type: check
+  title: Sample size is capped
+  subject: character
+  effect: next-action
+  category: nice
+  effortSeconds: 10
+  detector:
+    id: printer/sample-size-cap
+    params:
+      cap: 90
+  text: Sample size on the {who} is past the 90% cap
+  why: The game counts at most 90% ({pct}% now), so more sample-size levels on this character are wasted. Toolbox shows the
+    uncapped number.
+  notes: 'Disputed in degree, not in kind: game code N.js applies min(0.9, sum/100) (C10, M: not re-checked offline); Toolbox
+    getPrinterSampleRate has no cap (C12, H). The page shows min(90, samplePct) with the raw value in the tooltip. M26 W3
+    synth (from maps/printer.json).'
+  doneWhen:
+    field: account.printer.characters[*].samplePct
+    change: lower
+  appliesTo:
+    stages:
+    - from: W3-mid
+  confidence: M
+  status: draft
+  sources:
+  - url: https://www.legendsofidleon.com/ytGl5oc/N.js
+    title: Game code N.js SampleSizeBONUS = min(0.9, sum/100) (@7815869)
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/character.ts#L3040
+    title: Toolbox getPrinterSampleRate returns the uncapped sum
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+- id: printer.check.go-brrr-ready
+  system: printer
+  type: check
+  title: Printer Go Brrr is ready
+  subject: character
+  effect: next-action
+  category: spendable
+  priority:
+    frame: by-urgency
+  effortSeconds: 20
+  detector:
+    id: printer/go-brrr-ready
+  text: Use Printer Go Brrr on the {who}
+  why: It prints {hours} hours of every active sample at once, and its cooldown (about 23 h) only runs while you wait.
+  values:
+    timelineKind: cooldown
+    timelineWhat: printer-go-brrr
+  notes: 'Maestro talent 32 (C27, C45): x1=1 x2=40 intervalAdd -> hours, cooldown 82000 s, chance of no cooldown y1=95 y2=60
+    decay. Toolbox tracks it in relevantTalents (talents.ts#L544). Fires when the talent level > 0, the cooldown left is 0
+    and the account has >= 1 active sample. Pairs with metapath role printer-go-brrr (visitHint cooldown). M26 W3 synth (from
+    maps/printer.json).'
+  doneWhen:
+    field: characters[*].cooldowns.32
+    change: higher
+  appliesTo:
+    stages:
+    - from: W3-early
+  confidence: H
+  status: draft
+  sources:
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/talents.json
+    title: 'Game data PRINTER_GO_BRRR: x hours of samples, 82000 s cooldown'
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/talents.ts#L544
+    title: Toolbox relevantTalents[32] Printer_Go_Brr cooldown tracking
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+amendments:
+- _kind: amendment
+  amends: printer.check.slot-plan
+  target: printer.yaml
+  targetStatus: active
+  change: patch values
+  system: printer
+  type: check
+  values:
+    reset-loss-wiring: 'Taking a sample also resets Supreme Wiring (Event Shop): +{wiring:int}% from {days:int} days.'
+  notes: Appended after reset-loss only when id 4 is owned and winterDays > 0. Numbers unchanged (getPrinterMulti). Confidence
+    H on the formula (C12); status draft until the OLA[323] cap question is closed.
+  confidence: H
+  sources:
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-3/printer.ts#L123
+    title: 'Toolbox printer ''Winter event'' multiplier: 1 + 2*OLA[323]*eventShop(4)/100'
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+  fromTopic: event-shop
+  status: draft

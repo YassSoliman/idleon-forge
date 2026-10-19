@@ -1,0 +1,357 @@
+# SPDX-License-Identifier: GPL-3.0-only
+# M26 KB drafts for System `bubba` (W3 synthesis, 2026-10-19). Every entry is status: draft.
+# Copied from scratchpad/m26/maps/*.json; dossiers in scratchpad/m26/dossiers/. Not yet validated
+# against the knowledge schema (the schema has no draft status: flip to active at merge).
+system: bubba
+entries:
+- id: bubba.check.charisma-pair
+  system: bubba
+  type: check
+  title: Train the other of Hustle and Rizz
+  subject: account
+  effect: next-action
+  category: compounding
+  effortSeconds: 30
+  detector:
+    id: bubba/charisma-pair
+  text: '{text}'
+  why: '{why}'
+  values:
+    text: 'Train {other} in Bubba''s Charisma Chart: {maxed} is maxed'
+    why: Every guide takes both Hustle and Rizz high by Megaflesh 4; they only disagree on which comes first. {other}
+      is at {level:int}, the guides aim for {target:int} this run.
+  notes: M26 draft (dossier C31, C35). Fires only when one of Hustle/Rizz is at its max and the other is below the
+    lowest community target for this Megaflesh (bubba.fact.charisma-targets). It names an attribute only in the
+    case both sides agree on, so it does not reopen the contested order (bubba.priority.charisma). Outranks bubba.check.charisma-idle
+    when both fire (same tap). Silent from Megaflesh 6 while Mindful is below 120 (bubba.priority.charisma-mindful
+    wins). M26 W3 synth (from maps/bubba.json).
+  doneWhen:
+    field: account.bubba.charisma.selected
+    change: changed
+  sources:
+  - url: https://gameslikefinder.com/article/idleon-bubba-guide/
+    title: 'gameslikefinder: Idleon Bubba Seal Guide'
+    tier: 4
+    claimDate: 2026-05-27
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  - url: https://www.youtube.com/watch?v=Tz1ow2H_6aA
+    title: 'Kanumar: Bubba guide, Megaflesh 1-6'
+    tier: 4
+    claimDate: 2025-12-13
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/clickers/bubba.ts
+    title: IdleOn Toolbox parsers/clickers/bubba.ts
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  appliesTo:
+    stages: all
+  confidence: M
+  status: draft
+- id: bubba.check.gift-pick
+  system: bubba
+  type: check
+  title: Pick this run's gifts
+  subject: account
+  effect: next-action
+  category: compounding
+  effortSeconds: 30
+  detector:
+    id: bubba/gift-pick
+  text: '{text}'
+  why: '{why}'
+  values:
+    text: Pick {missing:int} more gift in Bubba for this run
+    text-suggest: Pick {gifts} as this run's gifts in Bubba
+    why: A gift's passive bonus only counts once it is picked, and Megaflesh clears the picks every run.
+    why-suggest: '{source} picks these at Megaflesh {mf:int}.'
+  notes: 'M26 draft (C15, C22, C32). Fires when Fun Gifts (idx 9) is above 0 and a pick slot is empty: slot 1 needs
+    Fun Gifts 1, slot 2 needs Megaflesh 3. The suggestion is bubba.priority.gifts'' row for this Megaflesh, shown
+    as the guide''s choice, not ours. Reset behaviour (C15) is secondhand (L); the empty-slot test reads the save
+    directly (H). M26 W3 synth (from maps/bubba.json).'
+  doneWhen:
+    field: account.bubba.gifts
+    change: changed
+  sources:
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/clickers/bubba.ts
+    title: IdleOn Toolbox parsers/clickers/bubba.ts
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  - url: https://idleon.wiki/wiki/Bubba
+    title: 'IdleOn Wiki: Bubba the Chonky Seal''s Arctic Market of Meats'
+    tier: 3
+    claimDate: 2026-10-07
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  - url: https://gameslikefinder.com/article/idleon-bubba-guide/
+    title: 'gameslikefinder: Idleon Bubba Seal Guide'
+    tier: 4
+    claimDate: 2026-05-27
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  appliesTo:
+    stages: all
+  confidence: M
+  status: draft
+- id: bubba.priority.gifts
+  system: bubba
+  type: priority
+  title: Gift picks by Megaflesh
+  text: Which two gifts the guides pick at each Megaflesh
+  why: Beeg Slice never leaves; the second gift moves from Beach Ball to Numbahs to Slabcakes as the run gets longer.
+  values:
+    mf-0: '1'
+    mf-3: 1 2
+    mf-4: 1 3
+    mf-7: 1 3|1 5
+    mf-8: 1 5
+  notes: 'M26 draft (C32 gameslikefinder, C36 Pulse plays 1 and 5). MF7 is the switch row: Numbahs early in the
+    run, Slabcakes once the Smoker is open. Page line and the gift-pick suggestion only; never a Goal on its own.
+    M26 W3 synth (from maps/bubba.json).'
+  sources:
+  - url: https://gameslikefinder.com/article/idleon-bubba-guide/
+    title: 'gameslikefinder: Idleon Bubba Seal Guide'
+    tier: 4
+    claimDate: 2026-05-27
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  - url: https://www.youtube.com/watch?v=rLwW3ZGz5bE
+    title: 'Pulse, Super Idle: IdleOn Daily: Bubba'
+    tier: 4
+    claimDate: 2026-09-11
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  appliesTo:
+    stages: all
+  confidence: M
+  status: draft
+  ship: display-only
+  shipReason: 'Red team P1: tier-4 only; below the two-Source rule.'
+  list: order
+  tiers:
+  - - bubba.check.gift-pick
+- id: bubba.check.dice-reroll
+  system: bubba
+  type: check
+  title: Reroll the Frozen Dice
+  subject: account
+  effect: next-action
+  category: nice
+  effortSeconds: 30
+  detector:
+    id: bubba/dice-reroll
+    params:
+      share: 0.05
+  text: Buy Dice Roll in Bubba to reroll your dice ({total:int} now, best {best:int})
+  why: From Megaflesh 5 a reroll that would lower the total is thrown away, so a cheap reroll can only help. Its
+    price resets every hour.
+  notes: M26 draft (C8 H for the protection and hourly price; C34 Kanumar 'reroll hourly' L). Fires only from Megaflesh
+    5, Dice Roll (idx 12) above 0, its cost at most `share` of the next Megaflesh and affordable, and the dice total
+    below its best possible (every die at its top face, faces above 6 counted at 1/2.5). Silent while bubba.check.megaflesh
+    fires (the reset clears dice). M26 W3 synth (from maps/bubba.json).
+  doneWhen:
+    field: account.bubba.dice
+    change: changed
+  sources:
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/clickers/bubba.ts
+    title: IdleOn Toolbox parsers/clickers/bubba.ts
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  - url: https://idleon.wiki/wiki/Bubba
+    title: 'IdleOn Wiki: Bubba the Chonky Seal''s Arctic Market of Meats'
+    tier: 3
+    claimDate: 2026-10-07
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  - url: https://www.youtube.com/watch?v=Tz1ow2H_6aA
+    title: 'Kanumar: Bubba guide, Megaflesh 1-6'
+    tier: 4
+    claimDate: 2025-12-13
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  appliesTo:
+    stages: all
+  confidence: M
+  status: draft
+- id: bubba.check.emulsify
+  system: bubba
+  type: check
+  title: Emulsify a Charisma attribute
+  subject: account
+  effect: next-action
+  category: compounding
+  effortSeconds: 30
+  detector:
+    id: bubba/emulsify
+  text: '{text}'
+  why: Megaflesh 6 lets you emulsify one attribute for 3x its effect, and the choice clears at every Megaflesh.
+  values:
+    text: Emulsify Mindful in Bubba's Charisma Chart
+    text-plain: Emulsify an attribute in Bubba's Charisma Chart
+  notes: 'M26 draft (C12 H: row 6 emulsify; C20 H: x3; C32 M: gameslikefinder ''Emulsify Mindful'' at MF6; C35 Mindful
+    first agreed). Fires when Megaflesh >= 6, the Chart is open (idx 6 > 0) and raw Bubba[0][15] is 0. Names Mindful
+    only through bubba.priority.charisma-mindful. M26 W3 synth (from maps/bubba.json).'
+  doneWhen:
+    field: account.bubba.charisma.emulsified
+    change: changed
+  sources:
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/clickers/bubba.ts
+    title: IdleOn Toolbox parsers/clickers/bubba.ts
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  - url: https://gameslikefinder.com/article/idleon-bubba-guide/
+    title: 'gameslikefinder: Idleon Bubba Seal Guide'
+    tier: 4
+    claimDate: 2026-05-27
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  - url: https://www.youtube.com/watch?v=lYZrYL3VZOY
+    title: 'GriffyBit: IdleOn Bubba Guide'
+    tier: 4
+    claimDate: 2026-06-17
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  appliesTo:
+    stages: all
+  confidence: M
+  status: draft
+- id: bubba.priority.milestone-upgrades
+  system: bubba
+  type: priority
+  title: Key Bubba upgrades by Megaflesh
+  text: The upgrades the guides add at each Megaflesh
+  why: Each one opens a feature (more gifts, dice, the Smoker) that multiplies every later run.
+  values:
+    mf-2: '9:2'
+    mf-3: '9:3'
+    mf-4: '14:1'
+    mf-5: '15:1'
+    mf-6: '14:2'
+    mf-7: '17:1'
+    mf-8: '14:3'
+  notes: M26 draft (C32 gameslikefinder). Fun Gifts 2/3, More Dice 1-3, Smoker, Uber Gifts. A page row under 'This
+    run' ticking each one off; the Smoker row also needs 16 types open (C2, H), so it shows 'opens at X meat made'
+    when locked. Feeds bubba.priority.run's openers tier order, it does not add a Goal. M26 W3 synth (from maps/bubba.json).
+  sources:
+  - url: https://gameslikefinder.com/article/idleon-bubba-guide/
+    title: 'gameslikefinder: Idleon Bubba Seal Guide'
+    tier: 4
+    claimDate: 2026-05-27
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/clickers/bubba.ts
+    title: IdleOn Toolbox parsers/clickers/bubba.ts
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  appliesTo:
+    stages: all
+  confidence: M
+  status: draft
+  ship: display-only
+  shipReason: 'Red team P1: tier-4 only; below the two-Source rule.'
+  list: order
+  tiers:
+  - - bubba.check.megaflesh
+facts:
+- id: bubba.fact.income-targets
+  system: bubba
+  origin: authored
+  title: Meat per minute the guides reach by each Megaflesh
+  rows:
+  - mf: 3
+    perMin: 1.0e7
+  - mf: 4
+    perMin: 5.0e8
+  - mf: 5
+    perMin: 3.0e10
+  - mf: 6
+    perMin: 6.0e11
+  - mf: 7
+    perMin: 7.0e13
+  - mf: 8
+    perMin: 3.0e15
+  sources:
+  - url: https://gameslikefinder.com/article/idleon-bubba-guide/
+    title: 'gameslikefinder: Idleon Bubba Seal Guide'
+    tier: 4
+    claimDate: 2026-05-27
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  notes: 'M26 draft (C31, M, one low-trust Source). A muted benchmark under the run''s rate, compared against X1
+    rateBase (happiness 0), never a Goal. Status: draft. M26 W3 synth (from maps/bubba.json).'
+  status: draft
+- id: bubba.fact.charisma-targets
+  correctionOf: bubba.fact.charisma-targets
+  targets:
+  - source: gameslikefinder
+    from: 1
+    levels:
+    - 45
+    - 45
+    - 15
+    - 0
+    - 0
+    - 0
+  - source: gameslikefinder
+    from: 4
+    levels:
+    - 120
+    - 120
+    - 27
+    - 0
+    - 0
+    - 0
+  - source: gameslikefinder
+    from: 5
+    levels:
+    - 120
+    - 120
+    - 50
+    - 0
+    - 0
+    - 0
+  - source: gameslikefinder
+    from: 6
+    levels:
+    - 50
+    - 0
+    - 25
+    - 0
+    - 120
+    - 0
+  - source: gameslikefinder
+    from: 7
+    levels:
+    - 80
+    - 100
+    - 30
+    - 0
+    - 120
+    - 0
+  - source: gameslikefinder
+    from: 9
+    levels:
+    - 80
+    - 100
+    - 30
+    - 0
+    - 120
+    - 20
+  - source: kanumar
+    from: 1
+    levels:
+    - 120
+    - 120
+    - 0
+    - 0
+    - 0
+    - 0
+  system: bubba
+  status: draft
+  notes: M26 W3 synth (from maps/bubba.json).

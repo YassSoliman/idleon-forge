@@ -1,0 +1,373 @@
+# SPDX-License-Identifier: GPL-3.0-only
+# M26 KB drafts for System `prayers` (W3 synthesis, 2026-10-19). Every entry is status: draft.
+# Copied from scratchpad/m26/maps/*.json; dossiers in scratchpad/m26/dossiers/. Not yet validated
+# against the knowledge schema (the schema has no draft status: flip to active at merge).
+# AW synthesis added: topics contradictions-2 (maps/<topic>.json).
+system: prayers
+entries:
+- id: prayers.goal.owned
+  system: prayers
+  type: goal
+  title: Prayers unlocked
+  scope: account
+  category: compounding
+  unit: prayers
+  progress:
+    id: prayers/status
+  milestones:
+  - at: 1
+    reward: 'First prayer: fill your first slot'
+  - at: 5
+    reward: Every Goblin Gorefest prayer
+  - at: 9
+    reward: Every Wakawaka War prayer too
+  - at: 19
+    reward: Every prayer
+  text: 'Prayers {owned:int} of 19 · {slots:int} slots per character · next: {next} at {zone} wave {wave:int}'
+  why: A prayer is bought once with souls and every character can then equip it; each Worship tower-defence wave milestone
+    opens one.
+  values:
+    unknownText: 'Prayers: can''t tell right now'
+  appliesTo:
+    stages:
+    - from: W3-early
+      to: W4-entry
+  confidence: H
+  status: draft
+  notes: 'Milestones are prayer counts in game order per totem (5 Forest, 4 Dune). Wave gate: data says unlockWave, achievement
+    text for Tachion says one less (dossier C9); the detector uses maxWave >= unlockWave. M26 W3 synth (from maps/prayers.json).'
+  sources:
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json
+    title: 'Toolbox game data: prayers (unlockZone, unlockWave, costMulti, maxLevel)'
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-3/prayers.ts#L10
+    title: 'Toolbox getPrayers: account-wide level from PrayersUnlocked'
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  - url: https://idleon.wiki/wiki/Prayers
+    title: 'IdleOn Wiki: Prayers'
+    tier: 2
+    claimDate: 2026-10-03
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+- id: prayers.check.empty-slot
+  system: prayers
+  type: check
+  title: Fill a prayer slot
+  subject: character
+  effect: next-action
+  category: compounding
+  effortSeconds: 60
+  detector:
+    id: prayers/empty-slot
+  text: '{text}'
+  why: '{why}'
+  values:
+    text-skill: 'Equip Skilled Dimwit on {who}: +{bonus:int}% skill efficiency while {verb}'
+    why-skill: '{who} skills AFK, so the curse (-{curse:int}% skill EXP) costs less than the efficiency it gives; {free:int}
+      of {slots:int} slots are empty.'
+    text-tachion: Equip Tachion of the Titans on {who} for the giant quests
+    why-tachion: Giant monsters only appear for a character with Tachion equipped (game text); Snouts 3 and Bellows 3 need
+      one.
+  doneWhen:
+    field: characters[{index}].afk.prayers
+    change: higher
+  appliesTo:
+    stages:
+    - from: W3-early
+      to: W4-entry
+  confidence: M
+  status: draft
+  notes: 'Fires only for the two cases the dossier backs at M or better: an AFK skiller (MINING/CHOPPING/FISHING/CATCHING/TRAPPING)
+    with Skilled Dimwit owned, unequipped, and not paired with Balance of Proficiency; and Tachion owned while a giant quest
+    is open (Toolbox does not model the Tachion gate: disputed, M). Fighter prayers (Big Brain, Midas, Jawbreaker) are NOT
+    suggested: their +200-250% monster HP curse needs a one-shot test ActiveOn does not have yet. M26 W3 synth (from maps/prayers.json).'
+  sources:
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/efficiency.ts#L169
+    title: 'Toolbox: Skilled Dimwit bonus feeds skill efficiency'
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/character.ts#L1670
+    title: 'Toolbox: Skilled Dimwit curse lowers skill EXP'
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/quests.json
+    title: 'Toolbox game data: Snouts 3 and Bellows 3 need a giant (prayer)'
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  - url: https://idleon.wiki/wiki/Worship
+    title: 'IdleOn Wiki: Worship (equip only prayers you use)'
+    tier: 2
+    claimDate: 2026-10-03
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+- id: prayers.check.unending-overnight
+  system: prayers
+  type: check
+  title: Unending Energy caps AFK at 10 hours
+  subject: character
+  effect: blocker
+  category: spendable
+  priority:
+    frame: by-urgency
+  effortSeconds: 30
+  detector:
+    id: prayers/unending-overnight
+  text: '{who} has Unending Energy on and has been away {hours:int} h: AFK gains may have stopped at 10 h (sources disagree)'
+  why: Unending Energy's curse fixes max AFK time at 10 hours, so every hour past that earns nothing. Swap it off before a
+    long stretch.
+  doneWhen:
+    field: characters[{index}].afk.afkSince
+    change: higher
+  appliesTo:
+    stages:
+    - from: W3-early
+      to: W4-entry
+  confidence: M
+  status: draft
+  notes: Cap is H (game data, generated fact prayers.fact.unending-energy-cap, 36000 s). The advice mirrors Toolbox's own
+    worshipAlerts (tier 2 dashboard logic). Fires only when equipped and now - afkSince > 36000 s. M26 W3 synth (from maps/prayers.json).
+  sources:
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json
+    title: 'Toolbox game data: Unending Energy curse, max AFK time 10 hours'
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/utility/dashboard/characters.js#L68
+    title: 'Toolbox dashboard alert: Unending Energy and AFK over 10 h'
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+- id: prayers.check.unlock-next
+  system: prayers
+  type: check
+  title: Unlock a prayer
+  subject: account
+  effect: next-action
+  category: spendable
+  effortSeconds: 60
+  detector:
+    id: prayers/unlock-next
+  text: 'Unlock {name} at the Prayer Rock: {cost:int} {soul} souls (you hold {held:int})'
+  why: Its tower-defence wave is reached and the first level costs only its base price; every character can then equip it.
+  doneWhen:
+    field: account.prayers[{prayerIndex}].level
+    becomes: 1
+  appliesTo:
+    stages:
+    - from: W3-early
+      to: W4-entry
+  confidence: H
+  status: draft
+  notes: Cost of level 1 = costMulti (calcPrayerCost at L=0). Fires for the cheapest affordable owned-wave prayer. Placeholders
+    (indices 19-24) never reach account.prayers. M26 W3 synth (from maps/prayers.json).
+  sources:
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-3/prayers.ts#L70
+    title: Toolbox calcPrayerCost
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json
+    title: 'Toolbox game data: prayers costMulti and soul'
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+- id: prayers.check.level-cheap
+  system: prayers
+  type: check
+  title: Cheap prayer level
+  subject: account
+  effect: next-action
+  category: spendable
+  effortSeconds: 60
+  detector:
+    id: prayers/level-cheap
+  text: 'Level {name} {from:int} → {to:int}: {cost:int} {soul} souls'
+  why: Up to level 5 a level costs a flat step; from level 6 each costs 12% more again. Levels raise the bonus and the curse
+    by the same 10% of base.
+  doneWhen:
+    field: account.prayers[{prayerIndex}].level
+    change: higher
+  appliesTo:
+    stages:
+    - from: W3-early
+      to: W4-entry
+  confidence: M
+  status: draft
+  notes: 'Only for a prayer equipped by at least one character, level < 5, cost <= souls held, and after every affordable
+    unlock of that soul (unlock-next first). Priority order is DERIVED from the cost curve (dossier M3), no community source
+    fetched: M. M26 W3 synth (from maps/prayers.json).'
+  sources:
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-3/prayers.ts#L50
+    title: 'Toolbox getPrayerBonusAndCurse: x*(1+(L-1)/10)'
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-3/prayers.ts#L70
+    title: 'Toolbox calcPrayerCost: x1.12 per level past 5'
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+- id: prayers.check.skill-pair-clash
+  system: prayers
+  type: check
+  title: Opposed skill prayers
+  subject: character
+  effect: next-action
+  category: compounding
+  effortSeconds: 30
+  detector:
+    id: prayers/skill-pair-clash
+  text: '{who} wears Skilled Dimwit and Balance of Proficiency: keep one'
+  why: Each one's curse cancels the other's bonus (efficiency against skill EXP), so together they mostly undo each other
+    and take two slots.
+  doneWhen:
+    field: characters[{index}].afk.prayers
+    change: lower
+  appliesTo:
+    stages:
+    - from: W3-early
+      to: W4-entry
+  confidence: M
+  status: draft
+  sources:
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/efficiency.ts#L169
+    title: 'Toolbox: skill efficiency, Dimwit bonus and Proficiency curse'
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/character.ts#L1668
+    title: 'Toolbox: skill EXP, Proficiency bonus and Dimwit curse'
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  notes: M26 W3 synth (from maps/prayers.json).
+- id: prayers.check.hp-curse-stack
+  system: prayers
+  type: check
+  title: Stacked monster-HP curses
+  subject: character
+  effect: next-action
+  category: compounding
+  effortSeconds: 30
+  detector:
+    id: prayers/hp-curse-stack
+  text: '{who}: {names} add +{curse:int}% monster HP and AFK kills are below full'
+  why: Big Brain Time, Midas Minded and Jawbreaker curses add up; on a map the character does not one-shot they cut kills
+    more than the bonus gives.
+  doneWhen:
+    field: characters[{index}].afk.prayers
+    change: lower
+  appliesTo:
+    stages:
+    - from: W3-early
+      to: W4-entry
+  confidence: M
+  status: draft
+  notes: Fires when a FIGHTING character has >= 1 HP-curse prayer and survivability < 100 (afk.fighting). A real one-shot
+    test (damage vs monster HP) would make this H; ActiveOn lacks it. M26 W3 synth (from maps/prayers.json).
+  sources:
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/damage.ts#L1313
+    title: 'Toolbox: monster Max HP adds the three prayer curses'
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+- id: prayers.check.royal-sampler-on
+  system: prayers
+  type: check
+  title: The Royal Sampler still on
+  subject: character
+  effect: next-action
+  category: compounding
+  effortSeconds: 120
+  detector:
+    id: prayers/royal-sampler-on
+  text: '{who} wears The Royal Sampler: -{curse:int}% all EXP until you take it off'
+  why: It only helps the moment you set 3D Printer samples; to unequip it you must first remove every sample, so plan the
+    swap.
+  appliesTo:
+    stages:
+    - from: W3-early
+      to: W4-entry
+  confidence: M
+  status: draft
+  notes: Informational card on the Prayers page; never a Now blocker (the player may be mid-sampling). M26 W3 synth (from
+    maps/prayers.json).
+  sources:
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json
+    title: 'Toolbox game data: Royal Sampler curse text (remove samples to unequip)'
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/character.ts#L2163
+    title: 'Toolbox: Royal Sampler curse on class and skill EXP'
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+amendments:
+- _kind: supersede
+  amends: prayers.check.unending-overnight
+  target: prayers.yaml (draft above)
+  change: AW verdict version of the same id; both views kept, choose at promotion
+  replacement:
+    id: prayers.check.unending-overnight
+    system: prayers
+    type: check
+    title: Unending Energy on a long AFK stretch
+    subject: character
+    effect: next-action
+    category: nice
+    priority:
+      frame: by-urgency
+    effortSeconds: 30
+    detector:
+      id: prayers/unending-overnight
+      params:
+        fact: prayers.fact.unending-energy-cap
+    text: '{character} has Unending Energy equipped and has been away {hours:int} h: its curse says AFK time stops at 10 h'
+    why: 'The prayer''s curse text says ''Max AFK time is now 10 hours''. Nothing in Toolbox''s code or the game code we could
+      find enforces it, so treat it as a precaution: claim, or swap the prayer before a long night.'
+    doneWhen:
+      field: characters[].afk.afkSince
+      change: higher
+    appliesTo:
+      stages:
+      - from: W3-mid
+        to: W4-entry
+    confidence: M
+    status: draft
+    notes: 'contradictions-2 verdict 1: Disputed. View A (curse text, shared-data prayers[2]) vs View B (no cap in calculateAfkTime
+      misc.ts#L681-L683; prayer read only for EXP character.ts#L1668/#L2162). Show a Disputed chip; never a blocker; never
+      say AFK gains stopped. Replaces maps/monster-afk.json afk.check.unending-energy-cap. Open: in-game test (AFK > 10 h
+      with it equipped).'
+    sources:
+    - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json
+      title: 'Toolbox game data: prayers[2] Unending_Energy curse ''Max AFK time is now 10 hours'''
+      tier: 1
+      verified: 2026-10-19
+      gameVersion: 2.3.540
+    - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/misc.ts#L681-L683
+      title: 'Toolbox calculateAfkTime: no prayer cap applied'
+      tier: 1
+      verified: 2026-10-19
+      gameVersion: 2.3.540
+    - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/utility/dashboard/characters.js#L68-L75
+      title: 'Toolbox worshipAlerts: advisory flag when equipped and AFK > 10 h'
+      tier: 1
+      verified: 2026-10-19
+      gameVersion: 2.3.540
+    - url: https://idleon.wiki/wiki/Prayers
+      title: 'IdleOn Wiki: Prayers (curse text only)'
+      tier: 2
+      verified: 2026-10-19
+      gameVersion: 2.3.540
+      note: v1.50 note is about level caps, not the 10 h text; possibly pre-patch
+    fromTopic: contradictions-2
+  fromTopic: contradictions-2
+  status: draft

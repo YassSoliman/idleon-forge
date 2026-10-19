@@ -1,0 +1,180 @@
+# SPDX-License-Identifier: GPL-3.0-only
+# M26 KB drafts for System coins (area AW synthesis, verified 2026-10-19, Toolbox 6c37e3d, game 2.3.540).
+# status: draft is a workflow marker; the KB schema accepts active|contested|retired only.
+# entries = new entries; facts = new fact rows (land in <system>.facts.yaml at merge);
+# amendments = changes to entries already in packages/knowledge/systems (or to other drafts).
+# AW synthesis added: topics coins-cash (maps/<topic>.json).
+system: coins
+status: draft
+entries:
+- id: coins.priority.levers
+  system: coins
+  type: priority
+  title: Coin levers
+  text: Raise coins from monsters with the lever that multiplies most
+  why: Your coin multi is a product of groups; a new group (x1.5, x2.4) beats more of a bracket you already stack.
+  notes: 'Order is computed, not authored: coins/levers ranks each reachable, unclaimed lever by new multi / old multi on
+    the coin farmer (the best coins-per-hour fighter), with Toolbox''s own breakdown. The math is tier 1 (H); whether a lever
+    is worth its cost is M. Real-money levers (cash bundle, event shop, companions) are shown as owned/not owned only, never
+    ranked or suggested.'
+  sources:
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/character.ts#L2767
+    title: 'Toolbox getCashMulti: the cash multi product and its final additive bracket'
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  appliesTo:
+    stages: all
+  confidence: M
+  status: draft
+  list: order
+  tiers:
+  - - coins.check.gold-set
+  - - coins.check.cash-bubble
+  - - coins.check.golden-bread
+  fromTopic: coins-cash
+- id: coins.check.gold-set
+  system: coins
+  type: check
+  title: Register the Gold set
+  subject: account
+  effect: next-action
+  category: compounding
+  effortSeconds: 120
+  detector:
+    id: coins/gold-set
+  text: 'Register the Gold set in the Armor Smithy: x1.5 coins from monsters'
+  why: A registered set counts for every character; the Gold set is its own x1.5 group in your coin multi, the biggest step
+    you can unlock in World 3.
+  doneWhen:
+    field: account.armorSmithy.registered
+    contains: GOLD_SET
+  appliesTo:
+    stages:
+    - from: W3-early
+  confidence: M
+  status: draft
+  notes: Fires only when the Armor Smithy is hired (OLA[380]) and GOLD_SET is not in OLA[379]. Toolbox also counts the set
+    when the logged-in character wears it (getSetPartsOn on loggedInCharacter); whether wearing it helps an AFK character
+    is unverified (L), so the wear variant is not drafted.
+  sources:
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-3/armorSmithy.ts#L65
+    title: 'Toolbox getArmorSetBonus: a registered (unlocked) set counts'
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json
+    title: 'Toolbox game data: GOLD_SET bonusValue 50, monsterCoinQuantity'
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/character.ts#L2767
+    title: 'Toolbox getCashMulti: the cash multi product and its final additive bracket'
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  fromTopic: coins-cash
+- id: coins.check.cash-bubble
+  system: coins
+  type: check
+  title: Level the cash bubble for your main stat
+  subject: character
+  effect: next-action
+  category: compounding
+  effortSeconds: 60
+  detector:
+    id: coins/cash-bubble
+  text: 'Level {bubble}: your {who} has {stat:int} {statName}, so each level pays {steps:int} times'
+  why: Penny of Strength, Dollar of Agility and Nickel of Wisdom pay once per 250 of their stat, and only the one matching
+    the class's main stat gets the class bonus.
+  doneWhen:
+    field: account.alchemy.bubbleLevels
+    change: higher
+  appliesTo:
+    stages:
+    - from: W2-early
+  confidence: M
+  status: draft
+  notes: Fires for the coin farmer only, when floor(mainStat/250) >= 1 and the matching cash bubble is level 0, or when its
+    gain is >= 5% of the farmer's multi. Bubble levels compete with the bubble plan (alchemy-bubbles.priority.plan); this
+    Check feeds that plan's 'coins' row, it does not override it.
+  sources:
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/character.ts#L2767
+    title: 'Toolbox getCashMulti: the cash multi product and its final additive bracket'
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-2/alchemy.ts
+    title: 'Toolbox getBubbleBonus: class main-stat multiplier only on the matching bubble'
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  fromTopic: coins-cash
+- id: coins.check.golden-bread
+  system: coins
+  type: check
+  title: Eat Golden Bread on your coin farmer
+  subject: character
+  effect: next-action
+  category: compounding
+  effortSeconds: 30
+  detector:
+    id: coins/golden-bread
+  text: 'Put Golden Bread in {who}''s food bar: +{gain:pct} coins'
+  why: Golden foods are never eaten; Golden Bread adds to coins from monsters, and more bread in the stack adds more.
+  doneWhen:
+    field: characters[{index}].foodStacks
+    contains: Golden_Bread
+  appliesTo:
+    stages: all
+  confidence: M
+  status: draft
+  notes: Fires when Golden_Bread (FoodG6) is in storage or a bag, not in the farmer's food bar, the farmer has a free or non-golden
+    non-health slot, and the computed gain (Toolbox getGoldenFoodBonus on a clone) is >= 3% of the farmer's multi. A Sneaking
+    beanstalk Golden Bread also counts (W6, out of scope).
+  sources:
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/items.json
+    title: 'Toolbox game data: FoodG6 Golden_Bread, Effect MonsterCash, GOLDEN_FOOD'
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/misc.ts#L1046
+    title: 'Toolbox getGoldenFoodBonus: equipped or beanstalk golden food'
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/character.ts#L2767
+    title: 'Toolbox getCashMulti: the cash multi product and its final additive bracket'
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  fromTopic: coins-cash
+facts:
+- id: coins.fact.multi-groups
+  system: coins
+  origin: authored
+  title: Cash multi groups and where each opens
+  rows:
+    cash-bubbles: product · W2 Alchemy · per 250 of STR/AGI/WIS
+    kangaroo-meal-artifact-vote: product · W2 Poppy, W4 Cooking, W5 Sailing, Ballot
+    pet-arena-friend-pecunia: product · W4 Breeding Pet Arena waves 20 (+0.5) and 175 (+1), Pecunia statue
+    lab-vault-tasks-bubbles: product · W4 Lab, Vault Recipe for Profit, Vault Bubble Money
+    gold-set: product x1.5 · W3 Armor Smithy
+    prayer-jawbreaker: product · W3 prayer, Worship Wakawaka War wave 101, curse +monster HP
+    money-gear: product · item stats 77 and 100
+    real-money: product · cash bundle x3.5, event shop x1.5 / x1.6, companions up to x5 (shown, never suggested)
+    additive-bracket: one bracket · Vault Monster Tax, Mining Payday, Bored to Death, Dirty Money, star talent Cash Money,
+      cards, obols, vials, Post Office, Guild, Arcade, Golden Bread, achievements
+  sources:
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/character.ts#L2767
+    title: 'Toolbox getCashMulti: the cash multi product and its final additive bracket'
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/misc/upgradeVault.ts#L206
+    title: 'Toolbox upgrade vault bonus: level x x5 x (1 + vault 32 or 61 bonus)'
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  status: draft
+  fromTopic: coins-cash

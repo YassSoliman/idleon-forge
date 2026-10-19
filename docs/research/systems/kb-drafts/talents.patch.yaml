@@ -1,0 +1,149 @@
+# SPDX-License-Identifier: GPL-3.0-only
+# M26 CL synthesis (class lines): KB drafts copied from scratchpad/m26/maps/class-*.json. status: draft.
+# Target file: packages/knowledge/systems/talents.yaml (patch existing talents.build.* entries; engine notes for builds/diff.ts)
+# Tier scale: M26 workflow (1 game data/Toolbox code, 2 Toolbox dashboard, 3 wiki, 4 community); existing KB YAML labels the wiki tier 2 and Toolbox community builds tier 3: align at merge.
+system: talents
+entries:
+# from maps/class-squire.json
+- id: talents.build.squire-skilling
+  system: talents
+  type: build
+  status: draft
+  patch:
+    step: REFINERY_THROTTLE
+    change: 'add breakpoints: [8,16,24,32,40,48,56,64,72,80,88,96,104,112,120,128,136,144,152,160] and target the last multiple of 8 <= max (96 at max 100): levels above it add no cycle (intervalAdd 3/8, C25 H; RyuNumber1 build uses multiples of 8, C45 L). Needs the engine to honour breakpoints (schema has it, engine ignores it: only APOCALYPSE_ZOW uses it).'
+  confidence: H
+
+# from maps/class-squire.json
+- id: talents.build.squire-fighting
+  system: talents
+  type: build
+  status: draft
+  patch:
+    step: PRECISION_POWER
+    change: 'add when: [{ kind: precisionPowerActive }] (new StepCondition: accuracy >= 2.25 x AFK target Defence); until then the step is skipped and the next step leads. Order itself stays L.'
+  confidence: H
+
+# from maps/class-squire.json
+- id: talents.build.squire-fighting
+  system: talents
+  type: build
+  status: draft
+  patch:
+    step: BLOCKY_BOTTLES
+    change: 'target = Warriors Rule bubble level (new target kind "bubbleLevel: WARRIORS_RULE"), not max.'
+  confidence: H
+
+# from maps/class-squire.json
+- id: engine/src/builds/diff.ts
+  system: talents
+  type: build
+  status: draft
+  patch:
+    step: accuracyShort
+    change: evaluate from characters[].afk.fighting.accuracy < 1.5 x targetDefence instead of always "unknown" (this map adds the fields).
+  confidence: H
+
+# from maps/class-bowman.json
+- id: talents.build.bowman-fighting
+  system: talents
+  type: build
+  status: draft
+  patch:
+    step: VELOCITY_VESSELS
+    change: 'target = Archer or Bust bubble level (new target kind "bubbleLevel: ARCHER_OR_BUST", same kind the class-squire map adds for Blocky Bottles / Warriors Rule), not max. Talent text tier 1 + W4 save evidence.'
+  confidence: M
+
+# from maps/class-bowman.json
+- id: talents.build.bowman-skilling
+  system: talents
+  type: build
+  status: draft
+  patch:
+    step: tab 4 (new)
+    change: 'add tab 4 steps for a Siege Breaker: SYMBOLS_OF_BEYOND_~G max > ADAPTATION_REVELATION max > SKILL_AMBIDEXTERITY max (Sir_Grimtide b0sGrY skilling preset, same Source as the current build; C36).'
+  confidence: M
+
+# from maps/class-bowman.json
+- id: talents.build.bowman-fighting
+  system: talents
+  type: build
+  status: draft
+  patch:
+    step: tab 4 (proposal, do NOT ship)
+    change: 'Siege Breaker AFK tab 4 from the only build (Z7fjwI, 1 like): Archlord of the Pirates max, Suppressing Fire max, 1 each The Family Guy, Firebomb, Pirate Flag, Plunder Ye Deceased, Cannonball, Stacked Skulls, Symbols of Beyond. Confidence L: keep out until a second Source agrees (Q5). Today a Siege Breaker resolves to the Bowman builds (builds/knowledge.ts lineOf walks elite -> subclass) and sees no tab-4 steps.'
+  confidence: L
+
+# from maps/class-bowman.json
+- id: talents.build.bowman-fighting
+  system: talents
+  type: build
+  status: draft
+  patch:
+    step: notes
+    change: 'add: Strafe and Extendo Rangeo count only while cast (classes.check.cast-buffs); Speedna steps are at 116/130/145% move speed (classes.check.speedna-step).'
+  confidence: H
+
+# from maps/class-wizard.json
+- id: talents.build.wizard-fighting
+  system: talents
+  type: build
+  status: draft
+  patch:
+    step: FUSCIA_FLASKS
+    change: 'target = Mage Is Best bubble level (new target kind "bubbleLevel: MAGE_IS_BEST", the same kind the class-squire map adds for WARRIORS_RULE), not max: levels above the bubble add nothing (C25, corroborated by the W4 test save).'
+  confidence: H
+
+# from maps/class-wizard.json
+- id: talents.build.wizard-fighting, talents.build.wizard-skilling
+  system: talents
+  type: build
+  status: draft
+  patch:
+    step: WIS_WUMBO
+    change: 'add when: [{ kind: talentAtLeast, talent: BOOK_OF_THE_WISE, level: 100 }] (new StepCondition) so Wis Wumbo is never suggested while Book of the Wise is below 100; the skilling preset currently has Book of the Wise at 100 on the W4 test account, so Wis Wumbo would lead there.'
+  confidence: M
+
+# from maps/class-wizard.json
+- id: talents.build.mage-fighting
+  system: talents
+  type: build
+  status: draft
+  patch:
+    step: QUICKNESS_BOOTS
+    change: 'add { talent: QUICKNESS_BOOTS, target: max, hardCap: true, when: [{ kind: accuracyShort }] } after IDLE_CASTING, as in wizard-fighting (C4 M, C54 L: Mage builds level Quickness Boots for accuracy only).'
+  confidence: M
+
+# from maps/class-wizard.json
+- id: engine/src/builds/diff.ts
+  system: talents
+  type: build
+  status: draft
+  patch:
+    step: accuracyShort
+    change: evaluate from characters[].afk.fighting.accuracy vs 1.5 x targetDefence (fields added by the class-squire map) instead of "unknown"; applies to the Mage line with AGI as the accuracy stat.
+  confidence: H
+
+# from maps/class-shaman.json
+- id: talents.build.shaman-fighting / wizard-fighting
+  system: talents
+  type: build
+  status: draft
+  patch:
+    change: 'talents.build.shaman-fighting / wizard-fighting: FANTASIA_FLASKS / FUSCIA_FLASKS target ''max'' -> resolver capped at the Mage is Best bubble level (H, save evidence)'
+
+# from maps/class-shaman.json
+- id: talents.build.shaman-fighting
+  system: talents
+  type: build
+  status: draft
+  patch:
+    change: 'talents.build.shaman-fighting: attacks list + tab-4 Bubonic attacks for the attack-bar check (data H)'
+
+# from maps/class-shaman.json
+- id: talents.build.shaman-fighting
+  system: talents
+  type: build
+  status: draft
+  patch:
+    change: 'talents.build.shaman-fighting: VIRILE_VIALS step gains when: [{ kind: greenVialsAtLeast, n: 1 }] (M)'
