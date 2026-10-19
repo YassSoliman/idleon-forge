@@ -42,7 +42,8 @@ const keep = (f: Filter) => (t: IndexTileView) =>
       : f === 'notCovered'
         ? t.status === 'not-covered' && !t.readOnly
         : t.status === 'locked';
-const PIP = { wasting: 'coral', todo: 'gold', ok: 'mint', off: 'mut', readonly: 'sky' } as const;
+// Read-only is grey: sky is for timers (QA P3).
+const PIP = { wasting: 'coral', todo: 'gold', ok: 'mint', off: 'mut', readonly: 'mut' } as const;
 
 function Tile({ t, s }: { t: IndexTileView; s: Session }) {
   const off = t.tone === 'off';
@@ -227,7 +228,7 @@ export function SystemsHub({ s }: { s: Session }) {
                   onClick={() => setFilter(f)}
                 >
                   {INDEX_WORDS.filters[f]}{' '}
-                  <span className={f === 'needs' && n > 0 ? 'sf-t--gold' : ''}>{n}</span>
+                  <span className={f === 'needs' && n > 0 && !on ? 'sf-t--gold' : ''}>{n}</span>
                 </button>
               );
             })}
@@ -324,7 +325,7 @@ export function SystemsHub({ s }: { s: Session }) {
           </span>
           {ix.worlds.some((w) => w.tiles.some((t) => t.readOnly)) ? (
             <span>
-              <Pip tone="sky" />
+              <Pip tone="mut" />
               {INDEX_WORDS.legend.readOnly}
             </span>
           ) : null}
