@@ -43,9 +43,18 @@ const build: Health = (view, index) => {
   return star > 1 ? h('behind', of(star, 'star point'), star) : OK;
 };
 
-/** Gear (M18): a better piece held, then empty slots, then the worst gap in levels. */
+/** The skilling tools: the Gear tab shows them apart ("only while mining"), so its counts leave them out. */
+const TOOLS: ReadonlySet<string> = new Set(['pickaxe', 'hatchet', 'rod', 'net']);
+
+/**
+ * Gear (M18): a better piece held, then empty slots, then the worst gap in levels. Armour, weapon and
+ * jewellery only (M24 QA P2: counting the tools made the badge 11 against the page's "7 to replace" and
+ * the Characters "3 empty slots" that were really tool slots).
+ */
 const gear: Health = (view, index) => {
-  const s = view.gear?.characters.find((x) => x.index === index)?.slots.filter((x) => x.state !== 'm20');
+  const s = view.gear?.characters
+    .find((x) => x.index === index)
+    ?.slots.filter((x) => x.state !== 'm20' && !TOOLS.has(x.slot));
   if (!s) return null;
   const count = (st: string) => s.filter((x) => x.state === st).length;
   const worst = Math.max(0, ...s.map((x) => (x.state === 'behind' ? (x.levelsBehind ?? 0) : 0)));
