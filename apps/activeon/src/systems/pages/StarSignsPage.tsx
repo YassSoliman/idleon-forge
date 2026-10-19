@@ -6,7 +6,7 @@
 import { SIGNS_PAGE_WORDS as W } from '@idleon-forge/engine/systems-ui';
 import { Sprite } from '../../art/sprites/Sprite';
 import { WhoGlyph } from '../../design/who/WhoGlyph';
-import { ChecksTile, StepsSection } from '../frame/SimplePage';
+import { ChecksTile, SimplePage, StepsSection } from '../frame/SimplePage';
 import { frameAnswer, SystemFrame } from '../frame/SystemFrame';
 import type { FullPageProps } from '../pages';
 import { StarSignsSystemBody } from '../StarChartPage';
@@ -14,7 +14,7 @@ import './pages.css';
 
 export default function StarSignsPage({ s, page }: FullPageProps) {
   const v = s.result.starSigns;
-  if (!v) return <SystemFrame s={s} page={page} />;
+  if (!v) return <SimplePage s={s} page={page} />;
   const who = (i: number) => {
     const c = s.result.characters.find((x) => x.index === i);
     return { label: c ? `${c.classLabel} ${c.level}` : `${i + 1}`, family: s.result.classFamilies?.[i] };

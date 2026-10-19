@@ -11,7 +11,7 @@ import {
   type StampTile,
   STAMPS_PAGE_WORDS as W,
 } from '@idleon-forge/engine/systems-ui';
-import { ChecksTile, SpendSection, StepsSection } from '../frame/SimplePage';
+import { ChecksTile, SimplePage, SpendSection, StepsSection } from '../frame/SimplePage';
 import { type FrameAnswer, frameAnswer, SystemFrame } from '../frame/SystemFrame';
 import { StampsBody } from '../NewPictures';
 import type { FullPageProps } from '../pages';
@@ -33,7 +33,7 @@ function StampGlyph({ now }: { now: boolean }) {
 
 export default function StampsPage({ s, page }: FullPageProps) {
   const pic = page.pictures.find((p) => p.kind === 'stamps') as StampsPicture | undefined;
-  if (!pic) return <SystemFrame s={s} page={page} />;
+  if (!pic) return <SimplePage s={s} page={page} />;
   const byId = new Map(pic.elements.map((e) => [e.id, e]));
   const ribbon = pic.next.map((id) => byId.get(id)).filter((t): t is StampTile => !!t);
   const rest = pic.elements

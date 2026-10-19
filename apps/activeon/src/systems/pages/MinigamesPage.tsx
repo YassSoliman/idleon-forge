@@ -6,14 +6,14 @@
 import { shortDuration } from '@idleon-forge/engine/now';
 import { MINIGAMES_PAGE_WORDS as W } from '@idleon-forge/engine/systems-ui';
 import { Sprite } from '../../art/sprites/Sprite';
-import { ChecksTile, StepsSection } from '../frame/SimplePage';
+import { ChecksTile, SimplePage, StepsSection } from '../frame/SimplePage';
 import { type FrameAnswer, type FrameTone, frameAnswer, Pip, SystemFrame } from '../frame/SystemFrame';
 import type { FullPageProps } from '../pages';
 import './pages.css';
 
 export default function MinigamesPage({ s, page }: FullPageProps) {
   const mg = s.state.account.minigames;
-  if (!mg) return <SystemFrame s={s} page={page} />;
+  if (!mg) return <SimplePage s={s} page={page} />;
   const elapsed = Math.max(0, (s.now - s.result.asOf) / 1000);
   const fired = new Set(page.goals.map((g) => g.id));
   const game = (k: 'darts' | 'hoops') => {

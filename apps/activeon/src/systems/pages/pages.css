@@ -110,12 +110,16 @@
 }
 
 @media (max-width: 719.98px) {
-  .an-row,
-  .an-work__row {
+  .an-row {
     grid-template-columns: minmax(0, 1fr);
   }
-  .an-work__fills {
-    text-align: left;
+  .an-work__row {
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: var(--space-1) var(--space-3);
+  }
+  .an-work__bar {
+    grid-column: 1 / -1;
+    grid-row: 2;
   }
 }
 

@@ -10,7 +10,7 @@ import { Sprite } from '../../art/sprites/Sprite';
 import { WhoGlyph } from '../../design/who/WhoGlyph';
 import { GearPageBody } from '../../gear/GearPages';
 import { formatRoute } from '../../shell/route';
-import { ChecksTile, StepsSection } from '../frame/SimplePage';
+import { ChecksTile, SimplePage, StepsSection } from '../frame/SimplePage';
 import { type FrameAnswer, frameAnswer, SystemFrame } from '../frame/SystemFrame';
 import type { FullPageProps } from '../pages';
 import './pages.css';
@@ -28,7 +28,7 @@ const SPRITE: Readonly<Record<string, string>> = {
 
 export default function GearToolsPage({ s, page }: FullPageProps) {
   const gear = s.result.gear;
-  if (!gear) return <SystemFrame s={s} page={page} />;
+  if (!gear) return <SimplePage s={s} page={page} />;
   const order = s.view.roster.map((r) => r.index);
   const chars = [...gear.characters].sort((a, b) => order.indexOf(a.index) - order.indexOf(b.index));
   const who = (i: number) => {

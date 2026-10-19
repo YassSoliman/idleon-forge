@@ -6,7 +6,7 @@
 import { formatCoins } from '@idleon-forge/engine/now';
 import { STATUE_WORDS, type StatuesPicture, STATUES_PAGE_WORDS as W } from '@idleon-forge/engine/systems-ui';
 import { WhoGlyph } from '../../design/who/WhoGlyph';
-import { ChecksTile } from '../frame/SimplePage';
+import { ChecksTile, SimplePage } from '../frame/SimplePage';
 import { type FrameAnswer, frameAnswer, Pip, SystemFrame } from '../frame/SystemFrame';
 import type { FullPageProps } from '../pages';
 import './pages.css';
@@ -26,7 +26,7 @@ function StatueGlyph({ gold, next }: { gold: boolean; next: boolean }) {
 
 export default function StatuesPage({ s, page }: FullPageProps) {
   const pic = page.pictures.find((p) => p.kind === 'statues') as StatuesPicture | undefined;
-  if (!pic) return <SystemFrame s={s} page={page} />;
+  if (!pic) return <SimplePage s={s} page={page} />;
   const lit = pic.elements.find((e) => e.id === pic.lit) ?? null;
   const total = pic.elements.length;
   const big = {

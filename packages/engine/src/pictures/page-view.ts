@@ -86,6 +86,13 @@ export function buildSystemPageFrameView(
   };
 }
 
+/** "Bowman 81" for a character (class and level, never a name), null for the account. */
+const labelOf = (result: EngineResult, index: number | null): string | null => {
+  if (index === null) return null;
+  const c = result.characters.find((x) => x.index === index);
+  return c ? `${c.classLabel} ${c.level}` : null;
+};
+
 const subjectIndex = (subject: string): number | null =>
   subject.startsWith('c') ? Number(subject.slice(1)) : null;
 
@@ -160,10 +167,14 @@ export function frameOf(
     steps: page.goals.map((g) => ({
       key: g.action.key,
       text: g.action.text,
-      who: whoToken(result, subjectIndex(g.subject))?.label ?? null,
+      who: labelOf(result, subjectIndex(g.subject)),
     })),
     checks,
-    checksLine: W.checksLine(page.coverage.checks.map((c) => c.title.toLowerCase())),
+    checksLine: W.checksLine(
+      [...page.coverage.checks]
+        .sort((a, b) => Number(b.state === 'see-above') - Number(a.state === 'see-above'))
+        .map((c) => c.title.toLowerCase()),
+    ),
   };
 }
 

@@ -7,7 +7,7 @@
 import { ANVIL_PAGE_HOURS, buildAnvilPageView, ANVIL_WORDS as W } from '@idleon-forge/engine/systems-ui';
 import { useMemo, useState } from 'react';
 import { WhoGlyph } from '../../design/who/WhoGlyph';
-import { ChecksTile, StepsSection } from '../frame/SimplePage';
+import { ChecksTile, SimplePage, StepsSection } from '../frame/SimplePage';
 import { type FrameAnswer, frameAnswer, SystemFrame } from '../frame/SystemFrame';
 import type { FullPageProps } from '../pages';
 import './pages.css';
@@ -25,7 +25,7 @@ export default function AnvilPage({ s, page }: FullPageProps) {
     () => buildAnvilPageView(s.state, s.result, nearest(s.result.expectedReturn.usedSeconds)),
     [s.state, s.result],
   );
-  if (!v) return <SystemFrame s={s} page={page} />;
+  if (!v) return <SimplePage s={s} page={page} />;
   const answer: FrameAnswer = own?.hero
     ? {
         tone: 'gold',
