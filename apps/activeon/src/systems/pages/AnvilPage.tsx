@@ -15,6 +15,9 @@ import { AnvilRecipes } from '../../production/AnvilRecipes';
 import { AnvilWalkthrough } from '../../production/AnvilWalkthrough';
 import { SimplePage, StepsSection } from '../frame/SimplePage';
 import { type FrameAnswer, type FrameTab, frameAnswer, SystemFrame } from '../frame/SystemFrame';
+
+type FrameStatus = FullPageProps['page']['frame']['status'];
+
 import type { FullPageProps } from '../pages';
 import './pages.css';
 
@@ -72,6 +75,17 @@ export default function AnvilPage({ s, page }: FullPageProps) {
           big: { value: own.hero.points.toLocaleString('en-US'), unit: W.points, note: W.doingNothing },
         }
       : frameAnswer(page));
+  // A check whose field this save lacks (an older save) leaves the tile at "Can't tell", while the page's
+  // own Production Plan reads every anvil: the header then says what the plan sees, and that some checks
+  // can't read the save (the checks tile names them).
+  const status: FrameStatus | undefined =
+    page.tile.status === 'cant-tell' && prod && prod.anvils.total > 0
+      ? {
+          tone: prod.anvils.switching > 0 ? 'gold' : 'mint',
+          word: prod.anvils.line,
+          reason: W.someChecksUnread,
+        }
+      : undefined;
   const prodTabs: FrameTab[] = prod
     ? [
         {
@@ -106,6 +120,7 @@ export default function AnvilPage({ s, page }: FullPageProps) {
         page={page}
         answer={pageAnswer ?? frameAnswer(page)}
         tabs={[...planTab, ...prodTabs]}
+        {...(status ? { status } : {})}
       />
     ) : (
       <SimplePage s={s} page={page} />
@@ -116,6 +131,7 @@ export default function AnvilPage({ s, page }: FullPageProps) {
       s={s}
       page={page}
       answer={answer}
+      {...(status ? { status } : {})}
       tabs={[
         ...planTab,
         {

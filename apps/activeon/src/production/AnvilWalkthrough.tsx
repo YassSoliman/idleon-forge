@@ -91,12 +91,20 @@ export function AnvilWalkthrough({ p }: { p: ProductionResult }) {
                   {t.materials.length + 1}. Craft Anvil Tab {t.tab} at the anvil
                 </span>
                 {(() => {
-                  // The tab item is a recipe on the tab before it: a place to look, never itself.
+                  // The tab item is a recipe on the tab before it: a place to look, never itself. The chip
+                  // opens that recipe but keeps the tab's own sprite, so "Anvil tab 3" never shows the
+                  // tab IV item it crafts.
+                  const tabBefore = gates.tabGates?.[t.tab - 2];
                   const g = gateOf(gates.tabGates, t.tab - 1, {
                     rawName: t.rawName,
                     name: `Anvil Tab ${t.tab}`,
                   });
-                  return g ? <GateLink gate={g} onNavigate={gates.onNavigate} /> : null;
+                  return g ? (
+                    <GateLink
+                      gate={tabBefore ? { ...g, icon: tabBefore.icon } : g}
+                      onNavigate={gates.onNavigate}
+                    />
+                  ) : null;
                 })()}
                 {t.smithing.lv !== null ? (
                   <span className="sf-hint">
@@ -118,7 +126,7 @@ export function AnvilWalkthrough({ p }: { p: ProductionResult }) {
               >
                 {all ? 'Hide every step' : 'Every step and the full tree'}
               </button>
-              {all ? <WalkthroughSteps view={view} /> : null}
+              {all ? <WalkthroughSteps view={view} self={t.rawName} /> : null}
             </>
           ) : null}
         </section>

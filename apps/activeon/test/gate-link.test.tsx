@@ -57,6 +57,12 @@ describe('GateText (GC1)', () => {
     expect(document.body.textContent).toContain('Craft Anvil Tab 4');
   });
 
+  it('the gate a view is (self) stays words: no chip back to the same Walkthrough', () => {
+    render(<GateText text="Craft Anvil Tab 4 at the anvil" tabGates={GATES} self="EquipmentSmithingTabs4" />);
+    expect(screen.queryByRole('link')).toBeNull();
+    expect(document.body.textContent).toBe('Craft Anvil Tab 4 at the anvil');
+  });
+
   it('one chip per tab; without spans the sentence is unchanged', () => {
     render(<GateText text="Use Anvil Tab 3 to open anvil tab 3 for every anvil" tabGates={GATES} />);
     expect(screen.getAllByRole('link')).toHaveLength(1);

@@ -57,7 +57,8 @@ export function WalkthroughPin({ view }: { view: View }) {
 }
 
 /** The why sheet's Walkthrough: every step, the missing leaves, then the full tree and other ways. */
-export function WalkthroughSteps({ view }: { view: View }) {
+/** `self`: the gate focus this Walkthrough is (the tab item on the Anvil page): no chip back to itself. */
+export function WalkthroughSteps({ view, self }: { view: View; self?: string }) {
   const [tree, setTree] = useState(false);
   const [other, setOther] = useState(false);
   const now = currentStep(view);
@@ -87,7 +88,7 @@ export function WalkthroughSteps({ view }: { view: View }) {
                 <span className="wt-when">{isNow ? 'Now' : s.when === 'blocked' ? 'Blocked' : 'After'}</span>
                 <span className="wt-text">
                   <TalentMention text={s.text} fallback={null} size={24} />
-                  <GateText text={s.text} {...gates} />
+                  <GateText text={s.text} {...gates} {...(self ? { self } : {})} />
                 </span>
                 {p ? (
                   <>
