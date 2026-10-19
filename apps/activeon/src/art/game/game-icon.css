@@ -1,0 +1,10 @@
+/* SPDX-License-Identifier: GPL-3.0-only */
+/* <GameIcon>: a game sprite fitted inside its square box (ADR 0009, 2026-10-19). The game's sprites are
+   larger than our boxes (56-120 px) and shrink by non-integer steps, so the browser's smooth scaling
+   keeps them cleaner than nearest-neighbour would. */
+.g-art {
+  display: block;
+  flex: none;
+  object-fit: contain;
+  user-select: none;
+}

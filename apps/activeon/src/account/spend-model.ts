@@ -4,12 +4,16 @@
 // (skips and dismissals already applied, in M7's order) to M7's plan for each line's payer and sink,
 // and words the pockets from M7's wallets. It orders nothing itself: every list keeps the plan's order,
 // except the pockets, largest first, as the board draws them. Class and level only, never a name.
+
 import { formatCoins, type SpendLineView, type SpendPlanView } from '@idleon-forge/engine/now';
 import type { ClassFamily, EngineResult, SpendLine } from '@idleon-forge/engine/result';
+import { type GameArt, itemArt, stampArtOfRef } from '../art/game/game-art';
 import { NOT_COVERED_WORDS, SINK_WORDS, SPEND_WORDS as W } from './words';
 
 export interface SpendPageLine {
   key: string;
+  /** The game sprite of what the line buys or carries (a stamp, its material), else null. */
+  art: GameArt | null;
   n: number;
   text: string;
   /** Up to three short steps ("Carry 12.5k Thread"), from the line's detail. */
@@ -106,8 +110,12 @@ export function spendPage(result: EngineResult, view: SpendPlanView | null): Spe
           : l?.status === 'hold'
             ? v.statusText
             : null;
+    const art =
+      (l?.steps ?? []).map((s) => stampArtOfRef(s.ref)).find(Boolean) ??
+      itemArt((l?.steps ?? []).find((s) => s.material)?.material?.item);
     return {
       key: v.key,
+      art: art ?? null,
       n: n + 1,
       text: stepText(v.text, char(payer)),
       steps: v.detail ? steps(v.detail).slice(0, 3) : [],

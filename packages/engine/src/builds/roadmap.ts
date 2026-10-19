@@ -271,7 +271,7 @@ function othersOf(p: PresetTalents, tab: number, named: ReadonlySet<number>, kb:
   return (t?.talents ?? [])
     .filter((x) => x.base > 0 && !named.has(x.id))
     .sort((a, b) => b.base - a.base || a.id - b.id)
-    .map((x) => ({ label: talentLabel(kb.talents.nameOf(x.id) ?? String(x.id)), level: x.base }));
+    .map((x) => ({ id: x.id, label: talentLabel(kb.talents.nameOf(x.id) ?? String(x.id)), level: x.base }));
 }
 
 /** A tab's known points (FR-C2): exact where ADR 0010's count exists, else the lower bound. */

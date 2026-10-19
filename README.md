@@ -49,4 +49,8 @@ Save parsing builds on [IdleOn Toolbox](https://github.com/Morta1/IdleonToolbox)
 
 ## License
 
-[GPL-3.0](LICENSE). Not affiliated with or endorsed by LavaFlame2.
+[GPL-3.0](LICENSE), except the game's own sprites in
+[`apps/activeon/public/game-art/`](apps/activeon/public/game-art/NOTICE.md): Legends of IdleOn art ©
+LavaFlame2, not covered by this repository's GPL-3.0 licence, used as IdleOn Toolbox does for a fan-made,
+read-only companion tool ([ADR 0009](docs/adr/0009-game-art.md)). Not affiliated with or endorsed by
+LavaFlame2.

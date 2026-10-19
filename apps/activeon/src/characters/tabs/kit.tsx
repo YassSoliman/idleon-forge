@@ -9,6 +9,8 @@
 import type { SourceView } from '@idleon-forge/engine/now';
 import { LINK_WORDS } from '@idleon-forge/engine/now';
 import type { ReactNode } from 'react';
+import { GameIcon } from '../../art/game/GameIcon';
+import type { GameArt } from '../../art/game/game-art';
 import { Sprite } from '../../art/sprites/Sprite';
 import { PixelArt } from '../../design/art/PixelArt';
 import { Frame, GLYPH, SourceLabel } from '../../design/atoms';
@@ -19,10 +21,14 @@ import './tabs.css';
 
 export type Tone = 'gold' | 'ok' | 'plain';
 
-/** The tab's answer: what to do, in one framed block. `icon` is a sprite name drawn on its tone tile. */
+/**
+ * The tab's answer: what to do, in one framed block. `icon` is a sprite name drawn on its tone tile;
+ * `art` draws the game's own sprite there instead, with `icon` as its fallback.
+ */
 export function Answer({
   tone,
   icon,
+  art,
   cap,
   title,
   sub,
@@ -32,6 +38,7 @@ export function Answer({
 }: {
   tone: Tone;
   icon?: string | null;
+  art?: GameArt | null;
   cap: string;
   title: ReactNode;
   sub?: ReactNode;
@@ -48,7 +55,11 @@ export function Answer({
       aria-label={label ?? cap}
     >
       <div className="tb-answer__row">
-        {icon ? (
+        {art ? (
+          <span className="tb-answer__icon">
+            <GameIcon art={art} fallback={icon ?? undefined} size={32} decorative />
+          </span>
+        ) : icon ? (
           <span className="tb-answer__icon">
             <Sprite name={icon} size={32} decorative />
           </span>

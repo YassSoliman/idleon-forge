@@ -54,6 +54,10 @@ patches built-in prototypes, so it is loaded only inside the worker.
 - **Never commit saves, tokens or config values.** Real saves live in `fixtures/private/` (ignored);
   `.env*` is ignored except `.env.example`. Never quote real character names or account data in code,
   tests, issues or PRs. Test against `packages/account-state/fixtures/public/` (Toolbox's public saves).
+- **Game art lives in one folder.** The game's sprites are only in `apps/activeon/public/game-art/`
+  (© LavaFlame2, not GPL; see its `NOTICE.md` and ADR 0009). Never hand-add or edit a file there:
+  `pnpm sync-game-art` copies them from Toolbox at the pinned commit; re-run it after `pnpm sync-parsers`.
+  Draw them with `<GameIcon>`, which falls back to our own sprite. Never hotlink another site's images.
 - **Never hand-edit `packages/toolbox-parsers/vendor/`.** Re-sync with `pnpm sync-parsers`, then fix
   the adapter in `packages/account-state`. New UI-coupled upstream imports get a stub in `shims/`.
 - **Deterministic.** Anything that depends on time takes `now` as a parameter; `parseSave` freezes

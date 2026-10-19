@@ -11,6 +11,7 @@
       "!**/vendor",
       "!**/fixtures",
       "!**/generated",
+      "!apps/activeon/public/game-art",
       "!packages/knowledge/golden",
       "!**/dist",
       "!**/.upstream",

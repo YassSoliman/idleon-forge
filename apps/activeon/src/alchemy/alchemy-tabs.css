@@ -64,3 +64,14 @@
     display: none;
   }
 }
+/* A bubble's own sprite beside its name (ADR 0009, 2026-10-19): a tight pair that shrinks (the name
+   wraps inside it) so the level stays on the name's line. */
+.al2-bub {
+  flex: 1 1 0;
+  flex-wrap: nowrap;
+  gap: var(--space-2);
+}
+.al2-bub > .w-b {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}

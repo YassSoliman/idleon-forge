@@ -22,3 +22,5 @@ packages/toolbox-parsers/vendor/data/
 # Generated at build time by packages/release (M12 TR-3).
 apps/*/public/version.json
 apps/*/public/whats-new.json
+# Toolbox checkout used by scripts/game-art/sync.mjs (the art it copies is committed under apps/activeon/public/game-art/).
+scripts/game-art/.upstream/

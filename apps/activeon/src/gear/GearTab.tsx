@@ -8,6 +8,8 @@
 // worship skull) with M20's words. A lazy chunk (lazy-part.tsx); the engine words everything.
 import type { CharacterGear, GearSlotView, SlotPip } from '@idleon-forge/engine/result';
 import { useState } from 'react';
+import { GameIcon } from '../art/game/GameIcon';
+import { itemArt } from '../art/game/game-art';
 import { Sprite } from '../art/sprites/Sprite';
 import { Answer, GoalLink, type Tone, upper, useGoal } from '../characters/tabs/kit';
 import { Blob, Pip } from '../design/atoms';
@@ -33,6 +35,15 @@ const LABEL: Readonly<Record<SlotId, string>> = {
   trap: 'Trap set',
   skull: 'Worship skull',
 };
+/**
+ * The item a slot's icon draws (the game's own sprite): the piece its bold line names. A piece to get
+ * ("Get Pharaoh Bow") draws that piece; otherwise what the slot wears. Null draws the slot's own sprite.
+ */
+function slotItem(v: GearSlotView): string | null {
+  if ((v.state === 'empty' || v.state === 'behind') && v.target) return v.target.rawName;
+  return v.equipped?.rawName ?? null;
+}
+
 /** The kit's sprite for each slot (gear-pickaxe draws the Mining pickaxe, gear-trap the trap). */
 const SPRITE: Readonly<Record<SlotId, string>> = {
   helmet: 'gear-helmet',
@@ -147,7 +158,7 @@ function SlotTile({
       onClick={onOpen}
     >
       <span className="tb-ic" data-tone={look.icon}>
-        <Sprite name={SPRITE[v.slot]} size={32} decorative />
+        <GameIcon art={itemArt(slotItem(v))} fallback={SPRITE[v.slot]} size={32} decorative />
       </span>
       <span className="gd-slot__words">
         <span className="tb-xs">
@@ -239,7 +250,7 @@ function ToolTile({ v, g }: { v: GearSlotView; g: CharacterGear }) {
   return (
     <li className="a-tile gd-tool" data-tone={tone}>
       <span className="tb-ic" data-tone={tone}>
-        <Sprite name={SPRITE[v.slot]} size={32} decorative />
+        <GameIcon art={itemArt(v.equipped?.rawName)} fallback={SPRITE[v.slot]} size={32} decorative />
       </span>
       <span className="tb-xs">{LABEL[v.slot]}</span>
       <span className="gd-tool__status">{status}</span>
@@ -332,6 +343,7 @@ export function GearTab({ view, index }: CharacterTabProps) {
         <Answer
           tone="gold"
           icon={g.lit ? SPRITE[g.lit] : null}
+          art={litView ? itemArt(slotItem(litView)) : null}
           cap="Next fix"
           title={g.step}
           sub={g.why}
