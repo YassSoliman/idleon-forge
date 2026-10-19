@@ -346,6 +346,12 @@ function presetOf(x: PresetInput, kb: BuildsKnowledge, ctx: WalkContext): BuildP
     next: build ? nextPoints(p, build, ctx, kb, x.slot, x.lb, x.lead, x.beyond === true) : [],
     star: starOf(x, kb),
     confidence: build ? confidenceView(build) : null,
+    ...(build
+      ? {
+          sources: sourcesOf([build.entry, ...(build.inherited ? [build.inherited] : [])]),
+          entryId: build.entry.id,
+        }
+      : {}),
   };
 }
 

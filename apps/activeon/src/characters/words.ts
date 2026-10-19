@@ -32,6 +32,8 @@ export const BUILD_WORDS = {
   toSpend: 'points to spend',
   talentPoints: 'talent points',
   starPoints: 'star points',
+  /** M26: the label before a Build's Sources, for screen readers. */
+  sources: 'Sources:',
   /** "Spend 869 talent points, starting with Eagle Eye". */
   spend: (points: number, atLeast: boolean, first: string | null, kind = 'talent') =>
     `Spend ${atLeast ? 'at least ' : ''}${plural(points, `${kind} point`)}${first ? `, starting with ${first}` : ''}`,

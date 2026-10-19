@@ -16,7 +16,7 @@
 //   points end.
 import { asOfLine, CHARACTERS_WORDS, leadTab, pathMarker } from '@idleon-forge/engine/characters-ui';
 import type { BuildRoadmapView } from '@idleon-forge/engine/now';
-import type { BuildPathStepView, BuildPresetView, BuildTabView } from '@idleon-forge/engine/result';
+import type { BuildPathStepView, BuildTabView } from '@idleon-forge/engine/result';
 import { createContext, type ReactNode, useContext, useMemo, useState } from 'react';
 import { classArtOf } from '../../art/game/class-art';
 import { GameIcon } from '../../art/game/GameIcon';
@@ -30,6 +30,9 @@ import { useNowActions } from '../../now/context';
 import { PageSources, PageSourcesSlot } from '../../shell/page-sources';
 import { BUILD_WORDS as B } from '../words';
 import './build.css';
+
+/** One preset of the Build view, with its own Build's best Source (M26). */
+type PresetView = BuildRoadmapView['presets'][number];
 
 const W = CHARACTERS_WORDS;
 const n = (x: number) => x.toLocaleString('en-US');
@@ -50,7 +53,7 @@ interface Pools {
   parts: number[];
   star: number;
 }
-function poolsOf(p: BuildPresetView): Pools {
+function poolsOf(p: PresetView): Pools {
   const withPoints = p.tabs.filter((t) => pointsOf(t) > 0);
   const star = p.star?.known?.kind === 'exact' && p.star.known.overBy === null ? pointsOf(p.star) : 0;
   return {
@@ -68,7 +71,7 @@ function openPreset(r: BuildRoadmapView): number {
 
 /** The preset tabs' order: Fighting, then Skilling, then any other by save slot. */
 const ROLE_ORDER: Record<string, number> = { fighting: 0, skilling: 1 };
-const presetOrder = (r: BuildRoadmapView): BuildPresetView[] =>
+const presetOrder = (r: BuildRoadmapView): PresetView[] =>
   [...r.presets].sort(
     (a, b) => (ROLE_ORDER[a.role ?? ''] ?? 2) - (ROLE_ORDER[b.role ?? ''] ?? 2) || a.slot - b.slot,
   );
@@ -87,7 +90,7 @@ function firstPreset(r: BuildRoadmapView): number {
 }
 
 /** The tab to open on: the preset's lead tab, else the tab with the most points, else the first with a path. */
-function firstTab(p: BuildPresetView): number {
+function firstTab(p: PresetView): number {
   const lead = leadTab([p]);
   if (lead) return lead.tab.tab;
   const most = [...p.tabs].sort((a, b) => pointsOf(b) - pointsOf(a))[0];
@@ -97,8 +100,7 @@ function firstTab(p: BuildPresetView): number {
 }
 
 const isCovered = (s: BuildPathStepView) => s.band === 'now' || s.band === 'part';
-const roleWord = (p: BuildPresetView) =>
-  p.role ? `${p.role.charAt(0).toUpperCase()}${p.role.slice(1)}` : null;
+const roleWord = (p: PresetView) => (p.role ? `${p.role.charAt(0).toUpperCase()}${p.role.slice(1)}` : null);
 
 /**
  * "Eagle Eye" -> "EE"; "360 Noscope" -> "36"; "Stonks!" -> "ST". The book's monogram: drawn where a
@@ -154,7 +156,39 @@ const stepKind = (s: BuildPathStepView): 'covered' | 'next' | 'later' | 'done' =
 
 // ---------- the preset cards ----------
 
-function PresetHero({ p, who, inUseTag }: { p: BuildPresetView; who: string; inUseTag: boolean }) {
+/**
+ * M26 (owner ruling 2026-10-19): which Build the preset follows, how many sources back it, and the
+ * Sources themselves. One source is fine, but always said; never hidden.
+ */
+function BuildProvenance({ p }: { p: PresetView }) {
+  const c = p.confidence;
+  if (!c || !p.buildTitle) return null;
+  return (
+    <span className="bd-prov">
+      <span className="bd-prov-build">{p.buildTitle}</span>
+      <Tag tone={c.level === 'L' ? 'gold' : 'mint'}>{c.text}</Tag>
+      {c.label ? <span className="bd-prov-label">{c.label}</span> : null}
+      {p.source ? (
+        <span className="bd-prov-src">
+          <span className="sr-only">{B.sources} </span>
+          <SourceLabel source={p.source} />
+        </span>
+      ) : null}
+    </span>
+  );
+}
+
+function PresetHero({
+  p,
+  who,
+  inUseTag,
+  r,
+}: {
+  p: PresetView;
+  who: string;
+  inUseTag: boolean;
+  r: BuildRoadmapView;
+}) {
   const pools = poolsOf(p);
   const empty = p.tabs.length > 0 && p.tabs.every((t) => t.spent === 0);
   const firstTalent = p.next[0]?.label ?? null;
@@ -183,6 +217,7 @@ function PresetHero({ p, who, inUseTag }: { p: BuildPresetView; who: string; inU
         </span>
         <span className="a-h1 bd-title">{title}</span>
         <span className="bd-why">{why}</span>
+        <BuildProvenance p={p} />
       </span>
       <span className="bd-bigs">
         <span className="bd-big">
@@ -201,7 +236,7 @@ function PresetHero({ p, who, inUseTag }: { p: BuildPresetView; who: string; inU
 }
 
 /** A preset tab's second line: what is waiting in it, gold with a pip; mint when every point is placed. */
-function PresetWaiting({ p }: { p: BuildPresetView }) {
+function PresetWaiting({ p }: { p: PresetView }) {
   const pools = poolsOf(p);
   const missing = p.attackBar?.missing.length ?? 0;
   const text =
@@ -228,12 +263,12 @@ function PresetTabs({
   label,
   sub,
 }: {
-  presets: BuildPresetView[];
+  presets: PresetView[];
   sel: number;
   onSel(slot: number): void;
   idBase: string;
-  label(p: BuildPresetView): string;
-  sub(p: BuildPresetView): ReactNode;
+  label(p: PresetView): string;
+  sub(p: PresetView): ReactNode;
 }) {
   return (
     <div className="bd-presets">
@@ -500,7 +535,7 @@ function SidePanel({ tab, stepKey }: { tab: BuildTabView; stepKey: string | null
   );
 }
 
-function AttackBar({ p }: { p: BuildPresetView }) {
+function AttackBar({ p }: { p: PresetView }) {
   const bar = p.attackBar;
   if (!bar) return null;
   const role = roleWord(p);
@@ -652,15 +687,7 @@ export function Ladder({ tab, preset, id }: { tab: BuildTabView; preset: string;
 }
 
 /** The selected preset: the tab control, the book, the side panel, the attack bar and the ladder. */
-function PresetBody({
-  r,
-  p,
-  other,
-}: {
-  r: BuildRoadmapView;
-  p: BuildPresetView;
-  other: BuildPresetView | null;
-}) {
+function PresetBody({ r, p, other }: { r: BuildRoadmapView; p: PresetView; other: PresetView | null }) {
   const [tabSel, setTabSel] = useState<number>(() => firstTab(p));
   const tabs = p.tabs;
   const all = [...tabs, ...(p.star ? [p.star] : [])];
@@ -800,7 +827,7 @@ function FooterSources({ children }: { children: ReactNode }) {
  * them with). The star tab keeps its own Build (FR-C14), so it shows its book and ladder as usual.
  */
 function PlainBuild({ r }: { r: BuildRoadmapView }) {
-  const total = (p: BuildPresetView) => p.tabs.reduce((s, t) => s + t.spent, 0);
+  const total = (p: PresetView) => p.tabs.reduce((s, t) => s + t.spent, 0);
   const [sel, setSel] = useState<number>(() => {
     const most = [...r.presets].sort((a, b) => Number(b.active) - Number(a.active) || total(b) - total(a));
     return most[0]?.slot ?? 0;
@@ -919,6 +946,9 @@ export function BuildRoadmap({ r, mismatch = null }: { r: BuildRoadmapView; mism
   const who = `${r.classLabel} ${r.level}`;
   const tabbed = presets.length > 1;
   const idBase = `bv-${r.index}-preset`;
+  // M24 rule 4, said once: when the preset's hero names its Build and Sources (M26), the footer keeps
+  // only the quiet note.
+  const inHero = !r.note && !!p?.confidence && !!p.buildTitle && !!p.source;
   return (
     <div className="build-view bd">
       {mismatch ? (
@@ -942,18 +972,18 @@ export function BuildRoadmap({ r, mismatch = null }: { r: BuildRoadmapView; mism
             />
           ) : null}
           <PresetPanel idBase={tabbed ? idBase : null} slot={p.slot} className="bd-panel">
-            <PresetHero p={p} who={who} inUseTag={!tabbed} />
+            <PresetHero p={p} who={who} inUseTag={!tabbed} r={r} />
             <PresetBody key={p.slot} r={r} p={p} other={other} />
           </PresetPanel>
         </>
       ) : null}
       {r.note && r.presets.length > 0 ? <PlainBuild r={r} /> : null}
       <ComingUp r={r} />
-      {r.quiet || r.source ? (
+      {r.quiet || (r.source && !inHero) ? (
         <FooterSources>
           <span className="bd-quiet">
             {r.quiet ? `${r.quiet} ` : ''}
-            {r.source ? <SourceLabel source={r.source} /> : null}
+            {r.source && !inHero ? <SourceLabel source={r.source} /> : null}
           </span>
         </FooterSources>
       ) : null}

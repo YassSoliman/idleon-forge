@@ -374,6 +374,39 @@ describe('Build view', () => {
     expect(screen.queryByText('No build yet for this class')).toBeNull();
   });
 
+  it('M26: the preset names its Build with the confidence label and the Sources, said once', () => {
+    const conf = {
+      level: 'L' as const,
+      sourceCount: 1,
+      text: 'Community build · one source',
+      label: 'one source',
+    };
+    const r: EngineResult = {
+      ...fixture('mid-session'),
+      builds: [
+        {
+          ...shaman,
+          presets: shaman.presets.map((p) => ({
+            ...p,
+            confidence: conf,
+            sources: shaman.sources,
+            entryId: 'talents.build.shaman-skilling',
+          })),
+        },
+      ],
+    };
+    window.history.replaceState(null, '', `/#build-${shaman.index}`);
+    renderNow(props(r, saveOf(r, 1, 'first', null, 'paste')));
+    const prov = document.querySelector('.bd-prov') as HTMLElement;
+    expect(prov).not.toBeNull();
+    expect(within(prov).getByText('Community build · one source')).toBeTruthy();
+    expect(within(prov).getByRole('link', { name: 'IdleOn Wiki: Shaman' }).getAttribute('href')).toBe(
+      'https://idleon.wiki/wiki/Shaman',
+    );
+    // The footer keeps the quiet note but not a second copy of the link.
+    expect(screen.getAllByRole('link', { name: 'IdleOn Wiki: Shaman' })).toHaveLength(1);
+  });
+
   it('an end-game character with no Build still shows its talent tabs and levels (M24 QA P1-9)', () => {
     const tab = (
       t: number,

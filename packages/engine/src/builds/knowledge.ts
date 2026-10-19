@@ -361,6 +361,7 @@ const SMALL_WORDS = new Set(['OF', 'THE', 'AND', 'FOR']);
 /** "IDLE_BRAWLING" -> "Idle Brawling", "BOOK_OF_THE_WISE" -> "Book of the Wise", "ACTIVE_AFK'ER" -> "Active AFK'er" (display only). */
 export function talentLabel(rawName: string): string {
   return rawName
+    .replace(/_~[A-Z]$/, '') // SYMBOLS_OF_BEYOND_~R: one Symbols of Beyond per line's elite tab (M26)
     .split('_')
     .filter(Boolean)
     .map((w, i) => {

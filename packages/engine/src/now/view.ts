@@ -302,7 +302,9 @@ export interface Banner {
 }
 
 /** The Build view of one character (owner request 2026-10-18): its roadmap, name and best Source. */
-export interface BuildRoadmapView extends Omit<BuildRoadmap, 'sources'> {
+export interface BuildRoadmapView extends Omit<BuildRoadmap, 'sources' | 'presets'> {
+  /** Each preset with its own Build's best Source (M26: a fighting preset never shows the skilling one). */
+  presets: (Omit<BuildRoadmap['presets'][number], 'sources'> & { source?: SourceView | null })[];
   name: string;
   /** `#build-<index>`, the Build tab's deep link. */
   href: string;
