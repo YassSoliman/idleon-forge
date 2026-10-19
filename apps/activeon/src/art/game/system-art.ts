@@ -34,6 +34,19 @@ export const SYSTEM_ART: Readonly<Record<string, GameArt>> = {
   'pet-tournament': d('TournyRank2'), // the tournament crest (Toolbox: tournament)
   'task-board': e('TasksStar'), // the tasks star (Toolbox: tasks)
   guild: e('Guild'), // the guild crest (Toolbox: guild)
+  // M26 Wave 0 registry rows (#179)
+  achievements: d('TaskAchBorder1'), // the achievement frame (Toolbox: achievements)
+  dungeons: d('DungeonA7'), // the dungeon crest (Toolbox: dungeons)
+  family: d('ClassIcons3'), // a gold class figure: the bonuses each class gives the family
+  food: d('FoodHealth1'), // the first health food
+  storage: d('InvStorage42'), // a storage chest (Toolbox: storage)
+  stats: e('Character'), // the character figure (Toolbox: characters)
+  coins: d('Coins1'), // a copper coin
+  'friend-bonuses': e('Friends'), // the friends badge (Toolbox: friendsStats)
+  'event-shop': e('Event_Currency'), // the event currency (Toolbox: eventShop)
+  'trophies-nametags': d('GalleryPodiumA3'), // a gallery podium (Toolbox: Gallery, trophies and nametags)
+  'town-shops': d('ShopEZ0'), // a town shopkeeper
+  'drop-rate': d('RareLootDrop_x1'), // the rare loot bag
   // World 1
   stamps: d('StampA1'), // Sword Stamp
   'star-signs': d('SignStarB0'), // a star sign glyph
@@ -76,6 +89,10 @@ export const SYSTEM_ART: Readonly<Record<string, GameArt>> = {
   lab: d('ConsoleJwl0'), // a lab jewel
   cooking: d('ClassIcons51'), // the Cooking skill icon (Toolbox: cooking)
   breeding: d('ClassIcons52'), // the Breeding skill icon (Toolbox: breeding)
+  sigils: d('LabBonus12'), // the sigil Lab bonus (Toolbox: sigils)
+  rift: d('Mface75'), // the Rift's face (Toolbox: rift)
+  tome: e('Tome_0'), // the Tome (Toolbox: tome)
+  'elite-classes': d('ClassIcons10'), // an elite class's icon (the skull)
 };
 
 /** A System's game sprite, or null when it has none (our own sprite draws instead). */
