@@ -30,6 +30,7 @@ import type { z } from 'zod';
 import { buildIssues } from './build-checks';
 import { copyIssuesOf } from './copy';
 import { detectorFiles, discoverDetectors, type Registries } from './discover';
+import { gameClientIssues } from './game-client';
 import type { Issue } from './issues';
 import type { KbSource, Located } from './load';
 import { DETECTORS_DIR, REPO, readPin } from './paths';
@@ -184,6 +185,7 @@ export async function checkSource(src: KbSource, registries?: Registries): Promi
     for (const ref of referencesOf(e.value))
       if (!byId.has(ref.id) && draftIds.has(ref.id))
         err(e.file, e.lineOf(ref.where), e.value.id, `references ${ref.id}, which is a draft (M26 FR-1)`);
+  issues.push(...gameClientIssues(src));
   const facts = new Map<string, Located<FactTableT>>();
   for (const f of src.facts) {
     if (facts.has(f.value.id) || byId.has(f.value.id))

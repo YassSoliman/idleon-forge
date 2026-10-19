@@ -27,6 +27,8 @@ export interface KbLayout {
   majorsYaml: string;
   systemsDir: string;
   generatedDir: string;
+  /** Game-client builds and excerpts (M26 FR-2b): the repo's docs/research/game-client, or <root>/game-client. */
+  gameClientDir: string;
 }
 
 export const layoutOf = (root: string = KNOWLEDGE): KbLayout => ({
@@ -35,6 +37,8 @@ export const layoutOf = (root: string = KNOWLEDGE): KbLayout => ({
   majorsYaml: path.join(root, 'majors.yaml'),
   systemsDir: path.join(root, 'systems'),
   generatedDir: path.join(root, 'generated'),
+  gameClientDir:
+    root === KNOWLEDGE ? path.join(REPO, 'docs/research/game-client') : path.join(root, 'game-client'),
 });
 
 export interface Located<T> {
