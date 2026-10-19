@@ -175,12 +175,14 @@ describe('the Alchemy page (M19 F6, M24 sections)', () => {
     const { container } = tab('vials');
     const rows = [...container.querySelectorAll('.vt-row')].map((r) => r.textContent);
     expect(rows).toEqual([
-      'Dieter Drinkroll 40+ to unlockBSBean SlicesStorage 6,552 · Shaman 76 has 96,561held',
-      'Red Maltroll 85+ to unlockRSRedox SaltsStorage · 56 more sit in the Refinery1held',
+      'Dieter Drinkroll 40+ to unlockBean SlicesStorage 6,552 · Shaman 76 has 96,561held',
+      'Red Maltroll 85+ to unlockRedox SaltsStorage · 56 more sit in the Refinery1held',
     ]);
     expect(container.textContent).toContain('2 of 3 locked vials');
     const missing = [...container.querySelectorAll('.vt-tile')].map((r) => r.textContent);
     expect(missing).toEqual(['Thumb Powneeds Trusty Nails50+']);
+    // M25: the item's game sprite stands where its monogram stood (the monogram is the fallback).
+    expect(container.querySelectorAll('.vt-row img.g-art, .vt-tile img.g-art')).toHaveLength(5);
   });
 
   it('is the full page of all four Alchemy Systems', () => {

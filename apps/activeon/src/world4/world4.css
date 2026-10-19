@@ -223,6 +223,14 @@
 .w4-class {
   flex: none;
 }
+/* M25: a row's game sprite in a fixed 24 px box (nothing moves while it loads). */
+.w4-row__ic {
+  flex: none;
+  width: 24px;
+  height: 24px;
+  display: grid;
+  place-items: center;
+}
 .w4-who {
   display: inline-flex;
   align-items: center;
@@ -812,4 +820,9 @@
 
 .w4-source a {
   color: var(--muted);
+}
+.w4-slot__in {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
 }

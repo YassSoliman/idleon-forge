@@ -4,9 +4,12 @@
 // whose item the account holds in storage or a bag, easiest roll first, with how many it holds and
 // where; then "Missing the item", the locked vials still waiting for their item. Self-contained, so the
 // Alchemy System page's Vials section can place it wherever its layout puts it. It only lays out
-// `AlchemyResult.vialTries` (built in the worker); it adds no advice. Our own boxes (ADR 0009).
+// `AlchemyResult.vialTries` (built in the worker); it adds no advice. M25: each vial wears the game's
+// locked jar and its item's own sprite (ADR 0009 as amended 2026-10-19); the item's monogram is the
+// fallback, and the item's sprite opens its IdleOn Wiki page.
 import type { AlchemyResult, VialHolding, VialTry } from '@idleon-forge/engine/result';
-import { Sprite } from '../art/sprites/Sprite';
+import { vialItemArt, vialJarArt } from '../art/game/alchemy-art';
+import { GameIcon } from '../art/game/GameIcon';
 import './vial-tries.css';
 
 export const VIAL_TRY_WORDS = {
@@ -77,15 +80,25 @@ export function VialTries({ a, who }: VialTriesProps) {
             {t.tryable.map((v) => (
               <li key={v.index} className="vt-row">
                 <span className="vt-vial">
-                  <Sprite name="item-vial" size={32} decorative />
+                  <GameIcon art={vialJarArt(0)} fallback="item-vial" size={32} decorative />
                 </span>
                 <span className="vt-name">
                   <b>{v.name}</b>
                   <span className="vt-sub">{W.roll(v.rollNeeded)}</span>
                 </span>
                 <span className="vt-item">
-                  <span className="vt-mono" aria-hidden="true">
-                    {monogram(v.item)}
+                  <span className="vt-ic">
+                    <GameIcon
+                      art={vialItemArt(v.index)}
+                      fallback={
+                        <span className="vt-mono" aria-hidden="true">
+                          {monogram(v.item)}
+                        </span>
+                      }
+                      size={32}
+                      decorative
+                      wiki={v.item}
+                    />
                   </span>
                   <span className="vt-item__t">
                     <span className="vt-item__name">{v.item}</span>
@@ -114,6 +127,19 @@ export function VialTries({ a, who }: VialTriesProps) {
           <ul className="vt-grid">
             {t.missing.map((m) => (
               <li key={m.index} className="vt-tile">
+                <span className="vt-ic">
+                  <GameIcon
+                    art={vialItemArt(m.index)}
+                    fallback={
+                      <span className="vt-mono" aria-hidden="true">
+                        {monogram(m.item)}
+                      </span>
+                    }
+                    size={32}
+                    decorative
+                    wiki={m.item}
+                  />
+                </span>
                 <span className="vt-tile__t">
                   <span className="vt-tile__name">{m.name}</span>
                   <span className="vt-sub">{W.needs(m.item)}</span>

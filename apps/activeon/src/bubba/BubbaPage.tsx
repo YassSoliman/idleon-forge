@@ -4,8 +4,11 @@
 // pats, the Smoker, the Charisma Chart, gifts and dice. M24's BubbaTabs.tsx lays them out as the
 // board's tabs on the System page template. They only lay out `EngineResult.bubba`, built in the worker:
 // every word is the engine's (BUBBA_WORDS) and every time an epoch read against the page's clock (DS-6).
+// M25: Megaflesh and upgrades wear the game's sprites (ADR 0009 as amended 2026-10-19).
 import { patsText, BUBBA_WORDS as W } from '@idleon-forge/engine/bubba-text';
 import type { BubbaResult } from '@idleon-forge/engine/result';
+import { bubbaUpgradeArt, megafleshArt } from '../art/game/bubba-art';
+import { GameIcon } from '../art/game/GameIcon';
 import { cx, Meter } from '../design/atoms';
 import { inSpan } from '../design/format';
 import './bubba.css';
@@ -29,14 +32,23 @@ export function Megaflesh({ b, now }: { b: BubbaResult; now: number }) {
       </p>
       <ol className="bb-pips" aria-label={W.megafleshOwned(m.owned)}>
         {m.rows.map((r) => (
-          <li key={r.row} className={cx('bb-pip', r.owned && 'is-owned')} title={r.name}>
+          <li key={r.row} className={cx('bb-mf', r.owned && 'is-owned')} title={r.name}>
+            <GameIcon
+              art={megafleshArt(r.row)}
+              fallback={<span className={cx('bb-pip', r.owned && 'is-owned')} />}
+              size={32}
+              decorative
+            />
             <span className="sr-only">{r.owned ? r.name : `${r.name} (${W.notOwned})`}</span>
           </li>
         ))}
       </ol>
       {n ? (
         <div className="bb-next">
-          <p className="bb-next__label">{W.megafleshNext(n.row, n.label)}</p>
+          <p className="bb-next__label bb-ic-line">
+            <GameIcon art={megafleshArt(n.row)} fallback="sys-bubba" size={24} decorative />
+            {W.megafleshNext(n.row, n.label)}
+          </p>
           <p className="small muted">{n.text}</p>
           {n.have !== null && n.need !== null ? (
             <Meter value={n.have} max={n.need} label={n.progress ?? n.label} tone="accent" />
@@ -49,6 +61,15 @@ export function Megaflesh({ b, now }: { b: BubbaResult; now: number }) {
         </div>
       ) : null}
     </section>
+  );
+}
+
+/** An upgrade's game sprite, inline before its name. */
+function BuyIcon({ index }: { index: number }) {
+  return (
+    <span className="bb-buy__ic">
+      <GameIcon art={bubbaUpgradeArt(index)} fallback="sys-bubba" size={24} decorative />
+    </span>
   );
 }
 
@@ -70,6 +91,7 @@ export function Run({ b }: { b: BubbaResult }) {
       <ol className="bb-buys">
         {buys.slice(0, 3).map((x) => (
           <li key={x.index}>
+            <BuyIcon index={x.index} />
             <span>{x.name}</span> <span className="num muted">{x.cost}</span>
           </li>
         ))}
@@ -80,6 +102,7 @@ export function Run({ b }: { b: BubbaResult }) {
           <ol className="bb-buys" start={4}>
             {buys.slice(3).map((x) => (
               <li key={x.index}>
+                <BuyIcon index={x.index} />
                 <span>{x.name}</span> <span className="num muted">{x.cost}</span>
               </li>
             ))}

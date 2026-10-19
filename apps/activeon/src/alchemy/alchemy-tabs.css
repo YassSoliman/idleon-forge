@@ -75,3 +75,15 @@
   min-width: 0;
   overflow-wrap: anywhere;
 }
+
+/* M25: the rest of a cauldron's bubbles, each with its game sprite, wrapping as words do. */
+.al2-rest {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-1) var(--space-3);
+}
+.al2-rest__b {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+}
