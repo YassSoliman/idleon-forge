@@ -50,10 +50,22 @@ const save = () => ({ state, source: 'paste' as const, seq: 1, kind: 'first' as 
 const _bowman = () => state.characters.find((c) => c.class === 'Bowman' && c.level === 60)?.index ?? -1;
 
 describe('the Gear and Smithy pages', () => {
-  it('#system-gear: the heat strip, one cell lit (the Bowman Lv 60 helmet), and the phone list', () => {
+  it('#system-gear: the empty slots name the piece for each, class and level only', async () => {
     window.history.replaceState(null, '', '/#system-gear');
     const { container } = renderNow(props(result, save()));
-    expect(screen.getByRole('heading', { level: 2, name: 'Gear & Tools' })).toBeTruthy();
+    await screen.findByRole('tab', { name: /^Empty slots/ });
+    expect(container.querySelectorAll('.gt-slot').length).toBeGreaterThan(0);
+    expect(screen.getAllByText('Bowman 60').length).toBeGreaterThan(0);
+    for (const c of state.characters) expect(container.textContent).not.toContain(c.name);
+  });
+
+  it('#system-gear: the heat strip, one cell lit (the Bowman Lv 60 helmet), and the phone list', async () => {
+    window.history.replaceState(null, '', '/#system-gear');
+    const { container } = renderNow(props(result, save()));
+    expect(await screen.findByRole('heading', { level: 2, name: 'Gear & Tools' })).toBeTruthy();
+    // M24: the page opens on the empty slots; the heat strip is the "Everything worn" tab.
+    expect(screen.getByRole('tab', { name: /^Empty slots/ }).getAttribute('aria-selected')).toBe('true');
+    fireEvent.click(screen.getByRole('tab', { name: 'Everything worn' }));
     const table = container.querySelector('.gd-heat-table') as HTMLTableElement;
     expect(table.querySelectorAll('tbody tr')).toHaveLength(6);
     expect(table.querySelectorAll('thead th')).toHaveLength(10);

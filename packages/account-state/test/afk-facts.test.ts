@@ -118,7 +118,7 @@ describe('the anvil point plan (#70) on the scrubbed W2-late save', () => {
       (w) => Math.round(((w?.respec.output ?? 0) / (w?.current.output ?? 1)) * 100) / 100,
     );
     expect(gains).toEqual([1.94, 3.12, 2.71, 2.46, 1.16]);
-    expect(plans[0]?.products).toEqual([{ item: 'CraftMat1', name: 'Thread' }]);
+    expect(plans[0]?.products).toEqual([{ item: 'CraftMat1', name: 'Thread', required: 100 }]);
   });
 
   it('follows the Expected Return: 2 h puts the Barbarian at 70 Speed / 11 Capacity; 24 h all Capacity', () => {

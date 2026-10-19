@@ -1,5 +1,9 @@
 // SPDX-License-Identifier: GPL-3.0-only
 // Copyright (C) 2026 IdleOn Forge contributors.
+// M24: `FULL_PAGES`, the Systems whose whole page is their own (they render `SystemFrame` themselves),
+// keyed by System id, each a lazy chunk under ./pages/. Every other System renders the thin page
+// (frame/SimplePage.tsx) with its `SYSTEM_PAGES` body, below, until that body moves onto the template.
+//
 // M17 TR-7: the component map for dedicated System page bodies, keyed by the `page` ids of the
 // engine's data-only `SYSTEM_HOMES` (packages/engine/src/now/system-homes.ts). A later module (M16,
 // M18–M21) adds its picture with one `page` entry there and one component here, in its own PR. The
@@ -9,6 +13,7 @@ import type { SystemPageView } from '@idleon-forge/engine/now';
 import { type ComponentType, createElement, Fragment } from 'react';
 import { lazyPart, retryable } from '../lazy-part';
 import type { Session } from '../shell/session';
+import type { FullPage } from './frame/SimplePage';
 
 // Each chunk import is `retryable`, so a Retry after a failed fetch re-requests it (lazy-part.tsx).
 const slotPictures = retryable(() => import('./SlotPictures'));
@@ -18,6 +23,29 @@ const newPictures = retryable(() => import('./NewPictures'));
 const starChart = retryable(() => import('./StarChartPage'));
 const bubbaPage = retryable(() => import('../bubba/BubbaPage'));
 const world4Pages = retryable(() => import('../world4/World4Pages'));
+
+/** M24: a full System page's props: the session and the engine's page view with its frame. */
+export interface FullPageProps {
+  s: Session;
+  page: FullPage;
+}
+
+const full = (load: () => Promise<{ default: ComponentType<FullPageProps> }>) => {
+  const chunk = retryable(load);
+  return lazyPart(() => chunk().then((m) => m.default));
+};
+
+/** M24: the Systems with their own page (boards after/sys/<Name>.dc.html). */
+export const FULL_PAGES: Readonly<Record<string, ComponentType<FullPageProps>>> = {
+  anvil: full(() => import('./pages/AnvilPage')),
+  stamps: full(() => import('./pages/StampsPage')),
+  'talent-presets': full(() => import('./pages/TalentPresetsPage')),
+  'upgrade-vault': full(() => import('./pages/VaultPage')),
+  gear: full(() => import('./pages/GearToolsPage')),
+  minigames: full(() => import('./pages/MinigamesPage')),
+  statues: full(() => import('./pages/StatuesPage')),
+  'star-signs': full(() => import('./pages/StarSignsPage')),
+};
 
 export interface SystemPageBodyProps {
   s: Session;

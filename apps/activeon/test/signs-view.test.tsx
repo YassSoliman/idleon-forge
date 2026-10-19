@@ -4,7 +4,7 @@
 // M16 in the DOM: the character page's Signs tab (worn, recommended, can it change signs) with its
 // `#signs-<index>` deep link, and the Star Chart section in the Account.
 import type { EngineResult, StarSignsView } from '@idleon-forge/engine/result';
-import { cleanup, screen, waitFor, within } from '@testing-library/react';
+import { cleanup, fireEvent, screen, waitFor, within } from '@testing-library/react';
 import axe from 'axe-core';
 import { afterEach, beforeEach, describe, expect, it } from 'vitest';
 import { characterTabs, parseTabHash } from '../src/now/character-tabs';
@@ -152,6 +152,8 @@ describe('Signs tab', () => {
     window.history.replaceState(null, '', '/#system-star-signs');
     const rp = onPage(r);
     renderNow(props(rp, saveOf(rp, 1, 'first', null, 'paste')));
+    // M24: the Star Chart is the page's third tab.
+    fireEvent.click(await screen.findByRole('tab', { name: /^Star Chart/ }));
     const page = (await screen.findByRole('region', { name: 'Star Chart' })) as HTMLElement;
     expect(page.textContent).toContain('21 points ready, 19 needed for Chronus Cosmos');
     expect(page.textContent).toContain('Slamabam Straightaway');
@@ -175,6 +177,7 @@ describe('Signs tab', () => {
     const r = onPage(twoAlike());
     window.history.replaceState(null, '', '/#system-star-signs');
     renderNow(props(r, saveOf(r, 1, 'first', null, 'paste')));
+    fireEvent.click(await screen.findByRole('tab', { name: /^Star Chart/ }));
     const section = (await screen.findByRole('region', { name: 'Star Chart' })) as HTMLElement;
     expect(section.textContent).toContain('wear The Fuzzy Dice · 2 characters');
     expect(section.textContent?.match(/wear The Fuzzy Dice · 2 characters/g)).toHaveLength(1);

@@ -63,7 +63,11 @@ export interface AfkAnvilProduct {
 export interface AfkAnvilSplit {
   speed: number;
   capacity: number;
-  /** Items made over the window from empty, summed over producing products: sum of min(rate x T, capacity). */
+  /**
+   * Anvil progress made over the window from empty: the sum over producing products of
+   * min(rate x T, capacity) x requiredAmount, each item weighted by its work (M24), so ratios between
+   * splits compare work done, not item counts.
+   */
   output: number;
 }
 
@@ -84,8 +88,11 @@ export interface AfkAnvilPlan {
    * when Smithing levelled since the tab was last open. Can be negative (Acme Anvil reset).
    */
   unspent: number;
-  /** Products with at least one hammer: rawName and display name. */
-  products: Array<{ item: string; name: string }>;
+  /**
+   * Products with at least one hammer: rawName, display name and `requiredAmount`, the anvil work one
+   * item takes (M24: the anvil page draws it; the plan weighs each item by it).
+   */
+  products: Array<{ item: string; name: string; required: number }>;
   /**
    * One plan per "Back in about" window (`ANVIL_PLAN_WINDOWS_MS`, the Expected Return chips), shortest
    * first; the Detectors take the one for the player's Expected Return (`anvilPlanWindow`).

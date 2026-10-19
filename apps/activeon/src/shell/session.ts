@@ -634,6 +634,8 @@ export function useSession(props: ShellProps) {
 
   return {
     result,
+    /** M24: the save's Account State, for the read-only facts a System page draws (the anvil plan). */
+    state: save.state,
     prefs,
     view,
     timeline,

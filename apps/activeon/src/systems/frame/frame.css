@@ -1,0 +1,508 @@
+/* SPDX-License-Identifier: GPL-3.0-only */
+/* M24: the System page template (SystemFrame.tsx) and the pieces its pages share. Field Guide tokens
+   only. Colour means one thing: coral losing now, gold do it, mint done or fine, sky a timer, grey later.
+   Type: 28 px pixel title, 22 px pixel section heads, 24 px answer, 16/14/12 body. One .a-frame. */
+
+.sf {
+  display: grid;
+  gap: var(--space-7);
+  min-width: 0;
+}
+
+/* Tones: text colour, and the answer frame's fill. */
+.sf-t--coral {
+  color: var(--bad);
+  --frame-bg: var(--bad-soft);
+}
+.sf-t--gold {
+  color: var(--accent);
+  --frame-bg: var(--accent-soft);
+}
+.sf-t--mint {
+  color: var(--ok);
+  --frame-bg: var(--ok-soft);
+}
+.sf-t--sky {
+  color: var(--info);
+  --frame-bg: var(--info-soft);
+}
+.sf-t--mut {
+  color: var(--muted);
+  --frame-bg: var(--surface);
+}
+
+/* 1. Back link and 2. header */
+.sf-back {
+  margin: 0 0 calc(var(--space-4) * -1);
+}
+.sf-back a {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  min-height: var(--tap-min);
+  color: var(--muted);
+  font-size: var(--text-sm);
+  text-decoration: none;
+}
+.sf-back a:hover {
+  color: var(--fg);
+}
+.sf-head {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  min-width: 0;
+}
+.sf-icon {
+  display: grid;
+  flex: none;
+  place-items: center;
+  width: 56px;
+  height: 56px;
+  background: var(--sunk);
+}
+.sf-head__text {
+  display: grid;
+  gap: var(--space-1);
+  min-width: 0;
+}
+.sf-status {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-1) var(--space-3);
+  margin: 0;
+  font-size: var(--text-sm);
+}
+.sf-status__word {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-weight: var(--weight-semibold);
+}
+.sf-status__reason,
+.sf-dot {
+  color: var(--muted);
+}
+
+/* 3. The answer: the screen's one frame */
+.sf-answer {
+  display: flex;
+  align-items: center;
+  gap: var(--space-6);
+  color: var(--fg);
+}
+.sf-answer.sf-t--sky {
+  background: var(--info-soft);
+}
+.sf-answer.sf-t--mut {
+  background: var(--surface);
+}
+.sf-answer__text {
+  display: grid;
+  flex: 1;
+  gap: var(--space-2);
+  min-width: 0;
+}
+.sf-hero {
+  margin: 0;
+  font-size: var(--text-2xl);
+  font-weight: var(--weight-bold);
+  line-height: 1.2;
+  overflow-wrap: anywhere;
+}
+.sf-sub {
+  margin: 0;
+  color: var(--muted);
+  font-size: var(--text-sm);
+}
+.sf-big {
+  display: grid;
+  flex: none;
+  justify-items: end;
+  gap: 6px;
+  width: 200px;
+  text-align: right;
+}
+.sf-big__n {
+  font-size: var(--text-3xl);
+  font-weight: var(--weight-bold);
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+.sf-big__unit {
+  color: var(--muted);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+}
+.sf-big__note {
+  color: var(--muted);
+  font-size: var(--text-xs);
+}
+.sf-meter {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 6px;
+  background: var(--sunk);
+}
+.sf-meter > i {
+  position: absolute;
+  inset: 0 auto 0 0;
+  background: currentColor;
+}
+
+/* The segmented control's options are buttons here: no browser border, no fill until picked. */
+.sf-seg-opt {
+  border: 0;
+}
+.sf-seg-opt:not(.a-seg__option--on) {
+  background: transparent;
+}
+
+/* 4. Tabs */
+.sf-tabs {
+  display: flex;
+  gap: var(--space-1);
+  margin-bottom: calc(var(--space-2) * -1);
+  overflow-x: auto;
+  box-shadow: inset 0 -1px 0 var(--line);
+  scrollbar-width: none;
+}
+.sf-tab {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  gap: var(--space-2);
+  min-height: var(--tap-min);
+  padding: 0 var(--space-4);
+  border: 0;
+  background: transparent;
+  color: var(--muted);
+  font: var(--weight-semibold) 15px / 1 var(--font-body);
+  font-variant-ligatures: var(--font-ligatures);
+  font-feature-settings: var(--font-features);
+  cursor: pointer;
+}
+.sf-tab:hover {
+  color: var(--fg);
+}
+.sf-tab--on {
+  color: var(--fg);
+  box-shadow: inset 0 -3px 0 var(--accent);
+}
+.sf-tab:focus-visible {
+  outline: var(--focus-width) solid var(--focus);
+  outline-offset: -2px;
+}
+.sf-badge {
+  padding: 1px 6px;
+  border-radius: 2px;
+  background: var(--sunk);
+  color: var(--muted);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-bold);
+}
+.sf-badge.sf-t--gold {
+  background: var(--accent);
+  color: var(--on-accent);
+}
+.sf-badge.sf-t--coral {
+  background: var(--bad);
+  color: var(--on-bad);
+}
+.sf-body {
+  display: grid;
+  gap: var(--space-8);
+  min-width: 0;
+}
+
+/* 5. The footer line */
+.sf-foot {
+  color: inherit;
+}
+.sf-foot a {
+  color: var(--muted);
+}
+.sf-foot a:hover {
+  color: var(--fg);
+}
+
+/* Shared page pieces ---------------------------------------------------------------------------- */
+/* A main column and a side column (320-360 px) from 1000 px; stacked on a phone. */
+.sf-split {
+  display: grid;
+  gap: var(--space-8);
+  align-items: start;
+  min-width: 0;
+}
+@media (min-width: 1000px) {
+  .sf-split {
+    grid-template-columns: minmax(0, 1fr) var(--sf-side, 340px);
+  }
+}
+.sf-col {
+  display: grid;
+  align-content: start;
+  gap: var(--space-8);
+  min-width: 0;
+}
+.sf-sec {
+  display: grid;
+  align-content: start;
+  gap: var(--space-3);
+  min-width: 0;
+}
+.sf-sec__head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-1) var(--space-3);
+}
+.sf-hint {
+  margin: 0;
+  color: var(--muted);
+  font-size: var(--text-xs);
+}
+.sf-text {
+  max-width: 640px;
+  margin: 0;
+}
+.sf-muted {
+  margin: 0;
+  color: var(--muted);
+  font-size: var(--text-sm);
+}
+.sf-tile {
+  display: grid;
+  align-content: start;
+  gap: var(--space-3);
+  min-width: 0;
+}
+.sf-note {
+  margin: 0;
+  padding: var(--space-3) 14px;
+  background: var(--sunk);
+  color: var(--muted);
+  font-size: var(--text-sm);
+}
+.sf-link {
+  display: inline-flex;
+  align-items: center;
+  justify-self: start;
+  min-height: var(--tap-min);
+  color: var(--accent);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-bold);
+  text-decoration: none;
+}
+.sf-linkbtn {
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+  font-family: inherit;
+}
+.sf-link:hover {
+  text-decoration: underline;
+}
+.sf-link--quiet {
+  color: var(--muted);
+  font-weight: var(--weight-regular);
+}
+/* A list of rows: tonal fill, 4 px apart (no borders). */
+.sf-rows {
+  display: grid;
+  gap: var(--space-1);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.sf-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2) var(--space-4);
+  min-height: var(--tap-min);
+  padding: 14px var(--space-4);
+  background: var(--surface);
+}
+.sf-row--gold {
+  background: var(--accent-soft);
+}
+.sf-row--coral {
+  background: var(--bad-soft);
+}
+.sf-row--later {
+  opacity: 0.75;
+}
+.sf-row__main {
+  display: grid;
+  flex: 1;
+  gap: 2px;
+  min-width: 0;
+}
+.sf-row__end {
+  display: grid;
+  justify-items: end;
+  gap: 2px;
+  text-align: right;
+}
+.sf-grow {
+  flex: 1;
+  min-width: 0;
+}
+.sf-strong {
+  font-weight: var(--weight-bold);
+}
+.sf-small {
+  font-size: var(--text-sm);
+}
+.sf-xs {
+  font-size: var(--text-xs);
+}
+.sf-n {
+  display: inline-grid;
+  flex: none;
+  place-items: center;
+  min-width: 24px;
+  padding: 1px 6px;
+  border-radius: 2px;
+  background: var(--sunk);
+  color: var(--muted);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-bold);
+}
+.sf-n--gold {
+  background: var(--accent);
+  color: var(--on-accent);
+}
+/* Hairline lists: rows divided by a 1 px line. */
+.sf-hair {
+  display: grid;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.sf-hair > * + * {
+  box-shadow: 0 -1px 0 var(--line);
+}
+.sf-hair__row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  padding: 10px 0;
+  font-size: var(--text-sm);
+}
+.sf-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2) var(--space-6);
+  margin: 0;
+  color: var(--muted);
+  font-size: var(--text-xs);
+}
+.sf-legend > span {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+.sf-swatch {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+}
+
+.sf-plain {
+  display: grid;
+  gap: var(--space-1);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.sf-plain > li {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-4);
+  background: var(--surface);
+  font-size: var(--text-sm);
+}
+
+/* The folded steps on a full page. */
+.sf-fold > summary {
+  display: flex;
+  align-items: center;
+  min-height: var(--tap-min);
+  cursor: pointer;
+}
+.sf-fold > summary::after {
+  content: "+";
+  margin-left: var(--space-2);
+}
+.sf-fold[open] > summary::after {
+  content: "\2212";
+}
+
+/* The thin page (SimplePage.tsx): what it is, the steps, what ActiveOn checks. */
+.sf-steps .goals {
+  display: grid;
+  gap: var(--space-1);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  counter-reset: sf-step;
+}
+.sf-steps .goals > li {
+  position: relative;
+  padding: var(--space-3) var(--space-4) var(--space-3) 52px;
+  background: var(--surface);
+  counter-increment: sf-step;
+}
+.sf-steps .goals > li::before {
+  content: counter(sf-step);
+  position: absolute;
+  top: 14px;
+  left: var(--space-4);
+  display: grid;
+  place-items: center;
+  width: 24px;
+  padding: 1px 0;
+  border-radius: 2px;
+  background: var(--sunk);
+  color: var(--muted);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-bold);
+}
+.sf-steps .goals > li:first-child::before {
+  background: var(--accent);
+  color: var(--on-accent);
+}
+.sf-steps--quiet .goals > li:first-child::before {
+  background: var(--sunk);
+  color: var(--muted);
+}
+@media (max-width: 719.98px) {
+  .sf {
+    gap: var(--space-6);
+  }
+  .sf-answer {
+    flex-direction: column;
+    align-items: stretch;
+    gap: var(--space-4);
+  }
+  .sf-big {
+    justify-items: start;
+    width: auto;
+    text-align: left;
+  }
+  .sf-hero {
+    font-size: var(--text-xl);
+  }
+  .sf-row__end {
+    justify-items: start;
+    text-align: left;
+  }
+}

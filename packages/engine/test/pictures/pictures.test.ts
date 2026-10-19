@@ -12,6 +12,7 @@ import type { EngineModule } from '../../src/core/module';
 import { goldenResult } from '../../src/golden';
 import { EMPTY_PREFS } from '../../src/now/prefs';
 import { buildSystemsView } from '../../src/now/systems-view';
+import { buildAnvilPageView } from '../../src/pictures/anvil-view';
 import { buildSystemsHubView } from '../../src/pictures/hub-view';
 import { buildSystemPageFrameView } from '../../src/pictures/page-view';
 import type { PrinterPicture, StampsPicture, StatuesPicture, VaultPicture } from '../../src/pictures/types';
@@ -169,5 +170,85 @@ describe('US-11 the Stage report card (FR-S1)', () => {
     expect(page?.stageMeter?.text).toBe('Expected by World 1, mid · you are at World 3, early');
     const vault = buildSystemPageFrameView(W3, EMPTY_PREFS, { roster: [] }, { ...ui, id: 'upgrade-vault' });
     expect(vault?.pictures.map((p) => p.kind)).toEqual(['vault']);
+  });
+});
+
+describe('M24 the Systems index, the page template and the Anvil page', () => {
+  const now = fixture('scrubbed-w3').now;
+  const v = buildSystemsHubView(W3, EMPTY_PREFS, { now }, buildSystemsView(W3, EMPTY_PREFS, { now }));
+  const ix = v.index;
+  const tiles = ix.worlds.flatMap((w) => w.tiles);
+  it('the summary and filter counts agree with the tiles; Locked and not covered are apart', () => {
+    expect(ix.summary).toMatch(/^\d+ Systems · \d+ wasting · \d+ behind for World 3/);
+    expect(ix.counts.needs).toBe(tiles.filter((t) => t.needsYou).length);
+    expect(ix.counts.notCovered).toBe(tiles.filter((t) => t.status === 'not-covered').length);
+    expect(ix.counts.locked).toBe(tiles.filter((t) => t.status === 'locked').length);
+    for (const t of tiles.filter((x) => x.status === 'locked')) expect(t.sub).toBe('locked');
+    for (const t of tiles.filter((x) => x.status === 'not-covered')) expect(t.sub).toBe('not covered yet');
+  });
+  it('every wasting System leads with its first step; every behind row has its next step', () => {
+    expect(ix.wasting.map((w) => w.id)).toEqual(v.wastingNow.map((w) => w.id));
+    for (const w of ix.wasting) expect(w.step?.text).toBeTruthy();
+    expect(ix.behindTitle).toBe('Behind for World 3');
+    for (const b of ix.behind) expect(b.by).toMatch(/^usually done by World \d/);
+    expect(ix.behind.filter((b) => b.step).length).toBe(ix.behind.length);
+  });
+  it('a locked world says how it opens', () => {
+    for (const w of ix.worlds)
+      if (w.tiles.length && w.tiles.every((t) => t.status === 'locked')) expect(w.how).toBeTruthy();
+  });
+  it('the frame: back link, status word, the answer from the first step, the checks line', () => {
+    const page = buildSystemPageFrameView(
+      W3,
+      EMPTY_PREFS,
+      { roster: [] },
+      { now, id: 'cards', highlight: null },
+    );
+    expect(page?.frame.back).toBe('Systems · Across worlds');
+    expect(page?.frame.status.word).toBe('Behind for World 3');
+    expect(page?.frame.status.reason).not.toMatch(/Behind for your Stage/);
+    expect(page?.frame.answer.hero).toBe(page?.goals[0]?.action.text);
+    expect(page?.frame.checksLine).toMatch(/^Checks: /);
+    // Steps name class and level, never a character's name.
+    for (const st of page?.frame.steps ?? []) if (st.who) expect(st.who).toMatch(/^[A-Z][a-z ]+ \d+$/);
+    const eq = buildSystemPageFrameView(
+      W3,
+      EMPTY_PREFS,
+      { roster: [] },
+      { now, id: 'equinox', highlight: null },
+    );
+    expect(eq?.frame.answer).toMatchObject({ tone: 'mut', hero: "ActiveOn doesn't check Equinox yet" });
+  });
+  it('the Anvil page: the Bowman Lv 60 puts its 3 spare points into Speed; splits by work', () => {
+    const { state } = fixture('scrubbed-w3');
+    const a = buildAnvilPageView(state, W3, 8);
+    expect(a?.hero?.hero).toBe("Put Bowman 60's 3 spare anvil points into Speed");
+    expect(a?.rows.find((r) => r.spare > 0)?.todo).toBe('Add all 3 to Speed');
+    // Products slowest last, each with its work per item (Toolbox requiredAmount).
+    const works = a?.products.map((p) => p.work) ?? [];
+    expect([...works].sort((x, y) => x - y)).toEqual(works);
+    expect(a?.products[0]).toMatchObject({ name: 'Thread', work: 100 });
+    // No character clears the respec Goal's 25% at 8 h, so no Whetstone order.
+    expect(a?.whetstone).toEqual([]);
+  });
+  it('World 4 read-only pages (isWorld4ReadOnly): a sky "read-only" tile and header, no answer of its own', () => {
+    const W4 = ['lab', 'cooking', 'breeding'];
+    const r = {
+      ...W3,
+      systems: (W3.systems ?? []).map((x) => (W4.includes(x.id) ? { ...x, unlocked: 'yes' as const } : x)),
+      world4: { ...(W3.world4 ?? {}), readOnlyPages: W4 },
+    } as EngineResult;
+    const h = buildSystemsHubView(r, EMPTY_PREFS, { now }, buildSystemsView(r, EMPTY_PREFS, { now })).index;
+    const lab = h.worlds.flatMap((w) => w.tiles).find((t) => t.id === 'lab');
+    expect(lab).toMatchObject({ readOnly: true, tone: 'readonly', sub: 'read-only' });
+    expect(h.counts.notCovered).toBe(ix.counts.notCovered);
+    const page = buildSystemPageFrameView(
+      r,
+      EMPTY_PREFS,
+      { roster: [] },
+      { now, id: 'lab', highlight: null },
+    );
+    expect(page?.frame.readOnly).toBe(true);
+    expect(page?.frame.status).toEqual({ tone: 'sky', word: 'Read-only', reason: 'no checks yet' });
   });
 });

@@ -19,7 +19,8 @@ import {
 } from '@idleon-forge/engine/now';
 import { STAGE_DEFINITIONS, STAGES, type StageId } from '@idleon-forge/knowledge/stages';
 import type { ClassFamily, EngineResult, Goal, SystemPicture } from '../result';
-import { BAND_WORDS, REPORT_WORDS } from './words';
+import { isWorld4ReadOnly } from '../world4';
+import { BAND_WORDS, INDEX_WORDS, REPORT_WORDS } from './words';
 
 const NEW_KINDS: ReadonlySet<string> = new Set(['stamps', 'statues', 'vault', 'printer']);
 
@@ -141,6 +142,45 @@ export interface SystemsHubExtras {
   bands: Record<number, { needYou: string | null; notCovered: string | null }>;
   /** M21 TR-14: area S's new pictures (US-12), worded by the `## Systems` golden renderer only. */
   pictures: SystemPicture[];
+  /** M24: the Systems index (hero, behind list, filtered grid). */
+  index: SystemsIndexView;
+}
+
+/** M24: how a tile reads on the index: its pip tone and its open count. */
+export type IndexTone = 'wasting' | 'todo' | 'ok' | 'off' | 'readonly';
+export interface IndexTileView {
+  id: string;
+  name: string;
+  status: TileView['status'];
+  tone: IndexTone;
+  /** Open items (to fix + to do); null when none. */
+  count: number | null;
+  /** "not covered yet", "locked" or "can't tell" under the name; null otherwise. */
+  sub: string | null;
+  accessibleName: string;
+  /** M24 filters: wasting or behind. */
+  needsYou: boolean;
+  /** A read-only World 4 page (`isWorld4ReadOnly`): a page to open, not "not covered yet". */
+  readOnly: boolean;
+}
+export interface SystemsIndexView {
+  /** "57 Systems · 2 wasting · 5 behind for World 3 · 11 not covered yet · 3 locked". */
+  summary: string;
+  /** The wasting Systems with their first open step, for the hero. */
+  wasting: { id: string; name: string; step: SystemStepView | null; sub: string }[];
+  /** "Behind for World 3"; null when the Stage is unknown. */
+  behindTitle: string | null;
+  /** The behind rows (gap largest first, at most 5), each with its next step. */
+  behind: { id: string; name: string; by: string | null; step: SystemStepView | null }[];
+  counts: { needs: number; all: number; notCovered: number; locked: number };
+  worlds: {
+    world: number;
+    heading: string;
+    sub: string;
+    /** How a world whose Systems are all locked opens (its unlock fact), or null. */
+    how: string | null;
+    tiles: IndexTileView[];
+  }[];
 }
 
 const STAGE_SHORT = (id: StageId): string | null =>
@@ -176,7 +216,7 @@ function hubExtras(
   prefs: Prefs,
   facts: Map<string, SystemFacts>,
   tiles: readonly TileView[],
-  groups: readonly { world: number; tiles: TileView[] }[],
+  groups: readonly { world: number; heading: string; tiles: TileView[] }[],
 ): SystemsHubExtras {
   const wastingNow = groups
     .flatMap((g) => g.tiles)
@@ -191,12 +231,124 @@ function hubExtras(
       notCovered: nc ? BAND_WORDS.notCovered(nc) : null,
     };
   }
+  const report = reportOf(result, prefs, facts, tiles.length);
   return {
     wastingNow,
     wastingLabel: wastingNow.length ? REPORT_WORDS.wasting(wastingNow.length) : null,
-    report: reportOf(result, prefs, facts, tiles.length),
+    report,
     bands,
     pictures: (result.slotPictures ?? []).filter((p) => NEW_KINDS.has(p.kind)),
+    index: indexOf(result, prefs, facts, tiles, groups, report),
+  };
+}
+
+const toneOf = (t: TileView): IndexTone =>
+  t.status === 'wasting'
+    ? 'wasting'
+    : t.status === 'behind' || (t.status === 'ok' && (t.counts.toDo ?? 0) > 0)
+      ? 'todo'
+      : t.status === 'ok'
+        ? 'ok'
+        : 'off';
+
+/** M24: the Systems index, from the same tiles and report as the M21 hub. */
+function indexOf(
+  result: EngineResult,
+  prefs: Prefs,
+  facts: Map<string, SystemFacts>,
+  tiles: readonly TileView[],
+  groups: readonly { world: number; heading: string; tiles: TileView[] }[],
+  report: StageReportView | null,
+): SystemsIndexView {
+  const stage = result.stage.id;
+  const world = isStage(stage) ? `World ${stage.slice(1, 2)}` : null;
+  const n = (f: (t: TileView) => boolean) => tiles.filter(f).length;
+  const wastingN = n((t) => t.status === 'wasting');
+  const behindN = n((t) => t.status === 'behind');
+  const readOnly = (t: TileView) => isWorld4ReadOnly(result, t.id);
+  const notCoveredN = n((t) => t.status === 'not-covered' && !readOnly(t));
+  const lockedN = n((t) => t.status === 'locked');
+  const summary = [
+    INDEX_WORDS.systems(tiles.length),
+    wastingN ? INDEX_WORDS.wasting(wastingN) : null,
+    behindN && world ? INDEX_WORDS.behindFor(behindN, world) : null,
+    notCoveredN ? INDEX_WORDS.notCovered(notCoveredN) : null,
+    lockedN ? INDEX_WORDS.locked(lockedN) : null,
+  ]
+    .filter(Boolean)
+    .join(' · ');
+  const reasonText = (t: TileView) => {
+    const parts = t.reason[0]?.text === t.statusWord.text ? t.reason.slice(2) : t.reason;
+    return parts.map((p) => p.text).join('');
+  };
+  const wasting = groups
+    .flatMap((g) => g.tiles)
+    .filter((t) => t.status === 'wasting')
+    .map((t) => ({
+      id: t.id,
+      name: t.name,
+      step: firstStep(result, prefs, facts.get(t.id)?.goals ?? []),
+      sub: [t.name, reasonText(t)].filter(Boolean).join(' · '),
+    }));
+  const behind = (report?.rows ?? []).map((r) => {
+    const goals = facts.get(r.id)?.goals ?? [];
+    const keys = new Set(
+      (result.behindSystems ?? []).filter((b) => b.systemId === r.id).flatMap((b) => b.findingKeys),
+    );
+    return {
+      id: r.id,
+      name: r.name,
+      by: r.expectedBy ? INDEX_WORDS.usuallyBy(stageLabel(r.expectedBy)) : null,
+      step:
+        firstStep(
+          result,
+          prefs,
+          goals.filter((g) => keys.has(g.goal.nextAction.key)),
+        ) ?? firstStep(result, prefs, goals),
+    };
+  });
+  const tileView = (t: TileView): IndexTileView => {
+    const open = t.counts.toFix + (t.counts.toDo ?? 0);
+    const ro = readOnly(t) && t.status === 'not-covered';
+    return {
+      id: t.id,
+      name: t.name,
+      status: t.status,
+      tone: ro ? 'readonly' : toneOf(t),
+      count: open > 0 ? open : null,
+      sub: ro ? INDEX_WORDS.readOnly : (INDEX_WORDS.tileSub[t.status] ?? null),
+      accessibleName: ro ? `${t.name}, ${INDEX_WORDS.readOnlyName}` : t.accessibleName,
+      needsYou: t.status === 'wasting' || t.status === 'behind',
+      readOnly: ro,
+    };
+  };
+  const worlds = groups.map((g) => {
+    const locked = g.tiles.filter((t) => t.status === 'locked');
+    const allLocked = locked.length > 0 && locked.length === g.tiles.length;
+    const unlock = allLocked
+      ? result.systems?.find((s) => s.id === locked[0]?.id && s.unlockBy === 'world')?.unlock
+      : null;
+    return {
+      world: g.world,
+      heading: g.heading,
+      sub: INDEX_WORDS.worldSub(
+        g.tiles.length,
+        g.tiles.filter((t) => t.status === 'wasting' || t.status === 'behind').length,
+        g.tiles.filter((t) => t.status === 'not-covered' && !readOnly(t)).length,
+        locked.length,
+        g.tiles.filter((t) => t.status === 'not-covered' && readOnly(t)).length,
+      ),
+      how: unlock?.text ?? null,
+      tiles: g.tiles.map(tileView),
+    };
+  });
+  return {
+    summary,
+    wasting,
+    behindTitle: world ? INDEX_WORDS.behindTitle(world) : null,
+    behind,
+    counts: { needs: wastingN + behindN, all: tiles.length, notCovered: notCoveredN, locked: lockedN },
+    worlds,
   };
 }
 
