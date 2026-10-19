@@ -58,7 +58,7 @@ const preset = (slot: 0 | 1, over: Partial<BuildPresetView>): BuildPresetView =>
           note: null,
         },
       ],
-      others: [{ label: 'Gilded Sword', level: 5 }],
+      others: [{ id: 11, label: 'Gilded Sword', level: 5 }],
     },
   ],
   attackBar: null,
@@ -375,7 +375,12 @@ describe('Build view', () => {
   });
 
   it('an end-game character with no Build still shows its talent tabs and levels (M24 QA P1-9)', () => {
-    const tab = (t: number, name: string, spent: number, others: { label: string; level: number }[]) => ({
+    const tab = (
+      t: number,
+      name: string,
+      spent: number,
+      others: { id: number; label: string; level: number }[],
+    ) => ({
       tab: t,
       name,
       spent,
@@ -403,10 +408,10 @@ describe('Build view', () => {
           heading: 'Current preset',
           tabs: [
             tab(1, 'Calm Basics', 1146, [
-              { label: 'Quickness Boots', level: 820 },
-              { label: 'Featherweight', level: 326 },
+              { id: 1, label: 'Quickness Boots', level: 820 },
+              { id: 2, label: 'Featherweight', level: 326 },
             ]),
-            tab(2, 'Archer', 208, [{ label: 'Some Archer Talent', level: 208 }]),
+            tab(2, 'Archer', 208, [{ id: 3, label: 'Some Archer Talent', level: 208 }]),
           ],
         }),
       ],
@@ -429,7 +434,12 @@ describe('Build view', () => {
       within(book)
         .getAllByRole('listitem')
         .map((li) => li.textContent),
-    ).toEqual(['QBQuickness BootsLevel 820', 'FEFeatherweightLevel 326']);
+    ).toEqual(['Quickness BootsLevel 820', 'FeatherweightLevel 326']);
+    // Each talent wears its game sprite (ADR 0009, 2026-10-19), by its skillIndex.
+    expect([...book.querySelectorAll('img')].map((i) => i.getAttribute('src'))).toEqual([
+      '/game-art/talents/1.png',
+      '/game-art/talents/2.png',
+    ]);
     fireEvent.click(within(tabs).getByRole('button', { name: /Archer/ }));
     expect(
       within(screen.getByRole('list', { name: 'Archer tab talents' })).getByText('Some Archer Talent'),

@@ -151,6 +151,8 @@ export interface WalkthroughTreeLine {
   text: string;
   /** true: held or met; false: missing or unmet; null: can't tell. */
   done: boolean | null;
+  /** An item line's rawName (its game sprite, ADR 0009 as amended 2026-10-19); absent on gates. */
+  item?: string;
 }
 /**
  * M14 TR-6, M18 X3: an inline Requirement Tree root a module hands M14 instead of an Acquisition id: a
@@ -451,7 +453,8 @@ export interface BuildTabView {
   /** The Build's talents, in its step order. Empty when no Build covers this tab. */
   rows: BuildTalentRow[];
   /** Talents with points the Build doesn't name, most first. */
-  others: { label: string; level: number }[];
+  /** `id` is the talent's skillIndex (its game sprite, ADR 0009 as amended 2026-10-19). */
+  others: { id: number; label: string; level: number }[];
   /**
    * M21 FR-C2: the points this tab's path can spend now. `lower-bound` (tabs 1–3, M9 TR-7), `exact`
    * (the star tab, FR-C10) or `none`. `overBy` is set only on an over-budget star tab. Declared by

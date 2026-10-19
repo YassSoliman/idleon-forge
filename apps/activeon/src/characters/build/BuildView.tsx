@@ -18,6 +18,8 @@ import { asOfLine, CHARACTERS_WORDS, leadTab, pathMarker } from '@idleon-forge/e
 import type { BuildRoadmapView } from '@idleon-forge/engine/now';
 import type { BuildPathStepView, BuildPresetView, BuildTabView } from '@idleon-forge/engine/result';
 import { createContext, type ReactNode, useContext, useMemo, useState } from 'react';
+import { GameIcon } from '../../art/game/GameIcon';
+import { talentArt } from '../../art/game/game-art';
 import { spriteOf } from '../../art/sprites';
 import { Sprite } from '../../art/sprites/Sprite';
 import { PixelArt } from '../../design/art/PixelArt';
@@ -97,7 +99,10 @@ const isCovered = (s: BuildPathStepView) => s.band === 'now' || s.band === 'part
 const roleWord = (p: BuildPresetView) =>
   p.role ? `${p.role.charAt(0).toUpperCase()}${p.role.slice(1)}` : null;
 
-/** "Eagle Eye" -> "EE"; "360 Noscope" -> "36"; "Stonks!" -> "ST". The book's monogram (no game sprites). */
+/**
+ * "Eagle Eye" -> "EE"; "360 Noscope" -> "36"; "Stonks!" -> "ST". The book's monogram: drawn where a
+ * talent has no game sprite (TalentFace), and in the attack bar, which holds names only.
+ */
 export function monogram(label: string): string {
   const words = label
     .replace(/[^\p{L}\p{N} ]/gu, ' ')
@@ -106,6 +111,11 @@ export function monogram(label: string): string {
   const [a = '', b = ''] = words;
   if (/^\d/.test(a)) return a.slice(0, 2);
   return (b ? `${a[0] ?? ''}${b[0] ?? ''}` : a.slice(0, 2)).toUpperCase();
+}
+
+/** A talent's face on its tone tile: the game's sprite (ADR 0009, 2026-10-19), else its monogram. */
+function TalentFace({ id, label }: { id: number | null; label: string }) {
+  return <GameIcon art={talentArt(id)} fallback={<>{monogram(label)}</>} size={32} decorative />;
 }
 
 // ---------- small drawings ----------
@@ -265,6 +275,8 @@ function PresetPanel({
 
 interface BookItem {
   key: string;
+  /** The talent's skillIndex (its sprite); null when only its name is known. */
+  id: number | null;
   label: string;
   /** The ladder row this talent first needs (1-based); null when not in this Build. */
   order: number | null;
@@ -282,6 +294,7 @@ function bookOf(tab: BuildTabView, other: BuildTabView | null): BookItem[] {
     if (had && had.k !== 'done') return;
     seen.set(s.talentId, {
       key: s.key,
+      id: s.talentId,
       label: s.label,
       order: i + 1,
       step: s,
@@ -295,12 +308,28 @@ function bookOf(tab: BuildTabView, other: BuildTabView | null): BookItem[] {
   for (const s of other?.path ?? [])
     if (!named.has(s.label)) {
       named.add(s.label);
-      out.push({ key: `o-${s.key}`, label: s.label, order: null, step: null, k: 'out', level: null });
+      out.push({
+        key: `o-${s.key}`,
+        id: s.talentId,
+        label: s.label,
+        order: null,
+        step: null,
+        k: 'out',
+        level: null,
+      });
     }
   for (const o of tab.others)
     if (!named.has(o.label)) {
       named.add(o.label);
-      out.push({ key: `x-${o.label}`, label: o.label, order: null, step: null, k: 'out', level: o.level });
+      out.push({
+        key: `x-${o.label}`,
+        id: o.id,
+        label: o.label,
+        order: null,
+        step: null,
+        k: 'out',
+        level: o.level,
+      });
     }
   return [...items, ...out];
 }
@@ -333,7 +362,7 @@ function Book({
           <>
             {b.k !== 'out' && b.k !== 'done' ? <Order k={b.k} num={b.order} /> : null}
             <span className="bd-mono" data-k={b.k} aria-hidden="true">
-              {monogram(b.label)}
+              <TalentFace id={b.id} label={b.label} />
             </span>
             <span className="bd-tal-name">{b.label}</span>
             <span className="bd-tal-lv num" data-k={b.k}>
@@ -398,7 +427,7 @@ function SidePanel({ tab, stepKey }: { tab: BuildTabView; stepKey: string | null
       <h3 className="a-cap bd-cap">{B.selected}</h3>
       <div className="bd-sel-id">
         <span className="bd-mono bd-mono--big" data-k={stepKind(s)} aria-hidden="true">
-          {monogram(s.label)}
+          <TalentFace id={s.talentId} label={s.label} />
         </span>
         <span className="bd-sel-t">
           <b>{s.label}</b>
@@ -549,7 +578,7 @@ export function Ladder({ tab, preset, id }: { tab: BuildTabView; preset: string;
       <li key={s.key} className="bd-step bv-ps" data-band={s.band}>
         <Order k={stepKind(s)} num={i + 1} />
         <span className="bd-mono" data-k={stepKind(s)} aria-hidden="true">
-          {monogram(s.label)}
+          <TalentFace id={s.talentId} label={s.label} />
         </span>
         <span className="bd-step-main">
           <span className="bd-step-name bv-ps-name">{s.label}</span>
@@ -843,7 +872,7 @@ function PlainBuild({ r }: { r: BuildRoadmapView }) {
                     <li key={o.label} className="bd-tal" data-k="plain">
                       <span className="bd-tal-btn">
                         <span className="bd-mono" data-k="plain" aria-hidden="true">
-                          {monogram(o.label)}
+                          <TalentFace id={o.id} label={o.label} />
                         </span>
                         <span className="bd-tal-name">{o.label}</span>
                         <span className="bd-tal-lv num" data-k="plain">

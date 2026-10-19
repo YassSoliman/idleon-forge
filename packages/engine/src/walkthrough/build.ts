@@ -128,6 +128,7 @@ function treeLines(node: ReqNode, out: WalkthroughTreeLine[] = []): WalkthroughT
       depth: node.depth,
       text: `${node.need.toLocaleString('en-US')} ${node.name} (${held} held${worn}${node.stoppedBecause === 'cycle' ? "; can't expand this (recipe loop)" : ''})`,
       done: node.unknown ? null : node.missing === 0,
+      item: node.rawName,
     });
   } else
     out.push({

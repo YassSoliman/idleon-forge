@@ -367,7 +367,7 @@ export function starTab(
     others: p.star
       .filter((x) => x.base > 0 && !named.has(x.id))
       .sort((a, c) => c.base - a.base || a.id - c.id)
-      .map((x) => ({ label: talentLabel(kb.talents.nameOf(x.id) ?? String(x.id)), level: x.base })),
+      .map((x) => ({ id: x.id, label: talentLabel(kb.talents.nameOf(x.id) ?? String(x.id)), level: x.base })),
     known,
     path,
   };

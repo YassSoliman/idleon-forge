@@ -8,6 +8,8 @@
 // (TR-13); indentation is a class per depth, never an inline style (CSP).
 import { CARD_WORDS, type GoalView } from '@idleon-forge/engine/now';
 import { type CSSProperties, useState } from 'react';
+import { GameIcon } from '../../art/game/GameIcon';
+import { itemArt } from '../../art/game/game-art';
 import { PixelArt } from '../../design/art/PixelArt';
 import { cx } from '../../design/atoms/Button';
 import { Meter } from '../../design/atoms/Meter';
@@ -105,6 +107,7 @@ export function WalkthroughSteps({ view }: { view: View }) {
             // biome-ignore lint/suspicious/noArrayIndexKey: tree lines are positional and never reorder.
             <li key={i} className="wt-missing">
               <PixelArt name="cards-req-missing" decorative />
+              {t.item ? <GameIcon art={itemArt(t.item)} size={24} decorative /> : null}
               <span>{t.text}</span>
             </li>
           ))}
@@ -143,6 +146,7 @@ export function WalkthroughSteps({ view }: { view: View }) {
                 }
                 decorative
               />
+              {t.item ? <GameIcon art={itemArt(t.item)} size={24} decorative /> : null}
               <span className="sr-only">
                 {t.done === true ? 'Done: ' : t.done === false ? 'Missing: ' : ''}
               </span>

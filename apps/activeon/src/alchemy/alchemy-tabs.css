@@ -64,3 +64,8 @@
     display: none;
   }
 }
+/* A bubble's own sprite beside its name (ADR 0009, 2026-10-19): a tight pair, never wrapping apart. */
+.al2-bub {
+  flex-wrap: nowrap;
+  gap: var(--space-2);
+}

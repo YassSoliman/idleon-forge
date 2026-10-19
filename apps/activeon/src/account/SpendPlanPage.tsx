@@ -6,6 +6,7 @@
 // in storage, the lines without a price, and what the plan leaves out. Each character pays from its own
 // pocket (M7 D1). It only lays out the Now view's Spend Plan and M7's plan; no advice of its own.
 import { useMemo, useState } from 'react';
+import { GameIcon } from '../art/game/GameIcon';
 import { Sprite } from '../art/sprites/Sprite';
 import { SourceLabel } from '../design/atoms';
 import { cx } from '../design/atoms/Button';
@@ -34,6 +35,7 @@ function TopLine({ l, first }: { l: SpendPageLine; first: boolean }) {
           {l.n}
         </span>
         <Who l={l} scale={2} />
+        {l.art ? <GameIcon art={l.art} size={32} decorative /> : null}
         <span className="ac-sl__t">
           <b>{l.text}</b>
           <span className="ac-sub">{[l.who, l.where].filter(Boolean).join(' · ')}</span>

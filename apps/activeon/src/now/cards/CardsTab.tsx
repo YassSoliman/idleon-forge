@@ -8,6 +8,8 @@
 import type { CardsNowView, CharacterCardsView } from '@idleon-forge/engine/now';
 import type { CardChip, CardSetProgress, GrindItem, PresetRecommendation } from '@idleon-forge/engine/result';
 import { useState } from 'react';
+import { GameIcon } from '../../art/game/GameIcon';
+import { cardArt } from '../../art/game/game-art';
 import { Sprite } from '../../art/sprites/Sprite';
 import { Answer, TabSource } from '../../characters/tabs/kit';
 import { Meter, Pip, Sheet } from '../../design/atoms';
@@ -33,7 +35,7 @@ function CardTile({ card, out }: { card: CardChip | null; out?: boolean }) {
   return (
     <span className="ct-card" data-out={out ? 'yes' : 'no'}>
       <span className="ct-card__art">
-        <Sprite name="item-card-frame" size={48} decorative />
+        <GameIcon art={cardArt(card?.rawName)} fallback="item-card-frame" size={48} decorative />
       </span>
       <span className="ct-card__name">{card ? card.name : 'Empty slot'}</span>
       {card ? <span className="tb-xs">{out ? `gives ${card.effect}` : starsOf(card)}</span> : null}
@@ -141,7 +143,7 @@ function Presets({
                         data-swap={swapHere && out.has(s.rawName) ? 'yes' : 'no'}
                         onClick={() => onOpen(s)}
                       >
-                        <Sprite name="item-card-frame" size={32} decorative />
+                        <GameIcon art={cardArt(s.rawName)} fallback="item-card-frame" size={32} decorative />
                         <span className="ct-chip__words">
                           <span className="ct-chip__name">{s.name}</span>
                           <span className="tb-xs">
@@ -196,7 +198,7 @@ function GrindRow({ g }: { g: GrindItem }) {
       <th scope="row">
         <span className="ct-g-card">
           <span className="tb-ic" data-tone={who ? 'gold' : 'plain'}>
-            <Sprite name="item-card-frame" size={32} decorative />
+            <GameIcon art={cardArt(g.rawName)} fallback="item-card-frame" size={32} decorative />
           </span>
           <span className="ct-g-words">
             <b>{g.name}</b>

@@ -10,6 +10,8 @@ import { formatCoins } from '@idleon-forge/engine/now';
 import type { AlchemyResult, EngineResult, P2wCell, PotView } from '@idleon-forge/engine/result';
 import { buildSystemPageFrameView, type FrameTone } from '@idleon-forge/engine/systems-ui';
 import { useMemo } from 'react';
+import { GameIcon } from '../art/game/GameIcon';
+import { bubbleArt } from '../art/game/game-art';
 import { Sprite } from '../art/sprites/Sprite';
 import { toNowPrefs } from '../now/prefs-store';
 import type { FullPageProps, SystemPageBodyProps } from '../systems/pages';
@@ -190,6 +192,7 @@ function Cauldrons({ p, a }: { p: SystemPageBodyProps; a: AlchemyResult }) {
                 {first.rows.map((r, i) => (
                   <li key={r.rawName} className="w-li">
                     <Tag tone={i === 0 && r.atLeast > 0 ? 'gold' : undefined}>{i + 1}</Tag>
+                    <GameIcon art={bubbleArt(r.rawName)} fallback="item-bubble" size={24} decorative />
                     <span className="w-grow w-b">{r.name}</span>
                     <span className={`w-sm${r.atLeast > 0 ? ' w-t--gold' : ' w-mut'}`}>
                       {r.atLeast > 0
@@ -286,7 +289,10 @@ function Bubbles({ a }: { a: AlchemyResult }) {
                   return (
                     <li key={c.rawName} className="w-stack w-stack--4">
                       <span className="w-row w-row--between w-sm">
-                        <span className="w-b">{c.name}</span>
+                        <span className="w-row al2-bub">
+                          <GameIcon art={bubbleArt(c.rawName)} fallback="item-bubble" size={24} decorative />
+                          <span className="w-b">{c.name}</span>
+                        </span>
                         <span className={goal ? 'w-t--gold w-b' : 'w-mut'}>
                           {goal ? `${c.level} → ${goal}` : `Lv ${c.level}`}
                         </span>
