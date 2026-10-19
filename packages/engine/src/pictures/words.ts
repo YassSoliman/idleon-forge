@@ -31,7 +31,7 @@ export const FRAME_WORDS = {
   nextStep: 'Next step',
   forStage: 'For your Stage',
   stageMeter: (expected: string, here: string) => `Expected by ${expected} · you are at ${here}`,
-  inOrder: (n: number) => `In order: the next ${n} ${n === 1 ? 'step' : 'steps'}`,
+  inOrder: (n: number) => (n === 1 ? 'Next step' : `In order: the next ${n} steps`),
   showAll: (n: number) => `Show all ${n}`,
   tapHint: 'Tap any part for its value, cost and Source.',
   value: 'Now',

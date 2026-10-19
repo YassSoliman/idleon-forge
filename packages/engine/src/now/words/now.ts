@@ -173,6 +173,14 @@ export const ACCOUNT_WORDS = {
   notCovered: 'Not covered yet',
   notCoveredLine: "ActiveOn has no advice for these yet. They never change whether it's safe to log off.",
   unknownSafety: "Can't tell from the save",
+  /** R12 QA: the desktop side column's glance (the canvas): counts, the Daily bar, Next up, the fixes. */
+  fixWord: (count: number) => (count === 1 ? 'fix' : 'fixes'),
+  goalWord: (count: number) => (count === 1 ? 'Goal' : 'Goals'),
+  daily: 'Daily',
+  dailyLine: (done: number, total: number, reset: string) => `${done} of ${total} · ${reset}`,
+  leaveTitle: 'Characters to fix',
+  nextUp: 'Up next',
+  leaveMore: (count: number) => `and ${count} more`,
 } as const;
 
 /** The flows (FR-N11): waiting, empty, broken, sign-in, paste, footer, clear my data, toasts. */
