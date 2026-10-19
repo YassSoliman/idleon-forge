@@ -133,3 +133,11 @@
 .vt-none {
   margin: 0;
 }
+/* M25: the item's game sprite in a fixed 32 px box, so a row never moves while it loads. */
+.vt-ic {
+  flex: none;
+  width: 32px;
+  height: 32px;
+  display: grid;
+  place-items: center;
+}

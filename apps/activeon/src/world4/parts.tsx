@@ -1,9 +1,13 @@
 // SPDX-License-Identifier: GPL-3.0-only
 // Copyright (C) 2026 IdleOn Forge contributors.
 // M24 World 4: the pieces the three read-only pages share (the framed answer, a numbered row list, a
-// tag, the class sprite of a character, the Source line). Every word comes from EngineResult.world4.
+// tag, the class icon of a character, the Source line). Every word comes from EngineResult.world4.
+// M25: game sprites (class icons, and a row's own sprite via `art`), our kit as the fallback.
 import type { W4Frame, W4Row, W4Tone, World4Source } from '@idleon-forge/engine/world4';
 import type { ReactNode } from 'react';
+import { GameIcon } from '../art/game/GameIcon';
+import type { GameArt } from '../art/game/game-art';
+import { classArtOfName } from '../art/game/w4-art';
 import { spriteOf } from '../art/sprites';
 import { Sprite } from '../art/sprites/Sprite';
 import { Frame as AFrame, Tag as ATag, cx, Meter } from '../design/atoms';
@@ -11,10 +15,10 @@ import { PageSources } from '../shell/page-sources';
 import { formatRoute } from '../shell/route';
 import type { Session } from '../shell/session';
 
-/** A Toolbox class name -> its kit sprite ("Bubonic_Conjuror" -> "class-bubonic-conjurer"). */
+/** A Toolbox class name -> our kit's fallback sprite ("Bubonic_Conjuror" -> "class-bubonic-conjurer"). */
 export function classSprite(cls: string): string {
-  const name = `class-${cls.toLowerCase().replace(/_/g, '-').replace('conjuror', 'conjurer')}`;
-  return spriteOf(name) ? name : 'class-beginner';
+  const fallback = `class-${cls.toLowerCase().replace(/_/g, '-').replace('conjuror', 'conjurer')}`;
+  return spriteOf(fallback) ? fallback : 'class-beginner'; // the fallback's own fallback
 }
 
 export const toneClass = (t: W4Tone) => `w4-t--${t}`;
@@ -77,7 +81,18 @@ export function Frame({ f, s }: { f: W4Frame; s: Session }) {
 }
 
 /** A numbered (or plain) hairline list of rows: name and detail, an extra column, a status word. */
-export function Rows({ rows, label, numbered = true }: { rows: W4Row[]; label: string; numbered?: boolean }) {
+export function Rows({
+  rows,
+  label,
+  numbered = true,
+  art,
+}: {
+  rows: W4Row[];
+  label: string;
+  numbered?: boolean;
+  /** M25: each row's game sprite (from its key), with our kit sprite `fallback` when it fails. */
+  art?: { of: (r: W4Row) => GameArt | null; fallback: string; dim?: (r: W4Row) => boolean };
+}) {
   return (
     <ol className="w4-rows" aria-label={label}>
       {rows.map((r) => (
@@ -85,6 +100,11 @@ export function Rows({ rows, label, numbered = true }: { rows: W4Row[]; label: s
           {numbered && r.n !== undefined ? (
             <span className={cx('w4-num', toneClass(r.tone))} aria-hidden="true">
               {r.n}
+            </span>
+          ) : null}
+          {art ? (
+            <span className={cx('w4-row__ic', art.dim?.(r) && 'w4-dim')}>
+              <GameIcon art={art.of(r)} fallback={art.fallback} size={24} decorative />
             </span>
           ) : null}
           <span className="w4-row__main">
@@ -99,8 +119,17 @@ export function Rows({ rows, label, numbered = true }: { rows: W4Row[]; label: s
   );
 }
 
+/** A character's class: the game's class icon, our class sprite as the fallback. */
 export function ClassArt({ cls, size = 32 }: { cls: string; size?: 24 | 32 | 48 }) {
-  return <Sprite name={classSprite(cls)} size={size} decorative className="w4-class" />;
+  return (
+    <GameIcon
+      art={classArtOfName(cls)}
+      fallback={<Sprite name={classSprite(cls)} size={size} decorative className="w4-class" />}
+      size={size}
+      decorative
+      className="w4-class"
+    />
+  );
 }
 
 /** The one quiet Source line under a page (DS rule 4). */
