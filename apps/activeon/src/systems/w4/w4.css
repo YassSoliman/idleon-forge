@@ -1,0 +1,53 @@
+/* SPDX-License-Identifier: GPL-3.0-only */
+/* Copyright (C) 2026 IdleOn Forge contributors. */
+/* M26 Wave 1: the World 4 core pages (Rift, Tome, Elite classes), on top of the w23 kit's classes. */
+
+.w4-rift-level {
+  padding: var(--space-2) 0;
+}
+.w4-rift-n {
+  display: grid;
+  flex: none;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  background: var(--sunk);
+  color: var(--fg);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-bold);
+}
+.w4-fold > summary {
+  min-height: var(--tap-min);
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+/* The bonus ladder: one pip per bonus, filled when open, gold for the next. */
+.w4-ladder {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: var(--space-1);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.w4-ladder__pip {
+  height: 8px;
+  background: var(--sunk);
+}
+.w4-ladder__pip.is-done {
+  background: var(--ok);
+}
+.w4-ladder__pip.is-next {
+  background: var(--accent);
+}
+.w4-bonus.is-done {
+  background: var(--ok-soft);
+}
+.w4-bonus.is-now {
+  background: var(--accent-soft);
+}
+.w4-bonus.is-later {
+  opacity: 0.72;
+}
