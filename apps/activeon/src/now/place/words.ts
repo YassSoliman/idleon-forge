@@ -71,6 +71,12 @@ export const NOW_PLACE_WORDS = {
   dailyDone: (done: number, total: number) => `${n(done)} of ${n(total)} done`,
   dailyRing: (done: number, total: number) => `Daily: ${n(done)} of ${n(total)} done`,
   lostAtReset: 'Lost at the reset',
+  accountFixes: 'Account fixes',
+  fixBeforeLeave: 'fix before you leave',
+  accountSafety: 'Account safe to leave?',
+  cantTellSave: "can't tell from the save",
+  skipToday: 'Skip today',
+  skippedUndo: 'Skipped · undo',
   moreDaily: (today: number, week: number) =>
     `${today > 0 ? `${n(today)} more today` : ''}${today > 0 && week > 0 ? ', ' : ''}${week > 0 ? `${n(week)} this week` : ''}`,
   dailyLink: 'Daily & weekly',
@@ -83,8 +89,16 @@ export const NOW_PLACE_WORDS = {
   open: (who: string) => `Open ${who}`,
   thenAlso: (verb: string, what: string) => `then ${verb} its ${what}`,
   yourRound: 'Your round',
-  roundSummary: (chars: number, maps: number, fixes: number) =>
-    `${plural(chars, 'character')} · ${plural(maps, 'map')} · ${fixes > 0 ? `${plural(fixes, 'fix', 'fixes')} first` : 'all safe to leave'}`,
+  /** M24 QA P2: "all safe to leave" only when nothing is full either (Leaving soon? says what is). */
+  roundSummary: (chars: number, maps: number, fixes: number, full = 0) =>
+    `${plural(chars, 'character')} · ${plural(maps, 'map')} · ${
+      fixes > 0
+        ? `${plural(fixes, 'fix', 'fixes')} first`
+        : full > 0
+          ? `${plural(full, 'full thing')} to collect`
+          : 'all safe to leave'
+    }`,
+  sameJobBelow: 'Same job as others · below',
   sameJob: (count: number, text: string) => `Same job on ${n(count)}: ${lowerFirst(text)}`,
   sameJobFull: (count: number, verb: string, what: string) =>
     `Same job on ${n(count)}: ${verb} the full ${what}`,
@@ -105,8 +119,14 @@ export const NOW_PLACE_WORDS = {
   showMe: 'Show me',
   account1: 'Account',
   thenRound: 'Then your round',
-  roundLine: (chars: number, fixes: number) =>
-    `${plural(chars, 'character')}, one job each · ${fixes > 0 ? `${plural(fixes, 'fix', 'fixes')} first` : 'every one is safe to leave'}`,
+  roundLine: (chars: number, fixes: number, full = 0) =>
+    `${plural(chars, 'character')}, one job each · ${
+      fixes > 0
+        ? `${plural(fixes, 'fix', 'fixes')} first`
+        : full > 0
+          ? `${plural(full, 'full thing')} to collect`
+          : 'every one is safe to leave'
+    }`,
   rounds: 'Rounds',
   rowLink: { limit: 'Timeline', reset: 'Daily', level: 'Build' },
 } as const;
@@ -127,12 +147,14 @@ export const CHARACTERS_PLACE_WORDS = {
   } as Record<string, string>,
   small: {
     build: { behind: 'to spend', ok: 'all spent', unknown: 'no build yet' },
-    gear: { fix: 'held · wear it', behind: 'behind your level' },
+    // M24 QA P2: the small word never repeats the big one ("35 levels behind" / "behind your level").
+    gear: { fix: 'wear it', behind: 'replace it' },
     cards: { fix: 'switch it', behind: 'you own them' },
     signs: { behind: 'swap them' },
-    skills: { behind: 'fill one now' },
+    skills: { behind: 'fill one now', ok: 'none to fill now' },
   } as Record<string, Partial<Record<string, string>>>,
-  stateWhy: { fix: 'fix before you leave', ready: 'nothing full', unknown: "can't tell from the save" },
+  // M24 QA P2: after the state word ("Can't tell"), so it never says "can't tell" twice.
+  stateWhy: { fix: 'fix before you leave', ready: 'nothing full', unknown: 'from the save' },
   fullWhat: (what: string) => `${what} full`,
   hint: "Each square opens that character's tab.",
   allAfk: (count: number, what: string) => ` All ${n(count)} AFK in ${what}.`,

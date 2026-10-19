@@ -7,7 +7,7 @@
 // plan, the bank pips, and the row links that land on their Goal (R7 QA).
 
 import type { Checklist, EngineResult } from '@idleon-forge/engine/result';
-import { cleanup, fireEvent, screen, within } from '@testing-library/react';
+import { cleanup, fireEvent, screen, waitFor, within } from '@testing-library/react';
 import axe from 'axe-core';
 import { afterEach, beforeAll, beforeEach, describe, expect, it, vi } from 'vitest';
 import { bankPips, planFor, ringFractions } from '../src/timeline/daily-model';
@@ -37,18 +37,15 @@ const openBand = (section: HTMLElement, title: string) =>
   fireEvent.click(within(section).getByRole('button', { name: new RegExp(`^Open ${title}`) }));
 const sheet = () => screen.getByRole('dialog');
 
-describe("Now's Account: the one ring line (FR-T2)", () => {
-  it('shows both rings as text and the daily reset, as one link to the Timeline’s #daily', async () => {
+describe("Now's rail: the Daily ring (FR-T2; M24 board after/Now)", () => {
+  it('shows the Daily ring once, with its reset; the full picture is the Timeline’s #daily', async () => {
     const r = withM20(fixture('mid-session'));
     renderNow(props(r, saveOf(r, 1, 'first', null, 'paste')));
-    const line = document.getElementById('checklist') as HTMLElement;
-    expect(line.textContent).toContain('Today 1 of 3 · Week 0 of 1');
-    expect(line.textContent).toContain('daily reset in 12h');
-    const link = within(line).getByRole('link');
-    expect(link.getAttribute('href')).toBe('#daily');
-    fireEvent.click(link);
-    await screen.findByRole('heading', { level: 3, name: DAILY_WORDS.title }, ARRIVE);
-    expect(window.location.hash).toBe('#daily');
+    const rail = screen.getByRole('region', { name: 'Account' });
+    expect(within(rail).getAllByRole('img', { name: /^Daily: \d+ of \d+ done$/ })).toHaveLength(1);
+    expect(rail.textContent).toContain('daily reset in 12h');
+    // M24 QA P1-1: the pre-M24 checklist line ("Today 1 of 3 · Week 0 of 1") is not repeated beside it.
+    expect(document.getElementById('checklist')).toBeNull();
   });
 });
 
@@ -165,8 +162,9 @@ describe('the checklist links land on their Goal (R7 QA)', () => {
     const { section } = await daily(r);
     openBand(section, 'No bank');
     fireEvent.click(within(sheet()).getByRole('link', { name: 'in your list ↓' }));
-    expect(window.location.hash).toBe('#now');
-    expect(lit('arcade.check.g5@account')).toBe(true);
+    // M24 QA P1-1: an account Goal lives on the Goals page (past its group's "Show N more").
+    expect(window.location.hash).toBe('#goals');
+    await waitFor(() => expect(lit('arcade.check.g5@account')).toBe(true));
   });
 
   it('a character Goal (@cN) opens that character\'s Now tab, past its "show more", outlined', async () => {
@@ -185,7 +183,12 @@ describe('the checklist links land on their Goal (R7 QA)', () => {
     const { section } = await daily(r);
     openBand(section, 'No bank');
     fireEvent.click(within(sheet()).getByRole('link', { name: 'If you have time ↓' }));
-    const item = document.querySelector(`[data-na-key="${key}"]`);
+    expect(window.location.hash).toBe('#goals');
+    const item = await waitFor(() => {
+      const el = document.querySelector(`[data-na-key="${key}"]`);
+      if (!el) throw new Error('not on the page yet');
+      return el;
+    });
     expect(item?.tagName).toBe('LI');
     expect(item?.textContent).toContain('Play the Hoops minigame');
     expect(lit(key)).toBe(true);

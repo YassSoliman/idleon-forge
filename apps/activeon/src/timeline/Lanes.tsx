@@ -88,7 +88,9 @@ export function FixLink({ b, s, className }: { b: TimelineBarView; s: Session; c
     <a
       className={className}
       href={
-        fix.where === 'account' ? formatRoute({ place: 'now' }) : tabHref('now', Number(fix.subject.slice(1)))
+        fix.where === 'account'
+          ? formatRoute({ place: 'account', page: 'goals' })
+          : tabHref('now', Number(fix.subject.slice(1)))
       }
       aria-label={fix.where === 'pill' ? W.seeItFor(b.label) : W.seeFixFor(b.label)}
       onClick={(e) => {

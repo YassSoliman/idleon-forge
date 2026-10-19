@@ -521,7 +521,8 @@ export function useSession(props: ShellProps) {
         setExpanded((prev) => new Set([...prev, index === null ? 'account' : `c${index}`]));
       pendingReveal.current = { key: fix.key, details: fix.expand === 'behind-details' };
       if (fix.where === 'account' || index === null) {
-        navigate({ place: 'now' }, 'push', { highlight: fix.key });
+        // M24: an account Next Action sits on the Goals page (the Now rail has no list of them).
+        navigate({ place: 'account', page: 'goals' }, 'push', { highlight: fix.key });
         return;
       }
       setFollow((f) => onTap(f, index, live));
@@ -620,15 +621,23 @@ export function useSession(props: ShellProps) {
     }
     open(index);
   };
-  const toAccountFix = () => {
+  /**
+   * M24 QA P1-1: an account fix lives on the Goals page under "Fix these first" (the Now rail lists it
+   * as a row; the old Account column is gone). Goes there, then focuses the block (or reveals one fix).
+   */
+  const toAccountFix = (key?: string) => {
+    if (key) pendingReveal.current = { key, details: false };
+    navigate({ place: 'account', page: 'goals' }, 'push', key ? { highlight: key } : {});
+    let tries = 0;
     const go = () => {
-      const el = document.getElementById('account-fix') ?? accountRef.current;
-      el?.focus({ preventScroll: true });
-      el?.scrollIntoView?.({ block: 'start' });
+      const el = document.getElementById('account-fix');
+      if (!el) {
+        if (tries++ < 60) requestAnimationFrame(go);
+        return;
+      }
+      el.focus({ preventScroll: true });
+      if (!key) el.scrollIntoView?.({ block: 'start' });
     };
-    // The Account section is on Now and on every Character page; from another place, go there first.
-    if (route.place === 'now' || route.place === 'character') return go();
-    navigate({ place: 'now' }, 'push');
     requestAnimationFrame(go);
   };
 

@@ -5,6 +5,11 @@
 // showing its next three with the others behind "Show N more"; the side column has the Goals that need
 // one character logged in, and what the groups mean. Fixes that stop you logging off come first when
 // there are any. It only lays out the Now view's account Goals (ranked by the engine).
+// M24 QA P1-1: this page is now where an account fix, a Goal or an "If you have time" item lands from
+// a Timeline bar, a checklist row or the Now rail (the old Account column on Now is gone): each row is
+// keyed like a Next Action (`data-na-key`), outlined when it is the highlight, and a group opens past
+// its "Show N more" when the highlight is behind it.
+import { ACCOUNT_WORDS } from '@idleon-forge/engine/now';
 import { useMemo, useState } from 'react';
 import { Sprite } from '../art/sprites/Sprite';
 import { cx } from '../design/atoms/Button';
@@ -27,8 +32,16 @@ function Mono({ r, big }: { r: GoalRow; big?: boolean }) {
 }
 
 function TopGoal({ r, n }: { r: GoalRow; n: number }) {
+  const actions = useNowActions();
   return (
-    <li className={cx('ac-gtop', r.tone === 'losing' && 'is-losing')}>
+    <li
+      data-na-key={r.goal.action.key}
+      className={cx(
+        'ac-gtop',
+        r.tone === 'losing' && 'is-losing',
+        actions.highlight === r.goal.action.key && 'lit',
+      )}
+    >
       <span className="ac-gtop__head">
         <span className={cx('ac-n num', r.tone === 'losing' && 'is-losing')} aria-hidden="true">
           {n}
@@ -51,7 +64,10 @@ function TopGoal({ r, n }: { r: GoalRow; n: number }) {
 function GoalLine({ r }: { r: GoalRow }) {
   const actions = useNowActions();
   return (
-    <li className="ac-grow">
+    <li
+      data-na-key={r.goal.action.key}
+      className={cx('ac-grow', actions.highlight === r.goal.action.key && 'lit')}
+    >
       <Mono r={r} />
       <span className="ac-grow__t">
         <b>{r.goal.action.text}</b>
@@ -79,7 +95,10 @@ function GoalLine({ r }: { r: GoalRow }) {
 }
 
 function Group({ id, rows, count }: { id: GroupId; rows: GoalRow[]; count: number }) {
-  const [open, setOpen] = useState(false);
+  const actions = useNowActions();
+  const [open, setOpen] = useState(() =>
+    rows.slice(SHOWN).some((r) => r.goal.action.key === actions.highlight),
+  );
   if (rows.length === 0) return null;
   const shown = open ? rows : rows.slice(0, SHOWN);
   return (
@@ -139,7 +158,7 @@ export function GoalsPage({ s }: { s: Session }) {
       </section>
 
       {page.blockers.length ? (
-        <section className="ac-fix" aria-labelledby="ac-fix-h">
+        <section className="ac-fix" id="account-fix" tabIndex={-1} aria-labelledby="ac-fix-h">
           <h3 id="ac-fix-h" className="ac-h2 ac-coral">
             {W.fixFirst}
           </h3>
@@ -229,6 +248,25 @@ export function GoalsPage({ s }: { s: Session }) {
                         <span className="ac-sub">{c.text}</span>
                       </span>
                     </a>
+                  </li>
+                ))}
+              </ul>
+            </section>
+          ) : null}
+          {s.view.activePlay.length ? (
+            <section className="ac-part" aria-labelledby="ac-iyht-h">
+              <h3 id="ac-iyht-h" className="ac-h2">
+                {ACCOUNT_WORDS.ifYouHaveTime}
+              </h3>
+              <ul className="ac-iyht">
+                {s.view.activePlay.map((a) => (
+                  <li
+                    key={a.key}
+                    data-na-key={a.key}
+                    className={cx('ac-iyht__i', actions.highlight === a.key && 'lit')}
+                  >
+                    <span>{a.text}</span>
+                    <span className="ac-sub num">{a.estimate}</span>
                   </li>
                 ))}
               </ul>
