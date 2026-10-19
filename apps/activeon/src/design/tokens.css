@@ -195,6 +195,20 @@
   --cauldron-highiq-ink: var(--cauldron-highiq-2);
   --cauldron-kazam-ink: var(--cauldron-kazam-2);
 
+  /* M25 round 2 defaults for the directions that don't set them (quest and board, QA only): a fill is its
+     ink, no frame band, no button edge, the frame tones are the soft tints. Field Guide sets its own. */
+  --accent-fill: var(--accent);
+  --warn-fill: var(--warn);
+  --bad-fill: var(--bad);
+  --ok-fill: var(--ok);
+  --info-fill: var(--info);
+  --accent-edge: transparent;
+  --frame-band: 0px;
+  --frame-tone-bad: var(--bad-soft);
+  --frame-tone-gold: var(--accent-soft);
+  --frame-tone-ok: var(--ok-soft);
+  --frame-tone-info: var(--info-soft);
+
   /* World accents (our own values): "which character goes where", the who-glyph's frame tint */
   --w1: #12854f;
   --w2: #8a470c;
@@ -312,41 +326,41 @@ html {
   --stack-gap: var(--space-3);
   --row-height: 64px;
 
-  --bg: #f5f1e8;
-  --surface: #ece6d9;
-  --sunk: #e3dccb;
-  --fg: #1e1c18;
-  --muted: #5c564a;
-  --line: #d6cdb9;
-  --line-strong: #857c6a;
-  --frame: #1e1c18;
+  --bg: #f4f6f9;
+  --surface: #ffffff;
+  --sunk: #eaeef3;
+  --fg: #141821;
+  --muted: #555e6e;
+  --line: #dde2e9;
+  --line-strong: #7b8494;
+  --frame: #141821;
   --bevel-hi: transparent;
   --bevel-lo: transparent;
-  --accent-rule: #7d5400;
-  --accent: #7d5400;
-  --accent-soft: #f1e2be;
-  --on-accent: #ffffff;
-  --ok: #1b6b47;
-  --ok-soft: #d9ebdd;
-  --on-ok: #ffffff;
-  --warn: #7d5400;
-  --warn-soft: #f1e2be;
-  --on-warn: #ffffff;
-  --bad: #9e3b1c;
-  --bad-soft: #f6ddd2;
-  --on-bad: #ffffff;
-  --unk: #5a5a66;
-  --unk-soft: #e3e0d8;
+  --accent-rule: #935000;
+  --accent: #935000;
+  --accent-soft: #ffedbe;
+  --on-accent: #141821;
+  --ok: #00755d;
+  --ok-soft: #d6fde6;
+  --on-ok: #141821;
+  --warn: #935000;
+  --warn-soft: #ffedbe;
+  --on-warn: #141821;
+  --bad: #a10036;
+  --bad-soft: #fdd1d6;
+  --on-bad: #141821;
+  --unk: #5e6a7a;
+  --unk-soft: #eaeef3;
   --on-unk: #ffffff;
-  --info: #1d5c8f;
-  --info-soft: #dce7f0;
-  --on-info: #ffffff;
-  --speech: #1e1c18;
+  --info: #004991;
+  --info-soft: #c8e1fb;
+  --on-info: #141821;
+  --speech: #141821;
   --speech-fg: #ffffff;
-  --speech-gap: #f5f1e8;
-  --focus: #7d5400;
-  --now-line: #1d5c8f;
-  --return-line: #7d5400;
+  --speech-gap: #f4f6f9;
+  --focus: #935000;
+  --now-line: #004991;
+  --return-line: #935000;
   --shadow-1: none;
   --shadow-2: 0 4px 16px rgb(29 36 51 / 0.1), 0 1px 3px rgb(29 36 51 / 0.06);
   --scrim: rgb(13 16 22 / 0.45);
@@ -355,20 +369,39 @@ html {
   --px-shadow: var(--mat-blob-2);
   --px-base: var(--mat-blob-3);
   --px-hi: var(--mat-blob-4);
-  --px-ui-ink: #1e1c18;
+  --px-ui-ink: #141821;
 
-  --bar: #ece6d9;
-  --frame-bg: var(--bad-soft);
-  --frame-tile: #f0d0c3;
+  --bar: #ffffff;
+  --frame-bg: #ffffff;
+  --frame-tile: #eaeef3;
+  /* M25 light palette (ux m25-light, direction A "Daylight"): cool-white page, white cards, and the
+     five meaning inks spread apart in lightness and hue so they stay distinct under protanopia,
+     deuteranopia and tritanopia (Machado 2009), every text pair still at 4.5:1. */
   /* M24 (the UX rework canvas, NowLight board): the third surface step, the secondary ink, the frame
      tints for "do it" and "done", violet, and the grey of a "later" pip. */
-  --raised: #d6cdb9;
-  --fg2: #4a453c;
-  --frame-gold: #f1e2be;
-  --frame-ok: #d9ebdd;
-  --violet: #5b3fa0;
-  --violet-soft: #e8e1f5;
-  --pip-later: #a8a090;
+  --raised: #dce2ea;
+  --fg2: #394150;
+  --frame-gold: #ffffff;
+  --frame-ok: #ffffff;
+  --violet: #7e1cd8;
+  --violet-soft: #f1ebff;
+  --pip-later: #7e8899;
+  /* M25 round 2 (ux m25-light, A2): the meaning colours as vivid FILLS with dark ink on top, like dark
+     mode. The inks above stay for text (4.5:1); pips, badges, buttons, meters and the frame's top band read
+     the -fill tokens. Gold's fill is too light for a 3:1 edge on white, so a filled gold button carries a
+     3 px amber edge (--accent-edge). Frames sit on a plain white card: the band and the words say what
+     they hold, not a pastel tint. */
+  --accent-fill: #f2b100;
+  --warn-fill: #f2b100;
+  --bad-fill: #f44216;
+  --ok-fill: #03a14a;
+  --info-fill: #0093e6;
+  --accent-edge: #935000;
+  --frame-band: 8px;
+  --frame-tone-bad: #ffffff;
+  --frame-tone-gold: #ffffff;
+  --frame-tone-ok: #ffffff;
+  --frame-tone-info: #ffffff;
   color-scheme: light;
 }
 
@@ -421,6 +454,17 @@ html {
   --violet: #b79cf2;
   --violet-soft: #2a2440;
   --pip-later: #4a4e58;
+  --accent-fill: #e9b949;
+  --warn-fill: #e9b949;
+  --bad-fill: #f07a5a;
+  --ok-fill: #7fd4a6;
+  --info-fill: #82b9f0;
+  --accent-edge: transparent;
+  --frame-band: 0px;
+  --frame-tone-bad: #3a2420;
+  --frame-tone-gold: #3a3220;
+  --frame-tone-ok: #1e3329;
+  --frame-tone-info: #1d2b3b;
   color-scheme: dark;
 }
 @media (prefers-color-scheme: dark) {
@@ -473,6 +517,17 @@ html {
     --violet: #b79cf2;
     --violet-soft: #2a2440;
     --pip-later: #4a4e58;
+    --accent-fill: #e9b949;
+    --warn-fill: #e9b949;
+    --bad-fill: #f07a5a;
+    --ok-fill: #7fd4a6;
+    --info-fill: #82b9f0;
+    --accent-edge: transparent;
+    --frame-band: 0px;
+    --frame-tone-bad: #3a2420;
+    --frame-tone-gold: #3a3220;
+    --frame-tone-ok: #1e3329;
+    --frame-tone-info: #1d2b3b;
     color-scheme: dark;
   }
 }
@@ -892,6 +947,10 @@ html {
   --mint-soft: var(--ok-soft);
   --sky: var(--info);
   --sky-soft: var(--info-soft);
+  --gold-fill: var(--accent-fill);
+  --coral-fill: var(--bad-fill);
+  --mint-fill: var(--ok-fill);
+  --sky-fill: var(--info-fill);
 
   /* Surfaces */
   --card-bg: var(--surface);

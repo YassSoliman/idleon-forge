@@ -24,7 +24,7 @@
   place-items: center;
   width: 104px;
   height: 120px;
-  background: var(--accent);
+  background: var(--accent-fill);
 }
 .ct-card[data-out="yes"] .ct-card__art {
   background: var(--sunk);

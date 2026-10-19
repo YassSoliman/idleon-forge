@@ -124,7 +124,10 @@ const TEXT_PAIRS: [string, string][] = [
     ...SURFACES.map((s) => [c, s] as [string, string]),
     [c, `${c}-soft`] as [string, string],
   ]),
-  ...['accent', 'ok', 'warn', 'bad', 'unk', 'info'].map((c) => [`on-${c}`, c] as [string, string]),
+  // M25 round 2: a filled control's ink sits on the vivid -fill (the fill is the ink where a direction
+  // sets none); unk has no fill.
+  ...['accent', 'ok', 'warn', 'bad', 'info'].map((c) => [`on-${c}`, `${c}-fill`] as [string, string]),
+  ['on-unk', 'unk'],
   ['speech-fg', 'speech'],
   ['muted', 'unk-soft'],
 ];
@@ -134,9 +137,18 @@ const CAULDRONS = ['power', 'quicc', 'highiq', 'kazam'] as const;
 
 /** Non-text pairs (3:1): control borders, the focus ring, the Timeline's lines, against the page. */
 const NON_TEXT_PAIRS: [string, string][] = [
-  ...['line-strong', 'focus', 'now-line', 'return-line', ...CAULDRONS.map((c) => `cauldron-${c}-3`)].flatMap(
-    (c) => (['bg', 'surface'] as const).map((s) => [c, s] as [string, string]),
-  ),
+  ...[
+    'line-strong',
+    'focus',
+    'now-line',
+    'return-line',
+    // M25 round 2: the coral, mint and sky fills (pips, meters, frame bands) hold 3:1 against the page;
+    // gold's fill can't on a light page, so a filled gold button carries --accent-edge instead.
+    'bad-fill',
+    'ok-fill',
+    'info-fill',
+    ...CAULDRONS.map((c) => `cauldron-${c}-3`),
+  ].flatMap((c) => (['bg', 'surface'] as const).map((s) => [c, s] as [string, string])),
 ];
 
 const rootDark = block(
@@ -201,7 +213,7 @@ const REFRESH_TEXT: [string, string][] = [
   ['muted', 'bar'],
   ['accent', 'bar'],
   ['warn', 'bar'],
-  ['on-bad', 'bad'],
+  ['on-bad', 'bad-fill'],
   ['fg', 'frame-bg'],
   ['muted', 'frame-bg'],
   ['bad', 'frame-bg'],

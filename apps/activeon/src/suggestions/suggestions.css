@@ -251,14 +251,14 @@
 }
 .st-looking .sg-steps > i.on,
 .st-info .sg-steps > i.on {
-  background: var(--info);
+  background: var(--info-fill);
 }
 .st-decision .sg-steps > i.on,
 .st-planned .sg-steps > i.on {
-  background: var(--accent);
+  background: var(--accent-fill);
 }
 .st-done .sg-steps > i.on {
-  background: var(--ok);
+  background: var(--ok-fill);
 }
 .sg-asking {
   display: grid;
@@ -346,7 +346,7 @@
   flex: none;
   width: 8px;
   height: 8px;
-  background: var(--accent);
+  background: var(--accent-fill);
 }
 .sg-fields {
   display: grid;

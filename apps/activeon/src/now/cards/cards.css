@@ -48,14 +48,14 @@
 }
 .cv-tag--use {
   color: var(--on-ok);
-  background: var(--ok);
+  background: var(--ok-fill);
 }
 .cv-tag[data-fit="yes"] {
   color: var(--ok);
 }
 .cv-tag--quick {
   color: var(--on-accent);
-  background: var(--accent);
+  background: var(--accent-fill);
 }
 .cv-tag--set {
   background: var(--sunk);

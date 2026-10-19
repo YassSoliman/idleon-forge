@@ -286,10 +286,10 @@ label.chip {
   width: 8px;
   height: 8px;
   border-radius: 0;
-  background: var(--bad);
+  background: var(--bad-fill);
 }
 .n-dot.is-ok {
-  background: var(--ok);
+  background: var(--ok-fill);
 }
 
 /* ---- The counter (`now.verdict-banner` Counter that reaches zero, Stale-first wording) ---- */

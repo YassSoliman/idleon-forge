@@ -213,7 +213,7 @@
 .characters-place .cp-meter i {
   display: block;
   height: 100%;
-  background: var(--accent);
+  background: var(--accent-fill);
 }
 .characters-place .cp-steps {
   display: grid;
@@ -314,15 +314,15 @@
 }
 .characters-place .cp-heat td[data-shade="1"],
 .characters-place .cp-sw[data-shade="1"] {
-  background: color-mix(in srgb, var(--ok) 10%, var(--surface));
+  background: color-mix(in srgb, var(--ok-fill) 10%, var(--surface));
 }
 .characters-place .cp-heat td[data-shade="2"],
 .characters-place .cp-sw[data-shade="2"] {
-  background: color-mix(in srgb, var(--ok) 18%, var(--surface));
+  background: color-mix(in srgb, var(--ok-fill) 18%, var(--surface));
 }
 .characters-place .cp-heat td[data-shade="3"],
 .characters-place .cp-sw[data-shade="3"] {
-  background: color-mix(in srgb, var(--ok) 28%, var(--surface));
+  background: color-mix(in srgb, var(--ok-fill) 28%, var(--surface));
 }
 .characters-place .cp-heat td[data-low="yes"] {
   color: var(--muted);

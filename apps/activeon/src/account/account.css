@@ -210,13 +210,13 @@
   height: 28px;
   display: grid;
   place-items: center;
-  background: var(--accent);
+  background: var(--accent-fill);
   color: var(--on-accent);
   font-size: var(--text-sm);
   font-weight: var(--weight-bold);
 }
 .ac-n.is-losing {
-  background: var(--bad);
+  background: var(--bad-fill);
   color: var(--on-bad);
 }
 .ac-pip {
@@ -228,7 +228,7 @@
   background: var(--muted);
 }
 .ac-pip.is-gold {
-  background: var(--accent);
+  background: var(--accent-fill);
 }
 .ac-pip.is-later {
   background: var(--muted);
@@ -427,7 +427,7 @@
   background: var(--line-strong);
 }
 .ac-bar__plan {
-  background: var(--accent);
+  background: var(--accent-fill);
 }
 .ac-key {
   display: flex;

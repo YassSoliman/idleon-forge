@@ -74,7 +74,7 @@
   background: var(--line-strong);
 }
 .an-sw--spare {
-  background: var(--accent);
+  background: var(--accent-fill);
 }
 .an-ws__head {
   display: flex;

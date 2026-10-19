@@ -116,7 +116,7 @@
 /* Now: the count to bring to zero, a filled square in the Fix colour. Timeline: limits before you're
    back, a gold count with no box. */
 .badge-now {
-  background: var(--bad);
+  background: var(--bad-fill);
   color: var(--on-bad);
 }
 .badge-timeline {

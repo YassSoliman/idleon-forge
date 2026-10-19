@@ -92,7 +92,7 @@ code,
   border: 0;
   border-radius: var(--radius-control);
   padding: 0 var(--space-4);
-  background: var(--accent);
+  background: var(--accent-fill);
   color: var(--on-accent);
   font-weight: var(--weight-bold);
 }
