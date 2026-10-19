@@ -285,7 +285,7 @@ Gifts: Slabcakes, Surprise Box
 
 ## Builds
 ### C1 (Siege Breaker 1291)
-- Builds cover World 1 to World 4 for now; these are your plain talent levels
+- No build for this stage yet (builds cover World 1 to World 4): these are your talent levels
 - Other preset: Calm Basics · Archer · Bowman · Siege Breaker · Star talents (6,613 unspent)
   - Star talents: 6,613 unspent · they end here (Stonks! returns more as it levels)
     - can add now: Stonks! 0 → 30 · +30 (pays for itself: it returns star points as it levels)
@@ -302,7 +302,7 @@ Gifts: Slabcakes, Surprise Box
     - and 7 more
 
 ### C2 (Death Bringer 1292)
-- Builds cover World 1 to World 4 for now; these are your plain talent levels
+- No build for this stage yet (builds cover World 1 to World 4): these are your talent levels
 - Other preset: Rage Basics · Warrior · Barbarian · Blood Berserker · Death Bringer · Star talents (8,167 unspent)
   - Star talents: 8,167 unspent · they end here (Stonks! returns more as it levels)
     - can add now: Stonks! 0 → 30 · +30 (pays for itself: it returns star points as it levels)
@@ -319,7 +319,7 @@ Gifts: Slabcakes, Surprise Box
     - and 7 more
 
 ### C3 (Elemental Sorcerer 1259)
-- Builds cover World 1 to World 4 for now; these are your plain talent levels
+- No build for this stage yet (builds cover World 1 to World 4): these are your talent levels
 - Other preset: Savvy Basics · Mage · Wizard · Elemental Sorcerer · Star talents (6,585 unspent)
   - Star talents: 6,585 unspent · they end here (Stonks! returns more as it levels)
     - can add now: Stonks! 0 → 30 · +30 (pays for itself: it returns star points as it levels)
@@ -336,7 +336,7 @@ Gifts: Slabcakes, Surprise Box
     - and 7 more
 
 ### C4 (Divine Knight 1240)
-- Builds cover World 1 to World 4 for now; these are your plain talent levels
+- No build for this stage yet (builds cover World 1 to World 4): these are your talent levels
 - Other preset: Rage Basics · Warrior · Squire · Divine Knight · Star talents (7,946 unspent)
   - Star talents: 7,946 unspent · they end here (Stonks! returns more as it levels)
     - can add now: Stonks! 0 → 30 · +30 (pays for itself: it returns star points as it levels)
@@ -353,7 +353,7 @@ Gifts: Slabcakes, Surprise Box
     - and 7 more
 
 ### C5 (Arcane Cultist 1231)
-- Builds cover World 1 to World 4 for now; these are your plain talent levels
+- No build for this stage yet (builds cover World 1 to World 4): these are your talent levels
 - Other preset: Savvy Basics · Mage · Shaman · Bubonic Conjuror · Arcane Cultist · Star talents (7,625 unspent)
   - Star talents: 7,625 unspent · they end here (Stonks! returns more as it levels)
     - can add now: Stonks! 0 → 30 · +30 (pays for itself: it returns star points as it levels)
@@ -370,7 +370,7 @@ Gifts: Slabcakes, Surprise Box
     - and 7 more
 
 ### C6 (Wind Walker 1280)
-- Builds cover World 1 to World 4 for now; these are your plain talent levels
+- No build for this stage yet (builds cover World 1 to World 4): these are your talent levels
 - Current preset (in use): Calm Basics · Archer · Hunter · Beast Master · Wind Walker · Star talents (4,569 unspent)
   - Star talents: 4,569 unspent · they end here
     - done: Stonks! 30
@@ -387,7 +387,7 @@ Gifts: Slabcakes, Surprise Box
     - and 4 more
 
 ### C7 (Voidwalker 1158)
-- Builds cover World 1 to World 4 for now; these are your plain talent levels
+- No build for this stage yet (builds cover World 1 to World 4): these are your talent levels
 - Current preset (in use): Beginner · Journeyman · Maestro · Voidwalker · Star talents (5,942 unspent)
   - Star talents: 5,942 unspent · they end here (Stonks! returns more as it levels)
     - can add now: Stonks! 25 → 30 · +5 (pays for itself: it returns star points as it levels)
@@ -404,7 +404,7 @@ Gifts: Slabcakes, Surprise Box
     - and 4 more
 
 ### C8 (Siege Breaker 1261)
-- Builds cover World 1 to World 4 for now; these are your plain talent levels
+- No build for this stage yet (builds cover World 1 to World 4): these are your talent levels
 - Current preset (in use): Calm Basics · Archer · Bowman · Siege Breaker · Star talents (4,389 unspent)
   - Star talents: 4,389 unspent · they end here (Stonks! returns more as it levels)
     - can add now: Stonks! 0 → 30 · +30 (pays for itself: it returns star points as it levels)
@@ -421,7 +421,7 @@ Gifts: Slabcakes, Surprise Box
     - and 4 more
 
 ### C9 (Royal Guardian 1307)
-- Builds cover World 1 to World 4 for now; these are your plain talent levels
+- No build for this stage yet (builds cover World 1 to World 4): these are your talent levels
 - Current preset (in use): Rage Basics · Warrior · Squire · Divine Knight · Royal Guardian · Star talents (5,514 unspent)
   - Star talents: 5,514 unspent · they end here
     - done: Stonks! 30
@@ -438,7 +438,7 @@ Gifts: Slabcakes, Surprise Box
     - and 4 more
 
 ### C10 (Bubonic Conjuror 1268)
-- Builds cover World 1 to World 4 for now; these are your plain talent levels
+- No build for this stage yet (builds cover World 1 to World 4): these are your talent levels
 - Current preset (in use): Savvy Basics · Mage · Shaman · Bubonic Conjuror · Star talents (5,186 unspent)
   - Star talents: 5,186 unspent · they end here (Stonks! returns more as it levels)
     - can add now: Stonks! 0 → 30 · +30 (pays for itself: it returns star points as it levels)
@@ -455,7 +455,7 @@ Gifts: Slabcakes, Surprise Box
     - and 4 more
 
 ### C11 (Beginner 1224)
-- Builds cover World 1 to World 4 for now; these are your plain talent levels
+- No build for this stage yet (builds cover World 1 to World 4): these are your talent levels
 - Current preset (in use): Beginner · Star talents (4,108 unspent)
   - Star talents: 4,108 unspent · they end here (Stonks! returns more as it levels)
     - can add now: Stonks! 25 → 30 · +5 (pays for itself: it returns star points as it levels)

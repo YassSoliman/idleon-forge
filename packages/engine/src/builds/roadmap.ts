@@ -389,8 +389,8 @@ function classPathOf(c: CharacterState, facts: FactLookup, planned: string | nul
 // ---------- the roadmap ----------
 
 const NOTE: Record<string, string> = {
-  beyond: 'Builds cover World 1 to World 4 for now; these are your plain talent levels',
-  journeyman: 'No build yet for this class (Journeyman line); these are your plain talent levels',
+  beyond: 'No build for this stage yet (builds cover World 1 to World 4): these are your talent levels',
+  journeyman: 'No build yet for this class (Journeyman line): these are your talent levels',
   beginner: 'No build yet for a Beginner past Lv 15: pick your class first',
 };
 

@@ -159,7 +159,7 @@ Can't read Bubba from this save
 
 ## Builds
 ### C1 (Voidwalker 476)
-- Builds cover World 1 to World 4 for now; these are your plain talent levels
+- No build for this stage yet (builds cover World 1 to World 4): these are your talent levels
 - Current preset (in use): Beginner · Journeyman · Maestro · Voidwalker · Star talents (over budget by about 201)
   - Star talents: Over budget by about 201: the totals show where new points go
     - done: Stonks! 30
@@ -176,7 +176,7 @@ Can't read Bubba from this save
     - and 6 more
 
 ### C2 (Beginner 1)
-- Builds cover World 1 to World 4 for now; these are your plain talent levels
+- No build for this stage yet (builds cover World 1 to World 4): these are your talent levels
 - Current preset (in use): Beginner · Star talents (243 unspent)
   - Star talents: 243 unspent · they end here
     - later: Stonks! 0 → 30 (find its book (Wellington's quest))

@@ -685,6 +685,135 @@ function FooterSources({ children }: { children: ReactNode }) {
   return slot ? <PageSources>{children}</PageSources> : <p className="bd-xs">{children}</p>;
 }
 
+/**
+ * No Build for this class or stage (end game, the Journeyman line; M24 QA P1-9): the presets and their
+ * talent tabs with the levels the save holds, with no order and no points to spend (nothing to compare
+ * them with). The star tab keeps its own Build (FR-C14), so it shows its book and ladder as usual.
+ */
+function PlainBuild({ r }: { r: BuildRoadmapView }) {
+  const total = (p: BuildPresetView) => p.tabs.reduce((s, t) => s + t.spent, 0);
+  const [sel, setSel] = useState<number>(() => {
+    const most = [...r.presets].sort((a, b) => total(b) - total(a) || Number(b.active) - Number(a.active));
+    return most[0]?.slot ?? 0;
+  });
+  const [tabSel, setTabSel] = useState<number | null>(null);
+  const [pick, setPick] = useState<string | null>(null);
+  const p = r.presets.find((x) => x.slot === sel) ?? r.presets[0];
+  if (!p) return null;
+  const all = [...p.tabs, ...(p.star ? [p.star] : [])];
+  const tab = all.find((t) => t.tab === tabSel) ?? p.tabs.find((t) => t.others.length > 0) ?? all[0] ?? null;
+  const key = `bv-${r.index}-plain-p${p.slot}`;
+  const tabName = tab ? (tab.tab === 0 ? B.starTab : `${tab.name} tab`) : '';
+  const seg = (t: BuildTabView, label: string) => (
+    <button
+      key={t.tab}
+      type="button"
+      className="bd-segbtn"
+      data-tab={t.tab}
+      aria-pressed={t.tab === tab?.tab}
+      aria-controls={`${key}-t${t.tab}`}
+      onClick={() => {
+        setTabSel(t.tab);
+        setPick(null);
+      }}
+    >
+      {t.tab > 0 && spriteOf(`talent-tab-${t.tab}`) ? (
+        <Sprite name={`talent-tab-${t.tab}`} size={16} decorative />
+      ) : null}
+      {label}
+    </button>
+  );
+  return (
+    <>
+      {r.presets.length > 1 ? (
+        <fieldset className="bd-presets bd-presets--plain" aria-label={B.presets}>
+          {r.presets.map((x) => {
+            const spent = total(x);
+            return (
+              <button
+                key={x.slot}
+                type="button"
+                className="a-tile bd-preset bd-preset--off"
+                aria-pressed={x.slot === p.slot}
+                data-slot={x.slot}
+                onClick={() => {
+                  setSel(x.slot);
+                  setTabSel(null);
+                  setPick(null);
+                }}
+              >
+                <span className="bd-tile-name">{B.plain.preset(x.slot)}</span>
+                {x.active ? (
+                  <span className="bd-inuse">
+                    <Tag tone="mint">{B.inUse}</Tag>
+                  </span>
+                ) : null}
+                <span className="bd-tile-facts">{spent > 0 ? B.plain.pointsIn(spent) : B.empty}</span>
+              </button>
+            );
+          })}
+        </fieldset>
+      ) : null}
+      <div className="bd-body bd-body--plain">
+        <div className="bd-top">
+          <div className="bd-segs">
+            {p.tabs.length > 0 ? (
+              <fieldset className="bd-seg" aria-label={B.plain.segTabs(B.plain.preset(p.slot))}>
+                {p.tabs.map((t) => seg(t, t.name))}
+              </fieldset>
+            ) : null}
+            {p.star ? (
+              <fieldset className="bd-seg" aria-label={B.segStar(B.plain.preset(p.slot))}>
+                {seg(p.star, B.starTab)}
+              </fieldset>
+            ) : null}
+          </div>
+        </div>
+        {tab && tab.tab === 0 ? (
+          <>
+            <div className="bd-bookwrap">
+              <Book items={bookOf(tab, null)} sel={pick} onSel={setPick} label={B.book(tabName)} />
+              <Legend />
+            </div>
+            {pick ? (
+              <aside className="bd-side">
+                <SidePanel tab={tab} stepKey={pick} />
+              </aside>
+            ) : null}
+            <Ladder tab={tab} preset={B.plain.preset(p.slot)} id={`${key}-t0`} />
+          </>
+        ) : tab ? (
+          <section className="bd-bookwrap" id={`${key}-t${tab.tab}`} aria-label={B.book(tabName)}>
+            <p className="bd-tabline">
+              {B.tabLine(B.plain.preset(p.slot), tabName)}: <b>{B.spent(tab.spent)}</b>
+            </p>
+            {tab.others.length > 0 ? (
+              <ul className="bd-book" aria-label={B.book(tabName)}>
+                {tab.others.map((o) => (
+                  <li key={o.label} className="bd-tal" data-k="plain">
+                    <span className="bd-tal-btn">
+                      <span className="bd-mono" data-k="plain" aria-hidden="true">
+                        {monogram(o.label)}
+                      </span>
+                      <span className="bd-tal-name">{o.label}</span>
+                      <span className="bd-tal-lv num" data-k="plain">
+                        <span className="sr-only">{B.plain.level} </span>
+                        {n(o.level)}
+                      </span>
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <p className="bd-xs">{B.plain.none}</p>
+            )}
+          </section>
+        ) : null}
+      </div>
+    </>
+  );
+}
+
 /** One character's whole Build. */
 export function BuildRoadmap({ r, mismatch = null }: { r: BuildRoadmapView; mismatch?: string | null }) {
   const [order] = useState(() => {
@@ -722,6 +851,7 @@ export function BuildRoadmap({ r, mismatch = null }: { r: BuildRoadmapView; mism
           <PresetBody key={p.slot} r={r} p={p} other={other} />
         </>
       ) : null}
+      {r.note && r.presets.length > 0 ? <PlainBuild r={r} /> : null}
       <ComingUp r={r} />
       {r.quiet || r.source ? (
         <FooterSources>

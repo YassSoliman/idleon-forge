@@ -111,6 +111,15 @@ export const BUILD_WORDS = {
   emptySlot: 'Empty slot',
   wants: (name: string) => `Wants ${name}`,
   alsoHas: 'Also has points',
+  /** No Build for this class or stage: the talent levels as they are (M24 QA P1-9). */
+  plain: {
+    /** The save's preset slot, 0-based: "Preset 1". */
+    preset: (slot: number) => `Preset ${n(slot + 1)}`,
+    pointsIn: (points: number) => `${n(points)} points in`,
+    segTabs: (preset: string) => `${preset}: talent tabs`,
+    level: 'Level',
+    none: 'No points in this tab yet',
+  },
   inBook: {
     covered: (points: number, need: number) =>
       points >= need ? `+${n(points)}` : `+${n(points)} of ${n(need)}`,

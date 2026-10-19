@@ -394,7 +394,7 @@ Can't read Bubba from this save
     - and 6 more
 
 ### C7 (Maestro 73)
-- No build yet for this class (Journeyman line); these are your plain talent levels
+- No build yet for this class (Journeyman line): these are your talent levels
 - Current preset (in use): Beginner · Journeyman · Maestro · Star talents (all spent)
   - Star talents: All spent: the totals show where new points go
     - done: Stonks! 30
