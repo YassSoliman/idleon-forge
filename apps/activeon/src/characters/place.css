@@ -44,11 +44,16 @@
   max-width: 100%;
   overflow-x: auto;
 }
+/* R12 QA: no tile per cell. Rows split by one hairline; a cell that needs you keeps its tone. */
 .characters-place .cp-matrix {
   width: 100%;
-  border-collapse: separate;
-  border-spacing: 2px;
+  border-collapse: collapse;
   table-layout: fixed;
+}
+.characters-place .cp-matrix tbody th,
+.characters-place .cp-matrix tbody td {
+  padding: 2px;
+  box-shadow: 0 1px 0 var(--line);
 }
 .characters-place .cp-matrix thead th {
   font-size: var(--text-xs);
@@ -94,8 +99,11 @@
   text-decoration: none;
   overflow-wrap: anywhere;
   color: var(--fg);
-  background: var(--surface);
+  background: transparent;
   border: 0;
+}
+.characters-place .cp-cell:hover {
+  background: var(--sunk);
 }
 .characters-place .cp-cell[data-level="fix"] {
   background: var(--bad-soft);
@@ -185,26 +193,30 @@
   grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
   gap: var(--space-2);
 }
+/* R12 QA: columns on the page, not tiles; one hairline under each family name. */
 .characters-place .cp-tree-col {
   display: grid;
   gap: var(--space-1);
   align-content: start;
-  padding: var(--space-2);
-  border-radius: var(--radius-control);
-  background: var(--surface);
+  padding: 0;
   border: 0;
 }
 .characters-place .cp-tree-h {
   display: flex;
   align-items: center;
   gap: var(--space-1);
+  padding-bottom: var(--space-1);
   font-weight: var(--weight-semibold);
+  box-shadow: 0 1px 0 var(--line);
 }
 .characters-place .cp-tree-list {
   list-style: none;
   margin: 0;
   padding: 0;
   font-size: var(--text-sm);
+}
+.characters-place .cp-tree-list > li {
+  padding: 2px 0;
 }
 
 /* ---- the Builds overview ---- */
@@ -216,9 +228,8 @@
   align-items: baseline;
   gap: var(--space-2);
   min-height: var(--tap-min);
-  padding: var(--space-2) var(--space-3);
-  background: var(--surface);
-  border-radius: var(--radius-control);
+  padding: var(--space-2) 0;
+  box-shadow: 0 1px 0 var(--line);
   border: 0;
 }
 .characters-place .cp-fold > summary::-webkit-details-marker {
@@ -230,10 +241,9 @@
 }
 .characters-place .cp-bo-list {
   list-style: none;
-  margin: var(--space-2) 0 0;
+  margin: 0;
   padding: 0;
   display: grid;
-  gap: var(--space-1);
 }
 .characters-place .cp-bo-row {
   display: flex;
@@ -241,12 +251,14 @@
   align-items: baseline;
   gap: 0 var(--space-2);
   min-height: var(--tap-min);
-  padding: var(--space-2) var(--space-3);
-  border-radius: var(--radius-control);
-  background: var(--surface);
+  padding: var(--space-2) 0;
   color: var(--fg);
   text-decoration: none;
+  box-shadow: 0 1px 0 var(--line);
   border: 0;
+}
+.characters-place .cp-bo-row:hover {
+  background: var(--sunk);
 }
 .characters-place .cp-bo-line {
   flex-basis: 100%;

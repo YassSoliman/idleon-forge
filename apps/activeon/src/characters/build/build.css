@@ -72,7 +72,8 @@
   background: var(--accent-soft);
 }
 .build-view .bv-stone[data-state="next"] {
-  box-shadow: 0 0 0 2px var(--accent);
+  background: var(--surface);
+  box-shadow: inset 0 -3px 0 var(--accent);
 }
 .build-view .bv-stone-opens {
   margin: var(--space-2) 0 0;
@@ -100,13 +101,13 @@
   display: grid;
   gap: var(--space-4);
 }
+/* R12 QA: no card around a preset (its tab tiles were boxes in a box): a hairline under each. */
 .build-view .bv-preset {
   display: grid;
   gap: var(--space-3);
   min-width: 0;
-  padding: var(--space-3);
-  border-radius: var(--radius-card);
-  background: var(--surface);
+  padding: 0 0 var(--space-4);
+  box-shadow: 0 1px 0 var(--line);
   border: 0;
 }
 .build-view .bv-preset-h {
