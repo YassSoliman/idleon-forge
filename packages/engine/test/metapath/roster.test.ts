@@ -155,6 +155,20 @@ describe('FR-6, FR-8, FR-10 (synthetic)', () => {
     expect(analyzeRoster(full, facts(), 'W3-early').nextCharacter?.line).toBe('Journeyman');
   });
 
+  it('a Beginner made for slot 7 holds the Journeyman line; then the 2nd Squire is next (owner report 2026-10-19)', () => {
+    const six = ['Barbarian', 'Squire', 'Bowman', 'Hunter', 'Shaman', 'Wizard'].map((c, i) => char(i, c, 60));
+    const r = analyzeRoster(account([...six, char(6, 'Beginner', 8)]), facts(), 'W3-early');
+    expect(r.slots[6]).toMatchObject({ line: 'Journeyman', slot: 7, status: 'tentative' });
+    expect(r.nextCharacter?.line).toBe('Squire');
+    const r8 = analyzeRoster(
+      account([...six, char(6, 'Journeyman', 30), char(7, 'Beginner', 2)]),
+      facts(),
+      'W3-early',
+    );
+    expect(r8.slots[7]).toMatchObject({ line: 'Squire', slot: 8, note: 'second-squire' });
+    expect(r8.nextCharacter).toBeNull();
+  });
+
   it('a new account: Barbarian line first, slot 2 opens at family level 8', () => {
     const r = analyzeRoster(account([char(0, 'Beginner', 3)]), facts(), 'W1-early');
     expect(r.nextCharacter).toMatchObject({

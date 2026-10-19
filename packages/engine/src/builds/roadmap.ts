@@ -13,7 +13,7 @@ import {
 } from '@idleon-forge/account-state';
 import { type Entry, STAGE_DEFINITIONS, type StageId } from '@idleon-forge/knowledge';
 import { type ClassRow, classTree } from '../metapath/knowledge';
-import { analyzeRoster } from '../metapath/roster';
+import { type PlannedPath, type PromotionVia, plannedPaths } from '../metapath/planned';
 import type { FactLookup } from '../metapath/types';
 import type {
   BuildConfidenceView,
@@ -375,54 +375,77 @@ interface ClassPath {
   nextClass: string | null;
   /** The class the character is heading for next (planned subclass, or the elite class). */
   heading: Row | null;
+  /** The Lv 10 class pick, when this character takes one (null for a Beginner planned as Journeyman). */
+  classPickAt: number | null;
+  /** The Planned Path's promotion route, for the Build notes. */
+  via: PromotionVia | null;
 }
 
-function classPathOf(c: CharacterState, facts: FactLookup, planned: string | null): ClassPath {
+const NO_PATH: ClassPath = { path: [], nextClass: null, heading: null, classPickAt: null, via: null };
+/** The KB entry carrying the promotion words (the Planned Path's Now card, M2 FR-15). */
+const PROMOTION_ENTRY = 'metapath.goal.subclass';
+
+/** A promotion line from the KB entry's `values`; null when the entry or the value is missing. */
+function word(facts: FactLookup, key: string): string | null {
+  const e = facts.get(PROMOTION_ENTRY) as Entry | undefined;
+  const v = e && 'values' in e ? (e.values as Record<string, unknown> | undefined)?.[key] : undefined;
+  return typeof v === 'string' ? v : null;
+}
+
+/** The class path and its next-class line, both from the Planned Path (one source of truth). */
+function classPathOf(c: CharacterState, facts: FactLookup, plan: PlannedPath | null): ClassPath {
   const tree = classTree(facts);
   const byName = tree.byName as ReadonlyMap<string, Row>;
   const row = byName.get(c.class);
-  if (!row) return { path: [], nextClass: null, heading: null };
-  const back: Row[] = [];
-  for (let r: Row | undefined = row, g = 0; r && g < 8; g++) {
-    back.unshift(r);
-    r = r.promotesFrom ? byName.get(r.promotesFrom) : undefined;
-  }
-  const released = (r: Row | undefined): r is Row => !!r && r.released !== false;
-  const options = row.promotesTo.map((n) => byName.get(n)).filter(released);
-  const pick =
-    options.length <= 1
-      ? (options[0] ?? null)
-      : planned
-        ? (options.find((o) => o.class === planned) ?? null)
-        : null;
-  const forward: { label: string; cls: string; row: Row | null }[] = [];
-  if (pick) forward.push({ label: humanize(pick.class), cls: pick.class, row: pick });
-  else if (options.length > 1)
-    forward.push({ label: options.map((o) => humanize(o.class)).join(' or '), cls: '', row: null });
-  for (let r: Row | null = pick, g = 0; r && g < 4; g++) {
-    const n = r.promotesTo.map((x) => byName.get(x)).filter(released)[0] ?? null;
-    if (n) forward.push({ label: humanize(n.class), cls: n.class, row: n });
-    r = n;
-  }
-  const path: BuildPathStep[] = [
-    ...back.map(
-      (r) => ({ class: r.class, label: humanize(r.class), state: r === row ? 'now' : 'done' }) as const,
-    ),
-    ...forward.map((f, i) => ({ class: f.cls, label: f.label, state: i === 0 ? 'next' : 'later' }) as const),
-  ];
-  const first = forward[0];
+  if (!row || !plan || plan.steps.length === 0) return NO_PATH;
+  const path: BuildPathStep[] = plan.steps.map((s) => ({
+    class: s.class,
+    label: humanize(s.class),
+    state: s.state,
+  }));
+  const options = plan.options.map((o) => humanize(o));
+  if (options.length > 1) path.push({ class: '', label: options.join(' or '), state: 'next' });
+  const next = plan.next ? (byName.get(plan.next) ?? null) : null;
+  const label = next ? humanize(next.class) : null;
   let nextClass: string | null = null;
-  if (first) {
-    if (row.tier === 'beginner')
-      nextClass =
-        c.level < CLASS_PICK_LEVEL
-          ? `Lv ${CLASS_PICK_LEVEL}: pick ${first.label} at Promotheus`
-          : `Pick ${first.label} at Promotheus`;
-    else if (row.tier === 'base') nextClass = `Next class: take ${first.label} at Speccius`;
-    else if (row.tier === 'subclass') nextClass = `Elite class: ${first.label} at Eliteus`;
-    else nextClass = `Next class: ${first.label}`;
+  const pick = c.level < CLASS_PICK_LEVEL ? `Lv ${CLASS_PICK_LEVEL}: pick` : 'Pick';
+  switch (plan.via) {
+    case 'promotheus':
+      nextClass = `${pick} ${label} at Promotheus`;
+      break;
+    case 'rocklyte':
+      nextClass = word(facts, 'roadmap-journeyman') ?? `Next class: ${label}`;
+      break;
+    case 'speccius':
+      nextClass = `Next class: take ${label} at Speccius`;
+      break;
+    case 'cactolyte':
+      nextClass = word(facts, 'roadmap-maestro') ?? `Next class: ${label}`;
+      break;
+    case 'eliteus':
+      nextClass = `Elite class: ${label} at Eliteus`;
+      break;
+    case 'nebulyte':
+      nextClass = word(facts, 'roadmap-voidwalker') ?? `Elite class: ${label}`;
+      break;
+    case 'other':
+      nextClass = `Next class: ${label}`;
+      break;
+    case null:
+      if (options.length > 1)
+        nextClass =
+          row.tier === 'beginner'
+            ? `${pick} ${options.filter((o) => o !== 'Journeyman').join(' or ')} at Promotheus, or skip it for the Journeyman (Rocklyte's quests)`
+            : `Next class: take ${options.join(' or ')} at Speccius`;
   }
-  return { path, nextClass, heading: first?.row ?? null };
+  const picks = row.tier === 'beginner' && plan.via !== 'rocklyte' && plan.line !== 'Beginner';
+  return {
+    path,
+    nextClass,
+    heading: next,
+    classPickAt: picks ? CLASS_PICK_LEVEL : null,
+    via: plan.via,
+  };
 }
 
 // ---------- the roadmap ----------
@@ -518,6 +541,9 @@ function covered(
 
   // ---- coming up ----
   const comingUp: string[] = [];
+  // The Beginner Build for a Beginner planned as the Journeyman, with the line's note first.
+  const jman = path.via === 'rocklyte' ? word(factsOf(acc), 'build-journeyman') : null;
+  if (jman) comingUp.push(jman);
   if (c.level < PRESET_LEVEL)
     comingUp.push(
       `Lv ${PRESET_LEVEL}: your second talent preset opens, one for fighting and one for skilling`,
@@ -600,6 +626,7 @@ function covered(
     status: parts.join(' · '),
     path: path.path,
     nextClass: path.nextClass,
+    classPickAt: path.classPickAt,
     presets,
     comingUp,
     note: null,
@@ -739,6 +766,7 @@ function plain(c: CharacterState, acc: AccountAnalysis, path: ClassPath, note: s
     status: note.split(';')[0] ?? note,
     path: path.path,
     nextClass: path.nextClass,
+    classPickAt: path.classPickAt,
     presets,
     comingUp,
     note,
@@ -762,25 +790,27 @@ export function buildRoadmaps(
   const acc = analyzeAccount(state, facts);
   lookups.set(acc, facts);
   starCtxs.set(acc, starContext(state, acc));
-  let roster: ReturnType<typeof analyzeRoster> | null = null;
+  let plans: PlannedPath[] = [];
   try {
-    roster = analyzeRoster(state, facts, acc.stage);
+    plans = plannedPaths(state, facts, acc.stage);
   } catch {
-    roster = null;
+    plans = [];
   }
   return state.characters.map((c) => {
-    const planned = roster?.slots.find((s) => s.characterIndex === c.index)?.line ?? null;
     let path: ClassPath;
     try {
-      path = classPathOf(c, facts, planned);
+      path = classPathOf(c, facts, plans.find((p) => p.characterIndex === c.index) ?? null);
     } catch {
-      path = { path: [], nextClass: null, heading: null };
+      path = NO_PATH;
     }
     if (!c.talents || !isKnown(state, `characters[${c.index}].talents`))
       return plain(c, acc, path, "Can't read this character's talents from the save");
     const a = acc.characters.get(c.index) ?? acc.viewOnly.get(c.index);
     if (a) return covered(c, a, acc, path, opts);
     const reason = acc.notCovered.get(c.index);
-    return plain(c, acc, path, (reason && NOTE[reason]) ?? 'No build yet for this class');
+    // A Beginner past Lv 15 planned as the Journeyman is not told to pick a class (owner report 2026-10-19).
+    const journeyman =
+      reason === 'beginner' && path.via === 'rocklyte' ? word(facts, 'build-journeyman-past') : null;
+    return plain(c, acc, path, journeyman ?? (reason && NOTE[reason]) ?? 'No build yet for this class');
   });
 }
