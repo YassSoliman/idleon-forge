@@ -58,6 +58,15 @@ export const VERIFICATION = ['confirmed', 'corrected', 'contested', 'unverified'
 // ---------- Sources (ADR 0004) ----------
 /** A tier 1 Source must be a permalink to game data: a Toolbox file at a 40-character commit sha (FR-3). */
 export const TIER1_URL_RE = /^https:\/\/github\.com\/Morta1\/IdleonToolbox\/blob\/[0-9a-f]{40}\//;
+/**
+ * ADR 0004 amendment (M26 FR-2b, owner Q10): a tier 1 Source may also be a read of the game client
+ * itself, the web build's script on legendsofidleon.com. It then carries the hash of the excerpt we
+ * stored (`docs/research/game-client/excerpts/<excerptSha256>.txt`) and the client build it came from.
+ */
+export const GAME_CLIENT_URL_RE = /^https:\/\/legendsofidleon\.com\/[^?#]+\.js$/;
+const Sha256 = z.string().regex(/^[0-9a-f]{64}$/, 'a sha256 in lowercase hex');
+/** The client file a game-client Source read: its sha256 and its Last-Modified date. */
+export const ClientBuild = z.strictObject({ sha256: Sha256, lastModified: IsoDate });
 
 export const Source = z
   .strictObject({
@@ -73,15 +82,36 @@ export const Source = z
     note: z.string().max(200).optional(),
     /** #27 legend, for judgment entries. */
     verification: z.enum(VERIFICATION).optional(),
+    /** Game-client Sources only (M26 FR-2b): sha256 of the stored excerpt. */
+    excerptSha256: Sha256.optional(),
+    /** Game-client Sources only (M26 FR-2b): the client build read; `gameVersion` is the version it was matched to. */
+    clientBuild: ClientBuild.optional(),
   })
   .refine((s) => s.tier === 1 || s.tier === 4 || s.claimDate !== undefined, {
     message: 'tier 2 and tier 3 Sources need claimDate',
     path: ['claimDate'],
   })
-  .refine((s) => s.tier !== 1 || TIER1_URL_RE.test(s.url), {
-    message: 'a tier 1 Source is a Toolbox permalink at a 40-character commit sha',
+  .refine((s) => s.tier !== 1 || TIER1_URL_RE.test(s.url) || GAME_CLIENT_URL_RE.test(s.url), {
+    message: 'a tier 1 Source is a Toolbox permalink at a 40-character commit sha, or a game-client read',
     path: ['url'],
-  });
+  })
+  .refine(
+    (s) =>
+      !GAME_CLIENT_URL_RE.test(s.url) ||
+      s.tier !== 1 ||
+      (s.excerptSha256 !== undefined && s.clientBuild !== undefined),
+    {
+      message: 'a tier 1 game-client Source needs excerptSha256 and clientBuild (ADR 0004, M26 FR-2b)',
+      path: ['url'],
+    },
+  )
+  .refine(
+    (s) => (s.excerptSha256 === undefined && s.clientBuild === undefined) || GAME_CLIENT_URL_RE.test(s.url),
+    {
+      message: 'excerptSha256 and clientBuild belong to game-client Sources only',
+      path: ['excerptSha256'],
+    },
+  );
 
 // ---------- shared pieces ----------
 const StageRange = z.strictObject({ from: StageId, to: StageId });

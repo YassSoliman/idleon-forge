@@ -1,0 +1,19 @@
+{
+  "note": "Game-client builds that Knowledge Base Sources may read (ADR 0004 amendment, M26 FR-2b). Excerpts live in excerpts/<sha256>.txt, at most 2 KB each. Checked by kb check.",
+  "builds": [
+    {
+      "url": "https://legendsofidleon.com/ytGl5oc/N.js",
+      "sha256": "42da3130082762cfe4650212fccbf51d7982175ee91778ef3b202fcb33b8b204",
+      "bytes": 26391628,
+      "lastModified": "2026-10-17",
+      "gameVersion": "2.3.540",
+      "verified": "2026-10-19",
+      "evidence": [
+        "M26 V43, 2026-10-19: no version literal ships in the client; the 'v1.23' in the M26 dossiers is the in-client update tag Luminous_Menagerie_v1.23, not a game version.",
+        "Matched by content and date: the copy contains every feature IdleOn Toolbox 3.3.96 lists for game 2.3.540 (data/patch-notes.js at 6c37e3d, dated 2026-10-17): the Luminous Menagerie, the Verisimilitude artifact tier, Omega arcade balls, the Clam Work Scurge tab and the Coral Kid Singularity page.",
+        "Last-Modified 2026-10-17 (recorded when the copy was fetched), the day Toolbox shipped its 2.3.540 update.",
+        "The URL no longer serves this file (a later build moved it); a newer client needs its own row."
+      ]
+    }
+  ]
+}

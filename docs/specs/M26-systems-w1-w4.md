@@ -527,6 +527,14 @@ golden.
   the stored excerpt, kept under `docs/research/game-client/`), `clientBuild` (file hash and Last-Modified) and
   `gameVersion` verified in the client. Until that PR merges, every N.js-only claim is tier 4 and its entry is display
   only. N.js-only verdicts stay confidence M at most until V43 matches the copy to 2.3.540.
+  **Built 2026-10-19:** ADR 0004 amended; `Source` takes `excerptSha256` and `clientBuild`, required on a tier-1
+  `legendsofidleon.com/*.js` URL and allowed nowhere else; `kb check` verifies the stored excerpt (hash, at most 2 KB)
+  and the build row in `docs/research/game-client/builds.json`, whose `gameVersion` must equal the Source's. **V43:**
+  the N.js copy (sha256 `42da3130…b8b204`, 26,391,628 bytes, Last-Modified 2026-10-17) ships no version literal ("v1.23"
+  is the update tag `Luminous_Menagerie_v1.23`), but contains every feature Toolbox 3.3.96 lists for 2.3.540 (Luminous
+  Menagerie, Verisimilitude tier, Omega balls, Scurge, Singularity) and is dated the same day: matched to 2.3.540 by
+  content, so N.js-only verdicts are no longer capped at M on version grounds. The URL no longer serves that file; a
+  newer client gets its own row.
 - **FR-2c Two-Source rule for judgment.** A lint fails a Priority, Build or Meta Path ordering whose status is `active`
   unless it cites at least two independent (different author and site), dated, post-patch Sources; tier-1 data counts
   as one only for the facts it supplies, not for the ordering. Entries that fail ship display only or Contested. The
