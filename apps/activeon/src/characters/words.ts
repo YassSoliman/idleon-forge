@@ -51,9 +51,11 @@ export const BUILD_WORDS = {
   segTabs: (preset: string) => `${preset}: talent tabs (talent points)`,
   segStar: (preset: string) => `${preset}: star talents (star points)`,
   starTab: 'Star talents',
-  sum: (parts: readonly number[], total: number, atLeast: boolean) =>
-    `${parts.length > 1 ? `${parts.map(n).join(' + ')} = ` : '= '}${atLeast ? 'at least ' : ''}${n(total)} talent points`,
-  starPool: 'star points, their own pool',
+  /** The caption under the tab controls: one line for both pools (they never add up together). */
+  pools: (talent: number, atLeast: boolean, tabs: number, star: number | null) =>
+    `Talent points: ${atLeast ? 'at least ' : ''}${n(talent)} across ${plural(tabs, 'tab')}${
+      star === null ? '' : ` · Star talents: ${n(star)}, a separate pool`
+    }`,
   /** "Skilling preset · Hunter tab: 193 points to place here". */
   tabLine: (preset: string, tab: string) => `${preset} · ${tab}`,
   toPlace: (points: number, atLeast: boolean) =>
@@ -75,6 +77,13 @@ export const BUILD_WORDS = {
     `${atLeast ? 'At least ' : 'Your '}${n(points)} ${pool} points end here`,
   finishStep: (more: number, step: number) => ` · ${plural(more, 'more point')} finish step ${n(step)}`,
   pointsIn: 'points in',
+  /** "Build complete at 300 · 66 points have no talent in this build yet". */
+  complete: (at: number, spare: number, atLeast: boolean) =>
+    `Build complete at ${n(at)}${
+      spare > 0
+        ? ` · ${atLeast ? 'at least ' : ''}${plural(spare, 'point')} ${spare === 1 ? 'has' : 'have'} no talent in this build yet`
+        : ''
+    }`,
   status: {
     done: 'Done',
     add: (points: number) => `Add ${n(points)} now`,

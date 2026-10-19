@@ -305,6 +305,45 @@ describe('Build view', () => {
     await noAxeViolations(container);
   });
 
+  it('M24: points that cover the whole build say "Build complete", never "end here" under the last step', () => {
+    const s = (key: string, label: string, cumulative: number): BuildPathStepView => ({
+      key,
+      talentId: key.charCodeAt(0),
+      label,
+      page: null,
+      current: 0,
+      goal: 100,
+      need: 100,
+      cumulative,
+      band: 'now',
+      partNow: null,
+      core: false,
+      condition: null,
+      note: null,
+    });
+    const tab = {
+      tab: 1,
+      name: 'Calm Basics',
+      spent: 0,
+      unspent: 366,
+      rows: [],
+      others: [],
+      known: { kind: 'exact' as const, points: 366, overBy: null, verified: true },
+      path: [s('a', 'Elusive Efficiency', 100), s('b', 'Broken Time', 200), s('c', 'Book of the Wise', 300)],
+    };
+    const r: EngineResult = {
+      ...fixture('mid-session'),
+      builds: [{ ...shaman, presets: [preset(0, {}), preset(1, { unspent: 366, tabs: [tab] })] }],
+    };
+    renderNow(props(r, saveOf(r, 1, 'first', null, 'paste')));
+    fireEvent.click(screen.getByRole('link', { name: /^Birch: build/ }));
+    const ladder = document.getElementById('bv-1-p1-t1') as HTMLElement;
+    const cut = ladder.querySelector('.bd-cut-t')?.textContent ?? '';
+    expect(cut).toMatch(/^Build complete at 300 · 66 points have no talent in this build yet/);
+    expect(cut).not.toMatch(/end here/);
+    expect(document.body.textContent).toContain('Talent points: 366 across 1 tab');
+  });
+
   it('opens straight on the Build tab from a bare #build-<index> link, and Now goes back to the card', () => {
     window.history.replaceState(null, '', '/#build-2');
     const r = withBuilds();

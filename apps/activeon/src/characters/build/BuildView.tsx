@@ -17,6 +17,8 @@ import { asOfLine, CHARACTERS_WORDS, leadTab, pathMarker } from '@idleon-forge/e
 import type { BuildRoadmapView } from '@idleon-forge/engine/now';
 import type { BuildPathStepView, BuildPresetView, BuildTabView } from '@idleon-forge/engine/result';
 import { createContext, useContext, useMemo, useState } from 'react';
+import { spriteOf } from '../../art/sprites';
+import { Sprite } from '../../art/sprites/Sprite';
 import { PixelArt } from '../../design/art/PixelArt';
 import { cx, GLYPH, Meter, SourceLabel } from '../../design/atoms';
 import type { CharacterTabProps } from '../../now/character-tabs';
@@ -434,8 +436,12 @@ export function Ladder({ tab, preset, id }: { tab: BuildTabView; preset: string;
   const pool = tab.tab === 0 ? 'star' : `${tab.name} tab`;
   const partAt = lastCovered >= 0 && path[lastCovered]?.band === 'part' ? lastCovered : -1;
   const part = partAt >= 0 ? path[partAt] : null;
-  const cutText =
-    known > 0 && lastCovered >= 0
+  // The known points pay for every open step: the build is complete there, and the rest has no talent yet.
+  const coveredAll = known > 0 && lastCovered >= 0 && !part && !path.some((s) => s.band === 'next');
+  const completeAt = coveredAll ? (path[lastCovered]?.cumulative ?? 0) : 0;
+  const cutText = coveredAll
+    ? B.complete(completeAt, known - completeAt, atLeastOf(tab))
+    : known > 0 && lastCovered >= 0
       ? `${B.endsHere(known, atLeastOf(tab), pool)}${part ? B.finishStep(part.need - (part.partNow ?? 0), partAt + 1) : ''}`
       : pathMarker(tab, age);
   const cutRow = (
@@ -512,7 +518,7 @@ export function Ladder({ tab, preset, id }: { tab: BuildTabView; preset: string;
         </span>
       </div>
       {path.length === 0 ? <p className="bd-xs">{W.buildPath.noPoints}</p> : null}
-      {toFinish > 0 ? <p className="bd-xs">{B.keepGoing}</p> : null}
+      {toFinish > 0 && !coveredAll ? <p className="bd-xs">{B.keepGoing}</p> : null}
       {path.length > 0 ? <ol className="bd-steps">{rows}</ol> : null}
       {tab.others.length > 0 ? (
         <p className="bd-xs">
@@ -579,14 +585,14 @@ function PresetBody({
                     setSel(null);
                   }}
                 >
+                  {spriteOf(`talent-tab-${t.tab}`) ? (
+                    <Sprite name={`talent-tab-${t.tab}`} size={16} decorative />
+                  ) : null}
                   {t.name}
                   {pointsOf(t) > 0 ? <span className="bd-segpts num">{n(pointsOf(t))}</span> : null}
                 </button>
               ))}
             </fieldset>
-          ) : null}
-          {pools.talent > 0 ? (
-            <span className="bd-xs">{B.sum(pools.parts, pools.talent, pools.atLeast)}</span>
           ) : null}
           {p.star ? (
             <>
@@ -606,10 +612,12 @@ function PresetBody({
                   {pools.star > 0 ? <span className="bd-segpts num">{n(pools.star)}</span> : null}
                 </button>
               </fieldset>
-              <span className="bd-xs">{B.starPool}</span>
             </>
           ) : null}
         </div>
+        <p className="bd-xs bd-pools">
+          {B.pools(pools.talent, pools.atLeast, tabs.length, p.star ? pools.star : null)}
+        </p>
         <p className="bd-tabline">
           {B.tabLine(p.heading, tabName)}: <b>{tp > 0 ? B.toPlace(tp, atLeastOf(tab)) : B.noneToPlace}</b>
         </p>

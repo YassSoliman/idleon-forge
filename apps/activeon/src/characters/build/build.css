@@ -4,6 +4,7 @@
    no rings, no side stripes, radius at most 4 px). The outlined order number is a pixel drawing (SVG). */
 .bd {
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   gap: var(--space-6);
 }
 .bd-cap {
@@ -199,6 +200,8 @@
 }
 .bd-seg {
   display: inline-flex;
+  flex-wrap: wrap;
+  max-width: 100%;
   gap: 2px;
   padding: 3px;
   background: var(--surface);
@@ -584,7 +587,11 @@ button.bd-tal-btn:focus-visible {
     justify-items: start;
   }
   .bd-segbtn {
-    padding: var(--space-2) 10px;
+    padding: var(--space-2) 8px;
+  }
+  /* BuildPhone: the three tabs fit one line; the tab emblems show from 720 px. */
+  .bd-segbtn .spr-art {
+    display: none;
   }
   .bd-book {
     grid-template-columns: repeat(3, minmax(0, 1fr));
