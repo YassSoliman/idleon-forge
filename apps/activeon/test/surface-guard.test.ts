@@ -93,6 +93,11 @@ export const DRAWINGS: ReadonlyArray<readonly [RegExp, string]> = [
   ],
   [/\.sy-tank__glass\b/, 'the slot picture tanks: game objects'],
   [/\.a-meter\b/, 'meter fills (the bar drawing, not a box)'],
+  [
+    /\.(map-key|ms-star|ms-key|mc-face|mc-key)\b/,
+    'M24 Map drawings: door keys, constellation stars and card frames',
+  ],
+  [/\.tl-mk\b/, "M24 Timeline lane marks: a limit's square on the rail (hollow: can't tell when)"],
 ];
 
 /** The widest spread ring among a box-shadow's layers: `[inset] 0 0 0 Npx <color> [inset]`. */
