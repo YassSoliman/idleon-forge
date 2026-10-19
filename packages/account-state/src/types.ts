@@ -58,8 +58,10 @@ import type { World4AccountFields } from './world4-types';
  * 21: ADR 0010's exact talent points (`characters[].talents.active.talentPoints`, `.other.talentPoints`).
  * 22: M23 TR-2's `account.bubba` (Toolbox's Bubba parse, a few raw indices, ADR 0010's derived values).
  * 23: M24's World 4 fields (the `World4AccountFields` block: `lab`, `cooking`, `breeding`), read-only pages.
+ * 24: M24: `characters[].afk.anvilPlan.products[].required` (Toolbox `requiredAmount`), and the plan's
+ *    `output` is anvil work (each item weighted by it), not an item count.
  */
-export const SCHEMA_VERSION = 23;
+export const SCHEMA_VERSION = 24;
 
 /** The AFK types Toolbox's monster data uses, plus its two "no rate" values. */
 export const KNOWN_AFK_TYPES = [

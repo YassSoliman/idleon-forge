@@ -1,0 +1,120 @@
+/* SPDX-License-Identifier: GPL-3.0-only */
+/* M24: the full System pages' own pieces (pages/*.tsx). The template's shared pieces are frame.css. */
+
+/* Anvil -------------------------------------------------------------------------------------------- */
+.an-work {
+  display: grid;
+  gap: var(--space-3);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.an-work__row {
+  display: grid;
+  grid-template-columns: 140px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: var(--space-4);
+}
+.an-work__name {
+  display: grid;
+}
+.an-work__bar {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-width: 0;
+}
+.an-work__fill {
+  flex: none;
+  height: 14px;
+  background: var(--tier-bronze-3);
+}
+.an-work__fills {
+  text-align: right;
+}
+.an-away {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+.an-away__opt {
+  min-height: 40px;
+  min-width: 44px;
+  justify-content: center;
+}
+.an-row {
+  display: grid;
+  grid-template-columns: minmax(0, 210px) minmax(0, 1fr) minmax(0, 260px);
+}
+.an-row__who {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  min-width: 0;
+}
+.an-row__bar,
+.an-row__todo {
+  display: grid;
+  gap: var(--space-1);
+  min-width: 0;
+}
+.an-bar {
+  display: flex;
+  height: 12px;
+  background: var(--sunk);
+}
+.an-bar > span {
+  height: 12px;
+}
+.an-sw--speed {
+  background: var(--fg);
+  opacity: 0.75;
+}
+.an-sw--cap {
+  background: var(--line-strong);
+}
+.an-sw--spare {
+  background: var(--accent);
+}
+.an-ws__head {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+.an-facts {
+  margin: 0;
+}
+.an-facts dd {
+  margin: 0;
+}
+.an-worth {
+  display: grid;
+  gap: var(--space-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.an-worth > li {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+.an-makes {
+  display: flex;
+  flex: 1;
+  flex-wrap: wrap;
+  gap: var(--space-1) var(--space-6);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+@media (max-width: 719.98px) {
+  .an-row,
+  .an-work__row {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .an-work__fills {
+    text-align: left;
+  }
+}

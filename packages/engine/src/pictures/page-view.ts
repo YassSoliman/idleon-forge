@@ -7,6 +7,7 @@
 // in the first load (TR-12): the barrel's modules all bundle into one first-load chunk.
 
 import {
+  REASON_WORDS,
   buildSystemPageView,
   type NowPrefs,
   type NowView,
@@ -16,7 +17,7 @@ import {
 import { STAGES } from '@idleon-forge/knowledge/stages';
 import type { EngineResult, SystemPicture } from '../result';
 import { isStage, readPrefs, type SystemStepView, stageLabel, whoToken } from './hub-view';
-import { FRAME_WORDS } from './words';
+import { FRAME_WORDS, PAGE_FRAME_WORDS as W } from './words';
 
 export interface SystemPageExtras {
   /** FR-S3: the page's step, the first open Next Action of the System (at most two lines, DS-18). */
@@ -25,6 +26,22 @@ export interface SystemPageExtras {
   stageMeter: { text: string; value: number; max: number; label: string } | null;
   /** FR-S4, FR-S5: this System's pictures (M20's and area S's), from `EngineResult.slotPictures`. */
   pictures: SystemPicture[];
+  /** M24: the page template's header, framed answer, steps, checks and footer line. */
+  frame: SystemFrameView;
+}
+
+/** M24: the tone of a page's status and its framed answer (colour = meaning). */
+export type FrameTone = 'coral' | 'gold' | 'mint' | 'sky' | 'mut';
+export interface SystemFrameView {
+  /** "Systems · World 1". */
+  back: string;
+  status: { tone: FrameTone; word: string; reason: string };
+  answer: { tone: FrameTone; cap: string; hero: string; sub: string | null };
+  /** The page's open steps in engine order, with who they are for ("Bowman 81"), for "In game". */
+  steps: { key: string; text: string; who: string | null }[];
+  checks: { title: string; tone: FrameTone; word: string }[];
+  /** "Checks: …" for the footer line. */
+  checksLine: string;
 }
 
 const indexOfSubject = (subject: string): number | null =>
@@ -60,7 +77,91 @@ export function buildSystemPageFrameView(
           label: FRAME_WORDS.stageMeter(stageLabel(row.expectedBy), stageLabel(stage)),
         }
       : null;
-  return { ...page, step, stageMeter, pictures: picturesOf(result, page.tile.id) };
+  return {
+    ...page,
+    step,
+    stageMeter,
+    pictures: picturesOf(result, page.tile.id),
+    frame: frameOf(result, page, step),
+  };
+}
+
+const subjectIndex = (subject: string): number | null =>
+  subject.startsWith('c') ? Number(subject.slice(1)) : null;
+
+/** M24: the System page template's words, from the tile, the Goals and the coverage. */
+export function frameOf(
+  result: EngineResult,
+  page: SystemPageView,
+  step: SystemStepView | null,
+): SystemFrameView {
+  const { tile } = page;
+  const stage = result.stage.id;
+  const world = isStage(stage) ? `World ${stage.slice(1, 2)}` : null;
+  const parts = tile.reason[0]?.text === tile.statusWord.text ? tile.reason.slice(2) : tile.reason;
+  // The status word says "Behind for World 3" or "Nothing to fix"; the reason doesn't repeat it.
+  const reason = parts
+    .map((p) => p.text)
+    .join('')
+    .split(REASON_WORDS.sep)
+    .filter((x) => x && x !== REASON_WORDS.behind && x !== REASON_WORDS.nothingToFix)
+    .join(REASON_WORDS.sep);
+  const checksCount = page.coverage.checks.length;
+  const todo = page.goals.length > 0;
+  const status: SystemFrameView['status'] =
+    tile.status === 'wasting'
+      ? { tone: 'coral', word: W.status.wasting, reason }
+      : tile.status === 'behind'
+        ? { tone: 'gold', word: W.status.behind(world), reason }
+        : tile.status === 'locked'
+          ? { tone: 'mut', word: W.status.locked, reason }
+          : tile.status === 'not-covered'
+            ? { tone: 'mut', word: checksCount ? W.status.notCovered : W.status.noChecks, reason }
+            : tile.status === 'cant-tell'
+              ? { tone: 'mut', word: W.status.cantTell, reason }
+              : { tone: 'mint', word: W.status.ok, reason };
+  const more = Math.max(0, page.goals.length - 1);
+  const who = step?.who?.label ?? null;
+  const stepSub = [who, more ? W.more(more) : null].filter(Boolean).join(' · ') || null;
+  const answer: SystemFrameView['answer'] =
+    page.locked || tile.status === 'locked'
+      ? { tone: 'mut', cap: W.cap.locked, hero: W.lockedHero(tile.name), sub: page.unlock?.text ?? null }
+      : step && tile.status === 'wasting'
+        ? { tone: 'coral', cap: W.cap.wasting, hero: step.text, sub: stepSub }
+        : step && todo
+          ? { tone: 'gold', cap: W.cap.todo, hero: step.text, sub: stepSub }
+          : tile.status === 'not-covered'
+            ? {
+                tone: 'mut',
+                cap: W.cap.off,
+                hero: W.notCoveredHero(tile.name),
+                sub: page.unlock?.text ?? null,
+              }
+            : tile.status === 'cant-tell'
+              ? { tone: 'mut', cap: W.cap.cantTell, hero: W.cantTellHero, sub: null }
+              : { tone: 'mint', cap: W.cap.ok, hero: W.okHero, sub: checksCount ? W.okSub : null };
+  const fired = tile.status === 'wasting' ? 'coral' : 'gold';
+  const checks = page.coverage.checks.map((c) =>
+    c.state === 'see-above'
+      ? {
+          title: c.title,
+          tone: fired as FrameTone,
+          word: fired === 'coral' ? W.check.losing : W.check.todo,
+        }
+      : { title: c.title, tone: 'mint' as FrameTone, word: W.check.fine },
+  );
+  return {
+    back: W.back(W.world(tile.world)),
+    status,
+    answer,
+    steps: page.goals.map((g) => ({
+      key: g.action.key,
+      text: g.action.text,
+      who: whoToken(result, subjectIndex(g.subject))?.label ?? null,
+    })),
+    checks,
+    checksLine: W.checksLine(page.coverage.checks.map((c) => c.title.toLowerCase())),
+  };
 }
 
 /** The pictures drawn on a System's page: its own (M20's and area S's). */

@@ -382,7 +382,7 @@ function anvilPlanOf(
       speedPoints: speed,
       capPoints: cap,
       unspent,
-      products: products.map(({ item, name }) => ({ item, name })),
+      products: products.map(({ item, name, required }) => ({ item, name, required })),
       windows,
     };
   });
