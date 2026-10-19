@@ -88,8 +88,8 @@ describe('the Gear tab', () => {
     window.history.replaceState(null, '', '/#characters');
     renderNow(props(result, save()));
     // M21 FR-C7: the health matrix's Gear cell, a 44 px link with a glyph and a word with a unit.
-    expect(
-      screen.getAllByRole('link', { name: /, Gear: fix, \d+ better pieces? held$/ }).length,
-    ).toBeGreaterThan(0);
+    expect(screen.getAllByRole('link', { name: /, Gear: \d+ better pieces? held$/ }).length).toBeGreaterThan(
+      0,
+    );
   });
 });

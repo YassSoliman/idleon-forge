@@ -18,7 +18,7 @@ describe('US-12 "See it" from Now', () => {
   it('a Next Action sees its System page, outlined there; a Cards Goal sees its Cards tab', () => {
     const r = withSystems();
     renderNow(props(r, saveOf(r, 1, 'first', null, 'paste')));
-    fireEvent.click(screen.getAllByRole('button').find((b) => b.dataset.index === '0') as HTMLElement);
+    fireEvent.click(document.querySelector('[data-index="0"]') as HTMLElement);
     fireEvent.click(screen.getByRole('link', { name: 'See it: Alchemy bubbles' }));
     expect(window.location.hash).toBe('#system-alchemy-bubbles');
     expect(document.querySelector('.na.lit')?.getAttribute('data-na-key')).toBe(

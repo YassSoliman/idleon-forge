@@ -1,267 +1,420 @@
 /* SPDX-License-Identifier: GPL-3.0-only */
-/* The Characters place (M21 FR-C6, FR-C7; Design Lab character.overview "Health matrix" with the class
-   tree block), in Field Guide tokens. A lazy chunk's stylesheet. */
+/* Copyright (C) 2026 IdleOn Forge contributors. */
+/* The Characters place (M24 board after/Characters), in Field Guide tokens. A lazy chunk's stylesheet.
+   Tonal squares, no borders or rings; the next character is the screen's one .a-frame. Pixel face only
+   at 22 px and up, ligatures off. */
 .characters-place {
   display: grid;
-  gap: var(--space-4);
+  gap: var(--space-10);
 }
 .characters-place .cp-head {
   display: flex;
   flex-wrap: wrap;
-  align-items: baseline;
-  gap: var(--space-1) var(--space-3);
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--space-3) var(--space-6);
 }
-.characters-place .cp-title {
+.characters-place .cp-head-t {
+  display: grid;
+  gap: var(--space-2);
+}
+.characters-place .cp-title,
+.characters-place .cp-h2 {
   margin: 0;
   font-family: var(--font-display);
   font-weight: var(--display-weight);
-  font-size: var(--text-xl);
-  line-height: var(--lh-tight);
+  font-variant-ligatures: var(--font-ligatures);
+  font-feature-settings: var(--font-features);
+}
+.characters-place .cp-title {
+  font-size: 28px;
+  line-height: 1.1;
+}
+.characters-place .cp-h2 {
+  font-size: 22px;
+  line-height: 1.15;
+}
+.characters-place .cp-cap {
+  color: var(--muted);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-bold);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
 }
 .characters-place .cp-muted {
   color: var(--muted);
+}
+.characters-place .cp-sm {
   font-size: var(--text-sm);
 }
-.characters-place .cp-block {
+.characters-place .cp-xs {
+  font-size: 13px;
+}
+.characters-place .cp-t-ok {
+  color: var(--ok);
+  margin: 0;
+}
+.characters-place .cp-legend {
+  display: flex;
+  gap: var(--space-6);
+}
+.characters-place .cp-legend > span {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+.characters-place .cp-pip {
+  display: inline-block;
+  flex: none;
+  width: 10px;
+  height: 10px;
+  background: var(--line-strong);
+}
+.characters-place .cp-pip--warn {
+  background: var(--accent);
+}
+.characters-place .cp-pip--ok {
+  background: var(--ok);
+}
+.characters-place .cp-sec-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-2) var(--space-4);
+}
+
+/* ---- the roster grid ---- */
+.characters-place .cp-grid-wrap {
   display: grid;
   gap: var(--space-2);
   min-width: 0;
 }
-.characters-place .cp-h {
-  margin: 0;
-  font-family: var(--font-display);
-  font-weight: var(--display-weight);
-  font-size: var(--text-xl);
-  line-height: var(--lh-tight);
-}
-.characters-place .cp-name {
-  font-weight: var(--weight-semibold);
-  overflow-wrap: anywhere;
-}
-
-/* ---- the health matrix ---- */
-.characters-place .cp-matrix-wrap {
-  max-width: 100%;
-  overflow-x: auto;
-}
-/* R12 QA: no tile per cell. Rows split by one hairline; a cell that needs you keeps its tone. */
-.characters-place .cp-matrix {
+.characters-place .cp-grid {
   width: 100%;
-  border-collapse: collapse;
+  border-collapse: separate;
+  border-spacing: 4px;
+  margin: -4px;
   table-layout: fixed;
 }
-.characters-place .cp-matrix tbody th,
-.characters-place .cp-matrix tbody td {
-  padding: 2px;
-  box-shadow: 0 1px 0 var(--line);
-}
-.characters-place .cp-matrix thead th {
-  font-size: var(--text-xs);
-  font-weight: var(--weight-semibold);
+.characters-place .cp-grid thead th {
+  padding: 0 14px;
   color: var(--muted);
-  text-align: center;
-  padding: var(--space-1) 0;
+  font-size: var(--text-xs);
+  font-weight: var(--weight-bold);
+  letter-spacing: 0.1em;
+  text-align: left;
+  text-transform: uppercase;
+  scroll-margin-top: 80px;
 }
-.characters-place .cp-matrix thead th:first-child {
-  width: 26%;
+.characters-place .cp-grid thead th:first-child {
+  width: 232px;
+  padding-left: 4px;
+}
+.characters-place .cp-grid tbody th,
+.characters-place .cp-grid tbody td {
+  padding: 0;
+  font-weight: inherit;
+  text-align: left;
+  vertical-align: top;
 }
 .characters-place .cp-who {
   display: flex;
   align-items: center;
-  gap: var(--space-1);
-  min-height: var(--tap-min);
+  gap: var(--space-3);
+  min-height: 60px;
+  padding: 10px 0;
   color: var(--fg);
   text-decoration: none;
-  text-align: left;
-  font-weight: var(--weight-regular);
+}
+.characters-place .cp-who:hover b {
+  color: var(--accent);
+}
+.characters-place .cp-n {
+  width: 16px;
+  color: var(--muted);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-bold);
+  text-align: right;
 }
 .characters-place .cp-who-t {
   display: grid;
   min-width: 0;
-  font-size: var(--text-sm);
-  line-height: var(--lh-snug);
+}
+.characters-place .cp-who-t .np-state {
+  font-size: 13px;
 }
 .characters-place .cp-cell {
-  position: relative;
   display: flex;
-  flex-direction: column;
   align-items: center;
-  justify-content: center;
-  gap: 2px;
-  min-height: var(--tap-min);
+  gap: var(--space-3);
   height: 100%;
-  padding: var(--space-1) 2px;
-  border-radius: var(--radius-sm);
-  font-size: var(--text-xs);
-  font-weight: var(--weight-semibold);
-  line-height: 1.2;
-  text-align: center;
-  text-decoration: none;
-  overflow-wrap: anywhere;
+  min-height: 60px;
+  padding: 8px 12px;
+  background: var(--surface);
   color: var(--fg);
-  background: transparent;
-  border: 0;
+  text-decoration: none;
+}
+.characters-place .cp-cell[data-tone="warn"] {
+  background: var(--accent-soft);
 }
 .characters-place .cp-cell:hover {
   background: var(--sunk);
 }
-.characters-place .cp-cell[data-level="fix"] {
-  background: var(--bad-soft);
-  color: var(--bad);
+.characters-place .cp-cell--afk {
+  display: grid;
+  align-content: center;
+  gap: 0;
 }
-.characters-place .cp-cell[data-level="behind"] {
-  background: var(--warn-soft);
-  color: var(--warn);
+.characters-place .cp-cell-t {
+  display: grid;
+  min-width: 0;
 }
-.characters-place .cp-cell[data-level="unknown"] {
-  background: var(--unk-soft);
-  color: var(--unk);
+.characters-place .cp-loud {
+  color: var(--accent);
+  font-size: 18px;
+  line-height: 1.2;
+  white-space: nowrap;
 }
-.characters-place .cp-cell[data-level="ok"] {
-  font-weight: var(--weight-regular);
+.characters-place .cp-cell-t .cp-sm {
+  line-height: 1.25;
 }
-/* The cell to fix first is the screen's one frame (M21.1 refresh): notched corners, no ring. */
-.characters-place .cp-cell[data-ring="yes"] {
-  background: var(--frame-bg);
-}
-.characters-place .cp-ring-tag {
-  font-size: var(--text-xs);
-  font-weight: var(--weight-bold);
-  color: var(--on-accent);
-  background: var(--accent);
-  border-radius: var(--radius-chip);
-  padding: 0 var(--space-1);
-}
-.characters-place .cp-cell:focus-visible,
-.characters-place .cp-who:focus-visible,
-.characters-place .cp-bo-row:focus-visible {
-  outline: var(--focus-width) solid var(--focus);
-  outline-offset: var(--focus-offset);
+.characters-place .cp-col {
+  display: none;
 }
 .characters-place .cp-hint {
   margin: 0;
-  font-size: var(--text-sm);
-  color: var(--muted);
 }
 
-/* ---- the next character: a ghost slot at the end of the roster ---- */
+/* ---- next character and class tree ---- */
+.characters-place .cp-pair {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-8);
+  align-items: start;
+}
 .characters-place .cp-next {
-  display: flex;
-  gap: var(--space-3);
-  align-items: flex-start;
-  padding: var(--space-3);
-  border-radius: var(--radius-card);
-  background: var(--surface);
-  border: 0;
-}
-.characters-place .cp-next[data-open="yes"] {
-  background: var(--accent-soft);
-}
-/* "Not yet": the chibi drawn in the muted ramp until the slot opens. */
-.characters-place .cp-next[data-open="no"] .cp-next-glyph {
-  filter: grayscale(1);
-}
-.characters-place .cp-next-body {
   display: grid;
-  gap: var(--space-1);
-  min-width: 0;
+  gap: var(--space-4);
+  padding: 24px 28px;
+  --frame-bg: var(--surface);
 }
-.characters-place .cp-next-h {
-  margin: 0;
-  font-size: var(--text-md);
-}
-.characters-place .cp-next-when,
-.characters-place .cp-next-why {
-  margin: 0;
-}
-.characters-place .cp-next-why {
-  color: var(--muted);
-  font-size: var(--text-sm);
-}
-.characters-place .cp-next-steps {
-  margin: var(--space-1) 0 0;
-  padding-left: var(--space-5);
-  font-size: var(--text-sm);
-}
-
-/* ---- the class tree block ---- */
-.characters-place .cp-tree {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
-  gap: var(--space-2);
-}
-/* R12 QA: columns on the page, not tiles; one hairline under each family name. */
-.characters-place .cp-tree-col {
-  display: grid;
-  gap: var(--space-1);
-  align-content: start;
-  padding: 0;
-  border: 0;
-}
-.characters-place .cp-tree-h {
+.characters-place .cp-next-top {
   display: flex;
   align-items: center;
-  gap: var(--space-1);
-  padding-bottom: var(--space-1);
-  font-weight: var(--weight-semibold);
-  box-shadow: 0 1px 0 var(--line);
+  gap: var(--space-4);
 }
-.characters-place .cp-tree-list {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  font-size: var(--text-sm);
-}
-.characters-place .cp-tree-list > li {
-  padding: 2px 0;
-}
-
-/* ---- the Builds overview ---- */
-.characters-place .cp-fold > summary {
-  list-style: none;
-  cursor: pointer;
-  display: flex;
-  flex-wrap: wrap;
-  align-items: baseline;
-  gap: var(--space-2);
-  min-height: var(--tap-min);
-  padding: var(--space-2) 0;
-  box-shadow: 0 1px 0 var(--line);
-  border: 0;
-}
-.characters-place .cp-fold > summary::-webkit-details-marker {
-  display: none;
-}
-.characters-place .cp-fold > summary:focus-visible {
-  outline: var(--focus-width) solid var(--focus);
-  outline-offset: var(--focus-offset);
-}
-.characters-place .cp-bo-list {
-  list-style: none;
-  margin: 0;
-  padding: 0;
+.characters-place .cp-next-pic {
   display: grid;
-}
-.characters-place .cp-bo-row {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: baseline;
-  gap: 0 var(--space-2);
-  min-height: var(--tap-min);
-  padding: var(--space-2) 0;
-  color: var(--fg);
-  text-decoration: none;
-  box-shadow: 0 1px 0 var(--line);
-  border: 0;
-}
-.characters-place .cp-bo-row:hover {
+  flex: none;
+  place-items: center;
+  width: 56px;
+  height: 56px;
   background: var(--sunk);
 }
-.characters-place .cp-bo-line {
-  flex-basis: 100%;
+.characters-place .cp-next-t {
+  display: grid;
+  gap: var(--space-1);
+}
+.characters-place .cp-meter-box {
+  display: grid;
+  gap: var(--space-2);
+}
+.characters-place .cp-meter-row {
+  display: flex;
+  justify-content: space-between;
+}
+.characters-place .cp-meter {
+  display: block;
+  height: 6px;
+  background: var(--sunk);
+}
+.characters-place .cp-meter i {
+  display: block;
+  height: 100%;
+  background: var(--accent);
+}
+.characters-place .cp-steps {
+  display: grid;
+  gap: var(--space-1);
+  margin: 0;
+  padding-left: 20px;
+}
+.characters-place .cp-tree-sec {
+  display: grid;
+  gap: var(--space-4);
+}
+.characters-place .cp-tree {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: var(--space-3);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.characters-place .cp-tree-col {
+  display: grid;
+  align-content: start;
+  gap: var(--space-2);
+  padding: 16px 18px;
+  background: var(--surface);
+}
+.characters-place .cp-tree-col[data-family="warrior"] .cp-fam {
+  color: var(--tier-bronze-3);
+}
+.characters-place .cp-tree-col[data-family="archer"] .cp-fam {
+  color: var(--ok);
+}
+.characters-place .cp-tree-col[data-family="mage"] .cp-fam {
+  color: var(--violet, #b79cf2);
+}
+.characters-place .cp-tree-ghost {
+  background: var(--bg);
+}
+
+/* ---- skills heat map ---- */
+.characters-place .cp-skills {
+  display: grid;
+  gap: var(--space-4);
+  scroll-margin-top: 80px;
+}
+.characters-place .cp-heat-wrap {
+  position: relative;
+  min-width: 0;
+  max-width: 100%;
+  overflow-x: auto;
+}
+.characters-place .cp-heat {
+  width: 100%;
+  min-width: 640px;
+  border-collapse: separate;
+  border-spacing: 4px;
+  margin: -4px;
+  table-layout: fixed;
+}
+.characters-place .cp-heat thead td {
+  background: none;
+}
+.characters-place .cp-heat thead th {
+  color: var(--muted);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-bold);
+  letter-spacing: 0.06em;
+  text-align: center;
+  text-transform: uppercase;
+}
+.characters-place .cp-heat thead td:first-child,
+.characters-place .cp-heat tbody th {
+  width: 180px;
+}
+.characters-place .cp-heat tbody th {
+  padding: 10px 0;
   font-size: var(--text-sm);
-  overflow-wrap: anywhere;
+  text-align: left;
+}
+.characters-place .cp-heat tbody th a {
+  color: var(--fg);
+  text-decoration: none;
+}
+.characters-place .cp-heat tbody th a:hover {
+  color: var(--accent);
+}
+.characters-place .cp-heat td {
+  height: 44px;
+  background: var(--surface);
+  color: var(--fg);
+  font-size: 15px;
+  text-align: center;
+}
+.characters-place .cp-heat td[data-shade="1"],
+.characters-place .cp-sw[data-shade="1"] {
+  background: color-mix(in srgb, var(--ok) 10%, var(--surface));
+}
+.characters-place .cp-heat td[data-shade="2"],
+.characters-place .cp-sw[data-shade="2"] {
+  background: color-mix(in srgb, var(--ok) 18%, var(--surface));
+}
+.characters-place .cp-heat td[data-shade="3"],
+.characters-place .cp-sw[data-shade="3"] {
+  background: color-mix(in srgb, var(--ok) 28%, var(--surface));
+}
+.characters-place .cp-heat td[data-low="yes"] {
+  color: var(--muted);
+}
+.characters-place .cp-heat td[data-role="yes"],
+.characters-place .cp-sw[data-role="yes"] {
+  background: var(--accent-soft);
+  color: var(--accent);
+  font-weight: 800;
+}
+.characters-place .cp-key {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2) var(--space-6);
+  margin: 0;
+}
+.characters-place .cp-key > span {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+.characters-place .cp-sw {
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  background: var(--surface);
+}
+
+/* ---- narrow screens: every character is a block of squares, no sideways scroll ---- */
+@media (max-width: 999.98px) {
+  .characters-place .cp-pair {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+@media (max-width: 899.98px) {
+  .characters-place .cp-grid,
+  .characters-place .cp-grid tbody {
+    display: grid;
+    gap: var(--space-6);
+    margin: 0;
+  }
+  .characters-place .cp-grid thead {
+    display: none;
+  }
+  .characters-place .cp-grid tr {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 4px;
+  }
+  .characters-place .cp-grid tbody th {
+    grid-column: 1 / -1;
+  }
+  .characters-place .cp-grid tbody td:empty {
+    display: none;
+  }
+  .characters-place .cp-col {
+    display: block;
+    color: var(--muted);
+    font-size: var(--text-xs);
+    font-weight: var(--weight-bold);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  .characters-place .cp-cell {
+    flex-wrap: wrap;
+    gap: var(--space-1) var(--space-2);
+  }
+  .characters-place .cp-cell .cp-col {
+    flex-basis: 100%;
+  }
+  .characters-place .cp-tree {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .characters-place .cp-heat {
+    min-width: 760px;
+  }
+  .characters-place .cp-heat thead td:first-child,
+  .characters-place .cp-heat tbody th {
+    width: 104px;
+  }
 }

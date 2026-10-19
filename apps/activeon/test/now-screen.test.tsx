@@ -37,17 +37,19 @@ async function noAxeViolations(container: HTMLElement) {
 }
 
 describe('US-1 / TR-14 Roster', () => {
-  it('is an ordered list of buttons whose accessible names carry the whole row', () => {
+  it('is an ordered list of character cards whose accessible names carry the whole card (M24)', () => {
     const r = fixture('mid-session');
     const { container } = renderNow(props(r, saveOf(r, 1, 'first', null, 'paste')));
-    const list = container.querySelector('ol.roster') as HTMLElement;
+    fireEvent.click(screen.getByRole('radio', { name: 'Log off' }));
+    const list = container.querySelector('ol.np-cards') as HTMLElement;
     expect(list.tagName).toBe('OL');
-    // M21 FR-N2: the Unknown row sits in its own fold list, still a row button in Visit Order.
-    const buttons = [...container.querySelectorAll<HTMLElement>('ol.roster .r-btn')];
-    expect(buttons).toHaveLength(5);
-    expect(buttons[0]?.getAttribute('aria-label')).toBe(
-      '1., Dahlia, Barbarian level 51, Fishing Goldfish, Fishing Camp, Fix before you leave, Food runs out in about 2h',
+    const cards = [...container.querySelectorAll<HTMLElement>('ol.np-cards .np-card')];
+    expect(cards).toHaveLength(5);
+    // Class and level, never the character's name (M24 rule 4).
+    expect(cards[0]?.getAttribute('aria-label')).toBe(
+      '1. Barbarian 51, Fishing Camp, Fix first. Food runs out in about 2h',
     );
+    expect(list.textContent).not.toContain('Dahlia');
     expect(screen.queryByText(/Following the game/)).toBeNull(); // D8
   });
 });
@@ -56,8 +58,9 @@ describe('Focus: opening, Back and keyboard focus (FR-6, FR-13, TR-5, TR-14)', (
   it('a row opens Focus with keyboard focus on its heading; Back returns focus to the row', () => {
     const r = fixture('mid-session');
     renderNow(props(r, saveOf(r, 1, 'first', null, 'paste')));
+    fireEvent.click(screen.getByRole('radio', { name: 'Log off' }));
     const before = window.history.length;
-    fireEvent.click(screen.getAllByRole('button').find((b) => b.dataset.index === '2') as HTMLElement);
+    fireEvent.click(document.querySelector('.np-card[data-index="2"]') as HTMLElement);
     const h = screen.getByRole('heading', { level: 2, name: 'Bowman 38' });
     expect(document.activeElement).toBe(h);
     expect(window.location.hash).toBe('#now-2');
@@ -261,9 +264,8 @@ describe('US-8 Expected Return chips', () => {
     const r = fixture('all-set');
     const set = vi.fn();
     renderNow(props(r, saveOf(r, 1, 'first', null, 'paste'), { setExpectedReturn: set }));
-    // M21 FR-N1: the chips are the Now screen's own, in the return line's sheet.
-    fireEvent.click(screen.getByRole('button', { name: 'Change' }));
-    const group = screen.getByRole('group', { name: 'Back in about' });
+    // M24: the chips sit inline under "Before you're back", as "How long are you away?".
+    const group = screen.getByRole('group', { name: 'How long are you away?' });
     const radios = within(group).getAllByRole('radio') as HTMLInputElement[];
     expect(radios.filter((x) => x.checked).map((x) => x.value)).toEqual([String(8 * 3600)]);
     fireEvent.click(radios[1] as HTMLElement);
@@ -360,8 +362,8 @@ describe('US-22 / D9 account stockpiles', () => {
     expect(within(acct).getByRole('button', { expanded: true, name: /^Account/ })).toBeTruthy();
     expect(within(acct).getByRole('heading', { name: 'Before you leave' })).toBeTruthy();
     // M21 FR-N2: the counter counts the 2 account blockers; its first fix jumps to them (R5 QA P2-2).
-    expect(screen.getByRole('heading', { name: '2 fixes before you leave' })).toBeTruthy();
-    fireEvent.click(screen.getByRole('button', { name: /^Do it first/ }));
+    expect(screen.getByText('2 fixes before you leave')).toBeTruthy();
+    fireEvent.click(screen.getByRole('button', { name: /Show me/ }));
     expect(document.activeElement?.id).toBe('account-fix');
   });
 });
@@ -370,8 +372,9 @@ describe('the Spend Plan chip opens the Spend Plan page (FR-4, M24)', () => {
   it('the one Spend card lists the payers and opens #spend, the page with the plan in order', async () => {
     const r = fixture('spend-plan');
     renderNow(props(r, saveOf(r, 1, 'first', null, 'paste')));
-    const card = screen.getByRole('region', { name: 'Spend Plan' });
-    expect(within(card).getAllByRole('button').length).toBeGreaterThan(1);
+    fireEvent.click(screen.getByRole('radio', { name: 'Log off' }));
+    const card = screen.getByRole('region', { name: 'Coins to spend' });
+    expect(card.textContent).toMatch(/Coins to spend · \d+ buys? on \d+ characters?/);
     fireEvent.click(within(card).getByRole('button', { name: 'Open the Spend Plan' }));
     expect(window.location.hash).toBe('#spend');
     const page = await screen.findByRole('article', { name: /buys? your coins cover today/ });
@@ -387,7 +390,8 @@ describe('copy pass rule 3: unknown tokens are hidden, never printed', () => {
     if (!c) throw new Error('no character 2');
     c.activityLabel = 'AFK target unknown';
     renderNow(props(r, saveOf(r, 1, 'first', null, 'paste')));
-    const row = screen.getAllByRole('button').find((b) => b.dataset.index === '2') as HTMLElement;
+    fireEvent.click(screen.getByRole('radio', { name: 'Log off' }));
+    const row = document.querySelector('.np-card[data-index="2"]') as HTMLElement;
     expect(row.textContent).not.toContain('AFK target unknown');
     fireEvent.click(row);
     const hero = screen

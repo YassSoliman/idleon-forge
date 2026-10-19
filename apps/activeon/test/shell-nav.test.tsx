@@ -102,7 +102,7 @@ describe('US-2 deep links that survive a reload', () => {
       window.history.replaceState(null, '', `/${hash}`);
       const r = withSystems();
       const view = renderNow(props(r, saveOf(r, 1, 'first', null, 'paste')));
-      expect(document.querySelector('ol.roster')).toBeTruthy();
+      expect(document.querySelector('.n-now')).toBeTruthy();
       expect(window.location.hash).toBe(hash);
       view.unmount();
     }
@@ -134,7 +134,7 @@ describe('US-3 Back goes back', () => {
     back('#systems');
     expect(screen.getByRole('heading', { level: 2, name: 'Systems' })).toBeTruthy();
     back('');
-    expect(document.querySelector('ol.roster')).toBeTruthy();
+    expect(document.querySelector('.n-now')).toBeTruthy();
   });
 
   it('"Back" on a Character page opened by a deep link returns to Now', () => {
@@ -143,7 +143,7 @@ describe('US-3 Back goes back', () => {
     renderNow(props(r, saveOf(r, 1, 'first', null, 'paste')));
     // M24: no "All characters" button; Esc goes back.
     fireEvent.keyDown(window, { key: 'Escape' });
-    expect(document.querySelector('ol.roster')).toBeTruthy();
+    expect(document.querySelector('.n-now')).toBeTruthy();
     expect(window.location.hash).toBe('#now');
   });
 
@@ -214,7 +214,7 @@ describe('US-4 following the game where it helps, never where it would yank me',
     const view = render(<Live r={r} seq={1} kind="first" slot={null} />);
     view.rerender(<Live r={r} seq={2} kind="autosave" slot={3} />);
     go(/^Now/);
-    fireEvent.click(screen.getAllByRole('button').find((b) => b.dataset.index === '0') as HTMLElement);
+    fireEvent.click(document.querySelector('[data-index="0"]') as HTMLElement);
     // Dahlia (index 3) was played: "Next" never points back at her.
     expect(screen.getByRole('button', { name: /^Next: / }).textContent).not.toContain('Dahlia');
   });

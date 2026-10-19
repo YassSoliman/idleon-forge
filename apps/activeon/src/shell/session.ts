@@ -185,7 +185,7 @@ export function useSession(props: ShellProps) {
   const cardRef = useRef<HTMLDivElement | null>(null);
   const accountRef = useRef<HTMLElement | null>(null);
   const outletRef = useRef<HTMLDivElement | null>(null);
-  const rows = useRef(new Map<number, HTMLButtonElement>());
+  const rows = useRef(new Map<number, HTMLElement>());
   const focusHeading = useRef(false);
   const focusRowAfterBack = useRef<number | null>(null);
   const scrolls = useRef(new Map<string, number>());
