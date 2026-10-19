@@ -125,7 +125,7 @@ describe('the attack bar', () => {
     const r: EngineResult = { ...fixture('mid-session'), builds: [hunter(bar)] };
     renderNow(props(r, saveOf(r, 1, 'first', null, 'paste')));
     const atk = screen.getByRole('region', { name: /attack bar/i });
-    const slots = [...atk.querySelectorAll('li.bd-slot')];
+    const slots = [...atk.querySelectorAll('li.bd-atk-it')];
     expect(slots).toHaveLength(4);
     for (const li of slots) {
       const img = li.querySelector('img.g-art');
@@ -134,6 +134,13 @@ describe('the attack bar', () => {
       // No two-letter monogram where the icon exists.
       expect(li.textContent?.replace(/\s+/g, '')).not.toMatch(/^[A-Z]{2}/);
     }
+    // Each attack's name shows under its icon (players can't tell a talent from its icon alone).
+    expect(slots.map((li) => li.querySelector('.bd-atk-name')?.textContent)).toEqual([
+      'Piercing Arrow',
+      'Kung Fu Kick',
+      'Homing Arrows',
+      'empty slot, Wants Magic Shortbow',
+    ]);
     expect(slots.map((li) => li.querySelector('img')?.getAttribute('src'))).toEqual(
       ['Piercing Arrow', 'Kung Fu Kick', 'Homing Arrows', 'Magic Shortbow'].map((n) =>
         gameArtSrc(talentArt(talentIdOfName(n))),
@@ -152,7 +159,7 @@ describe('the attack bar', () => {
     const r: EngineResult = { ...fixture('mid-session'), builds: [hunter(bar)] };
     renderNow(props(r, saveOf(r, 1, 'first', null, 'paste')));
     const atk = screen.getByRole('region', { name: /attack bar/i });
-    const li = atk.querySelector('li.bd-slot');
+    const li = atk.querySelector('li.bd-atk-it');
     expect(li?.querySelector('img')).toBeNull();
     expect(li?.textContent).toContain('MU');
   });

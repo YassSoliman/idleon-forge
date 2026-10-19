@@ -299,6 +299,21 @@ button.bd-tal-btn:focus-visible {
   color: var(--ok);
   background: var(--ok-soft);
 }
+/* M25: a talent tile holding the game's icon: the card surface and a 1 px frame instead of the letter
+   badge's fill; the frame keeps the tile's state colour (covered, next, done). */
+.bd-mono:has(.g-art) {
+  background: var(--surface);
+  box-shadow: inset 0 0 0 1px var(--line);
+}
+.bd-mono[data-k="covered"]:has(.g-art) {
+  box-shadow: inset 0 0 0 1px var(--accent-fill);
+}
+.bd-mono[data-k="next"]:has(.g-art) {
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--accent-fill) 50%, var(--line));
+}
+.bd-mono[data-k="done"]:has(.g-art) {
+  box-shadow: inset 0 0 0 1px var(--ok);
+}
 .bd-steps .bd-mono {
   width: 36px;
   height: 36px;
@@ -422,6 +437,30 @@ button.bd-tal-btn:focus-visible {
 /* An attack the build wants but the bar lacks: its icon, faded, in an empty slot. */
 .bd-slot[data-ghost="yes"] .g-art {
   opacity: 0.5;
+}
+/* M25: a slot holding the game's icon drops the letter badge's loud fill for a quiet frame: the card
+   surface and a 1 px line (a game item slot, listed in surface-guard's DRAWINGS). */
+.bd-slot:has(.g-art) {
+  background: var(--surface);
+  box-shadow: inset 0 0 0 1px var(--line);
+}
+/* Each attack's name under its slot: the icon alone doesn't say which talent it is. */
+.bd-atk-it {
+  display: grid;
+  justify-items: center;
+  align-content: start;
+  gap: var(--space-1);
+  width: 76px;
+}
+.bd-atk-name {
+  font-size: var(--text-xs);
+  line-height: 1.25;
+  text-align: center;
+  color: var(--fg);
+  overflow-wrap: anywhere;
+}
+.bd-atk-it[data-ghost="yes"] .bd-atk-name {
+  color: var(--muted);
 }
 
 /* ---- the ladder ---- */
