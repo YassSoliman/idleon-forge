@@ -22,7 +22,8 @@ const builds = Object.values(kb.entries).filter(
 const m9 = Object.values(kb.entries).filter((e) => /^(talents|talent-presets|talent-resets)\./.test(e.id));
 const facts = buildsKnowledge(lookupOf(kb));
 
-const IDLE_FIGHTING = new Set(['IDLE_BRAWLING', 'IDLE_SHOOTING', 'IDLE_CASTING']);
+// Sleepin' On The Job is the Beginner line's Idle fighting talent (the Journeyman and Maestro Builds, M26).
+const IDLE_FIGHTING = new Set(['IDLE_BRAWLING', 'IDLE_SHOOTING', 'IDLE_CASTING', "SLEEPIN'_ON_THE_JOB"]);
 
 describe('M9 Build entries (TR-5, TR-15)', () => {
   it('cover every W1–W3 class line: fighting for all, skilling for all but the Beginner', () => {

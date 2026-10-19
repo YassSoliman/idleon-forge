@@ -1,4 +1,4 @@
-# golden v1: fresh · knowledge #034d0208 · parser 6c37e3d (game 2.3.540) · now 2026-08-20T18:41:58.956Z · return 8h · stage W4-late · stale: 4 of 1003
+# golden v1: fresh · knowledge #459d2744 · parser 6c37e3d (game 2.3.540) · now 2026-08-20T18:41:58.956Z · return 8h · stage W4-late · stale: 4 of 1030
 
 ## Verdict changes
 
@@ -204,15 +204,18 @@ Locked: pats (Opens at Happi Boi), smoker (Opens at Smoker), charisma (Opens at 
 
 ## Builds
 ### C1 (Siege Breaker 478)
-- No build for this stage yet (builds cover World 1 to World 4): these are your talent levels
-- Other preset: Calm Basics · Archer · Bowman · Siege Breaker · Star talents (1,534 unspent)
+- Skilling preset: Calm Basics [Start here] (at least 2,110 unspent) · Archer (at least 1,573 unspent) · Bowman (at least 724 unspent) · Siege Breaker (at least 1,447 unspent) · Star talents (1,534 unspent)
+  - Calm Basics: As of your last save: at least 2,110 points waiting · they end here
+    - can add now: Elusive Efficiency 0 → 131 · +131
+    - can add now: Quickness Boots 0 → 460 · +591
+    - can add now: Broken Time 0 → 182 · +773
   - Star talents: 1,534 unspent · they end here (Stonks! returns more as it levels)
     - can add now: Stonks! 0 → 30 · +30 (pays for itself: it returns star points as it levels)
     - can add now: Tick Tock = Will of the Eldest = Toilet Paper Postage +254 · +284 (split evenly: Tick Tock 0 → 104, Will of the Eldest 0 → 50, Toilet Paper Postage 0 → 100 · useful up to 53 (best level 534); its max for now)
     - can add now: Printer Sampling 0 → 1 · +285
     - can add now: Shrine Architect 0 → 1 · +286
     - and 4 more
-- Current preset (in use): Calm Basics · Archer · Bowman · Siege Breaker · Star talents (645 unspent)
+- Fighting preset (in use): Calm Basics · Archer · Bowman · Siege Breaker · Star talents (645 unspent)
   - Star talents: 645 unspent · they end here (Stonks! returns more as it levels)
     - can add now: Stonks! 0 → 30 · +30 (pays for itself: it returns star points as it levels)
     - done: Will of the Eldest 50 (useful up to 53 (best level 534); its max for now)
@@ -221,21 +224,26 @@ Locked: pats (Opens at Happi Boi), smoker (Opens at Smoker), charisma (Opens at 
     - and 6 more
 
 ### C2 (Blood Berserker 534)
-- No build for this stage yet (builds cover World 1 to World 4): these are your talent levels
-- Other preset: Rage Basics · Warrior · Barbarian · Blood Berserker · Star talents (1,835 unspent)
+- Fighting preset: Rage Basics [Start here] (at least 2,075 unspent) · Warrior (at least 1,335 unspent) · Barbarian (at least 1,070 unspent) · Blood Berserker (at least 1,266 unspent) · Star talents (1,835 unspent)
+  - Rage Basics: As of your last save: at least 2,075 points waiting · they end here
+    - can add now: Idle Brawling 0 → 50 · +50
+    - can add now: Gilded Sword 0 → 153 · +203
+    - can add now: Sharpened Axe 0 → 142 · +345
+    - can add now: Idle Brawling 0 → 151 · +446 (you have 0 now; the steps above take it to 50)
+    - and 3 more
   - Star talents: 1,835 unspent · they end here (Stonks! returns more as it levels)
     - can add now: Stonks! 0 → 30 · +30 (pays for itself: it returns star points as it levels)
-    - can add now: Tick Tock = Will of the Eldest = Toilet Paper Postage +254 · +284 (split evenly: Tick Tock 0 → 104, Will of the Eldest 0 → 50, Toilet Paper Postage 0 → 100 · useful up to 53 (best level 534); its max for now)
-    - can add now: Printer Sampling 0 → 1 · +285
-    - can add now: Shrine Architect 0 → 1 · +286
-    - and 4 more
-- Current preset (in use): Rage Basics · Warrior · Barbarian · Blood Berserker · Star talents (501 unspent)
+    - can add now: Will of the Eldest 0 → 50 · +80 (useful up to 53 (best level 534); its max for now)
+    - done: Beginner Best Class 0 (no Beginner-line character yet)
+    - can add now: Tick Tock = Attacks On Simmer = Goblet of Hemoglobin +204 · +284 (split evenly: Tick Tock 0 → 104, Attacks On Simmer 0 → 50, Goblet of Hemoglobin 0 → 50)
+    - and 5 more
+- Skilling preset (in use): Rage Basics · Warrior · Barbarian · Blood Berserker · Star talents (501 unspent)
   - Star talents: 501 unspent · they end here (Stonks! returns more as it levels)
     - can add now: Stonks! 0 → 30 · +30 (pays for itself: it returns star points as it levels)
     - done: Will of the Eldest 50 (useful up to 53 (best level 534); its max for now)
-    - done: Beginner Best Class 0 (no Beginner-line character yet)
-    - done: Attacks On Simmer 50
-    - and 7 more
+    - can add now: Tick Tock = Toilet Paper Postage +87 · +117 (split evenly: Tick Tock 92 → 104, Toilet Paper Postage 25 → 100)
+    - done: Printer Sampling 1
+    - and 5 more
 
 ### C3 (Beginner 1)
 - No build for this stage yet (builds cover World 1 to World 4): these are your talent levels

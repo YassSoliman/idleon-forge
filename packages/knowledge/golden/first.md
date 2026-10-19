@@ -1,4 +1,4 @@
-# golden v1: first · knowledge #034d0208 · parser 6c37e3d (game 2.3.540) · now 2024-06-07T21:16:34.518Z · return 8h · stage W4-entry · stale: 4 of 1003
+# golden v1: first · knowledge #459d2744 · parser 6c37e3d (game 2.3.540) · now 2024-06-07T21:16:34.518Z · return 8h · stage W4-entry · stale: 4 of 1030
 
 ## Verdict changes
 
@@ -91,7 +91,7 @@ Laboratory
 W0 · Classes and subclasses · Nothing to fix · Nothing to fix
 W0 · Talents · Nothing to fix · Nothing to fix · 3 to do
 W0 · Talent presets · Nothing to fix · Nothing to fix · 6 to do
-W0 · Talent resets · Nothing to fix · Nothing to fix
+W0 · Talent resets · Nothing to fix · Nothing to fix · 1 to do
 W0 · Upgrade Vault · Nothing to fix · Nothing to fix
 W0 · Gem Shop · Nothing to fix · Nothing to fix · 1 to do
 W0 · Merit Shop · Nothing to fix · Nothing to fix · 2 to do
@@ -146,7 +146,7 @@ W4 · Laboratory · Not covered yet · Not covered yet
 W4 · Cooking · Not covered yet · Not covered yet
 W4 · Breeding · Not covered yet · Not covered yet
 Needs you: Minigames (wasting), Colosseum (wasting), Refinery (wasting), Anvil (behind)
-Other gaps: Journeyman talent builds, Elite talent builds, Stamp cap raises that need farming or carry capacity, W4+ constellations and Infinite Stars
+Other gaps: Stamp cap raises that need farming or carry capacity, W4+ constellations and Infinite Stars
 Wasting: 3
 Report card (W4-entry):
 - Anvil · W1-mid · 8 behind · step: Unspent anvil points on 3 characters → Speed
@@ -275,7 +275,7 @@ Can't read Bubba from this save
     - next after these: Beginner Best Class 6 → 7 · +1 (useful up to 7 (best Beginner-line level 73))
     - done: Attacks On Simmer 50
     - and 6 more
-- Skilling preset: Rage Basics [Start here] (114 unspent) · Warrior (12 unspent) · Barbarian (3 unspent) · Blood Berserker · Star talents (all spent)
+- Skilling preset: Rage Basics [Start here] (114 unspent) · Warrior (12 unspent) · Barbarian (3 unspent) · Blood Berserker (3 unspent) · Star talents (all spent)
   - Rage Basics: 114 points waiting · they end here
     - done: Brute Efficiency 126
     - done: Idle Skilling 127
@@ -362,10 +362,10 @@ Can't read Bubba from this save
 - Skilling preset (in use): Savvy Basics (49 unspent) · Mage [Start here] (9 unspent) · Wizard · Elemental Sorcerer · Star talents (all spent)
   - Mage: 9 points waiting · they end here
     - part now: Log On Logs 1 → 100 · +9 of 99 now · +99
-    - next after these: Leaf Thief 84 → 100 · +115
-    - next after these: Deforesting All Doubt 85 → 100 · +130
+    - done: Inner Peace 125
+    - next after these: Leaf Thief = Deforesting All Doubt = Mana Overdrive +146 · +245 (split evenly: Leaf Thief 84 → 100, Deforesting All Doubt 85 → 100, Mana Overdrive 0 → 115)
     - done: Individual Insight 125
-    - and 2 more
+    - and 1 more
   - Star talents: All spent: the totals show where new points go
     - done: Stonks! 30
     - done: Will of the Eldest 9 (useful up to 9 (best level 96))
@@ -386,6 +386,7 @@ Can't read Bubba from this save
     - done: Elusive Efficiency 127
     - done: Broken Time 126
     - can add now: Book of the Wise 0 → 100 · +100
+    - part now: Star Player 0 → 100 · +79 of 100 now · +200
   - Star talents: All spent: the totals show where new points go
     - done: Stonks! 30
     - done: Will of the Eldest 9 (useful up to 9 (best level 96))
@@ -394,15 +395,20 @@ Can't read Bubba from this save
     - and 6 more
 
 ### C7 (Maestro 73)
-- No build yet for this class (Journeyman line): these are your talent levels
-- Current preset (in use): Beginner · Journeyman · Maestro · Star talents (all spent)
+- Fighting preset (in use): Beginner · Journeyman (9 unspent) · Maestro · Star talents (all spent)
   - Star talents: All spent: the totals show where new points go
     - done: Stonks! 30
     - done: Will of the Eldest 9 (useful up to 9 (best level 96))
     - done: Beginner Best Class 7 (useful up to 7 (best Beginner-line level 73))
     - done: Tick Tock 88
     - and 7 more
-- Other preset: Beginner · Journeyman · Maestro · Star talents (all spent)
+- Skilling preset: Beginner [Start here] (1 unspent) · Journeyman (9 unspent) · Maestro · Star talents (all spent)
+  - Beginner: 1 point waiting · they end here
+    - done: Happy Dude 100
+    - done: Fist of Rage 1
+    - done: Quickness Boots 1
+    - done: Book of the Wise 1
+    - and 1 more
   - Star talents: All spent: the totals show where new points go
     - done: Stonks! 30
     - done: Tick Tock 88

@@ -466,7 +466,11 @@ function covered(
         role,
         cls: v.cls,
         build: a.builds[role],
-        lb: knownPoints(v.talents, other?.talents ?? null, kb.talents.tab2Granting, a.tabs) ?? v.lb,
+        // Past World 4 the game's point formula is not modelled (the truth run's talent-total P2), so
+        // the exact counts are not shown there: only M9's lower bound between the two presets (M26).
+        lb: acc.beyond
+          ? v.lb
+          : (knownPoints(v.talents, other?.talents ?? null, kb.talents.tab2Granting, a.tabs) ?? v.lb),
         counted: a.tabs,
         afkType: c.afkType,
         lead: v.next?.tab ?? null,
@@ -761,7 +765,7 @@ export function buildRoadmaps(
     }
     if (!c.talents || !isKnown(state, `characters[${c.index}].talents`))
       return plain(c, acc, path, "Can't read this character's talents from the save");
-    const a = acc.characters.get(c.index);
+    const a = acc.characters.get(c.index) ?? acc.viewOnly.get(c.index);
     if (a) return covered(c, a, acc, path, opts);
     const reason = acc.notCovered.get(c.index);
     return plain(c, acc, path, (reason && NOTE[reason]) ?? 'No build yet for this class');

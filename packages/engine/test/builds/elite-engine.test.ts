@@ -122,7 +122,10 @@ const MAESTRO = build('talents.build.maestro-fighting', 'Maestro', 'fighting', [
 function over(...entries: Entry[]): FactLookup {
   const base = lookupOf(kb);
   const extra = new Map(entries.map((e) => [e.id, e] as const));
-  return { get: (id) => extra.get(id) ?? base.get(id) };
+  // The shipped Builds past the third class are hidden, so each test names exactly the ones it uses.
+  const shipped =
+    /^talents\.build\.(divine-knight|royal-guardian|blood-berserker|maestro|journeyman|voidwalker)-/;
+  return { get: (id) => extra.get(id) ?? (shipped.test(id) ? undefined : base.get(id)) };
 }
 
 const first = (): AccountState => publicState('first.json');
@@ -151,6 +154,31 @@ describe('M26 lineOf: the character class own Build first', () => {
     expect(k.lineOf('Maestro')).toBe('Maestro');
     expect(k.lineOf('Voidwalker')).toBe('Maestro');
     expect(k.lineOf('Journeyman')).toBeNull();
+  });
+});
+
+describe('M26 lineOf on the shipped Knowledge Base', () => {
+  it('every elite and released master class, and the whole Journeyman line, has its own Build', () => {
+    const k = buildsKnowledge(lookupOf(kb));
+    for (const cls of [
+      'Divine_Knight',
+      'Blood_Berserker',
+      'Siege_Breaker',
+      'Beast_Master',
+      'Elemental_Sorcerer',
+      'Bubonic_Conjuror',
+      'Voidwalker',
+      'Royal_Guardian',
+      'Death_Bringer',
+      'Wind_Walker',
+      'Arcane_Cultist',
+      'Journeyman',
+      'Maestro',
+    ])
+      expect(k.lineOf(cls), cls).toBe(cls);
+    // Unreleased in the game data: the elite Build carries on.
+    expect(k.lineOf('Spiritual_Monk')).toBe('Elemental_Sorcerer');
+    expect(k.lineOf('Infinilyte')).toBe('Voidwalker');
   });
 });
 
@@ -239,5 +267,37 @@ describe('M26 the Divine Knight on first.json (W4-entry)', () => {
     const s = withCharacter(s0, dk, { class: 'Royal_Guardian' });
     const acc = analyzeAccount(s, over(DK_FIGHTING, RG_FIGHTING));
     expect(acc.characters.get(dk)).toBeUndefined();
+  });
+});
+
+describe('M26 the shipped Builds on first.json (W4-entry)', () => {
+  it('the Divine Knight gets the Divine Knight Builds, with tab-4 steps on both presets', () => {
+    const s = first();
+    const dk = indexOf(s, 'Divine_Knight');
+    const r = buildRoadmaps(s, lookupOf(kb), { entries: kb.entries }).find((x) => x.index === dk);
+    expect(r?.entryIds).toEqual(
+      expect.arrayContaining([
+        'talents.build.divine-knight-fighting',
+        'talents.build.divine-knight-skilling',
+      ]),
+    );
+    for (const p of r?.presets ?? []) {
+      const tab4 = p.tabs.find((t) => t.tab === 4);
+      expect(tab4?.rows.length, p.heading).toBeGreaterThan(0);
+      expect(p.confidence?.text).toMatch(/^Community build · (one source|\d+ sources)$/);
+    }
+    const fighting = r?.presets.find((p) => p.role === 'fighting');
+    expect(fighting?.tabs.find((t) => t.tab === 4)?.rows[0]?.label).toBe('Orb of Remembrance');
+    expect(fighting?.confidence?.text).toBe('Community build · 6 sources');
+    // The Gaming talents wait for World 5; the master class's Build stays out of a W4 account's plan.
+    expect(r?.comingUp).toContain('From World 5: Bitty Litty (skilling build, tab 4)');
+    expect(r?.comingUp.some((x) => x.includes('Royal Guardian') && x.startsWith('Then the'))).toBe(false);
+  });
+
+  it('every elite character and the Maestro get their own class Build', () => {
+    const s = first();
+    const a = analyzeAccount(s, lookupOf(kb));
+    for (const c of s.characters) expect(a.characters.get(c.index)?.classLine, c.class).toBe(c.class);
+    expect(a.eliteTabs).toEqual([]);
   });
 });

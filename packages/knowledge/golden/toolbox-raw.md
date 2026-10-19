@@ -1,4 +1,4 @@
-# golden v1: toolbox-raw · knowledge #034d0208 · parser 6c37e3d (game 2.3.540) · now 2026-08-26T17:27:35.771Z · return 8h · stage W4-late · stale: 4 of 1003
+# golden v1: toolbox-raw · knowledge #459d2744 · parser 6c37e3d (game 2.3.540) · now 2026-08-26T17:27:35.771Z · return 8h · stage W4-late · stale: 4 of 1030
 
 ## Verdict changes
 
@@ -310,15 +310,18 @@ Gifts: Slabcakes, Surprise Box
 
 ## Builds
 ### C1 (Siege Breaker 1291)
-- No build for this stage yet (builds cover World 1 to World 4): these are your talent levels
-- Other preset: Calm Basics · Archer · Bowman · Siege Breaker · Star talents (6,481 unspent)
+- Skilling preset: Calm Basics [Start here] (at least 2,936 unspent) · Archer (at least 2,213 unspent) · Bowman (at least 2,085 unspent) · Siege Breaker (at least 3,403 unspent) · Star talents (6,481 unspent)
+  - Calm Basics: As of your last save: at least 2,936 points waiting · they end here
+    - can add now: Elusive Efficiency 0 → 131 · +131
+    - can add now: Quickness Boots 0 → 688 · +819
+    - can add now: Broken Time 0 → 182 · +1,001
   - Star talents: 6,481 unspent · they end here (Stonks! returns more as it levels)
     - can add now: Stonks! 0 → 30 · +30 (pays for itself: it returns star points as it levels)
     - can add now: Tick Tock = Will of the Eldest = Toilet Paper Postage +254 · +284 (split evenly: Tick Tock 0 → 104, Will of the Eldest 0 → 50, Toilet Paper Postage 0 → 100 · useful up to 130 (best level 1,307); its max for now)
     - can add now: Printer Sampling 0 → 1 · +285
     - can add now: Shrine Architect 0 → 1 · +286
     - and 4 more
-- Current preset (in use): Calm Basics · Archer · Bowman · Siege Breaker · Star talents (3,122 unspent)
+- Fighting preset (in use): Calm Basics · Archer · Bowman · Siege Breaker · Star talents (3,122 unspent)
   - Star talents: 3,122 unspent · they end here (Stonks! returns more as it levels)
     - can add now: Stonks! 0 → 30 · +30 (pays for itself: it returns star points as it levels)
     - done: Will of the Eldest 50 (useful up to 130 (best level 1,307); its max for now)
@@ -327,32 +330,39 @@ Gifts: Slabcakes, Surprise Box
     - and 7 more
 
 ### C2 (Death Bringer 1292)
-- No build for this stage yet (builds cover World 1 to World 4): these are your talent levels
-- Other preset: Rage Basics · Warrior · Barbarian · Blood Berserker · Death Bringer · Star talents (8,019 unspent)
+- Fighting preset: Rage Basics [Start here] (at least 2,729 unspent) · Warrior (at least 1,804 unspent) · Barbarian (at least 2,243 unspent) · Blood Berserker (at least 2,656 unspent) · Death Bringer (at least 3,390 unspent) · Star talents (8,019 unspent)
+  - Rage Basics: As of your last save: at least 2,729 points waiting · they end here
+    - can add now: Idle Brawling 0 → 50 · +50
+    - can add now: Gilded Sword 0 → 153 · +203
+    - can add now: Sharpened Axe 0 → 142 · +345
+    - can add now: Idle Brawling 0 → 151 · +446 (you have 0 now; the steps above take it to 50)
+    - and 3 more
   - Star talents: 8,019 unspent · they end here (Stonks! returns more as it levels)
     - can add now: Stonks! 0 → 30 · +30 (pays for itself: it returns star points as it levels)
-    - can add now: Tick Tock = Will of the Eldest = Toilet Paper Postage +254 · +284 (split evenly: Tick Tock 0 → 104, Will of the Eldest 0 → 50, Toilet Paper Postage 0 → 100 · useful up to 130 (best level 1,307); its max for now)
-    - can add now: Printer Sampling 0 → 1 · +285
-    - can add now: Shrine Architect 0 → 1 · +286
-    - and 4 more
-- Current preset (in use): Rage Basics · Warrior · Barbarian · Blood Berserker · Death Bringer · Star talents (4,603 unspent)
+    - can add now: Will of the Eldest 0 → 50 · +80 (useful up to 130 (best level 1,307); its max for now)
+    - can add now: Beginner Best Class 0 → 50 · +130 (useful up to 122 (best Beginner-line level 1,224); its max for now)
+    - can add now: Tick Tock = Attacks On Simmer = Goblet of Hemoglobin +204 · +334 (split evenly: Tick Tock 0 → 104, Attacks On Simmer 0 → 50, Goblet of Hemoglobin 0 → 50)
+    - and 5 more
+- Skilling preset (in use): Rage Basics · Warrior · Barbarian · Blood Berserker · Death Bringer · Star talents (4,603 unspent)
   - Star talents: 4,603 unspent · they end here (Stonks! returns more as it levels)
     - can add now: Stonks! 0 → 30 · +30 (pays for itself: it returns star points as it levels)
-    - done: Will of the Eldest 50 (useful up to 130 (best level 1,307); its max for now)
-    - done: Beginner Best Class 50 (useful up to 122 (best Beginner-line level 1,224); its max for now)
     - done: Tick Tock 104
-    - and 7 more
+    - done: Will of the Eldest 50 (useful up to 130 (best level 1,307); its max for now)
+    - can add now: Toilet Paper Postage 25 → 100 · +105
+    - and 6 more
 
 ### C3 (Elemental Sorcerer 1259)
-- No build for this stage yet (builds cover World 1 to World 4): these are your talent levels
-- Other preset: Savvy Basics · Mage · Wizard · Elemental Sorcerer · Star talents (6,354 unspent)
+- Skilling preset: Savvy Basics [Start here] (at least 3,294 unspent) · Mage (at least 1,881 unspent) · Wizard (at least 3,256 unspent) · Elemental Sorcerer (at least 3,671 unspent) · Star talents (6,354 unspent)
+  - Savvy Basics: As of your last save: at least 3,294 points waiting · they end here
+    - can add now: Smart Efficiency = Active AFK'er +296 · +296 (split evenly: Smart Efficiency 0 → 149, Active AFK'er 0 → 147)
+    - can add now: Mana Booster = Book of the Wise +1,193 · +1,489 (split evenly: Mana Booster 0 → 267, Book of the Wise 0 → 926)
   - Star talents: 6,354 unspent · they end here (Stonks! returns more as it levels)
     - can add now: Stonks! 0 → 30 · +30 (pays for itself: it returns star points as it levels)
     - can add now: Tick Tock = Will of the Eldest = Toilet Paper Postage +254 · +284 (split evenly: Tick Tock 0 → 104, Will of the Eldest 0 → 50, Toilet Paper Postage 0 → 100 · useful up to 130 (best level 1,307); its max for now)
     - can add now: Printer Sampling 0 → 1 · +285
     - can add now: Shrine Architect 0 → 1 · +286
     - and 4 more
-- Current preset (in use): Savvy Basics · Mage · Wizard · Elemental Sorcerer · Star talents (4,275 unspent)
+- Fighting preset (in use): Savvy Basics · Mage · Wizard · Elemental Sorcerer · Star talents (4,275 unspent)
   - Star talents: 4,275 unspent · they end here (Stonks! returns more as it levels)
     - can add now: Stonks! 22 → 30 · +8 (pays for itself: it returns star points as it levels)
     - done: Will of the Eldest 50 (useful up to 130 (best level 1,307); its max for now)
@@ -361,15 +371,20 @@ Gifts: Slabcakes, Surprise Box
     - and 7 more
 
 ### C4 (Divine Knight 1240)
-- No build for this stage yet (builds cover World 1 to World 4): these are your talent levels
-- Other preset: Rage Basics · Warrior · Squire · Divine Knight · Star talents (7,857 unspent)
+- Skilling preset: Rage Basics [Start here] (at least 1,938 unspent) · Warrior (at least 1,158 unspent) · Squire (at least 1,474 unspent) · Divine Knight (at least 1,500 unspent) · Star talents (7,857 unspent)
+  - Rage Basics: As of your last save: at least 1,938 points waiting · they end here
+    - can add now: Brute Efficiency 0 → 151 · +151
+    - can add now: Idle Skilling 0 → 149 · +300
+    - can add now: Fist of Rage 0 → 618 · +918
+    - can add now: Health Booster 0 → 153 · +1,071
+    - and 1 more
   - Star talents: 7,857 unspent · they end here (Stonks! returns more as it levels)
     - can add now: Stonks! 0 → 30 · +30 (pays for itself: it returns star points as it levels)
     - can add now: Tick Tock = Will of the Eldest = Toilet Paper Postage +254 · +284 (split evenly: Tick Tock 0 → 104, Will of the Eldest 0 → 50, Toilet Paper Postage 0 → 100 · useful up to 130 (best level 1,307); its max for now)
     - can add now: Printer Sampling 0 → 1 · +285
     - can add now: Shrine Architect 0 → 1 · +286
     - and 4 more
-- Current preset (in use): Rage Basics · Warrior · Squire · Divine Knight · Star talents (5,254 unspent)
+- Fighting preset (in use): Rage Basics · Warrior · Squire · Divine Knight · Star talents (5,254 unspent)
   - Star talents: 5,254 unspent · they end here (Stonks! returns more as it levels)
     - can add now: Stonks! 0 → 30 · +30 (pays for itself: it returns star points as it levels)
     - done: Will of the Eldest 50 (useful up to 130 (best level 1,307); its max for now)
@@ -378,15 +393,18 @@ Gifts: Slabcakes, Surprise Box
     - and 7 more
 
 ### C5 (Arcane Cultist 1231)
-- No build for this stage yet (builds cover World 1 to World 4): these are your talent levels
-- Other preset: Savvy Basics · Mage · Shaman · Bubonic Conjuror · Arcane Cultist · Star talents (7,559 unspent)
+- Skilling preset: Savvy Basics [Start here] (at least 3,155 unspent) · Mage (at least 2,785 unspent) · Shaman (at least 3,222 unspent) · Bubonic Conjuror (at least 3,493 unspent) · Arcane Cultist (at least 3,791 unspent) · Star talents (7,559 unspent)
+  - Savvy Basics: As of your last save: at least 3,155 points waiting · they end here
+    - can add now: Smart Efficiency 0 → 142 · +142
+    - can add now: Book of the Wise 0 → 699 · +841
+    - can add now: Active AFK'er 0 → 139 · +980
   - Star talents: 7,559 unspent · they end here (Stonks! returns more as it levels)
     - can add now: Stonks! 0 → 30 · +30 (pays for itself: it returns star points as it levels)
     - can add now: Tick Tock = Will of the Eldest = Toilet Paper Postage +254 · +284 (split evenly: Tick Tock 0 → 104, Will of the Eldest 0 → 50, Toilet Paper Postage 0 → 100 · useful up to 130 (best level 1,307); its max for now)
     - can add now: Printer Sampling 0 → 1 · +285
     - can add now: Shrine Architect 0 → 1 · +286
     - and 4 more
-- Current preset (in use): Savvy Basics · Mage · Shaman · Bubonic Conjuror · Arcane Cultist · Star talents (3,680 unspent)
+- Fighting preset (in use): Savvy Basics · Mage · Shaman · Bubonic Conjuror · Arcane Cultist · Star talents (3,680 unspent)
   - Star talents: 3,680 unspent · they end here
     - done: Stonks! 30
     - done: Will of the Eldest 50 (useful up to 130 (best level 1,307); its max for now)
@@ -395,15 +413,19 @@ Gifts: Slabcakes, Surprise Box
     - and 7 more
 
 ### C6 (Wind Walker 1280)
-- No build for this stage yet (builds cover World 1 to World 4): these are your talent levels
-- Current preset (in use): Calm Basics · Archer · Hunter · Beast Master · Wind Walker · Star talents (4,520 unspent)
+- Fighting preset (in use): Calm Basics · Archer · Hunter · Beast Master · Wind Walker · Star talents (4,520 unspent)
   - Star talents: 4,520 unspent · they end here
     - done: Stonks! 30
     - done: Will of the Eldest 50 (useful up to 130 (best level 1,307); its max for now)
     - done: Beginner Best Class 50 (useful up to 122 (best Beginner-line level 1,224); its max for now)
     - done: Tick Tock 104
     - and 7 more
-- Other preset: Calm Basics · Archer · Hunter · Beast Master · Wind Walker · Star talents (6,901 unspent)
+- Skilling preset: Calm Basics [Start here] (at least 2,944 unspent) · Archer (at least 1,855 unspent) · Hunter (at least 2,419 unspent) · Beast Master (at least 2,555 unspent) · Wind Walker (at least 2,893 unspent) · Star talents (6,901 unspent)
+  - Calm Basics: As of your last save: at least 2,944 points waiting · they end here
+    - can add now: Elusive Efficiency 0 → 220 · +220
+    - can add now: Broken Time 0 → 220 · +440
+    - can add now: Book of the Wise 0 → 100 · +540
+    - can add now: Star Player 0 → 100 · +640
   - Star talents: 6,901 unspent · they end here (Stonks! returns more as it levels)
     - can add now: Stonks! 0 → 30 · +30 (pays for itself: it returns star points as it levels)
     - can add now: Tick Tock = Will of the Eldest = Toilet Paper Postage +254 · +284 (split evenly: Tick Tock 0 → 104, Will of the Eldest 0 → 50, Toilet Paper Postage 0 → 100 · useful up to 130 (best level 1,307); its max for now)
@@ -412,15 +434,18 @@ Gifts: Slabcakes, Surprise Box
     - and 4 more
 
 ### C7 (Voidwalker 1157)
-- No build for this stage yet (builds cover World 1 to World 4): these are your talent levels
-- Current preset (in use): Beginner · Journeyman · Maestro · Voidwalker · Star talents (5,604 unspent)
+- Skilling preset (in use): Beginner · Journeyman · Maestro · Voidwalker · Star talents (5,604 unspent)
   - Star talents: 5,604 unspent · they end here (Stonks! returns more as it levels)
     - can add now: Stonks! 25 → 30 · +5 (pays for itself: it returns star points as it levels)
     - done: Will of the Eldest 50 (useful up to 130 (best level 1,307); its max for now)
     - can add now: Tick Tock = Toilet Paper Postage +52 · +57 (split evenly: Tick Tock 92 → 104, Toilet Paper Postage 60 → 100)
     - done: Printer Sampling 1
     - and 5 more
-- Other preset: Beginner · Journeyman · Maestro · Voidwalker · Star talents (7,944 unspent)
+- Fighting preset: Beginner [Start here] (at least 2,666 unspent) · Journeyman (at least 2,264 unspent) · Maestro (at least 2,482 unspent) · Voidwalker (at least 1,096 unspent) · Star talents (7,944 unspent)
+  - Beginner: As of your last save: at least 2,666 points waiting · they end here
+    - can add now: Sharpened Axe = Gilded Sword = Lucky Clover +563 · +563 (split evenly: Sharpened Axe 0 → 202, Gilded Sword 0 → 214, Lucky Clover 0 → 147)
+    - can add now: Health Booster = Mana Booster = Fist of Rage = Quickness Boots = Book of the Wise +547 · +1,110 (split evenly: Health Booster 0 → 147, Mana Booster 0 → 100, Fist of Rage 0 → 100, Quickness Boots 0 → 100, Book of the Wise 0 → 100)
+    - can add now: Knucklebuster = Feather Flight +294 · +1,404 (split evenly: Knucklebuster 0 → 147, Feather Flight 0 → 147)
   - Star talents: 7,944 unspent · they end here (Stonks! returns more as it levels)
     - can add now: Stonks! 0 → 30 · +30 (pays for itself: it returns star points as it levels)
     - can add now: Will of the Eldest 0 → 50 · +80 (useful up to 130 (best level 1,307); its max for now)
@@ -429,15 +454,18 @@ Gifts: Slabcakes, Surprise Box
     - and 5 more
 
 ### C8 (Siege Breaker 1261)
-- No build for this stage yet (builds cover World 1 to World 4): these are your talent levels
-- Current preset (in use): Calm Basics · Archer · Bowman · Siege Breaker · Star talents (4,346 unspent)
+- Fighting preset (in use): Calm Basics · Archer · Bowman · Siege Breaker · Star talents (4,346 unspent)
   - Star talents: 4,346 unspent · they end here (Stonks! returns more as it levels)
     - can add now: Stonks! 0 → 30 · +30 (pays for itself: it returns star points as it levels)
     - done: Will of the Eldest 50 (useful up to 130 (best level 1,307); its max for now)
     - done: Beginner Best Class 50 (useful up to 122 (best Beginner-line level 1,224); its max for now)
     - done: Attacks On Simmer 50
     - and 7 more
-- Other preset: Calm Basics · Archer · Bowman · Siege Breaker · Star talents (6,267 unspent)
+- Skilling preset: Calm Basics [Start here] (at least 2,770 unspent) · Archer (at least 1,659 unspent) · Bowman (at least 1,322 unspent) · Siege Breaker (at least 2,399 unspent) · Star talents (6,267 unspent)
+  - Calm Basics: As of your last save: at least 2,770 points waiting · they end here
+    - can add now: Elusive Efficiency 0 → 155 · +155
+    - can add now: Quickness Boots 0 → 637 · +792
+    - can add now: Broken Time 0 → 148 · +940
   - Star talents: 6,267 unspent · they end here (Stonks! returns more as it levels)
     - can add now: Stonks! 0 → 30 · +30 (pays for itself: it returns star points as it levels)
     - can add now: Tick Tock = Will of the Eldest = Toilet Paper Postage +254 · +284 (split evenly: Tick Tock 0 → 104, Will of the Eldest 0 → 50, Toilet Paper Postage 0 → 100 · useful up to 130 (best level 1,307); its max for now)
@@ -446,15 +474,20 @@ Gifts: Slabcakes, Surprise Box
     - and 4 more
 
 ### C9 (Royal Guardian 1307)
-- No build for this stage yet (builds cover World 1 to World 4): these are your talent levels
-- Current preset (in use): Rage Basics · Warrior · Squire · Divine Knight · Royal Guardian · Star talents (5,403 unspent)
+- Fighting preset (in use): Rage Basics · Warrior · Squire · Divine Knight · Royal Guardian · Star talents (5,403 unspent)
   - Star talents: 5,403 unspent · they end here
     - done: Stonks! 30
     - done: Will of the Eldest 50 (useful up to 130 (best level 1,307); its max for now)
     - done: Beginner Best Class 50 (useful up to 122 (best Beginner-line level 1,224); its max for now)
     - done: Tick Tock 104
     - and 7 more
-- Other preset: Rage Basics · Warrior · Squire · Divine Knight · Royal Guardian · Star talents (9,167 unspent)
+- Skilling preset: Rage Basics [Start here] (at least 5,020 unspent) · Warrior (at least 4,186 unspent) · Squire (at least 4,067 unspent) · Divine Knight (at least 3,917 unspent) · Royal Guardian (at least 1,622 unspent) · Star talents (9,167 unspent)
+  - Rage Basics: As of your last save: at least 5,020 points waiting · they end here
+    - can add now: Brute Efficiency 10 → 308 · +298
+    - can add now: Idle Skilling 38 → 308 · +568
+    - can add now: Fist of Rage 0 → 1,133 · +1,701
+    - can add now: Health Booster 0 → 308 · +2,009
+    - and 1 more
   - Star talents: 9,167 unspent · they end here (Stonks! returns more as it levels)
     - can add now: Stonks! 0 → 30 · +30 (pays for itself: it returns star points as it levels)
     - can add now: Tick Tock = Will of the Eldest = Toilet Paper Postage +254 · +284 (split evenly: Tick Tock 0 → 104, Will of the Eldest 0 → 50, Toilet Paper Postage 0 → 100 · useful up to 130 (best level 1,307); its max for now)
@@ -463,15 +496,18 @@ Gifts: Slabcakes, Surprise Box
     - and 4 more
 
 ### C10 (Bubonic Conjuror 1268)
-- No build for this stage yet (builds cover World 1 to World 4): these are your talent levels
-- Current preset (in use): Savvy Basics · Mage · Shaman · Bubonic Conjuror · Star talents (5,174 unspent)
+- Fighting preset (in use): Savvy Basics · Mage · Shaman · Bubonic Conjuror · Star talents (5,174 unspent)
   - Star talents: 5,174 unspent · they end here (Stonks! returns more as it levels)
     - can add now: Stonks! 0 → 30 · +30 (pays for itself: it returns star points as it levels)
     - done: Will of the Eldest 50 (useful up to 130 (best level 1,307); its max for now)
     - done: Beginner Best Class 50 (useful up to 122 (best Beginner-line level 1,224); its max for now)
     - done: Tick Tock 104
     - and 7 more
-- Other preset: Savvy Basics · Mage · Shaman · Bubonic Conjuror · Star talents (6,857 unspent)
+- Skilling preset: Savvy Basics [Start here] (at least 2,825 unspent) · Mage (at least 1,359 unspent) · Shaman (at least 1,690 unspent) · Bubonic Conjuror (at least 3,230 unspent) · Star talents (6,857 unspent)
+  - Savvy Basics: As of your last save: at least 2,825 points waiting · they end here
+    - can add now: Smart Efficiency 0 → 136 · +136
+    - can add now: Book of the Wise 0 → 637 · +773
+    - can add now: Active AFK'er 0 → 150 · +923
   - Star talents: 6,857 unspent · they end here (Stonks! returns more as it levels)
     - can add now: Stonks! 0 → 30 · +30 (pays for itself: it returns star points as it levels)
     - can add now: Tick Tock = Will of the Eldest = Toilet Paper Postage +254 · +284 (split evenly: Tick Tock 0 → 104, Will of the Eldest 0 → 50, Toilet Paper Postage 0 → 100 · useful up to 130 (best level 1,307); its max for now)
