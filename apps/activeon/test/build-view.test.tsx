@@ -144,24 +144,34 @@ describe('character tabs registry', () => {
   });
 });
 
+/** M24: the Characters place's square for one tab of one character (the Roster's tab chips are gone). */
+function openSquare(tab: string, index: number) {
+  act(() => {
+    window.history.replaceState(null, '', '/#characters');
+    window.dispatchEvent(new HashChangeEvent('hashchange'));
+  });
+  const grid = document.querySelector('.cp-grid') as HTMLElement;
+  fireEvent.click(grid.querySelector(`a[href="#${tab}-${index}"]`) as HTMLElement);
+}
+
 describe('Build view', () => {
-  it('Characters lists every Build with its one-line status; each Roster row keeps a Build chip (M17 D-7)', () => {
+  it('Characters has a Talent points square for every Build, each a link to its Build tab (M24)', () => {
     const r = withBuilds();
+    window.history.replaceState(null, '', '/#characters');
     renderNow(props(r, saveOf(r, 1, 'first', null, 'paste')));
     expect(screen.queryByRole('region', { name: 'Builds' })).toBeNull();
-    expect(screen.getByRole('link', { name: /^Birch: build/ })).toBeTruthy();
-    fireEvent.click(screen.getByRole('link', { name: 'Builds and cards → Characters' }));
-    expect(window.location.hash).toBe('#characters');
-    const overview = screen.getByRole('region', { name: 'Builds' });
-    const links = within(overview).getAllByRole('link');
-    expect(links.map((a) => a.getAttribute('href'))).toEqual(['#build-1', '#build-2']);
-    expect(links[0]?.textContent).toContain('118+ unspent on the skilling preset · next: Book of the Wise');
+    const grid = document.querySelector('.cp-grid') as HTMLElement;
+    const links = [...grid.querySelectorAll<HTMLAnchorElement>('a[href^="#build-"]')];
+    expect(links.map((a) => a.getAttribute('href')).sort()).toEqual(['#build-1', '#build-2']);
+    expect(grid.querySelector('a[href="#build-1"]')?.getAttribute('aria-label')).toMatch(
+      /, Build: at least 118 points$/,
+    );
   });
 
   it('the Build chip opens the character page on its Build tab, with the deep link', async () => {
     const r = withBuilds();
     const { container } = renderNow(props(r, saveOf(r, 1, 'first', null, 'paste')));
-    fireEvent.click(screen.getByRole('link', { name: /^Birch: build/ }));
+    openSquare('build', 1);
     expect(window.location.hash).toBe('#build-1');
     const nav = screen.getByRole('navigation', { name: 'Character page' });
     // The strip has the view now (M21 Integration), so each tab carries its health badge (FR-C7).
@@ -258,7 +268,7 @@ describe('Build view', () => {
       ],
     };
     const { container } = renderNow(props(r, saveOf(r, 1, 'first', null, 'paste')));
-    fireEvent.click(screen.getByRole('link', { name: /^Birch: build/ }));
+    openSquare('build', 1);
     const text = document.body.textContent ?? '';
     expect(text).not.toMatch(/No points waiting/);
     expect(text).not.toMatch(/can't/i);
@@ -336,7 +346,7 @@ describe('Build view', () => {
       builds: [{ ...shaman, presets: [preset(0, {}), preset(1, { unspent: 366, tabs: [tab] })] }],
     };
     renderNow(props(r, saveOf(r, 1, 'first', null, 'paste')));
-    fireEvent.click(screen.getByRole('link', { name: /^Birch: build/ }));
+    openSquare('build', 1);
     const ladder = document.getElementById('bv-1-p1-t1') as HTMLElement;
     const cut = ladder.querySelector('.bd-cut-t')?.textContent ?? '';
     expect(cut).toMatch(/^Build complete at 300 · 66 points have no talent in this build yet/);
@@ -369,28 +379,21 @@ describe('Build view', () => {
     };
     window.history.replaceState(null, '', '/#characters');
     renderNow(props(r, saveOf(r, 1, 'first', null, 'paste')));
-    const overview = screen.getByRole('region', { name: 'Builds' });
-    expect(within(overview).queryAllByRole('link')).toHaveLength(0);
-    expect(overview.textContent).toContain(
-      "Builds cover World 1 to World 4 for now. Each character's Build tab shows its plain talent levels.",
-    );
+    // M24: no Builds overview; each character's Talent points square says it plainly.
+    const grid = document.querySelector('.cp-grid') as HTMLElement;
+    const squares = [...grid.querySelectorAll<HTMLAnchorElement>('a[href^="#build-"]')];
+    expect(squares).toHaveLength(3);
+    for (const a of squares) expect(a.textContent).toContain('No build yet');
   });
 
-  it('R5 QA P2-2: the overview is one folded row in Characters, and #builds opens it there (M17 FR-7)', () => {
+  it('#builds opens Characters at its Talent points column (M17 FR-7, M24)', () => {
     const r = withBuilds();
-    window.history.replaceState(null, '', '/#characters');
+    window.history.replaceState(null, '', '/#builds');
     renderNow(props(r, saveOf(r, 1, 'first', null, 'paste')));
-    const overview = screen.getByRole('region', { name: 'Builds' });
-    const fold = overview.querySelector('details');
-    expect(fold?.open).toBe(false);
-    expect(overview.querySelector('summary')?.textContent).toBe('Builds1 with unspent points');
-    // The Account is on Now, never under the optional overviews.
+    expect(screen.getByRole('heading', { level: 2, name: 'Characters' })).toBeTruthy();
+    expect(document.getElementById('builds')?.textContent).toBe('Talent points');
+    // The Account is on Now only.
     expect(screen.queryByRole('region', { name: 'Account' })).toBeNull();
-    act(() => {
-      window.history.replaceState(null, '', '/#builds');
-      window.dispatchEvent(new HashChangeEvent('hashchange'));
-    });
-    expect(screen.getByRole('region', { name: 'Builds' }).querySelector('details')?.open).toBe(true);
   });
 
   it('a result without Builds shows no overview and no Build chip', () => {

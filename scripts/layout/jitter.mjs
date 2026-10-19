@@ -92,7 +92,7 @@ async function main() {
       ta.dispatchEvent(new Event('input', { bubbles: true }));
     }, save);
     await page.click('form.paste button[type=submit]');
-    await page.waitForSelector('.n-roster', { timeout: 60_000 });
+    await page.waitForSelector('.n-now', { timeout: 60_000 });
     await page.waitForTimeout(500);
     await page.evaluate(() => {
       location.hash = '#systems';

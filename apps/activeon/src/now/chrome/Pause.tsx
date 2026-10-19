@@ -2,21 +2,15 @@
 // Copyright (C) 2026 IdleOn Forge contributors.
 // The pause points (M21 FR-N6, `flows.session-checklist` Auto tab): Log in · Rounds · Log off, picked
 // from context with one muted line saying why; the player can switch, and a manual pick holds for the
-// rest of the Play Session (D-8), across place moves and saves. The Log in list, the Away card and the
-// Log off list are a lazy part (TR-12 offset 2); Rounds is the grouped jobs and the Roster underneath.
+// rest of the Play Session (D-8), across place moves and saves. M24: each pause point's view is in
+// now/place/ (Log off first-load; Log in and Rounds a lazy part).
 //
 // The Log off list is DO-CONFIRM: it remembers the items it showed, and an item the next cloud save no
 // longer lists is ticked by the save, never by a tap (DS-2).
 import { PAUSE_WORDS, type PauseTab } from '@idleon-forge/engine/now';
-import { Suspense, useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { SegmentedControl } from '../../design/atoms/Choice';
-import { Loading, lazyPart } from '../../lazy-part';
 import type { NowSessionView } from '../session/types';
-
-export const PausePoint = lazyPart(
-  () => import('../session/PausePoint'),
-  (m) => m.PausePoint,
-);
 
 interface Stored {
   session: number | null;
@@ -67,14 +61,5 @@ export function PauseControl({ view, onPick }: { view: NowSessionView; onPick(ta
       />
       <p className="n-pause__why">{view.why}</p>
     </div>
-  );
-}
-
-export function PauseContent(props: Parameters<typeof PausePoint>[0]) {
-  if (props.view.tab === 'rounds') return null;
-  return (
-    <Suspense fallback={<Loading />}>
-      <PausePoint {...props} />
-    </Suspense>
   );
 }

@@ -1,221 +1,160 @@
 // SPDX-License-Identifier: GPL-3.0-only
 // Copyright (C) 2026 IdleOn Forge contributors.
-// Characters (M17 FR-13, M21 FR-C6, FR-C7; Design Lab `character.overview` "Health matrix" pick, with
-// the class tree block and the slot ribbon). In save order, so a row never moves:
-// - the health matrix: characters × the tabs that publish health, each cell a glyph plus a word with a
-//   unit, a 44 px link to that tab, exactly one cell ringed as the fix;
-// - the "Next character" card (owner request 2026-10-18): the next slot's class and when it opens;
-// - the class tree block: who plays which line;
-// - the Builds overview (each character's lead tab and next steps with running totals), the Cards
-//   overview and the Skill Grid, unchanged in substance.
-import { buildOverviewLine, CHARACTERS_WORDS } from '@idleon-forge/engine/characters-ui';
-import type { NowView, RosterRow, TabHealth } from '@idleon-forge/engine/now';
+// Characters (M17 FR-13, M21 FR-C6, FR-C7; M24 board `after/Characters`). Top to bottom:
+// - the roster grid, sorted by Visit Order (fix first, then most to spend): who with the same state word
+//   as Now's cards (the pip always agrees with the word), the AFK target and map, then one square per tab
+//   that publishes health (talent points, gear slots, card preset, star sign, parallel slots), each a
+//   link to that tab, a big word and a small one, coloured gold (do it), mint (fine) or grey (later);
+// - the next character (the one framed block of the screen) beside the class tree;
+// - the Skills heat map: brighter is a higher level, gold is the skill the character should train.
+// Characters are class + level only (never a character's name). Every fact is the engine's.
+import type { RosterRow, TabHealth } from '@idleon-forge/engine/now';
 import type { ClassFamily, NextCharacterCard } from '@idleon-forge/engine/result';
-import type { ArtName } from '../design/art/names';
-import { PixelArt } from '../design/art/PixelArt';
-import { GLYPH, VERDICT_GLYPH } from '../design/atoms';
-import { WhoGlyph } from '../design/who/WhoGlyph';
-import { CardsOverview } from '../now/cards/CardsPanel';
+import { Blob } from '../design/atoms/Blob';
+import { cx } from '../design/atoms/Button';
+import { Pip } from '../design/atoms/Surfaces';
 import { characterTabs, NOW_TAB, tabHref } from '../now/character-tabs';
-import { BUILDS_OPEN } from '../now/open-keys';
-import { SkillGrid } from '../now/SkillsTab';
-import { SEVERITY, TAB_HEALTH } from '../now/tab-health';
+import { type CardState, cardState, fullGroups, fullSet } from '../now/place/derive';
+import { Icon } from '../now/place/icon';
+import { StateWord } from '../now/place/LogOff';
+import { CHARACTERS_PLACE_WORDS as W } from '../now/place/words';
+import { TAB_HEALTH } from '../now/tab-health';
 import type { Session } from '../shell/session';
 import './place.css';
 
-const W = CHARACTERS_WORDS;
-/** The Now place's anchor (shell/route.ts reads `#now`). */
-const NOW_HREF = '#now';
-const n = (x: number) => x.toLocaleString('en-US');
+const who = (r: RosterRow) => `${r.classLabel} ${r.level}`;
 
-const HEALTH_GLYPH: Record<TabHealth['level'], ArtName> = {
-  fix: VERDICT_GLYPH.fix,
-  behind: 'v2-character-behind',
-  empty: 'v2-character-empty',
-  unknown: VERDICT_GLYPH.unknown,
-  ok: GLYPH.check,
+/** A health level's colour: gold do it, mint fine, grey later (rule 7). */
+const TONE: Record<TabHealth['level'], 'warn' | 'ok' | 'muted'> = {
+  fix: 'warn',
+  behind: 'warn',
+  empty: 'muted',
+  ok: 'ok',
+  unknown: 'muted',
 };
 
-interface Cell {
-  tab: string;
-  label: string;
-  health: TabHealth;
+const PIP_OF = { warn: 'gold', ok: 'mint', muted: undefined } as const;
+
+/** The tabs that publish health, in tab order, with the anchor a section route lands on. */
+const COLS = characterTabs.filter((t) => TAB_HEALTH[t.id]);
+const ANCHOR: Record<string, string> = { build: 'builds', cards: 'cards' };
+
+/** A health word as the square's big and small words ("empty preset · 995 points" → 995 points / empty preset). */
+function words(tab: string, h: TabHealth): { big: string; small: string } {
+  const parts = h.word.split(' · ');
+  if (parts.length > 1)
+    return { big: parts[parts.length - 1] ?? h.word, small: parts.slice(0, -1).join(' · ') };
+  const big = h.level === 'ok' && h.word === 'ok' ? 'Fine' : h.word;
+  const small = W.small[tab]?.[h.level] ?? '';
+  return {
+    big: big.charAt(0).toUpperCase() + big.slice(1),
+    small: small.toLowerCase() === big.toLowerCase() ? '' : small,
+  };
 }
 
-function cellsOf(view: NowView, index: number): (Cell | null)[] {
-  return characterTabs
-    .filter((t) => TAB_HEALTH[t.id])
-    .map((t) => {
-      const h = TAB_HEALTH[t.id]?.(view, index) ?? null;
-      return h ? { tab: t.id, label: t.label, health: h } : null;
-    });
-}
-
-/** Exactly one ringed cell: the most severe, ties broken by Visit Order, then tab order (FR-C7). */
-function ringOf(rows: RosterRow[], cells: Map<number, (Cell | null)[]>): string | null {
-  let best: { key: string; sev: number; pos: number; col: number } | null = null;
-  for (const r of rows)
-    (cells.get(r.index) ?? []).forEach((c, col) => {
-      if (!c || c.health.level === 'ok') return;
-      const sev = SEVERITY[c.health.level];
-      if (
-        !best ||
-        sev < best.sev ||
-        (sev === best.sev && (r.position < best.pos || (r.position === best.pos && col < best.col)))
-      )
-        best = { key: `${r.index}:${c.tab}`, sev, pos: r.position, col };
-    });
-  return (best as { key: string } | null)?.key ?? null;
-}
-
-function HealthMatrix({ s, rows }: { s: Session; rows: RosterRow[] }) {
-  const tabs = characterTabs.filter((t) => TAB_HEALTH[t.id]);
-  const cells = new Map(rows.map((r) => [r.index, cellsOf(s.view, r.index)] as const));
-  const shown = tabs.filter((_, col) => rows.some((r) => cells.get(r.index)?.[col]));
-  const ring = ringOf(rows, cells);
+function Grid({ s, rows }: { s: Session; rows: RosterRow[] }) {
   const families = s.view.families ?? {};
+  const groups = fullGroups(s.timeline, s.view);
+  const full = fullSet(groups);
   const open = (index: number, tab: string) => (e: React.MouseEvent) => {
     e.preventDefault();
     s.navigate({ place: 'character', index, tab }, 'push', { origin: '#characters' });
   };
+  const shown = COLS.filter((t) => rows.some((r) => TAB_HEALTH[t.id]?.(s.view, r.index)));
+  const why = (r: RosterRow, state: CardState) => {
+    if (state === 'collect') {
+      const g = groups.find((x) => x.indexes.includes(r.index));
+      return g ? W.fullWhat(g.what) : '';
+    }
+    // "Fix first" already says it; Ready and Can't tell say why in a word.
+    return state === 'fix' ? '' : (W.stateWhy[state as 'ready' | 'unknown'] ?? '');
+  };
+  const activities = rows.map((r) => r.activity?.split(' ')[0] ?? null);
+  const sameAfk =
+    activities.length > 0 && activities.every((a) => a && a === activities[0]) ? activities[0] : null;
   return (
-    <section className="cp-block" aria-labelledby="cp-matrix-h">
-      <h3 id="cp-matrix-h" className="cp-h">
-        {W.matrix.heading}
-      </h3>
-      <div className="cp-matrix-wrap">
-        <table className="cp-matrix">
-          <thead>
-            <tr>
-              <th scope="col">
-                <span className="sr-only">{W.title}</span>
+    <div className="cp-grid-wrap">
+      <table className="cp-grid">
+        <thead>
+          <tr>
+            <th scope="col">{W.cols.who}</th>
+            <th scope="col">{W.cols.afk}</th>
+            {shown.map((t) => (
+              <th key={t.id} scope="col" id={ANCHOR[t.id]}>
+                {W.cols[t.id] ?? t.label}
               </th>
-              {shown.map((t) => (
-                <th key={t.id} scope="col">
-                  {t.label}
-                </th>
-              ))}
-            </tr>
-          </thead>
-          <tbody>
-            {rows.map((r) => (
+            ))}
+          </tr>
+        </thead>
+        <tbody>
+          {rows.map((r) => {
+            const state = cardState(r, full);
+            return (
               <tr key={r.index}>
                 <th scope="row">
                   <a
                     className="cp-who"
                     href={tabHref(NOW_TAB, r.index)}
-                    aria-label={r.accessibleName}
+                    aria-label={`${r.position}. ${who(r)}, ${state}`}
                     onClick={open(r.index, NOW_TAB)}
                   >
-                    <WhoGlyph
-                      family={(families[r.index] ?? 'beginner') as ClassFamily}
-                      classLabel={r.classLabel}
-                      scale={1}
-                      decorative
-                    />
+                    <span className="cp-n num">{r.position}</span>
+                    <Blob family={(families[r.index] ?? 'beginner') as ClassFamily} size={40} />
                     <span className="cp-who-t">
-                      <span className="cp-name">{r.name}</span>
-                      <span className="num">
-                        {r.classLabel} {r.level}
+                      <b className="num">{who(r)}</b>
+                      <span className="cp-xs">
+                        <StateWord state={state} />
+                        <span className="cp-muted"> {why(r, state)}</span>
                       </span>
                     </span>
                   </a>
                 </th>
+                <td>
+                  <a
+                    className="cp-cell cp-cell--afk"
+                    href={tabHref(NOW_TAB, r.index)}
+                    onClick={open(r.index, NOW_TAB)}
+                  >
+                    <span className="cp-col">{W.cols.afk}</span>
+                    <b className="cp-sm">{r.activity ?? W.noAfk}</b>
+                    {r.map ? <span className="cp-xs cp-muted">{r.map}</span> : null}
+                  </a>
+                </td>
                 {shown.map((t) => {
-                  const c = cells.get(r.index)?.[tabs.indexOf(t)] ?? null;
-                  if (!c) return <td key={t.id} />;
-                  const ringed = ring === `${r.index}:${c.tab}`;
+                  const h = TAB_HEALTH[t.id]?.(s.view, r.index) ?? null;
+                  if (!h) return <td key={t.id} />;
+                  const w = words(t.id, h);
+                  const tone = TONE[h.level];
+                  const loud = t.id === 'build' && (h.level === 'behind' || h.level === 'empty');
                   return (
                     <td key={t.id}>
                       <a
-                        className={ringed ? 'cp-cell a-frame' : 'cp-cell'}
-                        data-level={c.health.level}
-                        data-ring={ringed ? 'yes' : 'no'}
-                        href={tabHref(c.tab, r.index)}
-                        onClick={open(r.index, c.tab)}
-                        aria-label={`${r.name}, ${c.label}: ${W.matrix.level[c.health.level]}, ${c.health.word}`}
+                        className="cp-cell"
+                        data-tone={tone}
+                        href={tabHref(t.id, r.index)}
+                        onClick={open(r.index, t.id)}
+                        aria-label={`${who(r)}, ${t.label}: ${h.word}`}
                       >
-                        <PixelArt name={HEALTH_GLYPH[c.health.level]} decorative />
-                        <span>{c.health.word}</span>
-                        {ringed ? <span className="cp-ring-tag">{W.matrix.fixFirst}</span> : null}
+                        <span className="cp-col">{W.cols[t.id] ?? t.label}</span>
+                        <Pip tone={PIP_OF[tone]} />
+                        <span className="cp-cell-t">
+                          <b className={cx(loud ? 'cp-loud' : 'cp-sm')}>{w.big}</b>
+                          {w.small ? <span className="cp-xs cp-muted">{w.small}</span> : null}
+                        </span>
                       </a>
                     </td>
                   );
                 })}
               </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-      <p className="cp-hint">{W.matrix.hint}</p>
-    </section>
-  );
-}
-
-const etaWords = (n0: NextCharacterCard): string | null => {
-  if (!n0.eta) return null;
-  if (n0.eta.kind === 'days')
-    return `about ${n(n0.eta.days)} ${n0.eta.days === 1 ? 'day' : 'days'} at your pace`;
-  if (n0.eta.kind === 'too-long') return 'more than 90 days at your pace';
-  return null;
-};
-
-/** FR-19 (M2) + M15 F3: the next character slot as a ghost slot at the end of the roster. */
-function NextCharacter({ card, s }: { card: NextCharacterCard; s: Session }) {
-  const family: ClassFamily =
-    card.line === 'Journeyman'
-      ? 'journeyman'
-      : card.baseClass === 'Warrior'
-        ? 'warrior'
-        : card.baseClass === 'Archer'
-          ? 'archer'
-          : card.baseClass === 'Mage'
-            ? 'mage'
-            : 'beginner';
-  const title =
-    card.line === card.baseClass
-      ? `Slot ${card.slotNumber}: ${card.line}`
-      : `Slot ${card.slotNumber}: ${card.baseClass} → ${card.line}`;
-  const eta = etaWords(card);
-  return (
-    <section className="cp-next" aria-labelledby="cp-next-h" data-open={card.slotOpen ? 'yes' : 'no'}>
-      <span className="cp-next-glyph">
-        <WhoGlyph family={family} classLabel={card.line} scale={3} decorative />
-      </span>
-      <div className="cp-next-body">
-        <h3 id="cp-next-h" className="cp-next-h">
-          Next character · {title}
-        </h3>
-        {card.slotOpen ? (
-          <p className="cp-next-when">
-            The slot is open now.{' '}
-            <a
-              href={NOW_HREF}
-              className="cp-link"
-              onClick={(e) => {
-                e.preventDefault();
-                s.navigate({ place: 'now' }, 'push', { origin: '#characters' });
-              }}
-            >
-              See it on Now
-            </a>
-          </p>
-        ) : card.opensAt !== null ? (
-          <p className="cp-next-when">
-            Opens at family level <b className="num">{n(card.opensAt)}</b>
-            {card.gap !== null ? ` (${n(card.gap)} levels to go${eta ? `, ${eta}` : ''})` : ''}
-          </p>
-        ) : null}
-        <p className="cp-next-why">{card.why}</p>
-        {card.steps.length ? (
-          <ol className="cp-next-steps">
-            {card.steps.map((x) => (
-              <li key={x}>{x}</li>
-            ))}
-          </ol>
-        ) : null}
-      </div>
-    </section>
+            );
+          })}
+        </tbody>
+      </table>
+      <p className="cp-hint cp-xs cp-muted">
+        {W.hint}
+        {sameAfk ? W.allAfk(rows.length, sameAfk) : ''}
+      </p>
+    </div>
   );
 }
 
@@ -227,130 +166,203 @@ const FAMILY_WORDS: Record<ClassFamily, string> = {
   journeyman: 'Journeyman',
 };
 
-/** The class tree block (`character.overview` runner-up): who plays which line, by family. */
-function ClassTree({ s, rows }: { s: Session; rows: RosterRow[] }) {
+const classSprite = (line: string) => `class-${line.toLowerCase().replace(/\s+/g, '-')}`;
+
+/** The next character slot: what to make, the family-level meter, and the creation steps. */
+function NextCharacter({ card }: { card: NextCharacterCard }) {
+  const at = card.opensAt !== null && card.gap !== null ? card.opensAt - card.gap : null;
+  const share = at !== null && card.opensAt ? Math.min(1, at / card.opensAt) : card.slotOpen ? 1 : 0;
+  const title = card.line === card.baseClass ? card.line : `${card.baseClass} → ${card.line}`;
+  return (
+    <section className="cp-next a-frame" aria-labelledby="cp-next-h">
+      <span className="a-cap">{W.nextCap(card.slotNumber)}</span>
+      <div className="cp-next-top">
+        <span className="cp-next-pic">
+          <Icon name={classSprite(card.line)} fallback={classSprite(card.baseClass)} size={48} />
+        </span>
+        <div className="cp-next-t">
+          <h3 id="cp-next-h" className="a-h2">
+            {title}
+          </h3>
+          <span className="cp-sm cp-muted">{card.why}</span>
+        </div>
+      </div>
+      {card.slotOpen ? (
+        <p className="cp-sm cp-t-ok">{W.slotOpen}</p>
+      ) : at !== null && card.opensAt !== null ? (
+        <div className="cp-meter-box">
+          <div className="cp-meter-row cp-sm">
+            <span className="cp-muted">{W.familyOf(at, card.opensAt)}</span>
+            {card.gap !== null ? <b>{W.toGo(card.gap)}</b> : null}
+          </div>
+          <span className="cp-meter" aria-hidden="true">
+            <i style={{ width: `${Math.round(share * 100)}%` }} />
+          </span>
+        </div>
+      ) : null}
+      {card.steps.length ? (
+        <ol className="cp-steps cp-sm">
+          {card.steps.map((x) => (
+            <li key={x}>{x}</li>
+          ))}
+        </ol>
+      ) : null}
+    </section>
+  );
+}
+
+/** The class tree: who plays which line, by family, and the next slot as a ghost tile. */
+function ClassTree({ s, rows, next }: { s: Session; rows: RosterRow[]; next: NextCharacterCard | null }) {
   const families = s.view.families ?? {};
   const order: ClassFamily[] = ['warrior', 'archer', 'mage', 'beginner', 'journeyman'];
   const groups = order
     .map((f) => ({ f, list: rows.filter((r) => (families[r.index] ?? 'beginner') === f) }))
     .filter((g) => g.list.length > 0 || g.f === 'warrior' || g.f === 'archer' || g.f === 'mage');
+  const ghost = next && !groups.some((g) => FAMILY_WORDS[g.f] === next.baseClass && g.list.length === 0);
   return (
-    <section className="cp-block" aria-labelledby="cp-tree-h">
-      <h3 id="cp-tree-h" className="cp-h">
-        {W.classTree.heading}
+    <section className="cp-tree-sec" aria-labelledby="cp-tree-h">
+      <h3 id="cp-tree-h" className="a-h2">
+        {W.tree}
       </h3>
       <ul className="cp-tree">
         {groups.map((g) => (
-          <li key={g.f} className="cp-tree-col">
-            <span className="cp-tree-h">
-              <WhoGlyph family={g.f} classLabel={FAMILY_WORDS[g.f]} scale={1} decorative />
-              {FAMILY_WORDS[g.f]}
-            </span>
+          <li key={g.f} className="cp-tree-col" data-family={g.f}>
+            <span className="a-cap cp-fam">{FAMILY_WORDS[g.f]}</span>
             {g.list.length ? (
-              <ul className="cp-tree-list">
-                {g.list.map((r) => (
-                  <li key={r.index} className="num">
-                    {r.classLabel} {r.level}
-                  </li>
-                ))}
-              </ul>
+              g.list.map((r) => (
+                <span key={r.index} className="cp-sm num">
+                  {who(r)}
+                </span>
+              ))
             ) : (
-              <span className="cp-muted">{W.classTree.noOne}</span>
+              <span className="cp-sm cp-muted">{W.noOne}</span>
             )}
           </li>
         ))}
+        {next && ghost ? (
+          <li className="cp-tree-col cp-tree-ghost">
+            <span className="a-cap">{next.line}</span>
+            <span className="cp-sm cp-muted">{W.ghost(next.slotNumber, next.opensAt)}</span>
+          </li>
+        ) : null}
       </ul>
     </section>
   );
 }
 
-/** The Builds overview's folded line: "3 with unspent points". */
-export function buildsSummary(builds: NowView['builds']): string {
-  const k = builds.filter((b) => b.presets.some((p) => (p.unspent ?? 0) > 0)).length;
-  return k > 0 ? `${k} with unspent points` : 'no unspent points';
-}
-
-/** FR-C6: each character's lead tab, its known points and its next steps with running totals. */
-function BuildsOverview({ s, rows }: { s: Session; rows: RosterRow[] }) {
-  const builds = s.view.builds;
-  if (builds.length === 0) return null;
-  const first = builds[0]?.note ?? null;
-  const shared = first !== null && builds.every((b) => b.note === first) ? first : null;
-  const open = s.actions.expanded.has(BUILDS_OPEN);
+/** The Skills heat map: one row per character, one square per skill; gold is the skill to train. */
+function Skills({ s, rows }: { s: Session; rows: RosterRow[] }) {
+  const grid = s.view.skillGrid;
+  if (!grid) return null;
+  const noOne = grid.skills.filter((k) => !grid.rows.some((r) => r.cells[k].specialty));
+  const byIndex = new Map(grid.rows.map((r) => [r.index, r] as const));
+  const shade = (v: number | null) => (v === null ? 0 : v >= 20 ? 3 : v >= 10 ? 2 : v >= 5 ? 1 : 0);
   return (
-    <section aria-labelledby="builds-h" id="builds" className="cp-block builds-overview">
-      <details
-        className="cp-fold"
-        open={open}
-        onToggle={(e) => {
-          const now = (e.currentTarget as HTMLDetailsElement).open;
-          if (now !== s.actions.expanded.has(BUILDS_OPEN)) s.actions.toggle(BUILDS_OPEN);
-        }}
-      >
-        <summary className="cp-fold-sum">
-          <h3 id="builds-h" className="cp-h">
-            Builds
-          </h3>
-          <span className="cp-muted">{shared ? 'not covered past World 4' : buildsSummary(builds)}</span>
-        </summary>
-        {shared ? (
-          <p className="cp-muted">
-            {shared.split(';')[0]}. Each character's Build tab shows its plain talent levels.
-          </p>
-        ) : (
-          <ul className="cp-bo-list">
-            {rows.map((row) => {
-              const b = builds.find((x) => x.index === row.index);
-              if (!b) return null;
+    <section id="skills" className="cp-skills" aria-labelledby="cp-skills-h" tabIndex={-1}>
+      <div className="cp-sec-head">
+        <h3 id="cp-skills-h" className="a-h2">
+          {W.skills}
+        </h3>
+        {noOne.length ? (
+          <span className="cp-sm cp-muted">{W.noOneBuilt(noOne.map((k) => grid.names[k]).join(', '))}</span>
+        ) : null}
+      </div>
+      <div className="cp-heat-wrap">
+        <table className="cp-heat">
+          <thead>
+            <tr>
+              <td />
+              {grid.skills.map((k) => (
+                <th key={k} scope="col">
+                  {grid.names[k]}
+                </th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            {rows.map((r) => {
+              const g = byIndex.get(r.index);
+              if (!g) return null;
               return (
-                <li key={b.index}>
-                  <a
-                    href={b.href}
-                    className="cp-bo-row"
-                    onClick={(e) => {
-                      e.preventDefault();
-                      s.actions.openTab(b.index, 'build');
-                    }}
-                  >
-                    <span className="cp-name">{b.name}</span>
-                    <span className="num cp-muted">
-                      {b.classLabel} {b.level}
-                    </span>
-                    <span className="cp-bo-line">{buildOverviewLine(b)}</span>
-                  </a>
-                </li>
+                <tr key={r.index}>
+                  <th scope="row">
+                    <a
+                      href={tabHref('skills', r.index)}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        s.actions.openTab(r.index, 'skills');
+                      }}
+                    >
+                      {who(r)}
+                    </a>
+                  </th>
+                  {grid.skills.map((k) => {
+                    const c = g.cells[k];
+                    const title = `${who(r)} · ${grid.names[k]} ${c.level ?? '?'}${c.role ? ' · Role' : ''}${c.best ? ' · best' : ''}`;
+                    return (
+                      <td
+                        key={k}
+                        className="num"
+                        data-shade={shade(c.level)}
+                        data-role={c.role ? 'yes' : undefined}
+                        data-low={c.level !== null && c.level <= 1 && !c.role ? 'yes' : undefined}
+                        title={title}
+                      >
+                        <span className="sr-only">{title}</span>
+                        <span aria-hidden="true">{c.level ?? '?'}</span>
+                      </td>
+                    );
+                  })}
+                </tr>
               );
             })}
-          </ul>
-        )}
-      </details>
+          </tbody>
+        </table>
+      </div>
+      <p className="cp-key cp-xs cp-muted">
+        <span>
+          <span className="cp-sw" data-shade="0" aria-hidden="true" />
+          <span className="cp-sw" data-shade="3" aria-hidden="true" />
+          {W.shade}
+        </span>
+        <span>
+          <span className="cp-sw" data-role="yes" aria-hidden="true" />
+          {W.roleKey}
+        </span>
+      </p>
     </section>
   );
 }
 
 export function CharactersPlace({ s }: { s: Session }) {
-  // Save order: the Roster's rows (Visit Order) re-sorted by CharacterState.index.
-  const rows = [...s.view.roster].sort((a, b) => a.index - b.index);
+  // Visit Order: the Roster's own order (fix first, then most to spend).
+  const rows = [...s.view.roster].sort((a, b) => a.position - b.position);
   const next = s.result?.nextCharacter ?? null;
+  const family = next && next.opensAt !== null && next.gap !== null ? next.opensAt - next.gap : null;
   return (
     <section className="characters-place" aria-labelledby="characters-h">
       <div className="cp-head">
-        <h2 id="characters-h" className="cp-title" data-place-heading tabIndex={-1}>
-          {W.title}
-        </h2>
-        <span className="cp-muted num">
-          {rows.length} {rows.length === 1 ? 'character' : 'characters'}
-          {next && next.opensAt !== null && next.gap !== null
-            ? ` · family level ${n(next.opensAt - next.gap)} · slot ${next.slotNumber} at ${n(next.opensAt)}`
-            : ''}
+        <div className="cp-head-t">
+          <h2 id="characters-h" className="a-h1 cp-title" data-place-heading tabIndex={-1}>
+            {W.title}
+          </h2>
+          <span className="cp-sm cp-muted num">{W.sub(rows.length, family)}</span>
+        </div>
+        <span className="cp-legend cp-xs cp-muted" aria-hidden="true">
+          {(['warn', 'ok', 'muted'] as const).map((t) => (
+            <span key={t}>
+              <Pip tone={PIP_OF[t]} />
+              {W.legend[t === 'warn' ? 'gold' : t === 'ok' ? 'mint' : 'mut']}
+            </span>
+          ))}
         </span>
       </div>
-      <HealthMatrix s={s} rows={rows} />
-      {next ? <NextCharacter card={next} s={s} /> : null}
-      <ClassTree s={s} rows={rows} />
-      <BuildsOverview s={s} rows={rows} />
-      <CardsOverview view={s.view} />
-      <SkillGrid grid={s.view.skillGrid} />
+      <Grid s={s} rows={rows} />
+      <div className={next ? 'cp-pair' : 'cp-pair cp-pair--one'}>
+        {next ? <NextCharacter card={next} /> : null}
+        <ClassTree s={s} rows={rows} next={next} />
+      </div>
+      <Skills s={s} rows={rows} />
     </section>
   );
 }

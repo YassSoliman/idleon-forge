@@ -158,7 +158,7 @@ async function browse(save, label, base, chromium, characters) {
   await page.waitForSelector('form.paste textarea');
   await page.locator('form.paste textarea').fill(JSON.stringify(timeShifted(save)));
   await page.click('form.paste button[type=submit]');
-  await page.waitForSelector('.n-roster, .cant-read, form.paste .error', { timeout: 60_000 });
+  await page.waitForSelector('.n-now, .cant-read, form.paste .error', { timeout: 60_000 });
   await page.waitForTimeout(800);
   const out = { label, characters: [], errors, csp: [], pageReport: null };
   for (const c of characters) {
