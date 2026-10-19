@@ -37,6 +37,7 @@ import {
   WALKTHROUGH_FIELD_SECTIONS,
   WALKTHROUGH_FIELD_SOURCES,
 } from './walkthrough-fields';
+import { WORLD4_FIELD_RAW_KEYS, WORLD4_FIELD_SECTIONS, WORLD4_FIELD_SOURCES } from './world4-fields';
 
 /** How a raw save value must look to count as present. Firestore keeps many values as JSON strings. */
 export type RawKind = 'number' | 'string' | 'json';
@@ -109,6 +110,7 @@ export const FIELD_SOURCES: Record<string, string> = {
   ...GEAR_FIELD_SOURCES,
   ...REDESIGN_FIELD_SOURCES,
   ...BUBBA_FIELD_SOURCES,
+  ...WORLD4_FIELD_SOURCES,
   ...TALENT_POINT_FIELD_SOURCES,
 };
 
@@ -150,6 +152,7 @@ export const FIELD_RAW_KEYS: Record<string, RawKeySpec[]> = {
   ...GEAR_FIELD_RAW_KEYS,
   ...REDESIGN_FIELD_RAW_KEYS,
   ...BUBBA_FIELD_RAW_KEYS,
+  ...WORLD4_FIELD_RAW_KEYS,
   ...TALENT_POINT_FIELD_RAW_KEYS,
 };
 
@@ -228,6 +231,7 @@ export const FIELD_SECTIONS: Record<string, string[]> = {
   ...GEAR_FIELD_SECTIONS,
   ...REDESIGN_FIELD_SECTIONS,
   ...BUBBA_FIELD_SECTIONS,
+  ...WORLD4_FIELD_SECTIONS,
   // M4 TR-2: the current-map rate is getMaxDamage, which reads the frontier's sections.
   'characters[].fighting': [...FRONTIER_SECTIONS, 'storage'],
 };

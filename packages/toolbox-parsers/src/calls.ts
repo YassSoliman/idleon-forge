@@ -16,6 +16,7 @@ import { getBuildCost } from '../vendor/parsers/world-3/construction';
 import { getPrayerBonusAndCurse } from '../vendor/parsers/world-3/prayers';
 import { getPrinterMulti } from '../vendor/parsers/world-3/printer';
 import { calcTimeToRankUp, getSaltMatsTimeLeft, getSaltsBalance } from '../vendor/parsers/world-3/refinery';
+import { getChipsAndJewels } from '../vendor/parsers/world-4/cooking';
 import { bubbaParse, bubbaTables } from './bubba';
 import { classExpMulti, monsterExpGiven } from './class-exp';
 import { frontierRates, onMap } from './frontier-rates';
@@ -94,4 +95,7 @@ export const toolboxCalls = {
   // M23 X1 (ADR 0010): Toolbox's Bubba parse on an edited raw record, and the Charisma/gift tables.
   bubbaParse,
   bubbaTables,
+  // M24 World 4: the Lab shop's weekly chips and jewel, seeded by the save's week (read-only pages).
+  /** Toolbox `getChipsAndJewels(account, weeks)`: `{ items: [chip, chip, jewel], date }` per week from the save's. */
+  getChipsAndJewels: (account: unknown, weeks: number): unknown => getChipsAndJewels(account, weeks),
 };

@@ -20,6 +20,7 @@ import type { StarSignsAccountFields, StarSignsCharacterFields } from './starsig
 import type { TalentAccountFields, TalentCharacterFields } from './talent-types';
 import type { SaltState, UnspentAccountFields, UnspentCharacterFields } from './unspent-types';
 import type { WalkthroughAccountFields, WalkthroughCharacterFields } from './walkthrough-types';
+import type { World4AccountFields } from './world4-types';
 
 /**
  * Bumped whenever a field is added, renamed or changes meaning. 1 was slice 1's unversioned shape.
@@ -56,8 +57,9 @@ import type { WalkthroughAccountFields, WalkthroughCharacterFields } from './wal
  *    `account.statues`; the `RedesignAccountFields` and `RedesignCharacterFields` blocks).
  * 21: ADR 0010's exact talent points (`characters[].talents.active.talentPoints`, `.other.talentPoints`).
  * 22: M23 TR-2's `account.bubba` (Toolbox's Bubba parse, a few raw indices, ADR 0010's derived values).
+ * 23: M24's World 4 fields (the `World4AccountFields` block: `lab`, `cooking`, `breeding`), read-only pages.
  */
-export const SCHEMA_VERSION = 22;
+export const SCHEMA_VERSION = 23;
 
 /** The AFK types Toolbox's monster data uses, plus its two "no rate" values. */
 export const KNOWN_AFK_TYPES = [
@@ -213,7 +215,8 @@ export interface AccountSummary
     PurposeAccountFields,
     GearAccountFields,
     RedesignAccountFields,
-    BubbaAccountFields {
+    BubbaAccountFields,
+    World4AccountFields {
   /** The world the account is working on (1-based): one past the highest finished world (Toolbox's rule). */
   currentWorld: number | null;
   /** Worlds whose exit has been used (a character met the gatekeeper past it), ascending. */

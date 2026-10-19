@@ -281,3 +281,22 @@ export type {
   WalkthroughAccountFields,
   WalkthroughCharacterFields,
 } from './walkthrough-types';
+export { KITCHENS, LAB_CHIP_SLOTS } from './world4';
+export type {
+  BreedingState,
+  BreedingUpgrade,
+  CookingState,
+  Kitchen,
+  KitchenStatus,
+  LabCharacter,
+  LabJewel,
+  LabNode,
+  LabShopItem,
+  LabShopWeek,
+  LabState,
+  Meal,
+  Spice,
+  Territory,
+  TerritoryStatus,
+  World4AccountFields,
+} from './world4-types';
