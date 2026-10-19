@@ -1,10 +1,24 @@
 /* SPDX-License-Identifier: GPL-3.0-only */
-/* <GameIcon>: a game sprite fitted inside its square box (ADR 0009, 2026-10-19). The game's sprites are
-   larger than our boxes (56-120 px) and shrink by non-integer steps, so the browser's smooth scaling
-   keeps them cleaner than nearest-neighbour would. */
+/* <GameIcon>: a game sprite fitted inside its square box (ADR 0009, 2026-10-19). Most of the game's
+   sprites shrink into our boxes by non-integer steps, where the browser's smooth filter reads cleaner
+   than uneven pixel doubling; at a whole-number scale (`data-px`) they draw nearest-neighbour. */
 .g-art {
   display: block;
   flex: none;
   object-fit: contain;
   user-select: none;
+}
+.g-art[data-px] {
+  image-rendering: pixelated;
+}
+/* The icon as a link to the thing's IdleOn Wiki page: no chrome, a focus ring for the keyboard. */
+.g-wiki {
+  display: inline-flex;
+  flex: none;
+  color: inherit;
+  cursor: pointer;
+}
+.g-wiki:focus-visible {
+  outline: 2px solid var(--focus, currentColor);
+  outline-offset: 2px;
 }

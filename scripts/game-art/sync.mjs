@@ -1,27 +1,35 @@
 #!/usr/bin/env node
 // SPDX-License-Identifier: GPL-3.0-only
 // Copyright (C) 2026 IdleOn Forge contributors.
-// (This script is GPL-3.0-only. The images it copies are NOT: they are Legends of IdleOn art,
+// (This script is GPL-3.0-only. The images it writes are NOT: they are Legends of IdleOn art,
 // (c) LavaFlame2, see apps/activeon/public/game-art/NOTICE.md and ADR 0009.)
 //
-// Copies the game sprites ActiveOn draws from IdleOn Toolbox's image folder, at the Toolbox commit
-// pinned in packages/toolbox-parsers/UPSTREAM, into apps/activeon/public/game-art/ (ADR 0009 as
-// amended 2026-10-19). One sparse, shallow fetch of only the files we ship; no runtime hotlinking.
+// Mirrors IdleOn Toolbox's ENTIRE game image set, at the Toolbox commit pinned in
+// packages/toolbox-parsers/UPSTREAM, into apps/activeon/public/game-art/ (ADR 0009 as amended
+// 2026-10-19). One sparse, shallow fetch; no runtime hotlinking.
 //
-// Output, every file renamed to the id ActiveOn already holds (so the lookup is a template string):
-//   items/<item rawName>.png      every item in Toolbox's items.json (gear, materials, stamps, statues...)
-//   cards/<card rawName>.png      Toolbox draws a card from data/2Cards<cardIndex>.png
-//   talents/<skillIndex>.png      data/UISkillIcon<skillIndex>.png
-//   bubbles/<bubble rawName>.png  data/aUpgrades<G|O|P|Y><index>.png, kept as is
-//   vials/<level>.png             data/aVials<level>.png (the jar by vial level)
-//   classes/<classIndex>.png      data/ClassIcons<classIndex>.png
-//   monsters/<monster rawName>.png monsters/<rawName>/static.png
-//   manifest.json                 the pin and every shipped file per kind (tests read it; the app doesn't)
+// Path scheme: Toolbox draws `${prefix}<dir>/<name>.png`; we serve the same image at
+// `/game-art/<dir>/<name>.webp`, so any raw name Toolbox uses maps to our path with no hand mapping.
+//   dirs: data/ (the game's sprites), etc/, monsters/<rawName>/*, afk_targets/, npcs/, player-sprites/
+// Toolbox's own site images (screenshots and logos, not game art) are left out: SITE_ONLY below.
 //
-// Usage: node scripts/game-art/sync.mjs [--check]
+// Web optimisation without losing a pixel: every PNG is re-encoded as lossless WebP
+// (`cwebp -lossless -exact -z 9`; -exact keeps the colour under transparent pixels), then decoded
+// again and compared with the source pixel by pixel at 16 bits per channel (ImageMagick). Any
+// difference fails the sync. One format means one extension, so the app needs no per-file index.
+// GIFs (animated monsters and NPCs) are copied byte for byte.
+//
+// Needs: git, cwebp and gif2webp (libwebp), magick (ImageMagick 7). `brew install webp imagemagick`.
+//
+// It also writes apps/activeon/src/art/game/card-index.gen.ts (card rawName -> Toolbox's card image
+// index, the one name Toolbox doesn't draw by rawName) and talent-index.gen.ts (talent name ->
+// skillIndex, for views that hold only a talent's name), from the pinned cards.json and talents.json.
+//
+// Usage: node scripts/game-art/sync.mjs [--check | --codegen]
+//   --codegen  only rewrite card-index.gen.ts
 //   --check  fetch nothing; exit 1 when manifest.json's pin is not UPSTREAM's commit or a listed file
-//            is missing (the guard test runs the same check).
-import { execFileSync } from 'node:child_process';
+//            is missing (game-art.test.ts runs the same check).
+import { execFile, execFileSync } from 'node:child_process';
 import {
   copyFileSync,
   existsSync,
@@ -29,17 +37,34 @@ import {
   readdirSync,
   readFileSync,
   rmSync,
+  statSync,
   writeFileSync,
 } from 'node:fs';
-import { dirname, join } from 'node:path';
+import { cpus } from 'node:os';
+import { dirname, join, relative } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { promisify } from 'node:util';
 
+const run = promisify(execFile);
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '../..');
 const PIN = join(ROOT, 'packages/toolbox-parsers/UPSTREAM');
-const DATA = join(ROOT, 'packages/toolbox-parsers/vendor/data/website-data');
 const OUT = join(ROOT, 'apps/activeon/public/game-art');
 const WORK = join(ROOT, 'scripts/game-art/.upstream');
-const KINDS = ['items', 'cards', 'talents', 'bubbles', 'vials', 'classes', 'monsters'];
+/** Toolbox's image folders under public/ (its `${prefix}<dir>/` paths). */
+export const DIRS = ['data', 'etc', 'monsters', 'afk_targets', 'npcs', 'player-sprites'];
+/** Toolbox's own site pictures (page screenshots, third-party logos): not game art, not ours to ship. */
+const SITE_ONLY = new Set([
+  'etc/account-ss.png',
+  'etc/card-search.png',
+  'etc/characters.png',
+  'etc/dashboard-ss.png',
+  'etc/discord-bot-guild-card.webp',
+  'etc/extractor-image.png',
+  'etc/steam-icon.png',
+]);
+const KEEP = (f) => /\.(png|gif|webp)$/i.test(f);
+/** Never more than Cloudflare's Workers Free limit allows with the app's own files beside them. */
+const MAX_FILES = 19_800;
 
 const pin = Object.fromEntries(
   readFileSync(PIN, 'utf8')
@@ -47,84 +72,197 @@ const pin = Object.fromEntries(
     .filter((l) => l.includes('='))
     .map((l) => [l.slice(0, l.indexOf('=')), l.slice(l.indexOf('=') + 1)]),
 );
+const outName = (rel) => (/\.png$/i.test(rel) ? rel.replace(/\.png$/i, '.webp') : rel);
+
+const DATA = join(ROOT, 'packages/toolbox-parsers/vendor/data/website-data');
+const CARD_INDEX = join(ROOT, 'apps/activeon/src/art/game/card-index.gen.ts');
+const TALENT_INDEX = join(ROOT, 'apps/activeon/src/art/game/talent-index.gen.ts');
+function codegen() {
+  if (!existsSync(join(DATA, 'cards.json'))) {
+    console.error('vendor/data is missing: run `pnpm --filter @idleon-forge/toolbox-parsers build` first');
+    process.exit(1);
+  }
+  const cards = JSON.parse(readFileSync(join(DATA, 'cards.json'), 'utf8'));
+  const rows = Object.values(cards)
+    .filter((c) => /^[A-Za-z0-9_]+$/.test(c.rawName) && /^[A-Za-z0-9_]+$/.test(String(c.cardIndex)))
+    .sort((a, b) => a.rawName.localeCompare(b.rawName, 'en'))
+    .map((c) => `  ${JSON.stringify(c.rawName)}: ${JSON.stringify(String(c.cardIndex))},`);
+  writeFileSync(
+    CARD_INDEX,
+    [
+      '// SPDX-License-Identifier: GPL-3.0-only',
+      '// Copyright (C) 2026 IdleOn Forge contributors.',
+      `// GENERATED by scripts/game-art/sync.mjs from Toolbox's cards.json at ${pin.commit.slice(0, 7)}. Do not edit.`,
+      "// A card's picture is Toolbox's data/2Cards<cardIndex>; this is the card rawName -> cardIndex table.",
+      'export const CARD_INDEX: Readonly<Record<string, string>> = {',
+      ...rows,
+      '};',
+      '',
+    ].join('\n'),
+  );
+  console.log(`card-index.gen.ts: ${rows.length} cards`);
+
+  // Talents: Toolbox draws a talent from data/UISkillIcon<skillIndex>. Views that hold only a talent's
+  // name (the attack bar, step text) look it up by its name, normalised to letters and digits.
+  const talents = JSON.parse(readFileSync(join(DATA, 'talents.json'), 'utf8'));
+  const byName = new Map();
+  for (const cls of Object.values(talents))
+    for (const t of Object.values(cls)) {
+      const key = String(t.name)
+        .toLowerCase()
+        .replace(/[^a-z0-9]/g, '');
+      if (key && Number.isInteger(t.skillIndex) && !byName.has(key)) byName.set(key, t.skillIndex);
+    }
+  const trows = [...byName]
+    .sort(([a], [b]) => a.localeCompare(b, 'en'))
+    .map(([k, v]) => `  ${JSON.stringify(k)}: ${v},`);
+  writeFileSync(
+    TALENT_INDEX,
+    [
+      '// SPDX-License-Identifier: GPL-3.0-only',
+      '// Copyright (C) 2026 IdleOn Forge contributors.',
+      `// GENERATED by scripts/game-art/sync.mjs from Toolbox's talents.json at ${pin.commit.slice(0, 7)}. Do not edit.`,
+      '// A talent name (lower case, letters and digits only) -> its skillIndex (data/UISkillIcon<skillIndex>).',
+      'export const TALENT_INDEX: Readonly<Record<string, number>> = {',
+      ...trows,
+      '};',
+      '',
+    ].join('\n'),
+  );
+  console.log(`talent-index.gen.ts: ${trows.length} talents`);
+}
+if (process.argv.includes('--codegen')) {
+  codegen();
+  process.exit(0);
+}
 
 if (process.argv.includes('--check')) {
   const m = JSON.parse(readFileSync(join(OUT, 'manifest.json'), 'utf8'));
   const bad = [];
   if (m.commit !== pin.commit) bad.push(`manifest pin ${m.commit} != UPSTREAM ${pin.commit}`);
-  for (const k of KINDS)
-    for (const id of m.files[k] ?? [])
-      if (!existsSync(join(OUT, k, `${id}.png`))) bad.push(`${k}/${id}.png missing`);
+  for (const f of m.files) if (!existsSync(join(OUT, f))) bad.push(`${f} missing`);
   if (bad.length) {
     console.error(bad.slice(0, 20).join('\n'));
     process.exit(1);
   }
-  console.log('game-art matches the pin');
+  console.log(`game-art matches the pin (${m.files.length} files)`);
   process.exit(0);
 }
 
+for (const [tool, args] of [
+  ['cwebp', ['-version']],
+  ['gif2webp', ['-version']],
+  ['magick', ['-version']],
+]) {
+  try {
+    execFileSync(tool, args, { stdio: 'ignore' });
+  } catch {
+    console.error(`${tool} is missing: brew install webp imagemagick`);
+    process.exit(1);
+  }
+}
+
+// 1. One sparse, shallow, blob-less fetch of the pinned commit, then a checkout of only the images.
 const git = (...a) =>
   execFileSync('git', ['-C', WORK, ...a], { stdio: ['ignore', 'pipe', 'inherit'] }).toString();
-const loadJson = (f) => JSON.parse(readFileSync(join(DATA, f), 'utf8'));
-if (!existsSync(join(DATA, 'items.json'))) {
-  console.error('vendor/data is missing: run `pnpm --filter @idleon-forge/toolbox-parsers build` first');
-  process.exit(1);
-}
-const items = loadJson('items.json');
-const cards = loadJson('cards.json');
-
-// 1. One sparse, shallow, blob-less fetch of the pinned commit, then a checkout of only our patterns.
 const url = process.env.UPSTREAM_FETCH_URL ?? pin.repo;
 if (!existsSync(join(WORK, '.git'))) {
   mkdirSync(WORK, { recursive: true });
   git('init', '--quiet');
   git('remote', 'add', 'origin', url);
 }
-git('sparse-checkout', 'set', '--no-cone', '/public/data/*.png', '/public/monsters/*/static.png');
+git('sparse-checkout', 'set', '--no-cone', ...DIRS.map((d) => `/public/${d}/**`));
 git('fetch', '--quiet', '--depth=1', '--filter=blob:none', 'origin', pin.commit);
 git('-c', 'advice.detachedHead=false', 'checkout', '--quiet', '--force', 'FETCH_HEAD');
 const resolved = git('rev-parse', 'HEAD').trim();
 if (resolved !== pin.commit) throw new Error(`fetched ${resolved}, expected ${pin.commit}`);
 
-// 2. Pick and rename.
-const src = join(WORK, 'public/data');
-const have = new Set(readdirSync(src));
-const picks = { items: [], cards: [], talents: [], bubbles: [], vials: [], classes: [], monsters: [] };
-const add = (kind, id, from) => picks[kind].push({ id, from });
-for (const raw of Object.keys(items)) if (have.has(`${raw}.png`)) add('items', raw, join(src, `${raw}.png`));
-for (const c of Object.values(cards)) {
-  const f = `2Cards${c.cardIndex}.png`;
-  if (have.has(f)) add('cards', c.rawName, join(src, f));
-}
-for (const f of have) {
-  let m = /^UISkillIcon(\d+)\.png$/.exec(f);
-  if (m) add('talents', m[1], join(src, f));
-  m = /^(aUpgrades[GOPY]\d+)\.png$/.exec(f);
-  if (m) add('bubbles', m[1], join(src, f));
-  m = /^aVials(\d+)\.png$/.exec(f);
-  if (m) add('vials', m[1], join(src, f));
-  m = /^ClassIcons(\d+)\.png$/.exec(f);
-  if (m) add('classes', m[1], join(src, f));
-}
-const mons = join(WORK, 'public/monsters');
-for (const d of readdirSync(mons)) {
-  const f = join(mons, d, 'static.png');
-  if (existsSync(f)) add('monsters', d, f);
+// 2. Every image Toolbox ships under those folders, minus its own site pictures.
+const PUB = join(WORK, 'public');
+const walk = (d) =>
+  readdirSync(d, { withFileTypes: true }).flatMap((e) =>
+    e.isDirectory() ? walk(join(d, e.name)) : KEEP(e.name) ? [join(d, e.name)] : [],
+  );
+const sources = DIRS.flatMap((d) => (existsSync(join(PUB, d)) ? walk(join(PUB, d)) : []))
+  .map((abs) => relative(PUB, abs).split('\\').join('/'))
+  .filter((rel) => !SITE_ONLY.has(rel))
+  .sort();
+if (sources.length > MAX_FILES)
+  throw new Error(
+    `${sources.length} images would exceed the ${MAX_FILES}-file budget (Workers Free: 20,000 assets per version). Pack them (see ADR 0009) before syncing.`,
+  );
+
+// 3. Wipe our mirror folders (never NOTICE.md), then encode / copy with a worker pool.
+for (const e of readdirSync(OUT))
+  if (e !== 'NOTICE.md') rmSync(join(OUT, e), { recursive: true, force: true });
+const pool = async (items, n, fn) => {
+  let i = 0;
+  const one = async () => {
+    while (i < items.length) {
+      const k = i++;
+      await fn(items[k], k);
+    }
+  };
+  await Promise.all(Array.from({ length: n }, one));
+};
+// Every frame as 16-bit RGBA. `invisible`: give fully transparent pixels one colour first (a GIF's
+// transparent index has a colour, a WebP's transparent pixels don't; nobody can see either).
+const pixels = async (file, invisible = false) =>
+  (
+    await run(
+      'magick',
+      [
+        file,
+        '-coalesce',
+        ...(invisible ? ['-background', 'black', '-alpha', 'background'] : []),
+        '-alpha',
+        'on',
+        '-depth',
+        '16',
+        'rgba:-',
+      ],
+      {
+        encoding: 'buffer',
+        maxBuffer: 1 << 28,
+      },
+    )
+  ).stdout;
+let before = 0;
+let after = 0;
+const bad = [];
+let done = 0;
+await pool(sources, Math.max(2, cpus().length), async (rel) => {
+  const from = join(PUB, rel);
+  const to = join(OUT, outName(rel));
+  mkdirSync(dirname(to), { recursive: true });
+  if (/\.png$/i.test(rel)) {
+    // A handful of Toolbox's .png files are GIFs inside: gif2webp (lossless by default) keeps every frame.
+    const gif = readFileSync(from).subarray(0, 3).toString('latin1') === 'GIF';
+    if (gif) await run('gif2webp', ['-quiet', '-min_size', '-metadata', 'none', from, '-o', to]);
+    else
+      await run('cwebp', ['-quiet', '-lossless', '-exact', '-z', '9', '-metadata', 'none', from, '-o', to]);
+    const [a, b] = await Promise.all([pixels(from, gif), pixels(to, gif)]);
+    if (!a.equals(b)) bad.push(rel);
+  } else copyFileSync(from, to);
+  before += statSync(from).size;
+  after += statSync(to).size;
+  if (++done % 2000 === 0) console.log(`  ${done}/${sources.length}`);
+});
+if (bad.length) {
+  console.error(
+    `${bad.length} images changed when re-encoded (sync failed):\n${bad.slice(0, 20).join('\n')}`,
+  );
+  process.exit(1);
 }
 
-// 3. Write: wipe our kind folders (never the NOTICE), copy byte for byte, list them.
-const files = {};
-for (const k of KINDS) {
-  rmSync(join(OUT, k), { recursive: true, force: true });
-  mkdirSync(join(OUT, k), { recursive: true });
-  const ids = picks[k].map((p) => p.id).sort((a, b) => a.localeCompare(b, 'en', { numeric: true }));
-  for (const p of picks[k]) copyFileSync(p.from, join(OUT, k, `${p.id}.png`));
-  files[k] = ids;
-}
+// 4. The manifest: the pin and every file we serve (tests read it; the app never does).
+const files = sources.map(outName);
+const mb = (n) => Math.round((n / 1e6) * 100) / 100;
 writeFileSync(
   join(OUT, 'manifest.json'),
-  `${JSON.stringify({ source: pin.repo, commit: pin.commit, gameVersion: pin.gameVersion, files }, null, 0)}\n`,
+  `${JSON.stringify({ source: pin.repo, commit: pin.commit, gameVersion: pin.gameVersion, bytesBefore: before, bytesAfter: after, files })}\n`,
 );
+codegen();
 console.log(
-  `game-art @ ${pin.commit.slice(0, 7)}: ${KINDS.map((k) => `${files[k].length} ${k}`).join(', ')}`,
+  `game-art @ ${pin.commit.slice(0, 7)}: ${files.length} files, every PNG pixel-identical as lossless WebP; ${mb(before)} MB -> ${mb(after)} MB`,
 );

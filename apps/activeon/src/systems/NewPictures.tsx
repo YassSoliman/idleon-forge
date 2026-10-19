@@ -17,6 +17,9 @@ import type {
 } from '@idleon-forge/engine/systems-ui';
 import { FRAME_WORDS, STAMP_WORDS, STATUE_WORDS, VAULT_WORDS } from '@idleon-forge/engine/systems-ui';
 import { type CSSProperties, useState } from 'react';
+import { GameIcon } from '../art/game/GameIcon';
+import { itemArt } from '../art/game/game-art';
+import { statueArt, statueItemArt, vaultArt } from '../art/game/systems-art';
 import { PixelArt, type Ramp } from '../design/art/PixelArt';
 import { WhoGlyph } from '../design/who/WhoGlyph';
 import { litOf, usePictureSheet } from './PictureSheet';
@@ -58,6 +61,8 @@ export function StampsBody(p: SystemPageBodyProps) {
   const sheetOf = (t: StampTile) =>
     open({
       title: t.name,
+      art: itemArt(t.rawName),
+      wikiName: t.name,
       rows: [
         {
           label: FRAME_WORDS.value,
@@ -119,7 +124,12 @@ export function StampsBody(p: SystemPageBodyProps) {
               onClick={() => sheetOf(t)}
             >
               {isNow ? <NowTag /> : null}
-              <PixelArt name="v2-systems-stamp" ramp="bronze" decorative />
+              <GameIcon
+                art={itemArt(t.rawName)}
+                fallback={<PixelArt name="v2-systems-stamp" ramp="bronze" decorative />}
+                size={32}
+                decorative
+              />
               {t.status === 'owned' && labelled.has(t.id) ? <b className="num">{t.level}</b> : null}
             </button>
           );
@@ -138,7 +148,13 @@ export function StampsBody(p: SystemPageBodyProps) {
                 className={cx('sy-ribbon__row', i === 0 && t.id === lit ? 'is-first' : 'is-dim')}
               >
                 <span className="sy-ribbon__n num">{i + 1}</span>
-                <PixelArt name="v2-systems-stamp" ramp="bronze" decorative />
+                <GameIcon
+                  art={itemArt(t.rawName)}
+                  fallback={<PixelArt name="v2-systems-stamp" ramp="bronze" decorative />}
+                  size={32}
+                  wiki={t.name}
+                  decorative
+                />
                 <span className="sy-ribbon__name">{t.name}</span>
                 <span className="sy-ribbon__kind">
                   {[STAMP_WORDS.status[t.status], t.route ? STAMP_WORDS.route[t.route] : null]
@@ -198,6 +214,8 @@ export function StatuesBody(p: SystemPageBodyProps) {
                 onClick={() =>
                   open({
                     title: t.name,
+                    art: statueArt(t.index, t.grade),
+                    wikiName: t.name,
                     rows: [
                       { label: FRAME_WORDS.value, value: STATUE_WORDS.level(t.level) },
                       {
@@ -214,7 +232,25 @@ export function StatuesBody(p: SystemPageBodyProps) {
                 }
               >
                 {isNow ? <NowTag /> : null}
-                <PixelArt name="v2-systems-statue" ramp={GRADE_RAMP[Math.min(3, t.grade)]} decorative />
+                <GameIcon
+                  art={statueArt(t.index, t.grade)}
+                  fallback={
+                    <GameIcon
+                      art={statueItemArt(t.index)}
+                      fallback={
+                        <PixelArt
+                          name="v2-systems-statue"
+                          ramp={GRADE_RAMP[Math.min(3, t.grade)]}
+                          decorative
+                        />
+                      }
+                      size={32}
+                      decorative
+                    />
+                  }
+                  size={32}
+                  decorative
+                />
                 {labelled.has(t.id) ? <span className="sy-statue__lv num">{t.level}</span> : null}
               </button>
             </li>
@@ -314,6 +350,7 @@ export function VaultBody(p: SystemPageBodyProps) {
                         onClick={() =>
                           open({
                             title: r.name,
+                            art: vaultArt(r.index),
                             rows: [
                               {
                                 label: FRAME_WORDS.value,
@@ -330,7 +367,10 @@ export function VaultBody(p: SystemPageBodyProps) {
                         }
                       >
                         {isNow ? <NowTag /> : null}
-                        <span className="sy-vrow__name">{r.name}</span>
+                        <span className="sy-vrow__name">
+                          <GameIcon art={vaultArt(r.index)} size={24} decorative className="sy-vrow__art" />
+                          {r.name}
+                        </span>
                         <span
                           className="sy-vrow__bar"
                           style={{ '--pct': pct(r.level, r.maxLevel) } as CSSProperties}

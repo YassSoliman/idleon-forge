@@ -10,6 +10,8 @@ import {
   type VaultPicture,
   VAULT_PAGE_WORDS as W,
 } from '@idleon-forge/engine/systems-ui';
+import { GameIcon } from '../../art/game/GameIcon';
+import { vaultArt } from '../../art/game/systems-art';
 import { SimplePage, SpendSection, StepsSection } from '../frame/SimplePage';
 import { type FrameAnswer, frameAnswer, SystemFrame } from '../frame/SystemFrame';
 import { VaultBody } from '../NewPictures';
@@ -131,7 +133,13 @@ export default function VaultPage({ s, page }: FullPageProps) {
                         <div
                           className={`sf-row${r.look === 'buy' || r.look === 'next' ? ' sf-row--gold' : ''}${r.look === 'later' ? ' sf-row--later' : ''}`}
                         >
-                          <Floor look={r.look} />
+                          <GameIcon
+                            art={vaultArt(r.f.index)}
+                            fallback={<Floor look={r.look} />}
+                            size={32}
+                            className={r.look === 'later' ? 'uv-later' : undefined}
+                            decorative
+                          />
                           <span className="sf-row__main">
                             <span className="sf-strong">{r.f.name}</span>
                             <span className="sf-hint">{r.note}</span>

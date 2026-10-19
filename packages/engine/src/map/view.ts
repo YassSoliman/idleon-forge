@@ -41,11 +41,16 @@ export interface MapNodeView {
   onRoute: boolean;
   /** The button's accessible name: the map, its state in words, who is here and its door. */
   label: string;
+  /** M25: the map's monster rawName ("mushG"), for its game sprite; null without one. */
+  monster: string | null;
 }
 
 export interface MapGateView {
   boss: string;
   bossMap: number | null;
+  /** M25: the arena key's item rawName ("Key1") and name ("Forest Villa Key"); null when unknown. */
+  key: string | null;
+  keyName: string | null;
   state: 'done' | 'open' | 'locked';
   /** The open world's gate when every route door is open and no door is left to ring: the next step. */
   lit: boolean;
@@ -84,6 +89,8 @@ export interface MapBandView {
 export interface MapStarView {
   /** "A-9". */
   code: string;
+  /** M25: the game's constellation index, for its picture; null when unknown. */
+  rawIndex: number | null;
   world: number;
   mapIndex: number;
   /** "Rollin' Tundra", or null when the map is not on the map (an arena, a colosseum). */
@@ -108,6 +115,8 @@ export interface MapDeathNoteRow {
   next: string;
   left: number | null;
   who: MapWho[];
+  /** M25: the map's monster rawName, for its game sprite. */
+  monster: string | null;
 }
 
 export interface MapFrontierView {
@@ -158,6 +167,8 @@ export interface MapSheetView {
   deathNote: { kills: string; next: string } | null;
   /** 5. the constellations on this map. */
   constellations: string[];
+  /** M25: the map's monster rawName, for its game sprite; null without one. */
+  monster: string | null;
 }
 
 export interface MapOverlayView {
@@ -342,6 +353,7 @@ export function buildMapView(
           doorText === null || need === null ? null : m.kind === 'skill' ? W.levelTag(need) : tag(need),
         onRoute: route.has(m.mapIndex),
         label: parts.join(', '),
+        monster: m.monster ?? null,
       };
     });
     // R11 QA: the locked maps off the route; the door count is the route's own.
@@ -424,6 +436,8 @@ export function buildMapView(
           ? {
               boss: g.boss,
               bossMap: g.bossMap,
+              key: g.key ?? null,
+              keyName: g.keyName ?? null,
               state: gateState,
               lit: w.state === 'open' && !f && w.total > 0 && w.cleared >= w.total,
               lines: lines.filter((l) => l.text),
@@ -505,6 +519,7 @@ export function buildMapView(
             }
           : null,
         constellations: map.overlays.constellations[n.mapIndex] ?? [],
+        monster: n.monster,
       };
     }
 
@@ -572,6 +587,7 @@ export function buildMapView(
   const stars: MapStarView[] | null = map.stars
     ? map.stars.map((x) => ({
         code: x.name,
+        rawIndex: x.rawIndex ?? null,
         world: x.world,
         mapIndex: x.mapIndex,
         map: nameOf(x.mapIndex),
@@ -581,6 +597,7 @@ export function buildMapView(
         state: x.state,
       }))
     : null;
+  const monsterOf = new Map(map.worlds.flatMap((w) => w.maps).map((m) => [m.mapIndex, m.monster ?? null]));
   const deathNote: MapDeathNoteRow[] = Object.entries(map.overlays.deathNote)
     .map(([k, d]) => {
       const mapIndex = Number(k);
@@ -595,6 +612,7 @@ export function buildMapView(
           d.nextAt !== null && d.nextRank ? W.deathNoteNext(d.nextAt - d.kills, d.nextRank) : W.deathNoteTop,
         left: d.nextAt !== null ? d.nextAt - d.kills : null,
         who: here.get(mapIndex) ?? [],
+        monster: monsterOf.get(mapIndex) ?? null,
       };
     })
     .sort(

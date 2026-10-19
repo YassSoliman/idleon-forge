@@ -678,3 +678,9 @@
 .ac-gtop__foot > .see-it {
   margin-left: auto;
 }
+/* M25: a later line wears its game sprite beside its words (ADR 0009 as amended). */
+.ac-rl__what {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}

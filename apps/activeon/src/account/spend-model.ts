@@ -6,9 +6,23 @@
 // except the pockets, largest first, as the board draws them. Class and level only, never a name.
 
 import { formatCoins, type SpendLineView, type SpendPlanView } from '@idleon-forge/engine/now';
-import type { ClassFamily, EngineResult, SpendLine } from '@idleon-forge/engine/result';
+import type { ClassFamily, EngineResult, SpendLine, SpendSink } from '@idleon-forge/engine/result';
 import { type GameArt, itemArt, stampArtOfRef } from '../art/game/game-art';
+import { systemGameArt } from '../art/game/system-art';
 import { NOT_COVERED_WORDS, SINK_WORDS, SPEND_WORDS as W } from './words';
+
+/** The System a sink spends in: its game sprite stands for a line with no item of its own (M25). */
+const SINK_SYSTEM: Record<SpendSink, string> = {
+  vault: 'upgrade-vault',
+  stamp: 'stamps',
+  bribe: 'bribes',
+  'statue-gold': 'statues',
+  p2w: 'alchemy-p2w',
+  anvil: 'anvil',
+};
+
+const sinkArt = (sink: SpendSink | undefined): GameArt | null =>
+  sink ? systemGameArt(SINK_SYSTEM[sink]) : null;
 
 export interface SpendPageLine {
   key: string;
@@ -112,7 +126,8 @@ export function spendPage(result: EngineResult, view: SpendPlanView | null): Spe
             : null;
     const art =
       (l?.steps ?? []).map((s) => stampArtOfRef(s.ref)).find(Boolean) ??
-      itemArt((l?.steps ?? []).find((s) => s.material)?.material?.item);
+      itemArt((l?.steps ?? []).find((s) => s.material)?.material?.item) ??
+      sinkArt((l?.steps ?? [])[0]?.sink);
     return {
       key: v.key,
       art: art ?? null,

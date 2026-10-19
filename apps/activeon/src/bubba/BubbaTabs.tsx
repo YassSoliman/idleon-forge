@@ -6,6 +6,8 @@
 // with M23's words and panels (BubbaPage.tsx), and adds no advice.
 import { BUBBA_WORDS as BW } from '@idleon-forge/engine/bubba-text';
 import type { BubbaBonusView, BubbaResult } from '@idleon-forge/engine/result';
+import { boonArt } from '../art/game/bubba-art';
+import { GameIcon } from '../art/game/GameIcon';
 import { EmptyState, Pip } from '../design/atoms';
 import type { FullPageProps, SystemPageBodyProps } from '../systems/pages';
 import { FramedSections } from '../systems/w23/framed';
@@ -50,6 +52,7 @@ function Bonuses({ p, b }: { p: SystemPageBodyProps; b: BubbaResult }) {
               const tone = TONE[x.rating];
               return (
                 <li key={x.key} className={`a-tile w-tile bb2-bonus${x.next ? ' is-now' : ''}`}>
+                  <GameIcon art={boonArt(x.key)} fallback="sys-bubba" size={32} decorative />
                   <span className="w-stack w-stack--4 w-grow">
                     <span className="bb2-v">{v}</span>
                     <span className="w-sm w-mut2">{what}</span>

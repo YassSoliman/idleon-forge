@@ -4,15 +4,16 @@
 // after/sys/AlchemyBubbles = Bubbles, after/AlchemyVials = Vials, after/sys/AlchemyP2W = Pay 2 Win, plus
 // Liquids and Seats), a lazy chunk. The four Alchemy Systems share this page; each opens on its own tab.
 // It only lays out `EngineResult.alchemy` and M20's cauldron seats (built in the worker) and M7's Pay 2
-// Win prices; it adds no advice. Our own sprites (ADR 0009).
+// Win prices; it adds no advice. M25: the game's own sprites (cauldrons, bubbles, liquids, vial jars),
+// our kit sprites as the fallback (ADR 0009 as amended 2026-10-19).
 import { brewLine, liquidAmount, potLine, potName, tubeLine } from '@idleon-forge/engine/alchemy-text';
 import { formatCoins } from '@idleon-forge/engine/now';
 import type { AlchemyResult, EngineResult, P2wCell, PotView } from '@idleon-forge/engine/result';
 import { buildSystemPageFrameView, type FrameTone } from '@idleon-forge/engine/systems-ui';
 import { useMemo } from 'react';
+import { cauldronArt, liquidArt, vialJarArt } from '../art/game/alchemy-art';
 import { GameIcon } from '../art/game/GameIcon';
 import { bubbleArt } from '../art/game/game-art';
-import { Sprite } from '../art/sprites/Sprite';
 import { toNowPrefs } from '../now/prefs-store';
 import type { FullPageProps, SystemPageBodyProps } from '../systems/pages';
 import { CauldronSeatsBody } from '../systems/SlotPictures';
@@ -93,8 +94,11 @@ export const ALCHEMY_WORDS = {
 const W = ALCHEMY_WORDS;
 
 const POTS = ['power', 'quicc', 'high-iq', 'kazam'] as const;
-const potSprite = (c: string) => `cauldron-${c}`;
-const LIQUID_SPRITE = ['liquid-water', 'liquid-nitrogen', 'liquid-seawater', 'liquid-mercury'];
+/** A cauldron: the game's cauldron of that colour, our own drawing as the fallback. */
+function PotIcon({ cauldron, size }: { cauldron: string; size: 24 | 48 }) {
+  return <GameIcon art={cauldronArt(cauldron)} fallback={`cauldron-${cauldron}`} size={size} decorative />;
+}
+const liquidFallback = ['liquid-water', 'liquid-nitrogen', 'liquid-seawater', 'liquid-mercury'];
 
 /** Which tab each Alchemy System opens on. */
 const OPENS_ON: Record<string, string> = {
@@ -147,7 +151,7 @@ function PotTile({ p, pot, lit }: { p: SystemPageBodyProps; pot: PotView; lit: b
   return (
     <li className={`a-tile w-tile al2-pot al2-${pot.cauldron}${lit ? ' is-now' : ''}`}>
       <div className="w-row w-row--between">
-        <Sprite name={potSprite(pot.cauldron)} size={48} decorative />
+        <PotIcon cauldron={pot.cauldron} size={48} />
         {lit ? <Tag tone="gold">{W.levelThis}</Tag> : null}
       </div>
       <div className="w-stack w-stack--4">
@@ -192,7 +196,13 @@ function Cauldrons({ p, a }: { p: SystemPageBodyProps; a: AlchemyResult }) {
                 {first.rows.map((r, i) => (
                   <li key={r.rawName} className="w-li">
                     <Tag tone={i === 0 && r.atLeast > 0 ? 'gold' : undefined}>{i + 1}</Tag>
-                    <GameIcon art={bubbleArt(r.rawName)} fallback="item-bubble" size={24} decorative />
+                    <GameIcon
+                      art={bubbleArt(r.rawName)}
+                      fallback="item-bubble"
+                      size={24}
+                      decorative
+                      wiki={r.name}
+                    />
                     <span className="w-grow w-b">{r.name}</span>
                     <span className={`w-sm${r.atLeast > 0 ? ' w-t--gold' : ' w-mut'}`}>
                       {r.atLeast > 0
@@ -211,7 +221,15 @@ function Cauldrons({ p, a }: { p: SystemPageBodyProps; a: AlchemyResult }) {
                         ? first.rows.length + 1
                         : `${first.rows.length + 1}–${first.rows.length + rest.length}`}
                     </Tag>
-                    <span className="w-grow w-mut2">{rest.map((c) => c.name).join(', ')}</span>
+                    <span className="w-grow w-mut2 al2-rest">
+                      {rest.map((c, i) => (
+                        <span key={c.rawName} className="al2-rest__b">
+                          <GameIcon art={bubbleArt(c.rawName)} fallback="item-bubble" size={16} decorative />
+                          {c.name}
+                          {i < rest.length - 1 ? ',' : ''}
+                        </span>
+                      ))}
+                    </span>
                     <span className="w-sm w-mut">
                       {restLevels.length === 1 ? W.atLevel(restLevels[0] as number) : ''}
                     </span>
@@ -272,7 +290,7 @@ function Bubbles({ a }: { a: AlchemyResult }) {
               className={`a-tile w-tile al2-pot al2-${pot.cauldron}${lit ? ' is-now' : ''}`}
             >
               <div className="w-row">
-                <Sprite name={potSprite(pot.cauldron)} size={48} decorative />
+                <PotIcon cauldron={pot.cauldron} size={48} />
                 <span className="w-stack w-stack--4 w-grow">
                   <h4 className="a-h2 al2-name">{potName(pot.cauldron)}</h4>
                   <span className="w-xs w-mut2">
@@ -290,7 +308,13 @@ function Bubbles({ a }: { a: AlchemyResult }) {
                     <li key={c.rawName} className="w-stack w-stack--4">
                       <span className="w-row w-row--between w-sm">
                         <span className="w-row al2-bub">
-                          <GameIcon art={bubbleArt(c.rawName)} fallback="item-bubble" size={24} decorative />
+                          <GameIcon
+                            art={bubbleArt(c.rawName)}
+                            fallback="item-bubble"
+                            size={24}
+                            decorative
+                            wiki={c.name}
+                          />
                           <span className="w-b">{c.name}</span>
                         </span>
                         <span className={goal ? 'w-t--gold w-b' : 'w-mut'}>
@@ -350,8 +374,11 @@ function Vials({ p, a }: { p: SystemPageBodyProps; a: AlchemyResult }) {
           {a.vialPick ? (
             <div className="a-tile2 w-tile2">
               <Cap>{W.nextLevelUp}</Cap>
-              <span className="w-sm">
-                {a.vialPick.name} {a.vialPick.from} → {a.vialPick.to}
+              <span className="w-row w-sm">
+                <GameIcon art={vialJarArt(a.vialPick.to)} fallback="item-vial" size={24} decorative />
+                <span>
+                  {a.vialPick.name} {a.vialPick.from} → {a.vialPick.to}
+                </span>
               </span>
             </div>
           ) : null}
@@ -367,7 +394,12 @@ function Liquids({ a }: { a: AlchemyResult }) {
       {a.tubes.map((t) => (
         <li key={t.index} className={`a-tile w-tile${t.open ? '' : ' is-later'}`}>
           <div className="w-row">
-            <Sprite name={LIQUID_SPRITE[t.index] ?? 'liquid-water'} size={32} decorative />
+            <GameIcon
+              art={liquidArt(t.index)}
+              fallback={liquidFallback[t.index] ?? 'liquid-water'}
+              size={32}
+              decorative
+            />
             <span className={`w-b${t.open ? ' w-t--sky' : ' w-mut'}`}>{t.name}</span>
           </div>
           {t.open ? (
@@ -442,7 +474,7 @@ function P2w({ p, a }: { p: SystemPageBodyProps; a: AlchemyResult }) {
                     <tr key={pot}>
                       <th scope="row" className={`al2-${pot} al2-name`}>
                         <span className="w-row">
-                          <Sprite name={potSprite(pot)} size={24} decorative />
+                          <PotIcon cauldron={pot} size={24} />
                           {potName(pot)}
                         </span>
                       </th>

@@ -6,6 +6,8 @@
 import { liquidAmount } from '@idleon-forge/engine/alchemy-text';
 import type { SystemPicture } from '@idleon-forge/engine/result';
 import { BODY_WORDS, FRAME_WORDS } from '@idleon-forge/engine/systems-ui';
+import { GameIcon } from '../art/game/GameIcon';
+import { STATION_ART } from '../art/game/systems-art';
 import { PixelArt } from '../design/art/PixelArt';
 import { WhoGlyph } from '../design/who/WhoGlyph';
 import type { SystemPageBodyProps } from './pages';
@@ -96,9 +98,16 @@ export function CauldronSeatsBody(p: SystemPageBodyProps) {
           return (
             <li key={st.id} className={cx('sy-seat', st.locked && 'is-locked', lit && 'is-now')}>
               {lit ? <NowTag /> : null}
-              <PixelArt
-                name={cauldron ? 'v2-systems-cauldron' : 'v2-systems-flask'}
-                {...(cauldron ? { cauldron } : { ramp: 'silver' as const })}
+              <GameIcon
+                art={STATION_ART[st.station]}
+                fallback={
+                  <PixelArt
+                    name={cauldron ? 'v2-systems-cauldron' : 'v2-systems-flask'}
+                    {...(cauldron ? { cauldron } : { ramp: 'silver' as const })}
+                    decorative
+                  />
+                }
+                size={32}
                 decorative
               />
               <b>{STATION_WORDS[st.station]}</b>

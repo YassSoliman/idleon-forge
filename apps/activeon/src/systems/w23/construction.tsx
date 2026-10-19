@@ -4,6 +4,8 @@
 // where, the build slots, and every building. M20's cog-board picture and M24's build-slots picture
 // (pictures/w23.ts); no advice of its own.
 import type { BuildingView } from '@idleon-forge/engine/systems-ui';
+import { GameIcon } from '../../art/game/GameIcon';
+import { buildingArt, COG_ART } from '../../art/game/systems-art';
 import { PixelArt } from '../../design/art/PixelArt';
 import { cx } from '../../design/atoms';
 import { compact } from '../../design/format';
@@ -99,6 +101,8 @@ function Board({ p }: { p: SystemPageBodyProps }) {
                     />
                   ) : on ? (
                     <PixelArt name="v2-systems-st-now" decorative />
+                  ) : s.state === 'cog' ? (
+                    <GameIcon art={COG_ART} size={16} decorative />
                   ) : null}
                 </span>
               );
@@ -158,7 +162,10 @@ function Board({ p }: { p: SystemPageBodyProps }) {
                 b ? (
                   // biome-ignore lint/suspicious/noArrayIndexKey: build slots are positional
                   <span key={i} className="w-row w-row--between w-sm">
-                    <span>{b.name}</span>
+                    <span className="w-row">
+                      <GameIcon art={buildingArt(b.index)} size={24} wiki={b.name} decorative />
+                      <span>{b.name}</span>
+                    </span>
                     <span className="w-mut2">{W.lv(b.level, b.level + 1)}</span>
                   </span>
                 ) : null,
@@ -185,7 +192,10 @@ function BuildingTile({ b }: { b: BuildingView }) {
   return (
     <div className={`a-tile w-tile${b.bodyFull ? ' is-now' : ''}`}>
       <div className="w-row w-row--between">
-        <span className="w-b">{b.name}</span>
+        <span className="w-row">
+          <GameIcon art={buildingArt(b.index)} size={32} wiki={b.name} decorative />
+          <span className="w-b">{b.name}</span>
+        </span>
         <span className="w-sm w-mut2">{maxed ? W.max(b.level) : W.lv(b.level, b.level + 1)}</span>
       </div>
       {!maxed ? (
@@ -234,6 +244,13 @@ function Buildings({ p }: { p: SystemPageBodyProps }) {
       <ul className="w-hair w-plain">
         {pic.buildings.map((b) => (
           <li key={b.index} className="w-li">
+            <GameIcon
+              art={buildingArt(b.index)}
+              size={24}
+              wiki={b.name}
+              decorative
+              className={b.level > 0 ? undefined : 'w23-dim-art'}
+            />
             <span className="w-grow">
               <span className={b.level > 0 ? 'w-b' : 'w-mut'}>{b.name}</span>
               {b.salt ? <span className="w-xs w-mut"> · {W.paidIn(b.salt)}</span> : null}

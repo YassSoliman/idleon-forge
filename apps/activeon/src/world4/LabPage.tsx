@@ -4,10 +4,12 @@
 // the framed answer, then four tabs. Board: the Mainframe drawn from the game's own coordinates (prism,
 // bonus nodes, jewel spots, uploaded characters, the beam and each lit character's reach), the bonuses
 // in reach order and who is in the Lab. Chips: the Repository and the slots per character. Jewels: the
-// Spinner and the jewels owned. Weekly shop: the save week's two chips and a jewel.
+// Spinner and the jewels owned. Weekly shop: the save week's two chips and a jewel. M25: the game's own
+// sprites for classes, bonuses, chips and jewels (ADR 0009 as amended 2026-10-19), our kit as fallback.
 import type { LabBoard, LabPageView } from '@idleon-forge/engine/world4';
 import { useState } from 'react';
-import { Sprite } from '../art/sprites/Sprite';
+import { GameIcon } from '../art/game/GameIcon';
+import { chipArt, jewelArt, jewelArtOfName, keyIndex, labBonusArt } from '../art/game/w4-art';
 import { cx, Meter, Tabs } from '../design/atoms';
 import type { Session } from '../shell/session';
 import { ClassArt, Frame, Rows, SourceLine, Tag, toneClass } from './parts';
@@ -82,7 +84,10 @@ function Board({ b }: { b: LabBoard }) {
         >
           <title>{c.label}</title>
           <rect className="w4-board__char-bg" x={-2} y={-2} width={36} height={36} />
-          <ClassArt cls={c.cls} size={32} />
+          {/* An HTML <img> inside SVG needs a foreignObject. */}
+          <foreignObject x={0} y={0} width={32} height={32}>
+            <ClassArt cls={c.cls} size={32} />
+          </foreignObject>
         </g>
       ))}
     </svg>
@@ -90,6 +95,8 @@ function Board({ b }: { b: LabBoard }) {
 }
 
 type LabTab = 'board' | 'chips' | 'jewels' | 'shop';
+/** The Repository's picture: the first chip the game lists. */
+const CHIP_ICON = 'Grounded_Nanochip';
 
 export function LabBody({ s, v }: { s: Session; v: LabPageView }) {
   const [tab, setTab] = useState<LabTab>('board');
@@ -160,7 +167,15 @@ export function LabBody({ s, v }: { s: Session; v: LabPageView }) {
                   </h3>
                   <span className="w4-muted w4-small">distance from the prism</span>
                 </header>
-                <Rows rows={v.nodes} label="Mainframe bonuses, nearest first" />
+                <Rows
+                  rows={v.nodes}
+                  label="Mainframe bonuses, nearest first"
+                  art={{
+                    of: (r) => labBonusArt(keyIndex(r.key)),
+                    fallback: 'item-chip',
+                    dim: (r) => !!r.quiet,
+                  }}
+                />
                 <p className="w4-small w4-muted">{v.boardNote}</p>
               </section>
               <aside className="w4-sec" aria-labelledby="w4-who-h">
@@ -199,7 +214,12 @@ export function LabBody({ s, v }: { s: Session; v: LabPageView }) {
               {v.openers.map((o) => (
                 <div key={o.key} className="a-tile w4-card">
                   <div className="w4-card__head">
-                    <Sprite name={o.key === 'repo' ? 'item-chip' : 'item-jewel'} size={32} decorative />
+                    <GameIcon
+                      art={o.key === 'repo' ? chipArt(CHIP_ICON) : jewelArt(0)}
+                      fallback={o.key === 'repo' ? 'item-chip' : 'item-jewel'}
+                      size={32}
+                      decorative
+                    />
                     <span className="w4-strong">{o.title}</span>
                     <Tag tone={o.open ? 'mint' : 'muted'}>{o.badge}</Tag>
                   </div>
@@ -248,7 +268,12 @@ export function LabBody({ s, v }: { s: Session; v: LabPageView }) {
                           key={i}
                           className={cx('w4-slot', x ? 'is-full' : i < c.open ? 'is-open' : 'is-locked')}
                         >
-                          <span className="w4-xs">{x ?? (i < c.open ? 'empty' : 'locked')}</span>
+                          <span className="w4-slot__in">
+                            {x ? (
+                              <GameIcon art={chipArt(x)} fallback="item-chip" size={16} decorative />
+                            ) : null}
+                            <span className="w4-xs">{x ?? (i < c.open ? 'empty' : 'locked')}</span>
+                          </span>
                         </td>
                       ))}
                     </tr>
@@ -267,7 +292,12 @@ export function LabBody({ s, v }: { s: Session; v: LabPageView }) {
               <span className="w4-muted w4-small">{v.jewelsLine}</span>
             </header>
             {v.jewels.length > 0 ? (
-              <Rows rows={v.jewels} label="Jewels owned" numbered={false} />
+              <Rows
+                rows={v.jewels}
+                label="Jewels owned"
+                numbered={false}
+                art={{ of: (r) => jewelArt(keyIndex(r.key)), fallback: 'item-jewel' }}
+              />
             ) : (
               <p className="w4-small w4-muted">{v.openers[1]?.text}</p>
             )}
@@ -289,7 +319,12 @@ export function LabBody({ s, v }: { s: Session; v: LabPageView }) {
                 <ul className="w4-rows" aria-label="This week's chips and jewel">
                   {v.shop.rows.map((r) => (
                     <li key={r.key} className="w4-row">
-                      <Sprite name={r.detail === 'jewel' ? 'item-jewel' : 'item-chip'} size={32} decorative />
+                      <GameIcon
+                        art={r.detail === 'jewel' ? jewelArtOfName(r.name) : chipArt(r.name)}
+                        fallback={r.detail === 'jewel' ? 'item-jewel' : 'item-chip'}
+                        size={32}
+                        decorative
+                      />
                       <span className="w4-row__main">
                         <span className="w4-strong">
                           {r.name} <span className="w4-muted w4-xs">{r.detail}</span>

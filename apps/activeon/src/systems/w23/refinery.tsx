@@ -4,7 +4,9 @@
 // fuel, the next salt still locked, and the salts waiting in Refinery storage. M24's refinery picture
 // (pictures/w23.ts) from M15's Refinery fields; the Refinery Checks' advice stays theirs (the page's
 // step and order). No advice of its own.
-import { Sprite } from '../../art/sprites/Sprite';
+import { GameIcon } from '../../art/game/GameIcon';
+import { itemArt } from '../../art/game/game-art';
+import { buildingArt, materialArt } from '../../art/game/systems-art';
 import { inSpan } from '../../design/format';
 import type { FullPageProps, SystemPageBodyProps } from '../pages';
 import { Bar, Big, Cap, Head, n0, type PageSections, pictureOf, Split, Tag } from './kit';
@@ -51,6 +53,11 @@ function Salts({ p }: { p: SystemPageBodyProps }) {
   const locked = pic.salts.filter((s) => !s.unlocked);
   const next = locked[0] ?? null;
   const paying = open.filter((s) => s.paysFor.length);
+  const buildings = pictureOf(p, 'build-slots')?.buildings ?? [];
+  const buildingOf = (name: string) => {
+    const b = buildings.find((x) => x.name === name);
+    return b ? buildingArt(b.index) : null;
+  };
   return (
     <Split
       main={
@@ -66,7 +73,13 @@ function Salts({ p }: { p: SystemPageBodyProps }) {
               >
                 <div className="w-row">
                   <span className="w-icon">
-                    <Sprite name="item-salt" size={32} decorative />
+                    <GameIcon
+                      art={itemArt(s.rawName)}
+                      fallback="item-salt"
+                      size={32}
+                      wiki={s.name}
+                      decorative
+                    />
                   </span>
                   <span className="w-stack w-stack--4 w-grow">
                     <h4 className="a-h2">{s.name}</h4>
@@ -104,7 +117,10 @@ function Salts({ p }: { p: SystemPageBodyProps }) {
                     <ul className="w-row w-plain">
                       {s.fuel.map((f) => (
                         <li key={f.name} className="a-tile2 w-tile2 w-grow w23-fuel">
-                          <span className="w-sm w-b">{f.name}</span>
+                          <span className="w-row">
+                            <GameIcon art={materialArt(f.name)} size={24} wiki={f.name} decorative />
+                            <span className="w-sm w-b">{f.name}</span>
+                          </span>
                           <span className="w-xs w-mut">{W.held(n0(f.held))}</span>
                         </li>
                       ))}
@@ -120,7 +136,13 @@ function Salts({ p }: { p: SystemPageBodyProps }) {
               <div className="a-tile w-tile is-later">
                 <div className="w-row">
                   <span className="w-icon">
-                    <Sprite name="item-salt" size={32} decorative />
+                    <GameIcon
+                      art={itemArt(next.rawName)}
+                      fallback="item-salt"
+                      size={32}
+                      wiki={next.name}
+                      decorative
+                    />
                   </span>
                   <span className="w-b w-grow">{next.name}</span>
                   <Tag>{W.lockedTag}</Tag>
@@ -135,7 +157,8 @@ function Salts({ p }: { p: SystemPageBodyProps }) {
               {locked.length > 1 ? (
                 <ul className="w-row w-plain">
                   {locked.slice(1).map((s) => (
-                    <li key={s.id} className="a-tile2 w-tile2 w-xs w-mut">
+                    <li key={s.id} className="a-tile2 w-tile2 w-xs w-mut w-row">
+                      <GameIcon art={itemArt(s.rawName)} fallback="item-salt" size={16} decorative />
                       {s.name}
                     </li>
                   ))}
@@ -158,7 +181,10 @@ function Salts({ p }: { p: SystemPageBodyProps }) {
               <ul className="w-hair w-plain w-sm">
                 {s.paysFor.map((b) => (
                   <li key={b.name} className="w-li w-row--between">
-                    <span>{b.name}</span>
+                    <span className="w-row">
+                      <GameIcon art={buildingOf(b.name)} size={16} decorative />
+                      <span>{b.name}</span>
+                    </span>
                     <span className="w-mut2">
                       Lv {b.from} → {b.to}
                     </span>
@@ -183,7 +209,7 @@ function Storage({ p }: { p: SystemPageBodyProps }) {
       <ul className="w-hair w-plain">
         {rows.map((s) => (
           <li key={s.id} className="w-li">
-            <Sprite name="item-salt" size={24} decorative />
+            <GameIcon art={itemArt(s.rawName)} fallback="item-salt" size={24} wiki={s.name} decorative />
             <span className="w-grow w-b">{s.name}</span>
             <span className={`w-sm${s.inRefinery ? ' w-t--gold w-b' : ' w-mut'}`}>
               {n0(s.inRefinery)} {W.inRefinery}

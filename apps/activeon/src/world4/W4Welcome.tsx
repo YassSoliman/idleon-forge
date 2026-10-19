@@ -5,6 +5,8 @@
 // Spinner open, each with its wiki-sourced step. Rendered on Now by W4WelcomeSlot only once World 4 is
 // reached and until every step is done. It is Now's one framed block while it shows.
 import type { World4Welcome } from '@idleon-forge/engine/world4';
+import { GameIcon } from '../art/game/GameIcon';
+import { dataArt } from '../art/game/game-art';
 import { Sprite } from '../art/sprites/Sprite';
 import { cx, Frame, Tag } from '../design/atoms';
 import { formatRoute } from '../shell/route';
@@ -15,7 +17,8 @@ export function W4Welcome({ s, w }: { s: Session; w: World4Welcome }) {
   return (
     <Frame tone="gold" pad={false} className="w4-welcome" aria-labelledby="w4-welcome-h">
       <div className="w4-welcome__head">
-        <Sprite name="sys-rift" size={64} decorative />
+        {/* The Rift's face (Toolbox's Rift icon), our rift sprite as the fallback. */}
+        <GameIcon art={dataArt('Mface75')} fallback="sys-rift" size={64} decorative />
         <div className="w4-stack">
           <span className="w4-welcome__badges">
             <Tag tone="gold">{w.badge}</Tag>

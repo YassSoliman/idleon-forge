@@ -10,7 +10,8 @@ import type { CharacterGear, GearSlotView, SlotPip } from '@idleon-forge/engine/
 import { useState } from 'react';
 import { GameIcon } from '../art/game/GameIcon';
 import { itemArt } from '../art/game/game-art';
-import { Sprite } from '../art/sprites/Sprite';
+import { KitSprite } from '../art/game/KitSprite';
+import { ClassBadge } from '../characters/ClassBadge';
 import { Answer, GoalLink, type Tone, upper, useGoal } from '../characters/tabs/kit';
 import { Blob, Pip } from '../design/atoms';
 import type { CharacterTabProps } from '../now/character-tabs';
@@ -41,6 +42,10 @@ const LABEL: Readonly<Record<SlotId, string>> = {
  */
 function slotItem(v: GearSlotView): string | null {
   if ((v.state === 'empty' || v.state === 'behind') && v.target) return v.target.rawName;
+  // "Equip the Gold Helmet from storage" with nothing worn: the held piece, when it is the target.
+  // (The view names other held pieces only in words, so those keep our slot sprite.)
+  const target = v.target;
+  if (!v.equipped && target && v.held.some((h) => h.includes(target.name))) return target.rawName;
   return v.equipped?.rawName ?? null;
 }
 
@@ -192,7 +197,16 @@ function Path({ v }: { v: GearSlotView }) {
       <dl className="gd-facts">
         <div>
           <dt>Wearing</dt>
-          <dd>
+          <dd className="gd-facts__item">
+            {e ? (
+              <GameIcon
+                art={itemArt(e.rawName)}
+                fallback={SPRITE[v.slot]}
+                size={24}
+                decorative
+                wiki={e.name}
+              />
+            ) : null}
             {e
               ? `${e.name} · Lv ${e.lvReq} · ${isTool ? 'Weapon Power' : 'Defence'} ${e.primary} · main stat ${e.main}${e.pct.length ? ` · ${e.pct.join(', ')}` : ''} · upgrade slots ${e.slotsLeft} of ${e.slotsMax} free`
               : 'nothing'}
@@ -201,8 +215,17 @@ function Path({ v }: { v: GearSlotView }) {
         {v.target ? (
           <div>
             <dt>Gear Plan target</dt>
-            <dd>
-              {v.target.name} (Lv {v.target.lvReq}): {v.target.how}
+            <dd className="gd-facts__item">
+              <GameIcon
+                art={itemArt(v.target.rawName)}
+                fallback={SPRITE[v.slot]}
+                size={24}
+                decorative
+                wiki={v.target.name}
+              />
+              <span>
+                {v.target.name} (Lv {v.target.lvReq}): {v.target.how}
+              </span>
             </dd>
           </div>
         ) : null}
@@ -250,7 +273,13 @@ function ToolTile({ v, g }: { v: GearSlotView; g: CharacterGear }) {
   return (
     <li className="a-tile gd-tool" data-tone={tone}>
       <span className="tb-ic" data-tone={tone}>
-        <GameIcon art={itemArt(v.equipped?.rawName)} fallback={SPRITE[v.slot]} size={32} decorative />
+        <GameIcon
+          art={itemArt(slotItem(v))}
+          fallback={SPRITE[v.slot]}
+          size={32}
+          decorative
+          wiki={worn ?? v.target?.name ?? null}
+        />
       </span>
       <span className="tb-xs">{LABEL[v.slot]}</span>
       <span className="gd-tool__status">{status}</span>
@@ -282,10 +311,12 @@ function SkillSlotTile({ slot, pip }: { slot: 'trap' | 'skull'; pip: SlotPip | u
       tone = goal ? 'gold' : 'ok';
     } else where = upper(pip.text);
   }
+  const systemOf = slot === 'trap' ? 'trapping' : 'worship';
   return (
     <li className="a-tile gd-tool" data-tone={tone}>
       <span className="tb-ic" data-tone={tone}>
-        <Sprite name={SPRITE[slot]} size={32} decorative />
+        {/* The game has no one picture for "your trap set" or "your skull": its System's sprite. */}
+        <KitSprite name={`sys-${systemOf}`} fallback={SPRITE[slot]} size={32} />
       </span>
       <span className="tb-xs">{LABEL[slot]}</span>
       <span className="gd-tool__status">{status}</span>
@@ -379,7 +410,9 @@ export function GearTab({ view, index }: CharacterTabProps) {
           {LEFT.map(tile)}
         </ul>
         <figure className="gd-fig">
-          <Blob family={view.families?.[index] ?? 'beginner'} size={160} />
+          <ClassBadge classLabel={view.roster.find((r) => r.index === index)?.classLabel} size={160}>
+            <Blob family={view.families?.[index] ?? 'beginner'} size={160} />
+          </ClassBadge>
           <figcaption className="tb-xs">{label}</figcaption>
         </figure>
         <ul className="tb-list gd-col" aria-label="Weapon and jewellery">

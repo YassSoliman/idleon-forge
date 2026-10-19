@@ -6,6 +6,9 @@
 // work) through `buildAnvilPageView`.
 import { ANVIL_PAGE_HOURS, buildAnvilPageView, ANVIL_WORDS as W } from '@idleon-forge/engine/systems-ui';
 import { useMemo, useState } from 'react';
+import { GameIcon } from '../../art/game/GameIcon';
+import { itemArt } from '../../art/game/game-art';
+import { WHETSTONE_ART } from '../../art/game/systems-art';
 import { WhoGlyph } from '../../design/who/WhoGlyph';
 import { SimplePage, StepsSection } from '../frame/SimplePage';
 import { type FrameAnswer, frameAnswer, SystemFrame } from '../frame/SystemFrame';
@@ -20,6 +23,12 @@ const nearest = (seconds: number) =>
 export default function AnvilPage({ s, page }: FullPageProps) {
   const [hours, setHours] = useState<number>(() => nearest(s.result.expectedReturn.usedSeconds));
   const v = useMemo(() => buildAnvilPageView(s.state, s.result, hours), [s.state, s.result, hours]);
+  // The anvil's products carry their rawName in Account State; the view keeps only the display name.
+  const rawOf = (index: number, name: string): string | null => {
+    const c = s.state.characters.find((x) => x.index === index);
+    const key = name.replace(/_/g, ' ');
+    return c?.afk?.anvil?.find((a) => a.name.replace(/_/g, ' ') === key)?.item ?? null;
+  };
   // The answer follows the player's own Expected Return, not the tab's chips.
   const own = useMemo(
     () => buildAnvilPageView(s.state, s.result, nearest(s.result.expectedReturn.usedSeconds)),
@@ -60,7 +69,10 @@ export default function AnvilPage({ s, page }: FullPageProps) {
                       {v.products.map((p) => (
                         <li key={p.item} className="an-work__row">
                           <span className="an-work__name">
-                            <span className="sf-strong sf-small">{p.name}</span>
+                            <span className="an-item">
+                              <GameIcon art={itemArt(p.item)} size={24} wiki={p.name} decorative />
+                              <span className="sf-strong sf-small">{p.name}</span>
+                            </span>
                             <span className="sf-hint">{p.who}</span>
                           </span>
                           <span className="an-work__bar">
@@ -163,18 +175,26 @@ export default function AnvilPage({ s, page }: FullPageProps) {
               <aside className="sf-col">
                 <section className="a-tile sf-tile" aria-labelledby="an-ws-h">
                   <div className="an-ws__head">
-                    <svg
-                      aria-hidden="true"
-                      width="32"
-                      height="32"
-                      viewBox="0 0 16 16"
-                      shapeRendering="crispEdges"
-                    >
-                      <rect x="2" y="7" width="12" height="4" fill="#9AA3B2" />
-                      <rect x="3" y="6" width="10" height="1" fill="#C9D0DB" />
-                      <rect x="2" y="11" width="12" height="1" fill="#6B7280" />
-                      <rect x="4" y="8" width="3" height="1" fill="#EDE6D6" />
-                    </svg>
+                    <GameIcon
+                      art={WHETSTONE_ART}
+                      fallback={
+                        <svg
+                          aria-hidden="true"
+                          width="32"
+                          height="32"
+                          viewBox="0 0 16 16"
+                          shapeRendering="crispEdges"
+                        >
+                          <rect x="2" y="7" width="12" height="4" fill="#9AA3B2" />
+                          <rect x="3" y="6" width="10" height="1" fill="#C9D0DB" />
+                          <rect x="2" y="11" width="12" height="1" fill="#6B7280" />
+                          <rect x="4" y="8" width="3" height="1" fill="#EDE6D6" />
+                        </svg>
+                      }
+                      size={32}
+                      wiki="Anvil Reset Whetstone"
+                      decorative
+                    />
                     <span className="sf-row__main">
                       <span id="an-ws-h" className="sf-strong">
                         {W.whetstone}
@@ -236,7 +256,13 @@ export default function AnvilPage({ s, page }: FullPageProps) {
                     </span>
                     <ul className="an-makes">
                       {m.items.map((it) => (
-                        <li key={it.name} className="sf-small">
+                        <li key={it.name} className="sf-small an-item">
+                          <GameIcon
+                            art={itemArt(rawOf(m.index, it.name))}
+                            size={16}
+                            wiki={it.name}
+                            decorative
+                          />
                           <span className="sf-strong">{it.name}</span>{' '}
                           <span className="sf-muted">
                             {W.of(it.amount.toLocaleString('en-US'), it.capacity.toLocaleString('en-US'))} ·{' '}

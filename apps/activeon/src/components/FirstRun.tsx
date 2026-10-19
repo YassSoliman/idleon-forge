@@ -9,9 +9,14 @@
 // beside their words.
 import { FIRST_RUN_WORDS as W } from '@idleon-forge/engine/menu-text';
 import type { ReactNode } from 'react';
+import { GameIcon } from '../art/game/GameIcon';
+import { dataArt } from '../art/game/game-art';
 import { Sprite } from '../art/sprites/Sprite';
 import { Blob } from '../design/atoms/Blob';
 import { Pip, Tag } from '../design/atoms/Surfaces';
+
+/** The game's gold coin (Toolbox data/Coins3), for the Spend Plan's picture. */
+const COIN = dataArt('Coins3');
 
 function Shield() {
   return (
@@ -86,12 +91,12 @@ const PICTURES: [ReactNode, ReactNode][] = [
   ],
   [
     <span key="p" className="n-fr-pic n-fr-pic--buy">
-      <Sprite name="item-coin" size={32} decorative />
-      <Sprite name="item-coin" size={32} decorative />
-      <Sprite name="item-coin" size={32} decorative />
+      <GameIcon art={COIN} fallback="item-coin" size={32} decorative />
+      <GameIcon art={COIN} fallback="item-coin" size={32} decorative />
+      <GameIcon art={COIN} fallback="item-coin" size={32} decorative />
       <span className="n-fr-buy">{W.buy}</span>
     </span>,
-    <Sprite key="i" name="item-coin" size={24} decorative />,
+    <GameIcon key="i" art={COIN} fallback="item-coin" size={24} decorative />,
   ],
 ];
 

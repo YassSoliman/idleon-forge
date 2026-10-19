@@ -46,25 +46,29 @@ export interface PauseViewProps {
   onFirst(): void;
 }
 
-/** A Log in row's sprite, from its words (a row carries no System id). */
-const rowSprite = (r: LoginRow): string =>
-  r.kind === 'reset'
-    ? 'status-clock'
-    : r.kind === 'level'
-      ? 'item-star'
-      : /worship/i.test(r.text)
-        ? 'sys-worship'
-        : /colosseum|ticket/i.test(r.text)
-          ? 'sys-colosseum'
-          : /bubba|megaflesh/i.test(r.text)
-            ? 'sys-bubba'
-            : /anvil/i.test(r.text)
-              ? 'sys-anvil'
-              : /trap/i.test(r.text)
-                ? 'sys-trapping'
-                : /salt|fuel|refinery/i.test(r.text)
-                  ? 'sys-refinery'
-                  : 'status-full';
+/** A Log in row's System, from its words (a row carries no System id); null when none matches. */
+const rowSystem = (text: string): string | null =>
+  /worship/i.test(text)
+    ? 'worship'
+    : /colosseum|ticket/i.test(text)
+      ? 'colosseum'
+      : /bubba|megaflesh/i.test(text)
+        ? 'bubba'
+        : /anvil/i.test(text)
+          ? 'anvil'
+          : /trap/i.test(text)
+            ? 'trapping'
+            : /salt|fuel|refinery/i.test(text)
+              ? 'refinery'
+              : null;
+
+/** A Log in row's sprite: a System's (its game sprite, through KitSprite), else a status glyph. */
+const rowSprite = (r: LoginRow): string => {
+  if (r.kind === 'reset') return 'status-clock';
+  if (r.kind === 'level') return 'item-star'; // a level-up has no game sprite: our star (UI chrome)
+  const sys = rowSystem(r.text);
+  return sys ? `sys-${sys}` : 'status-full';
+};
 
 function LoginRows({ rows, p }: { rows: LoginRow[]; p: PauseViewProps }) {
   return (

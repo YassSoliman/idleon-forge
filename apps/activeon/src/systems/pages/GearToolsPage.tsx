@@ -6,7 +6,8 @@
 // Goals need. Data: M18's `EngineResult.gear`.
 import type { GearSlotView } from '@idleon-forge/engine/gear';
 import { GEAR_PAGE_WORDS as W } from '@idleon-forge/engine/systems-ui';
-import { Sprite } from '../../art/sprites/Sprite';
+import { GameIcon } from '../../art/game/GameIcon';
+import { itemArt } from '../../art/game/game-art';
 import { WhoGlyph } from '../../design/who/WhoGlyph';
 import { GearPageBody } from '../../gear/GearPages';
 import { formatRoute } from '../../shell/route';
@@ -63,7 +64,13 @@ export default function GearToolsPage({ s, page }: FullPageProps) {
     return (
       <li className={`gt-slot${held ? ' gt-slot--held' : ''}`}>
         <span className="gt-slot__top">
-          <Sprite name={SPRITE[x.slot] ?? 'gear-helmet'} size={32} decorative />
+          <GameIcon
+            art={held ? null : itemArt(x.target?.rawName)}
+            fallback={SPRITE[x.slot] ?? 'gear-helmet'}
+            size={32}
+            wiki={held ? null : (x.target?.name ?? null)}
+            decorative
+          />
           <span className="sf-row__main">
             <span className="sf-hint">{W.slot[x.slot] ?? x.slot}</span>
             <span className="sf-strong">{held ? x.held[0] : (x.target?.name ?? W.anyPiece)}</span>

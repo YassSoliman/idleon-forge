@@ -3,9 +3,11 @@
 // The character page's pictures from the M24 sprite kit (our own pixel art, ADR 0009): a character by
 // its class sprite ("class-hunter"), falling back to the family who-glyph for a class the kit doesn't
 // draw yet; a Goal by its System's sprite, falling back to a status sprite.
+import { KitSprite } from '../art/game/KitSprite';
 import { spriteOf } from '../art/sprites';
 import { Sprite } from '../art/sprites/Sprite';
 import { type ClassFamily, WhoGlyph } from '../design/who/WhoGlyph';
+import { ClassBadge } from './ClassBadge';
 
 const slug = (label: string) =>
   label
@@ -32,7 +34,10 @@ const familySprite = (family: ClassFamily): string | null => {
   return spriteOf(name) ? name : null;
 };
 
-/** A character's picture: its class sprite, else its family's, else the family who-glyph. Always decorative. */
+/**
+ * A character's picture: its class sprite, else its family's, else the family who-glyph, with the game's
+ * class icon on its corner (M25 ClassBadge). Always decorative.
+ */
 export function Avatar({
   classLabel,
   family,
@@ -43,21 +48,25 @@ export function Avatar({
   size: 32 | 48 | 64;
 }) {
   const name = classSprite(classLabel) ?? familySprite(family);
-  if (name) return <Sprite name={name} size={size} decorative className="cp-avatar" />;
   return (
-    <span className="cp-avatar cp-avatar--who" data-size={size}>
-      <WhoGlyph
-        family={family}
-        classLabel={classLabel}
-        scale={size === 32 ? 1 : size === 48 ? 2 : 3}
-        decorative
-      />
-    </span>
+    <ClassBadge classLabel={classLabel} size={size}>
+      {name ? (
+        <Sprite name={name} size={size} decorative className="cp-avatar" />
+      ) : (
+        <span className="cp-avatar cp-avatar--who" data-size={size}>
+          <WhoGlyph
+            family={family}
+            classLabel={classLabel}
+            scale={size === 32 ? 1 : size === 48 ? 2 : 3}
+            decorative
+          />
+        </span>
+      )}
+    </ClassBadge>
   );
 }
 
 /** A Goal's picture: its System's sprite ("sys-cards"), else a warning for a fix or an arrow. */
 export function GoalSprite({ system, fix, size }: { system: string; fix: boolean; size: 32 | 48 }) {
-  const name = spriteOf(`sys-${system}`) ? `sys-${system}` : fix ? 'status-warning' : 'status-arrow';
-  return <Sprite name={name} size={size} decorative />;
+  return <KitSprite name={`sys-${system}`} fallback={fix ? 'status-warning' : 'status-arrow'} size={size} />;
 }
