@@ -14,6 +14,7 @@ import { EmptyState } from '../design/atoms/States';
 import { span } from '../design/format';
 import { Loading, lazyPart } from '../lazy-part';
 import type { Session } from '../shell/session';
+import { hasW4Welcome, W4WelcomeSlot } from '../world4/W4WelcomeSlot';
 import { AccountSection } from './Account';
 import { StaleBanner, staleAge } from './chrome/Answer';
 import { PauseControl, usePauseState } from './chrome/Pause';
@@ -202,8 +203,11 @@ function NowBody({
         }))
       : [];
   useEffect(() => setRailTab(sv.tab), [sv.tab]);
+  // M24 World 4: the set-up-first welcome comes first and holds the screen's one frame while it shows.
+  const framed = !hasW4Welcome(s);
   return (
     <>
+      <W4WelcomeSlot s={s} />
       {stale !== null ? <StaleBanner ageMs={stale} lastKnown={sv.counter.count} /> : null}
       <PauseControl view={sv} onPick={(tab) => setPause({ manual: tab })} />
       {sv.tab === 'logoff' ? (
@@ -224,6 +228,7 @@ function NowBody({
               unknownOpen={s.actions.expanded.has('unknown-fold')}
               onUnknown={() => s.actions.toggle('unknown-fold')}
               ticks={ticks}
+              framed={framed}
             />
             <AwayLine view={view} groups={groups} losses={losses} />
           </div>
@@ -239,6 +244,7 @@ function NowBody({
         <Suspense fallback={<Loading />}>
           <PauseView
             tab={sv.tab}
+            framed={framed}
             view={view}
             sv={sv}
             timeline={timeline}
