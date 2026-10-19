@@ -24,6 +24,21 @@ const starSigns: StarSignsView = {
   slots: 1,
   questDone: true,
   milestone: '21 points ready, 19 needed for Chronus Cosmos (2 signs on every character)',
+  cosmos: {
+    have: 3,
+    need: 19,
+    onTheWay: [
+      'Dwarfo Beardus',
+      'Hipster Logger',
+      'Pack Mule',
+      'Pirate Booty',
+      'All Rounder',
+      'Fatty Doodoo',
+      'Robinhood',
+      'Ned Kelly',
+    ],
+    cost: 3,
+  },
   plan: 'Bank your points: after A-7 and B-1, unlock up to All Rounder at once',
   next: [
     {
@@ -96,7 +111,7 @@ describe('Signs tab', () => {
     expect(parseTabHash('#signs-2')).toEqual({ tab: 'signs', index: 2 });
   });
 
-  it('shows the worn and recommended signs and whether the character can change signs', async () => {
+  it('M24: the swap first, the slots as tiles, then how to get slot 2 with the whole 19-point path', async () => {
     window.history.replaceState(null, '', '/?c=2#signs-2');
     const r = withSigns();
     const { container } = renderNow(props(r, saveOf(r, 1, 'first', null, 'paste')));
@@ -104,10 +119,19 @@ describe('Signs tab', () => {
     expect(within(nav).getByRole('link', { current: 'page' }).textContent).toBe(
       'Signs•behind: 1 sign to swap',
     );
+    const answer = screen.getByRole('region', { name: 'Swap a sign · for fighting' });
+    expect(
+      within(answer).getByText('At the Telescope: wear The Fuzzy Dice instead of Flexo Bendo'),
+    ).toBeTruthy();
+    expect(within(answer).getByText('About 10,437 kills to reach the Telescope')).toBeTruthy();
     expect(screen.getByText('Flexo Bendo')).toBeTruthy();
-    expect(screen.getAllByText('The Fuzzy Dice').length).toBeGreaterThan(0);
-    expect(screen.getByText('About 10,437 kills to reach the Telescope')).toBeTruthy();
-    expect(screen.getAllByText('Pirate Booty + All Rounder').length).toBeGreaterThan(0);
+    expect(screen.getByText('Second slot')).toBeTruthy();
+    // 19 is the whole path; Chronus Cosmos itself is 3 of it (the wiki's number).
+    expect(screen.getByRole('meter', { name: 'Star Chart points: 3 of 19' })).toBeTruthy();
+    expect(container.textContent).toContain('19 points buy the 8 signs on the way');
+    expect(container.textContent).toContain('and Chronus Cosmos itself, 3 points');
+    expect(screen.getByText('Pirate Booty')).toBeTruthy();
+    expect(screen.getByText('All Rounder')).toBeTruthy();
     await axe
       .run(container, { rules: { 'color-contrast': { enabled: false }, region: { enabled: false } } })
       .then((res) => expect(res.violations.map((v) => v.id)).toEqual([]));
@@ -138,12 +162,11 @@ describe('Signs tab', () => {
     const r = withSigns();
     renderNow(props(r, saveOf(r, 1, 'first', null, 'paste')));
     const tab = document.querySelector('.ss') as HTMLElement;
-    expect(tab.textContent).toContain('Star Chart: 3 points');
     expect(tab.textContent).not.toContain('Next constellations');
     expect(tab.textContent).not.toContain('Slamabam Straightaway');
     expect(
       within(tab)
-        .getByRole('link', { name: /Star Chart: 3 points/ })
+        .getByRole('link', { name: /^Star Chart3 points · open/ })
         .getAttribute('href'),
     ).toContain('star-signs');
   });
