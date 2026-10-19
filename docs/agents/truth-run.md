@@ -41,8 +41,13 @@ From the repository root, once per session:
 ```sh
 pnpm install
 pnpm build                                   # builds the parser bundle and the app with the checks
-(cd apps/activeon && pnpm exec wrangler dev --port 8799)   # production headers, leave it running
 ```
+
+Pass `--serve` (below) and the runner builds the app and serves it itself on the `--base` port, with
+production headers. Don't use a hand-started `wrangler dev`: since the M25 sprite import (~19.7k files
+in `dist/`) its assets watcher holds one file descriptor per file, and on macOS a process past 10,240
+descriptors can't spawn a piped child, so Wrangler's esbuild service dies with `spawn EBADF`. The
+runner starts the same local server through Wrangler's API with the watcher off.
 
 Playwright is not a repo dependency. Install it once somewhere outside the repo and point the runner
 at it:
@@ -55,12 +60,13 @@ export PLAYWRIGHT=/tmp/pw/node_modules/playwright/index.js
 Then:
 
 ```sh
-node scripts/truth/run.mjs --out <scratchpad>/truth fixtures/private/live-<YYYY-MM-DD>.raw.json
+node scripts/truth/run.mjs --serve --out <scratchpad>/truth fixtures/private/live-<YYYY-MM-DD>.raw.json
 # or every private save at once:
-node scripts/truth/run.mjs --out <scratchpad>/truth fixtures/private/*.raw.json
+node scripts/truth/run.mjs --serve --out <scratchpad>/truth fixtures/private/*.raw.json
 ```
 
-`--serve` builds and starts `wrangler dev` itself; `--no-browser` runs only the headless half. The
+Without `--serve` the runner tests whatever already answers on `--base`; `--no-browser` runs only the
+headless half. The
 headless half alone is `TRUTH_SAVE=<save> TRUTH_OUT=<file> pnpm exec vitest run --project
 @idleon-forge/activeon test/truth-run.test.ts` (skipped when `TRUTH_SAVE` is unset, so CI never
 reads a private save).
