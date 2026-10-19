@@ -114,7 +114,9 @@ export function PlacesNav({ s }: { s: Session }) {
                   <span className="glyph-wrap">
                     <PixelArt name={GLYPHS[item.place]} decorative />
                   </span>
-                  <span className="place-label">{PLACE_NAMES[item.place]}</span>
+                  <span className="place-label" data-label={PLACE_NAMES[item.place]}>
+                    {PLACE_NAMES[item.place]}
+                  </span>
                   {b ? (
                     <span className={`badge badge-${b.tone} num`} aria-hidden="true">
                       {b.n}

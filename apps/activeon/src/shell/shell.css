@@ -85,6 +85,7 @@
   color: inherit;
 }
 .place-label {
+  display: inline-grid;
   font-family: var(--font-body);
   font-size: var(--text-xs);
   font-weight: var(--weight-semibold);
@@ -92,6 +93,14 @@
   white-space: nowrap;
 }
 .place-item.on .place-label {
+  font-weight: var(--weight-bold);
+}
+/* Every label reserves its bold width, so the bar never shifts by a pixel when the place changes. */
+.place-label::after {
+  content: attr(data-label) / "";
+  height: 0;
+  overflow: hidden;
+  visibility: hidden;
   font-weight: var(--weight-bold);
 }
 .badge {
@@ -156,7 +165,7 @@
 /* From 720 px: the five places as words in the top bar, between the wordmark and the status. */
 @media (min-width: 720px) {
   .app:has(.places) {
-    max-width: calc(var(--column) + 128px);
+    max-width: 100%;
   }
   .places-wrap,
   .places {
@@ -181,6 +190,16 @@
   }
   .place-label {
     font-size: 15px;
+  }
+}
+/* 720 to 1120 px: the places take the bar's second row, under the wordmark and the status. */
+@media (min-width: 720px) and (max-width: 1119.98px) {
+  .places-wrap {
+    order: 4;
+    flex: 1 1 100%;
+  }
+  .place-item {
+    min-height: 48px;
   }
 }
 /* One shell width for every place (the jitter fix): from 1000 px the shell is 980 px plus the 128 px the

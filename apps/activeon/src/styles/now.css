@@ -374,6 +374,14 @@ label.chip {
     min-height: 64px;
     gap: var(--space-6);
   }
+}
+@media (min-width: 720px) and (max-width: 1119.98px) {
+  .n-hdr__line {
+    flex-wrap: wrap;
+    row-gap: 0;
+  }
+}
+@media (min-width: 720px) {
   .n-wm {
     align-self: center;
     margin-right: 0;

@@ -1,11 +1,13 @@
 #!/usr/bin/env node
 // SPDX-License-Identifier: GPL-3.0-only
 // Copyright (C) 2026 IdleOn Forge contributors.
-// The layout jitter check: the shell (the header and the place rail) never moves between places.
+// The layout jitter check: the shell (the top bar, the place navigation and the content column) never
+// moves between places.
 // Local and dev-only, like the truth run (docs/agents/truth-run.md). It pastes a public fixture into the
 // built app, then visits every place, two characters and several of their tabs, and a System page, at
-// 390, 1000 and 1280 px. On every animation frame after each switch (so a lazy chunk's loading frame
-// counts too) it records the bounding boxes of the header (`.n-hdr`), the rail (`nav.places`) and the
+// 390, 720, 1000, 1280 and 1600 px. On every animation frame after each switch (so a lazy chunk's loading frame
+// counts too) it records the bounding boxes of the top bar (`.n-hdr`), the places (`nav.places`: the
+// bar's places from 720 px, the bottom dock under it) and the
 // content column (`.outlet`, left edge and width), and fails when any of them differs by a pixel. It
 // reads the nav by its element, not its position, so it holds for a side rail, a top bar or a dock.
 // Scrollbars are shown (Playwright hides them by default), so a scrollbar that comes and goes counts.
@@ -21,7 +23,7 @@ import { fileURLToPath } from 'node:url';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
 const FIXTURE = path.join(ROOT, 'packages/account-state/fixtures/public/latest.json');
-const WIDTHS = [390, 1000, 1280];
+const WIDTHS = [390, 720, 1000, 1280, 1600];
 
 function args(argv) {
   const o = { base: 'http://127.0.0.1:4173/', shots: null, widths: WIDTHS };
@@ -143,7 +145,7 @@ async function main() {
     console.error(`\nThe shell moved: ${failures.join(', ')}`);
     process.exit(1);
   }
-  console.log('\nThe header, the rail and the content column hold still at every width.');
+  console.log('\nThe top bar, the places and the content column hold still at every width.');
 }
 
 main().catch((e) => {
