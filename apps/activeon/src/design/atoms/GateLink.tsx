@@ -83,13 +83,15 @@ export interface GateTextProps {
   /** The piece the sentence crafts: a met tab gate opens its recipe. */
   recipe?: { rawName: string; name: string } | null;
   onNavigate?: (gate: GateSpan) => void;
+  /** The gate focus of the view the sentence sits in: that gate stays words, never a link to itself. */
+  self?: string;
 }
 
 /**
  * A sentence with its anvil gates as chips. "(anvil tab 3)" is replaced by the chip; "Craft Anvil Tab 4"
  * keeps its words and gains the chip. Without the spans (an old result), the words stay as they are.
  */
-export function GateText({ text, tabGates, recipe, onNavigate }: GateTextProps): JSX.Element {
+export function GateText({ text, tabGates, recipe, onNavigate, self }: GateTextProps): JSX.Element {
   const parts: Array<[string, string] | JSX.Element> = [];
   let last = 0;
   const done = new Set<number>();
@@ -98,7 +100,7 @@ export function GateText({ text, tabGates, recipe, onNavigate }: GateTextProps):
     // One chip per tab in a sentence ("Use Anvil Tab 3 to open anvil tab 3 ..." links once).
     if (done.has(tab)) continue;
     const g = gateOf(tabGates, tab, m[2] ? null : recipe);
-    if (!g) continue;
+    if (!g || (self !== undefined && g.focus === self)) continue;
     done.add(tab);
     const at = m.index ?? 0;
     const bracketed = m[1] === '(' && m[4] === ')';

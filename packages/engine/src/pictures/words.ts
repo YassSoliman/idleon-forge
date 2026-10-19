@@ -343,6 +343,8 @@ export const ANVIL_WORDS = {
   respec: (speed: number, cap: number) => `Respec to ${speed} Speed, ${cap} Capacity`,
   fine: 'Fine as it is',
   cantTell: "Can't tell",
+  /** The header's reason when a check reads no field on this save but the Production Plan reads the anvils. */
+  someChecksUnread: "some checks can't read this save",
   timesWork: (x: number, h: number) => `about ${x} times the anvil work in ${h}h`,
   moreWork: (p: number, h: number) => `about ${p}% more anvil work in ${h}h`,
   respecAdds: (p: number, h: number) => `a respec adds only about ${p}% in ${h}h`,
