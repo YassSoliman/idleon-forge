@@ -34,6 +34,7 @@ import { gameClientIssues } from './game-client';
 import type { Issue } from './issues';
 import type { KbSource, Located } from './load';
 import { DETECTORS_DIR, REPO, readPin } from './paths';
+import { riftLabelIssues } from './rift-label';
 import { twoSourceIssues } from './two-source';
 
 type AnyEntry = Located<Entry>;
@@ -188,6 +189,7 @@ export async function checkSource(src: KbSource, registries?: Registries): Promi
         err(e.file, e.lineOf(ref.where), e.value.id, `references ${ref.id}, which is a draft (M26 FR-1)`);
   issues.push(...gameClientIssues(src));
   issues.push(...twoSourceIssues(src));
+  issues.push(...riftLabelIssues(src));
   const facts = new Map<string, Located<FactTableT>>();
   for (const f of src.facts) {
     if (facts.has(f.value.id) || byId.has(f.value.id))
