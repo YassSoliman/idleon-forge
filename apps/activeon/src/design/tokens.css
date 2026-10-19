@@ -26,10 +26,11 @@
 
 /* 1. Shared base ------------------------------------------------------------------------------ */
 :root {
-  --ff-pixel-display: "Pixelify Sans", "Courier New", monospace;
-  --ff-pixel-label: "Silkscreen", "Pixelify Sans", monospace;
-  --ff-pixel-tiny: "Tiny5", "Silkscreen", "Pixelify Sans", monospace;
-  --ff-pixel-numeral: "Jersey 15", "Pixelify Sans", monospace;
+  /* "AO Digits" draws only 0-9 in a legible face (design/fonts.ts): pixel letters, readable numbers. */
+  --ff-pixel-display: "AO Digits", "Pixelify Sans", "Courier New", monospace;
+  --ff-pixel-label: "AO Digits", "Silkscreen", "Pixelify Sans", monospace;
+  --ff-pixel-tiny: "AO Digits", "Tiny5", "Silkscreen", "Pixelify Sans", monospace;
+  --ff-pixel-numeral: "AO Digits", "Jersey 15", "Pixelify Sans", monospace;
   --ff-pixel-clock: "VT323", "Geist Mono", ui-monospace, monospace;
   --ff-humanist:
     "Atkinson Hyperlegible Next", "Atkinson Hyperlegible", system-ui, -apple-system, "Segoe UI", sans-serif;

@@ -16,3 +16,19 @@ import '@fontsource/jetbrains-mono/latin-600.css';
 // loaded and weight synthesis off (tokens.css), every pixel heading draws the 400 outlines, whatever
 // weight a rule asks for. Sizes start at 20 px (css-guard.test.ts).
 import '@fontsource/pixelify-sans/latin-400.css';
+
+// Pixelify's numerals are hard to tell apart at heading sizes ("188" reads as "1S8", 5 and 2 blur).
+// "AO Digits" maps only 0-9 to Atkinson Hyperlegible Next 700, a face drawn so look-alike glyphs stay
+// distinct, and sits first in every pixel stack (tokens.css): letters stay pixel, numbers become
+// readable. It is the same hashed file latin-700.css loads, so no extra download, and one face serves
+// every weight a rule asks for. A FontFace added here loads on first use, like an @font-face rule.
+import digitsUrl from '@fontsource/atkinson-hyperlegible-next/files/atkinson-hyperlegible-next-latin-700-normal.woff2?url';
+
+if (typeof FontFace !== 'undefined' && typeof document !== 'undefined') {
+  document.fonts.add(
+    new FontFace('AO Digits', `url(${digitsUrl}) format("woff2")`, {
+      unicodeRange: 'U+0030-0039',
+      weight: '100 900',
+    }),
+  );
+}
