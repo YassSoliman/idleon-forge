@@ -3,49 +3,6 @@
 # Drafts: validated, never compiled until their wave promotes them (FR-1). Never edit by hand: fix the draft or the script and re-run.
 system: breeding
 entries:
-  - id: breeding.check.full-nest
-    system: breeding
-    type: check
-    title: Hatch your full nest
-    subject: account
-    effect: next-action
-    usesExpectedReturn: true
-    category: spendable
-    priority:
-      frame: by-urgency
-    effortSeconds: 60
-    detector:
-      id: breeding/full-nest
-    text: "Your nest is full ({eggs:int} of {capacity:int}): breed or trash an egg"
-    values:
-      first: Your first breed is always a Green Mushroom; it starts the skill and Gobo's first quest
-    why: A full nest lays no more eggs. Every egg you breed or trash gives Breeding EXP, and trashed Mobs give Dead DNA for upgrades.
-    doneWhen:
-      field: account.breeding.eggs
-      change: lower
-    appliesTo:
-      stages:
-        - from: W4-entry
-          to: W4-entry
-    confidence: H
-    status: draft
-    notes: "Dossier per-session action 1, C6, C8, C9, C17, C18. Replaces the page-frame-only nag with a Now card. kb-convert: Source note: local copy in the M26 scratchpad; Last-Modified 2026-10-17; game-client Source at tier 4 until its excerpt is stored (FR-2b); Source note: local copy in the M26 scratchpad; Last-Modified 2026-10-17; game-client Source at tier 4 until its excerpt is stored (FR-2b)"
-    sources:
-      - url: https://legendsofidleon.com/ytGl5oc/N.js
-        title: "Game client N.js v1.23 TotalTimeForEgg / egg tick @10095300: an egg is added only into a free slot"
-        tier: 4
-        verified: 2026-10-19
-        gameVersion: 2.3.540
-      - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-4/breeding.ts#L183-L184
-        title: Toolbox eggCapacity
-        tier: 1
-        verified: 2026-10-19
-        gameVersion: 2.3.540
-      - url: https://legendsofidleon.com/ytGl5oc/N.js
-        title: "Game client N.js v1.23 BREED_RIG @7924600: first breed is a forced Green Mushroom copy"
-        tier: 4
-        verified: 2026-10-19
-        gameVersion: 2.3.540
   - id: breeding.check.multiplier-unlock
     system: breeding
     type: check
@@ -83,46 +40,6 @@ entries:
         gameVersion: 2.3.540
       - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json
         title: Toolbox website-data shared-data.json (petUpgrades, territory, arenaBonuses)
-        tier: 1
-        verified: 2026-10-19
-        gameVersion: 2.3.540
-  - id: breeding.check.idle-territory
-    system: breeding
-    type: check
-    title: Forage your won territory
-    subject: account
-    effect: next-action
-    category: spendable
-    priority:
-      frame: by-urgency
-    effortSeconds: 120
-    detector:
-      id: breeding/idle-territory
-    text: "{territory} is won but nobody forages there: give it forager Mobs"
-    why: A territory only makes its spice while a team forages it, and kitchens and Lab chips need spices. Progress runs while you are away.
-    doneWhen:
-      field: account.breeding.territories[].status
-      change: changed
-    appliesTo:
-      stages:
-        - from: W4-entry
-          to: W4-entry
-    confidence: H
-    status: draft
-    notes: "C45, C47, C48. 'won' = spice found and Territory[i][3] blank (adapter). kb-convert: Source note: local copy in the M26 scratchpad; Last-Modified 2026-10-17; game-client Source at tier 4 until its excerpt is stored (FR-2b); Source note: local copy in the M26 scratchpad; Last-Modified 2026-10-17; game-client Source at tier 4 until its excerpt is stored (FR-2b)"
-    sources:
-      - url: https://legendsofidleon.com/ytGl5oc/N.js
-        title: "Game client N.js v1.23 TotalTrekkingHR @7907545: forage speed from team"
-        tier: 4
-        verified: 2026-10-19
-        gameVersion: 2.3.540
-      - url: https://legendsofidleon.com/ytGl5oc/N.js
-        title: "Game client N.js v1.23 _event_AFKTime @9771300: progress += seconds*HR/3600 while AFK"
-        tier: 4
-        verified: 2026-10-19
-        gameVersion: 2.3.540
-      - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-4/breeding.ts#L93-L137
-        title: Toolbox territories forageSpeed
         tier: 1
         verified: 2026-10-19
         gameVersion: 2.3.540

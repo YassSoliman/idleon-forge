@@ -3,7 +3,7 @@
     "files": 66,
     "records": 497
   },
-  "drafts": 319,
+  "drafts": 315,
   "edits": 36,
   "facts": 12,
   "unconverted": [
@@ -871,7 +871,7 @@
     "armor-smithy": 1,
     "atom-collider": 3,
     "boss-keys": 7,
-    "breeding": 10,
+    "breeding": 8,
     "bribes": 4,
     "bubba": 6,
     "cards": 5,
@@ -879,7 +879,7 @@
     "coins": 4,
     "colosseum": 4,
     "construction": 11,
-    "cooking": 9,
+    "cooking": 7,
     "death-note": 7,
     "drop-rate": 4,
     "elite-classes": 5,
@@ -926,6 +926,10 @@
     "worship": 12
   },
   "promoted": [
+    "breeding.check.full-nest",
+    "breeding.check.idle-territory",
+    "cooking.check.capped-meal",
+    "cooking.check.idle-kitchen",
     "elite-classes.check.eliteus",
     "rift.check.active-task",
     "rift.check.afk-task",

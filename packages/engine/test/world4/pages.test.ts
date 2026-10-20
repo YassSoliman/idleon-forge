@@ -2,7 +2,8 @@
 // Copyright (C) 2026 IdleOn Forge contributors.
 // M24 World 4: the read-only pages' data through the full golden engine. Before World 4 (scrubbed-w3) the
 // pages draw the save's fresh records and nothing reaches Now; early in World 4 (first) the welcome lists
-// the open steps; every public save gets its three pages; and the module adds no Goal of its own.
+// the open steps; every public save gets its three pages; and the module adds no Goal of its own (their
+// Goals come from M26 Wave 1's Check entries).
 import { listFixtures, stateOf } from '@idleon-forge/kb-tools/src/fixtures';
 import { goldenContext } from '@idleon-forge/kb-tools/src/golden';
 import { DEFAULT_EXPECTED_RETURN_MS } from '@idleon-forge/knowledge';
@@ -75,11 +76,12 @@ describe('early World 4 (first)', () => {
 
 describe.each(fixtures.map((f) => f.id))('%s', (id) => {
   const r = run(id);
-  it('has the three pages and no World 4 Goal', () => {
+  it('has the three pages, and its World 4 Goals come only from Check entries (M26 Wave 1)', () => {
     expect(r.world4?.lab).toBeTruthy();
     expect(r.world4?.cooking).toBeTruthy();
     expect(r.world4?.breeding).toBeTruthy();
     const goals = [...r.account.goals, ...r.characters.flatMap((c) => c.goals)];
-    expect(goals.filter((g) => W4.has(g.system ?? ''))).toEqual([]);
+    for (const g of goals.filter((x) => W4.has(x.system ?? '')))
+      expect(g.id).toMatch(/^(lab|cooking|breeding)\.check\./);
   });
 });

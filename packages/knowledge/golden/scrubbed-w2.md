@@ -1,4 +1,4 @@
-# golden v1: scrubbed-w2 · knowledge #21c8ade4 · parser 6c37e3d (game 2.3.540) · now 2026-10-17T15:47:05.447Z · return 8h · stage W2-late · stale: 4 of 1053
+# golden v1: scrubbed-w2 · knowledge #2c4fce1f · parser 6c37e3d (game 2.3.540) · now 2026-10-17T15:47:05.447Z · return 8h · stage W2-late · stale: 4 of 1057
 
 ## Verdict changes
 
@@ -405,6 +405,8 @@ step: Use your 11 vial attempts on the W2 town cauldron
 | anvil.check.spend-points | anvil/points | — | silent |  |
 | arcade.check.balls-cap | arcade/balls-cap | account | fires | capsIn=0 fullFor=173852724 |
 | boss-keys.check.collect | boss-keys/banked | — | silent |  |
+| breeding.check.full-nest | breeding/full-nest | account | fires | capacity=3 eggs=3 first=1 |
+| breeding.check.idle-territory | breeding/idle-territory | — | silent |  |
 | bubba.check.boon | bubba/boon | — | silent |  |
 | bubba.check.charisma-idle | bubba/charisma-idle | — | silent |  |
 | bubba.check.megaflesh | bubba/megaflesh | — | silent |  |
@@ -422,6 +424,8 @@ step: Use your 11 vial attempts on the W2 town cauldron
 | classes.contribution.exp | classes/exp | C5 | advances yes eta 43m | exp=1531517 expReq=2665976 rate=1595446.663156712 saved=56 |
 | colosseum.check.collect-tickets | colosseum/tickets-banked | account | fires | cappedNpcs=1 daysLost=1 total=5 |
 | construction.check.build-next | construction/build-next | — | silent |  |
+| cooking.check.capped-meal | cooking/capped-meal | — | silent |  |
+| cooking.check.idle-kitchen | cooking/idle-kitchen | — | silent |  |
 | death-note.check.build | death-note/build | — | silent |  |
 | death-note.check.build-slot | death-note/build | — | silent |  |
 | death-note.contribution.skull-mush-g | death-note/skull | C4 | advances yes eta 1036m | building=0 feeders=8 rate=1431 rule=0 saved=300 target=Green_Mushroom |

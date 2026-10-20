@@ -1,0 +1,47 @@
+# SPDX-License-Identifier: GPL-3.0-only
+# M26 FR-13 (Wave 1): Breeding Checks, promoted from systems/breeding.drafts.yaml. A territory counts as
+# foraged when Toolbox's team for it has a Mob (the M24 reading of raw Territory[i][3] alone missed teams).
+system: breeding
+entries:
+  - id: breeding.check.full-nest
+    system: breeding
+    type: check
+    title: Hatch your full nest
+    subject: account
+    effect: next-action
+    category: spendable
+    priority: { frame: by-urgency }
+    effortSeconds: 60
+    detector: { id: breeding/full-nest }
+    text: "Your nest is full ({eggs:int} of {capacity:int}): hatch or trash an egg"
+    why: "A full nest lays no more eggs. Every egg you hatch or trash gives Breeding EXP, and trashed Mobs give Dead DNA for upgrades."
+    values:
+      why-first: "A full nest lays no more eggs. Your first hatch is always a Green Mushroom; it starts the skill."
+    doneWhen: { field: account.breeding.eggs, change: lower }
+    appliesTo: { stages: [{ from: W4-entry, to: W4-entry }] }
+    confidence: H
+    status: active
+    notes: "Dossier C6, C8, C9, C17, C18: an egg is added only into a free slot; the first breed is forced to a Green Mushroom copy."
+    sources:
+      - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-4/breeding.ts#L183-L184", title: "IdleOn Toolbox eggCapacity", tier: 1, verified: 2026-10-19, gameVersion: 2.3.540 }
+      - { url: "https://idleon.wiki/wiki/Breeding", title: "IdleOn Wiki: Breeding", tier: 2, claimDate: 2026-10-05, verified: 2026-10-19, gameVersion: 2.3.540 }
+  - id: breeding.check.idle-territory
+    system: breeding
+    type: check
+    title: Forage your won territory
+    subject: account
+    effect: next-action
+    category: spendable
+    priority: { frame: by-urgency }
+    effortSeconds: 120
+    detector: { id: breeding/idle-territory }
+    text: "Send a forager team to {territory:name}"
+    why: "{territory:name} is won but nobody forages it, so it makes no spice ({idle:int} won territories sit idle). Kitchens and Lab chips need spices, and foraging runs while you are away."
+    doneWhen: { field: "account.breeding.territories[].status", change: changed }
+    appliesTo: { stages: [{ from: W4-entry, to: W4-entry }] }
+    confidence: H
+    status: active
+    notes: "Dossier C45, C47, C48. 'won' = spice found and no Mob in Toolbox's team for it."
+    sources:
+      - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-4/breeding.ts#L93-L137", title: "IdleOn Toolbox territories: teams and forageSpeed", tier: 1, verified: 2026-10-19, gameVersion: 2.3.540 }
+      - { url: "https://idleon.wiki/wiki/Breeding", title: "IdleOn Wiki: Breeding", tier: 2, claimDate: 2026-10-05, verified: 2026-10-19, gameVersion: 2.3.540 }

@@ -136,7 +136,7 @@ export function ClassArt({ cls, size = 32 }: { cls: string; size?: 24 | 32 | 48 
 export function SourceLine({ sources }: { sources: World4Source[] }) {
   return (
     <PageSources>
-      Read-only page, no checks yet ·{' '}
+      Facts from your save ·{' '}
       {sources.map((x, i) => (
         <span key={x.url}>
           {i > 0 ? ' · ' : ''}

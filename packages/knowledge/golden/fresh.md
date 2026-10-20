@@ -1,4 +1,4 @@
-# golden v1: fresh · knowledge #21c8ade4 · parser 6c37e3d (game 2.3.540) · now 2026-08-20T18:41:58.956Z · return 8h · stage W4-late · stale: 4 of 1053
+# golden v1: fresh · knowledge #2c4fce1f · parser 6c37e3d (game 2.3.540) · now 2026-08-20T18:41:58.956Z · return 8h · stage W4-late · stale: 4 of 1057
 
 ## Verdict changes
 
@@ -40,7 +40,7 @@ Unknown: can't tell from the save
 - Extra · Today's Random Event: Random Event now on Jar Bridge (Snake Swarm): one a day [IdleOn Wiki: Random Events · Calculated by IdleOn Toolbox · 2.3.540]
 - Extra · Claim the free Pet Mart gems: Claim today's free Pet Mart gems [IdleOn Wiki: Daily Checklist · Calculated by IdleOn Toolbox · 2.3.540]
 - Spend · Use your vial attempts: Use your 18 vial attempts on the W2 town cauldron [IdleOn Wiki: Alchemy/Vials · Calculated by IdleOn Toolbox · 2.3.540]
-show more (17)
+show more (19)
 If you have time
 - Run Killroy's Archer room on your Siege Breaker Lv 478 (YumYum Grotto) · about 2m of hands-on play
 - Run Killroy's Warrior room on your Blood Berserker Lv 534 (YumYum Grotto) · about 2m of hands-on play
@@ -70,8 +70,6 @@ Equinox
 Prayers
 Salt Lick
 Shrines
-Breeding
-Cooking
 Laboratory
 Sigils
 
@@ -143,16 +141,16 @@ W3 · Equinox · Not covered yet · Not covered yet
 W3 · Atom Collider · Not covered yet · Not covered yet
 W3 · Bubba · Nothing to fix · Nothing to fix · 1 to do
 W4 · Laboratory · Not covered yet · Not covered yet
-W4 · Cooking · Not covered yet · Not covered yet
-W4 · Breeding · Not covered yet · Not covered yet
+W4 · Cooking · Nothing to fix · Nothing to fix
+W4 · Breeding · Wasting · 1 to fix before you leave · 1 to do
 W4 · Sigils · Not covered yet · Not covered yet
 W4 · The Rift · Nothing to fix · Nothing to fix · 1 to do
 W4 · The Tome · Nothing to fix · Nothing to fix
 W4 · Elite classes · Nothing to fix · Nothing to fix
 Worlds 5–7: not covered yet
-Needs you: Companions and pets (wasting), Minigames (wasting), Random Events (wasting), Boss keys (wasting), Colosseum (wasting), Alchemy vials (wasting)
+Needs you: Companions and pets (wasting), Minigames (wasting), Random Events (wasting), Boss keys (wasting), Colosseum (wasting), Alchemy vials (wasting), Breeding (wasting)
 Other gaps: Talent builds past World 4, W4+ constellations and Infinite Stars
-Wasting: 6
+Wasting: 7
 Report card: (none)
 Stamps picture: 105 of 121 owned · lit (none) · next 0
 Statues picture: 28 of 32 Gold · 18 Onyx · lit (none)
@@ -335,6 +333,8 @@ Locked: pats (Opens at Happi Boi), smoker (Opens at Smoker), charisma (Opens at 
 | anvil.check.spend-points | anvil/points | account | fires | count=2 hours=8 |
 | arcade.check.balls-cap | arcade/balls-cap | account | unknown (field-missing) |  |
 | boss-keys.check.collect | boss-keys/banked | C2 | fires | chizoar=6 daysLost=50 efaunt=6 forestVilla=6 total=18 |
+| breeding.check.full-nest | breeding/full-nest | account | fires | capacity=15 eggs=15 first=0 |
+| breeding.check.idle-territory | breeding/idle-territory | account | fires | idle=1 territory=Dharma Mesa |
 | bubba.check.boon | bubba/boon | — | silent |  |
 | bubba.check.charisma-idle | bubba/charisma-idle | — | silent |  |
 | bubba.check.megaflesh | bubba/megaflesh | — | silent |  |
@@ -343,6 +343,8 @@ Locked: pats (Opens at Happi Boi), smoker (Opens at Smoker), charisma (Opens at 
 | bubba.check.start | bubba/start | account | fires | restart=0 |
 | colosseum.check.collect-tickets | colosseum/tickets-banked | account | fires | cappedNpcs=3 daysLost=50 total=9 |
 | construction.check.build-next | construction/build-next | account | pass |  |
+| cooking.check.capped-meal | cooking/capped-meal | — | silent |  |
+| cooking.check.idle-kitchen | cooking/idle-kitchen | — | silent |  |
 | death-note.check.build | death-note/build | — | silent |  |
 | death-note.check.build-slot | death-note/build | — | silent |  |
 | elite-classes.check.eliteus | elite-classes/eliteus | — | silent |  |

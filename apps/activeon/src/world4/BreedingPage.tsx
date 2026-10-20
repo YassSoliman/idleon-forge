@@ -72,11 +72,11 @@ function Loop() {
   );
 }
 
-export function BreedingBody({ s, v }: { s: Session; v: BreedingPageView }) {
+export function BreedingBody({ s, v, framed = true }: { s: Session; v: BreedingPageView; framed?: boolean }) {
   const [tab, setTab] = useState<BreedTab>('nest');
   return (
     <div className="w4-page">
-      <Frame f={v.frame} s={s} />
+      {framed ? <Frame f={v.frame} s={s} /> : null}
       <Tabs<BreedTab>
         label="Breeding sections"
         value={tab}

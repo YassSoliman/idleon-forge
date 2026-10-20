@@ -1,4 +1,4 @@
-# golden v1: first · knowledge #21c8ade4 · parser 6c37e3d (game 2.3.540) · now 2024-06-07T21:16:34.518Z · return 8h · stage W4-entry · stale: 4 of 1053
+# golden v1: first · knowledge #2c4fce1f · parser 6c37e3d (game 2.3.540) · now 2024-06-07T21:16:34.518Z · return 8h · stage W4-entry · stale: 4 of 1057
 
 ## Verdict changes
 
@@ -94,8 +94,6 @@ Atom Collider
 Prayers
 Salt Lick
 Shrines
-Breeding
-Cooking
 Laboratory
 Sigils
 
@@ -167,8 +165,8 @@ W3 · Equinox · Locked · Needs an Equinox Mirror, a rare drop from Bloodbone i
 W3 · Atom Collider · Not covered yet · Not covered yet
 W3 · Bubba · Can't tell · Can't tell from the save
 W4 · Laboratory · Not covered yet · Not covered yet
-W4 · Cooking · Not covered yet · Not covered yet
-W4 · Breeding · Not covered yet · Not covered yet
+W4 · Cooking · Nothing to fix · Nothing to fix
+W4 · Breeding · Nothing to fix · Nothing to fix
 W4 · Sigils · Not covered yet · Not covered yet
 W4 · The Rift · Locked · Opens once a character finishes the Rift Ripper quest in The Untraveled Octopath (World 4) · 1 to do
 W4 · The Tome · Nothing to fix · Nothing to fix
@@ -516,6 +514,8 @@ Can't read Bubba from this save
 | anvil.check.spend-points | anvil/points | account | fires | count=3 hours=8 |
 | arcade.check.balls-cap | arcade/balls-cap | account | pass |  |
 | boss-keys.check.collect | boss-keys/banked | C1 | fires | chizoar=0 daysLost=0 efaunt=2 forestVilla=0 total=2 |
+| breeding.check.full-nest | breeding/full-nest | — | silent |  |
+| breeding.check.idle-territory | breeding/idle-territory | — | silent |  |
 | bubba.check.boon | bubba/boon | account | unknown (field-missing) |  |
 | bubba.check.charisma-idle | bubba/charisma-idle | account | unknown (field-missing) |  |
 | bubba.check.megaflesh | bubba/megaflesh | account | unknown (field-missing) |  |
@@ -528,6 +528,8 @@ Can't read Bubba from this save
 | classes.contribution.exp | classes/exp | C4 | advances yes eta 259m | exp=18177424 expReq=40374576 rate=5133507.495085055 saved=86 |
 | colosseum.check.collect-tickets | colosseum/tickets-banked | account | fires | cappedNpcs=2 daysLost=48 total=9 |
 | construction.check.build-next | construction/build-next | account | pass |  |
+| cooking.check.capped-meal | cooking/capped-meal | — | silent |  |
+| cooking.check.idle-kitchen | cooking/idle-kitchen | — | silent |  |
 | death-note.check.build | death-note/build | — | silent |  |
 | death-note.check.build-slot | death-note/build | — | silent |  |
 | death-note.contribution.skull-mush-p | death-note/skull | C1 | advances yes eta 1187m | building=6 feeders=9 rate=2726 rule=1 saved=46090 target=Purp_Mushroom |

@@ -17,13 +17,13 @@ import { Frame, SourceLine, Tag, toneClass } from './parts';
 type CookTab = 'kitchens' | 'meals' | 'spices';
 const MEAL_ROWS = 12;
 
-export function CookingBody({ s, v }: { s: Session; v: CookingPageView }) {
+export function CookingBody({ s, v, framed = true }: { s: Session; v: CookingPageView; framed?: boolean }) {
   const [tab, setTab] = useState<CookTab>('kitchens');
   const [allMeals, setAllMeals] = useState(false);
   const meals = allMeals ? v.meals : v.meals.slice(0, MEAL_ROWS);
   return (
     <div className="w4-page">
-      <Frame f={v.frame} s={s} />
+      {framed ? <Frame f={v.frame} s={s} /> : null}
       <Tabs<CookTab>
         label="Cooking sections"
         value={tab}

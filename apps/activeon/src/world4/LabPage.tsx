@@ -98,11 +98,11 @@ type LabTab = 'board' | 'chips' | 'jewels' | 'shop';
 /** The Repository's picture: the first chip the game lists. */
 const CHIP_ICON = 'Grounded_Nanochip';
 
-export function LabBody({ s, v }: { s: Session; v: LabPageView }) {
+export function LabBody({ s, v, framed = true }: { s: Session; v: LabPageView; framed?: boolean }) {
   const [tab, setTab] = useState<LabTab>('board');
   return (
     <div className="w4-page">
-      <Frame f={v.frame} s={s} />
+      {framed ? <Frame f={v.frame} s={s} /> : null}
       <Tabs<LabTab>
         label="Laboratory sections"
         value={tab}

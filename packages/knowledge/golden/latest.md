@@ -1,4 +1,4 @@
-# golden v1: latest · knowledge #21c8ade4 · parser 6c37e3d (game 2.3.540) · now 2026-10-10T19:12:32.605Z · return 8h · stage W4-late · stale: 4 of 1053
+# golden v1: latest · knowledge #2c4fce1f · parser 6c37e3d (game 2.3.540) · now 2026-10-10T19:12:32.605Z · return 8h · stage W4-late · stale: 4 of 1057
 
 ## Verdict changes
 
@@ -52,7 +52,7 @@ Fix before you leave
 - Extra · Today's Random Event: Random Event now on Poopy Sewers (Mega Grumblo): one a day [IdleOn Wiki: Random Events · Calculated by IdleOn Toolbox · 2.3.540]
 - Spend · Play a round of Darts: Play one round of Darts [IdleOn Wiki: Minigames, Throwy Darts · Calculated by IdleOn Toolbox · 2.3.540]
 - Spend · Play a round of Hoops: Play one round of Hoops [IdleOn Wiki: Minigames, Swishy Hoops · Calculated by IdleOn Toolbox · 2.3.540]
-show more (20)
+show more (21)
 If you have time
 - Run Killroy's Warrior room on your Royal Guardian Lv 1307 (YumYum Grotto) · about 2m of hands-on play
 - Run Killroy's Archer room on your Siege Breaker Lv 1291 (YumYum Grotto) · about 2m of hands-on play
@@ -83,8 +83,6 @@ Equinox
 Prayers
 Salt Lick
 Shrines
-Breeding
-Cooking
 Laboratory
 Sigils
 
@@ -156,16 +154,16 @@ W3 · Equinox · Not covered yet · Not covered yet
 W3 · Atom Collider · Not covered yet · Not covered yet
 W3 · Bubba · Nothing to fix · Nothing to fix · 1 to do
 W4 · Laboratory · Not covered yet · Not covered yet
-W4 · Cooking · Not covered yet · Not covered yet
-W4 · Breeding · Not covered yet · Not covered yet
+W4 · Cooking · Nothing to fix · Nothing to fix
+W4 · Breeding · Wasting · 1 to fix before you leave
 W4 · Sigils · Not covered yet · Not covered yet
 W4 · The Rift · Nothing to fix · Nothing to fix · 1 to do
 W4 · The Tome · Nothing to fix · Nothing to fix · 1 to do
 W4 · Elite classes · Nothing to fix · Nothing to fix
 Worlds 5–7: not covered yet
-Needs you: Companions and pets (wasting), Minigames (wasting), Random Events (wasting), Arcade (wasting), Refinery (wasting), Trapping (wasting)
+Needs you: Companions and pets (wasting), Minigames (wasting), Random Events (wasting), Arcade (wasting), Refinery (wasting), Trapping (wasting), Breeding (wasting)
 Other gaps: Talent builds past World 4, W4+ constellations and Infinite Stars
-Wasting: 6
+Wasting: 7
 Report card: (none)
 Stamps picture: 111 of 121 owned · lit (none) · next 0
 Statues picture: 32 of 32 Gold · 32 Onyx · lit (none)
@@ -624,6 +622,8 @@ Gifts: Slabcakes, Surprise Box
 | anvil.check.spend-points | anvil/points | account | fires | count=11 hours=8 manyMixed=1 |
 | arcade.check.balls-cap | arcade/balls-cap | account | fires | capsIn=0 fullFor=662513255 |
 | boss-keys.check.collect | boss-keys/banked | — | silent |  |
+| breeding.check.full-nest | breeding/full-nest | account | fires | capacity=15 eggs=15 first=0 |
+| breeding.check.idle-territory | breeding/idle-territory | — | silent |  |
 | bubba.check.boon | bubba/boon | — | silent |  |
 | bubba.check.charisma-idle | bubba/charisma-idle | account | fires | banked=120 mindful=1 none=0 selected=1 |
 | bubba.check.megaflesh | bubba/megaflesh | — | silent |  |
@@ -635,6 +635,8 @@ Gifts: Slabcakes, Surprise Box
 | classes.contribution.exp | classes/exp | C6 | advances yes eta 2171m | exp=6.237650067352118e+29 expReq=7.045499680168676e+29 rate=2.23302958312291e+27 saved=1280 |
 | colosseum.check.collect-tickets | colosseum/tickets-banked | — | silent |  |
 | construction.check.build-next | construction/build-next | account | pass |  |
+| cooking.check.capped-meal | cooking/capped-meal | — | silent |  |
+| cooking.check.idle-kitchen | cooking/idle-kitchen | — | silent |  |
 | death-note.check.build | death-note/build | — | silent |  |
 | death-note.check.build-slot | death-note/build | — | silent |  |
 | death-note.contribution.skull-mush-g | death-note/skull | C10 | advances no | building=51 feeders=512 rate=4092232819 rule=1 saved=4160991704283 target=Green_Mushroom |

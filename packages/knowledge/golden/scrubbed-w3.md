@@ -1,4 +1,4 @@
-# golden v1: scrubbed-w3 · knowledge #21c8ade4 · parser 6c37e3d (game 2.3.540) · now 2026-10-17T16:12:33.140Z · return 8h · stage W3-early · stale: 4 of 1053
+# golden v1: scrubbed-w3 · knowledge #2c4fce1f · parser 6c37e3d (game 2.3.540) · now 2026-10-17T16:12:33.140Z · return 8h · stage W3-early · stale: 4 of 1057
 
 ## Verdict changes
 
@@ -498,6 +498,8 @@ Locked: smoker (Opens at Smoker)
 | anvil.check.spend-points | anvil/points | account | fires | class=Bowman count=1 hours=8 level=60 oneSpeed=1 |
 | arcade.check.balls-cap | arcade/balls-cap | account | pass |  |
 | boss-keys.check.collect | boss-keys/banked | C4 | fires | chizoar=0 daysLost=0 efaunt=2 forestVilla=4 total=6 |
+| breeding.check.full-nest | breeding/full-nest | account | fires | capacity=3 eggs=3 first=1 |
+| breeding.check.idle-territory | breeding/idle-territory | — | silent |  |
 | bubba.check.boon | bubba/boon | — | silent |  |
 | bubba.check.charisma-idle | bubba/charisma-idle | account | fires | banked=61 mindful=0 none=0 selected=1 |
 | bubba.check.megaflesh | bubba/megaflesh | — | silent |  |
@@ -515,6 +517,8 @@ Locked: smoker (Opens at Smoker)
 | classes.contribution.exp | classes/exp | C6 | advances yes eta 38m | exp=1311780 expReq=2135848 rate=1316747.3366205737 saved=54 |
 | colosseum.check.collect-tickets | colosseum/tickets-banked | account | fires | cappedNpcs=1 daysLost=2 total=4 |
 | construction.check.build-next | construction/build-next | account | fires | building=3D_Printer collect=1 salt=Redox_Salts then1=Salt_Lick then1Level=1 then2=Talent_Book_Library then2Level=2 |
+| cooking.check.capped-meal | cooking/capped-meal | — | silent |  |
+| cooking.check.idle-kitchen | cooking/idle-kitchen | — | silent |  |
 | death-note.check.build | death-note/build | account | fires | cost=10 held=0 |
 | death-note.check.build-slot | death-note/build | — | silent |  |
 | death-note.contribution.skull-sandcastle | death-note/skull | C6 | advances yes eta 817m | building=0 feeders=32 rate=895 rule=0 saved=12806 target=Sand_Castle |
