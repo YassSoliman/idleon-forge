@@ -94,6 +94,10 @@ function stageW1Early(src: Export): Export {
   // No quest done: a later world's gate quest would imply that world (M2 TR-6a).
   edit(d, 'QuestComplete_0', () => ({}));
   edit(d, 'CharacterClass_0', () => 1);
+  // first.json predates Orion the Owl; a new account today carries Orion's slots (253-264) at 0.
+  edit(d, 'OptLacc', (v) =>
+    Array.isArray(v) && v.length < 265 ? [...v, ...Array(265 - v.length).fill(0)] : v,
+  );
   return out;
 }
 
