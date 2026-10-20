@@ -83,7 +83,7 @@ export interface EliteView {
   holders: number[];
   /** Characters on its subclass: the Gang (kills of 10) or the pick. */
   onTheWay: { index: number; step: 'gang' | 'pick'; kills: number }[];
-  /** The Rift score levels it plays, in the game's numbers ("Rift 8"). */
+  /** The Rift score levels it plays, in the game's numbers (`riftText`). */
   riftGates: string[];
 }
 

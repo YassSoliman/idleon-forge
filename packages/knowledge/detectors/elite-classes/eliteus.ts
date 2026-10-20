@@ -6,7 +6,7 @@
 // Meta Path's elite Goal claims the same card (FR-5).
 import { z } from 'zod';
 import { characterSubject, isKnown, withCharacter, withUnknown } from '../../src/helpers';
-import { defineDetector } from '../../src/types';
+import { type CheckFinding, defineDetector } from '../../src/types';
 
 export default defineDetector({
   id: 'elite-classes/eliteus',
@@ -57,7 +57,7 @@ export default defineDetector({
     ],
   },
   run({ state }) {
-    return state.characters.flatMap((c) => {
+    return state.characters.flatMap((c): CheckFinding[] => {
       const subject = characterSubject(c.index);
       if (!isKnown(state, `characters[${c.index}].eliteStep`) || c.eliteStep === null)
         return [{ subject, slots: {}, result: 'unknown' as const, reason: 'field-missing' as const }];
