@@ -1,4 +1,4 @@
-# golden v1: latest · knowledge #65224129 · parser 6c37e3d (game 2.3.540) · now 2026-10-10T19:12:32.605Z · return 8h · stage W4-late · stale: 4 of 1045
+# golden v1: latest · knowledge #0ed77233 · parser 6c37e3d (game 2.3.540) · now 2026-10-10T19:12:32.605Z · return 8h · stage W4-late · stale: 4 of 1050
 
 ## Verdict changes
 
@@ -52,7 +52,7 @@ Fix before you leave
 - Extra · Today's Random Event: Random Event now on Poopy Sewers (Mega Grumblo): one a day [IdleOn Wiki: Random Events · Calculated by IdleOn Toolbox · 2.3.540]
 - Spend · Play a round of Darts: Play one round of Darts [IdleOn Wiki: Minigames, Throwy Darts · Calculated by IdleOn Toolbox · 2.3.540]
 - Spend · Play a round of Hoops: Play one round of Hoops [IdleOn Wiki: Minigames, Swishy Hoops · Calculated by IdleOn Toolbox · 2.3.540]
-show more (18)
+show more (19)
 If you have time
 - Run Killroy's Warrior room on your Royal Guardian Lv 1307 (YumYum Grotto) · about 2m of hands-on play
 - Run Killroy's Archer room on your Siege Breaker Lv 1291 (YumYum Grotto) · about 2m of hands-on play
@@ -88,7 +88,6 @@ Cooking
 Elite classes
 Laboratory
 Sigils
-The Rift
 The Tome
 
 ## Systems
@@ -162,7 +161,7 @@ W4 · Laboratory · Not covered yet · Not covered yet
 W4 · Cooking · Not covered yet · Not covered yet
 W4 · Breeding · Not covered yet · Not covered yet
 W4 · Sigils · Not covered yet · Not covered yet
-W4 · The Rift · Not covered yet · Not covered yet
+W4 · The Rift · Nothing to fix · Nothing to fix · 1 to do
 W4 · The Tome · Not covered yet · Not covered yet
 W4 · Elite classes · Not covered yet · Not covered yet
 Worlds 5–7: not covered yet
@@ -684,6 +683,11 @@ Gifts: Slabcakes, Surprise Box
 | refinery.check.salt-fuel | refinery/salt-off | account | fires | material=Magmaspike more=50 offSalts=1 salt=Anionic_Salt |
 | refinery.check.salt-off | refinery/salt-off | — | silent |  |
 | refinery.check.unlock-next | refinery/unlock-next | — | silent |  |
+| rift.check.active-task | rift/task-kind | account | fires | afk=0 level=60 progress=0 quota=11 task=DEFEAT_ANY_MONSTER_HERE_ON_11_CHARS |
+| rift.check.afk-task | rift/task-kind | — | silent |  |
+| rift.check.class-gate | rift/class-gate | — | silent |  |
+| rift.check.quota-done | rift/quota-done | — | silent |  |
+| rift.check.unlock-quest | rift/unlock-quest | — | silent |  |
 | systems.yaml#alchemy | worlds/reached | account | reached yes |  |
 | systems.yaml#alchemy-bubbles | worlds/reached | account | reached yes |  |
 | systems.yaml#alchemy-p2w | worlds/reached | account | reached yes |  |

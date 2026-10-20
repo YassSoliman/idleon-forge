@@ -1,4 +1,4 @@
-# golden v1: scrubbed-w2 · knowledge #65224129 · parser 6c37e3d (game 2.3.540) · now 2026-10-17T15:47:05.447Z · return 8h · stage W2-late · stale: 4 of 1045
+# golden v1: scrubbed-w2 · knowledge #0ed77233 · parser 6c37e3d (game 2.3.540) · now 2026-10-17T15:47:05.447Z · return 8h · stage W2-late · stale: 4 of 1050
 
 ## Verdict changes
 
@@ -463,6 +463,11 @@ step: Use your 11 vial attempts on the W2 town cauldron
 | refinery.check.salt-fuel | refinery/salt-off | — | silent |  |
 | refinery.check.salt-off | refinery/salt-off | — | silent |  |
 | refinery.check.unlock-next | refinery/unlock-next | — | silent |  |
+| rift.check.active-task | rift/task-kind | — | silent |  |
+| rift.check.afk-task | rift/task-kind | — | silent |  |
+| rift.check.class-gate | rift/class-gate | — | silent |  |
+| rift.check.quota-done | rift/quota-done | — | silent |  |
+| rift.check.unlock-quest | rift/unlock-quest | — | silent |  |
 | roles.contribution.mining | roles/skill | C2 | advances yes | rule=1 |
 | skills.contribution.door-mining | skills/door | C2 | advances yes | destination=The_Ol'_Straightaway rule=1 saved=20 |
 | skills.contribution.tool-mining | skills/tool-chain | C2 | advances no | need=0 rule=0 saved=20 target=Copper tool=Iron_Pickaxe |
