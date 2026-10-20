@@ -588,7 +588,7 @@ export function toAccountState(
       }
   }
   // ---- M26 Wave 2, the W2/W3 gaps (gaps.ts) ----
-  const gapsIn = { account, failedSections };
+  const gapsIn = { account, characters, failedSections };
   const gaps = readGaps(gapsIn, c);
   // ---- M24 the World 3 System pages: prayers and shrines (read-only facts) ----
   const w23 = readW23({ account, data, failedSections, calls: options.toolbox?.calls ?? null }, c);

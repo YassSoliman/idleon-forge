@@ -1,0 +1,70 @@
+# SPDX-License-Identifier: GPL-3.0-only
+# M26 FR-25 (Wave 2): the Forge. Promoted from systems/forge.drafts.yaml. Every count reads only the slots
+# the New Forge Slot level unlocks (Toolbox's own empty-slot alert counts all 16 rows, dossier M21); a slot
+# under one bar's worth of ore is empty, since the leftover never smelts (M2). Excluded: the Brimstone gem
+# buy (N3). Dropped: smithing's forge.check.idle / runs-out (X15, these supersede them).
+system: forge
+entries:
+  - id: forge.check.fill-empty-slots
+    system: forge
+    type: check
+    title: Fill your empty Forge slots
+    subject: account
+    effect: next-action
+    category: compounding
+    priority: { frame: by-urgency }
+    effortSeconds: 90
+    detector: { id: forge/idle-slots }
+    text: "Fill {idle:int} empty Forge slots with {ore:name}"
+    why: "An unlocked slot without enough ore for one bar smelts nothing. You hold {held:int} {ore:name}, enough for {bars:int} bars."
+    doneWhen: { field: account.forge.slots, change: changed }
+    appliesTo: { stages: all }
+    confidence: H
+    status: active
+    notes: "Ore choice: the held ore with the slowest bar that fills one slot to capacity, else the one held most; no Source ranks ores, so the text names one and the detail lists the rest."
+    sources:
+      - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-1/forge.ts#L100-L160", title: "IdleOn Toolbox parseForge: 16 slot rows, the New Forge Slot level, ore per bar and timeTillEmpty", tier: 1, verified: 2026-10-19, gameVersion: 2.3.540 }
+      - { url: "https://idleon.wiki/wiki/Smithing", title: "IdleOn Wiki: Smithing, The Forge", tier: 2, claimDate: 2026-10-05, verified: 2026-10-19, gameVersion: 2.3.540 }
+  - id: forge.check.runs-out-before-return
+    system: forge
+    type: check
+    title: Forge runs dry while you're away
+    subject: account
+    effect: next-action
+    usesExpectedReturn: true
+    category: compounding
+    priority: { frame: by-urgency }
+    effortSeconds: 60
+    detector: { id: forge/runs-out-before-return }
+    text: "Top up {slots:int} Forge slots: they empty {emptyIn:in}"
+    why: "At this speed the slot smelts its ore before you're back. Filled to capacity ({capacity:int} ore) it keeps running for {fullRun:duration}."
+    doneWhen: { field: account.forge.slots, change: changed }
+    appliesTo: { stages: all }
+    confidence: H
+    status: active
+    notes: "Fires only when topping up changes the outcome (#70 A5): the slot is smelting, empties before the Expected Return, has room for one more bar under the capacity, and the account holds that ore."
+    sources:
+      - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-1/forge.ts#L164-L228", title: "IdleOn Toolbox forge: ore capacity and each slot's timeTillEmpty", tier: 1, verified: 2026-10-19, gameVersion: 2.3.540 }
+      - { url: "https://idleon.wiki/wiki/Smithing", title: "IdleOn Wiki: Smithing, The Forge", tier: 2, claimDate: 2026-10-05, verified: 2026-10-19, gameVersion: 2.3.540 }
+  - id: forge.check.collect-bars
+    system: forge
+    type: check
+    title: Collect your Forge bars
+    subject: account
+    effect: next-action
+    category: nice
+    priority: { frame: by-urgency }
+    effortSeconds: 20
+    detector: { id: forge/collect-bars }
+    text: "Collect {bars:int} bars from the Forge"
+    values:
+      note: "Most of them are {bar:name}."
+    why: "Bars wait in the Forge's output until you collect them; the Anvil, stamps and vials only use bars in storage or a bag."
+    doneWhen: { field: account.forge.slots, change: changed }
+    appliesTo: { stages: all }
+    confidence: M
+    status: active
+    notes: "Confidence M: collecting is a per-session action (dossier, H), but no Source says the output blocks smelting."
+    sources:
+      - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-1/forge.ts#L130-L150", title: "IdleOn Toolbox forge.list[].bar: bars wait in the output slot (owner forge), not in storage", tier: 1, verified: 2026-10-19, gameVersion: 2.3.540 }
+      - { url: "https://idleon.wiki/wiki/Smithing", title: "IdleOn Wiki: Smithing, The Forge", tier: 2, claimDate: 2026-10-05, verified: 2026-10-19, gameVersion: 2.3.540 }

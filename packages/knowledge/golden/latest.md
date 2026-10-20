@@ -1,4 +1,4 @@
-# golden v1: latest · knowledge #04f5e113 · parser 6c37e3d (game 2.3.540) · now 2026-10-10T19:12:32.605Z · return 8h · stage W4-late · stale: 4 of 1060
+# golden v1: latest · knowledge #f6946eff · parser 6c37e3d (game 2.3.540) · now 2026-10-10T19:12:32.605Z · return 8h · stage W4-late · stale: 4 of 1063
 
 ## Verdict changes
 
@@ -52,7 +52,7 @@ Fix before you leave
 - Extra · Today's Random Event: Random Event now on Poopy Sewers (Mega Grumblo): one a day [IdleOn Wiki: Random Events · Calculated by IdleOn Toolbox · 2.3.540]
 - Spend · Play a round of Darts: Play one round of Darts [IdleOn Wiki: Minigames, Throwy Darts · Calculated by IdleOn Toolbox · 2.3.540]
 - Spend · Play a round of Hoops: Play one round of Hoops [IdleOn Wiki: Minigames, Swishy Hoops · Calculated by IdleOn Toolbox · 2.3.540]
-show more (22)
+show more (23)
 If you have time
 - Run Killroy's Warrior room on your Royal Guardian Lv 1307 (YumYum Grotto) · about 2m of hands-on play
 - Run Killroy's Archer room on your Siege Breaker Lv 1291 (YumYum Grotto) · about 2m of hands-on play
@@ -73,7 +73,6 @@ Storage and inventory
 Town shops
 Trophies and nametags
 Bribes
-Forge
 Quests
 Statues
 The Owl
@@ -120,7 +119,7 @@ W0 · Drop rate · Not covered yet · Not covered yet
 W1 · Stamps · Nothing to fix · Nothing to fix · 2 to do
 W1 · Star Signs · Nothing to fix · Nothing to fix · 1 to do
 W1 · Anvil · Nothing to fix · Nothing to fix · 2 to do · 11 full · collect
-W1 · Forge · Not covered yet · Not covered yet
+W1 · Forge · Nothing to fix · Nothing to fix · 1 to do
 W1 · Bribes · Not covered yet · Not covered yet
 W1 · Statues · Not covered yet · Not covered yet
 W1 · Post Office · Nothing to fix · Nothing to fix · 2 to do
@@ -640,6 +639,9 @@ Gifts: Slabcakes, Surprise Box
 | death-note.check.build-slot | death-note/build | — | silent |  |
 | death-note.contribution.skull-mush-g | death-note/skull | C10 | advances no | building=51 feeders=512 rate=4092232819 rule=1 saved=4160991704283 target=Green_Mushroom |
 | elite-classes.check.eliteus | elite-classes/eliteus | — | silent |  |
+| forge.check.collect-bars | forge/collect-bars | — | silent |  |
+| forge.check.fill-empty-slots | forge/idle-slots | account | fires | bars=175000 held=1050000000 idle=16 more=8 ore=Godshard_Ore |
+| forge.check.runs-out-before-return | forge/runs-out-before-return | — | silent |  |
 | gem-shop.check.printer-buy | gem-shop/unspent | — | silent |  |
 | gem-shop.check.printer-progress | gem-shop/unspent | — | silent |  |
 | gem-shop.check.unspent | gem-shop/unspent | account | fires | gems=29763382 price=875 |

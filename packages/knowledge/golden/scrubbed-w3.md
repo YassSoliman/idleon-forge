@@ -1,4 +1,4 @@
-# golden v1: scrubbed-w3 · knowledge #04f5e113 · parser 6c37e3d (game 2.3.540) · now 2026-10-17T16:12:33.140Z · return 8h · stage W3-early · stale: 4 of 1060
+# golden v1: scrubbed-w3 · knowledge #f6946eff · parser 6c37e3d (game 2.3.540) · now 2026-10-17T16:12:33.140Z · return 8h · stage W3-early · stale: 4 of 1063
 
 ## Verdict changes
 
@@ -56,7 +56,7 @@ purpose: Mining 29 → 40 opens Echoing Egress
 - Grow · Pay for the Death Note's first level: Refine 10 Explosive Salts for the Death Note's first level (have 0) [IdleOn Wiki: Construction · Calculated by IdleOn Toolbox · 2.3.540]
 - Extra · Claim the free Pet Mart gems: Claim today's free Pet Mart gems [IdleOn Wiki: Daily Checklist · Calculated by IdleOn Toolbox · 2.3.540]
 - Spend · Play a round of Darts: Play one round of Darts [IdleOn Wiki: Minigames, Throwy Darts · Calculated by IdleOn Toolbox · 2.3.540]
-show more (31)
+show more (33)
 Spend coins: 15 buys now on 4 characters
   1. Buy Duplicate Entries (Vault) on Bowman Lv 60 before redeeming tickets: 100M coins · Lv 0 → 1 · buy · total 100M coins on C3
   2. Raise the Lil' Mining Baggy Stamp cap, then buy Lv 10→20 on Bowman Lv 60: about 13k coins · buy · total 100M coins on C3
@@ -90,7 +90,6 @@ Storage and inventory
 Town shops
 Trophies and nametags
 Bribes
-Forge
 Quests
 Statues
 The Owl
@@ -135,7 +134,7 @@ W0 · Drop rate · Not covered yet · Not covered yet
 W1 · Stamps · Behind · Behind for your Stage · 7 to do
 W1 · Star Signs · Nothing to fix · Nothing to fix · 2 to do
 W1 · Anvil · Behind · Behind for your Stage · 1 to do · 6 full · collect
-W1 · Forge · Not covered yet · Not covered yet
+W1 · Forge · Nothing to fix · Nothing to fix · 2 to do
 W1 · Bribes · Not covered yet · Not covered yet · in the Spend Plan
 W1 · Statues · Not covered yet · Not covered yet · in the Spend Plan
 W1 · Post Office · Locked · Opens once a character reaches class Lv 50 and finishes Postboy Pablob's quest in the Yum-Yum Grotto · 1 to do · behind for your Stage
@@ -531,6 +530,9 @@ Locked: smoker (Opens at Smoker)
 | elite-classes.check.eliteus | elite-classes/eliteus | C4 | fires | class=Squire elite=Divine_Knight kills=0 left=10 pick=0 |
 | elite-classes.check.eliteus | elite-classes/eliteus | C5 | fires | class=Barbarian elite=Blood_Berserker kills=0 left=10 pick=0 |
 | elite-classes.check.eliteus | elite-classes/eliteus | C6 | fires | class=Shaman elite=Bubonic_Conjuror kills=0 left=10 pick=0 |
+| forge.check.collect-bars | forge/collect-bars | account | fires | bar=Gold_Bar bars=2873 kinds=1 |
+| forge.check.fill-empty-slots | forge/idle-slots | account | fires | bars=1121 held=7853 idle=11 more=4 ore=Gold_Ore |
+| forge.check.runs-out-before-return | forge/runs-out-before-return | — | silent |  |
 | gem-shop.check.printer-buy | gem-shop/unspent | — | silent |  |
 | gem-shop.check.printer-progress | gem-shop/unspent | account | fires | gems=365 price=875 |
 | gem-shop.check.unspent | gem-shop/unspent | — | silent |  |

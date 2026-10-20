@@ -7,6 +7,7 @@
 export { buildSystemsView } from '../now/systems-view';
 export type { AnvilPageView, AnvilRowView } from './anvil-view';
 export { ANVIL_PAGE_HOURS, buildAnvilPageView } from './anvil-view';
+export type * from './gaps-types';
 export type { IndexTileView, SystemsIndexView } from './hub-view';
 export { buildSystemsHubView } from './hub-view';
 export type { FrameTone, SystemFrameView } from './page-view';

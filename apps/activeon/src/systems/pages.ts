@@ -26,6 +26,10 @@ const riftParts = retryable(() => import('./w4/rift'));
 const w23 = retryable(() => import('./w23'));
 type W23Pages = typeof import('./w23');
 const w23Page = (name: keyof W23Pages) => lazyPart(() => w23().then((m) => m[name]));
+// M26 Wave 2: the W2/W3 gaps' pages, one lazy chunk.
+const gaps = retryable(() => import('./gaps'));
+type GapsPages = typeof import('./gaps');
+const gapsPage = (name: keyof GapsPages) => lazyPart(() => gaps().then((m) => m[name]));
 
 /** M24: a full System page's props: the session and the engine's page view with its frame. */
 export interface FullPageProps {
@@ -66,6 +70,8 @@ export const FULL_PAGES: Readonly<Record<string, ComponentType<FullPageProps>>> 
   rift: full(() => import('./pages/RiftPage')),
   tome: full(() => import('./pages/TomePage')),
   'elite-classes': full(() => import('./pages/EliteClassesPage')),
+  // M26 Wave 2: the W2/W3 gaps (systems/gaps/).
+  forge: gapsPage('ForgePage'),
   // M26 FR-0b: the other Wave 0 registry rows, the thin page itself until their wave (spec section 9).
   ...Object.fromEntries(
     [

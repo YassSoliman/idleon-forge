@@ -32,7 +32,6 @@ const PENDING: Readonly<Record<string, number | null>> = {
   'merit-shop': 2,
   'task-unlocks': 2,
   'task-board': 2,
-  forge: 2,
   bribes: 4,
   'post-office': 4,
   owl: 4,

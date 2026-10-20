@@ -1,4 +1,4 @@
-# golden v1: second · knowledge #04f5e113 · parser 6c37e3d (game 2.3.540) · now 2024-06-08T06:05:26.262Z · return 8h · stage W4-late · stale: 4 of 1060
+# golden v1: second · knowledge #f6946eff · parser 6c37e3d (game 2.3.540) · now 2024-06-08T06:05:26.262Z · return 8h · stage W4-late · stale: 4 of 1063
 
 ## Verdict changes
 
@@ -52,13 +52,13 @@ purpose: Death Note: Penguin kills ~38M → 100M · about 8h
 [checklist] Today 6/11 · Week 2/4 · daily reset in 11h 38m
 - Spend · Play a round of Hoops: Play one round of Hoops [IdleOn Wiki: Minigames, Swishy Hoops · Calculated by IdleOn Toolbox · 2.3.540]
 - Spend · Fill today's Post Office orders: Fill today's Post Office orders from storage [IdleOn Wiki: Post Office, orders · Calculated by IdleOn Toolbox · 2.3.540]
+- Extra · Collect your Forge bars: Collect 1,388,640 bars from the Forge [IdleOn Wiki: Smithing, The Forge · Calculated by IdleOn Toolbox · 2.3.540]
+  · Most of them are Copper Bar.
 - Grow · Hire the Armor-set Smithy: Hire the Armor-set Smithy in Frostbite Towndra [IdleOn Wiki: Frostbite Tundra (Armor-Set Smithy) · Calculated by IdleOn Toolbox · 2.3.540]
 - Grow · Equip gear you hold: Equip gear you already hold on 2 characters [IdleOn Wiki: Helmets (stats and level to equip) · Calculated by IdleOn Toolbox · 2.3.540]
   · Divine Knight Lv 544: Fuscismatia from storage
   · Wizard Lv 501: Witch Hat from the Elemental Sorcerer Lv 525's bag
-- Extra · Gems unspent: 4,645 gems unspent [IdleOn Wiki: Gem Shop]
-  sources disagree: Infinity Hammer first: the universal first buy. | Extra Card Slots and the Crystal 3D Printer first; the hammer is no longer necessary.
-show more (7)
+show more (8)
 
 ## Not covered yet
 Achievements
@@ -74,7 +74,6 @@ Storage and inventory
 Town shops
 Trophies and nametags
 Bribes
-Forge
 Quests
 Statues
 The Owl
@@ -121,7 +120,7 @@ W0 · Drop rate · Not covered yet · Not covered yet
 W1 · Stamps · Nothing to fix · Nothing to fix · 2 to do
 W1 · Star Signs · Nothing to fix · Nothing to fix
 W1 · Anvil · Can't tell · Can't tell from the save · 2 full · collect
-W1 · Forge · Not covered yet · Not covered yet
+W1 · Forge · Nothing to fix · Nothing to fix · 1 to do
 W1 · Bribes · Not covered yet · Not covered yet
 W1 · Statues · Not covered yet · Not covered yet
 W1 · Post Office · Nothing to fix · Nothing to fix · 2 to do
@@ -607,6 +606,9 @@ Can't read Bubba from this save
 | elite-classes.check.eliteus | elite-classes/eliteus | C10 | fires | class=Barbarian elite=Blood_Berserker kills=0 left=10 pick=1 |
 | elite-classes.check.eliteus | elite-classes/eliteus | C5 | fires | class=Wizard elite=Elemental_Sorcerer kills=0 left=10 pick=1 |
 | elite-classes.check.eliteus | elite-classes/eliteus | C9 | fires | class=Hunter elite=Beast_Master kills=0 left=10 pick=1 |
+| forge.check.collect-bars | forge/collect-bars | account | fires | bar=Copper_Bar bars=1388640 kinds=11 |
+| forge.check.fill-empty-slots | forge/idle-slots | — | silent |  |
+| forge.check.runs-out-before-return | forge/runs-out-before-return | — | silent |  |
 | gem-shop.check.printer-buy | gem-shop/unspent | — | silent |  |
 | gem-shop.check.printer-progress | gem-shop/unspent | — | silent |  |
 | gem-shop.check.unspent | gem-shop/unspent | account | fires | gems=4645 price=875 |

@@ -106,7 +106,16 @@ export {
   killsLeftOn,
   killsLeftTable,
 } from './frontier';
-export type { GapsAccountFields, SaltLickState, SaltLickUpgrade } from './gaps-types';
+export type {
+  ForgeBarrel,
+  ForgeItem,
+  ForgeOre,
+  ForgeSlot,
+  ForgeState,
+  GapsAccountFields,
+  SaltLickState,
+  SaltLickUpgrade,
+} from './gaps-types';
 // M18 Gear & Tools (M18 TR-2)
 export { GEAR_TYPES, gearItem, type HeldGear, heldGear, type WornSlot, wornGear } from './gear';
 export {

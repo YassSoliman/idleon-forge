@@ -72,6 +72,8 @@ export const SYSTEM_HOMES: Readonly<Record<string, SystemHome>> = {
   'event-shop': { page: 'event-shop' },
   'trophies-nametags': { page: 'trophies-nametags' },
   'town-shops': { page: 'town-shops' },
+  // M26 Wave 2: the W2/W3 gaps' pages.
+  forge: { page: 'forge' },
 };
 
 /** The Character page tab a System's home is, or null for its System page. */
