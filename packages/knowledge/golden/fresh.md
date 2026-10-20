@@ -1,4 +1,4 @@
-# golden v1: fresh · knowledge #2c4fce1f · parser 6c37e3d (game 2.3.540) · now 2026-08-20T18:41:58.956Z · return 8h · stage W4-late · stale: 4 of 1057
+# golden v1: fresh · knowledge #04f5e113 · parser 6c37e3d (game 2.3.540) · now 2026-08-20T18:41:58.956Z · return 8h · stage W4-late · stale: 4 of 1060
 
 ## Verdict changes
 
@@ -40,7 +40,7 @@ Unknown: can't tell from the save
 - Extra · Today's Random Event: Random Event now on Jar Bridge (Snake Swarm): one a day [IdleOn Wiki: Random Events · Calculated by IdleOn Toolbox · 2.3.540]
 - Extra · Claim the free Pet Mart gems: Claim today's free Pet Mart gems [IdleOn Wiki: Daily Checklist · Calculated by IdleOn Toolbox · 2.3.540]
 - Spend · Use your vial attempts: Use your 18 vial attempts on the W2 town cauldron [IdleOn Wiki: Alchemy/Vials · Calculated by IdleOn Toolbox · 2.3.540]
-show more (19)
+show more (20)
 If you have time
 - Run Killroy's Archer room on your Siege Breaker Lv 478 (YumYum Grotto) · about 2m of hands-on play
 - Run Killroy's Warrior room on your Blood Berserker Lv 534 (YumYum Grotto) · about 2m of hands-on play
@@ -70,7 +70,6 @@ Equinox
 Prayers
 Salt Lick
 Shrines
-Laboratory
 Sigils
 
 ## Systems
@@ -140,7 +139,7 @@ W3 · Shrines · Not covered yet · Not covered yet
 W3 · Equinox · Not covered yet · Not covered yet
 W3 · Atom Collider · Not covered yet · Not covered yet
 W3 · Bubba · Nothing to fix · Nothing to fix · 1 to do
-W4 · Laboratory · Not covered yet · Not covered yet
+W4 · Laboratory · Nothing to fix · Nothing to fix · 1 to do
 W4 · Cooking · Nothing to fix · Nothing to fix
 W4 · Breeding · Wasting · 1 to fix before you leave · 1 to do
 W4 · Sigils · Not covered yet · Not covered yet
@@ -351,6 +350,9 @@ Locked: pats (Opens at Happi Boi), smoker (Opens at Smoker), charisma (Opens at 
 | gem-shop.check.printer-buy | gem-shop/unspent | — | silent |  |
 | gem-shop.check.printer-progress | gem-shop/unspent | — | silent |  |
 | gem-shop.check.unspent | gem-shop/unspent | account | fires | gems=4500 price=875 |
+| lab.check.first-upload | lab/uploads | — | silent |  |
+| lab.check.jewel-unlit | lab/jewel-unlit | account | fires | dark=18 jewel=Amethyst_Rhinestone |
+| lab.check.not-connected | lab/uploads | — | silent |  |
 | merit-shop.check.spend-w1 | merit-shop/unspent | — | silent |  |
 | merit-shop.check.spend-w2 | merit-shop/unspent | — | silent |  |
 | merit-shop.check.spend-w2-afk-gains | merit-shop/unspent | — | silent |  |

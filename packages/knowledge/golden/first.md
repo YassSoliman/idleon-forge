@@ -1,4 +1,4 @@
-# golden v1: first · knowledge #2c4fce1f · parser 6c37e3d (game 2.3.540) · now 2024-06-07T21:16:34.518Z · return 8h · stage W4-entry · stale: 4 of 1057
+# golden v1: first · knowledge #04f5e113 · parser 6c37e3d (game 2.3.540) · now 2024-06-07T21:16:34.518Z · return 8h · stage W4-entry · stale: 4 of 1060
 
 ## Verdict changes
 
@@ -94,7 +94,6 @@ Atom Collider
 Prayers
 Salt Lick
 Shrines
-Laboratory
 Sigils
 
 ## Systems
@@ -164,7 +163,7 @@ W3 · Shrines · Not covered yet · Not covered yet
 W3 · Equinox · Locked · Needs an Equinox Mirror, a rare drop from Bloodbone in Frostbite Tundra
 W3 · Atom Collider · Not covered yet · Not covered yet
 W3 · Bubba · Can't tell · Can't tell from the save
-W4 · Laboratory · Not covered yet · Not covered yet
+W4 · Laboratory · Nothing to fix · Nothing to fix
 W4 · Cooking · Nothing to fix · Nothing to fix
 W4 · Breeding · Nothing to fix · Nothing to fix
 W4 · Sigils · Not covered yet · Not covered yet
@@ -538,6 +537,9 @@ Can't read Bubba from this save
 | gem-shop.check.printer-buy | gem-shop/unspent | — | silent |  |
 | gem-shop.check.printer-progress | gem-shop/unspent | — | silent |  |
 | gem-shop.check.unspent | gem-shop/unspent | account | fires | gems=304 price=875 |
+| lab.check.first-upload | lab/uploads | — | silent |  |
+| lab.check.jewel-unlit | lab/jewel-unlit | — | silent |  |
+| lab.check.not-connected | lab/uploads | — | silent |  |
 | merit-shop.check.spend-w1 | merit-shop/unspent | account | fires | unspent=3 world=1 |
 | merit-shop.check.spend-w2 | merit-shop/unspent | — | silent |  |
 | merit-shop.check.spend-w2-afk-gains | merit-shop/unspent | — | silent |  |

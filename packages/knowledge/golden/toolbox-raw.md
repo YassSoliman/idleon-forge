@@ -1,4 +1,4 @@
-# golden v1: toolbox-raw · knowledge #2c4fce1f · parser 6c37e3d (game 2.3.540) · now 2026-08-26T17:27:35.771Z · return 8h · stage W4-late · stale: 4 of 1057
+# golden v1: toolbox-raw · knowledge #04f5e113 · parser 6c37e3d (game 2.3.540) · now 2026-08-26T17:27:35.771Z · return 8h · stage W4-late · stale: 4 of 1060
 
 ## Verdict changes
 
@@ -78,7 +78,7 @@ finding: Worship full on 10 · spend
   · Royal Guardian 1307: 9,167 star points unspent on the other preset
   · Bubonic Conjuror 1268: 6,857 star points unspent on the other preset
   · Beginner 1224: 5,921 star points unspent on the other preset
-show more (17)
+show more (18)
 If you have time
 - Run Killroy's Warrior room on your Royal Guardian Lv 1307 (YumYum Grotto) · about 2m of hands-on play
 - Run Killroy's Archer room on your Siege Breaker Lv 1291 (YumYum Grotto) · about 2m of hands-on play
@@ -109,7 +109,6 @@ Equinox
 Prayers
 Salt Lick
 Shrines
-Laboratory
 Sigils
 
 ## Systems
@@ -179,7 +178,7 @@ W3 · Shrines · Not covered yet · Not covered yet
 W3 · Equinox · Not covered yet · Not covered yet
 W3 · Atom Collider · Not covered yet · Not covered yet
 W3 · Bubba · Nothing to fix · Nothing to fix · 1 to do
-W4 · Laboratory · Not covered yet · Not covered yet
+W4 · Laboratory · Nothing to fix · Nothing to fix · 1 to do
 W4 · Cooking · Nothing to fix · Nothing to fix
 W4 · Breeding · Wasting · 1 to fix before you leave
 W4 · Sigils · Not covered yet · Not covered yet
@@ -670,6 +669,9 @@ Gifts: Slabcakes, Surprise Box
 | gem-shop.check.printer-buy | gem-shop/unspent | — | silent |  |
 | gem-shop.check.printer-progress | gem-shop/unspent | — | silent |  |
 | gem-shop.check.unspent | gem-shop/unspent | account | fires | gems=29781713 price=875 |
+| lab.check.first-upload | lab/uploads | — | silent |  |
+| lab.check.jewel-unlit | lab/jewel-unlit | account | fires | dark=1 jewel=Eternal_Energy_Jewel |
+| lab.check.not-connected | lab/uploads | — | silent |  |
 | merit-shop.check.spend-w1 | merit-shop/unspent | — | silent |  |
 | merit-shop.check.spend-w2 | merit-shop/unspent | — | silent |  |
 | merit-shop.check.spend-w2-afk-gains | merit-shop/unspent | — | silent |  |

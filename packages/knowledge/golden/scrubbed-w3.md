@@ -1,4 +1,4 @@
-# golden v1: scrubbed-w3 · knowledge #2c4fce1f · parser 6c37e3d (game 2.3.540) · now 2026-10-17T16:12:33.140Z · return 8h · stage W3-early · stale: 4 of 1057
+# golden v1: scrubbed-w3 · knowledge #04f5e113 · parser 6c37e3d (game 2.3.540) · now 2026-10-17T16:12:33.140Z · return 8h · stage W3-early · stale: 4 of 1060
 
 ## Verdict changes
 
@@ -534,6 +534,9 @@ Locked: smoker (Opens at Smoker)
 | gem-shop.check.printer-buy | gem-shop/unspent | — | silent |  |
 | gem-shop.check.printer-progress | gem-shop/unspent | account | fires | gems=365 price=875 |
 | gem-shop.check.unspent | gem-shop/unspent | — | silent |  |
+| lab.check.first-upload | lab/uploads | account | fires | distance=138 node=Animal_Farm |
+| lab.check.jewel-unlit | lab/jewel-unlit | — | silent |  |
+| lab.check.not-connected | lab/uploads | — | silent |  |
 | merit-shop.check.spend-w1 | merit-shop/unspent | — | silent |  |
 | merit-shop.check.spend-w2 | merit-shop/unspent | — | silent |  |
 | merit-shop.check.spend-w2-afk-gains | merit-shop/unspent | — | silent |  |

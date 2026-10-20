@@ -12,6 +12,9 @@
     "breeding.check.full-nest",
     "breeding.check.idle-territory",
     "cooking.check.idle-kitchen",
-    "cooking.check.capped-meal"
+    "cooking.check.capped-meal",
+    "lab.check.first-upload",
+    "lab.check.not-connected",
+    "lab.check.jewel-unlit"
   ]
 }

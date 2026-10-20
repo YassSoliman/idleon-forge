@@ -3,7 +3,7 @@
     "files": 66,
     "records": 497
   },
-  "drafts": 315,
+  "drafts": 312,
   "edits": 36,
   "facts": 12,
   "unconverted": [
@@ -894,7 +894,7 @@
     "islands": 11,
     "journeyman-line": 11,
     "killroy": 4,
-    "lab": 12,
+    "lab": 9,
     "library": 4,
     "merit-shop": 2,
     "minigames": 5,
@@ -931,6 +931,9 @@
     "cooking.check.capped-meal",
     "cooking.check.idle-kitchen",
     "elite-classes.check.eliteus",
+    "lab.check.first-upload",
+    "lab.check.jewel-unlit",
+    "lab.check.not-connected",
     "rift.check.active-task",
     "rift.check.afk-task",
     "rift.check.class-gate",
