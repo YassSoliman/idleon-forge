@@ -404,7 +404,7 @@ export const ANVIL_WORDS = {
 export const STAMPS_PAGE_WORDS = {
   tabs: { collect: 'Collect', level: 'Level up', book: 'Stamp book' },
   nextTitle: 'Next stamps',
-  nextHint: 'in order · now first',
+  nextHint: 'in the order of the steps',
   bookTitle: 'Your stamp book',
   stamps: (n: number) => (n === 1 ? 'stamp' : 'stamps'),
   toCollect: (from: number, to: number, total: number) => `${from} → ${to} of ${total}`,

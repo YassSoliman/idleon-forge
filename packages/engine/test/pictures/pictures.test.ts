@@ -14,7 +14,7 @@ import { EMPTY_PREFS } from '../../src/now/prefs';
 import { buildSystemsView } from '../../src/now/systems-view';
 import { buildAnvilPageView } from '../../src/pictures/anvil-view';
 import { buildSystemsHubView } from '../../src/pictures/hub-view';
-import { buildSystemPageFrameView } from '../../src/pictures/page-view';
+import { buildSystemPageFrameView, inStepOrder } from '../../src/pictures/page-view';
 import type { PrinterPicture, StampsPicture, StatuesPicture, VaultPicture } from '../../src/pictures/types';
 import type { EngineResult, SystemPicture } from '../../src/result';
 import { input, NOW, publicState } from '../core/helpers';
@@ -318,5 +318,58 @@ describe('M24 QA fixes: caps full now on the page header, one "Needs you" defini
     expect(tiles.find((t) => t.id === 'worship')).toMatchObject({ tone: 'todo', needsYou: true });
     for (const t of tiles) expect(t.needsYou).toBe(t.tone === 'wasting' || t.tone === 'todo');
     expect(ix.counts.needs).toBe(tiles.filter((t) => t.tone === 'wasting' || t.tone === 'todo').length);
+  });
+});
+
+describe('final QA P2: the Stamps page has one order', () => {
+  const tile = (id: string, status: StampsPicture['elements'][number]['status']) =>
+    ({ id, status }) as StampsPicture['elements'][number];
+  const stamps = {
+    systemId: 'stamps',
+    kind: 'stamps',
+    elements: [
+      tile('a', 'now'),
+      tile('b', 'toward'),
+      tile('c', 'toward'),
+      tile('d', 'active'),
+      tile('e', 'owned'),
+    ],
+    lit: 'a',
+    owned: 1,
+    total: 5,
+    tabs: [],
+    next: ['a', 'd', 'b'],
+    byGoal: { 'q@c4': ['c'], 'q@c1': ['b', 'e'], 'shop@account': ['a'] },
+  } as StampsPicture;
+  const keys = (...k: string[]) => k.map((key) => ({ action: { key } }));
+
+  it("lights the first step's stamp and lists stamps in step order, then the rest", () => {
+    const [p] = inStepOrder(
+      [stamps as SystemPicture],
+      keys('q@c4', 'q@c1', 'shop@account'),
+    ) as StampsPicture[];
+    expect(p?.lit).toBe('c');
+    // "e" is owned: never listed. "d" has no step: after the stepped ones.
+    expect(p?.next).toEqual(['c', 'b', 'a', 'd']);
+  });
+
+  it('leaves the picture alone when no step names a stamp', () => {
+    expect(inStepOrder([stamps as SystemPicture], keys('other@account'))[0]).toBe(stamps);
+  });
+
+  it("on a real page, the step's key is the lit stamp's key", () => {
+    const now = fixture('scrubbed-w3').now;
+    const roster = [...W3.characters].reverse().map((c) => ({ index: c.index }));
+    const page = buildSystemPageFrameView(W3, EMPTY_PREFS, { roster } as never, {
+      now,
+      id: 'stamps',
+      highlight: null,
+    });
+    const s = page?.pictures.find((x) => x.kind === 'stamps') as StampsPicture | undefined;
+    const first = page?.goals.find((g) => (s?.byGoal?.[g.action.key] ?? []).length > 0);
+    expect(first).toBeDefined();
+    if (!s || !first) return;
+    expect(s.lit).toBe(s.byGoal?.[first.action.key]?.[0]);
+    expect(s.next[0]).toBe(s.lit);
   });
 });

@@ -56,7 +56,7 @@ export function StampsBody(p: SystemPageBodyProps) {
   const [tab, setTab] = useState<StampTab>(litTab);
   const { open, sheet } = usePictureSheet(p.page.wiki);
   if (!pic) return null;
-  const labelled = new Set([lit, ...pic.next].filter(Boolean));
+  const labelled = new Set([lit, ...pic.next.slice(0, 3)].filter(Boolean));
   const shown = pic.elements.filter((e) => e.tab === tab);
   const sheetOf = (t: StampTile) =>
     open({
@@ -86,6 +86,7 @@ export function StampsBody(p: SystemPageBodyProps) {
               .join(' · '),
     });
   const nextTiles = pic.next
+    .slice(0, 3)
     .map((id) => pic.elements.find((e) => e.id === id))
     .filter((t): t is StampTile => !!t);
   return (

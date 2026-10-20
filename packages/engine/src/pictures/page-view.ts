@@ -26,6 +26,7 @@ import {
   stageLabel,
   whoToken,
 } from './hub-view';
+import type { StampsPicture } from './types';
 import { FRAME_WORDS, PAGE_FRAME_WORDS as W } from './words';
 
 export interface SystemPageExtras {
@@ -97,7 +98,7 @@ export function buildSystemPageFrameView(
     ...page,
     step,
     stageMeter,
-    pictures: picturesOf(result, page.tile.id),
+    pictures: inStepOrder(picturesOf(result, page.tile.id), page.goals),
     frame: frameOf(result, page, step, capsFullNow(result, page.tile.id, prefs, ui.now)),
   };
 }
@@ -206,6 +207,31 @@ export function frameOf(
         .map((c) => c.title.toLowerCase()),
     ),
   };
+}
+
+/**
+ * One order for the Stamps page: the lit stamp and the "Next stamps" ribbon follow the page's steps
+ * (characters in the Visit Order, then the account), the same order that picks the page's answer, so
+ * "Do this next" and the first row name the same stamp (final QA P2). The picture alone ranks account
+ * Goals first because it is built before the Visit Order is known.
+ */
+export function inStepOrder(
+  pictures: SystemPicture[],
+  goals: { action: { key: string } }[],
+): SystemPicture[] {
+  return pictures.map((pic) => {
+    if (pic.kind !== 'stamps') return pic;
+    const p = pic as unknown as StampsPicture;
+    if (!p.byGoal) return pic;
+    const known = new Set(p.elements.filter((e) => e.status !== 'owned').map((e) => e.id));
+    const ordered: string[] = [];
+    for (const g of goals)
+      for (const id of p.byGoal[g.action.key] ?? [])
+        if (known.has(id) && !ordered.includes(id)) ordered.push(id);
+    if (ordered.length === 0) return pic;
+    const next = [...ordered, ...p.next.filter((id) => !ordered.includes(id))].slice(0, 5);
+    return { ...p, lit: ordered[0] ?? p.lit, next } as unknown as SystemPicture;
+  });
 }
 
 /** The pictures drawn on a System's page: its own (M20's and area S's). */
