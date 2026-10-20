@@ -12,7 +12,7 @@ import { Loading } from '../lazy-part';
 import { toNowPrefs } from '../now/prefs-store';
 import type { Session } from '../shell/session';
 import { SimplePage } from './frame/SimplePage';
-import { FULL_PAGES, SYSTEM_PAGES } from './pages';
+import { FULL_PAGES, LOCKED_BODIES, SYSTEM_PAGES } from './pages';
 
 export function SystemPage({ s, id }: { s: Session; id: string }) {
   const page = useMemo(
@@ -40,7 +40,8 @@ export function SystemPage({ s, id }: { s: Session; id: string }) {
       </Suspense>
     );
   const pageId = SYSTEM_HOMES[page.tile.id]?.page;
-  const Body = pageId && !page.locked ? SYSTEM_PAGES[pageId] : undefined;
+  // A locked System shows no picture, except what the save already counts toward opening it.
+  const Body = page.locked ? LOCKED_BODIES[page.tile.id] : pageId ? SYSTEM_PAGES[pageId] : undefined;
   return (
     <SimplePage
       s={s}

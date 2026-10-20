@@ -76,3 +76,9 @@
 .w4-quiet {
   opacity: 0.72;
 }
+/* The quest items' counts share one width, so their bars end in one line. */
+.w4-held {
+  flex: none;
+  min-width: 10ch;
+  text-align: right;
+}

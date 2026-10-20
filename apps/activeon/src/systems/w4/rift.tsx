@@ -256,13 +256,18 @@ function Quest({ p }: { p: SystemPageBodyProps }) {
                 label={W.held(n0(q.have), n0(q.need))}
               />
             </span>
-            <span className="w-xs num">{W.held(n0(Math.min(q.have, q.need)), n0(q.need))}</span>
+            <span className="w-xs num w4-held">{W.held(n0(Math.min(q.have, q.need)), n0(q.need))}</span>
           </li>
         ))}
       </ul>
       <p className="w-p w-xs w-mut">{W.questNote}</p>
     </section>
   );
+}
+
+/** The locked Rift's thin page body: the Rift Ripper's three items, each as a bar (SystemPage, LOCKED_BODIES). */
+export function RiftQuestBody(p: SystemPageBodyProps) {
+  return <Quest p={p} />;
 }
 
 export function riftSections(p: FullPageProps): PageSections | null {

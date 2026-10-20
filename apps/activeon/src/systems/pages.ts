@@ -21,6 +21,7 @@ const gearPages = retryable(() => import('../gear/GearPages'));
 const newPictures = retryable(() => import('./NewPictures'));
 const starChart = retryable(() => import('./StarChartPage'));
 const world4Pages = retryable(() => import('../world4/World4Pages'));
+const riftParts = retryable(() => import('./w4/rift'));
 // M24: the World 3 pages on the template, one lazy chunk (I-systems-b).
 const w23 = retryable(() => import('./w23'));
 type W23Pages = typeof import('./w23');
@@ -83,6 +84,14 @@ export const FULL_PAGES: Readonly<Record<string, ComponentType<FullPageProps>>> 
       'town-shops',
     ].map((id) => [id, SimplePage]),
   ),
+};
+
+/**
+ * Bodies a locked System's thin page draws under its answer: what the save already shows toward opening
+ * it. The Rift: the Rift Ripper's three quest items, held against needed (the Rift page's own chunk).
+ */
+export const LOCKED_BODIES: Readonly<Record<string, ComponentType<SystemPageBodyProps>>> = {
+  rift: lazyPart(() => riftParts().then((m) => m.RiftQuestBody)),
 };
 
 export interface SystemPageBodyProps {
