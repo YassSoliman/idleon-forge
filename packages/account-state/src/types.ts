@@ -81,6 +81,8 @@ export const SCHEMA_VERSION = 25;
 //  - M26 Wave 1: `account.rift` (the `RiftAccountFields` block, FR-11: level, task, bonuses, Rift Ripper).
 //  - M26 Wave 2: `account.saltLick` (the `GapsAccountFields` block, FR-21b) and `account.salts[].held` /
 //    `.inRefinery` (the salt held in the Storage Chest and in Refinery storage).
+//  - M26 Wave 6: `account.poppy` widened (poppy-types.ts, FR-55: fish, upgrades, spirals, Megafish, Tar
+//    Pit, shiny fish, bonuses) and `account.minigames.penPals`.
 
 /** The AFK types Toolbox's monster data uses, plus its two "no rate" values. */
 export const KNOWN_AFK_TYPES = [

@@ -28,7 +28,8 @@ export const UNSPENT_FIELD_SOURCES: Record<string, string> = {
     'account.accountOptions (OLA.PET_MART_LAST_CLAIMED_DAY), account.tournament.global.S, account.serverVars.GemPM_x',
   'account.postOffice':
     'characters[i].questComplete.Postboy_Pablob1, account.postOfficeShipments, account.timeAway.PostOfficeRefresh',
-  'account.poppy': 'account.kangaroo',
+  'account.poppy':
+    'account.kangaroo (upgrades, tarUpgrades, resetBonuses, allMultipliers, bonuses, fish, totalFish, fishRate), accountOptions[274], [279], [281..286]',
   'account.deathNoteBuilding':
     'account.towers.data[Death_Note], account.storage, account.refinery.refineryStorage',
   'characters[].bigBubbles': 'characters[i].equippedBubbles',

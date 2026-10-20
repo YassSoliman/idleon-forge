@@ -7,6 +7,8 @@
 // Every `accountOptions[n]` read goes through the OLA table below (M6 TR-3, R8): each index cites
 // Toolbox's code at the pin (the parser that names it) and is covered by the OLA contract test, which
 // checks type and range and snapshots each value per fixture, so a patch that moves an index fails CI.
+
+import { readPoppy } from './poppy';
 import type {
   AlchemyState,
   CauldronId,
@@ -294,6 +296,7 @@ function readMinigames(account: Dict, characters: unknown[]): MinigamesState | n
       gemsAvailableToday: num(o[OLA.SPIKETRAP_GEMS_TODAY]) === 1,
       bestRound: num(o[OLA.SPIKETRAP_BEST]),
     },
+    penPals: score('pen pals'),
   };
 }
 
@@ -459,13 +462,8 @@ export function readUnspentAccount(
     pets: readPets(account),
     petMart: readPetMart(account),
     postOffice: field(c, 'account.postOffice', s, () => readPostOffice(account, characters, withData)),
-    poppy: field(c, 'account.poppy', s, () => {
-      const k = account.kangaroo;
-      if (!isDict(k)) return null;
-      const upgrades = list(k.upgrades);
-      const unlocked = num(k.totalFish) > 0 || upgrades.some((u) => isDict(u) && num(u.level) > 0);
-      return { unlocked, pendingFish: num(k.pendingFish) };
-    }),
+    // M26 FR-55: the whole pond (poppy.ts), widened from M6's unlock and pending fish.
+    poppy: field(c, 'account.poppy', s, () => readPoppy(account)),
     salts: readSalts(account),
     deathNoteBuilding: field(c, 'account.deathNoteBuilding', s, () => readDeathNote(account)),
   };
