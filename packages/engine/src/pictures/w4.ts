@@ -2,9 +2,9 @@
 // Copyright (C) 2026 IdleOn Forge contributors.
 // M26 Wave 1: the World 4 core pages' pictures (w4-types.ts) from the Account State. Pure and
 // advice-free. Every Rift number goes through `riftLabel()` (FR-4).
-import type { AccountState, RiftTask } from '@idleon-forge/account-state';
+import { type AccountState, ELITE_OF_SUBCLASS, type RiftTask } from '@idleon-forge/account-state';
 import { riftLabel, riftText } from '../world4/rift-label';
-import type { RiftBonusView, RiftLevelView, RiftPicture } from './w4-types';
+import type { ElitePicture, RiftBonusView, RiftLevelView, RiftPicture } from './w4-types';
 
 const human = (s: string) => s.replace(/_/g, ' ').trim();
 const int = (n: number) => Math.round(n).toLocaleString('en-US');
@@ -161,5 +161,39 @@ export function riftPicture(state: AccountState): RiftPicture | null {
           have: held(i.rawName),
           need: i.amount,
         })),
+  };
+}
+
+/** The `Rift[0]` of each elite's score levels (game client RiftStuff[4], tasks 6-8; account-state rift.test.ts). */
+const ELITE_RIFT_LEVELS: Readonly<Record<string, readonly number[]>> = {
+  Divine_Knight: [7, 17, 28, 42],
+  Elemental_Sorcerer: [8, 26, 43],
+  Siege_Breaker: [15, 21, 35, 64],
+};
+
+/** M26 FR-17: the six elites at Eliteus, who holds each and who is on the way. */
+export function elitePicture(state: AccountState): ElitePicture | null {
+  if (!state.characters.some((c) => c.eliteStep)) return null;
+  const elites = Object.entries(ELITE_OF_SUBCLASS).map(([from, elite]) => ({
+    elite,
+    name: human(elite),
+    from: human(from),
+    holders: state.characters
+      .filter((c) => c.eliteStep?.step === 'done' && c.eliteStep.elite === elite)
+      .map((c) => c.index),
+    onTheWay: state.characters.flatMap((c) => {
+      const e = c.eliteStep;
+      return e && e.elite === elite && (e.step === 'gang' || e.step === 'pick')
+        ? [{ index: c.index, step: e.step, kills: e.gangKills ?? 0 }]
+        : [];
+    }),
+    riftGates: (ELITE_RIFT_LEVELS[elite] ?? []).map(riftText),
+  }));
+  return {
+    systemId: 'elite-classes',
+    kind: 'elite',
+    elites,
+    pending: elites.reduce((n, e) => n + e.onTheWay.length, 0),
+    done: elites.reduce((n, e) => n + e.holders.length, 0),
   };
 }
