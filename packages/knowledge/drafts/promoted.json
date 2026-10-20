@@ -19,6 +19,14 @@
     "forge.check.fill-empty-slots",
     "forge.check.runs-out-before-return",
     "forge.check.collect-bars",
-    "task-board.check.claim"
+    "task-board.check.claim",
+    "poppy.check.fisheroo-reset",
+    "poppy.check.greatest-catch",
+    "poppy.goal.megafish",
+    "minigames.goal.tome-highscore",
+    "minigames.goal.spiketrap-round",
+    "minigames.goal.hoops-unlocks",
+    "minigames.goal.darts-unlocks",
+    "minigames.goal.pen-pals"
   ]
 }

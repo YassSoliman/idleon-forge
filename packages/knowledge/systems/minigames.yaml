@@ -34,8 +34,8 @@ entries:
     priority: { frame: by-urgency }
     effortSeconds: 180
     detector: { id: minigames/spiketrap }
-    text: "Spiketrap starts at :00: up to {gems:int} gems today"
-    why: "Today's Spiketrap gems are unclaimed and the next round starts {startsIn:in}."
+    text: "Spiketrap starts at :00: today's gems are unclaimed"
+    why: "The next round starts {startsIn:in}. The game's code pays up to {gems:int} gems a day for your best round; the wiki says 30."
     doneWhen: { field: "account.minigames.spiketrap.gemsAvailableToday", becomes: false }
     appliesTo: { stages: all }
     confidence: M
@@ -124,3 +124,99 @@ entries:
     sources:
       - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/highScores.ts#L99", title: "Toolbox getHoopsData", tier: 1, verified: 2026-10-17, gameVersion: 2.3.540 }
       - { url: "https://idleon.wiki/wiki/Minigames#Swishy_Hoops", title: "IdleOn Wiki: Minigames, Swishy Hoops", tier: 2, claimDate: 2026-10-07, verified: 2026-10-17, gameVersion: 2.3.540 }
+  # M26 FR-55 (Wave 6): the highscore and unlock ladders, promoted from minigames.drafts.yaml. Each
+  # inherits its Milestone ladder from Toolbox's data (generators/minigames.gen.ts, minigames.goal.ladder-*).
+  - id: minigames.goal.tome-highscore
+    system: minigames
+    type: goal
+    title: Total Minigame Highscore
+    extends: minigames.goal.ladder-tome-highscore
+    text: "Raise your minigame highscores to {next:int} in total ({value:int} now)"
+    why: "The Tome adds your Choppin, Fishing, Catching, Mining and Pen Pals highscores into one row, and {next:int} gives {reward}. Hoops, Darts and Spiketrap don't count toward it."
+    scope: account
+    category: compounding
+    unit: points
+    progress: { id: minigames/tome-highscore }
+    appliesTo: { stages: [{ from: W3-early, to: W4-late }] }
+    confidence: H
+    status: active
+    notes: "Dossier C10: the sum is Toolbox calcMinigameTotalScore (the first five minigameHighscores); the target is tomeData's Total Minigame Highscore row. 'Raise the lowest first' is derived (M), so it is not said."
+    sources:
+      - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/highScores.ts#L79-L81", title: "IdleOn Toolbox calcMinigameTotalScore: the first five minigame highscores added", tier: 1, verified: 2026-10-20, gameVersion: 2.3.540 }
+      - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-4/tome.ts#L367", title: "IdleOn Toolbox Tome: the Total Minigame Highscore row", tier: 1, verified: 2026-10-20, gameVersion: 2.3.540 }
+      - { url: "https://idleon.wiki/wiki/Tome", title: "IdleOn Wiki: Tome", tier: 2, claimDate: 2026-10-12, verified: 2026-10-19, gameVersion: 2.3.540 }
+  - id: minigames.goal.spiketrap-round
+    system: minigames
+    type: goal
+    title: Spiketrap round
+    extends: minigames.goal.ladder-spiketrap-round
+    text: "Reach round {next:int} in Spiketrap Surprise (best {value:int})"
+    why: "The Tome scores your best Spiketrap Surprise round, and round {next:int} gives {reward}. A higher round also pays more of the daily gems."
+    scope: account
+    category: compounding
+    unit: rounds
+    progress: { id: minigames/spiketrap-round }
+    appliesTo: { stages: all }
+    confidence: H
+    status: active
+    notes: "Dossier C11 (H) for the Tome row. 'More gems' rests on C27 (carried from the game client, L), so no number is printed; the gem cap is disputed (40 by the code, 30 on the wiki). The W1 task's round 3 is the Task Board's milestone, not this Goal's (US-68)."
+    sources:
+      - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-4/tome.ts#L301", title: "IdleOn Toolbox Tome: the best Spiketrap round reads accountOptions[201]", tier: 1, verified: 2026-10-20, gameVersion: 2.3.540 }
+      - { url: "https://idleon.wiki/wiki/Tome", title: "IdleOn Wiki: Tome", tier: 2, claimDate: 2026-10-12, verified: 2026-10-19, gameVersion: 2.3.540 }
+      - { url: "https://idleon.wiki/wiki/Secrets", title: "IdleOn Wiki: Secrets (Spiketrap Surprise)", tier: 2, claimDate: 2026-10-07, verified: 2026-10-19, gameVersion: 2.3.540 }
+  - id: minigames.goal.hoops-unlocks
+    system: minigames
+    type: goal
+    title: Open every Hoops upgrade
+    extends: minigames.goal.ladder-hoops-unlocks
+    text: "{more:int} more Hoops levels open {reward} ({value:int}/{next:int})"
+    why: "Hoops upgrades open by the total levels you've bought across all four, not by any one upgrade's level."
+    scope: account
+    category: compounding
+    unit: levels
+    progress: { id: minigames/unlock-ladder, params: { game: hoops } }
+    appliesTo: { stages: all }
+    confidence: H
+    status: active
+    notes: "The thresholds agree in Toolbox and the game client (dossier C17, C19). The draft's 'DMG and COIN are cheapest' rests on the client's Hoops cost (C19, L), so it is left out."
+    sources:
+      - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/highScores.ts#L102-L119", title: "IdleOn Toolbox getHoopsData: each upgrade opens at a total of levels bought", tier: 1, verified: 2026-10-20, gameVersion: 2.3.540 }
+      - { url: "https://idleon.wiki/wiki/Minigames", title: "IdleOn Wiki: Minigames", tier: 2, claimDate: 2026-10-07, verified: 2026-10-19, gameVersion: 2.3.540 }
+  - id: minigames.goal.darts-unlocks
+    system: minigames
+    type: goal
+    title: Open every Darts upgrade
+    extends: minigames.goal.ladder-darts-unlocks
+    text: "{more:int} more Darts levels open {reward} ({value:int}/{next:int})"
+    why: "Darts upgrades open by the total levels you've bought across all four. VAULT makes every Upgrade Vault cost lower."
+    scope: account
+    category: compounding
+    unit: levels
+    progress: { id: minigames/unlock-ladder, params: { game: darts } }
+    appliesTo: { stages: all }
+    confidence: H
+    status: active
+    notes: "Dossier C18, C20, C23, C74. VAULT divides every Upgrade Vault cost by 1 + L/100 (misc/upgradeVault.ts)."
+    sources:
+      - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/highScores.ts#L83-L100", title: "IdleOn Toolbox getDartsData: costs, and each upgrade opens at a total of levels bought", tier: 1, verified: 2026-10-20, gameVersion: 2.3.540 }
+      - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/misc/upgradeVault.ts#L71", title: "IdleOn Toolbox: the Darts VAULT level divides Upgrade Vault costs", tier: 1, verified: 2026-10-20, gameVersion: 2.3.540 }
+      - { url: "https://idleon.wiki/wiki/Minigames", title: "IdleOn Wiki: Minigames", tier: 2, claimDate: 2026-10-07, verified: 2026-10-19, gameVersion: 2.3.540 }
+  - id: minigames.goal.pen-pals
+    system: minigames
+    type: goal
+    title: Pen Pals bonus tiers
+    extends: minigames.goal.ladder-pen-pals
+    text: "Pen Pals highscore {next:int} opens {reward} ({value:int} now)"
+    why: "Each step of Pen Pals highscore opens a permanent Trapping bonus. You are {more:int} short of the next one."
+    scope: account
+    category: compounding
+    unit: points
+    progress: { id: minigames/pen-pals }
+    appliesTo: { stages: [{ from: W3-early, to: W4-late }] }
+    confidence: H
+    status: active
+    notes: "Dossier C15, C16, C89: tier n applies at accountOptions[99] >= 25(n+1), values randomList[59]. How Pen Pals is played is an open gap (C90), so there is no 'how' text."
+    sources:
+      - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/character.ts#L3628-L3637", title: "IdleOn Toolbox getTrappingStuff: Pen Pals tier n applies at 25(n+1)", tier: 1, verified: 2026-10-20, gameVersion: 2.3.540 }
+      - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/randomList.json", title: "IdleOn Toolbox game data: randomList[59], the Pen Pals tier values", tier: 1, verified: 2026-10-20, gameVersion: 2.3.540 }
+      - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-3/traps.ts#L196", title: "IdleOn Toolbox traps: the Pen Pals shiny bonus", tier: 1, verified: 2026-10-20, gameVersion: 2.3.540 }
