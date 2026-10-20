@@ -1,4 +1,4 @@
-# golden v1: multikill-pin · knowledge #21c8ade4 · parser 6c37e3d (game 2.3.540) · now 2026-08-26T17:27:35.771Z · return 8h · stage W4-late · stale: 4 of 1053
+# golden v1: multikill-pin · knowledge #2c4fce1f · parser 6c37e3d (game 2.3.540) · now 2026-08-26T17:27:35.771Z · return 8h · stage W4-late · stale: 4 of 1057
 
 ## Verdict changes
 
@@ -78,7 +78,7 @@ finding: Worship full on 10 · spend
   · Royal Guardian 1307: 9,167 star points unspent on the other preset
   · Bubonic Conjuror 1268: 6,857 star points unspent on the other preset
   · Beginner 1224: 5,921 star points unspent on the other preset
-show more (16)
+show more (17)
 If you have time
 - Run Killroy's Warrior room on your Royal Guardian Lv 1307 (YumYum Grotto) · about 2m of hands-on play
 - Run Killroy's Archer room on your Siege Breaker Lv 1291 (YumYum Grotto) · about 2m of hands-on play
@@ -109,8 +109,6 @@ Equinox
 Prayers
 Salt Lick
 Shrines
-Breeding
-Cooking
 Laboratory
 Sigils
 
@@ -182,16 +180,16 @@ W3 · Equinox · Not covered yet · Not covered yet
 W3 · Atom Collider · Not covered yet · Not covered yet
 W3 · Bubba · Nothing to fix · Nothing to fix · 1 to do
 W4 · Laboratory · Not covered yet · Not covered yet
-W4 · Cooking · Not covered yet · Not covered yet
-W4 · Breeding · Not covered yet · Not covered yet
+W4 · Cooking · Nothing to fix · Nothing to fix
+W4 · Breeding · Wasting · 1 to fix before you leave
 W4 · Sigils · Not covered yet · Not covered yet
 W4 · The Rift · Nothing to fix · Nothing to fix · 1 to do
 W4 · The Tome · Nothing to fix · Nothing to fix
 W4 · Elite classes · Nothing to fix · Nothing to fix
 Worlds 5–7: not covered yet
-Needs you: Minigames (wasting), Trapping (wasting)
+Needs you: Minigames (wasting), Trapping (wasting), Breeding (wasting)
 Other gaps: Talent builds past World 4, W4+ constellations and Infinite Stars
-Wasting: 2
+Wasting: 3
 Report card: (none)
 Stamps picture: 111 of 121 owned · lit (none) · next 0
 Statues picture: 32 of 32 Gold · 32 Onyx · lit (none)
@@ -649,6 +647,8 @@ Gifts: Slabcakes, Surprise Box
 | anvil.check.spend-points | anvil/points | account | fires | count=11 hours=8 manyMixed=1 |
 | arcade.check.balls-cap | arcade/balls-cap | account | pass |  |
 | boss-keys.check.collect | boss-keys/banked | — | silent |  |
+| breeding.check.full-nest | breeding/full-nest | account | fires | capacity=15 eggs=15 first=0 |
+| breeding.check.idle-territory | breeding/idle-territory | — | silent |  |
 | bubba.check.boon | bubba/boon | — | silent |  |
 | bubba.check.charisma-idle | bubba/charisma-idle | account | fires | banked=120 mindful=1 none=0 selected=1 |
 | bubba.check.megaflesh | bubba/megaflesh | — | silent |  |
@@ -660,6 +660,8 @@ Gifts: Slabcakes, Surprise Box
 | classes.contribution.exp | classes/exp | C9 | advances yes eta 479009996855998m | exp=8.1176933947005e+29 expReq=2.3437430699174437e+30 rate=191892495835481500 saved=1307 |
 | colosseum.check.collect-tickets | colosseum/tickets-banked | — | silent |  |
 | construction.check.build-next | construction/build-next | account | pass |  |
+| cooking.check.capped-meal | cooking/capped-meal | — | silent |  |
+| cooking.check.idle-kitchen | cooking/idle-kitchen | — | silent |  |
 | death-note.check.build | death-note/build | — | silent |  |
 | death-note.check.build-slot | death-note/build | — | silent |  |
 | death-note.contribution.skull-miniboss-fm-rat | death-note/skull | C9 | advances unknown |  |

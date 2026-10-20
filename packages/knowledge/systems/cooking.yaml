@@ -1,0 +1,46 @@
+# SPDX-License-Identifier: GPL-3.0-only
+# M26 FR-14 (Wave 1): Cooking Checks, promoted from systems/cooking.drafts.yaml. The meal named is the
+# found one fastest to its next level: copies still to cook times the progress a copy takes (Toolbox's
+# levelCost, amount and cookReq), so every kitchen ranks it the same.
+system: cooking
+entries:
+  - id: cooking.check.idle-kitchen
+    system: cooking
+    type: check
+    title: Start your idle kitchen
+    subject: account
+    effect: next-action
+    category: spendable
+    priority: { frame: by-urgency }
+    effortSeconds: 60
+    detector: { id: cooking/idle-kitchen }
+    text: "Start {meal:name} in Kitchen {kitchen:int}"
+    why: "Kitchen {kitchen:int} is idle and makes nothing ({idle:int} idle in all). Kitchens cook all day while you are away; {meal:name} is your found meal closest to its next level."
+    doneWhen: { field: "account.cooking.kitchens[].status", change: changed }
+    appliesTo: { stages: [{ from: W4-entry, to: W4-entry }] }
+    confidence: H
+    status: active
+    notes: "Fires only when an owned kitchen is idle and the account has a found meal below the max level."
+    sources:
+      - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-4/cooking.ts#L731-L740", title: "IdleOn Toolbox parseKitchens: status 1 idle, 2 cooking, 3 recipe", tier: 1, verified: 2026-10-19, gameVersion: 2.3.540 }
+      - { url: "https://idleon.wiki/wiki/Cooking", title: "IdleOn Wiki: Cooking", tier: 2, claimDate: 2026-10-05, verified: 2026-10-19, gameVersion: 2.3.540 }
+  - id: cooking.check.capped-meal
+    system: cooking
+    type: check
+    title: Move a kitchen off a maxed meal
+    subject: account
+    effect: next-action
+    category: spendable
+    priority: { frame: by-urgency }
+    effortSeconds: 60
+    detector: { id: cooking/capped-meal }
+    text: "Switch Kitchen {kitchen:int} from {meal:name} to {next:name}"
+    why: "{meal:name} is already at its max level {max:int}, so more copies only feed a few Lab and Breeding costs. {next:name} is your found meal closest to its next level."
+    doneWhen: { field: "account.cooking.kitchens[].meal", change: changed }
+    appliesTo: { stages: [{ from: W4-entry, to: W4-entry }] }
+    confidence: H
+    status: active
+    notes: "Dossier B10: Lab chips and jewels and Breeding upgrades spend meal copies, so the why says so."
+    sources:
+      - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-4/cooking.ts#L1031-L1045", title: "IdleOn Toolbox getMealMaxLevel", tier: 1, verified: 2026-10-19, gameVersion: 2.3.540 }
+      - { url: "https://idleon.wiki/wiki/Cooking", title: "IdleOn Wiki: Cooking", tier: 2, claimDate: 2026-10-05, verified: 2026-10-19, gameVersion: 2.3.540 }

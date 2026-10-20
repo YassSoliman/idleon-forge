@@ -57,6 +57,7 @@ export function withUnknown(state: AccountState, ...paths: string[]): AccountSta
 export * from './bubba-detectors';
 export * from './purpose-detectors';
 export * from './rift-detectors';
+export * from './w4-detectors';
 
 /** A value at a dot path ("account.lab.characters", "account.killroy.doneCode"); undefined when absent. */
 export function valueAt(root: unknown, path: string): unknown {

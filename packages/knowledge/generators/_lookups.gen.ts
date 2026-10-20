@@ -51,6 +51,8 @@ export default defineGenerator({
     'website-data/shared-data.json#spelunkingRocks',
     'website-data/shared-data.json#towers',
     'website-data/shared-data.json#riftInfo',
+    'website-data/shared-data.json#territory',
+    'website-data/shared-data.json#cookingMenu',
     'website-data/cauldrons.json',
   ],
   run({ data }) {
@@ -104,6 +106,9 @@ export default defineGenerator({
       riftTasks: sorted(
         (data.riftInfo as { task?: string }[]).map((r) => (r.task ?? '').split('._')[0] ?? ''),
       ),
+      // M26 Wave 1: Breeding territory names and Cooking meal names, for their Check slots (FR-27).
+      territories: sorted((data.territory as { territoryName?: string }[]).map((t) => t.territoryName ?? '')),
+      meals: sorted((data.cookingMenu as { name?: string }[]).map((m) => m.name ?? '')),
       sentinels: ['Blank', 'LockedInvSpace', 'Null'],
     };
   },

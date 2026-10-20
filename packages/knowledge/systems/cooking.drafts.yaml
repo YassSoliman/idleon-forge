@@ -3,49 +3,6 @@
 # Drafts: validated, never compiled until their wave promotes them (FR-1). Never edit by hand: fix the draft or the script and re-run.
 system: cooking
 entries:
-  - id: cooking.check.idle-kitchen
-    system: cooking
-    type: check
-    title: Start your idle kitchen
-    subject: account
-    effect: next-action
-    category: spendable
-    priority:
-      frame: by-urgency
-    effortSeconds: 60
-    detector:
-      id: cooking/idle-kitchen
-    text: "Kitchen {kitchen:int} is idle: start {what}"
-    values:
-      what-meal: a meal (your fastest to level is {meal})
-      what-recipe: a recipe with {spice} alone
-    why: An idle kitchen makes nothing, and kitchens cook all day while you are away. Every meal level is a permanent bonus for the whole account.
-    doneWhen:
-      field: account.cooking.kitchens[].status
-      change: changed
-    appliesTo:
-      stages:
-        - from: W4-entry
-          to: W4-entry
-    confidence: H
-    status: draft
-    notes: "Fires only when an owned kitchen is idle AND the account has a discovered meal or a held spice (otherwise the Cooking page frame already says 'get your first spice'). Dossier A1, per-session action (3). kb-convert: doneWhen.change other -> changed; Source note: max-level list (160) is pre-v1.23; mechanics only"
-    sources:
-      - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-4/cooking.ts#L731-L740
-        title: "Toolbox parseKitchens: status 1 idle, 2 cooking, 3 recipe"
-        tier: 1
-        verified: 2026-10-19
-        gameVersion: 2.3.540
-      - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-4/cooking.ts#L1070-L1072
-        title: "Toolbox getTotalMealSpeed: only cooking kitchens add speed"
-        tier: 1
-        verified: 2026-10-19
-        gameVersion: 2.3.540
-      - url: https://idleon.wiki/wiki/Cooking
-        title: "IdleOn Wiki: Cooking"
-        tier: 4
-        verified: 2026-10-19
-        gameVersion: 2.3.540
   - id: cooking.check.level-meal
     system: cooking
     type: check
@@ -86,41 +43,6 @@ entries:
       - url: https://idleon.wiki/wiki/Cooking
         title: "IdleOn Wiki: Cooking"
         tier: 4
-        verified: 2026-10-19
-        gameVersion: 2.3.540
-  - id: cooking.check.capped-meal
-    system: cooking
-    type: check
-    title: Move a kitchen off a maxed meal
-    subject: account
-    effect: next-action
-    category: spendable
-    priority:
-      frame: by-urgency
-    effortSeconds: 60
-    detector:
-      id: cooking/capped-meal
-    text: "Kitchen {kitchen:int} cooks {meal}, already at its max level {max:int}: switch it to {next}"
-    why: Copies of a meal at max level have no use in World 4 except a few Lab costs, so the kitchen's time is better spent on a meal that can still level.
-    doneWhen:
-      field: account.cooking.kitchens[].meal
-      change: changed
-    appliesTo:
-      stages:
-        - from: W4-entry
-          to: W4-entry
-    confidence: H
-    status: draft
-    notes: "{next} = the discovered meal below max with the fewest copies to its next level per copy/h. Exception noted in the dossier (B10): Lab chips/jewels and Mob upgrades spend meal copies; the text says 'except a few Lab costs'. kb-convert: doneWhen.change other -> changed"
-    sources:
-      - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-4/cooking.ts#L1031-L1045
-        title: Toolbox getMealMaxLevel
-        tier: 1
-        verified: 2026-10-19
-        gameVersion: 2.3.540
-      - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-4/cooking.ts#L731-L745
-        title: Toolbox kitchen meal (foodIndex)
-        tier: 1
         verified: 2026-10-19
         gameVersion: 2.3.540
   - id: cooking.check.claim-spices
