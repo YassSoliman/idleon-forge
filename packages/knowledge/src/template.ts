@@ -45,6 +45,9 @@ export const BUILTIN_SLOTS: Readonly<Record<string, 'number' | 'string'>> = {
   eta: 'number',
   stage: 'string',
   preset: 'string',
+  /** M26 Wave 6: a ladder Goal's next Milestone reward, and how far `value` is from `next`. */
+  reward: 'string',
+  more: 'number',
 };
 
 export interface TemplatePart {

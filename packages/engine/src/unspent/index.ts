@@ -36,6 +36,7 @@ import type {
   TimelineBar,
   UnknownFinding,
 } from '../result';
+import { isLadderGoal, runLadderGoal } from './ladders';
 
 /**
  * M26 Wave 1: World 4 core Systems whose Checks this module runs. They rank at their Stage list
@@ -241,6 +242,10 @@ export function createUnspentModule(deps: UnspentModuleDeps): EngineModule {
     )
     .filter((e) => !M3_ENTRIES.has(e.id))
     .sort((a, b) => (a.id < b.id ? -1 : a.id > b.id ? 1 : 0));
+  // M26 Wave 6: the Milestone-ladder Goals of the same Systems (ladders.ts).
+  const ladders = Object.values(kb.entries)
+    .filter(isLadderGoal)
+    .sort((a, b) => (a.id < b.id ? -1 : a.id > b.id ? 1 : 0));
   return {
     id: 'unspent-idle',
     covers: [],
@@ -334,6 +339,18 @@ export function createUnspentModule(deps: UnspentModuleDeps): EngineModule {
               subject: 'account',
               sources: g.goal.nextAction.sources,
             });
+        }
+      }
+      for (const entry of ladders) {
+        if (!appliesAt(entry, stage)) continue;
+        const run = runLadderGoal(entry, ctx, registry, kb.readsOf, kb.stale);
+        unknowns.push(...run.unknowns);
+        for (const { subject, goal } of run.goals) {
+          if (subject === 'account') account.push(goal);
+          else {
+            const i = Number(subject.slice(1));
+            byCharacter.set(i, [...(byCharacter.get(i) ?? []), goal]);
+          }
         }
       }
       const characters: CharacterContribution[] = state.characters.map((c) => {
