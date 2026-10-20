@@ -50,6 +50,9 @@ export const W4_CHECK_SYSTEMS: readonly string[] = [
   'lab',
 ];
 
+/** M26 Wave 4: World 1 core Systems whose Checks this module runs, at the free-value position (3). */
+export const W1_CHECK_SYSTEMS: readonly string[] = ['owl'];
+
 /** The Systems whose Check entries this module runs (M6 TR-1). */
 export const UNSPENT_SYSTEMS: readonly string[] = [
   'boss-keys',
@@ -68,10 +71,17 @@ export const UNSPENT_SYSTEMS: readonly string[] = [
   'death-note',
   // M26 Wave 1: the World 4 core Systems' Checks run here too (one runner for one-card Checks).
   ...W4_CHECK_SYSTEMS,
+  // M26 Wave 2: the W2/W3 gaps' Checks.
+  'forge',
+  ...W1_CHECK_SYSTEMS,
 ];
 
 /** M15 F2 (`construction`): M6 runs only this entry of the Construction System; the cog seat is M3's. */
-export const UNSPENT_EXTRA_ENTRIES: readonly string[] = ['construction.check.build-next'];
+export const UNSPENT_EXTRA_ENTRIES: readonly string[] = [
+  'construction.check.build-next',
+  // M26 Wave 2 (FR-26): the Task Board's claim Check; its daily row stays M20's checklist.
+  'task-board.check.claim',
+];
 
 /** M15 entries that rank at their Stage list position (M2 authors it; FR-13), not at the free-value 3. */
 const LISTED_ENTRIES: ReadonlySet<string> = new Set(['construction.check.build-next']);

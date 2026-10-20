@@ -3,6 +3,8 @@
 // M20 F2 Parallel Slots and F3 the Skills tab (docs/specs/M20-skills-parallel-slots.md TR-5, TR-6): plain
 // data on EngineResult.skills, .slotPictures and .skillGrid. Names are joined only in the UI (M4 TR-9).
 import type { SkillId } from '@idleon-forge/account-state';
+import type { GapsPicture } from '../pictures/gaps-types';
+import type { W1Picture } from '../pictures/w1-types';
 import type { W4Picture } from '../pictures/w4-types';
 import type { W23Picture } from '../pictures/w23-types';
 
@@ -152,7 +154,9 @@ export type M21Picture =
   | { systemId: 'alchemy'; kind: 'p2w'; elements: PictureElement[]; lit: string | null }
   /** M24: the World 2 and 3 pages' read-only pictures (pictures/w23.ts). */
   | W23Picture
-  | W4Picture;
+  | W4Picture
+  | GapsPicture
+  | W1Picture;
 
 /** FR-31: the Skill Grid for M17's Characters overview (`#skills`). */
 export interface SkillGrid {

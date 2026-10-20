@@ -15,6 +15,16 @@
     "cooking.check.capped-meal",
     "lab.check.first-upload",
     "lab.check.not-connected",
-    "lab.check.jewel-unlit"
+    "lab.check.jewel-unlit",
+    "forge.check.fill-empty-slots",
+    "forge.check.runs-out-before-return",
+    "forge.check.collect-bars",
+    "task-board.check.claim",
+    "owl.check.start",
+    "owl.check.mega-reset",
+    "owl.check.restart",
+    "owl.check.bonuses",
+    "owl.goal.megafeathers",
+    "owl.goal.drop-rate"
   ]
 }

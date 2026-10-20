@@ -28,6 +28,7 @@
     "./bubba": "./src/bubba/index.ts",
     "./bubba-text": "./src/bubba/text.ts",
     "./world4": "./src/world4/index.ts",
+    "./w1": "./src/w1/index.ts",
     "./map": "./src/map/index.ts",
     "./session": "./src/session/index.ts",
     "./pictures": "./src/pictures/index.ts",

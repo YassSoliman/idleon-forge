@@ -1,4 +1,4 @@
-# golden v1: scrubbed-w2 · knowledge #04f5e113 · parser 6c37e3d (game 2.3.540) · now 2026-10-17T15:47:05.447Z · return 8h · stage W2-late · stale: 4 of 1060
+# golden v1: scrubbed-w2 · knowledge #dada5ab9 · parser 6c37e3d (game 2.3.540) · now 2026-10-17T15:47:05.447Z · return 8h · stage W2-late · stale: 4 of 1070
 
 ## Verdict changes
 
@@ -48,7 +48,7 @@ Fix before you leave
 - Extra · Play Spiketrap Surprise: Spiketrap starts at :00: up to 40 gems today [IdleOn Wiki: Secrets · Calculated by IdleOn Toolbox · 2.3.540]
 - Spend · Play a round of Darts: Play one round of Darts [IdleOn Wiki: Minigames, Throwy Darts · Calculated by IdleOn Toolbox · 2.3.540]
 - Spend · Play a round of Hoops: Play one round of Hoops [IdleOn Wiki: Minigames, Swishy Hoops · Calculated by IdleOn Toolbox · 2.3.540]
-show more (24)
+show more (29)
 Spend coins: 14 buys now on 4 characters
   1. Raise and level 2 capped stamps on Barbarian Lv 60: about 1.3M coins · buy · total 1.3M coins on C1
      Hatchet Stamp, Shield Stamp · carry 3.3k Thread on Barbarian Lv 60; carry 1.8k Iron Ore on Barbarian Lv 60, free space first
@@ -80,10 +80,8 @@ Storage and inventory
 Town shops
 Trophies and nametags
 Bribes
-Forge
 Quests
 Statues
-The Owl
 Islands
 
 ## Systems
@@ -121,11 +119,11 @@ W0 · Drop rate · Not covered yet · Not covered yet
 W1 · Stamps · Behind · Behind for your Stage · 6 to do
 W1 · Star Signs · Nothing to fix · Nothing to fix · 1 to do
 W1 · Anvil · Nothing to fix · Nothing to fix · 1 full · collect
-W1 · Forge · Not covered yet · Not covered yet
+W1 · Forge · Nothing to fix · Nothing to fix · 2 to do
 W1 · Bribes · Not covered yet · Not covered yet
 W1 · Statues · Not covered yet · Not covered yet · in the Spend Plan
 W1 · Post Office · Locked · Opens once a character reaches class Lv 50 and finishes Postboy Pablob's quest in the Yum-Yum Grotto · 1 to do
-W1 · The Owl · Not covered yet · Not covered yet
+W1 · The Owl · Nothing to fix · Nothing to fix · 3 to do
 W1 · Quests · Not covered yet · Not covered yet
 W1 · Boss keys · Nothing to fix · Nothing to fix
 W1 · Colosseum · Wasting · 1 to fix before you leave
@@ -437,6 +435,9 @@ step: Use your 11 vial attempts on the W2 town cauldron
 | elite-classes.check.eliteus | elite-classes/eliteus | C3 | fires | class=Shaman elite=Bubonic_Conjuror kills=0 left=10 pick=0 |
 | elite-classes.check.eliteus | elite-classes/eliteus | C4 | fires | class=Bowman elite=Siege_Breaker kills=0 left=10 pick=0 |
 | elite-classes.check.eliteus | elite-classes/eliteus | C5 | fires | class=Wizard elite=Elemental_Sorcerer kills=0 left=10 pick=0 |
+| forge.check.collect-bars | forge/collect-bars | account | fires | bar=Copper_Bar bars=1146 kinds=2 |
+| forge.check.fill-empty-slots | forge/idle-slots | account | fires | bars=1073 held=4295 idle=6 more=1 ore=Iron_Ore |
+| forge.check.runs-out-before-return | forge/runs-out-before-return | — | silent |  |
 | gem-shop.check.printer-buy | gem-shop/unspent | — | silent |  |
 | gem-shop.check.printer-progress | gem-shop/unspent | — | silent |  |
 | gem-shop.check.unspent | gem-shop/unspent | account | fires | gems=628 price=875 |
@@ -459,6 +460,12 @@ step: Use your 11 vial attempts on the W2 town cauldron
 | minigames.check.hoops-play | minigames/cooldown-play | account | fires |  |
 | minigames.check.hoops-spend | minigames/cooldown-spend | account | fires | points=7 |
 | minigames.check.spiketrap | minigames/spiketrap | account | fires | gems=40 minutes=13 startsIn=774553 |
+| owl.check.bonuses | owl/state | — | silent |  |
+| owl.check.mega-reset | owl/state | account | fires | feathers=5.63165121687785e+28 next=13 |
+| owl.check.restart | owl/state | — | silent |  |
+| owl.check.start | owl/state | — | silent |  |
+| owl.goal.drop-rate | owl/progress | account | value 24 | drop=28 nextDrop=29 |
+| owl.goal.megafeathers | owl/progress | account | value 12 | multi=7 |
 | pets.check.free-pull | pets/free-pull | account | fires | claimable=53637745 hoursClaimable=15 |
 | pets.check.mart-gems | pets/mart-gems | account | fires | shopDay=241 |
 | poppy.check.open | poppy/pending-fish | account | fires |  |
@@ -526,6 +533,7 @@ step: Use your 11 vial attempts on the W2 town cauldron
 | systems.yaml#trapping | worlds/reached | account | reached no |  |
 | systems.yaml#weekly-battles | worlds/reached | account | reached yes |  |
 | systems.yaml#worship | worlds/reached | account | reached no |  |
+| task-board.check.claim | task-board/claimable | — | silent |  |
 | task-unlocks.check.spend | task-unlocks/unspent | account | fires | points=2 |
 | tome.check.blue-pages | tome/blue-pages | — | silent |  |
 | tome.check.claim-nametags | tome/nametags | — | silent |  |

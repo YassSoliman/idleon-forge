@@ -1,4 +1,4 @@
-# golden v1: scrubbed-w3 · knowledge #04f5e113 · parser 6c37e3d (game 2.3.540) · now 2026-10-17T16:12:33.140Z · return 8h · stage W3-early · stale: 4 of 1060
+# golden v1: scrubbed-w3 · knowledge #dada5ab9 · parser 6c37e3d (game 2.3.540) · now 2026-10-17T16:12:33.140Z · return 8h · stage W3-early · stale: 4 of 1070
 
 ## Verdict changes
 
@@ -56,7 +56,7 @@ purpose: Mining 29 → 40 opens Echoing Egress
 - Grow · Pay for the Death Note's first level: Refine 10 Explosive Salts for the Death Note's first level (have 0) [IdleOn Wiki: Construction · Calculated by IdleOn Toolbox · 2.3.540]
 - Extra · Claim the free Pet Mart gems: Claim today's free Pet Mart gems [IdleOn Wiki: Daily Checklist · Calculated by IdleOn Toolbox · 2.3.540]
 - Spend · Play a round of Darts: Play one round of Darts [IdleOn Wiki: Minigames, Throwy Darts · Calculated by IdleOn Toolbox · 2.3.540]
-show more (31)
+show more (37)
 Spend coins: 15 buys now on 4 characters
   1. Buy Duplicate Entries (Vault) on Bowman Lv 60 before redeeming tickets: 100M coins · Lv 0 → 1 · buy · total 100M coins on C3
   2. Raise the Lil' Mining Baggy Stamp cap, then buy Lv 10→20 on Bowman Lv 60: about 13k coins · buy · total 100M coins on C3
@@ -90,10 +90,8 @@ Storage and inventory
 Town shops
 Trophies and nametags
 Bribes
-Forge
 Quests
 Statues
-The Owl
 Islands
 Atom Collider
 Prayers
@@ -118,7 +116,7 @@ W0 · Skills, doors and tools · Nothing to fix · Nothing to fix
 W0 · Gear & Tools · Behind · Behind for your Stage · 6 to do
 W0 · Random Events · Nothing to fix · Nothing to fix
 W0 · Pet Tournament · Nothing to fix · Nothing to fix
-W0 · Daily tasks · Nothing to fix · Nothing to fix
+W0 · Daily tasks · Nothing to fix · Nothing to fix · 1 to do
 W0 · Guild tasks · Nothing to fix · Nothing to fix
 W0 · Achievements · Not covered yet · Not covered yet
 W0 · Dungeons · Not covered yet · Not covered yet
@@ -135,11 +133,11 @@ W0 · Drop rate · Not covered yet · Not covered yet
 W1 · Stamps · Behind · Behind for your Stage · 7 to do
 W1 · Star Signs · Nothing to fix · Nothing to fix · 2 to do
 W1 · Anvil · Behind · Behind for your Stage · 1 to do · 6 full · collect
-W1 · Forge · Not covered yet · Not covered yet
+W1 · Forge · Nothing to fix · Nothing to fix · 2 to do
 W1 · Bribes · Not covered yet · Not covered yet · in the Spend Plan
 W1 · Statues · Not covered yet · Not covered yet · in the Spend Plan
 W1 · Post Office · Locked · Opens once a character reaches class Lv 50 and finishes Postboy Pablob's quest in the Yum-Yum Grotto · 1 to do · behind for your Stage
-W1 · The Owl · Not covered yet · Not covered yet
+W1 · The Owl · Nothing to fix · Nothing to fix · 3 to do
 W1 · Quests · Not covered yet · Not covered yet
 W1 · Boss keys · Nothing to fix · Nothing to fix · 1 to do
 W1 · Colosseum · Wasting · 1 to fix before you leave
@@ -531,6 +529,9 @@ Locked: smoker (Opens at Smoker)
 | elite-classes.check.eliteus | elite-classes/eliteus | C4 | fires | class=Squire elite=Divine_Knight kills=0 left=10 pick=0 |
 | elite-classes.check.eliteus | elite-classes/eliteus | C5 | fires | class=Barbarian elite=Blood_Berserker kills=0 left=10 pick=0 |
 | elite-classes.check.eliteus | elite-classes/eliteus | C6 | fires | class=Shaman elite=Bubonic_Conjuror kills=0 left=10 pick=0 |
+| forge.check.collect-bars | forge/collect-bars | account | fires | bar=Gold_Bar bars=2873 kinds=1 |
+| forge.check.fill-empty-slots | forge/idle-slots | account | fires | bars=1121 held=7853 idle=11 more=4 ore=Gold_Ore |
+| forge.check.runs-out-before-return | forge/runs-out-before-return | — | silent |  |
 | gem-shop.check.printer-buy | gem-shop/unspent | — | silent |  |
 | gem-shop.check.printer-progress | gem-shop/unspent | account | fires | gems=365 price=875 |
 | gem-shop.check.unspent | gem-shop/unspent | — | silent |  |
@@ -553,6 +554,12 @@ Locked: smoker (Opens at Smoker)
 | minigames.check.hoops-play | minigames/cooldown-play | account | fires |  |
 | minigames.check.hoops-spend | minigames/cooldown-spend | — | silent |  |
 | minigames.check.spiketrap | minigames/spiketrap | account | pass |  |
+| owl.check.bonuses | owl/state | — | silent |  |
+| owl.check.mega-reset | owl/state | account | fires | feathers=2.12147657834244e+35 next=13 |
+| owl.check.restart | owl/state | — | silent |  |
+| owl.check.start | owl/state | — | silent |  |
+| owl.goal.drop-rate | owl/progress | account | value 28 | drop=28 nextDrop=29 |
+| owl.goal.megafeathers | owl/progress | account | value 12 | multi=7 |
 | pets.check.free-pull | pets/free-pull | account | pass |  |
 | pets.check.mart-gems | pets/mart-gems | account | fires | shopDay=241 |
 | poppy.check.open | poppy/pending-fish | account | fires |  |
@@ -624,6 +631,7 @@ Locked: smoker (Opens at Smoker)
 | systems.yaml#trapping | worlds/reached | account | reached yes |  |
 | systems.yaml#weekly-battles | worlds/reached | account | reached yes |  |
 | systems.yaml#worship | worlds/reached | account | reached yes |  |
+| task-board.check.claim | task-board/claimable | account | fires | count=4 merits=5 one=0 points=68 reset=0 task=No_Time_to_Brews! world=2 |
 | task-unlocks.check.spend | task-unlocks/unspent | account | fires | points=10 |
 | tome.check.blue-pages | tome/blue-pages | — | silent |  |
 | tome.check.claim-nametags | tome/nametags | — | silent |  |

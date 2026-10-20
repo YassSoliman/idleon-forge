@@ -106,6 +106,19 @@ export {
   killsLeftOn,
   killsLeftTable,
 } from './frontier';
+export type {
+  ForgeBarrel,
+  ForgeItem,
+  ForgeOre,
+  ForgeSlot,
+  ForgeState,
+  GapsAccountFields,
+  SaltLickState,
+  SaltLickUpgrade,
+  TaskBoardState,
+  TaskBoardTask,
+  TaskBoardWorld,
+} from './gaps-types';
 // M18 Gear & Tools (M18 TR-2)
 export { GEAR_TYPES, gearItem, type HeldGear, heldGear, type WornSlot, wornGear } from './gear';
 export {
@@ -120,6 +133,8 @@ export {
   type GearStats,
   type GearWorn,
 } from './gear-types';
+export { owlSteps, readOwl } from './owl';
+export type { OwlAccountFields, OwlBonus, OwlState, OwlUpgrade } from './owl-types';
 // M24 the World 3 System pages (prayers, shrines)
 export { ANVIL_PRODUCTS, hammersOf, stockOf } from './production';
 export type { AnvilProduction, AnvilSpeedParts, ProductionCharacterFields } from './production-types';
@@ -144,6 +159,7 @@ export type {
   RiftTask,
   RiftTaskKind,
 } from './rift-types';
+export { SALT_LICK_LIQUID } from './salt';
 // M20 Skills, Parallel Slots and the Daily & Weekly Checklist (M20 TR-2)
 export {
   ballotText,

@@ -1,4 +1,4 @@
-# golden v1: first · knowledge #04f5e113 · parser 6c37e3d (game 2.3.540) · now 2024-06-07T21:16:34.518Z · return 8h · stage W4-entry · stale: 4 of 1060
+# golden v1: first · knowledge #dada5ab9 · parser 6c37e3d (game 2.3.540) · now 2024-06-07T21:16:34.518Z · return 8h · stage W4-entry · stale: 4 of 1070
 
 ## Verdict changes
 
@@ -59,7 +59,7 @@ purpose: Death Note: Purp Mushroom kills ~47k → 100k · about 19h
   · Easiest rolls with what you hold: Sippy Cup (a roll of 97 or more, Sippy Straw), 40-40 Purity (a roll of 98 or more, Contact Lense)
   · Drop several stacks quickly: each counts as a roll
 - Spend · Fill today's Post Office orders: Fill today's Post Office orders from storage [IdleOn Wiki: Post Office, orders · Calculated by IdleOn Toolbox · 2.3.540]
-show more (22)
+show more (26)
 Spend coins: 34 buys now on 3 characters
   1. Buy the bribe Photoshopped Dmg Range on Bubonic Conjuror Lv 87: 100M coins · Lv 0 → 1 · withdraw 100M coins from storage on C2, then buy · total 100M coins on C2
   2. Buy the bribe Glitched Acc Formula on Bubonic Conjuror Lv 87: 300M coins · Lv 0 → 1 · withdraw 300M coins from storage on C2, then buy · total 400M coins on C2
@@ -85,10 +85,8 @@ Storage and inventory
 Town shops
 Trophies and nametags
 Bribes
-Forge
 Quests
 Statues
-The Owl
 Islands
 Atom Collider
 Prayers
@@ -114,7 +112,7 @@ W0 · Skills, doors and tools · Nothing to fix · Nothing to fix
 W0 · Gear & Tools · Nothing to fix · Nothing to fix · 1 to do
 W0 · Random Events · Nothing to fix · Nothing to fix
 W0 · Pet Tournament · Nothing to fix · Nothing to fix
-W0 · Daily tasks · Nothing to fix · Nothing to fix
+W0 · Daily tasks · Nothing to fix · Nothing to fix · 1 to do
 W0 · Guild tasks · Nothing to fix · Nothing to fix
 W0 · Achievements · Not covered yet · Not covered yet
 W0 · Dungeons · Not covered yet · Not covered yet
@@ -131,11 +129,11 @@ W0 · Drop rate · Not covered yet · Not covered yet
 W1 · Stamps · Nothing to fix · Nothing to fix · 3 to do
 W1 · Star Signs · Nothing to fix · Nothing to fix · 2 to do
 W1 · Anvil · Behind · Behind for your Stage · 2 to do · 1 full · collect
-W1 · Forge · Not covered yet · Not covered yet
+W1 · Forge · Nothing to fix · Nothing to fix · 3 to do
 W1 · Bribes · Not covered yet · Not covered yet · in the Spend Plan
 W1 · Statues · Not covered yet · Not covered yet · in the Spend Plan
 W1 · Post Office · Nothing to fix · Nothing to fix · 2 to do
-W1 · The Owl · Not covered yet · Not covered yet
+W1 · The Owl · Nothing to fix · Nothing to fix
 W1 · Quests · Not covered yet · Not covered yet
 W1 · Boss keys · Nothing to fix · Nothing to fix · 1 to do
 W1 · Colosseum · Wasting · 1 to fix before you leave
@@ -534,6 +532,9 @@ Can't read Bubba from this save
 | death-note.contribution.skull-mush-p | death-note/skull | C1 | advances yes eta 1187m | building=6 feeders=9 rate=2726 rule=1 saved=46090 target=Purp_Mushroom |
 | death-note.contribution.skull-mush-p | death-note/skull | C4 | advances yes eta 1187m | building=6 feeders=9 rate=2726 rule=1 saved=46090 target=Purp_Mushroom |
 | elite-classes.check.eliteus | elite-classes/eliteus | — | silent |  |
+| forge.check.collect-bars | forge/collect-bars | account | fires | bar=Dementia_Bar bars=21 kinds=1 |
+| forge.check.fill-empty-slots | forge/idle-slots | account | fires | bars=311 held=12451 idle=6 more=3 ore=Dementia_Ore |
+| forge.check.runs-out-before-return | forge/runs-out-before-return | account | fires | capacity=4756 emptyIn=4933333 fullRun=7866667 slots=2 |
 | gem-shop.check.printer-buy | gem-shop/unspent | — | silent |  |
 | gem-shop.check.printer-progress | gem-shop/unspent | — | silent |  |
 | gem-shop.check.unspent | gem-shop/unspent | account | fires | gems=304 price=875 |
@@ -556,6 +557,12 @@ Can't read Bubba from this save
 | minigames.check.hoops-play | minigames/cooldown-play | account | fires |  |
 | minigames.check.hoops-spend | minigames/cooldown-spend | — | silent |  |
 | minigames.check.spiketrap | minigames/spiketrap | account | pass |  |
+| owl.check.bonuses | owl/state | — | silent |  |
+| owl.check.mega-reset | owl/state | — | silent |  |
+| owl.check.restart | owl/state | — | silent |  |
+| owl.check.start | owl/state | — | silent |  |
+| owl.goal.drop-rate | owl/progress | — | silent |  |
+| owl.goal.megafeathers | owl/progress | — | silent |  |
 | pets.check.free-pull | pets/free-pull | account | pass |  |
 | pets.check.mart-gems | pets/mart-gems | account | unknown (field-missing) |  |
 | poppy.check.open | poppy/pending-fish | — | silent |  |
@@ -623,6 +630,7 @@ Can't read Bubba from this save
 | systems.yaml#trapping | worlds/reached | account | reached yes |  |
 | systems.yaml#weekly-battles | worlds/reached | account | reached yes |  |
 | systems.yaml#worship | worlds/reached | account | reached yes |  |
+| task-board.check.claim | task-board/claimable | account | fires | count=1 merits=2 one=1 points=21 reset=1 task=Maximum_Efficiency world=2 |
 | task-unlocks.check.spend | task-unlocks/unspent | account | fires | points=15 |
 | tome.check.blue-pages | tome/blue-pages | — | silent |  |
 | tome.check.claim-nametags | tome/nametags | — | silent |  |

@@ -1030,6 +1030,11 @@ golden.
   thresholds, Feather Restart and Mega Reset affordability and multipliers, Megafeathers, Bonuses of Orion. Advice
   (`kb-drafts/owl.yaml`): checks `restart`, `mega-reset` (guarded until the Megafeather cap check), `bonuses`, `start`;
   goals `megafeathers`, `drop-rate`; two facts. Detector `owl/state` following Toolbox's restart alerts.
+  **Built 2026-10-20:** `account.owl` (null for a save from before Orion, such as `first.json`); Checks `start`,
+  `restart`, `mega-reset`, `bonuses` (`owl/state`) and ladder Goals `megafeathers`, `drop-rate` (`owl/progress`, run by
+  the new World 1 ladder module `packages/engine/src/w1/`); the Owl page (Orion, Bonuses, Megafeathers tabs). The
+  Megafeather cap check: there is none (`highend.json` owns 37; the W2 and W4 test accounts went from 12 to 18 and 19),
+  so `mega-reset` ships. `stage-w1-early` now carries Orion's slots at 0, as a new account does.
 - **FR-52 Post Office** (`post-office`, new page, L). Tracks the unlock quest, six companies (done today, streak,
   shield, total shipments), refresh timer, Silver Pens, box income rebuilt as Toolbox does (never the saved
   `DeliveryBoxMisc`), 24 box levels per character and thresholds 26 / 101, Slug Slurp, the USPS task. Advice

@@ -29,13 +29,8 @@ function registry(): Array<{ id: string; kind: string }> {
 /** Older game Systems still on the generic page, by the M26 wave that homes them (null: not planned). */
 const PENDING: Readonly<Record<string, number | null>> = {
   classes: 2,
-  'merit-shop': 2,
-  'task-unlocks': 2,
-  'task-board': 2,
-  forge: 2,
   bribes: 4,
   'post-office': 4,
-  owl: 4,
   'boss-keys': 4,
   'death-note': 4,
   'salt-lick': 4,

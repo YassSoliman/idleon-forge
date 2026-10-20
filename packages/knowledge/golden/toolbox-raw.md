@@ -1,4 +1,4 @@
-# golden v1: toolbox-raw · knowledge #04f5e113 · parser 6c37e3d (game 2.3.540) · now 2026-08-26T17:27:35.771Z · return 8h · stage W4-late · stale: 4 of 1060
+# golden v1: toolbox-raw · knowledge #dada5ab9 · parser 6c37e3d (game 2.3.540) · now 2026-08-26T17:27:35.771Z · return 8h · stage W4-late · stale: 4 of 1070
 
 ## Verdict changes
 
@@ -66,19 +66,9 @@ finding: Worship full on 10 · spend
 - Spend · Play a round of Hoops: Play one round of Hoops [IdleOn Wiki: Minigames, Swishy Hoops · Calculated by IdleOn Toolbox · 2.3.540]
 - Extra · Claim the free Pet Mart gems: Claim today's free Pet Mart gems [IdleOn Wiki: Daily Checklist · Calculated by IdleOn Toolbox · 2.3.540]
 - Spend · Fill today's Post Office orders: Fill today's Post Office orders from storage [IdleOn Wiki: Post Office, orders · Calculated by IdleOn Toolbox · 2.3.540]
-- Grow · Star talents empty on one preset: Spend your star points on the other preset too [IdleOn Wiki: Special Talents (also called Star Talents)]
-  · Siege Breaker 1291: 6,481 star points unspent on the other preset
-  · Death Bringer 1292: 8,019 star points unspent on the other preset
-  · Elemental Sorcerer 1259: 6,354 star points unspent on the other preset
-  · Divine Knight 1240: 7,857 star points unspent on the other preset
-  · Arcane Cultist 1231: 7,559 star points unspent on the other preset
-  · Wind Walker 1280: 6,901 star points unspent on the other preset
-  · Voidwalker 1157: 7,944 star points unspent on the other preset
-  · Siege Breaker 1261: 6,267 star points unspent on the other preset
-  · Royal Guardian 1307: 9,167 star points unspent on the other preset
-  · Bubonic Conjuror 1268: 6,857 star points unspent on the other preset
-  · Beginner 1224: 5,921 star points unspent on the other preset
-show more (18)
+- Extra · Collect your Forge bars: Collect 16 bars from the Forge [IdleOn Wiki: Smithing, The Forge · Calculated by IdleOn Toolbox · 2.3.540]
+  · Most of them are Lustre Bar.
+show more (22)
 If you have time
 - Run Killroy's Warrior room on your Royal Guardian Lv 1307 (YumYum Grotto) · about 2m of hands-on play
 - Run Killroy's Archer room on your Siege Breaker Lv 1291 (YumYum Grotto) · about 2m of hands-on play
@@ -99,10 +89,8 @@ Storage and inventory
 Town shops
 Trophies and nametags
 Bribes
-Forge
 Quests
 Statues
-The Owl
 Islands
 Atom Collider
 Equinox
@@ -146,11 +134,11 @@ W0 · Drop rate · Not covered yet · Not covered yet
 W1 · Stamps · Nothing to fix · Nothing to fix · 2 to do
 W1 · Star Signs · Nothing to fix · Nothing to fix · 1 to do
 W1 · Anvil · Nothing to fix · Nothing to fix · 2 to do · 11 full · collect
-W1 · Forge · Not covered yet · Not covered yet
+W1 · Forge · Nothing to fix · Nothing to fix · 2 to do
 W1 · Bribes · Not covered yet · Not covered yet
 W1 · Statues · Not covered yet · Not covered yet
 W1 · Post Office · Nothing to fix · Nothing to fix · 2 to do
-W1 · The Owl · Not covered yet · Not covered yet
+W1 · The Owl · Nothing to fix · Nothing to fix · 2 to do
 W1 · Quests · Not covered yet · Not covered yet
 W1 · Boss keys · Nothing to fix · Nothing to fix
 W1 · Colosseum · Nothing to fix · Nothing to fix
@@ -666,6 +654,9 @@ Gifts: Slabcakes, Surprise Box
 | death-note.contribution.skull-miniboss-fm-rat | death-note/skull | C9 | advances unknown |  |
 | death-note.contribution.skull-mush-g | death-note/skull | C10 | advances no | building=51 feeders=512 rate=1886483522 rule=1 saved=361864979520 target=Green_Mushroom |
 | elite-classes.check.eliteus | elite-classes/eliteus | — | silent |  |
+| forge.check.collect-bars | forge/collect-bars | account | fires | bar=Lustre_Bar bars=16 kinds=5 |
+| forge.check.fill-empty-slots | forge/idle-slots | account | fires | bars=175000 held=1050000000 idle=16 more=9 ore=Godshard_Ore |
+| forge.check.runs-out-before-return | forge/runs-out-before-return | — | silent |  |
 | gem-shop.check.printer-buy | gem-shop/unspent | — | silent |  |
 | gem-shop.check.printer-progress | gem-shop/unspent | — | silent |  |
 | gem-shop.check.unspent | gem-shop/unspent | account | fires | gems=29781713 price=875 |
@@ -688,6 +679,12 @@ Gifts: Slabcakes, Surprise Box
 | minigames.check.hoops-play | minigames/cooldown-play | account | fires |  |
 | minigames.check.hoops-spend | minigames/cooldown-spend | account | fires | points=12 |
 | minigames.check.spiketrap | minigames/spiketrap | account | pass |  |
+| owl.check.bonuses | owl/state | — | silent |  |
+| owl.check.mega-reset | owl/state | — | silent |  |
+| owl.check.restart | owl/state | account | fires | delta=588 feathers=2.294766810169595e+24 first=1 level=16 next=9 per=5 st3=1 |
+| owl.check.start | owl/state | — | silent |  |
+| owl.goal.drop-rate | owl/progress | account | value 15 | drop=294 nextDrop=17 |
+| owl.goal.megafeathers | owl/progress | account | value 40 | multi=147 |
 | pets.check.free-pull | pets/free-pull | account | pass |  |
 | pets.check.mart-gems | pets/mart-gems | account | fires | shopDay=189 |
 | poppy.check.open | poppy/pending-fish | account | fires |  |
@@ -763,6 +760,7 @@ Gifts: Slabcakes, Surprise Box
 | systems.yaml#trapping | worlds/reached | account | reached yes |  |
 | systems.yaml#weekly-battles | worlds/reached | account | reached yes |  |
 | systems.yaml#worship | worlds/reached | account | reached yes |  |
+| task-board.check.claim | task-board/claimable | — | silent |  |
 | task-unlocks.check.spend | task-unlocks/unspent | — | silent |  |
 | tome.check.blue-pages | tome/blue-pages | — | silent |  |
 | tome.check.claim-nametags | tome/nametags | — | silent |  |

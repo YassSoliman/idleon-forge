@@ -537,10 +537,8 @@ describe('US-5 to US-7 on scrubbed-w3 (W3-early, 6 characters)', () => {
     expect(notCovered.sort()).toEqual(
       [
         'Bribes',
-        'Forge',
         'Quests',
         'Statues',
-        'The Owl',
         'Islands',
         'Atom Collider',
         'Prayers',
