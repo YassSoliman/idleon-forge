@@ -1,0 +1,171 @@
+# SPDX-License-Identifier: GPL-3.0-only
+# M26 FR-51 (Wave 4): Orion the Great Horned Owl's Feather Enterprise. Promoted from systems/owl.drafts.yaml.
+# The Mega Reset was held back until the Megafeather cap was checked: there is none. highend.json owns 37
+# Megafeathers, and the W2 and W4 test accounts went from 12 (with the 13th affordable) to 18 and 19 in
+# later saves, so the reset is never capped at 10 or 12. Every number is Toolbox's parseOwl (tier 1).
+system: owl
+entries:
+  - id: owl.check.start
+    system: owl
+    type: check
+    title: Start Orion
+    subject: account
+    effect: next-action
+    category: compounding
+    effortSeconds: 120
+    detector: { id: owl/state, params: { part: start } }
+    text: "Visit Orion at the Grand Owl Perch in Blunder Hills, follow the HOOT popups"
+    why: "Orion makes feathers on his own and turns them into permanent Class XP, damage, Skill XP, Drop Rate and All Stats for every character."
+    doneWhen: { field: account.owl.progress, change: higher }
+    appliesTo: { stages: [{ from: W1-early, to: W4-entry }] }
+    confidence: M
+    status: active
+    notes: "Fires when no feather was ever held or made (accountOptions 253 and 263 at 0), no Megafeather and no Bonuses of Orion. A save from before Orion (first.json) has no Owl and stays silent. The place is the wiki's (C3, M)."
+    sources:
+      - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-1/owl.ts#L34-L36", title: "IdleOn Toolbox parsers/world-1/owl.ts: feathers (accountOptions 253) and progress (263)", tier: 1, verified: 2026-10-20, gameVersion: 2.3.540 }
+      - { url: "https://idleon.wiki/wiki/Orion_the_Great_Horned_Owl%27s_Feather_Enterprise", title: "IdleOn Wiki: Orion the Great Horned Owl's Feather Enterprise (Grand Owl Perch, HOOT popups)", tier: 4, verified: 2026-10-20, gameVersion: 2.3.540 }
+  - id: owl.check.mega-reset
+    system: owl
+    type: check
+    title: Great Mega Reset ready
+    subject: account
+    effect: next-action
+    category: compounding
+    effortSeconds: 60
+    detector: { id: owl/state, params: { part: mega-reset } }
+    text: "Buy The Great Mega Reset at Orion for Megafeather {next:int}"
+    why: "Megafeather {next:int} adds half of Orion's base bonuses again, for good. You hold {feathers:big} feathers, enough for it; the reset takes them."
+    values:
+      why-lead-st0: "First buy Bonuses of Orion {level:int} (+{delta}% Class XP): it is the one upgrade that never resets."
+      why-lead-st1: "First buy Bonuses of Orion {level:int} (+{delta} Base DMG): it is the one upgrade that never resets."
+      why-lead-st2: "First buy Bonuses of Orion {level:int} (+{delta}% Total DMG): it is the one upgrade that never resets."
+      why-lead-st3: "First buy Bonuses of Orion {level:int} (+{delta}% Skill XP): it is the one upgrade that never resets."
+      why-lead-st4: "First buy Bonuses of Orion {level:int} (+{delta}% Drop Rate): it is the one upgrade that never resets."
+      why-lead-st5: "First buy Bonuses of Orion {level:int} (+{delta} All Stats): it is the one upgrade that never resets."
+      why-mf1: "Megafeather 1: feathers x10, for good. You hold {feathers:big} feathers, enough for it; the reset takes them."
+      why-mf2: "Megafeather 2: Orion's bonuses x2, for good. You hold {feathers:big} feathers, enough for it; the reset takes them."
+      why-mf3: "Megafeather 3: every upgrade 1% cheaper per Feather Generation level, for good. You hold {feathers:big} feathers, enough for it; the reset takes them."
+      why-mf4: "Megafeather 4: Orion's bonuses x3, for good. You hold {feathers:big} feathers, enough for it; the reset takes them."
+      why-mf5: "Megafeather 5: the cheapeners add feathers a second, for good. You hold {feathers:big} feathers, enough for it; the reset takes them."
+      why-mf6: "Megafeather 6: Orion's bonuses x4, for good. You hold {feathers:big} feathers, enough for it; the reset takes them."
+      why-mf7: "Megafeather 7: each Restart gives x5 instead of x3, for good. You hold {feathers:big} feathers, enough for it; the reset takes them."
+      why-mf8: "Megafeather 8: Orion's bonuses x5, for good. You hold {feathers:big} feathers, enough for it; the reset takes them."
+      why-mf9: "Megafeather 9: Feather Generation costs grow slower, for good. You hold {feathers:big} feathers, enough for it; the reset takes them."
+      why-mf10: "Megafeather 10: Orion's bonuses x6, for good. You hold {feathers:big} feathers, enough for it; the reset takes them."
+    doneWhen: { field: account.owl.megafeathers, change: higher }
+    appliesTo: { stages: all }
+    confidence: M
+    status: active
+    notes: "Rule = Toolbox's megaFeatherRestart alert: every upgrade open (feathers this run past 100B) and feathers >= the reset's cost. Megafeather words are ours from Toolbox's megaFeathersDesc. M, not H: 'reset whenever affordable' is the alert's and the community's (C34), and what the reset wipes is game-side (owlData text 'Reset almost everything')."
+    sources:
+      - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/utility/dashboard/account.js#L405-L421", title: "IdleOn Toolbox dashboard alerts: featherRestart and megaFeatherRestart", tier: 1, verified: 2026-10-20, gameVersion: 2.3.540 }
+      - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-1/owl.ts#L146-L172", title: "IdleOn Toolbox parsers/world-1/owl.ts: megaFeathers and getMegaFeather", tier: 1, verified: 2026-10-20, gameVersion: 2.3.540 }
+      - { url: "https://idleon.wiki/wiki/Orion_the_Great_Horned_Owl%27s_Feather_Enterprise", title: "IdleOn Wiki: Orion the Great Horned Owl's Feather Enterprise", tier: 4, verified: 2026-10-20, gameVersion: 2.3.540 }
+  - id: owl.check.restart
+    system: owl
+    type: check
+    title: Feather Restart ready
+    subject: account
+    effect: next-action
+    category: compounding
+    effortSeconds: 30
+    detector: { id: owl/state, params: { part: restart } }
+    text: "Buy Feather Restart {next:int} at Orion: x{per:int} feathers a second"
+    why: "You hold {feathers:big} feathers, enough for it. A Restart wipes the other upgrades and the feathers, but its x{per:int} stays until your next Mega Reset."
+    values:
+      why-lead-st0: "First buy Bonuses of Orion {level:int} (+{delta}% Class XP): it is the one upgrade that never resets."
+      why-lead-st1: "First buy Bonuses of Orion {level:int} (+{delta} Base DMG): it is the one upgrade that never resets."
+      why-lead-st2: "First buy Bonuses of Orion {level:int} (+{delta}% Total DMG): it is the one upgrade that never resets."
+      why-lead-st3: "First buy Bonuses of Orion {level:int} (+{delta}% Skill XP): it is the one upgrade that never resets."
+      why-lead-st4: "First buy Bonuses of Orion {level:int} (+{delta}% Drop Rate): it is the one upgrade that never resets."
+      why-lead-st5: "First buy Bonuses of Orion {level:int} (+{delta} All Stats): it is the one upgrade that never resets."
+    doneWhen: { field: account.owl.restarts, change: higher }
+    appliesTo: { stages: all }
+    confidence: M
+    status: active
+    notes: "Rule = Toolbox's featherRestart alert (feathers >= the Restart's cost), with the upgrade's own unlock (progress past 750K, parseOwl `unlocked`) in place of the alert's gate, which waits one upgrade longer. Silent while the Mega Reset is affordable (it resets the Restarts too). x3 a Restart, x5 from the 7th Megafeather (Pristine)."
+    sources:
+      - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/utility/dashboard/account.js#L405-L421", title: "IdleOn Toolbox dashboard alerts: featherRestart and megaFeatherRestart", tier: 1, verified: 2026-10-20, gameVersion: 2.3.540 }
+      - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-1/owl.ts#L77-L89", title: "IdleOn Toolbox parsers/world-1/owl.ts: upgrade cost, nextLvReq, unlocked", tier: 1, verified: 2026-10-20, gameVersion: 2.3.540 }
+      - { url: "https://idleon.wiki/wiki/Orion_the_Great_Horned_Owl%27s_Feather_Enterprise", title: "IdleOn Wiki: Orion the Great Horned Owl's Feather Enterprise", tier: 4, verified: 2026-10-20, gameVersion: 2.3.540 }
+  - id: owl.check.bonuses
+    system: owl
+    type: check
+    title: Bonuses of Orion
+    subject: account
+    effect: next-action
+    category: compounding
+    effortSeconds: 30
+    detector: { id: owl/state, params: { part: bonuses } }
+    text: "Buy Bonuses of Orion {level:int} at Orion"
+    values:
+      text-st0: "Buy Bonuses of Orion {level:int}: +{delta}% Class XP for everyone"
+      text-st1: "Buy Bonuses of Orion {level:int}: +{delta} Base DMG for everyone"
+      text-st2: "Buy Bonuses of Orion {level:int}: +{delta}% Total DMG for everyone"
+      text-st3: "Buy Bonuses of Orion {level:int}: +{delta}% Skill XP for everyone"
+      text-st4: "Buy Bonuses of Orion {level:int}: +{delta}% Drop Rate for everyone"
+      text-st5: "Buy Bonuses of Orion {level:int}: +{delta} All Stats for everyone"
+    why: "It costs {cost:big} feathers and you hold {feathers:big}. It is the only Orion upgrade that never resets, and each level is a permanent stat."
+    doneWhen: { field: account.owl.bonusesLevel, change: higher }
+    appliesTo: { stages: all }
+    confidence: M
+    status: active
+    notes: "Fires when Bonuses of Orion is open and affordable, and neither reset is (then it is their first step, the why-lead). The stat is the one the next level raises in Toolbox's 6-stat cycle (owlStats offsets), by its base times Orion's bonus multiplier."
+    sources:
+      - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-1/owl.ts#L109-L144", title: "IdleOn Toolbox parsers/world-1/owl.ts: Orion's bonus multiplier and the owlStats cycle", tier: 1, verified: 2026-10-20, gameVersion: 2.3.540 }
+      - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json", title: "IdleOn Toolbox game data: owlData ('This upgrade never resets')", tier: 1, verified: 2026-10-20, gameVersion: 2.3.540 }
+      - { url: "https://idleon.wiki/wiki/Orion_the_Great_Horned_Owl%27s_Feather_Enterprise", title: "IdleOn Wiki: Orion the Great Horned Owl's Feather Enterprise", tier: 4, verified: 2026-10-20, gameVersion: 2.3.540 }
+  - id: owl.goal.megafeathers
+    system: owl
+    type: goal
+    title: Megafeathers
+    scope: account
+    category: nice
+    unit: megafeathers
+    progress: { id: owl/progress, params: { part: megafeathers } }
+    milestones:
+      - { at: 1, reward: "feathers x10" }
+      - { at: 2, reward: "Orion's bonuses x2" }
+      - { at: 4, reward: "Orion's bonuses x3" }
+      - { at: 6, reward: "Orion's bonuses x4" }
+      - { at: 7, reward: "each Restart gives x5" }
+      - { at: 8, reward: "Orion's bonuses x5" }
+      - { at: 10, reward: "Orion's bonuses x6" }
+      - { at: 17, reward: "AutoReview's third Orion tier" }
+      - { at: 24, reward: "AutoReview's fourth Orion tier" }
+    values: { reward: "" }
+    text: "Megafeathers {value:int} · next at {next:int}: {reward}"
+    why: "Every Megafeather is permanent. Orion's bonuses are x{multi} now; from the 10th each one adds half of their base again."
+    appliesTo: { stages: all }
+    confidence: M
+    status: active
+    notes: "Rungs 1 to 10 are Toolbox's megaFeathersDesc and totalFeatherBonus (tier 1, H); 17 and 24 are IdleOn AutoReview's tiers (pre-2.3.540, M)."
+    sources:
+      - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-1/owl.ts#L109-L114", title: "IdleOn Toolbox parsers/world-1/owl.ts: totalFeatherBonus", tier: 1, verified: 2026-10-20, gameVersion: 2.3.540 }
+      - { url: "https://raw.githubusercontent.com/TwoSpookyBoos/IdleOnAutoReviewBot/05ac4496c335644dedd68e0be65ac893971efc73/mysite/w1/owl.py", title: "IdleOn AutoReview owl.py: Megafeather tiers 1, 9, 17, 24", tier: 4, verified: 2026-10-20, gameVersion: 2.3.540 }
+      - { url: "https://idleon.wiki/wiki/Orion_the_Great_Horned_Owl%27s_Feather_Enterprise", title: "IdleOn Wiki: Orion the Great Horned Owl's Feather Enterprise", tier: 4, verified: 2026-10-20, gameVersion: 2.3.540 }
+  - id: owl.goal.drop-rate
+    system: owl
+    type: goal
+    title: Orion Drop Rate
+    scope: account
+    category: nice
+    unit: levels
+    progress: { id: owl/progress, params: { part: bonuses-level } }
+    milestones:
+      - { at: 5, reward: "the first Drop Rate step" }
+      - { at: 11, reward: "a Drop Rate step" }
+      - { at: 17, reward: "a Drop Rate step" }
+      - { at: 23, reward: "about 40% Drop Rate (AutoReview, by Megafeather 18)" }
+      - { at: 29, reward: "about 67.5% Drop Rate (AutoReview, by Megafeather 25)" }
+    values: { reward: "" }
+    text: "Bonuses of Orion {value:int} · Drop Rate +{drop}% · next at {next:int}: {reward}"
+    why: "Drop Rate rises on every 6th level of Bonuses of Orion (5, 11, 17, 23, 29 and on), for every character."
+    appliesTo: { stages: all }
+    confidence: M
+    status: active
+    notes: "Step levels are code (owlStats Drop Rate offset 4, tier 1, H); the 23 and 29 targets are AutoReview's (pre-patch, M)."
+    sources:
+      - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-1/owl.ts#L124-L141", title: "IdleOn Toolbox parsers/world-1/owl.ts: owlStats, Drop Rate base 1, offset 4", tier: 1, verified: 2026-10-20, gameVersion: 2.3.540 }
+      - { url: "https://raw.githubusercontent.com/TwoSpookyBoos/IdleOnAutoReviewBot/05ac4496c335644dedd68e0be65ac893971efc73/mysite/w1/owl.py", title: "IdleOn AutoReview owl.py: orionDRValues {23: 40, 29: 67.5}", tier: 4, verified: 2026-10-20, gameVersion: 2.3.540 }
+      - { url: "https://idleon.wiki/wiki/Orion_the_Great_Horned_Owl%27s_Feather_Enterprise", title: "IdleOn Wiki: Orion the Great Horned Owl's Feather Enterprise", tier: 4, verified: 2026-10-20, gameVersion: 2.3.540 }

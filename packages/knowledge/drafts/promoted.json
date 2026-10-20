@@ -19,6 +19,12 @@
     "forge.check.fill-empty-slots",
     "forge.check.runs-out-before-return",
     "forge.check.collect-bars",
-    "task-board.check.claim"
+    "task-board.check.claim",
+    "owl.check.start",
+    "owl.check.mega-reset",
+    "owl.check.restart",
+    "owl.check.bonuses",
+    "owl.goal.megafeathers",
+    "owl.goal.drop-rate"
   ]
 }
