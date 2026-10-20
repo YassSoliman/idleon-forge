@@ -116,7 +116,15 @@ export function PlanRow({
                   <li key={i} className="pp-hammer">
                     <span className="a-cap">Hammer {i + 1}</span>
                     <span className="pp-hammer__move">
-                      {h.from >= 0 ? (
+                      {h.from === h.to ? (
+                        // A hammer that stays on its product: "Thread · keep", never "Thread › Thread".
+                        <span className="pp-hammer__to">
+                          <GameIcon art={itemArt(product(h.to)?.rawName)} size={24} decorative />
+                          <b>{product(h.to)?.name}</b>
+                          <span className="sf-hint">keep</span>
+                        </span>
+                      ) : null}
+                      {h.from === h.to ? null : h.from >= 0 ? (
                         <span className="pp-hammer__from">
                           <GameIcon art={itemArt(product(h.from)?.rawName)} size={24} decorative />
                           <span>{product(h.from)?.name}</span>
@@ -124,11 +132,15 @@ export function PlanRow({
                       ) : (
                         <span className="pp-hammer__from">free</span>
                       )}
-                      <span aria-hidden="true">›</span>
-                      <span className="pp-hammer__to">
-                        <GameIcon art={itemArt(product(h.to)?.rawName)} size={24} decorative />
-                        <b>{product(h.to)?.name}</b>
-                      </span>
+                      {h.from === h.to ? null : (
+                        <>
+                          <span aria-hidden="true">›</span>
+                          <span className="pp-hammer__to">
+                            <GameIcon art={itemArt(product(h.to)?.rawName)} size={24} decorative />
+                            <b>{product(h.to)?.name}</b>
+                          </span>
+                        </>
+                      )}
                     </span>
                     <span className="sf-hint">
                       {h.shared
