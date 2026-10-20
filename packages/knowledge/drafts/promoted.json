@@ -18,6 +18,7 @@
     "lab.check.jewel-unlit",
     "forge.check.fill-empty-slots",
     "forge.check.runs-out-before-return",
-    "forge.check.collect-bars"
+    "forge.check.collect-bars",
+    "task-board.check.claim"
   ]
 }

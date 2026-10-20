@@ -74,6 +74,10 @@ export const SYSTEM_HOMES: Readonly<Record<string, SystemHome>> = {
   'town-shops': { page: 'town-shops' },
   // M26 Wave 2: the W2/W3 gaps' pages.
   forge: { page: 'forge' },
+  // One page, three tabs (FR-26): each System opens on its own.
+  'task-board': { page: 'task-board' },
+  'merit-shop': { page: 'task-board' },
+  'task-unlocks': { page: 'task-board' },
 };
 
 /** The Character page tab a System's home is, or null for its System page. */

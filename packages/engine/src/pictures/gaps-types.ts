@@ -43,4 +43,37 @@ export interface ForgePicture {
   barrels: Array<ForgeItemView & { effect: 'speed' | 'double'; power: number }>;
 }
 
-export type GapsPicture = ForgePicture;
+export interface TaskView {
+  index: number;
+  /** "Faceless Deathmachine" */
+  name: string;
+  stat: number;
+  level: number;
+  maxLevel: number;
+  next: number | null;
+  ready: number;
+  resetsOnClaim: boolean;
+}
+
+export interface TaskWorldView {
+  world: 1 | 2 | 3 | 4;
+  open: boolean;
+  /** What opens a closed board ("Finish Desert Davey's quest"). */
+  opener: string;
+  tasks: TaskView[];
+  daily: { name: string; done: boolean } | null;
+  /** Tiers waiting on this board, and the merits unspent in its shop. */
+  ready: number;
+  merits: number | null;
+  shop: Array<{ index: number; text: string; level: number; max: number; cost: number | null }>;
+}
+
+export interface TaskBoardPicture {
+  systemId: 'task-board';
+  kind: 'task-board';
+  worlds: TaskWorldView[];
+  ready: number;
+  unlocks: { owned: number; bought: number; openUnbought: number | null; progress: number; nextAt: number };
+}
+
+export type GapsPicture = ForgePicture | TaskBoardPicture;

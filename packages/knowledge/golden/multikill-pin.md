@@ -1,4 +1,4 @@
-# golden v1: multikill-pin · knowledge #f6946eff · parser 6c37e3d (game 2.3.540) · now 2026-08-26T17:27:35.771Z · return 8h · stage W4-late · stale: 4 of 1063
+# golden v1: multikill-pin · knowledge #a52cf9dd · parser 6c37e3d (game 2.3.540) · now 2026-08-26T17:27:35.771Z · return 8h · stage W4-late · stale: 4 of 1064
 
 ## Verdict changes
 
@@ -755,6 +755,7 @@ Gifts: Slabcakes, Surprise Box
 | systems.yaml#trapping | worlds/reached | account | reached yes |  |
 | systems.yaml#weekly-battles | worlds/reached | account | reached yes |  |
 | systems.yaml#worship | worlds/reached | account | reached yes |  |
+| task-board.check.claim | task-board/claimable | — | silent |  |
 | task-unlocks.check.spend | task-unlocks/unspent | — | silent |  |
 | tome.check.blue-pages | tome/blue-pages | — | silent |  |
 | tome.check.claim-nametags | tome/nametags | — | silent |  |

@@ -1,4 +1,4 @@
-# golden v1: scrubbed-w2 · knowledge #f6946eff · parser 6c37e3d (game 2.3.540) · now 2026-10-17T15:47:05.447Z · return 8h · stage W2-late · stale: 4 of 1063
+# golden v1: scrubbed-w2 · knowledge #a52cf9dd · parser 6c37e3d (game 2.3.540) · now 2026-10-17T15:47:05.447Z · return 8h · stage W2-late · stale: 4 of 1064
 
 ## Verdict changes
 
@@ -528,6 +528,7 @@ step: Use your 11 vial attempts on the W2 town cauldron
 | systems.yaml#trapping | worlds/reached | account | reached no |  |
 | systems.yaml#weekly-battles | worlds/reached | account | reached yes |  |
 | systems.yaml#worship | worlds/reached | account | reached no |  |
+| task-board.check.claim | task-board/claimable | — | silent |  |
 | task-unlocks.check.spend | task-unlocks/unspent | account | fires | points=2 |
 | tome.check.blue-pages | tome/blue-pages | — | silent |  |
 | tome.check.claim-nametags | tome/nametags | — | silent |  |
