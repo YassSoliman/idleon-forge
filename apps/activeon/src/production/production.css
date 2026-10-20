@@ -284,7 +284,9 @@ dt.ar-mat {
 }
 .pp-hammers {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 180px), 1fr));
+  /* auto-fill, not auto-fit: an anvil with two hammers keeps the three-hammer columns of its neighbours
+     instead of stretching each card to half the row. */
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 180px), 1fr));
   gap: var(--space-2);
   margin: 0;
   padding: 0;
@@ -292,6 +294,8 @@ dt.ar-mat {
 }
 .pp-hammer {
   display: grid;
+  /* Rows pack at the top: a card shorter than its tallest neighbour doesn't spread its lines apart. */
+  align-content: start;
   gap: var(--space-1);
   padding: var(--space-2) var(--space-3);
   background: var(--sunk);
