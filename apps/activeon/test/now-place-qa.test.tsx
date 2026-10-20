@@ -9,7 +9,7 @@ import { readdirSync, readFileSync } from 'node:fs';
 import { join, resolve } from 'node:path';
 import type { NowView } from '@idleon-forge/engine/now';
 import type { EngineResult, Goal } from '@idleon-forge/engine/result';
-import { cleanup, fireEvent, screen } from '@testing-library/react';
+import { cleanup, fireEvent, screen, waitFor } from '@testing-library/react';
 import { afterEach, beforeEach, describe, expect, it } from 'vitest';
 import { CHARACTERS_PLACE_WORDS as C, NOW_PLACE_WORDS as W } from '../src/now/place/words';
 import { TAB_HEALTH } from '../src/now/tab-health';
@@ -82,6 +82,22 @@ describe('P2: Rounds says each thing once, and every pip has a word', () => {
     expect(W.roundSummary(6, 3, 0, 0)).toBe('6 characters · 3 maps · all safe to leave');
     expect(W.roundSummary(6, 3, 2, 9)).toBe('6 characters · 3 maps · 2 fixes first');
     expect(W.roundLine(6, 0, 1)).toBe('6 characters, one job each · 1 full thing to collect');
+  });
+
+  it('M25: every round stop and the next one wear the game class icon (ClassBadge), as on Characters', async () => {
+    const r: EngineResult = fixture('mid-session');
+    renderNow(props(r, saveOf(r, 1, 'first', null, 'paste')));
+    // The badge is a lazy chunk: the bare blob draws first.
+    await waitFor(() => expect(document.querySelector('.np-next .cb .cb__icon img')).not.toBeNull());
+    const stops = [...document.querySelectorAll('.np-stop__pic')];
+    expect(stops.length).toBeGreaterThan(0);
+    for (const s of stops)
+      expect(s.querySelector('.cb .cb__icon img')?.getAttribute('src')).toMatch(/ClassIcons\d+/);
+    expect(document.querySelector('.np-next .cb .cb__icon img')).not.toBeNull();
+    // On a phone the card's blob hides; its badge hides with it.
+    expect(read('now/place/place.css')).toMatch(
+      /\.np-card__top \.a-blob,\s*\.np-card__top \.cb \{\s*display: none;/,
+    );
   });
 
   it('a card whose task is a shown "Same job" points there; no card chip is a lone pip', () => {
