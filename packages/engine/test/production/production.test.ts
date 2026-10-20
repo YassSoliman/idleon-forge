@@ -201,4 +201,11 @@ describe('FR-C1: gates in words become links', () => {
     expect(b[1]).toMatchObject({ kind: 'gate', met: false, ready: 0, of: 4 });
     expect(b[2]).toBe(' at the anvil');
   });
+
+  it("each tab gate's sprite is its own tab's numeral (tab 1 is I, not II)", () => {
+    const { p } = production();
+    expect(p.tabGates.map((g) => [g.label, g.icon])).toEqual(
+      [1, 2, 3, 4, 5].map((t) => [t <= 3 ? `Anvil tab ${t}` : `Anvil Tab ${t}`, `EquipmentSmithingTabs${t}`]),
+    );
+  });
 });
