@@ -115,6 +115,9 @@ export type {
   GapsAccountFields,
   SaltLickState,
   SaltLickUpgrade,
+  TaskBoardState,
+  TaskBoardTask,
+  TaskBoardWorld,
 } from './gaps-types';
 // M18 Gear & Tools (M18 TR-2)
 export { GEAR_TYPES, gearItem, type HeldGear, heldGear, type WornSlot, wornGear } from './gear';

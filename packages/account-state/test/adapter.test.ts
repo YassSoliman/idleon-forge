@@ -210,6 +210,7 @@ describe('toAccountState', () => {
       tome: null,
       saltLick: null,
       forge: null,
+      taskBoard: null,
     });
     expect(state.characters.map(withoutUnspentCharacter)).toEqual([
       {
