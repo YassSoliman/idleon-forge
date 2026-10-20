@@ -1,0 +1,388 @@
+{
+  "entries": [
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "category": "compounding",
+      "confidence": "H",
+      "data": {
+        "unlocks": [
+          0,
+          40,
+          150,
+          250
+        ]
+      },
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "minigames",
+        "inputs": [
+          "website-data/shared-data.json#tomeData",
+          "website-data/randomList.json",
+          "parsers/highScores.ts#getHoopsData",
+          "parsers/highScores.ts#getDartsData"
+        ]
+      },
+      "id": "minigames.goal.ladder-darts-unlocks",
+      "milestones": [
+        {
+          "at": 40,
+          "reward": "TALENT"
+        },
+        {
+          "at": 150,
+          "reward": "VAULT, cheaper Upgrade Vault"
+        },
+        {
+          "at": 250,
+          "reward": "SPEED"
+        }
+      ],
+      "origin": "generated",
+      "progress": {
+        "id": "minigames/unlock-ladder",
+        "params": {
+          "game": "darts"
+        }
+      },
+      "scope": "account",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox getHoopsData / getDartsData: each upgrade opens at a total of levels bought",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/highScores.ts",
+          "verified": "2026-10-17"
+        },
+        {
+          "claimDate": "2026-10-07",
+          "gameVersion": "2.3.540",
+          "tier": 2,
+          "title": "IdleOn Wiki: Minigames",
+          "url": "https://idleon.wiki/wiki/Minigames",
+          "verified": "2026-10-19"
+        }
+      ],
+      "status": "active",
+      "system": "minigames",
+      "text": "{more:int} more Darts levels open {reward} ({value:int}/{next:int})",
+      "title": "Open every Darts upgrade",
+      "type": "goal",
+      "unit": "levels",
+      "values": {
+        "game": "darts"
+      },
+      "why": "Darts upgrades open by the total levels bought, not by the level of any one upgrade."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "category": "compounding",
+      "confidence": "H",
+      "data": {
+        "unlocks": [
+          0,
+          12,
+          80,
+          200
+        ]
+      },
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "minigames",
+        "inputs": [
+          "website-data/shared-data.json#tomeData",
+          "website-data/randomList.json",
+          "parsers/highScores.ts#getHoopsData",
+          "parsers/highScores.ts#getDartsData"
+        ]
+      },
+      "id": "minigames.goal.ladder-hoops-unlocks",
+      "milestones": [
+        {
+          "at": 12,
+          "reward": "COIN"
+        },
+        {
+          "at": 80,
+          "reward": "EXP"
+        },
+        {
+          "at": 200,
+          "reward": "SKILL, all-skill efficiency"
+        }
+      ],
+      "origin": "generated",
+      "progress": {
+        "id": "minigames/unlock-ladder",
+        "params": {
+          "game": "hoops"
+        }
+      },
+      "scope": "account",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox getHoopsData / getDartsData: each upgrade opens at a total of levels bought",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/highScores.ts",
+          "verified": "2026-10-17"
+        },
+        {
+          "claimDate": "2026-10-07",
+          "gameVersion": "2.3.540",
+          "tier": 2,
+          "title": "IdleOn Wiki: Minigames",
+          "url": "https://idleon.wiki/wiki/Minigames",
+          "verified": "2026-10-19"
+        }
+      ],
+      "status": "active",
+      "system": "minigames",
+      "text": "{more:int} more Hoops levels open {reward} ({value:int}/{next:int})",
+      "title": "Open every Hoops upgrade",
+      "type": "goal",
+      "unit": "levels",
+      "values": {
+        "game": "hoops"
+      },
+      "why": "Hoops upgrades open by the total levels bought, not by the level of any one upgrade."
+    },
+    {
+      "appliesTo": {
+        "stages": [
+          {
+            "from": "W3-early",
+            "to": "W4-late"
+          }
+        ]
+      },
+      "category": "compounding",
+      "confidence": "H",
+      "data": {
+        "values": [
+          5,
+          5,
+          15,
+          5,
+          1,
+          15,
+          5,
+          1,
+          1
+        ]
+      },
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "minigames",
+        "inputs": [
+          "website-data/shared-data.json#tomeData",
+          "website-data/randomList.json",
+          "parsers/highScores.ts#getHoopsData",
+          "parsers/highScores.ts#getDartsData"
+        ]
+      },
+      "id": "minigames.goal.ladder-pen-pals",
+      "milestones": [
+        {
+          "at": 25,
+          "reward": "a Trapping EXP bonus"
+        },
+        {
+          "at": 50,
+          "reward": "a trap efficiency bonus"
+        },
+        {
+          "at": 75,
+          "reward": "a shiny critter bonus"
+        },
+        {
+          "at": 100,
+          "reward": "a Trapping EXP bonus"
+        },
+        {
+          "at": 125,
+          "reward": "a critter gain bonus"
+        },
+        {
+          "at": 150,
+          "reward": "a shiny critter bonus"
+        },
+        {
+          "at": 175,
+          "reward": "a trap efficiency bonus"
+        },
+        {
+          "at": 200,
+          "reward": "a critter gain bonus"
+        },
+        {
+          "at": 225,
+          "reward": "a skill AFK gain bonus"
+        }
+      ],
+      "origin": "generated",
+      "progress": {
+        "id": "minigames/pen-pals",
+        "params": {}
+      },
+      "scope": "account",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: randomList[59], the Pen Pals tier values",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/randomList.json",
+          "verified": "2026-10-17"
+        },
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox getTrappingStuff: tier n at 25(n+1)",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/character.ts",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "minigames",
+      "text": "Pen Pals highscore {next:int} opens {reward} ({value:int} now)",
+      "title": "Pen Pals bonus tiers",
+      "type": "goal",
+      "unit": "points",
+      "values": {},
+      "why": "Every step of Pen Pals highscore opens a permanent Trapping bonus. You are {more:int} short of the next one."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "category": "compounding",
+      "confidence": "H",
+      "data": {
+        "tomeRow": "Best_Spiketrap_Surprise_round"
+      },
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "minigames",
+        "inputs": [
+          "website-data/shared-data.json#tomeData",
+          "website-data/randomList.json",
+          "parsers/highScores.ts#getHoopsData",
+          "parsers/highScores.ts#getDartsData"
+        ]
+      },
+      "id": "minigames.goal.ladder-spiketrap-round",
+      "milestones": [
+        {
+          "at": 13,
+          "reward": "the Tome row's full 100 points"
+        }
+      ],
+      "origin": "generated",
+      "progress": {
+        "id": "minigames/spiketrap-round",
+        "params": {}
+      },
+      "scope": "account",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: tomeData, each Tome row and what gives its full points",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
+          "verified": "2026-10-17"
+        },
+        {
+          "claimDate": "2026-10-12",
+          "gameVersion": "2.3.540",
+          "tier": 2,
+          "title": "IdleOn Wiki: Tome",
+          "url": "https://idleon.wiki/wiki/Tome",
+          "verified": "2026-10-19"
+        }
+      ],
+      "status": "active",
+      "system": "minigames",
+      "text": "Reach round {next:int} in Spiketrap Surprise (best {value:int})",
+      "title": "Spiketrap round",
+      "type": "goal",
+      "unit": "rounds",
+      "values": {},
+      "why": "The Tome scores your best Spiketrap Surprise round, and a higher round pays more of the daily gems."
+    },
+    {
+      "appliesTo": {
+        "stages": [
+          {
+            "from": "W3-early",
+            "to": "W4-late"
+          }
+        ]
+      },
+      "category": "compounding",
+      "confidence": "H",
+      "data": {
+        "tomeRow": "Total_Minigame_Highscore_"
+      },
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "minigames",
+        "inputs": [
+          "website-data/shared-data.json#tomeData",
+          "website-data/randomList.json",
+          "parsers/highScores.ts#getHoopsData",
+          "parsers/highScores.ts#getDartsData"
+        ]
+      },
+      "id": "minigames.goal.ladder-tome-highscore",
+      "milestones": [
+        {
+          "at": 450,
+          "reward": "the Tome row's full 100 points"
+        }
+      ],
+      "origin": "generated",
+      "progress": {
+        "id": "minigames/tome-highscore",
+        "params": {}
+      },
+      "scope": "account",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: tomeData, each Tome row and what gives its full points",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
+          "verified": "2026-10-17"
+        },
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox calcMinigameTotalScore",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/highScores.ts",
+          "verified": "2026-10-17"
+        },
+        {
+          "claimDate": "2026-10-12",
+          "gameVersion": "2.3.540",
+          "tier": 2,
+          "title": "IdleOn Wiki: Tome",
+          "url": "https://idleon.wiki/wiki/Tome",
+          "verified": "2026-10-19"
+        }
+      ],
+      "status": "active",
+      "system": "minigames",
+      "text": "Raise your minigame highscores to {next:int} in total ({value:int} now)",
+      "title": "Total Minigame Highscore",
+      "type": "goal",
+      "unit": "points",
+      "values": {},
+      "why": "The Tome adds your Choppin, Fishing, Catching, Mining and Pen Pals highscores into one row. Hoops, Darts and Spiketrap do not count toward it."
+    }
+  ],
+  "generator": "minigames",
+  "system": "minigames"
+}

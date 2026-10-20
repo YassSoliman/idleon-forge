@@ -1,4 +1,4 @@
-# golden v1: second · knowledge #a52cf9dd · parser 6c37e3d (game 2.3.540) · now 2024-06-08T06:05:26.262Z · return 8h · stage W4-late · stale: 4 of 1064
+# golden v1: second · knowledge #639ff944 · parser 6c37e3d (game 2.3.540) · now 2024-06-08T06:05:26.262Z · return 8h · stage W4-late · stale: 4 of 1077
 
 ## Verdict changes
 
@@ -58,7 +58,7 @@ purpose: Death Note: Penguin kills ~38M → 100M · about 8h
 - Grow · Equip gear you hold: Equip gear you already hold on 2 characters [IdleOn Wiki: Helmets (stats and level to equip) · Calculated by IdleOn Toolbox · 2.3.540]
   · Divine Knight Lv 544: Fuscismatia from storage
   · Wizard Lv 501: Witch Hat from the Elemental Sorcerer Lv 525's bag
-show more (9)
+show more (12)
 
 ## Not covered yet
 Achievements
@@ -95,7 +95,7 @@ W0 · Gem Shop · Nothing to fix · Nothing to fix · 1 to do
 W0 · Merit Shop · Nothing to fix · Nothing to fix
 W0 · Tasks · Nothing to fix · Nothing to fix · 1 to do
 W0 · Companions and pets · Can't tell · Can't tell from the save
-W0 · Minigames · Wasting · 1 to fix before you leave
+W0 · Minigames · Wasting · 1 to fix before you leave · 3 to do
 W0 · Cards · Nothing to fix · Nothing to fix
 W0 · Obols · Nothing to fix · Nothing to fix · 1 to do
 W0 · Portals and map doors · Nothing to fix · Nothing to fix
@@ -128,7 +128,7 @@ W1 · The Owl · Not covered yet · Not covered yet
 W1 · Quests · Not covered yet · Not covered yet
 W1 · Boss keys · Nothing to fix · Nothing to fix
 W1 · Colosseum · Nothing to fix · Nothing to fix
-W1 · Poppy · Nothing to fix · Nothing to fix
+W1 · Poppy · Locked · Needs the Secret Map from the Yum-Yum Grotto vendor, which leads to The Oasis and Poppy's Fish Pond
 W2 · Alchemy cauldrons and liquids · Nothing to fix · Nothing to fix · 1 to do
 W2 · Alchemy bubbles · Nothing to fix · Nothing to fix
 W2 · Alchemy vials · Nothing to fix · Nothing to fix · 1 to do
@@ -631,9 +631,17 @@ Can't read Bubba from this save
 | minigames.check.hoops-play | minigames/cooldown-play | account | fires |  |
 | minigames.check.hoops-spend | minigames/cooldown-spend | — | silent |  |
 | minigames.check.spiketrap | minigames/spiketrap | — | silent |  |
+| minigames.goal.darts-unlocks | minigames/unlock-ladder | account | value 0 |  |
+| minigames.goal.hoops-unlocks | minigames/unlock-ladder | account | value 0 |  |
+| minigames.goal.pen-pals | minigames/pen-pals | account | value 226 |  |
+| minigames.goal.spiketrap-round | minigames/spiketrap-round | account | value 11 |  |
+| minigames.goal.tome-highscore | minigames/tome-highscore | account | value 815 |  |
 | pets.check.free-pull | pets/free-pull | account | pass |  |
 | pets.check.mart-gems | pets/mart-gems | account | unknown (field-missing) |  |
+| poppy.check.fisheroo-reset | poppy/state | — | silent |  |
+| poppy.check.greatest-catch | poppy/state | — | silent |  |
 | poppy.check.open | poppy/pending-fish | — | silent |  |
+| poppy.goal.megafish | poppy/megafish | — | silent |  |
 | portals.contribution.push-map-108 | portals/push | C1 | advances no | door=0 map=Signature_Slopes rate=759444 rule=1 saved=2447422 |
 | portals.contribution.push-map-108 | portals/push | C10 | advances no | door=0 map=Signature_Slopes rate=849172 rule=1 saved=858812 |
 | portals.contribution.push-map-108 | portals/push | C2 | advances no | door=0 map=Signature_Slopes rate=935766 rule=1 saved=3293704 |
@@ -689,7 +697,7 @@ Can't read Bubba from this save
 | systems.yaml#lab | systems/unlocked | account | reached yes |  |
 | systems.yaml#library | worlds/reached | account | reached yes |  |
 | systems.yaml#owl | worlds/reached | account | reached yes |  |
-| systems.yaml#poppy | worlds/reached | account | reached yes |  |
+| systems.yaml#poppy | systems/unlocked | account | reached no |  |
 | systems.yaml#post-office | post-office/unlocked | account | reached yes |  |
 | systems.yaml#prayers | worlds/reached | account | reached yes |  |
 | systems.yaml#printer | worlds/reached | account | reached yes |  |

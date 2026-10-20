@@ -1,4 +1,4 @@
-# golden v1: first · knowledge #a52cf9dd · parser 6c37e3d (game 2.3.540) · now 2024-06-07T21:16:34.518Z · return 8h · stage W4-entry · stale: 4 of 1064
+# golden v1: first · knowledge #639ff944 · parser 6c37e3d (game 2.3.540) · now 2024-06-07T21:16:34.518Z · return 8h · stage W4-entry · stale: 4 of 1077
 
 ## Verdict changes
 
@@ -59,7 +59,7 @@ purpose: Death Note: Purp Mushroom kills ~47k → 100k · about 19h
   · Easiest rolls with what you hold: Sippy Cup (a roll of 97 or more, Sippy Straw), 40-40 Purity (a roll of 98 or more, Contact Lense)
   · Drop several stacks quickly: each counts as a roll
 - Spend · Fill today's Post Office orders: Fill today's Post Office orders from storage [IdleOn Wiki: Post Office, orders · Calculated by IdleOn Toolbox · 2.3.540]
-show more (26)
+show more (31)
 Spend coins: 34 buys now on 3 characters
   1. Buy the bribe Photoshopped Dmg Range on Bubonic Conjuror Lv 87: 100M coins · Lv 0 → 1 · withdraw 100M coins from storage on C2, then buy · total 100M coins on C2
   2. Buy the bribe Glitched Acc Formula on Bubonic Conjuror Lv 87: 300M coins · Lv 0 → 1 · withdraw 300M coins from storage on C2, then buy · total 400M coins on C2
@@ -105,7 +105,7 @@ W0 · Gem Shop · Nothing to fix · Nothing to fix · 1 to do
 W0 · Merit Shop · Nothing to fix · Nothing to fix · 2 to do
 W0 · Tasks · Nothing to fix · Nothing to fix · 1 to do
 W0 · Companions and pets · Can't tell · Can't tell from the save
-W0 · Minigames · Wasting · 1 to fix before you leave
+W0 · Minigames · Wasting · 1 to fix before you leave · 5 to do
 W0 · Cards · Nothing to fix · Nothing to fix · 1 to do
 W0 · Obols · Nothing to fix · Nothing to fix · 1 to do
 W0 · Portals and map doors · Nothing to fix · Nothing to fix
@@ -138,7 +138,7 @@ W1 · The Owl · Not covered yet · Not covered yet
 W1 · Quests · Not covered yet · Not covered yet
 W1 · Boss keys · Nothing to fix · Nothing to fix · 1 to do
 W1 · Colosseum · Wasting · 1 to fix before you leave
-W1 · Poppy · Nothing to fix · Nothing to fix
+W1 · Poppy · Locked · Needs the Secret Map from the Yum-Yum Grotto vendor, which leads to The Oasis and Poppy's Fish Pond
 W2 · Alchemy cauldrons and liquids · Nothing to fix · Nothing to fix · 2 to do
 W2 · Alchemy bubbles · Nothing to fix · Nothing to fix · 1 to do
 W2 · Alchemy vials · Nothing to fix · Nothing to fix · 2 to do
@@ -558,9 +558,17 @@ Can't read Bubba from this save
 | minigames.check.hoops-play | minigames/cooldown-play | account | fires |  |
 | minigames.check.hoops-spend | minigames/cooldown-spend | — | silent |  |
 | minigames.check.spiketrap | minigames/spiketrap | account | pass |  |
+| minigames.goal.darts-unlocks | minigames/unlock-ladder | account | value 0 |  |
+| minigames.goal.hoops-unlocks | minigames/unlock-ladder | account | value 0 |  |
+| minigames.goal.pen-pals | minigames/pen-pals | account | value 118 |  |
+| minigames.goal.spiketrap-round | minigames/spiketrap-round | account | value 2 |  |
+| minigames.goal.tome-highscore | minigames/tome-highscore | account | value 350 |  |
 | pets.check.free-pull | pets/free-pull | account | pass |  |
 | pets.check.mart-gems | pets/mart-gems | account | unknown (field-missing) |  |
+| poppy.check.fisheroo-reset | poppy/state | — | silent |  |
+| poppy.check.greatest-catch | poppy/state | — | silent |  |
 | poppy.check.open | poppy/pending-fish | — | silent |  |
+| poppy.goal.megafish | poppy/megafish | — | silent |  |
 | portals.contribution.push-map-151 | portals/push | C1 | advances no | door=0 map=Spaceway_Raceway rate=1718 rule=1 saved=16546 |
 | portals.contribution.push-map-151 | portals/push | C4 | advances no | door=0 map=Spaceway_Raceway rate=1008 rule=1 saved=7331 |
 | post-office.check.daily-orders | post-office/state | account | fires | companies=1 |
@@ -608,7 +616,7 @@ Can't read Bubba from this save
 | systems.yaml#lab | systems/unlocked | account | reached yes |  |
 | systems.yaml#library | worlds/reached | account | reached yes |  |
 | systems.yaml#owl | worlds/reached | account | reached yes |  |
-| systems.yaml#poppy | worlds/reached | account | reached yes |  |
+| systems.yaml#poppy | systems/unlocked | account | reached no |  |
 | systems.yaml#post-office | post-office/unlocked | account | reached yes |  |
 | systems.yaml#prayers | worlds/reached | account | reached yes |  |
 | systems.yaml#printer | worlds/reached | account | reached yes |  |

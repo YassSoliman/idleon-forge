@@ -75,6 +75,8 @@ export const FULL_PAGES: Readonly<Record<string, ComponentType<FullPageProps>>> 
   'task-board': gapsPage('TaskBoardPage'),
   'merit-shop': gapsPage('TaskBoardPage'),
   'task-unlocks': gapsPage('TaskBoardPage'),
+  // M26 Wave 6: the rest of World 1.
+  poppy: full(() => import('./pages/PoppyPage')),
   // M26 FR-0b: the other Wave 0 registry rows, the thin page itself until their wave (spec section 9).
   ...Object.fromEntries(
     [

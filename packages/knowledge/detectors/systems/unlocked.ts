@@ -19,6 +19,7 @@ export default defineDetector({
     'account.cooking',
     'account.equinoxUnlocked',
     'account.rift',
+    'account.poppy',
     'account.currentWorld',
     'diagnostics',
   ],
@@ -28,6 +29,7 @@ export default defineDetector({
       { fixture: 'first', params: { system: 'breeding' } },
       { fixture: 'fourth', params: { system: 'equinox' } },
       { fixture: 'fourth', params: { system: 'rift' } },
+      { fixture: 'highend', params: { system: 'poppy' } },
     ],
     silent: [
       // W3, but no Mirror and no Dream Upgrade (M26 FR-8): Equinox stays locked though currentWorld is 3.
@@ -38,6 +40,8 @@ export default defineDetector({
       { fixture: 'scrubbed-w2', params: { system: 'equinox' } },
       // World 4 reached, but the Rift Ripper's quest is not done: the Rift's own fact says locked.
       { fixture: 'first', params: { system: 'rift' } },
+      // World 4, but Poppy's pond never reached: no fish, nothing bought.
+      { fixture: 'first', params: { system: 'poppy' } },
     ],
     unknown: [
       {

@@ -260,7 +260,7 @@ systems:
     world: 1
     scope: account
     dossier: https://github.com/YassSoliman/idleon-forge/blob/research/w1-systems/docs/research/systems/2026-10-17-w1-systems.md
-    unlocked: { id: worlds/reached, params: { world: 1 } }
+    unlocked: { id: systems/unlocked, params: { system: poppy } }
     unlockFact: systems.fact.unlocks
 
   # ---- World 2 ----

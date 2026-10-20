@@ -32,7 +32,7 @@ describe('the M6 engine module', () => {
       expect.arrayContaining([
         'Claim your free pet pull at Doggy',
         'Collect 5 Colosseum tickets',
-        'Spiketrap starts at :00: up to 40 gems today',
+        "Spiketrap starts at :00: today's gems are unclaimed",
         'Play one round of Darts',
         'Play one round of Hoops',
         'Use your 11 vial attempts on the W2 town cauldron',

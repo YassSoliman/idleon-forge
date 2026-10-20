@@ -80,6 +80,15 @@ const riftFact: UnlockFact = (s) => {
   return r ? r.unlocked : null;
 };
 
+/**
+ * M26 FR-55: Poppy's pond reached: fish caught or an upgrade bought (`account.poppy.unlocked`). The
+ * Secret Map is a World 2 buy, so World 2 is the fallback while the pond is unread.
+ */
+const poppyFact: UnlockFact = (s) => {
+  const p = known(s, 'account.poppy') ? s.account.poppy : null;
+  return p ? p.unlocked : null;
+};
+
 /** No Account State field yet: the world fallback decides (named so the gap is visible). */
 const notYet: UnlockFact = () => null;
 
@@ -95,6 +104,7 @@ export const UNLOCK_RULES: Readonly<Record<string, UnlockRule>> = {
   rift: { world: 4, reads: ['account.rift'], fact: riftFact, opens: ['rift.check.unlock-quest'] },
   equinox: { world: 3, reads: ['account.equinoxUnlocked'], fact: equinoxFact },
   islands: { world: 2, reads: [], fact: notYet },
+  poppy: { world: 2, reads: ['account.poppy'], fact: poppyFact },
 };
 
 /** Whether entry `id` is `system`'s unlock step, which the lock guard keeps (`UnlockRule.opens`). */

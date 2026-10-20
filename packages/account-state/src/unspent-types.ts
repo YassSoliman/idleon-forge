@@ -8,6 +8,8 @@
 // `unlocked`, M6 extends each entry, see SaltState); key collectors are read from M2's
 // `characters[*].npcDialog`, and the Death Note level is M2's `account.buildings.deathNote`.
 
+import type { PoppyState } from './poppy-types';
+
 /** The four bubble cauldrons, in game order. */
 export type CauldronId = 'power' | 'quicc' | 'high-iq' | 'kazam';
 
@@ -82,6 +84,8 @@ export interface MinigamesState {
   hoops: CooldownGame;
   /** OLA[7] == 1 (today's Spiketrap gems not claimed yet), OLA[201]. */
   spiketrap: { gemsAvailableToday: boolean; bestRound: number };
+  /** M26 FR-55: the Pen Pals highscore (OLA[99], Toolbox `minigameHighscores` "pen pals"); its bonuses open every 25. */
+  penPals?: number;
 }
 
 export interface PetsState {
@@ -178,8 +182,8 @@ export interface UnspentAccountFields {
   pets?: PetsState | null;
   petMart?: PetMartState | null;
   postOffice?: PostOfficeState | null;
-  /** Poppy (Toolbox `kangaroo`). */
-  poppy?: { unlocked: boolean; pendingFish: number } | null;
+  /** Poppy (Toolbox `kangaroo`); M26 FR-55 widens it (poppy-types.ts). */
+  poppy?: PoppyState | null;
   deathNoteBuilding?: DeathNoteBuildingState | null;
 }
 
