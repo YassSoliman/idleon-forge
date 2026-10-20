@@ -74,7 +74,7 @@ export function tabGate(
     tab: 'recipes',
     focus,
     met,
-    icon: anvilTabItem(Math.max(2, tab)),
+    icon: anvilTabItem(tab),
     what: recipe ? `open ${recipe.name}'s recipe` : `open tab ${tab}'s recipes`,
   };
 }

@@ -84,11 +84,7 @@ export function AnvilRecipes({
                 data-focus-key={`tab-${x.tab}`}
               >
                 <span className="ar-ic">
-                  <GameIcon
-                    art={itemArt(`EquipmentSmithingTabs${Math.max(2, x.tab)}`)}
-                    size={24}
-                    decorative
-                  />
+                  <GameIcon art={itemArt(`EquipmentSmithingTabs${x.tab}`)} size={24} decorative />
                 </span>
                 <span className="ar-tab__name">Tab {x.tab}</span>
                 <span className="ar-tab__sub">
