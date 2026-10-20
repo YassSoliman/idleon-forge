@@ -1,4 +1,4 @@
-# golden v1: scrubbed-w2 · knowledge #3025eb3d · parser 6c37e3d (game 2.3.540) · now 2026-10-17T15:47:05.447Z · return 8h · stage W2-late · stale: 4 of 1051
+# golden v1: scrubbed-w2 · knowledge #21c8ade4 · parser 6c37e3d (game 2.3.540) · now 2026-10-17T15:47:05.447Z · return 8h · stage W2-late · stale: 4 of 1053
 
 ## Verdict changes
 
@@ -520,6 +520,8 @@ step: Use your 11 vial attempts on the W2 town cauldron
 | systems.yaml#weekly-battles | worlds/reached | account | reached yes |  |
 | systems.yaml#worship | worlds/reached | account | reached no |  |
 | task-unlocks.check.spend | task-unlocks/unspent | account | fires | points=2 |
+| tome.check.blue-pages | tome/blue-pages | — | silent |  |
+| tome.check.claim-nametags | tome/nametags | — | silent |  |
 | trapping.check.finishes-early | trapping/finishes-early | — | silent |  |
 | trapping.check.slots-and-timers | trapping/slots-and-timers | — | silent |  |
 | upgrade-vault.contribution.kill-row-kill-row-map-8 | upgrade-vault/kill-row | C1 | advances yes eta 294m | feeders=1 rate=1430 rowLevel=25 rule=1 saved=2995 target=Poop |

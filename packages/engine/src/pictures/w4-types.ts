@@ -96,4 +96,41 @@ export interface ElitePicture {
   done: number;
 }
 
-export type W4Picture = RiftPicture | ElitePicture;
+export type TomeTierView = 'bronze' | 'silver' | 'gold' | 'blue';
+
+/** One Tome metric row. */
+export interface TomeRowView {
+  name: string;
+  order: number;
+  /** Counts toward the PTS now (Account LV at or past its gate). */
+  counting: boolean;
+  lvReq: number;
+  points: number;
+  maxPoints: number;
+  tier: TomeTierView;
+  /** The quantity in words ("602", "1.2M"). */
+  quantity: string;
+  /** The next colour and what it takes ("4,476"), null at blue or when the curve never gets there. */
+  next: { tier: TomeTierView; need: string } | null;
+  lowerIsBetter: boolean;
+}
+
+export interface TomePicture {
+  systemId: 'tome';
+  kind: 'tome';
+  points: number;
+  damagePct: number;
+  skillEffPct: number;
+  dropRatePct: number;
+  accountLevel: number;
+  counted: number;
+  total: number;
+  /** PTS the not-yet-counting metrics are already worth. */
+  waiting: number;
+  /** The next three Account LV gates and what each adds. */
+  nextUnlocks: { name: string; lvReq: number; levelsToGo: number; points: number }[];
+  rows: TomeRowView[];
+  pages: { blue: boolean; red: boolean };
+}
+
+export type W4Picture = RiftPicture | ElitePicture | TomePicture;

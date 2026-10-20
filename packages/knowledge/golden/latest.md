@@ -1,4 +1,4 @@
-# golden v1: latest · knowledge #3025eb3d · parser 6c37e3d (game 2.3.540) · now 2026-10-10T19:12:32.605Z · return 8h · stage W4-late · stale: 4 of 1051
+# golden v1: latest · knowledge #21c8ade4 · parser 6c37e3d (game 2.3.540) · now 2026-10-10T19:12:32.605Z · return 8h · stage W4-late · stale: 4 of 1053
 
 ## Verdict changes
 
@@ -52,7 +52,7 @@ Fix before you leave
 - Extra · Today's Random Event: Random Event now on Poopy Sewers (Mega Grumblo): one a day [IdleOn Wiki: Random Events · Calculated by IdleOn Toolbox · 2.3.540]
 - Spend · Play a round of Darts: Play one round of Darts [IdleOn Wiki: Minigames, Throwy Darts · Calculated by IdleOn Toolbox · 2.3.540]
 - Spend · Play a round of Hoops: Play one round of Hoops [IdleOn Wiki: Minigames, Swishy Hoops · Calculated by IdleOn Toolbox · 2.3.540]
-show more (19)
+show more (20)
 If you have time
 - Run Killroy's Warrior room on your Royal Guardian Lv 1307 (YumYum Grotto) · about 2m of hands-on play
 - Run Killroy's Archer room on your Siege Breaker Lv 1291 (YumYum Grotto) · about 2m of hands-on play
@@ -87,7 +87,6 @@ Breeding
 Cooking
 Laboratory
 Sigils
-The Tome
 
 ## Systems
 W0 · Classes and subclasses · Nothing to fix · Nothing to fix
@@ -161,7 +160,7 @@ W4 · Cooking · Not covered yet · Not covered yet
 W4 · Breeding · Not covered yet · Not covered yet
 W4 · Sigils · Not covered yet · Not covered yet
 W4 · The Rift · Nothing to fix · Nothing to fix · 1 to do
-W4 · The Tome · Not covered yet · Not covered yet
+W4 · The Tome · Nothing to fix · Nothing to fix · 1 to do
 W4 · Elite classes · Nothing to fix · Nothing to fix
 Worlds 5–7: not covered yet
 Needs you: Companions and pets (wasting), Minigames (wasting), Random Events (wasting), Arcade (wasting), Refinery (wasting), Trapping (wasting)
@@ -731,6 +730,8 @@ Gifts: Slabcakes, Surprise Box
 | systems.yaml#weekly-battles | worlds/reached | account | reached yes |  |
 | systems.yaml#worship | worlds/reached | account | reached yes |  |
 | task-unlocks.check.spend | task-unlocks/unspent | — | silent |  |
+| tome.check.blue-pages | tome/blue-pages | — | silent |  |
+| tome.check.claim-nametags | tome/nametags | account | fires | available=2 |
 | trapping.check.finishes-early | trapping/finishes-early | C2 | pass |  |
 | trapping.check.finishes-early | trapping/finishes-early | C9 | pass |  |
 | trapping.check.slots-and-timers | trapping/slots-and-timers | C1 | fires | idleFor=1138240 traps=6 |

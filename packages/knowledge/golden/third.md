@@ -1,4 +1,4 @@
-# golden v1: third · knowledge #3025eb3d · parser 6c37e3d (game 2.3.540) · now 2024-06-06T19:59:40.215Z · return 8h · stage W4-late · stale: 4 of 1051
+# golden v1: third · knowledge #21c8ade4 · parser 6c37e3d (game 2.3.540) · now 2024-06-06T19:59:40.215Z · return 8h · stage W4-late · stale: 4 of 1053
 
 ## Verdict changes
 
@@ -76,7 +76,7 @@ purpose: Godshard: stamp material for Forge Stamp
   · Divine Knight Lv 558: 13 into Speed, 0 into Capacity
   · Elemental Sorcerer Lv 552: 11 into Speed, 0 into Capacity
   · Siege Breaker Lv 522: 28 into Speed, 0 into Capacity
-show more (12)
+show more (13)
 If you have time
 - Use today's 21 minigame plays · about 10m of hands-on play
 
@@ -108,7 +108,6 @@ Breeding
 Cooking
 Laboratory
 Sigils
-The Tome
 
 ## Systems
 W0 · Classes and subclasses · Nothing to fix · Nothing to fix
@@ -182,7 +181,7 @@ W4 · Cooking · Not covered yet · Not covered yet
 W4 · Breeding · Not covered yet · Not covered yet
 W4 · Sigils · Not covered yet · Not covered yet
 W4 · The Rift · Nothing to fix · Nothing to fix · 1 to do
-W4 · The Tome · Not covered yet · Not covered yet
+W4 · The Tome · Nothing to fix · Nothing to fix · 1 to do
 W4 · Elite classes · Nothing to fix · Nothing to fix
 Worlds 5–7: not covered yet
 Needs you: Minigames (wasting), Post Office (wasting), Refinery (wasting)
@@ -753,6 +752,8 @@ Can't read Bubba from this save
 | systems.yaml#weekly-battles | worlds/reached | account | reached yes |  |
 | systems.yaml#worship | worlds/reached | account | reached yes |  |
 | task-unlocks.check.spend | task-unlocks/unspent | account | fires | points=294 |
+| tome.check.blue-pages | tome/blue-pages | — | silent |  |
+| tome.check.claim-nametags | tome/nametags | account | fires | available=7 |
 | trapping.check.finishes-early | trapping/finishes-early | C1 | fires | finishesIn=8156804 |
 | trapping.check.finishes-early | trapping/finishes-early | C10 | fires | finishesIn=15372232 |
 | trapping.check.finishes-early | trapping/finishes-early | C2 | fires | finishesIn=15370232 |

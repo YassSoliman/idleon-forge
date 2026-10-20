@@ -26,6 +26,7 @@ import { readSpendInputs } from './spend';
 import { readStarSigns } from './starsigns';
 import { readTalentPoints } from './talent-points';
 import { readResetItems, readTalents } from './talents';
+import { readTome } from './tome';
 import {
   type AccountState,
   type CharacterState,
@@ -574,6 +575,17 @@ export function toAccountState(
         c.unknown('account.rift');
       }
   }
+  // ---- M26 FR-16 the Tome (tome.ts) ----
+  let tome: AccountState['account']['tome'] = null;
+  if (isDict(account.tome)) {
+    if (failedSections.includes('tome')) c.unknown('account.tome');
+    else
+      try {
+        tome = readTome(account, accountLevel);
+      } catch {
+        c.unknown('account.tome');
+      }
+  }
   // ---- M24 the World 3 System pages: prayers and shrines (read-only facts) ----
   const w23 = readW23({ account, data, failedSections, calls: options.toolbox?.calls ?? null }, c);
   // ---- M7 Spend Plan (M7 TR-2) ----
@@ -639,6 +651,7 @@ export function toAccountState(
       ...bubba,
       ...world4,
       rift,
+      tome,
       // One salt list: M6's entries carry M2's rawName/unlocked plus the fuel state (M6 TR-3).
       salts: metaPath.salts === null ? null : (unspent.salts ?? metaPath.salts ?? null),
     },

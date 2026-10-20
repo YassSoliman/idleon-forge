@@ -1,4 +1,4 @@
-# golden v1: scrubbed-w3 · knowledge #3025eb3d · parser 6c37e3d (game 2.3.540) · now 2026-10-17T16:12:33.140Z · return 8h · stage W3-early · stale: 4 of 1051
+# golden v1: scrubbed-w3 · knowledge #21c8ade4 · parser 6c37e3d (game 2.3.540) · now 2026-10-17T16:12:33.140Z · return 8h · stage W3-early · stale: 4 of 1053
 
 ## Verdict changes
 
@@ -618,6 +618,8 @@ Locked: smoker (Opens at Smoker)
 | systems.yaml#weekly-battles | worlds/reached | account | reached yes |  |
 | systems.yaml#worship | worlds/reached | account | reached yes |  |
 | task-unlocks.check.spend | task-unlocks/unspent | account | fires | points=10 |
+| tome.check.blue-pages | tome/blue-pages | — | silent |  |
+| tome.check.claim-nametags | tome/nametags | — | silent |  |
 | trapping.check.finishes-early | trapping/finishes-early | — | silent |  |
 | trapping.check.slots-and-timers | trapping/slots-and-timers | — | silent |  |
 | worship.check.charge-caps-no-skull | worship/charge-caps-no-skull | C1 | pass |  |

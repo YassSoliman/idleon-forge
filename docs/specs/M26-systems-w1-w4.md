@@ -1496,6 +1496,12 @@ done, and tests no level. A promoted character can keep `Eliteus2` at 0 (the W4 
 `eliteStep` reads `done` from the class (the elite or a class it promotes to), `pick` from `Eliteus1 = 1` on a
 subclass, else `gang` with the count. `elite-classes.check.eliteus` ships at H with both texts.
 
+**V7 settled 2026-10-19 (N.js and Toolbox `tome.ts`).** The client's `TomeLvReq(i)` is `350 + 40i + 5 max(0, i-35) +
+10 max(0, i-60) + 10 max(0, i-80) + 15 max(0, i-100)` for display row i, `isTomeUnlocked` compares it with the Account
+LV, `TomePCT` is 0 for a metric not unlocked, and `TomeBonus` (damage, and Skill Efficiency and Drop Rate with the Blue
+and Red pages) reads only the PTS total, with no World 4 gate. Toolbox computes the same; `account.tome` keeps its 124
+metrics by name, and the contract test checks that the counted metrics sum to Toolbox's total on every W4+ public save.
+
 In-game checks (owner, credential-bound, minutes each) are listed in MASTER.md section 7. The table's wave column
 follows the revised waves (section 3).
 

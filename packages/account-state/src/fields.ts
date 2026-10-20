@@ -32,6 +32,7 @@ import {
 } from './starsigns-fields';
 import { TALENT_FIELD_RAW_KEYS, TALENT_FIELD_SECTIONS, TALENT_FIELD_SOURCES } from './talent-fields';
 import { TALENT_POINT_FIELD_RAW_KEYS, TALENT_POINT_FIELD_SOURCES } from './talent-points-fields';
+import { TOME_FIELD_RAW_KEYS, TOME_FIELD_SECTIONS, TOME_FIELD_SOURCES } from './tome-fields';
 import type { AccountState } from './types';
 import {
   UNSPENT_FIELD_RAW_KEYS,
@@ -120,6 +121,7 @@ export const FIELD_SOURCES: Record<string, string> = {
   ...BUBBA_FIELD_SOURCES,
   ...WORLD4_FIELD_SOURCES,
   ...RIFT_FIELD_SOURCES,
+  ...TOME_FIELD_SOURCES,
   ...ELITE_FIELD_SOURCES,
   ...PRODUCTION_FIELD_SOURCES,
   ...W23_FIELD_SOURCES,
@@ -166,6 +168,7 @@ export const FIELD_RAW_KEYS: Record<string, RawKeySpec[]> = {
   ...BUBBA_FIELD_RAW_KEYS,
   ...WORLD4_FIELD_RAW_KEYS,
   ...RIFT_FIELD_RAW_KEYS,
+  ...TOME_FIELD_RAW_KEYS,
   ...ELITE_FIELD_RAW_KEYS,
   ...PRODUCTION_FIELD_RAW_KEYS,
   ...TALENT_POINT_FIELD_RAW_KEYS,
@@ -253,6 +256,7 @@ export const FIELD_SECTIONS: Record<string, string[]> = {
   ...BUBBA_FIELD_SECTIONS,
   ...WORLD4_FIELD_SECTIONS,
   ...RIFT_FIELD_SECTIONS,
+  ...TOME_FIELD_SECTIONS,
   ...ELITE_FIELD_SECTIONS,
   ...PRODUCTION_FIELD_SECTIONS,
   ...W23_FIELD_SECTIONS,

@@ -11,7 +11,7 @@ import { goldenContext } from '@idleon-forge/kb-tools/src/golden';
 import { DEFAULT_EXPECTED_RETURN_MS } from '@idleon-forge/knowledge';
 import { describe, expect, it } from 'vitest';
 import { goldenResult } from '../../src/golden';
-import type { ElitePicture, RiftPicture } from '../../src/pictures/w4-types';
+import type { ElitePicture, RiftPicture, TomePicture } from '../../src/pictures/w4-types';
 import type { EngineResult, Goal } from '../../src/result';
 
 const ctx = await goldenContext();
@@ -105,6 +105,29 @@ describe('Elite classes', () => {
   });
   it('first.json as saved: every subclass is promoted, so no Eliteus card', () => {
     expect(goals(run('first')).filter((g) => g.system === 'elite-classes')).toEqual([]);
+  });
+});
+
+describe('the Tome', () => {
+  const tome = (r: EngineResult) => r.slotPictures?.find((p): p is TomePicture => p.kind === 'tome') ?? null;
+  it('US-11 first.json: 2,286 PTS from 7 of 124 metrics, the next gates listed', () => {
+    const t = tome(run('first'));
+    expect(t?.points).toBe(2286);
+    expect(t?.counted).toBe(7);
+    expect(t?.total).toBe(124);
+    expect(t?.nextUnlocks.map((u) => u.lvReq)).toEqual([630, 670, 710]);
+    expect(t?.nextUnlocks[0]?.levelsToGo).toBe(28);
+  });
+  it('US-11 below Account LV 350: nothing counts, every row "not counting yet"', () => {
+    const r = run('first', (s) => ({
+      ...s,
+      account: {
+        ...s.account,
+        tome: s.account.tome ? { ...s.account.tome, accountLevel: 300, totalPoints: 0 } : null,
+      },
+    }));
+    expect(tome(r)?.counted).toBe(0);
+    expect(tome(r)?.rows.every((x) => !x.counting)).toBe(true);
   });
 });
 
