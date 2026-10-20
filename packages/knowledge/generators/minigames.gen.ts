@@ -67,6 +67,7 @@ const base = {
   status: 'active',
   scope: 'account',
   category: 'compounding',
+  values: {},
 } as const;
 
 const generator = defineGenerator({
@@ -152,7 +153,7 @@ const generator = defineGenerator({
         ],
         appliesTo: { stages: [{ from: 'W3-early', to: 'W4-late' }] },
         unit: 'points',
-        progress: { id: 'minigames/tome-highscore' },
+        progress: { id: 'minigames/tome-highscore', params: {} },
         milestones: [{ at: total.x1, reward: `the Tome row's full ${total.x3} points` }],
         data: { tomeRow: total.name },
         generatedBy: by,
@@ -166,7 +167,7 @@ const generator = defineGenerator({
         sources: [tomeSrc, WIKI_TOME],
         appliesTo: { stages: 'all' },
         unit: 'rounds',
-        progress: { id: 'minigames/spiketrap-round' },
+        progress: { id: 'minigames/spiketrap-round', params: {} },
         milestones: [{ at: spike.x1, reward: `the Tome row's full ${spike.x3} points` }],
         data: { tomeRow: spike.name },
         generatedBy: by,
@@ -185,7 +186,7 @@ const generator = defineGenerator({
         ],
         appliesTo: { stages: [{ from: 'W3-early', to: 'W4-late' }] },
         unit: 'points',
-        progress: { id: 'minigames/pen-pals' },
+        progress: { id: 'minigames/pen-pals', params: {} },
         milestones: penPals.map((_, n) => ({
           at: PEN_PALS_STEP * (n + 1),
           reward: PEN_PALS[n] ?? 'a Trapping bonus',
