@@ -51,3 +51,28 @@
 .w4-bonus.is-later {
   opacity: 0.72;
 }
+
+/* The Tome: a colour chip per metric and the PTS column. */
+.w4-tome-tier {
+  flex: none;
+  width: 12px;
+  height: 32px;
+}
+.w4-tome-tier--bronze {
+  background: color-mix(in srgb, var(--accent) 55%, var(--line));
+}
+.w4-tome-tier--silver {
+  background: var(--line);
+}
+.w4-tome-tier--gold {
+  background: var(--accent);
+}
+.w4-tome-tier--blue {
+  background: var(--sky-fill);
+}
+.w4-tome-pts {
+  text-align: right;
+}
+.w4-quiet {
+  opacity: 0.72;
+}

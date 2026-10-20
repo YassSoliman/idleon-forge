@@ -4,7 +4,15 @@
 // advice-free. Every Rift number goes through `riftLabel()` (FR-4).
 import { type AccountState, ELITE_OF_SUBCLASS, type RiftTask } from '@idleon-forge/account-state';
 import { riftLabel, riftText } from '../world4/rift-label';
-import type { ElitePicture, RiftBonusView, RiftLevelView, RiftPicture } from './w4-types';
+import type {
+  ElitePicture,
+  RiftBonusView,
+  RiftLevelView,
+  RiftPicture,
+  TomePicture,
+  TomeRowView,
+  TomeTierView,
+} from './w4-types';
 
 const human = (s: string) => s.replace(/_/g, ' ').trim();
 const int = (n: number) => Math.round(n).toLocaleString('en-US');
@@ -195,5 +203,67 @@ export function elitePicture(state: AccountState): ElitePicture | null {
     elites,
     pending: elites.reduce((n, e) => n + e.onTheWay.length, 0),
     done: elites.reduce((n, e) => n + e.holders.length, 0),
+  };
+}
+
+/** "Total_Talent_Max_LV__(Tap_for_more_info)" -> "Total Talent Max LV". */
+const metricName = (name: string) =>
+  human(name.replace(/\(Tap_for_more_info\)/g, ''))
+    .replace(/\s+/g, ' ')
+    .trim();
+/** 602 -> "602", 1234567 -> "1.23M" (deterministic, no locale). */
+const short = (n: number) => {
+  const a = Math.abs(n);
+  if (a >= 1e9) return `${Number((n / 1e9).toPrecision(3))}B`;
+  if (a >= 1e6) return `${Number((n / 1e6).toPrecision(3))}M`;
+  if (a >= 1e4) return `${Number((n / 1e3).toPrecision(3))}K`;
+  return int(n);
+};
+const NEXT_TIER: Record<TomeTierView, 'silver' | 'gold' | 'blue' | null> = {
+  bronze: 'silver',
+  silver: 'gold',
+  gold: 'blue',
+  blue: null,
+};
+
+/** M26 FR-16: the Tome page's metrics, PTS, gates and bonuses. */
+export function tomePicture(state: AccountState): TomePicture | null {
+  const t = state.account.tome;
+  if (!t) return null;
+  const lv = t.accountLevel;
+  const rows: TomeRowView[] = t.metrics.map((m) => {
+    const nt = NEXT_TIER[m.tier];
+    const need = nt ? m.needs[nt] : null;
+    return {
+      name: metricName(m.name),
+      order: m.order,
+      counting: m.lvReq <= lv,
+      lvReq: m.lvReq,
+      points: m.points,
+      maxPoints: m.maxPoints,
+      tier: m.tier,
+      quantity: short(m.quantity),
+      next: nt && need !== null ? { tier: nt, need: short(need) } : null,
+      lowerIsBetter: m.lowerIsBetter,
+    };
+  });
+  const waitingRows = rows.filter((r) => !r.counting);
+  return {
+    systemId: 'tome',
+    kind: 'tome',
+    points: t.totalPoints,
+    damagePct: t.damagePct,
+    skillEffPct: t.skillEffPct,
+    dropRatePct: t.dropRatePct,
+    accountLevel: lv,
+    counted: rows.length - waitingRows.length,
+    total: rows.length,
+    waiting: waitingRows.reduce((n, r) => n + r.points, 0),
+    nextUnlocks: waitingRows
+      .sort((a, b) => a.lvReq - b.lvReq)
+      .slice(0, 3)
+      .map((r) => ({ name: r.name, lvReq: r.lvReq, levelsToGo: r.lvReq - lv, points: r.points })),
+    rows,
+    pages: t.pages,
   };
 }
