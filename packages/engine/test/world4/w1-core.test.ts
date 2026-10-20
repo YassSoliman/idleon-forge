@@ -131,6 +131,34 @@ describe('the Tome', () => {
   });
 });
 
+describe('Breeding and Cooking', () => {
+  it('US-7 highend.json: the nest is full, so it says so first', () => {
+    const g = goals(run('highend')).find((x) => x.id === 'breeding.check.full-nest');
+    expect(g?.nextAction.text).toBe('Your nest is full (15 of 15): hatch or trash an egg');
+  });
+  it('US-9 first.json with Kitchen 2 stopped: start the meal closest to its next level there', () => {
+    const r = run('first', (s) => ({
+      ...s,
+      account: {
+        ...s.account,
+        cooking: s.account.cooking
+          ? {
+              ...s.account.cooking,
+              kitchens: s.account.cooking.kitchens.map((k) =>
+                k.index === 1 ? { ...k, status: 'idle' as const, meal: null } : k,
+              ),
+            }
+          : null,
+      },
+    }));
+    const g = goals(r).find((x) => x.id === 'cooking.check.idle-kitchen');
+    expect(g?.nextAction.text).toMatch(/^Start .+ in Kitchen 2$/);
+  });
+  it('first.json as saved: no Breeding or Cooking card', () => {
+    expect(goals(run('first')).filter((g) => g.system === 'breeding' || g.system === 'cooking')).toEqual([]);
+  });
+});
+
 describe('stage stories', () => {
   it('US-S1: stage-w1-early has no World 4 core finding', () => {
     expect(goals(run('stage-w1-early')).filter((g) => W4_CORE.has(g.system))).toEqual([]);

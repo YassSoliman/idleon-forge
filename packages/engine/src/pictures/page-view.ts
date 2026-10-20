@@ -53,6 +53,11 @@ export interface SystemFrameView {
   checksLine: string;
   /** A read-only World 4 page (`isWorld4ReadOnly`): its body draws its own answer, so the template doesn't. */
   readOnly: boolean;
+  /**
+   * M26 Wave 1: a World 4 page body (Lab, Cooking, Breeding) draws its own answer while the System has
+   * no step; once its Checks give a step, the template's answer is the step and the body draws none.
+   */
+  bodyAnswers: boolean;
 }
 
 const indexOfSubject = (subject: string): number | null =>
@@ -194,6 +199,7 @@ export function frameOf(
     })),
     checks,
     readOnly,
+    bodyAnswers: isWorld4ReadOnly(result, tile.id) && page.goals.length === 0,
     checksLine: W.checksLine(
       [...page.coverage.checks]
         .sort((a, b) => Number(b.state === 'see-above') - Number(a.state === 'see-above'))

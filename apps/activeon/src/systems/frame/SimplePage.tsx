@@ -289,7 +289,8 @@ export function SimplePage({ s, page, body }: { s: Session; page: FullPage; body
       }
     : undefined;
   // A read-only World 4 body draws its own frame (one per screen), so the template draws none.
-  const frameAnswer = page.frame.readOnly ? { answer: null } : answer ? { answer } : {};
+  const frameAnswer =
+    page.frame.readOnly || page.frame.bodyAnswers ? { answer: null } : answer ? { answer } : {};
   // A page body with no Next Actions has no side column: its checks and Sources are the footer line.
   if (body) {
     const hasSteps = page.goals.length > 0 || page.skippedKeys.length > 0 || page.dismissed.length > 0;
