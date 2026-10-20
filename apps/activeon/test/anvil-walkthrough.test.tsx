@@ -86,4 +86,18 @@ describe('the Anvil Walkthrough (first.json)', () => {
     expect(head).toContain(result.production?.anvils.line ?? '?');
     expect(head).toContain("some checks can't read this save");
   });
+
+  it('says "no estimate" on as many materials as the header says lack one (final QA P2)', async () => {
+    await open('/#system-anvil?tab=walkthrough');
+    const t = result.production?.nextTab;
+    const head = t?.bottleneck ?? '';
+    const lacking = Number(
+      head.match(/(\d+) lacks? a time estimate/)?.[1] ?? (/^slowest:/.test(head) ? 0 : -1),
+    );
+    const rows = [...document.querySelectorAll('.aw-eta')].map((x) => x.textContent);
+    const none = rows.filter((x) => x === 'no estimate').length;
+    if (lacking >= 0) expect(none).toBe(lacking);
+    // Every missing material says something: a time or "no estimate", never a blank.
+    for (const m of t?.materials ?? []) if (m.held < m.need) expect(m.eta).toBeTruthy();
+  });
 });
