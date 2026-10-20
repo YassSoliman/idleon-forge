@@ -150,7 +150,12 @@ export interface NextTabView {
   ready: number;
   of: number;
   smithing: { lv: number | null; best: number | null };
-  materials: Array<{ rawName: string; name: string; need: number; held: number }>;
+  /**
+   * `eta`: "about 3h" for the slowest missing leaf under it ("smelt now" / "buy now" when the plan can do
+   * it at once), "no estimate" when one has no source or no
+   * time estimate (the same leaves the bottleneck's count names), null when nothing is missing.
+   */
+  materials: Array<{ rawName: string; name: string; need: number; held: number; eta: string | null }>;
   walkthrough: WalkthroughView | null;
 }
 

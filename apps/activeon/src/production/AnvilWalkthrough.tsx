@@ -2,7 +2,8 @@
 // Copyright (C) 2026 IdleOn Forge contributors.
 // M26 F-C FR-C4 (board m26/AnvilRecipes.dc.html, Walkthrough in dark): the Anvil page's Walkthrough tab.
 // The next tab first: one row per material ("Get 1,000 more Void Bar (0 held)"), what feeds it from the
-// Requirement Tree ("Void Ore · 2 held"), and its time ("no estimate" until its Supply is rated, FR-C12),
+// Requirement Tree ("Void Ore · 2 held"), and its time (the engine's: "about 3h", or "no estimate" while a
+// leaf under it has no rated Supply, the same leaves the header's "n lack a time estimate" counts, FR-C12),
 // then the craft itself with its gate. Then every other Walkthrough that holds an anvil gate (FR-C1b),
 // and the full steps behind one button each. The engine words everything.
 import type { ProductionResult } from '@idleon-forge/engine/production';
@@ -78,7 +79,7 @@ export function AnvilWalkthrough({ p }: { p: ProductionResult }) {
                       <i style={{ width: `${Math.min(1, m.held / Math.max(1, m.need)) * 100}%` }} />
                     </span>
                   </span>
-                  <span className="sf-hint aw-eta">{missing === 0 ? 'done' : 'no estimate'}</span>
+                  <span className="sf-hint aw-eta">{missing === 0 ? 'done' : (m.eta ?? '')}</span>
                 </li>
               );
             })}

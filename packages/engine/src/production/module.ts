@@ -11,13 +11,14 @@
 // tree (page scope only, never fed back to Now), each character's craft-next piece (Visit Order).
 import { type AccountState, anvilPlanWindow, type CharacterState } from '@idleon-forge/account-state';
 import type { SlotValue } from '@idleon-forge/knowledge';
+import { aboutDuration } from '@idleon-forge/knowledge/template';
 import type { EngineInput, EngineModule, ModuleOutput } from '../core/module';
 import { gearFacts } from '../gear/kb';
 import { runMetaPath } from '../metapath';
 import type { MetaPathResult } from '../metapath/types';
 import type { EngineResult, WalkthroughView } from '../result';
 import { planWalkthroughs, type WalkthroughParent, who } from '../walkthrough/build';
-import { anvilTabItem } from '../walkthrough/expand';
+import { anvilTabItem, missingLeaves } from '../walkthrough/expand';
 import { holdingsOf, totalOf } from '../walkthrough/holdings';
 import {
   anvilRecipes,
@@ -28,6 +29,7 @@ import {
   type WalkthroughKnowledge,
 } from '../walkthrough/knowledge';
 import { parentsOf, walkthroughValues } from '../walkthrough/module';
+import { leafEffort, unratedCount } from '../walkthrough/plan';
 import type { ReqNode, WalkthroughResult } from '../walkthrough/types';
 import { type AnvilProduct, planAnvil, ratioText } from './anvil';
 import { type CraftCandidate, craftCandidates, craftNextOf, Holdings, sharedCrafts } from './craft';
@@ -42,6 +44,8 @@ import type {
   ProductionStep,
 } from './types';
 
+/** A material whose missing leaves include one with no source or no time estimate (FR-C12). */
+export const NO_ESTIMATE = 'no estimate';
 export const ENTRY = {
   anvil: 'production-plan.check.anvil-switch',
   craft: 'gear.check.craft-next',
@@ -538,6 +542,27 @@ export function buildProduction(input: BuildInput): ProductionResult | null {
     const built = runTab?.walkthroughs[0] ?? null;
     const lv = anvilRecipes(kb)[anvilTabItem(tab)]?.lv ?? null;
     const known = chars.filter((c) => c.smithingLevel != null);
+    // Each material's time, from the same missing leaves and efforts the Walkthrough's "slowest known
+    // ... (n lack a time estimate)" counts (FR-C12): "no estimate" exactly where a leaf is unrated.
+    const materialNodes = new Map<string, ReqNode>();
+    for (const c of built?.tree.children ?? [])
+      if (c.kind === 'item' && !materialNodes.has(c.rawName)) materialNodes.set(c.rawName, c);
+    const etaOf = (raw: string): string | null => {
+      const node = materialNodes.get(raw);
+      if (!node) return null;
+      const leaves = missingLeaves(node);
+      if (leaves.length === 0) return null;
+      const efforts = leaves.map((l) => leafEffort(l, l.supplies, values));
+      if (unratedCount(efforts.map((effort) => ({ effort }))) > 0) return NO_ESTIMATE;
+      const slowest = Math.max(...efforts.map((e) => e.seconds ?? 0));
+      // 0 s is the plan's "doable now" (ore held to smelt, a shop to buy from), not a duration.
+      if (slowest > 0) return aboutDuration(slowest);
+      return efforts.every((e) => e.kind === 'smelt')
+        ? 'smelt now'
+        : efforts.every((e) => e.kind === 'buy')
+          ? 'buy now'
+          : 'now';
+    };
     nextTab = {
       tab,
       rawName: anvilTabItem(tab),
@@ -546,7 +571,7 @@ export function buildProduction(input: BuildInput): ProductionResult | null {
       ready: r.ready,
       of: r.of,
       smithing: { lv, best: known.length ? Math.max(...known.map((c) => c.smithingLevel ?? 0)) : null },
-      materials: r.materials.map((m) => ({ ...m, name: nameOf(m.rawName) })),
+      materials: r.materials.map((m) => ({ ...m, name: nameOf(m.rawName), eta: etaOf(m.rawName) })),
       walkthrough: built?.view ?? null,
     };
   }
