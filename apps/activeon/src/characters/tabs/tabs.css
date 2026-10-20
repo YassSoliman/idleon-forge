@@ -68,10 +68,10 @@
   background: var(--sunk);
 }
 .tb-answer[data-tone="gold"] .tb-answer__icon {
-  background: var(--accent);
+  background: var(--accent-fill);
 }
 .tb-answer[data-tone="ok"] .tb-answer__icon {
-  background: var(--ok);
+  background: var(--ok-fill);
 }
 .tb-answer__body {
   flex: 1 1 auto;
@@ -119,7 +119,7 @@
   color: var(--accent);
 }
 .tb-step-no[data-now="yes"] {
-  background: var(--accent);
+  background: var(--accent-fill);
   color: var(--on-accent);
 }
 .tb-steps {
@@ -158,10 +158,10 @@
   background: var(--sunk);
 }
 .tb-ic[data-tone="gold"] {
-  background: var(--accent);
+  background: var(--accent-fill);
 }
 .tb-ic[data-tone="ok"] {
-  background: var(--ok);
+  background: var(--ok-fill);
 }
 .tb-legend {
   display: flex;

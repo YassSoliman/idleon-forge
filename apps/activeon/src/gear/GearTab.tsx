@@ -8,11 +8,16 @@
 // worship skull) with M20's words. A lazy chunk (lazy-part.tsx); the engine words everything.
 import type { CharacterGear, GearSlotView, SlotPip } from '@idleon-forge/engine/result';
 import { useState } from 'react';
-import { Sprite } from '../art/sprites/Sprite';
+import { GameIcon } from '../art/game/GameIcon';
+import { itemArt } from '../art/game/game-art';
+import { KitSprite } from '../art/game/KitSprite';
+import { ClassBadge } from '../characters/ClassBadge';
 import { Answer, GoalLink, type Tone, upper, useGoal } from '../characters/tabs/kit';
 import { Blob, Pip } from '../design/atoms';
+import { extractGate, GateLink, GateText } from '../design/atoms/GateLink';
 import type { CharacterTabProps } from '../now/character-tabs';
 import { useNowActions } from '../now/context';
+import { useGates } from '../production/use-gates';
 import './gear.css';
 
 type SlotId = GearSlotView['slot'];
@@ -33,6 +38,19 @@ const LABEL: Readonly<Record<SlotId, string>> = {
   trap: 'Trap set',
   skull: 'Worship skull',
 };
+/**
+ * The item a slot's icon draws (the game's own sprite): the piece its bold line names. A piece to get
+ * ("Get Pharaoh Bow") draws that piece; otherwise what the slot wears. Null draws the slot's own sprite.
+ */
+function slotItem(v: GearSlotView): string | null {
+  if ((v.state === 'empty' || v.state === 'behind') && v.target) return v.target.rawName;
+  // "Equip the Gold Helmet from storage" with nothing worn: the held piece, when it is the target.
+  // (The view names other held pieces only in words, so those keep our slot sprite.)
+  const target = v.target;
+  if (!v.equipped && target && v.held.some((h) => h.includes(target.name))) return target.rawName;
+  return v.equipped?.rawName ?? null;
+}
+
 /** The kit's sprite for each slot (gear-pickaxe draws the Mining pickaxe, gear-trap the trap). */
 const SPRITE: Readonly<Record<SlotId, string>> = {
   helmet: 'gear-helmet',
@@ -128,50 +146,70 @@ function SlotTile({
   lit,
   open,
   onOpen,
+  craftNext,
 }: {
   v: GearSlotView;
   look: Look;
   lit: boolean;
   open: boolean;
   onOpen: () => void;
+  /** M26 FR-C10: this slot holds the character's craft-next piece. */
+  craftNext?: boolean;
 }) {
   const wearing = v.equipped && v.state !== 'ok' ? ` · wearing ${v.equipped.name}` : '';
+  // M26 FR-C1: the slot is a button, so its gate is a chip under it, never words inside it.
+  const gates = useGates();
+  const recipe = v.target ? { rawName: v.target.rawName, name: v.target.name } : null;
+  const status = extractGate(look.status, gates.tabGates, recipe);
+  const where = look.where ? extractGate(look.where, gates.tabGates, recipe) : null;
+  const gate = status.gate ?? where?.gate ?? null;
   return (
-    <button
-      type="button"
-      className="gd-slot"
-      data-tone={look.tone}
-      data-lit={lit ? 'yes' : 'no'}
-      aria-expanded={open}
-      aria-controls="gear-path"
-      onClick={onOpen}
-    >
-      <span className="tb-ic" data-tone={look.icon}>
-        <Sprite name={SPRITE[v.slot]} size={32} decorative />
-      </span>
-      <span className="gd-slot__words">
-        <span className="tb-xs">
-          {LABEL[v.slot]}
-          {wearing}
+    <>
+      <button
+        type="button"
+        className="gd-slot"
+        data-tone={look.tone}
+        data-lit={lit ? 'yes' : 'no'}
+        aria-expanded={open}
+        aria-controls="gear-path"
+        onClick={onOpen}
+      >
+        <span className="tb-ic" data-tone={look.icon}>
+          <GameIcon art={itemArt(slotItem(v))} fallback={SPRITE[v.slot]} size={32} decorative />
         </span>
-        <span className="gd-slot__status">{look.status}</span>
-        {look.where ? <span className="gd-slot__where">{look.where}</span> : null}
-      </span>
-      {lit ? (
-        <span className="gd-slot__next">Next</span>
-      ) : look.lv !== null ? (
-        <span className="gd-slot__lv">
-          <b>Lv {look.lv}</b>
-          <span className="tb-xs">to wear</span>
+        <span className="gd-slot__words">
+          <span className="tb-xs">
+            {LABEL[v.slot]}
+            {wearing}
+          </span>
+          <span className="gd-slot__status">{status.text}</span>
+          {where ? <span className="gd-slot__where">{where.text}</span> : null}
+        </span>
+        {lit ? (
+          <span className="gd-slot__next">Next</span>
+        ) : craftNext ? (
+          <span className="gd-slot__next gd-slot__craft">Craft next</span>
+        ) : look.lv !== null ? (
+          <span className="gd-slot__lv">
+            <b>Lv {look.lv}</b>
+            <span className="tb-xs">to wear</span>
+          </span>
+        ) : null}
+      </button>
+      {gate ? (
+        <span className="gd-slot__gate">
+          <GateLink gate={gate} onNavigate={gates.onNavigate} />
         </span>
       ) : null}
-    </button>
+    </>
   );
 }
 
 /** The open slot's whole path: what it wears, the Gear Plan target and every step to it. */
 function Path({ v }: { v: GearSlotView }) {
   const [all, setAll] = useState(false);
+  const gates = useGates();
+  const recipe = v.target ? { rawName: v.target.rawName, name: v.target.name } : null;
   const steps = v.target?.steps ?? [];
   const e = v.equipped;
   const isTool = v.slot === 'weapon' || ['pickaxe', 'hatchet', 'rod', 'net'].includes(v.slot);
@@ -181,7 +219,16 @@ function Path({ v }: { v: GearSlotView }) {
       <dl className="gd-facts">
         <div>
           <dt>Wearing</dt>
-          <dd>
+          <dd className="gd-facts__item">
+            {e ? (
+              <GameIcon
+                art={itemArt(e.rawName)}
+                fallback={SPRITE[v.slot]}
+                size={24}
+                decorative
+                wiki={e.name}
+              />
+            ) : null}
             {e
               ? `${e.name} · Lv ${e.lvReq} · ${isTool ? 'Weapon Power' : 'Defence'} ${e.primary} · main stat ${e.main}${e.pct.length ? ` · ${e.pct.join(', ')}` : ''} · upgrade slots ${e.slotsLeft} of ${e.slotsMax} free`
               : 'nothing'}
@@ -190,8 +237,18 @@ function Path({ v }: { v: GearSlotView }) {
         {v.target ? (
           <div>
             <dt>Gear Plan target</dt>
-            <dd>
-              {v.target.name} (Lv {v.target.lvReq}): {v.target.how}
+            <dd className="gd-facts__item">
+              <GameIcon
+                art={itemArt(v.target.rawName)}
+                fallback={SPRITE[v.slot]}
+                size={24}
+                decorative
+                wiki={v.target.name}
+              />
+              <span>
+                {v.target.name} (Lv {v.target.lvReq}):{' '}
+                <GateText text={v.target.how} recipe={recipe} {...gates} />
+              </span>
             </dd>
           </div>
         ) : null}
@@ -212,7 +269,9 @@ function Path({ v }: { v: GearSlotView }) {
         <>
           <ol className="gd-steps">
             {(all ? steps : steps.slice(0, 3)).map((t) => (
-              <li key={t}>{t}</li>
+              <li key={t}>
+                <GateText text={t} recipe={recipe} {...gates} />
+              </li>
             ))}
           </ol>
           {steps.length > 3 ? (
@@ -239,7 +298,13 @@ function ToolTile({ v, g }: { v: GearSlotView; g: CharacterGear }) {
   return (
     <li className="a-tile gd-tool" data-tone={tone}>
       <span className="tb-ic" data-tone={tone}>
-        <Sprite name={SPRITE[v.slot]} size={32} decorative />
+        <GameIcon
+          art={itemArt(slotItem(v))}
+          fallback={SPRITE[v.slot]}
+          size={32}
+          decorative
+          wiki={worn ?? v.target?.name ?? null}
+        />
       </span>
       <span className="tb-xs">{LABEL[v.slot]}</span>
       <span className="gd-tool__status">{status}</span>
@@ -271,10 +336,12 @@ function SkillSlotTile({ slot, pip }: { slot: 'trap' | 'skull'; pip: SlotPip | u
       tone = goal ? 'gold' : 'ok';
     } else where = upper(pip.text);
   }
+  const systemOf = slot === 'trap' ? 'trapping' : 'worship';
   return (
     <li className="a-tile gd-tool" data-tone={tone}>
       <span className="tb-ic" data-tone={tone}>
-        <Sprite name={SPRITE[slot]} size={32} decorative />
+        {/* The game has no one picture for "your trap set" or "your skull": its System's sprite. */}
+        <KitSprite name={`sys-${systemOf}`} fallback={SPRITE[slot]} size={32} />
       </span>
       <span className="tb-xs">{LABEL[slot]}</span>
       <span className="gd-tool__status">{status}</span>
@@ -290,6 +357,7 @@ export function GearTab({ view, index }: CharacterTabProps) {
   // The open path belongs to one character: another character's tab starts closed.
   const [opened, setOpen] = useState<{ index: number; slot: SlotId } | null>(null);
   const goals = useGoalTexts();
+  const craftNextRaw = useCraftNext(index);
   if (!g || g.slots.length === 0) return <p className="tb-note tb">No gear data for this character yet.</p>;
   const who = view.skills.find((s) => s.index === index);
   const label = who ? `${who.classLabel} ${who.level}` : '';
@@ -321,6 +389,7 @@ export function GearTab({ view, index }: CharacterTabProps) {
           lit={g.lit === slot}
           open={openSlot === slot}
           onOpen={() => setOpen(openSlot === slot ? null : { index, slot })}
+          craftNext={craftNextRaw !== null && v.target?.rawName === craftNextRaw}
         />
       </li>
     );
@@ -332,6 +401,7 @@ export function GearTab({ view, index }: CharacterTabProps) {
         <Answer
           tone="gold"
           icon={g.lit ? SPRITE[g.lit] : null}
+          art={litView ? itemArt(slotItem(litView)) : null}
           cap="Next fix"
           title={g.step}
           sub={g.why}
@@ -367,7 +437,9 @@ export function GearTab({ view, index }: CharacterTabProps) {
           {LEFT.map(tile)}
         </ul>
         <figure className="gd-fig">
-          <Blob family={view.families?.[index] ?? 'beginner'} size={160} />
+          <ClassBadge classLabel={view.roster.find((r) => r.index === index)?.classLabel} size={160}>
+            <Blob family={view.families?.[index] ?? 'beginner'} size={160} />
+          </ClassBadge>
           <figcaption className="tb-xs">{label}</figcaption>
         </figure>
         <ul className="tb-list gd-col" aria-label="Weapon and jewellery">
@@ -396,6 +468,15 @@ export function GearTab({ view, index }: CharacterTabProps) {
       {g.step && g.note ? <p className="tb-note">{g.note}</p> : null}
     </div>
   );
+}
+
+/** M26 FR-C10: the rawName of the character's craft-next piece (the Production Plan's craft row). */
+function useCraftNext(index: number): string | null {
+  const actions = useNowActions();
+  const row = actions.result?.production?.rows.find(
+    (r) => r.characterIndex === index && r.producer === 'craft-next' && r.kind === 'craft',
+  );
+  return row?.icon ?? null;
 }
 
 /** Every shown Next Action's text by key, for the slots a Goal answers ("Craft Copper Platelegs …"). */

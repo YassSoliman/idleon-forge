@@ -5,7 +5,8 @@
 // and the sample size (M24's printer-samples picture). The Smithy: M18's set cards. Read-only facts;
 // "take a sample" advice for empty slots is not here (it needs its own Check).
 import type { PrinterPicture } from '@idleon-forge/engine/systems-ui';
-import { Sprite } from '../../art/sprites/Sprite';
+import { GameIcon } from '../../art/game/GameIcon';
+import { materialArt } from '../../art/game/systems-art';
 import type { SystemPageBodyProps } from '../pages';
 import {
   Bar,
@@ -72,7 +73,13 @@ function Printing({ p }: { p: SystemPageBodyProps }) {
                     const on = lit !== null && e.actionKey === lit;
                     return (
                       <span key={e.id} className={`a-tile2 w-tile2 w23-sample${on ? ' is-now' : ''}`}>
-                        <Sprite name="sys-printer" size={24} decorative />
+                        <GameIcon
+                          art={materialArt(e.item)}
+                          fallback="sys-printer"
+                          size={24}
+                          wiki={e.item}
+                          decorative
+                        />
                         <span className="w-stack w-stack--4">
                           <span className={e.item ? 'w-sm w-b' : 'w-sm w-b w-t--gold'}>
                             {e.item ?? W.empty}
@@ -148,7 +155,10 @@ function Stored({ p }: { p: SystemPageBodyProps }) {
                 {c.stored.map((s, k) => (
                   // biome-ignore lint/suspicious/noArrayIndexKey: stored samples are positional
                   <li key={k} className="w-row w-row--between">
-                    <span>{s.name}</span>
+                    <span className="w-row">
+                      <GameIcon art={materialArt(s.name)} size={16} wiki={s.name} decorative />
+                      <span>{s.name}</span>
+                    </span>
                     <span className="w-mut">{W.perHour(n0(s.perHour))}</span>
                   </li>
                 ))}

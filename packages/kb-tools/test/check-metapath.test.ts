@@ -35,8 +35,11 @@ const registries = () => ({
 });
 const run = async (files: Record<string, string>) => checkSource(loadSource(kbTree(files)), registries());
 // The test registries' unused Detectors are orphans in these small trees; that rule is tested elsewhere.
+// The two-Source rule (M26 FR-2c) has its own tests; these trees cite one Source per entry.
 const errors = (issues: Issue[]) =>
-  issues.filter((i) => i.level === 'error' && !i.message.includes('(orphan)')).map(formatIssue);
+  issues
+    .filter((i) => i.level === 'error' && !i.message.includes('(orphan)') && i.code !== 'two-source')
+    .map(formatIssue);
 
 const stages = entry({
   id: 'metapath.metapath.stages',

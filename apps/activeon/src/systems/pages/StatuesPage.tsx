@@ -5,6 +5,8 @@
 // per character, and every character's statue levels. Data: area S's statues picture.
 import { formatCoins } from '@idleon-forge/engine/now';
 import { STATUE_WORDS, type StatuesPicture, STATUES_PAGE_WORDS as W } from '@idleon-forge/engine/systems-ui';
+import { GameIcon } from '../../art/game/GameIcon';
+import { statueArt, statueItemArt } from '../../art/game/systems-art';
 import { WhoGlyph } from '../../design/who/WhoGlyph';
 import { SimplePage } from '../frame/SimplePage';
 import { type FrameAnswer, frameAnswer, Pip, SystemFrame } from '../frame/SystemFrame';
@@ -86,7 +88,20 @@ export default function StatuesPage({ s, page }: FullPageProps) {
                         className={`su-cell${next ? ' su-cell--next' : ''}`}
                         aria-label={W.aria(t.name, t.level, STATUE_WORDS.grade[Math.min(3, t.grade)] ?? '')}
                       >
-                        <StatueGlyph gold={gold} next={next} />
+                        <GameIcon
+                          art={statueArt(t.index, t.grade)}
+                          fallback={
+                            <GameIcon
+                              art={statueItemArt(t.index)}
+                              fallback={<StatueGlyph gold={gold} next={next} />}
+                              size={32}
+                              decorative
+                            />
+                          }
+                          size={32}
+                          wiki={t.name}
+                          decorative
+                        />
                         <span className={`sf-xs sf-strong ${gold ? 'sf-t--gold' : 'sf-t--mut'}`}>
                           {t.level > 0 ? t.level : ''}
                         </span>
@@ -99,8 +114,17 @@ export default function StatuesPage({ s, page }: FullPageProps) {
               <aside className="sf-col">
                 {lit ? (
                   <section className="sf-sec" aria-labelledby="su-by-h">
-                    <span id="su-by-h" className="a-cap">
-                      {W.byCharacter(lit.name)}
+                    <span className="su-by">
+                      <GameIcon
+                        art={statueArt(lit.index, lit.grade)}
+                        fallback={<StatueGlyph gold={lit.grade >= 1} next />}
+                        size={32}
+                        wiki={lit.name}
+                        decorative
+                      />
+                      <span id="su-by-h" className="a-cap">
+                        {W.byCharacter(lit.name)}
+                      </span>
                     </span>
                     {lit.byCharacter ? (
                       <ul className="sf-hair">

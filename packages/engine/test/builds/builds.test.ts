@@ -197,7 +197,7 @@ describe('US-3 points left behind on the other preset', () => {
     if (!a?.other) throw new Error('fixture');
     const granting = analyzeAccount(W3(), facts).kb.talents.tab2Granting;
     expect(lowerBound(a.active.talents, a.other.talents, 2, granting)).toBe(0);
-    expect(a.active.lb?.byTab).toEqual({ 1: 0, 2: 0, 3: 115 });
+    expect(a.active.lb?.byTab).toEqual({ 1: 0, 2: 0, 3: 115, 4: 0, 5: 0 });
   });
 });
 

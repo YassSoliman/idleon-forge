@@ -97,8 +97,8 @@ describe('templates (TR-6)', () => {
 });
 
 describe('Stages (M2 owns the rules; M11 ships the ids)', () => {
-  it('has the 10 Stage ids in order', () => {
-    expect(STAGES).toHaveLength(10);
+  it('has the 12 Stage ids in order (M26 FR-3 added W4-mid and W4-late)', () => {
+    expect(STAGES).toHaveLength(12);
     expect(stagesBetween('W2-late', 'W3-mid')).toEqual(['W2-late', 'W3-early', 'W3-mid']);
   });
 });

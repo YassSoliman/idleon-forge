@@ -84,6 +84,8 @@ export {
   DAILY_RESET_PERIOD_MS,
   nextDailyReset,
 } from './derived';
+export { ELITE_OF_SUBCLASS, ELITE_OR_LATER, eliteStepOf, GREENIE_GANG_KILLS } from './elite';
+export type { EliteCharacterFields, EliteStep, EliteStepKind } from './elite-types';
 export {
   declaredField,
   FIELD_RAW_KEYS,
@@ -118,6 +120,9 @@ export {
   type GearStats,
   type GearWorn,
 } from './gear-types';
+// M24 the World 3 System pages (prayers, shrines)
+export { ANVIL_PRODUCTS, hammersOf, stockOf } from './production';
+export type { AnvilProduction, AnvilSpeedParts, ProductionCharacterFields } from './production-types';
 export { PURPOSE_SKILLS } from './purpose';
 export type {
   ClassExp,
@@ -130,6 +135,15 @@ export type {
 export { doorKillsOf } from './redesign';
 export { STAR_TOTAL_SECTIONS } from './redesign-fields';
 export type { RedesignAccountFields, RedesignCharacterFields, StatueState } from './redesign-types';
+export { RIFT_AFK_TARGET, RIFT_MAX_LEVEL, RIFT_SCORE_ELITES, riftLabel, riftTaskOf } from './rift';
+export type {
+  RiftAccountFields,
+  RiftBonus,
+  RiftQuestItem,
+  RiftState,
+  RiftTask,
+  RiftTaskKind,
+} from './rift-types';
 // M20 Skills, Parallel Slots and the Daily & Weekly Checklist (M20 TR-2)
 export {
   ballotText,
@@ -218,6 +232,8 @@ export type {
   TalentPoints,
 } from './talent-types';
 export { ATTACK_BAR_ROWS, attackBarOf, PRESET_LEVEL } from './talents';
+export { readTome } from './tome';
+export type { TomeAccountFields, TomeMetric, TomeState, TomeTier } from './tome-types';
 export type {
   AccountState,
   AccountSummary,
@@ -270,7 +286,7 @@ export type {
   UnspentCharacterFields,
 } from './unspent-types';
 // M24 the World 3 System pages (prayers, shrines)
-export { prayersOf, shrinesOf } from './w23';
+export { EQUINOX_MIRROR, equinoxUnlockedOf, prayersOf, shrinesOf } from './w23';
 export type { PrayerInfo, ShrineInfo, W23AccountFields } from './w23-types';
 export { PRINTER, WALKTHROUGH_SKILLS } from './walkthrough';
 export type {
@@ -284,7 +300,7 @@ export type {
   WalkthroughAccountFields,
   WalkthroughCharacterFields,
 } from './walkthrough-types';
-export { KITCHENS, LAB_CHIP_SLOTS } from './world4';
+export { BREEDING_MULTIPLIER_UPGRADES, EGG_BASE_SECONDS, KITCHENS, LAB_CHIP_SLOTS } from './world4';
 export type {
   BreedingState,
   BreedingUpgrade,

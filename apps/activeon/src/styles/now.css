@@ -286,10 +286,10 @@ label.chip {
   width: 8px;
   height: 8px;
   border-radius: 0;
-  background: var(--bad);
+  background: var(--bad-fill);
 }
 .n-dot.is-ok {
-  background: var(--ok);
+  background: var(--ok-fill);
 }
 
 /* ---- The counter (`now.verdict-banner` Counter that reaches zero, Stale-first wording) ---- */
@@ -646,13 +646,17 @@ label.chip {
 /* ---- Goal cards and the why sheet (`cards.goal-card` Action-only, `cards.why-sheet`) ---- */
 .n-goal {
   position: relative;
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
-  align-items: start;
+  /* Flex that wraps, not a two-column grid: in a narrow column (a phone, a numbered Walkthrough step)
+     Skip today drops under the step instead of squeezing its words into a sliver. */
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
   border: 0;
   box-shadow: 0 1px 0 var(--line);
 }
 .n-goal__open {
+  flex: 1 1 220px;
+  min-width: 0;
   display: grid;
   grid-template-columns: auto minmax(0, 1fr) auto;
   gap: var(--space-1) var(--space-2);
@@ -700,8 +704,8 @@ label.chip {
 .n-goal__ms {
   font-size: var(--text-sm);
 }
-.n-goal.is-compact {
-  grid-template-columns: minmax(0, 1fr);
+.n-goal.is-compact > * {
+  flex-basis: 100%;
 }
 .n-goal__see:empty {
   display: none;
@@ -710,7 +714,8 @@ label.chip {
   padding: 0 var(--space-3) var(--space-1);
 }
 .n-goal > .n-skip {
-  margin: var(--space-1);
+  flex: none;
+  margin: var(--space-1) var(--space-1) var(--space-1) auto;
 }
 .n-skip {
   min-height: var(--tap-min);

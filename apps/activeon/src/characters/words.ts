@@ -32,6 +32,8 @@ export const BUILD_WORDS = {
   toSpend: 'points to spend',
   talentPoints: 'talent points',
   starPoints: 'star points',
+  /** M26: the label before a Build's Sources, for screen readers. */
+  sources: 'Sources:',
   /** "Spend 869 talent points, starting with Eagle Eye". */
   spend: (points: number, atLeast: boolean, first: string | null, kind = 'talent') =>
     `Spend ${atLeast ? 'at least ' : ''}${plural(points, `${kind} point`)}${first ? `, starting with ${first}` : ''}`,
@@ -41,6 +43,14 @@ export const BUILD_WORDS = {
   skillingWhy: (who: string) =>
     `Your skilling preset is a second set of talents. Swap to it in game when ${who} goes AFK on a skill.`,
   fightingWhy: (who: string) => `Your fighting preset. Swap to it in game when ${who} goes AFK fighting.`,
+  /** M25: the preset tabs' second line, what is waiting in that preset. */
+  tabWaiting: (talent: number, atLeast: boolean, star: number) =>
+    talent > 0 && star > 0
+      ? `${atLeast ? 'at least ' : ''}${n(talent)} talent · ${n(star)} star points`
+      : talent > 0
+        ? `${atLeast ? 'at least ' : ''}${plural(talent, 'talent point')} to spend`
+        : `${plural(star, 'star point')} to spend`,
+  tabAllPlaced: 'every point placed',
   /** The quiet preset tile's facts. */
   classAllSpent: 'Class points all spent',
   classWaiting: (points: number, atLeast: boolean) =>

@@ -10,7 +10,7 @@ export const WORLD4_FIELD_SOURCES: Record<string, string> = {
   'account.cooking':
     'account.cooking (meals, spices.toClaim, mealMaxLevel, kitchens[].meal/.mealSpeed), raw Cooking[i][0,6,7,8], Meals[3], Territory[i][4], accountOptions[100]',
   'account.breeding':
-    'account.breeding (eggs, eggCapacity, timeToNextEgg, deadCells, territories, petUpgrades, pets), characters[].skillsInfo.breeding, raw Territory[i][3], Meals[3], accountOptions[89]',
+    'account.breeding (eggs, eggCapacity, timeToNextEgg = accountOptions[87] banked egg time, deadCells, territories, petUpgrades, pets), characters[].skillsInfo.breeding, raw Territory[i][3], Meals[3], accountOptions[89]',
 };
 
 /** Not required: a save from before World 4 has none of them (the field is then null, not unknown). */

@@ -83,17 +83,24 @@ describe('Focus: opening, Back and keyboard focus (FR-6, FR-13, TR-5, TR-14)', (
     renderNow(props(r, saveOf(r, 1, 'first', null, 'paste')));
     const nav = screen.getByRole('navigation', { name: 'Characters' });
     const links = within(nav).getAllByRole('link');
-    expect(links.map((l) => l.textContent)).toEqual([
+    expect(links.map((l) => l.querySelector('.cp-chip-who')?.textContent)).toEqual([
       'Barbarian 51',
       'Squire 43',
       'Wizard 40',
       'Shaman 44',
       'Bowman 38',
     ]);
+    // M25: the in-game name sits quietly under the class label (the fixture's names are placeholders).
+    expect(links.map((l) => l.querySelector('.cp-chip-name')?.textContent)).toEqual([
+      'Dahlia',
+      'Alder',
+      'Elm',
+      'Birch',
+      'Cedar',
+    ]);
     expect(links[2]?.getAttribute('aria-current')).toBe('page');
     // The same state word as Now's cards and the Characters grid (M24 QA P1-10).
-    expect(links[0]?.getAttribute('aria-label')).toBe('Barbarian 51: Fix first');
-    expect(nav.textContent).not.toMatch(/Dahlia|Elm|Cedar/);
+    expect(links[0]?.getAttribute('aria-label')).toBe('Barbarian 51, Dahlia: Fix first');
     fireEvent.click(links[3] as HTMLElement);
     expect(window.location.hash).toBe('#now-1');
     // The one way on at the end of the Now tab: "Next: <class level>".

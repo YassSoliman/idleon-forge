@@ -13,9 +13,16 @@ import {
   COLLECTIONS_FIELD_SOURCES,
 } from './collections-fields';
 import { DEPTH_FIELD_RAW_KEYS, DEPTH_FIELD_SECTIONS, DEPTH_FIELD_SOURCES } from './depth-fields';
+import { ELITE_FIELD_RAW_KEYS, ELITE_FIELD_SECTIONS, ELITE_FIELD_SOURCES } from './elite-fields';
 import { GEAR_FIELD_RAW_KEYS, GEAR_FIELD_SECTIONS, GEAR_FIELD_SOURCES } from './gear-fields';
+import {
+  PRODUCTION_FIELD_RAW_KEYS,
+  PRODUCTION_FIELD_SECTIONS,
+  PRODUCTION_FIELD_SOURCES,
+} from './production-fields';
 import { PURPOSE_FIELD_RAW_KEYS, PURPOSE_FIELD_SECTIONS, PURPOSE_FIELD_SOURCES } from './purpose-fields';
 import { REDESIGN_FIELD_RAW_KEYS, REDESIGN_FIELD_SECTIONS, REDESIGN_FIELD_SOURCES } from './redesign-fields';
+import { RIFT_FIELD_RAW_KEYS, RIFT_FIELD_SECTIONS, RIFT_FIELD_SOURCES } from './rift-fields';
 import { SLOTS_FIELD_RAW_KEYS, SLOTS_FIELD_SECTIONS, SLOTS_FIELD_SOURCES } from './slots-fields';
 import { SPEND_FIELD_SECTIONS, SPEND_FIELD_SOURCES } from './spend-fields';
 import {
@@ -25,6 +32,7 @@ import {
 } from './starsigns-fields';
 import { TALENT_FIELD_RAW_KEYS, TALENT_FIELD_SECTIONS, TALENT_FIELD_SOURCES } from './talent-fields';
 import { TALENT_POINT_FIELD_RAW_KEYS, TALENT_POINT_FIELD_SOURCES } from './talent-points-fields';
+import { TOME_FIELD_RAW_KEYS, TOME_FIELD_SECTIONS, TOME_FIELD_SOURCES } from './tome-fields';
 import type { AccountState } from './types';
 import {
   UNSPENT_FIELD_RAW_KEYS,
@@ -112,6 +120,10 @@ export const FIELD_SOURCES: Record<string, string> = {
   ...REDESIGN_FIELD_SOURCES,
   ...BUBBA_FIELD_SOURCES,
   ...WORLD4_FIELD_SOURCES,
+  ...RIFT_FIELD_SOURCES,
+  ...TOME_FIELD_SOURCES,
+  ...ELITE_FIELD_SOURCES,
+  ...PRODUCTION_FIELD_SOURCES,
   ...W23_FIELD_SOURCES,
   ...TALENT_POINT_FIELD_SOURCES,
 };
@@ -155,6 +167,10 @@ export const FIELD_RAW_KEYS: Record<string, RawKeySpec[]> = {
   ...REDESIGN_FIELD_RAW_KEYS,
   ...BUBBA_FIELD_RAW_KEYS,
   ...WORLD4_FIELD_RAW_KEYS,
+  ...RIFT_FIELD_RAW_KEYS,
+  ...TOME_FIELD_RAW_KEYS,
+  ...ELITE_FIELD_RAW_KEYS,
+  ...PRODUCTION_FIELD_RAW_KEYS,
   ...TALENT_POINT_FIELD_RAW_KEYS,
 };
 
@@ -172,8 +188,13 @@ export const FRONTIER_SECTIONS = [
   'dungeons',
   'equinox',
   'farming',
+  // M26 FR-8: getMaxDamage reads these too (misc.ts friend bonuses; damage.ts gearBonus has the gallery
+  // and the hat rack), so a failure in one of them can't feed a kill rate either.
+  'friendBonusStats',
+  'gallery',
   'grimoire',
   'guild',
+  'hatRack',
   'hole',
   'islands',
   'kangaroo',
@@ -234,6 +255,10 @@ export const FIELD_SECTIONS: Record<string, string[]> = {
   ...REDESIGN_FIELD_SECTIONS,
   ...BUBBA_FIELD_SECTIONS,
   ...WORLD4_FIELD_SECTIONS,
+  ...RIFT_FIELD_SECTIONS,
+  ...TOME_FIELD_SECTIONS,
+  ...ELITE_FIELD_SECTIONS,
+  ...PRODUCTION_FIELD_SECTIONS,
   ...W23_FIELD_SECTIONS,
   // M4 TR-2: the current-map rate is getMaxDamage, which reads the frontier's sections.
   'characters[].fighting': [...FRONTIER_SECTIONS, 'storage'],

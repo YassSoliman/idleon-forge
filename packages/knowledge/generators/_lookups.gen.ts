@@ -50,6 +50,11 @@ export default defineGenerator({
     'website-data/shared-data.json#cardSets',
     'website-data/shared-data.json#spelunkingRocks',
     'website-data/shared-data.json#towers',
+    'website-data/shared-data.json#riftInfo',
+    'website-data/shared-data.json#territory',
+    'website-data/shared-data.json#cookingMenu',
+    'website-data/shared-data.json#labBonuses',
+    'website-data/shared-data.json#jewels',
     'website-data/cauldrons.json',
   ],
   run({ data }) {
@@ -99,6 +104,18 @@ export default defineGenerator({
       bubbles: sorted(Object.values(cauldrons).flatMap((c) => c.map((b) => b.bubbleName ?? ''))),
       // Construction building rawNames, for M15 F2's building slots (FR-27).
       buildings: sorted(Object.keys(data.towers as Record<string, unknown>)),
+      // M26 FR-11: each Rift level's task clause ("DEFEAT_500_MONSTERS_WITHIN_5_MIN"), for the Rift task slot.
+      riftTasks: sorted(
+        (data.riftInfo as { task?: string }[]).map((r) => (r.task ?? '').split('._')[0] ?? ''),
+      ),
+      // M26 Wave 1: Breeding territory names and Cooking meal names, for their Check slots (FR-27).
+      territories: sorted((data.territory as { territoryName?: string }[]).map((t) => t.territoryName ?? '')),
+      meals: sorted((data.cookingMenu as { name?: string }[]).map((m) => m.name ?? '')),
+      // M26 Wave 1: Lab bonus nodes and jewels, for the Lab Check slots (FR-27).
+      labNodes: sorted([
+        ...(data.labBonuses as { name?: string }[]).map((b) => b.name ?? ''),
+        ...(data.jewels as { name?: string }[]).map((j) => j.name ?? ''),
+      ]),
       sentinels: ['Blank', 'LockedInvSpace', 'Null'],
     };
   },

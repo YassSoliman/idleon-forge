@@ -15,8 +15,10 @@ import {
   TIMELINE_WORDS as W,
 } from '@idleon-forge/engine/now';
 import { type CSSProperties, Fragment, useState } from 'react';
+import { GameIcon } from '../art/game/GameIcon';
+import { KitSprite } from '../art/game/KitSprite';
+import { systemGameArt } from '../art/game/system-art';
 import { spriteOf } from '../art/sprites/index';
-import { Sprite } from '../art/sprites/Sprite';
 import { PixelArt } from '../design/art/PixelArt';
 import { cx, Frame, SegmentedControl, VerdictStamp } from '../design/atoms';
 import { type ClassFamily, WhoGlyph } from '../design/who/WhoGlyph';
@@ -24,7 +26,7 @@ import { tabHref } from '../now/character-tabs';
 import { PageSources } from '../shell/page-sources';
 import { formatRoute } from '../shell/route';
 import type { Session } from '../shell/session';
-import { barArt } from './art';
+import { barArt, barGameArt } from './art';
 import { BOARD_WORDS as B } from './words';
 
 type Vars = CSSProperties & Record<`--${string}`, string | number>;
@@ -38,9 +40,9 @@ const rowOf = (s: Session, index: number | null) =>
 export const systemSprite = (id: string | null): string | null => {
   if (!id) return null;
   const name = `sys-${id}`;
-  if (spriteOf(name)) return name;
-  const head = `sys-${id.split('-')[0]}`;
-  return spriteOf(head) ? head : null;
+  if (spriteOf(name) || systemGameArt(id)) return name;
+  const head = id.split('-')[0] ?? '';
+  return spriteOf(`sys-${head}`) || systemGameArt(head) ? `sys-${head}` : null;
 };
 
 const open = (b: TimelineBarView) => b.state === 'open';
@@ -133,9 +135,14 @@ function LosingNow({ v, s }: { v: TimelineView; s: Session }) {
         {row ? (
           <WhoGlyph family={familyOf(s, row.index)} classLabel={row.classLabel} scale={2} decorative />
         ) : sprite ? (
-          <Sprite name={sprite} size={48} decorative />
+          <KitSprite name={sprite} size={48} />
         ) : (
-          <PixelArt name={barArt(now.bar)} decorative />
+          <GameIcon
+            art={barGameArt(now.bar)}
+            fallback={<PixelArt name={barArt(now.bar)} decorative />}
+            size={48}
+            decorative
+          />
         )}
       </span>
       <span className="tl-next-b">
@@ -256,7 +263,7 @@ function LaneHead({ lane, s }: { lane: TimelineLane; s: Session }) {
       {row ? (
         <WhoGlyph family={familyOf(s, row.index)} classLabel={row.classLabel} scale={1} decorative />
       ) : sprite ? (
-        <Sprite name={sprite} size={24} decorative />
+        <KitSprite name={sprite} size={24} />
       ) : null}
       <span>{row ? `${row.classLabel} ${row.level}` : lane.short}</span>
     </a>
@@ -403,7 +410,12 @@ function Item({ b, s }: { b: TimelineBarView; s: Session }) {
   return (
     <li className={`tl-item${b.outlined ? ' outlined' : ''}${b.state !== 'open' ? ' muted' : ''}`}>
       <span className="tl-glyph">
-        <PixelArt name={barArt(b)} decorative />
+        <GameIcon
+          art={barGameArt(b)}
+          fallback={<PixelArt name={barArt(b)} decorative />}
+          size={32}
+          decorative
+        />
       </span>
       <div className="tl-item-body">
         <p className="tl-item-text">

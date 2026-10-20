@@ -58,13 +58,25 @@ async function main(): Promise<number> {
       const { runNewCommand } = await import('./commands');
       return runNewCommand(args);
     }
+    case 'stage-fixtures': {
+      const { runStageFixtures } = await import('./stage-fixtures');
+      const problems = await runStageFixtures({ check: flag('--check') });
+      for (const p of problems) console.error(p);
+      return problems.length ? 1 : 0;
+    }
+    case 'convert-drafts': {
+      const { runConvertDrafts } = await import('./convert-drafts');
+      const problems = runConvertDrafts({ check: flag('--check') });
+      for (const p of problems) console.error(p);
+      return problems.length ? 1 : 0;
+    }
     case 'fixtures': {
       const { runFixturesCommand } = await import('./commands');
       return runFixturesCommand({ pin: flag('--pin') });
     }
     default:
       console.log(
-        'usage: pnpm kb <generate|compile|check|golden|scrub|privacy|facts|new|fixtures> [options]\nsee packages/kb-tools/README in the M11 spec (TR-1)',
+        'usage: pnpm kb <generate|compile|check|golden|scrub|privacy|facts|new|fixtures|stage-fixtures|convert-drafts> [options]\nsee packages/kb-tools/README in the M11 spec (TR-1)',
       );
       return command ? 2 : 0;
   }

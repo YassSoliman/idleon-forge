@@ -40,6 +40,7 @@ import {
   leafEffort,
   type PlanContext,
   type PlanValues,
+  unratedCount,
 } from './plan';
 import { presetActions } from './presets';
 import { planPrinter } from './printer';
@@ -128,6 +129,7 @@ function treeLines(node: ReqNode, out: WalkthroughTreeLine[] = []): WalkthroughT
       depth: node.depth,
       text: `${node.need.toLocaleString('en-US')} ${node.name} (${held} held${worn}${node.stoppedBecause === 'cycle' ? "; can't expand this (recipe loop)" : ''})`,
       done: node.unknown ? null : node.missing === 0,
+      item: node.rawName,
     });
   } else
     out.push({
@@ -214,12 +216,24 @@ export function planWalkthroughs(
     const slowest = b.bottleneck?.name ?? null;
     // M18 FR-15: "you hold everything" is said here, so the Goal and its Walkthrough never disagree.
     const allHeld = b.parent.root !== undefined && b.leaves.length === 0 && gatesMet(b.root);
+    // M26 FR-C12: "slowest" when every missing leaf is rated, "slowest known" when some are not, "can't
+    // tell yet" when none is; never a tie-break dressed as a Bottleneck.
+    const unrated = unratedCount(b.leaves);
     const collapsed =
       (allHeld
         ? say(kb, ENTRY.assign, 'collapsed-all-held', { total })
-        : slowest
+        : slowest && unrated === 0
           ? say(kb, ENTRY.assign, 'collapsed', { done: b.doneLeaves, total, item: slowest })
-          : say(kb, ENTRY.assign, 'collapsed-none', { done: b.doneLeaves, total })) ?? '';
+          : slowest
+            ? say(kb, ENTRY.assign, 'collapsed-known', {
+                done: b.doneLeaves,
+                total,
+                item: slowest,
+                n: unrated,
+              })
+            : b.leaves.length > 0
+              ? say(kb, ENTRY.assign, 'collapsed-unknown', { done: b.doneLeaves, total, n: unrated })
+              : say(kb, ENTRY.assign, 'collapsed-none', { done: b.doneLeaves, total })) ?? '';
     const caveats: string[] = [];
     if (!holdingsKnown(state)) caveats.push(say(kb, ENTRY.assign, 'can-tell-not', {}) ?? "can't tell");
     if (input.prior?.versions.parserBehind) caveats.push('may be out of date');
@@ -674,16 +688,17 @@ function stepsOf(
     }
     if (node.kind === 'item' && node.via === 'recipe' && node.missing > 0 && !node.stoppedBecause) {
       const smith = node.children.find((x) => x.kind === 'gate' && x.gate === 'smithing');
-      const level = smith?.kind === 'gate' ? (smith.level ?? 0) : 0;
+      const level = smith?.kind === 'gate' ? (smith.level ?? null) : null;
       const gated = smith?.kind === 'gate' && smith.met === false;
       const slots = {
         amount: node.missing,
         item: node.name,
-        level,
+        level: level ?? 0,
         bag: gated ? '' : (s('craft-bag', {}) ?? ''),
       };
       const text = s(gated ? 'craft-gate' : 'craft', slots);
-      const why = s(gated ? 'craft-gate-why' : 'craft-why', slots);
+      // M26 FR-C3: a recipe with no known Smithing level says so instead of "Smithing 0".
+      const why = s(gated ? 'craft-gate-why' : level === null ? 'craft-why-unknown' : 'craft-why', slots);
       craftStep.set(
         node,
         add({

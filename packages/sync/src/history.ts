@@ -36,8 +36,14 @@ export interface SaveRecord {
   /** Epoch ms, local clock. */
   receivedAt: number;
   schemaVersion: number;
-  /** Parsed at `now = lastCloudSave`: the account as it was at that save. */
+  /**
+   * Parsed at `now = lastCloudSave`: the account as it was at that save. Whole on the newest save and
+   * the first and last save of the newest two Play Sessions; on every other kept save it is
+   * `compactState(state)` and `compact` is true (TR-16, 1 MB states).
+   */
   state: AccountState;
+  /** `state` is the compact copy (only the fields the history readers use). */
+  compact?: true;
   /** gzip of the raw envelope's JSON; only on the newest record and the last of each Play Session. */
   rawGzip?: Blob;
 }
@@ -51,6 +57,8 @@ export interface SaveIndexRow {
   hasState: boolean;
   /** That record still carries `rawGzip`. */
   hasRaw: boolean;
+  /** That record's state is the compact copy (`SaveRecord.compact`). Absent on older rows: whole. */
+  compact?: boolean;
   /** The save's `lastPlayedCharacterIndex`. */
   lastPlayedCharacterIndex: number | null;
   /** The character this save stamped (`stampedSlot`): the one left on a switch, else the one played. */
@@ -396,6 +404,31 @@ function retention(rows: SaveIndexRow[], lowQuota: boolean): { state: Set<number
   return { state, raw };
 }
 
+/** Whole Account States are kept for the newest save and the boundaries of this many Play Sessions. */
+export const WHOLE_STATE_SESSIONS = 2;
+
+/**
+ * Which kept saves keep their whole state (TR-16 as revised on 2026-10-19, when the per-state cap rose
+ * to 1 MB): the newest save, and the first and last save of the newest `WHOLE_STATE_SESSIONS` Play
+ * Sessions. Those are the only whole states anything reads: `latest`, `sessionStart` of the current
+ * Play Session, and `forEngine`'s two boundary entries (the first save of this Play Session and the
+ * last one before it). Every other kept save is stored compact, so 30 days of history cost a few MB
+ * at most, not one whole state per kept save. Ranking runs from the newest end, so a window whose
+ * first Play Session is cut off still ranks the later ones right; its first row is never demoted.
+ */
+function wholeStates(rows: SaveIndexRow[]): Set<number> {
+  const whole = new Set<number>();
+  const last = rows.at(-1);
+  if (last) whole.add(last.lastCloudSave);
+  for (const [a, b] of sessionRanges(rows).slice(-WHOLE_STATE_SESSIONS)) {
+    for (const i of [a, b]) {
+      const r = rows[i];
+      if (r) whole.add(r.lastCloudSave);
+    }
+  }
+  return whole;
+}
+
 // --- the store ----------------------------------------------------------------------------------
 
 export interface OpenHistoryOptions {
@@ -495,12 +528,18 @@ function createHistory(
    */
   const compact = async (uid: string, t: number) => {
     let rows = await backend.rows(uid, t - COMPACT_WINDOW_MS);
-    if (rows.length < 3) rows = await backend.rows(uid, t - HISTORY_RETENTION_MS);
+    // A save that starts a Play Session pushes an older one out of the whole-state set, and that one
+    // may lie outside the window: read every row then (once per Play Session).
+    const before = rows.at(-2);
+    const startsSession = before !== undefined && t - before.lastCloudSave >= PLAY_SESSION_GAP_MS;
+    const all = rows.length < 3 || startsSession;
+    if (all) rows = await backend.rows(uid, t - HISTORY_RETENTION_MS);
     const keep = retention(rows, await lowQuota());
+    const whole = wholeStates(rows);
     const changedRows: SaveIndexRow[] = [];
     const rewritten: SaveRecord[] = [];
     const deletes: number[] = [];
-    const stripRaw: SaveIndexRow[] = [];
+    const rewrite: Array<{ row: SaveIndexRow; dropRaw: boolean; demote: boolean }> = [];
     rows.forEach((row, i) => {
       const at = row.lastCloudSave;
       // The first row's predecessor may be outside the window, so only its raw copy (which depends on
@@ -508,17 +547,27 @@ function createHistory(
       if (i > 0 && row.hasState && !keep.state.has(at)) {
         deletes.push(at);
         changedRows.push({ ...row, hasState: false, hasRaw: false });
-      } else if (row.hasState && row.hasRaw && !keep.raw.has(at)) {
-        stripRaw.push(row);
+      } else if (row.hasState) {
+        const dropRaw = row.hasRaw && !keep.raw.has(at);
+        const demote = (i > 0 || all) && !row.compact && !whole.has(at);
+        if (dropRaw || demote) rewrite.push({ row, dropRaw, demote });
       }
     });
-    for (const row of stripRaw) {
+    for (const { row, dropRaw, demote } of rewrite) {
       const record = await backend.record(uid, row.lastCloudSave);
       if (record) {
-        const { rawGzip: _drop, ...rest } = record;
-        rewritten.push(rest);
+        const { rawGzip, ...rest } = record;
+        rewritten.push({
+          ...rest,
+          ...(dropRaw || !rawGzip ? {} : { rawGzip }),
+          ...(demote ? { state: compactState(record.state), compact: true as const } : {}),
+        });
       }
-      changedRows.push({ ...row, hasRaw: false });
+      changedRows.push({
+        ...row,
+        ...(dropRaw ? { hasRaw: false } : {}),
+        ...(demote ? { compact: true } : {}),
+      });
     }
     if (changedRows.length > 0) await backend.write(changedRows, rewritten, deletes, uid);
   };
@@ -616,7 +665,11 @@ function createHistory(
         }
         const r = await backend.record(uid, t);
         if (!r) continue;
-        const entry = { lastCloudSave: t, receivedAt: r.receivedAt, state: compactState(r.state) };
+        const entry = {
+          lastCloudSave: t,
+          receivedAt: r.receivedAt,
+          state: r.compact ? r.state : compactState(r.state),
+        };
         cache.set(t, entry);
         out.push(whole.has(t) ? { lastCloudSave: t, receivedAt: r.receivedAt, state: r.state } : entry);
       }

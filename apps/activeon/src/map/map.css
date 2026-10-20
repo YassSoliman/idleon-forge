@@ -319,7 +319,7 @@
   box-shadow: inset 0 0 0 2px var(--ok);
 }
 .map-dot.is-front {
-  background: var(--accent);
+  background: var(--accent-fill);
 }
 .map-dot.is-next {
   background: transparent;
@@ -395,12 +395,16 @@
   color: var(--accent);
 }
 .ms-n.is-first {
-  background: var(--accent);
+  background: var(--accent-fill);
   color: var(--on-accent);
 }
 .ms-c {
   flex: none;
-  width: 52px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: var(--space-2);
+  width: 92px;
   text-align: center;
   font-family: var(--font-display);
   font-weight: var(--display-weight);
@@ -493,7 +497,7 @@
   background: var(--ok-soft);
 }
 .ms-key.is-ready {
-  background: var(--accent);
+  background: var(--accent-fill);
 }
 .ms-key.is-reach {
   box-shadow: inset 0 0 0 2px var(--line-strong);
@@ -554,10 +558,10 @@
   width: calc(var(--w) * 100%);
 }
 .dn-fill.is-done {
-  background: var(--ok);
+  background: var(--ok-fill);
 }
 .dn-fill.is-on {
-  background: var(--accent);
+  background: var(--accent-fill);
 }
 .dn-k {
   display: grid;
@@ -570,10 +574,10 @@
   height: 12px;
 }
 .dn-key.is-done {
-  background: var(--ok);
+  background: var(--ok-fill);
 }
 .dn-key.is-on {
-  background: var(--accent);
+  background: var(--accent-fill);
 }
 .map-aside {
   display: grid;
@@ -725,7 +729,7 @@
   background: var(--line);
 }
 .mc-pip.is-on {
-  background: var(--ok);
+  background: var(--ok-fill);
 }
 .mc-key {
   display: inline-block;
@@ -907,4 +911,53 @@
 .map-place .a-tab {
   flex: none;
   white-space: nowrap;
+}
+
+/* M25: game sprites (ADR 0009 as amended). The boss key sits on its keys line; a card wears its own
+   art, dimmed until it is found. */
+.map-boss-k {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+}
+.mc-face .mc-art {
+  width: 40px;
+  height: 52px;
+}
+.mc-card.is-reached .mc-art,
+.mc-card.is-far .mc-art {
+  opacity: 0.45;
+  filter: grayscale(1);
+}
+.mc-also-h {
+  align-items: center;
+}
+.mc-also-h > b {
+  flex: 1;
+}
+/* A fighting map wears its monster; its state glyph is a badge in the corner, so the square still says
+   open, next or shut without colour alone. Not reached yet: the monster is greyed. */
+.map-dot.has-mob {
+  position: relative;
+}
+.map-dot.is-shut .map-mob,
+.map-dot.is-side .map-mob,
+.map-dot.is-none .map-mob {
+  opacity: 0.4;
+  filter: grayscale(1);
+}
+.map-dot-g {
+  position: absolute;
+  right: -6px;
+  bottom: -6px;
+  display: grid;
+  place-items: center;
+  width: 18px;
+  height: 18px;
+  background: var(--surface);
+  line-height: 0;
+}
+.map-dot-g > * {
+  width: 14px;
+  height: 14px;
 }

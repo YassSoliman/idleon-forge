@@ -2,7 +2,8 @@
 // Copyright (C) 2026 IdleOn Forge contributors.
 // Segmented controls and tabs (M21 FR-F5, TR-5, TR-17). A segmented control is a radio group of real
 // radio inputs (arrow keys move the choice, as browsers do); tabs follow the ARIA tabs pattern with
-// roving focus. Every segment and tab is at least 44 px.
+// roving focus. Every segment and tab is at least 44 px. A tab can carry a second line (`sub`, M25: the
+// Build tab's presets say what is waiting in each).
 import { type KeyboardEvent, type ReactNode, useId, useRef } from 'react';
 import type { ArtName } from '../art/names';
 import { PixelArt } from '../art/PixelArt';
@@ -46,13 +47,15 @@ export function SegmentedControl<T extends string>({
 export interface TabsProps<T extends string> {
   label: string;
   value: T;
-  tabs: { value: T; label: string; badge?: ReactNode; glyph?: ArtName }[];
+  tabs: { value: T; label: string; badge?: ReactNode; glyph?: ArtName; sub?: ReactNode }[];
   onChange(v: T): void;
+  /** Extra class on the tab list (a view's own layout of the same tabs). */
+  className?: string;
   /** The id prefix of the tab panels (`${idBase}-panel-${value}`), for aria-controls; the caller renders them. */
   idBase?: string;
 }
 
-export function Tabs<T extends string>({ label, value, tabs, onChange, idBase }: TabsProps<T>) {
+export function Tabs<T extends string>({ label, value, tabs, onChange, idBase, className }: TabsProps<T>) {
   const refs = useRef<(HTMLButtonElement | null)[]>([]);
   const fallback = useId();
   const base = idBase ?? fallback;
@@ -75,7 +78,7 @@ export function Tabs<T extends string>({ label, value, tabs, onChange, idBase }:
     refs.current[to]?.focus();
   };
   return (
-    <div className="a-tabs" role="tablist" aria-label={label}>
+    <div className={cx('a-tabs', className)} role="tablist" aria-label={label}>
       {tabs.map((t, i) => (
         <button
           key={t.value}
@@ -88,13 +91,26 @@ export function Tabs<T extends string>({ label, value, tabs, onChange, idBase }:
           aria-selected={t.value === value}
           aria-controls={idBase ? `${idBase}-panel-${t.value}` : undefined}
           tabIndex={t.value === value ? 0 : -1}
-          className={cx('a-tab', t.value === value && 'a-tab--on')}
+          className={cx('a-tab', t.value === value && 'a-tab--on', t.sub !== undefined && 'a-tab--two')}
           onClick={() => onChange(t.value)}
           onKeyDown={(e) => move(e, i)}
         >
-          {t.glyph ? <PixelArt name={t.glyph} decorative /> : null}
-          <span>{t.label}</span>
-          {t.badge}
+          {t.sub !== undefined ? (
+            <>
+              <span className="a-tab__line">
+                {t.glyph ? <PixelArt name={t.glyph} decorative /> : null}
+                <span>{t.label}</span>
+                {t.badge}
+              </span>
+              <span className="a-tab__sub">{t.sub}</span>
+            </>
+          ) : (
+            <>
+              {t.glyph ? <PixelArt name={t.glyph} decorative /> : null}
+              <span>{t.label}</span>
+              {t.badge}
+            </>
+          )}
         </button>
       ))}
     </div>

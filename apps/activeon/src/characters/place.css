@@ -105,6 +105,19 @@
   display: grid;
   min-width: 0;
 }
+/* M25: the in-game name under the class label, smaller and lighter (as in the strip). */
+.characters-place .cp-who-l {
+  display: grid;
+  min-width: 0;
+}
+.characters-place .cp-who-name {
+  min-width: 0;
+  overflow: hidden;
+  font-size: var(--text-xs);
+  color: var(--muted);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
 .characters-place .cp-who-t .np-state {
   font-size: 13px;
 }
@@ -143,6 +156,14 @@
   font-size: 18px;
   line-height: 1.2;
   white-space: nowrap;
+}
+/* M26: past World 4 an elite Build's lower bound reads "at least 12,666 points"; on a phone it wraps
+   inside its cell rather than push the table past the column. */
+@media (max-width: 480px) {
+  .characters-place .cp-loud {
+    white-space: normal;
+    overflow-wrap: anywhere;
+  }
 }
 .characters-place .cp-cell-t .cp-sm {
   line-height: 1.25;
@@ -200,7 +221,7 @@
 .characters-place .cp-meter i {
   display: block;
   height: 100%;
-  background: var(--accent);
+  background: var(--accent-fill);
 }
 .characters-place .cp-steps {
   display: grid;
@@ -301,15 +322,15 @@
 }
 .characters-place .cp-heat td[data-shade="1"],
 .characters-place .cp-sw[data-shade="1"] {
-  background: color-mix(in srgb, var(--ok) 10%, var(--surface));
+  background: color-mix(in srgb, var(--ok-fill) 10%, var(--surface));
 }
 .characters-place .cp-heat td[data-shade="2"],
 .characters-place .cp-sw[data-shade="2"] {
-  background: color-mix(in srgb, var(--ok) 18%, var(--surface));
+  background: color-mix(in srgb, var(--ok-fill) 18%, var(--surface));
 }
 .characters-place .cp-heat td[data-shade="3"],
 .characters-place .cp-sw[data-shade="3"] {
-  background: color-mix(in srgb, var(--ok) 28%, var(--surface));
+  background: color-mix(in srgb, var(--ok-fill) 28%, var(--surface));
 }
 .characters-place .cp-heat td[data-low="yes"] {
   color: var(--muted);

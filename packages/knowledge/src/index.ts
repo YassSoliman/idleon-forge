@@ -10,7 +10,7 @@ import type { CompiledKnowledge } from './version';
 export { coverage, coveredSystems, systemUnlocked } from './coverage';
 export { familyMembers } from './family';
 export * from './helpers';
-export { packKnowledge, unpackKnowledge } from './pack';
+export { packKnowledge, shippedEntry, unpackKnowledge } from './pack';
 export { isPlayerSource, playerSources, type SourceLike } from './player-sources';
 export { type EntryReportFields, entryReportFields, type ReportableOutput } from './report';
 export {
@@ -22,7 +22,19 @@ export {
   runDetector,
 } from './run';
 export * from './schema';
-export { STAGE_DEFINITIONS, STAGES, type StageDefinition, stageIndex, stagesBetween } from './stages';
+export {
+  appliesAtStage,
+  OPEN_ENDED_FROM,
+  STAGE_DEFINITIONS,
+  STAGES,
+  type StageDefinition,
+  type StageScope,
+  type StageSpan,
+  spanStages,
+  stageIndex,
+  stagesBetween,
+  stagesOf,
+} from './stages';
 export {
   compareGameVersions,
   isStale,

@@ -6,9 +6,18 @@
 // work) through `buildAnvilPageView`.
 import { ANVIL_PAGE_HOURS, buildAnvilPageView, ANVIL_WORDS as W } from '@idleon-forge/engine/systems-ui';
 import { useMemo, useState } from 'react';
+import { GameIcon } from '../../art/game/GameIcon';
+import { itemArt } from '../../art/game/game-art';
+import { WHETSTONE_ART } from '../../art/game/systems-art';
 import { WhoGlyph } from '../../design/who/WhoGlyph';
+import { AnvilPlanTab } from '../../production/AnvilPlanTab';
+import { AnvilRecipes } from '../../production/AnvilRecipes';
+import { AnvilWalkthrough } from '../../production/AnvilWalkthrough';
 import { SimplePage, StepsSection } from '../frame/SimplePage';
-import { type FrameAnswer, frameAnswer, SystemFrame } from '../frame/SystemFrame';
+import { type FrameAnswer, type FrameTab, frameAnswer, SystemFrame } from '../frame/SystemFrame';
+
+type FrameStatus = FullPageProps['page']['frame']['status'];
+
 import type { FullPageProps } from '../pages';
 import './pages.css';
 
@@ -20,31 +29,114 @@ const nearest = (seconds: number) =>
 export default function AnvilPage({ s, page }: FullPageProps) {
   const [hours, setHours] = useState<number>(() => nearest(s.result.expectedReturn.usedSeconds));
   const v = useMemo(() => buildAnvilPageView(s.state, s.result, hours), [s.state, s.result, hours]);
+  // The anvil's products carry their rawName in Account State; the view keeps only the display name.
+  const rawOf = (index: number, name: string): string | null => {
+    const c = s.state.characters.find((x) => x.index === index);
+    const key = name.replace(/_/g, ' ');
+    return c?.afk?.anvil?.find((a) => a.name.replace(/_/g, ' ') === key)?.item ?? null;
+  };
   // The answer follows the player's own Expected Return, not the tab's chips.
   const own = useMemo(
     () => buildAnvilPageView(s.state, s.result, nearest(s.result.expectedReturn.usedSeconds)),
     [s.state, s.result],
   );
-  if (!v) return <SimplePage s={s} page={page} />;
-  const answer: FrameAnswer = own?.hero
-    ? {
-        tone: 'gold',
-        cap: page.frame.answer.cap === 'All good' ? 'Do this next' : page.frame.answer.cap,
-        hero: own.hero.hero,
-        sub: own.hero.sub,
-        big: { value: own.hero.points.toLocaleString('en-US'), unit: W.points, note: W.doingNothing },
-      }
-    : frameAnswer(page);
+  // M26 F-C: the route's tab and row (FR-C2); the Walkthrough tab's own answer is the next tab (FR-C4).
+  const route = s.route.place === 'system' && s.route.id === page.tile.id ? s.route : null;
+  const prod = s.result.production ?? null;
+  const openTab = (tab: string, focus?: string) =>
+    s.navigate({ place: 'system', id: page.tile.id, tab, ...(focus ? { focus } : {}) }, 'replace', {
+      origin: s.origin,
+    });
+  const next = prod?.nextTab ?? null;
+  const pageAnswer: FrameAnswer | null =
+    route?.tab === 'walkthrough' && next
+      ? {
+          tone: 'gold',
+          cap: 'Do this next',
+          hero: next.answer,
+          sub: next.bottleneck || null,
+          big: {
+            value: `${next.ready}/${next.of}`,
+            note: 'materials ready',
+            meter: next.of ? next.ready / next.of : 0,
+          },
+        }
+      : prod?.answer
+        ? { tone: 'gold', cap: prod.answer.cap, hero: prod.answer.hero, sub: prod.answer.sub }
+        : null;
+  const answer: FrameAnswer =
+    pageAnswer ??
+    (own?.hero
+      ? {
+          tone: 'gold',
+          cap: page.frame.answer.cap === 'All good' ? 'Do this next' : page.frame.answer.cap,
+          hero: own.hero.hero,
+          sub: own.hero.sub,
+          big: { value: own.hero.points.toLocaleString('en-US'), unit: W.points, note: W.doingNothing },
+        }
+      : frameAnswer(page));
+  // A check whose field this save lacks (an older save) leaves the tile at "Can't tell", while the page's
+  // own Production Plan reads every anvil: the header then says what the plan sees, and that some checks
+  // can't read the save (the checks tile names them).
+  const status: FrameStatus | undefined =
+    page.tile.status === 'cant-tell' && prod && prod.anvils.total > 0
+      ? {
+          tone: prod.anvils.switching > 0 ? 'gold' : 'mint',
+          word: prod.anvils.line,
+          reason: W.someChecksUnread,
+        }
+      : undefined;
+  const prodTabs: FrameTab[] = prod
+    ? [
+        {
+          id: 'recipes',
+          label: W.tabs.recipes,
+          render: () => (
+            <AnvilRecipes
+              s={s}
+              p={prod}
+              focus={route?.tab === 'recipes' ? (route.focus ?? null) : null}
+              openWalkthrough={() => openTab('walkthrough', next?.rawName)}
+            />
+          ),
+        },
+        {
+          id: 'walkthrough',
+          label: W.tabs.walkthrough,
+          ...(prod.walkthroughs.length ? { badge: prod.walkthroughs.length } : {}),
+          render: () => <AnvilWalkthrough p={prod} />,
+        },
+      ]
+    : [];
+  // M26 section 8: the Production Plan tab comes first and replaces "What each anvil makes".
+  const planTab: FrameTab[] = prod
+    ? [{ id: 'plan', label: W.tabs.plan, render: () => <AnvilPlanTab s={s} p={prod} /> }]
+    : [];
+  // Without the point plan (an old pasted save), the page still has its Plan, Recipes and Walkthrough.
+  if (!v)
+    return prodTabs.length ? (
+      <SystemFrame
+        s={s}
+        page={page}
+        answer={pageAnswer ?? frameAnswer(page)}
+        tabs={[...planTab, ...prodTabs]}
+        {...(status ? { status } : {})}
+      />
+    ) : (
+      <SimplePage s={s} page={page} />
+    );
   const makers = v.makes.filter((m) => m.items.length > 0).length;
   return (
     <SystemFrame
       s={s}
       page={page}
       answer={answer}
+      {...(status ? { status } : {})}
       tabs={[
+        ...planTab,
         {
-          id: 'split',
-          label: W.tabs.split,
+          id: 'points',
+          label: W.tabs.points,
           render: () => (
             <div className="sf-split">
               <div className="sf-col">
@@ -60,7 +152,10 @@ export default function AnvilPage({ s, page }: FullPageProps) {
                       {v.products.map((p) => (
                         <li key={p.item} className="an-work__row">
                           <span className="an-work__name">
-                            <span className="sf-strong sf-small">{p.name}</span>
+                            <span className="an-item">
+                              <GameIcon art={itemArt(p.item)} size={24} wiki={p.name} decorative />
+                              <span className="sf-strong sf-small">{p.name}</span>
+                            </span>
                             <span className="sf-hint">{p.who}</span>
                           </span>
                           <span className="an-work__bar">
@@ -122,6 +217,7 @@ export default function AnvilPage({ s, page }: FullPageProps) {
                         <li
                           key={r.index}
                           className={`sf-row an-row${r.tone === 'gold' ? ' sf-row--gold' : ''}`}
+                          data-focus-key={`c${r.index}`}
                         >
                           <span className="an-row__who">
                             {r.who ? (
@@ -163,18 +259,26 @@ export default function AnvilPage({ s, page }: FullPageProps) {
               <aside className="sf-col">
                 <section className="a-tile sf-tile" aria-labelledby="an-ws-h">
                   <div className="an-ws__head">
-                    <svg
-                      aria-hidden="true"
-                      width="32"
-                      height="32"
-                      viewBox="0 0 16 16"
-                      shapeRendering="crispEdges"
-                    >
-                      <rect x="2" y="7" width="12" height="4" fill="#9AA3B2" />
-                      <rect x="3" y="6" width="10" height="1" fill="#C9D0DB" />
-                      <rect x="2" y="11" width="12" height="1" fill="#6B7280" />
-                      <rect x="4" y="8" width="3" height="1" fill="#EDE6D6" />
-                    </svg>
+                    <GameIcon
+                      art={WHETSTONE_ART}
+                      fallback={
+                        <svg
+                          aria-hidden="true"
+                          width="32"
+                          height="32"
+                          viewBox="0 0 16 16"
+                          shapeRendering="crispEdges"
+                        >
+                          <rect x="2" y="7" width="12" height="4" fill="#9AA3B2" />
+                          <rect x="3" y="6" width="10" height="1" fill="#C9D0DB" />
+                          <rect x="2" y="11" width="12" height="1" fill="#6B7280" />
+                          <rect x="4" y="8" width="3" height="1" fill="#EDE6D6" />
+                        </svg>
+                      }
+                      size={32}
+                      wiki="Anvil Reset Whetstone"
+                      decorative
+                    />
                     <span className="sf-row__main">
                       <span id="an-ws-h" className="sf-strong">
                         {W.whetstone}
@@ -216,41 +320,55 @@ export default function AnvilPage({ s, page }: FullPageProps) {
             </div>
           ),
         },
-        {
-          id: 'makes',
-          label: W.tabs.makes,
-          badge: makers,
-          render: () => (
-            <section className="sf-sec" aria-labelledby="an-makes-h">
-              <h3 id="an-makes-h" className="a-h2">
-                {W.makesTitle}
-              </h3>
-              <ul className="sf-rows">
-                {v.makes.map((m) => (
-                  <li key={m.index} className="sf-row">
-                    <span className="an-row__who">
-                      {m.who ? (
-                        <WhoGlyph family={m.who.family} classLabel={m.who.label} scale={2} decorative />
-                      ) : null}
-                      <span className="sf-strong">{m.who?.label}</span>
-                    </span>
-                    <ul className="an-makes">
-                      {m.items.map((it) => (
-                        <li key={it.name} className="sf-small">
-                          <span className="sf-strong">{it.name}</span>{' '}
-                          <span className="sf-muted">
-                            {W.of(it.amount.toLocaleString('en-US'), it.capacity.toLocaleString('en-US'))} ·{' '}
-                            {it.full}
+        ...(prod
+          ? []
+          : [
+              {
+                id: 'makes',
+                label: W.tabs.makes,
+                badge: makers,
+                render: () => (
+                  <section className="sf-sec" aria-labelledby="an-makes-h">
+                    <h3 id="an-makes-h" className="a-h2">
+                      {W.makesTitle}
+                    </h3>
+                    <ul className="sf-rows">
+                      {v.makes.map((m) => (
+                        <li key={m.index} className="sf-row">
+                          <span className="an-row__who">
+                            {m.who ? (
+                              <WhoGlyph family={m.who.family} classLabel={m.who.label} scale={2} decorative />
+                            ) : null}
+                            <span className="sf-strong">{m.who?.label}</span>
                           </span>
+                          <ul className="an-makes">
+                            {m.items.map((it) => (
+                              <li key={it.name} className="sf-small an-item">
+                                <GameIcon
+                                  art={itemArt(rawOf(m.index, it.name))}
+                                  size={16}
+                                  wiki={it.name}
+                                  decorative
+                                />
+                                <span className="sf-strong">{it.name}</span>{' '}
+                                <span className="sf-muted">
+                                  {W.of(
+                                    it.amount.toLocaleString('en-US'),
+                                    it.capacity.toLocaleString('en-US'),
+                                  )}{' '}
+                                  · {it.full}
+                                </span>
+                              </li>
+                            ))}
+                          </ul>
                         </li>
                       ))}
                     </ul>
-                  </li>
-                ))}
-              </ul>
-            </section>
-          ),
-        },
+                  </section>
+                ),
+              },
+            ]),
+        ...prodTabs,
       ]}
     />
   );

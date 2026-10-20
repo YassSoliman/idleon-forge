@@ -153,6 +153,8 @@ function NowRail({ s }: { s: Session }) {
       onFix={(key) => s.toAccountFix(key)}
       onDaily={() => s.navigate({ place: 'timeline', section: 'daily' }, 'push')}
       onSpend={s.toSpend}
+      production={result.production?.anvils.line ?? null}
+      onProduction={() => s.navigate({ place: 'account', page: 'production' }, 'push')}
     />
   );
 }

@@ -1,0 +1,44 @@
+# SPDX-License-Identifier: GPL-3.0-only
+# M26 FR-16 (Wave 1): the Tome. Promoted from systems/tome.drafts.yaml after V7 (2026-10-19, game client):
+# each metric counts from its TomeLvReq (Account LV 350 and up), TomePCT is 0 below it, and the Tome's damage
+# reads only the PTS total, so there is no World 4 gate on the bonus. Toolbox computes the same.
+system: tome
+entries:
+  - id: tome.check.blue-pages
+    system: tome
+    type: check
+    title: Buy the Blue Tome Pages
+    subject: account
+    effect: next-action
+    category: compounding
+    effortSeconds: 120
+    detector: { id: tome/blue-pages }
+    text: "Buy the Blue Tome Pages and drop them on the Tome"
+    why: "They sell in the World 4 town shop. Your Tome has {points:int} PTS, {over:int} past {from:int}, and the pages are a one-time buy that turns PTS above {from:int} into Skill Efficiency."
+    doneWhen: { field: account.tome.pages.blue, change: changed }
+    appliesTo: { stages: [{ from: W4-entry, to: W4-entry }] }
+    confidence: M
+    status: active
+    notes: "Dossier M7. The bonus formula and its accountOptions[196] flag are tier 1 (H); the shop and the stack of pages are wiki-level, hence M. Fires only once the pages pay (4,000 PTS): no early buy."
+    sources:
+      - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-4/tome.ts#L97-L121", title: "IdleOn Toolbox getTomeBonus: index 1, Skill Efficiency past 4,000 PTS once accountOptions[196] is 1", tier: 1, verified: 2026-10-19, gameVersion: 2.3.540 }
+      - { url: "https://idleon.wiki/wiki/Tome", title: "IdleOn Wiki: Tome", tier: 2, claimDate: 2026-10-12, verified: 2026-10-19, gameVersion: 2.3.540 }
+  - id: tome.check.claim-nametags
+    system: tome
+    type: check
+    title: Claim your Tome nametags
+    subject: account
+    effect: next-action
+    category: spendable
+    effortSeconds: 60
+    detector: { id: tome/nametags }
+    text: "Claim {available:int} Tome nametags at the Tome"
+    why: "Each rank tier your Tome score reached this month gives one nametag, and the claims reset every month."
+    doneWhen: { field: account.tome.nametags.available, change: lower }
+    appliesTo: { stages: [{ from: W4-entry, to: W4-entry }] }
+    confidence: H
+    status: active
+    notes: "Dossier M12 (tier 1): available = max(0, tier + 1 - claimed this month), month = floor(GlobalTime / 2,628,000) against accountOptions[448]. Ranks below Top 50% give none."
+    sources:
+      - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-4/tome.ts#L143-L152", title: "IdleOn Toolbox nametagClaim: tier, claimed this month, available", tier: 1, verified: 2026-10-19, gameVersion: 2.3.540 }
+      - { url: "https://idleon.wiki/wiki/Tome", title: "IdleOn Wiki: Tome", tier: 2, claimDate: 2026-10-12, verified: 2026-10-19, gameVersion: 2.3.540 }

@@ -4,8 +4,9 @@
 // and words every step (`view.builds`: the whole Build path per tab, banded done / can add now / part
 // now / next after these / later, with running totals and exact or lower-bound point counts, ADR 0010);
 // this lays it out as pictures:
-// - two preset cards: the one with points waiting is the screen's one frame and is selected first, the
-//   other is a quiet tile with its facts ("Class points all spent · 4 star points left");
+// - the two presets as tabs (M25 owner feedback: two stacked cards did not read as a switch): Fighting
+//   then Skilling, the one the game has in use tagged and selected first, each tab saying in gold what is
+//   waiting in it ("183 talent · 202 star points"); the selected preset's answer is the screen's one frame;
 // - the talent tabs as a segmented control with each tab's points, then the star tab as its own control
 //   (star points are their own pool, so the sums add up: 366 + 310 + 193 = 869 talent points);
 // - the talent book: every talent the Build names in this tab with its order number (filled: the points
@@ -15,17 +16,23 @@
 //   points end.
 import { asOfLine, CHARACTERS_WORDS, leadTab, pathMarker } from '@idleon-forge/engine/characters-ui';
 import type { BuildRoadmapView } from '@idleon-forge/engine/now';
-import type { BuildPathStepView, BuildPresetView, BuildTabView } from '@idleon-forge/engine/result';
+import type { BuildPathStepView, BuildTabView } from '@idleon-forge/engine/result';
 import { createContext, type ReactNode, useContext, useMemo, useState } from 'react';
+import { classArtOf } from '../../art/game/class-art';
+import { GameIcon } from '../../art/game/GameIcon';
+import { talentArtOf } from '../../art/game/talent-art';
 import { spriteOf } from '../../art/sprites';
 import { Sprite } from '../../art/sprites/Sprite';
 import { PixelArt } from '../../design/art/PixelArt';
-import { cx, Frame, GLYPH, Meter, SourceLabel, Tag } from '../../design/atoms';
+import { Frame, GLYPH, Meter, Pip, SourceLabel, Tabs, Tag } from '../../design/atoms';
 import type { CharacterTabProps } from '../../now/character-tabs';
 import { useNowActions } from '../../now/context';
 import { PageSources, PageSourcesSlot } from '../../shell/page-sources';
 import { BUILD_WORDS as B } from '../words';
 import './build.css';
+
+/** One preset of the Build view, with its own Build's best Source (M26). */
+type PresetView = BuildRoadmapView['presets'][number];
 
 const W = CHARACTERS_WORDS;
 const n = (x: number) => x.toLocaleString('en-US');
@@ -46,7 +53,7 @@ interface Pools {
   parts: number[];
   star: number;
 }
-function poolsOf(p: BuildPresetView): Pools {
+function poolsOf(p: PresetView): Pools {
   const withPoints = p.tabs.filter((t) => pointsOf(t) > 0);
   const star = p.star?.known?.kind === 'exact' && p.star.known.overBy === null ? pointsOf(p.star) : 0;
   return {
@@ -57,7 +64,19 @@ function poolsOf(p: BuildPresetView): Pools {
   };
 }
 
-/** The preset to open on: the one with talent points waiting, then star points, then the lead, then in use. */
+/** The preset to open on: the one the game has in use (M25), else the one with points waiting. */
+function openPreset(r: BuildRoadmapView): number {
+  return r.presets.find((p) => p.active)?.slot ?? firstPreset(r);
+}
+
+/** The preset tabs' order: Fighting, then Skilling, then any other by save slot. */
+const ROLE_ORDER: Record<string, number> = { fighting: 0, skilling: 1 };
+const presetOrder = (r: BuildRoadmapView): PresetView[] =>
+  [...r.presets].sort(
+    (a, b) => (ROLE_ORDER[a.role ?? ''] ?? 2) - (ROLE_ORDER[b.role ?? ''] ?? 2) || a.slot - b.slot,
+  );
+
+/** No preset in use: the one with talent points waiting, then star points, then the lead. */
 function firstPreset(r: BuildRoadmapView): number {
   const by = [...r.presets].sort(
     (a, b) =>
@@ -71,7 +90,7 @@ function firstPreset(r: BuildRoadmapView): number {
 }
 
 /** The tab to open on: the preset's lead tab, else the tab with the most points, else the first with a path. */
-function firstTab(p: BuildPresetView): number {
+function firstTab(p: PresetView): number {
   const lead = leadTab([p]);
   if (lead) return lead.tab.tab;
   const most = [...p.tabs].sort((a, b) => pointsOf(b) - pointsOf(a))[0];
@@ -81,10 +100,12 @@ function firstTab(p: BuildPresetView): number {
 }
 
 const isCovered = (s: BuildPathStepView) => s.band === 'now' || s.band === 'part';
-const roleWord = (p: BuildPresetView) =>
-  p.role ? `${p.role.charAt(0).toUpperCase()}${p.role.slice(1)}` : null;
+const roleWord = (p: PresetView) => (p.role ? `${p.role.charAt(0).toUpperCase()}${p.role.slice(1)}` : null);
 
-/** "Eagle Eye" -> "EE"; "360 Noscope" -> "36"; "Stonks!" -> "ST". The book's monogram (no game sprites). */
+/**
+ * "Eagle Eye" -> "EE"; "360 Noscope" -> "36"; "Stonks!" -> "ST". The book's monogram: drawn where a
+ * talent has no game sprite (TalentFace), and in the attack bar, which holds names only.
+ */
 export function monogram(label: string): string {
   const words = label
     .replace(/[^\p{L}\p{N} ]/gu, ' ')
@@ -93,6 +114,25 @@ export function monogram(label: string): string {
   const [a = '', b = ''] = words;
   if (/^\d/.test(a)) return a.slice(0, 2);
   return (b ? `${a[0] ?? ''}${b[0] ?? ''}` : a.slice(0, 2)).toUpperCase();
+}
+
+/**
+ * A talent tab's face: the game's icon for the class the tab belongs to ("Archer", "Hunter"), else our
+ * own tab sprite, else nothing.
+ */
+function TabFace({ tab, name }: { tab: number; name: string }) {
+  const kit = spriteOf(`talent-tab-${tab}`) ? (
+    <Sprite name={`talent-tab-${tab}`} size={16} decorative />
+  ) : null;
+  return <GameIcon art={classArtOf(name)} fallback={kit} size={16} decorative />;
+}
+
+/**
+ * A talent's face: the game's sprite (ADR 0009, 2026-10-19) by its id, or by its name where the view
+ * holds only the name (the attack bar); its monogram only when the game has no icon for it.
+ */
+function TalentFace({ id, label }: { id: number | null; label: string }) {
+  return <GameIcon art={talentArtOf(id, label)} fallback={<>{monogram(label)}</>} size={32} decorative />;
 }
 
 // ---------- small drawings ----------
@@ -116,7 +156,39 @@ const stepKind = (s: BuildPathStepView): 'covered' | 'next' | 'later' | 'done' =
 
 // ---------- the preset cards ----------
 
-function PresetHero({ p, who, onPick }: { p: BuildPresetView; who: string; onPick(): void }) {
+/**
+ * M26 (owner ruling 2026-10-19): which Build the preset follows, how many sources back it, and the
+ * Sources themselves. One source is fine, but always said; never hidden.
+ */
+function BuildProvenance({ p }: { p: PresetView }) {
+  const c = p.confidence;
+  if (!c || !p.buildTitle) return null;
+  return (
+    <span className="bd-prov">
+      <span className="bd-prov-build">{p.buildTitle}</span>
+      <Tag tone={c.level === 'L' ? 'gold' : 'mint'}>{c.text}</Tag>
+      {c.label ? <span className="bd-prov-label">{c.label}</span> : null}
+      {p.source ? (
+        <span className="bd-prov-src">
+          <span className="sr-only">{B.sources} </span>
+          <SourceLabel source={p.source} />
+        </span>
+      ) : null}
+    </span>
+  );
+}
+
+function PresetHero({
+  p,
+  who,
+  inUseTag,
+  r,
+}: {
+  p: PresetView;
+  who: string;
+  inUseTag: boolean;
+  r: BuildRoadmapView;
+}) {
   const pools = poolsOf(p);
   const empty = p.tabs.length > 0 && p.tabs.every((t) => t.spent === 0);
   const firstTalent = p.next[0]?.label ?? null;
@@ -132,70 +204,120 @@ function PresetHero({ p, who, onPick }: { p: BuildPresetView; who: string; onPic
   const why =
     p.role === 'skilling' ? B.skillingWhy(who) : p.role === 'fighting' ? B.fightingWhy(who) : p.roleText;
   return (
-    <button
-      type="button"
-      className="bd-preset bd-preset--on"
-      aria-pressed="true"
-      data-slot={p.slot}
-      onClick={onPick}
-    >
-      <Frame as="span" tone="gold" className="bd-preset-frame">
-        <span className="bd-preset-main">
-          <span className="a-cap bd-cap">
-            {p.heading}
-            {empty ? ` · ${B.empty}` : ''}
-            {p.active ? (
-              <span className="bd-inuse">
-                <Tag tone="mint">{B.inUse}</Tag>
-              </span>
-            ) : null}
-          </span>
-          <span className="a-h1 bd-title">{title}</span>
-          <span className="bd-why">{why}</span>
-        </span>
-        <span className="bd-bigs">
-          <span className="bd-big">
-            <b className="num">{n(pools.talent)}</b>
-            <span>{B.talentPoints}</span>
-          </span>
-          {p.star ? (
-            <span className="bd-big">
-              <b className="num">{n(pools.star)}</b>
-              <span>{B.starPoints}</span>
+    <Frame tone="gold" className="bd-preset bd-preset-frame" data-slot={p.slot}>
+      <span className="bd-preset-main">
+        <span className="a-cap bd-cap">
+          {p.heading}
+          {empty ? ` · ${B.empty}` : ''}
+          {inUseTag && p.active ? (
+            <span className="bd-inuse">
+              <Tag tone="mint">{B.inUse}</Tag>
             </span>
           ) : null}
         </span>
-      </Frame>
-    </button>
+        <span className="a-h1 bd-title">{title}</span>
+        <span className="bd-why">{why}</span>
+        <BuildProvenance p={p} />
+      </span>
+      <span className="bd-bigs">
+        <span className="bd-big">
+          <b className={pools.talent === 0 ? 'num bd-zero' : 'num'}>{n(pools.talent)}</b>
+          <span>{B.talentPoints}</span>
+        </span>
+        {p.star ? (
+          <span className="bd-big">
+            <b className={pools.star === 0 ? 'num bd-zero' : 'num'}>{n(pools.star)}</b>
+            <span>{B.starPoints}</span>
+          </span>
+        ) : null}
+      </span>
+    </Frame>
   );
 }
 
-function PresetTile({ p, onPick }: { p: BuildPresetView; onPick(): void }) {
+/** A preset tab's second line: what is waiting in it, gold with a pip; mint when every point is placed. */
+function PresetWaiting({ p }: { p: PresetView }) {
   const pools = poolsOf(p);
   const missing = p.attackBar?.missing.length ?? 0;
-  const facts = [
-    pools.talent > 0 ? B.classWaiting(pools.talent, pools.atLeast) : B.classAllSpent,
-    pools.star > 0 ? B.starLeft(pools.star) : null,
-    missing > 0 ? B.emptyAttacks(missing) : null,
-  ].filter(Boolean);
-  const fine = pools.talent === 0;
+  const text =
+    pools.talent > 0 || pools.star > 0
+      ? B.tabWaiting(pools.talent, pools.atLeast, pools.star)
+      : missing > 0
+        ? B.emptyAttacks(missing)
+        : null;
+  if (!text) return <span className="bd-ptab-sub is-fine">{B.tabAllPlaced}</span>;
   return (
-    <button
-      type="button"
-      className="a-tile bd-preset bd-preset--off"
-      aria-pressed="false"
-      data-slot={p.slot}
-      onClick={onPick}
+    <span className="bd-ptab-sub is-open">
+      <Pip tone="gold" />
+      <span className="num">{text}</span>
+    </span>
+  );
+}
+
+/** The preset tabs (the shared ARIA tabs: arrow keys, Home and End), one per preset. */
+function PresetTabs({
+  presets,
+  sel,
+  onSel,
+  idBase,
+  label,
+  sub,
+}: {
+  presets: PresetView[];
+  sel: number;
+  onSel(slot: number): void;
+  idBase: string;
+  label(p: PresetView): string;
+  sub(p: PresetView): ReactNode;
+}) {
+  return (
+    <div className="bd-presets">
+      <span className="a-cap bd-cap" aria-hidden="true">
+        {B.presets}
+      </span>
+      <Tabs<string>
+        label={B.presets}
+        value={String(sel)}
+        idBase={idBase}
+        className="bd-ptabs"
+        onChange={(v) => onSel(Number(v))}
+        tabs={presets.map((x) => ({
+          value: String(x.slot),
+          label: label(x),
+          badge: x.active ? (
+            <span className="bd-inuse">
+              <Tag tone="mint">{B.inUse}</Tag>
+            </span>
+          ) : undefined,
+          sub: sub(x),
+        }))}
+      />
+    </div>
+  );
+}
+
+/** The selected preset's panel: the tab panel of the preset tabs, or a plain block for a lone preset. */
+function PresetPanel({
+  idBase,
+  slot,
+  className,
+  children,
+}: {
+  idBase: string | null;
+  slot: number;
+  className?: string;
+  children: ReactNode;
+}) {
+  if (!idBase) return <div className={className}>{children}</div>;
+  return (
+    <div
+      className={className}
+      role="tabpanel"
+      id={`${idBase}-panel-${slot}`}
+      aria-labelledby={`${idBase}-tab-${slot}`}
     >
-      <span className="bd-tile-name">{p.heading}</span>
-      {p.active ? (
-        <span className="bd-inuse">
-          <Tag tone="mint">{B.inUse}</Tag>
-        </span>
-      ) : null}
-      <span className="bd-tile-facts">{facts.join(' · ')}</span>
-      <span className={cx('bd-tile-word', fine ? 'is-fine' : 'is-open')}>{fine ? B.fine : B.toSpend}</span>
-    </button>
+      {children}
+    </div>
   );
 }
 
@@ -203,6 +325,8 @@ function PresetTile({ p, onPick }: { p: BuildPresetView; onPick(): void }) {
 
 interface BookItem {
   key: string;
+  /** The talent's skillIndex (its sprite); null when only its name is known. */
+  id: number | null;
   label: string;
   /** The ladder row this talent first needs (1-based); null when not in this Build. */
   order: number | null;
@@ -220,6 +344,7 @@ function bookOf(tab: BuildTabView, other: BuildTabView | null): BookItem[] {
     if (had && had.k !== 'done') return;
     seen.set(s.talentId, {
       key: s.key,
+      id: s.talentId,
       label: s.label,
       order: i + 1,
       step: s,
@@ -233,12 +358,28 @@ function bookOf(tab: BuildTabView, other: BuildTabView | null): BookItem[] {
   for (const s of other?.path ?? [])
     if (!named.has(s.label)) {
       named.add(s.label);
-      out.push({ key: `o-${s.key}`, label: s.label, order: null, step: null, k: 'out', level: null });
+      out.push({
+        key: `o-${s.key}`,
+        id: s.talentId,
+        label: s.label,
+        order: null,
+        step: null,
+        k: 'out',
+        level: null,
+      });
     }
   for (const o of tab.others)
     if (!named.has(o.label)) {
       named.add(o.label);
-      out.push({ key: `x-${o.label}`, label: o.label, order: null, step: null, k: 'out', level: o.level });
+      out.push({
+        key: `x-${o.label}`,
+        id: o.id,
+        label: o.label,
+        order: null,
+        step: null,
+        k: 'out',
+        level: o.level,
+      });
     }
   return [...items, ...out];
 }
@@ -271,7 +412,7 @@ function Book({
           <>
             {b.k !== 'out' && b.k !== 'done' ? <Order k={b.k} num={b.order} /> : null}
             <span className="bd-mono" data-k={b.k} aria-hidden="true">
-              {monogram(b.label)}
+              <TalentFace id={b.id} label={b.label} />
             </span>
             <span className="bd-tal-name">{b.label}</span>
             <span className="bd-tal-lv num" data-k={b.k}>
@@ -336,7 +477,7 @@ function SidePanel({ tab, stepKey }: { tab: BuildTabView; stepKey: string | null
       <h3 className="a-cap bd-cap">{B.selected}</h3>
       <div className="bd-sel-id">
         <span className="bd-mono bd-mono--big" data-k={stepKind(s)} aria-hidden="true">
-          {monogram(s.label)}
+          <TalentFace id={s.talentId} label={s.label} />
         </span>
         <span className="bd-sel-t">
           <b>{s.label}</b>
@@ -394,7 +535,7 @@ function SidePanel({ tab, stepKey }: { tab: BuildTabView; stepKey: string | null
   );
 }
 
-function AttackBar({ p }: { p: BuildPresetView }) {
+function AttackBar({ p }: { p: PresetView }) {
   const bar = p.attackBar;
   if (!bar) return null;
   const role = roleWord(p);
@@ -404,16 +545,21 @@ function AttackBar({ p }: { p: BuildPresetView }) {
       <h3 className="a-cap bd-cap">{title}</h3>
       <ol className="bd-atk-row">
         {bar.set.map((a) => (
-          <li key={`s-${a}`} className="bd-slot" title={a}>
-            <span aria-hidden="true">{monogram(a)}</span>
-            <span className="sr-only">{a}</span>
+          <li key={`s-${a}`} className="bd-atk-it">
+            <span className="bd-slot" aria-hidden="true">
+              <TalentFace id={null} label={a} />
+            </span>
+            <span className="bd-atk-name">{a}</span>
           </li>
         ))}
         {bar.missing.map((a) => (
-          <li key={`m-${a}`} className="bd-slot" data-ghost="yes" title={B.wants(a)}>
-            <span aria-hidden="true">+</span>
-            <span className="sr-only">
-              {W.attackBar.empty}, {B.wants(a)}
+          <li key={`m-${a}`} className="bd-atk-it" data-ghost="yes">
+            <span className="bd-slot" data-ghost="yes" aria-hidden="true">
+              <GameIcon art={talentArtOf(null, a)} fallback={<>+</>} size={32} decorative />
+            </span>
+            <span className="bd-atk-name">
+              <span className="sr-only">{W.attackBar.empty}, </span>
+              {B.wants(a)}
             </span>
           </li>
         ))}
@@ -487,7 +633,7 @@ export function Ladder({ tab, preset, id }: { tab: BuildTabView; preset: string;
       <li key={s.key} className="bd-step bv-ps" data-band={s.band}>
         <Order k={stepKind(s)} num={i + 1} />
         <span className="bd-mono" data-k={stepKind(s)} aria-hidden="true">
-          {monogram(s.label)}
+          <TalentFace id={s.talentId} label={s.label} />
         </span>
         <span className="bd-step-main">
           <span className="bd-step-name bv-ps-name">{s.label}</span>
@@ -541,15 +687,7 @@ export function Ladder({ tab, preset, id }: { tab: BuildTabView; preset: string;
 }
 
 /** The selected preset: the tab control, the book, the side panel, the attack bar and the ladder. */
-function PresetBody({
-  r,
-  p,
-  other,
-}: {
-  r: BuildRoadmapView;
-  p: BuildPresetView;
-  other: BuildPresetView | null;
-}) {
+function PresetBody({ r, p, other }: { r: BuildRoadmapView; p: PresetView; other: PresetView | null }) {
   const [tabSel, setTabSel] = useState<number>(() => firstTab(p));
   const tabs = p.tabs;
   const all = [...tabs, ...(p.star ? [p.star] : [])];
@@ -596,9 +734,7 @@ function PresetBody({
                     setSel(null);
                   }}
                 >
-                  {spriteOf(`talent-tab-${t.tab}`) ? (
-                    <Sprite name={`talent-tab-${t.tab}`} size={16} decorative />
-                  ) : null}
+                  <TabFace tab={t.tab} name={t.name} />
                   {t.name}
                   {pointsOf(t) > 0 ? <span className="bd-segpts num">{n(pointsOf(t))}</span> : null}
                 </button>
@@ -662,10 +798,11 @@ function ComingUp({ r }: { r: BuildRoadmapView }) {
   );
 }
 
-/** The level-gate line (FR-C5): the class pick at Lv 10 and the second preset at 15. */
+/** The level-gate line (FR-C5): the class pick at Lv 10 (when the Planned Path takes one) and the second preset at 15. */
 function GateRuler({ r }: { r: BuildRoadmapView }) {
+  const pick = r.classPickAt === undefined ? 10 : r.classPickAt;
   const gates = [
-    { at: 10, word: 'class pick' },
+    ...(pick === null ? [] : [{ at: pick, word: 'class pick' }]),
     { at: 15, word: 'second preset' },
   ].filter((g) => r.level < g.at);
   if (gates.length === 0) return null;
@@ -691,9 +828,9 @@ function FooterSources({ children }: { children: ReactNode }) {
  * them with). The star tab keeps its own Build (FR-C14), so it shows its book and ladder as usual.
  */
 function PlainBuild({ r }: { r: BuildRoadmapView }) {
-  const total = (p: BuildPresetView) => p.tabs.reduce((s, t) => s + t.spent, 0);
+  const total = (p: PresetView) => p.tabs.reduce((s, t) => s + t.spent, 0);
   const [sel, setSel] = useState<number>(() => {
-    const most = [...r.presets].sort((a, b) => total(b) - total(a) || Number(b.active) - Number(a.active));
+    const most = [...r.presets].sort((a, b) => Number(b.active) - Number(a.active) || total(b) - total(a));
     return most[0]?.slot ?? 0;
   });
   const [tabSel, setTabSel] = useState<number | null>(null);
@@ -717,116 +854,102 @@ function PlainBuild({ r }: { r: BuildRoadmapView }) {
         setPick(null);
       }}
     >
-      {t.tab > 0 && spriteOf(`talent-tab-${t.tab}`) ? (
-        <Sprite name={`talent-tab-${t.tab}`} size={16} decorative />
-      ) : null}
+      {t.tab > 0 ? <TabFace tab={t.tab} name={t.name} /> : null}
       {label}
     </button>
   );
   return (
     <>
       {r.presets.length > 1 ? (
-        <fieldset className="bd-presets bd-presets--plain" aria-label={B.presets}>
-          {r.presets.map((x) => {
-            const spent = total(x);
-            return (
-              <button
-                key={x.slot}
-                type="button"
-                className="a-tile bd-preset bd-preset--off"
-                aria-pressed={x.slot === p.slot}
-                data-slot={x.slot}
-                onClick={() => {
-                  setSel(x.slot);
-                  setTabSel(null);
-                  setPick(null);
-                }}
-              >
-                <span className="bd-tile-name">{B.plain.preset(x.slot)}</span>
-                {x.active ? (
-                  <span className="bd-inuse">
-                    <Tag tone="mint">{B.inUse}</Tag>
-                  </span>
-                ) : null}
-                <span className="bd-tile-facts">{spent > 0 ? B.plain.pointsIn(spent) : B.empty}</span>
-              </button>
-            );
-          })}
-        </fieldset>
+        <PresetTabs
+          presets={[...r.presets].sort((a, b) => a.slot - b.slot)}
+          sel={p.slot}
+          idBase={`bv-${r.index}-plain`}
+          onSel={(slot) => {
+            setSel(slot);
+            setTabSel(null);
+            setPick(null);
+          }}
+          label={(x) => B.plain.preset(x.slot)}
+          sub={(x) => (
+            <span className="bd-ptab-sub">{total(x) > 0 ? B.plain.pointsIn(total(x)) : B.empty}</span>
+          )}
+        />
       ) : null}
-      <div className="bd-body bd-body--plain">
-        <div className="bd-top">
-          <div className="bd-segs">
-            {p.tabs.length > 0 ? (
-              <fieldset className="bd-seg" aria-label={B.plain.segTabs(B.plain.preset(p.slot))}>
-                {p.tabs.map((t) => seg(t, t.name))}
-              </fieldset>
-            ) : null}
-            {p.star ? (
-              <fieldset className="bd-seg" aria-label={B.segStar(B.plain.preset(p.slot))}>
-                {seg(p.star, B.starTab)}
-              </fieldset>
-            ) : null}
-          </div>
-        </div>
-        {tab && tab.tab === 0 ? (
-          <>
-            <div className="bd-bookwrap">
-              <Book items={bookOf(tab, null)} sel={pick} onSel={setPick} label={B.book(tabName)} />
-              <Legend />
+      <PresetPanel idBase={r.presets.length > 1 ? `bv-${r.index}-plain` : null} slot={p.slot}>
+        <div className="bd-body bd-body--plain">
+          <div className="bd-top">
+            <div className="bd-segs">
+              {p.tabs.length > 0 ? (
+                <fieldset className="bd-seg" aria-label={B.plain.segTabs(B.plain.preset(p.slot))}>
+                  {p.tabs.map((t) => seg(t, t.name))}
+                </fieldset>
+              ) : null}
+              {p.star ? (
+                <fieldset className="bd-seg" aria-label={B.segStar(B.plain.preset(p.slot))}>
+                  {seg(p.star, B.starTab)}
+                </fieldset>
+              ) : null}
             </div>
-            {pick ? (
-              <aside className="bd-side">
-                <SidePanel tab={tab} stepKey={pick} />
-              </aside>
-            ) : null}
-            <Ladder tab={tab} preset={B.plain.preset(p.slot)} id={`${key}-t0`} />
-          </>
-        ) : tab ? (
-          <section className="bd-bookwrap" id={`${key}-t${tab.tab}`} aria-label={B.book(tabName)}>
-            <p className="bd-tabline">
-              {B.tabLine(B.plain.preset(p.slot), tabName)}: <b>{B.spent(tab.spent)}</b>
-            </p>
-            {tab.others.length > 0 ? (
-              <ul className="bd-book" aria-label={B.book(tabName)}>
-                {tab.others.map((o) => (
-                  <li key={o.label} className="bd-tal" data-k="plain">
-                    <span className="bd-tal-btn">
-                      <span className="bd-mono" data-k="plain" aria-hidden="true">
-                        {monogram(o.label)}
+          </div>
+          {tab && tab.tab === 0 ? (
+            <>
+              <div className="bd-bookwrap">
+                <Book items={bookOf(tab, null)} sel={pick} onSel={setPick} label={B.book(tabName)} />
+                <Legend />
+              </div>
+              {pick ? (
+                <aside className="bd-side">
+                  <SidePanel tab={tab} stepKey={pick} />
+                </aside>
+              ) : null}
+              <Ladder tab={tab} preset={B.plain.preset(p.slot)} id={`${key}-t0`} />
+            </>
+          ) : tab ? (
+            <section className="bd-bookwrap" id={`${key}-t${tab.tab}`} aria-label={B.book(tabName)}>
+              <p className="bd-tabline">
+                {B.tabLine(B.plain.preset(p.slot), tabName)}: <b>{B.spent(tab.spent)}</b>
+              </p>
+              {tab.others.length > 0 ? (
+                <ul className="bd-book" aria-label={B.book(tabName)}>
+                  {tab.others.map((o) => (
+                    <li key={o.label} className="bd-tal" data-k="plain">
+                      <span className="bd-tal-btn">
+                        <span className="bd-mono" data-k="plain" aria-hidden="true">
+                          <TalentFace id={o.id} label={o.label} />
+                        </span>
+                        <span className="bd-tal-name">{o.label}</span>
+                        <span className="bd-tal-lv num" data-k="plain">
+                          <span className="sr-only">{B.plain.level} </span>
+                          {n(o.level)}
+                        </span>
                       </span>
-                      <span className="bd-tal-name">{o.label}</span>
-                      <span className="bd-tal-lv num" data-k="plain">
-                        <span className="sr-only">{B.plain.level} </span>
-                        {n(o.level)}
-                      </span>
-                    </span>
-                  </li>
-                ))}
-              </ul>
-            ) : (
-              <p className="bd-xs">{B.plain.none}</p>
-            )}
-          </section>
-        ) : null}
-      </div>
+                    </li>
+                  ))}
+                </ul>
+              ) : (
+                <p className="bd-xs">{B.plain.none}</p>
+              )}
+            </section>
+          ) : null}
+        </div>
+      </PresetPanel>
     </>
   );
 }
 
 /** One character's whole Build. */
 export function BuildRoadmap({ r, mismatch = null }: { r: BuildRoadmapView; mismatch?: string | null }) {
-  const [order] = useState(() => {
-    const first = firstPreset(r);
-    return [...r.presets]
-      .sort((a, b) => Number(b.slot === first) - Number(a.slot === first))
-      .map((p) => p.slot);
-  });
-  const [sel, setSel] = useState<number>(order[0] ?? 0);
-  const presets = order.flatMap((s) => r.presets.filter((p) => p.slot === s));
+  const presets = presetOrder(r);
+  const [sel, setSel] = useState<number>(() => openPreset(r));
   const p = presets.find((x) => x.slot === sel) ?? presets[0];
   const other = presets.find((x) => x !== p) ?? null;
   const who = `${r.classLabel} ${r.level}`;
+  const tabbed = presets.length > 1;
+  const idBase = `bv-${r.index}-preset`;
+  // M24 rule 4, said once: when the preset's hero names its Build and Sources (M26), the footer keeps
+  // only the quiet note.
+  const inHero = !r.note && !!p?.confidence && !!p.buildTitle && !!p.source;
   return (
     <div className="build-view bd">
       {mismatch ? (
@@ -839,25 +962,29 @@ export function BuildRoadmap({ r, mismatch = null }: { r: BuildRoadmapView; mism
       <GateRuler r={r} />
       {!r.note && p ? (
         <>
-          <fieldset className="bd-presets" aria-label={B.presets}>
-            {presets.map((x) =>
-              x === p ? (
-                <PresetHero key={x.slot} p={x} who={who} onPick={() => setSel(x.slot)} />
-              ) : (
-                <PresetTile key={x.slot} p={x} onPick={() => setSel(x.slot)} />
-              ),
-            )}
-          </fieldset>
-          <PresetBody key={p.slot} r={r} p={p} other={other} />
+          {tabbed ? (
+            <PresetTabs
+              presets={presets}
+              sel={p.slot}
+              onSel={setSel}
+              idBase={idBase}
+              label={(x) => roleWord(x) ?? x.heading}
+              sub={(x) => <PresetWaiting p={x} />}
+            />
+          ) : null}
+          <PresetPanel idBase={tabbed ? idBase : null} slot={p.slot} className="bd-panel">
+            <PresetHero p={p} who={who} inUseTag={!tabbed} r={r} />
+            <PresetBody key={p.slot} r={r} p={p} other={other} />
+          </PresetPanel>
         </>
       ) : null}
       {r.note && r.presets.length > 0 ? <PlainBuild r={r} /> : null}
       <ComingUp r={r} />
-      {r.quiet || r.source ? (
+      {r.quiet || (r.source && !inHero) ? (
         <FooterSources>
           <span className="bd-quiet">
             {r.quiet ? `${r.quiet} ` : ''}
-            {r.source ? <SourceLabel source={r.source} /> : null}
+            {r.source && !inHero ? <SourceLabel source={r.source} /> : null}
           </span>
         </FooterSources>
       ) : null}

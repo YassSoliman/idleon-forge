@@ -11,13 +11,17 @@ import type { AlchemyAccountFields } from './alchemy-types';
 import type { BubbaAccountFields } from './bubba-types';
 import type { CollectionsAccountFields, CollectionsCharacterFields } from './collections-types';
 import type { DepthAccountFields } from './depth-types';
+import type { EliteCharacterFields } from './elite-types';
 import type { GearAccountFields, GearCharacterFields } from './gear-types';
+import type { ProductionCharacterFields } from './production-types';
 import type { PurposeAccountFields, PurposeCharacterFields } from './purpose-types';
 import type { RedesignAccountFields, RedesignCharacterFields } from './redesign-types';
+import type { RiftAccountFields } from './rift-types';
 import type { SlotsAccountFields, SlotsCharacterFields } from './slots-types';
 import type { SpendInputs } from './spend-types';
 import type { StarSignsAccountFields, StarSignsCharacterFields } from './starsigns-types';
 import type { TalentAccountFields, TalentCharacterFields } from './talent-types';
+import type { TomeAccountFields } from './tome-types';
 import type { SaltState, UnspentAccountFields, UnspentCharacterFields } from './unspent-types';
 import type { W23AccountFields } from './w23-types';
 import type { WalkthroughAccountFields, WalkthroughCharacterFields } from './walkthrough-types';
@@ -65,6 +69,15 @@ import type { World4AccountFields } from './world4-types';
  *    each Refinery salt's `fuel` (its inputs and how many the account holds).
  */
 export const SCHEMA_VERSION = 25;
+// Pending for the next release's one bump (M26 section 6: one bump per wave release, not per PR):
+//  - M26 Wave 0: `account.breeding.eggBankSeconds`, `.started`, and `.nextEggInSeconds` now an upper
+//    bound on time left (it was the banked time).
+//  - M26 Wave 0: `account.equinoxUnlocked` (authored reader, FR-8).
+//  - M26 Wave C: `characters[].anvil` (the `ProductionCharacterFields` block: hammers in save order,
+//    stock of every product, capacity, speed terms).
+//  - M26 Wave 1: `characters[].eliteStep` (the `EliteCharacterFields` block, FR-17: the Eliteus step).
+//  - M26 Wave 1: `account.tome` (the `TomeAccountFields` block, FR-16: PTS, 124 metrics by name, pages, rank).
+//  - M26 Wave 1: `account.rift` (the `RiftAccountFields` block, FR-11: level, task, bonuses, Rift Ripper).
 
 /** The AFK types Toolbox's monster data uses, plus its two "no rate" values. */
 export const KNOWN_AFK_TYPES = [
@@ -97,6 +110,8 @@ export interface CharacterState
     SlotsCharacterFields,
     PurposeCharacterFields,
     GearCharacterFields,
+    ProductionCharacterFields,
+    EliteCharacterFields,
     RedesignCharacterFields {
   /** Slot in the save (0-based), stable across saves. Field paths use it: `characters[<index>].level`. */
   index: number;
@@ -222,6 +237,8 @@ export interface AccountSummary
     RedesignAccountFields,
     BubbaAccountFields,
     World4AccountFields,
+    RiftAccountFields,
+    TomeAccountFields,
     W23AccountFields {
   /** The world the account is working on (1-based): one past the highest finished world (Toolbox's rule). */
   currentWorld: number | null;

@@ -9,6 +9,9 @@
 import { buildSlotsView, SLOTS_WORDS } from '@idleon-forge/engine/now';
 import type { SlotKind } from '@idleon-forge/engine/result';
 import { useMemo } from 'react';
+import { GameIcon } from '../art/game/GameIcon';
+import { bubbleArt } from '../art/game/game-art';
+import { KitSprite } from '../art/game/KitSprite';
 import { Sprite } from '../art/sprites/Sprite';
 import { PixelArt } from '../design/art/PixelArt';
 import { cx, Frame } from '../design/atoms';
@@ -24,22 +27,27 @@ type Cell = Grid['rows'][number]['cells'][number];
 
 const familyOf = (s: Session, index: number): ClassFamily => s.view.families?.[index] ?? 'beginner';
 
-/** The kit's sprite for each slot kind (M24: our own pixel art, ADR 0009). */
-export const SLOT_SPRITE: Record<SlotKind, string> = {
-  cauldron: 'sys-alchemy',
-  trap: 'sys-trapping',
-  worship: 'sys-worship',
-  cog: 'sys-construction',
-  printer: 'sys-printer',
+/** Each slot kind's System sprite name: KitSprite draws the System's game sprite, our kit as fallback. */
+const SLOT_SYSTEM: Record<SlotKind, string> = {
+  cauldron: 'alchemy',
+  trap: 'trapping',
+  worship: 'worship',
+  cog: 'construction',
+  printer: 'printer',
 };
-/** A brewing cell's cauldron, by the colour M20's words name ("brews (Power)"). */
-const CAULDRON: Record<string, string> = {
-  power: 'cauldron-power',
-  quicc: 'cauldron-quicc',
-  'high-iq': 'cauldron-high-iq',
-  kazam: 'cauldron-kazam',
+export const slotSprite = (kind: SlotKind) => `sys-${SLOT_SYSTEM[kind]}`;
+/**
+ * A brewing cell's cauldron, by the colour M20's words name ("brews (Power)"): the game draws every
+ * cauldron alike, so the cauldron's own colour of bubble stands for it (Power orange, Quicc green, High-IQ
+ * purple, Kazam yellow), with our coloured cauldron as the fallback.
+ */
+const CAULDRON: Record<string, { fallback: string; bubble: string }> = {
+  power: { fallback: 'cauldron-power', bubble: 'aUpgradesO0' },
+  quicc: { fallback: 'cauldron-quicc', bubble: 'aUpgradesG0' },
+  'high-iq': { fallback: 'cauldron-high-iq', bubble: 'aUpgradesP0' },
+  kazam: { fallback: 'cauldron-kazam', bubble: 'aUpgradesY0' },
 };
-const cauldronOf = (text: string): string | null => {
+const cauldronOf = (text: string): { fallback: string; bubble: string } | null => {
   const m = /\(([^)]+)\)/.exec(text)?.[1]?.toLowerCase().replace(/\s+/g, '-');
   return m ? (CAULDRON[m] ?? null) : null;
 };
@@ -74,7 +82,7 @@ function SlotCell({ c, heading }: { c: Cell; heading: string }) {
           ) : look === 'earn' ? (
             <span className="sg-g">
               {brew ? (
-                <Sprite name={brew} size={16} decorative />
+                <GameIcon art={bubbleArt(brew.bubble)} fallback={brew.fallback} size={16} decorative />
               ) : (
                 <Sprite name="status-check" size={16} decorative />
               )}
@@ -97,7 +105,7 @@ function Hero({ v, s }: { v: Grid; s: Session }) {
   return (
     <Frame tone="gold" className="sg-hero" aria-label={W.heroCap}>
       <span className="sg-hero-ic" aria-hidden="true">
-        <Sprite name={SLOT_SPRITE[now.kind]} size={48} decorative />
+        <KitSprite name={slotSprite(now.kind)} size={48} />
       </span>
       <span className="sg-hero-b">
         <span className="a-cap tl-now-badge">{W.heroCap}</span>
@@ -137,7 +145,7 @@ function Also({ v, s }: { v: Grid; s: Session }) {
       <ul className="sg-also">
         {tray.map((t) => (
           <li key={t.kind}>
-            <Sprite name={SLOT_SPRITE[t.kind]} size={24} decorative />
+            <KitSprite name={slotSprite(t.kind)} size={24} />
             <span className="sg-also-b">
               <b>{W.alsoLine(t.heading, t.count)}</b>
               <span className="sg-chips">
@@ -223,7 +231,7 @@ export function ParallelSlots({ s }: { s: Session }) {
                       </th>
                       {v.columns.map((col) => (
                         <th key={col.kind} scope="col">
-                          <Sprite name={SLOT_SPRITE[col.kind]} size={32} decorative />
+                          <KitSprite name={slotSprite(col.kind)} size={32} />
                           <span>{col.heading}</span>
                         </th>
                       ))}

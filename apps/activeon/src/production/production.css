@@ -1,0 +1,438 @@
+/* SPDX-License-Identifier: GPL-3.0-only */
+/* M26 F-C: the Anvil Recipes and Walkthrough tabs and the Production Plan (boards m26/AnvilRecipes.dc.html,
+   m26/ProductionPlan.dc.html). Tonal steps and hairlines only (surface guard); a game sprite sits in the
+   M25 slot frame (.ar-ic, .pp-ic with a .g-art, listed in surface-guard's DRAWINGS). */
+
+/* ---- sprite tiles ---- */
+.ar-ic,
+.pp-ic {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  background: var(--surface);
+}
+.ar-ic--big,
+.pp-ic--big {
+  width: 44px;
+  height: 44px;
+}
+.ar-ic:has(.g-art),
+.pp-ic:has(.g-art) {
+  box-shadow: inset 0 0 0 1px var(--line);
+}
+
+/* ---- Recipes: the tab strip and the filter ---- */
+.ar-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+}
+.ar-tabs {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  min-width: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+.ar-tab {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-height: var(--tap-min, 44px);
+  padding: var(--space-1) var(--space-3) var(--space-1) var(--space-1);
+  border: 0;
+  border-radius: 2px;
+  background: var(--sunk);
+  color: var(--fg);
+  font: inherit;
+  cursor: pointer;
+}
+.ar-tab.is-on {
+  background: var(--accent-soft);
+}
+.ar-tab.is-off {
+  color: var(--muted);
+}
+.ar-tab:disabled {
+  cursor: default;
+  opacity: 0.6;
+}
+.ar-tab__name {
+  font-weight: var(--weight-bold, 700);
+}
+.ar-tab__sub {
+  font-size: var(--text-xs);
+  color: var(--muted);
+}
+.ar-head {
+  margin: var(--space-4) 0 var(--space-2);
+}
+
+/* ---- Recipes: the cards ---- */
+.ar-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr));
+  gap: var(--space-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.ar-card {
+  display: flex;
+  gap: var(--space-3);
+  align-items: flex-start;
+  padding: var(--space-3);
+}
+.ar-card__body {
+  display: grid;
+  gap: var(--space-1);
+  min-width: 0;
+  flex: 1;
+}
+.ar-card__top {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-2);
+}
+.ar-card__name {
+  font-weight: var(--weight-bold, 700);
+}
+.ar-chip {
+  flex: none;
+  align-self: flex-start;
+  padding: 2px 6px;
+  font-size: var(--text-xs);
+  font-weight: var(--weight-bold, 700);
+  background: var(--sunk);
+  color: var(--fg2);
+}
+.ar-chip--gold {
+  background: var(--accent-fill);
+  color: var(--on-accent);
+}
+.ar-chip--ok {
+  background: var(--ok-soft);
+  color: var(--fg);
+}
+.ar-chip--mut {
+  color: var(--muted);
+}
+.ar-mats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-1);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.ar-mat {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  padding: 2px 6px 2px 2px;
+  font-size: var(--text-xs);
+  background: var(--sunk);
+}
+.ar-mat.is-held {
+  background: var(--ok-soft);
+}
+dt.ar-mat {
+  background: none;
+  font-size: inherit;
+}
+.ar-who {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+}
+
+/* ---- the next tab's card ---- */
+.ar-next {
+  display: grid;
+  gap: var(--space-2);
+}
+.ar-next__head {
+  display: flex;
+  gap: var(--space-3);
+  align-items: center;
+}
+.ar-next__go {
+  justify-self: stretch;
+}
+
+/* ---- the Anvil Walkthrough ---- */
+.aw-steps {
+  display: grid;
+  gap: var(--space-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.aw-step {
+  display: flex;
+  gap: var(--space-3);
+  align-items: flex-start;
+  padding: var(--space-3);
+  background: var(--raised);
+}
+.aw-step.is-done {
+  background: var(--ok-soft);
+}
+.aw-step__body {
+  display: grid;
+  gap: 2px;
+  flex: 1;
+  min-width: 0;
+}
+.aw-sub::before {
+  content: "↳ ";
+}
+.aw-bar {
+  display: block;
+  height: 4px;
+  margin-top: var(--space-1);
+  background: var(--sunk);
+}
+.aw-bar > i {
+  display: block;
+  height: 100%;
+  background: var(--accent);
+}
+.aw-eta {
+  flex: none;
+  white-space: nowrap;
+}
+.aw-step__body .gl-chip {
+  justify-self: start;
+  margin-left: 0;
+}
+
+/* ---- the Production Plan rows ---- */
+.pp-sec {
+  margin-top: var(--space-5);
+}
+.pp-rows {
+  display: grid;
+  gap: var(--space-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.pp-row {
+  display: grid;
+  gap: var(--space-3);
+  padding: var(--space-3);
+}
+.pp-row--gold {
+  background: var(--accent-soft);
+}
+.pp-row--quiet {
+  padding: var(--space-2) var(--space-3);
+}
+.pp-row__main {
+  display: flex;
+  gap: var(--space-3);
+  align-items: flex-start;
+}
+.pp-row__words {
+  display: grid;
+  gap: 2px;
+  flex: 1;
+  min-width: 0;
+}
+.pp-row__t {
+  font-weight: var(--weight-bold, 700);
+}
+.pp-row--quiet .pp-row__t {
+  font-weight: 400;
+}
+.pp-row__why {
+  font-size: var(--text-sm);
+  color: var(--fg2);
+}
+.pp-chip {
+  flex: none;
+  align-self: flex-start;
+  padding: 2px 6px;
+  font-size: var(--text-xs);
+  font-weight: var(--weight-bold, 700);
+  background: var(--sunk);
+  color: var(--fg2);
+  white-space: nowrap;
+}
+.pp-chip--gold {
+  background: var(--accent-fill);
+  color: var(--on-accent);
+}
+.pp-chip--mint {
+  background: var(--ok-soft);
+  color: var(--fg);
+}
+.pp-chip--mut {
+  color: var(--muted);
+}
+.pp-ic--sm {
+  width: 28px;
+  height: 28px;
+}
+.pp-hammers {
+  display: grid;
+  /* auto-fill, not auto-fit: an anvil with two hammers keeps the three-hammer columns of its neighbours
+     instead of stretching each card to half the row. */
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 180px), 1fr));
+  gap: var(--space-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.pp-hammer {
+  display: grid;
+  /* Rows pack at the top: a card shorter than its tallest neighbour doesn't spread its lines apart. */
+  align-content: start;
+  gap: var(--space-1);
+  padding: var(--space-2) var(--space-3);
+  background: var(--sunk);
+}
+.pp-hammer__move {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2);
+}
+.pp-hammer__from,
+.pp-hammer__to {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+}
+.pp-hammer__from {
+  color: var(--muted);
+}
+.pp-steps {
+  display: grid;
+  gap: var(--space-1);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.pp-step {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-3);
+  background: var(--sunk);
+}
+.pp-step__n {
+  flex: none;
+  width: 1.5em;
+  text-align: center;
+  font-weight: var(--weight-bold, 700);
+}
+.pp-step--done .pp-step__n {
+  color: var(--ok);
+}
+.pp-step--display {
+  color: var(--muted);
+}
+.pp-step__t {
+  flex: 1;
+  min-width: 0;
+}
+.pp-link {
+  flex: none;
+  font-weight: var(--weight-bold, 700);
+  color: var(--info);
+  text-decoration: none;
+}
+.pp-link:hover {
+  text-decoration: underline;
+}
+.pp-more {
+  justify-self: start;
+  min-height: var(--tap-min, 44px);
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--info);
+  font: inherit;
+  font-weight: var(--weight-bold, 700);
+  cursor: pointer;
+}
+.pp-page-link {
+  margin-top: var(--space-2);
+}
+
+/* ---- account producers ---- */
+.pp-acct {
+  display: grid;
+  gap: var(--space-3);
+}
+.pp-acct__list {
+  display: grid;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.pp-acct__row {
+  display: flex;
+  gap: var(--space-3);
+  align-items: flex-start;
+  padding: var(--space-3) 0;
+  box-shadow: inset 0 -1px 0 var(--line);
+}
+.pp-acct__words {
+  display: grid;
+  gap: 2px;
+  flex: 1;
+  min-width: 0;
+}
+.pp-acct__row--later {
+  color: var(--muted);
+}
+
+/* ---- #production ---- */
+.pp-page__grid {
+  display: grid;
+  gap: var(--space-5);
+  margin-top: var(--space-5);
+}
+@media (min-width: 1000px) {
+  .pp-page__grid {
+    grid-template-columns: minmax(0, 2fr) minmax(280px, 1fr);
+    align-items: start;
+  }
+}
+.pp-page__chars {
+  display: grid;
+  gap: var(--space-5);
+}
+.pp-char__h {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin: 0 0 var(--space-2);
+  font-size: var(--text-md, 1rem);
+}
+.pp-char__h a {
+  color: inherit;
+}
+@media (max-width: 599px) {
+  /* The value chip drops under the words on a phone (board, phone 390), so the why keeps its width. */
+  .pp-row__main,
+  .pp-acct__row {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+  }
+  .pp-row__main > .pp-chip,
+  .pp-acct__row > .pp-chip {
+    grid-column: 2;
+    justify-self: start;
+  }
+}

@@ -1,4 +1,4 @@
-# golden v1: scrubbed-w3 · knowledge #9761de04 · parser 6c37e3d (game 2.3.540) · now 2026-10-17T16:12:33.140Z · return 8h · stage W3-early · stale: 4 of 1003
+# golden v1: scrubbed-w3 · knowledge #04f5e113 · parser 6c37e3d (game 2.3.540) · now 2026-10-17T16:12:33.140Z · return 8h · stage W3-early · stale: 4 of 1060
 
 ## Verdict changes
 
@@ -50,7 +50,7 @@ purpose: Mining 29 → 40 opens Echoing Egress
   ○ To do: Weekly Battle · best this week: difficulty 0 of 5 · new boss Thursday 00:00 UTC, in 4d 7h
   ○ To do: Guild weekly tasks · your weekly reset in 28h 05m
   ✓ Done: Killroy's rooms · Warrior room: done · your weekly reset in 28h 05m
-  ✓ Done: Bonus Ballot vote · Leading now: Boosts Equinox Bar Fill rate by 1.4x · new ballot Monday about 17:00 UTC, in 2d 0h
+  ✓ Done: Bonus Ballot vote · Active now: Boosts Equinox Bar Fill rate by 1.4x · new ballot Monday about 17:00 UTC, in 2d 0h
 - Grow · Get the fuel to run a Refinery salt: Get 1 more Bullfrog Horn to run Explosive Salts [IdleOn Wiki: Construction, Refinery · Calculated by IdleOn Toolbox · 2.3.540]
 - Spend · Collect banked Colosseum tickets: Collect 4 Colosseum tickets [IdleOn Wiki: Typhoon · Calculated by IdleOn Toolbox · 2.3.540]
 - Grow · Pay for the Death Note's first level: Refine 10 Explosive Salts for the Death Note's first level (have 0) [IdleOn Wiki: Construction · Calculated by IdleOn Toolbox · 2.3.540]
@@ -77,6 +77,18 @@ If you have time
 - Run the Weekly Battle with every character (Yum Yum Desert) · about 6m of hands-on play
 
 ## Not covered yet
+Achievements
+Coins
+Drop rate
+Dungeons
+Event Shop
+Family bonuses
+Food
+Friend bonuses
+Stats and damage
+Storage and inventory
+Town shops
+Trophies and nametags
 Bribes
 Forge
 Quests
@@ -84,7 +96,6 @@ Statues
 The Owl
 Islands
 Atom Collider
-Equinox
 Prayers
 Salt Lick
 Shrines
@@ -109,6 +120,18 @@ W0 · Random Events · Nothing to fix · Nothing to fix
 W0 · Pet Tournament · Nothing to fix · Nothing to fix
 W0 · Daily tasks · Nothing to fix · Nothing to fix
 W0 · Guild tasks · Nothing to fix · Nothing to fix
+W0 · Achievements · Not covered yet · Not covered yet
+W0 · Dungeons · Not covered yet · Not covered yet
+W0 · Family bonuses · Not covered yet · Not covered yet
+W0 · Food · Not covered yet · Not covered yet
+W0 · Storage and inventory · Not covered yet · Not covered yet
+W0 · Stats and damage · Not covered yet · Not covered yet
+W0 · Coins · Not covered yet · Not covered yet
+W0 · Friend bonuses · Not covered yet · Not covered yet
+W0 · Event Shop · Not covered yet · Not covered yet
+W0 · Trophies and nametags · Not covered yet · Not covered yet
+W0 · Town shops · Not covered yet · Not covered yet
+W0 · Drop rate · Not covered yet · Not covered yet
 W1 · Stamps · Behind · Behind for your Stage · 7 to do
 W1 · Star Signs · Nothing to fix · Nothing to fix · 2 to do
 W1 · Anvil · Behind · Behind for your Stage · 1 to do · 6 full · collect
@@ -141,12 +164,16 @@ W3 · Armor-set Smithy · Nothing to fix · Nothing to fix
 W3 · Salt Lick · Not covered yet · Not covered yet
 W3 · Prayers · Not covered yet · Not covered yet
 W3 · Shrines · Not covered yet · Not covered yet
-W3 · Equinox · Not covered yet · Not covered yet
+W3 · Equinox · Locked · Needs an Equinox Mirror, a rare drop from Bloodbone in Frostbite Tundra
 W3 · Atom Collider · Not covered yet · Not covered yet
 W3 · Bubba · Nothing to fix · Nothing to fix · 1 to do
-W4 · Laboratory · Locked · Opens in World 4 · Hyperion Nebula
-W4 · Cooking · Locked · Opens in World 4 · Hyperion Nebula
-W4 · Breeding · Locked · Opens in World 4 · Hyperion Nebula
+W4 · Laboratory · Locked · Opens on reaching the Hyperion Nebula town (World 4); the Mainframe stands right of the portal
+W4 · Cooking · Locked · Opens on reaching the Hyperion Nebula town (World 4), at the Kitchen tables; one table starts open
+W4 · Breeding · Locked · Opens on reaching the Hyperion Nebula town (World 4); the first breed is always a Green Mushroom
+W4 · Sigils · Locked · Needs the Lab's Sigils of Olden Alchemy bonus (node 12) connected; a sigil charges on a cauldron seat
+W4 · The Rift · Locked · Opens once a character finishes the Rift Ripper quest in The Untraveled Octopath (World 4)
+W4 · The Tome · Locked · Opens in World 4 · Hyperion Nebula
+W4 · Elite classes · Locked · Opens in World 4 · Hyperion Nebula
 Needs you: Talent presets (wasting), Companions and pets (wasting), Minigames (wasting), Colosseum (wasting), Refinery (wasting), Death Note (wasting), Cards (behind), Obols (behind), Gear & Tools (behind), Stamps (behind), Anvil (behind), Alchemy bubbles (behind)
 Other gaps: Stamp cap raises that need farming or carry capacity
 Wasting: 6
@@ -471,6 +498,8 @@ Locked: smoker (Opens at Smoker)
 | anvil.check.spend-points | anvil/points | account | fires | class=Bowman count=1 hours=8 level=60 oneSpeed=1 |
 | arcade.check.balls-cap | arcade/balls-cap | account | pass |  |
 | boss-keys.check.collect | boss-keys/banked | C4 | fires | chizoar=0 daysLost=0 efaunt=2 forestVilla=4 total=6 |
+| breeding.check.full-nest | breeding/full-nest | account | fires | capacity=3 eggs=3 first=1 |
+| breeding.check.idle-territory | breeding/idle-territory | — | silent |  |
 | bubba.check.boon | bubba/boon | — | silent |  |
 | bubba.check.charisma-idle | bubba/charisma-idle | account | fires | banked=61 mindful=0 none=0 selected=1 |
 | bubba.check.megaflesh | bubba/megaflesh | — | silent |  |
@@ -488,15 +517,26 @@ Locked: smoker (Opens at Smoker)
 | classes.contribution.exp | classes/exp | C6 | advances yes eta 38m | exp=1311780 expReq=2135848 rate=1316747.3366205737 saved=54 |
 | colosseum.check.collect-tickets | colosseum/tickets-banked | account | fires | cappedNpcs=1 daysLost=2 total=4 |
 | construction.check.build-next | construction/build-next | account | fires | building=3D_Printer collect=1 salt=Redox_Salts then1=Salt_Lick then1Level=1 then2=Talent_Book_Library then2Level=2 |
+| cooking.check.capped-meal | cooking/capped-meal | — | silent |  |
+| cooking.check.idle-kitchen | cooking/idle-kitchen | — | silent |  |
 | death-note.check.build | death-note/build | account | fires | cost=10 held=0 |
 | death-note.check.build-slot | death-note/build | — | silent |  |
 | death-note.contribution.skull-sandcastle | death-note/skull | C6 | advances yes eta 817m | building=0 feeders=32 rate=895 rule=0 saved=12806 target=Sand_Castle |
 | death-note.contribution.skull-sandgiant | death-note/skull | C3 | advances yes eta 1664m | building=0 feeders=4 rate=449 rule=0 saved=12547 target=Sand_Giant |
 | death-note.contribution.skull-stache | death-note/skull | C1 | advances yes eta 1410m | building=0 feeders=1 rate=934 rule=0 saved=3046 target=Sir_Stache |
 | death-note.contribution.skull-thermostat | death-note/skull | C4 | advances yes eta 1407m | building=0 feeders=8 rate=1065 rule=0 saved=19 target=Thermister |
+| elite-classes.check.eliteus | elite-classes/eliteus | C1 | fires | class=Wizard elite=Elemental_Sorcerer kills=0 left=10 pick=0 |
+| elite-classes.check.eliteus | elite-classes/eliteus | C2 | fires | class=Squire elite=Divine_Knight kills=0 left=10 pick=0 |
+| elite-classes.check.eliteus | elite-classes/eliteus | C3 | fires | class=Bowman elite=Siege_Breaker kills=0 left=10 pick=0 |
+| elite-classes.check.eliteus | elite-classes/eliteus | C4 | fires | class=Squire elite=Divine_Knight kills=0 left=10 pick=0 |
+| elite-classes.check.eliteus | elite-classes/eliteus | C5 | fires | class=Barbarian elite=Blood_Berserker kills=0 left=10 pick=0 |
+| elite-classes.check.eliteus | elite-classes/eliteus | C6 | fires | class=Shaman elite=Bubonic_Conjuror kills=0 left=10 pick=0 |
 | gem-shop.check.printer-buy | gem-shop/unspent | — | silent |  |
 | gem-shop.check.printer-progress | gem-shop/unspent | account | fires | gems=365 price=875 |
 | gem-shop.check.unspent | gem-shop/unspent | — | silent |  |
+| lab.check.first-upload | lab/uploads | account | fires | distance=138 node=Animal_Farm |
+| lab.check.jewel-unlit | lab/jewel-unlit | — | silent |  |
+| lab.check.not-connected | lab/uploads | — | silent |  |
 | merit-shop.check.spend-w1 | merit-shop/unspent | — | silent |  |
 | merit-shop.check.spend-w2 | merit-shop/unspent | — | silent |  |
 | merit-shop.check.spend-w2-afk-gains | merit-shop/unspent | — | silent |  |
@@ -529,6 +569,11 @@ Locked: smoker (Opens at Smoker)
 | refinery.check.salt-fuel | refinery/salt-off | account | fires | material=Bullfrog_Horn more=1 offSalts=1 salt=Explosive_Salts |
 | refinery.check.salt-off | refinery/salt-off | — | silent |  |
 | refinery.check.unlock-next | refinery/unlock-next | — | silent |  |
+| rift.check.active-task | rift/task-kind | — | silent |  |
+| rift.check.afk-task | rift/task-kind | — | silent |  |
+| rift.check.class-gate | rift/class-gate | — | silent |  |
+| rift.check.quota-done | rift/quota-done | — | silent |  |
+| rift.check.unlock-quest | rift/unlock-quest | — | silent |  |
 | roles.contribution.fishing | roles/skill | C5 | advances yes | rule=1 |
 | roles.contribution.mining | roles/skill | C2 | advances yes | rule=1 |
 | skills.contribution.door-fishing | skills/door | C5 | advances yes | destination=Deepwater_Docks rule=1 saved=22 |
@@ -547,18 +592,19 @@ Locked: smoker (Opens at Smoker)
 | systems.yaml#atom-collider | worlds/reached | account | reached yes |  |
 | systems.yaml#ballot | worlds/reached | account | reached yes |  |
 | systems.yaml#boss-keys | worlds/reached | account | reached yes |  |
-| systems.yaml#breeding | worlds/reached | account | reached no |  |
+| systems.yaml#breeding | systems/unlocked | account | reached no |  |
 | systems.yaml#bribes | worlds/reached | account | reached yes |  |
 | systems.yaml#bubba | bubba/unlocked | account | reached yes |  |
 | systems.yaml#colosseum | worlds/reached | account | reached yes |  |
 | systems.yaml#construction | worlds/reached | account | reached yes |  |
-| systems.yaml#cooking | worlds/reached | account | reached no |  |
+| systems.yaml#cooking | systems/unlocked | account | reached no |  |
 | systems.yaml#death-note | worlds/reached | account | reached yes |  |
-| systems.yaml#equinox | worlds/reached | account | reached yes |  |
+| systems.yaml#elite-classes | worlds/reached | account | reached no |  |
+| systems.yaml#equinox | systems/unlocked | account | reached no |  |
 | systems.yaml#forge | worlds/reached | account | reached yes |  |
-| systems.yaml#islands | worlds/reached | account | reached yes |  |
+| systems.yaml#islands | systems/unlocked | account | reached yes |  |
 | systems.yaml#killroy | worlds/reached | account | reached yes |  |
-| systems.yaml#lab | worlds/reached | account | reached no |  |
+| systems.yaml#lab | systems/unlocked | account | reached no |  |
 | systems.yaml#library | worlds/reached | account | reached yes |  |
 | systems.yaml#owl | worlds/reached | account | reached yes |  |
 | systems.yaml#poppy | worlds/reached | account | reached yes |  |
@@ -567,15 +613,20 @@ Locked: smoker (Opens at Smoker)
 | systems.yaml#printer | worlds/reached | account | reached yes |  |
 | systems.yaml#quests | worlds/reached | account | reached yes |  |
 | systems.yaml#refinery | worlds/reached | account | reached yes |  |
+| systems.yaml#rift | systems/unlocked | account | reached no |  |
 | systems.yaml#salt-lick | worlds/reached | account | reached yes |  |
 | systems.yaml#shrines | worlds/reached | account | reached yes |  |
+| systems.yaml#sigils | systems/unlocked | account | reached no |  |
 | systems.yaml#stamps | worlds/reached | account | reached yes |  |
 | systems.yaml#star-signs | worlds/reached | account | reached yes |  |
 | systems.yaml#statues | worlds/reached | account | reached yes |  |
+| systems.yaml#tome | worlds/reached | account | reached no |  |
 | systems.yaml#trapping | worlds/reached | account | reached yes |  |
 | systems.yaml#weekly-battles | worlds/reached | account | reached yes |  |
 | systems.yaml#worship | worlds/reached | account | reached yes |  |
 | task-unlocks.check.spend | task-unlocks/unspent | account | fires | points=10 |
+| tome.check.blue-pages | tome/blue-pages | — | silent |  |
+| tome.check.claim-nametags | tome/nametags | — | silent |  |
 | trapping.check.finishes-early | trapping/finishes-early | — | silent |  |
 | trapping.check.slots-and-timers | trapping/slots-and-timers | — | silent |  |
 | worship.check.charge-caps-no-skull | worship/charge-caps-no-skull | C1 | pass |  |

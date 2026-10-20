@@ -2,7 +2,8 @@
 // Copyright (C) 2026 IdleOn Forge contributors.
 // M24 World 4: the read-only pages' data through the full golden engine. Before World 4 (scrubbed-w3) the
 // pages draw the save's fresh records and nothing reaches Now; early in World 4 (first) the welcome lists
-// the open steps; every public save gets its three pages; and the module adds no Goal of its own.
+// the open steps; every public save gets its three pages; and the module adds no Goal of its own (their
+// Goals come from M26 Wave 1's Check entries).
 import { listFixtures, stateOf } from '@idleon-forge/kb-tools/src/fixtures';
 import { goldenContext } from '@idleon-forge/kb-tools/src/golden';
 import { DEFAULT_EXPECTED_RETURN_MS } from '@idleon-forge/knowledge';
@@ -35,6 +36,8 @@ describe('before World 4 (scrubbed-w3)', () => {
   });
   it('the fresh records say what to do first, from the save', () => {
     expect(r.world4?.breeding?.frame.title).toBe('Your nest is full: hatch your 3 eggs');
+    // Not bred yet (Breeding level 0): the first-breed hint shows (M26 FR-8; it keyed off speciesBred).
+    expect(r.world4?.breeding?.frame.why).toContain('The first hatch is always a Green Mushroom');
     expect(r.world4?.cooking?.frame.title).toBe('Get your first spice in Breeding, then put it in Kitchen 1');
     expect(r.world4?.lab?.frame.title).toBe('Upload 2 characters and line them up toward Animal Farm');
     expect(r.world4?.lab?.frame.why).toContain('138 px from the prism');
@@ -64,6 +67,8 @@ describe('early World 4 (first)', () => {
       expect.arrayContaining(['recipe', 'cooking']),
     );
     expect(r.world4?.breeding?.frame.title).toMatch(/^1 egg in the nest · full in /);
+    // 2,014 s banked of the 2-hour period: the next egg within 1h 26m (M26 FR-8; it read 33m).
+    expect(r.world4?.breeding?.frame.why).toMatch(/the next one within 1h 2\dm/);
     expect(r.world4?.lab?.frame.title).toBe('3 bonuses lit · next on the board: Animal Farm');
     expect(r.world4?.lab?.board.characters).toHaveLength(4);
   });
@@ -71,11 +76,12 @@ describe('early World 4 (first)', () => {
 
 describe.each(fixtures.map((f) => f.id))('%s', (id) => {
   const r = run(id);
-  it('has the three pages and no World 4 Goal', () => {
+  it('has the three pages, and its World 4 Goals come only from Check entries (M26 Wave 1)', () => {
     expect(r.world4?.lab).toBeTruthy();
     expect(r.world4?.cooking).toBeTruthy();
     expect(r.world4?.breeding).toBeTruthy();
     const goals = [...r.account.goals, ...r.characters.flatMap((c) => c.goals)];
-    expect(goals.filter((g) => W4.has(g.system ?? ''))).toEqual([]);
+    for (const g of goals.filter((x) => W4.has(x.system ?? '')))
+      expect(g.id).toMatch(/^(lab|cooking|breeding)\.check\./);
   });
 });

@@ -1,0 +1,66 @@
+# SPDX-License-Identifier: GPL-3.0-only
+# M26 FR-12 (Wave 1): Laboratory Checks, promoted from systems/lab.drafts.yaml. The geometry is Toolbox's
+# lab.ts: a character connects when its distance to the prism (43, 229) or to a connected character is
+# strictly under its own Line Width; a node or an owned jewel lights when a connected character is in reach.
+system: lab
+entries:
+  - id: lab.check.first-upload
+    system: lab
+    type: check
+    title: Upload two characters to the Lab
+    subject: account
+    effect: next-action
+    category: compounding
+    priority: { frame: by-urgency }
+    effortSeconds: 120
+    detector: { id: lab/uploads, params: { form: first-upload } }
+    text: "Set two spare characters' AFK target to the Laboratory"
+    why: "Line them up toward {node:name}, the bonus nearest the prism: it is {distance:int} px away, too far for one new beam. Lit Lab bonuses work for the whole account."
+    doneWhen: { field: "account.lab.characters[*].connected", change: higher }
+    appliesTo: { stages: [{ from: W4-entry, to: W4-entry }] }
+    confidence: M
+    status: active
+    notes: "Geometry H (dossier C3, C4, C34). 'Two characters' is M (C55, an older client read). Never names which characters: the AFK planner owns that."
+    sources:
+      - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-4/lab.ts#L144-L189", title: "IdleOn Toolbox lab.ts: prism connection and player chain (distance strictly under Line Width)", tier: 1, verified: 2026-10-19, gameVersion: 2.3.540 }
+      - { url: "https://idleon.wiki/wiki/Laboratory", title: "IdleOn Wiki: Laboratory", tier: 2, claimDate: 2026-10-07, verified: 2026-10-19, gameVersion: 2.3.540 }
+  - id: lab.check.not-connected
+    system: lab
+    type: check
+    title: A Lab character isn't connected
+    subject: character
+    effect: next-action
+    category: compounding
+    priority: { frame: by-urgency }
+    effortSeconds: 30
+    detector: { id: lab/uploads, params: { form: not-connected } }
+    text: "Move this Lab character {gap:int} px closer to the beam"
+    why: "It must come within its own beam width of the prism or a connected character. Until it connects, this character earns Lab EXP but lights nothing and passes the beam to nobody."
+    doneWhen: { field: "account.lab.characters[*].connected", change: changed }
+    appliesTo: { stages: [{ from: W4-entry, to: W4-entry }] }
+    confidence: H
+    status: active
+    notes: "Dossier C4, C5 (strictly under Line Width, chained). The gap uses the character's own Line Width."
+    sources:
+      - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-4/lab.ts#L144-L189", title: "IdleOn Toolbox lab.ts: prism connection and player chain (distance strictly under Line Width)", tier: 1, verified: 2026-10-19, gameVersion: 2.3.540 }
+      - { url: "https://idleon.wiki/wiki/Laboratory", title: "IdleOn Wiki: Laboratory", tier: 2, claimDate: 2026-10-07, verified: 2026-10-19, gameVersion: 2.3.540 }
+  - id: lab.check.jewel-unlit
+    system: lab
+    type: check
+    title: An owned jewel isn't lit
+    subject: account
+    effect: next-action
+    category: compounding
+    priority: { frame: by-urgency }
+    effortSeconds: 120
+    detector: { id: lab/jewel-unlit }
+    text: "Extend a beam to {jewel:name}"
+    why: "You own it but no connected character is in its reach, so it gives nothing ({dark:int} owned jewels are dark). Sapphire Rhombol's beam aura is the one part that works unlit."
+    doneWhen: { field: "account.lab.jewels[*].lit", change: higher }
+    appliesTo: { stages: [{ from: W4-entry, to: W4-entry }] }
+    confidence: H
+    status: active
+    notes: "Dossier C6 H; the Sapphire Rhombol aura works when owned (C13). Fires only while a character is connected."
+    sources:
+      - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-4/lab.ts#L380-L392", title: "IdleOn Toolbox lab.ts: a node or owned jewel lights when a connected player is in range", tier: 1, verified: 2026-10-19, gameVersion: 2.3.540 }
+      - { url: "https://idleon.wiki/wiki/Laboratory", title: "IdleOn Wiki: Laboratory", tier: 2, claimDate: 2026-10-07, verified: 2026-10-19, gameVersion: 2.3.540 }

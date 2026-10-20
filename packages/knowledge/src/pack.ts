@@ -14,13 +14,34 @@
 // A shared tree is decoded afresh at every reference, so no two entries share one object.
 // Authors' `notes` are never shown to players (schema: "never shown"), so the shipped form leaves them
 // out; `byType` and `detectorOf` are functions of the entries, so the loader rebuilds them. Everything
-// else comes back exactly: `unpackKnowledge(packKnowledge(kb))` equals `kb` minus notes.
+// else comes back exactly: `unpackKnowledge(packKnowledge(kb))` equals `kb` minus notes. Source `note`s
+// (reviewer paraphrases) are left out the same way since M26 (`shippedEntry`).
 import { ENTRY_TYPES } from './schema';
 
 /** Marks a packed bundle; bumped if the encoding ever changes. */
 export const PACK_FORMAT = 2;
 /** Fields the shipped bundle drops: authoring aids that no runtime code reads. */
 export const UNSHIPPED_FIELDS = ['notes'] as const;
+
+/** A Source's `note` (our paraphrase of the claim, for reviewers): no runtime code reads it either (M26). */
+const isSource = (o: Dict) => typeof o.url === 'string' && typeof o.tier === 'number' && 'note' in o;
+function dropSourceNotes(v: unknown): unknown {
+  if (Array.isArray(v)) return v.map(dropSourceNotes);
+  if (v && typeof v === 'object') {
+    const out: Dict = {};
+    for (const [k, x] of Object.entries(v as Dict)) out[k] = dropSourceNotes(x);
+    if (isSource(out)) delete out.note;
+    return out;
+  }
+  return v;
+}
+
+/** An entry as the shipped bundle holds it: no authors' `notes`, no Source `note`s. */
+export function shippedEntry(e: unknown): Dict {
+  const copy = dropSourceNotes(e) as Dict;
+  for (const f of UNSHIPPED_FIELDS) delete copy[f];
+  return copy;
+}
 
 const ARRAY = 0;
 const STRING = 1;
@@ -61,11 +82,7 @@ function canonical(v: unknown): unknown {
 /** The shipped form of `kb` (deterministic: the same `kb` always packs to the same JSON). */
 export function packKnowledge(kb: { entries: Record<string, unknown> }): PackedKnowledge {
   const entries: Dict = {};
-  for (const [id, e] of Object.entries(kb.entries)) {
-    const copy = { ...(e as Dict) };
-    for (const f of UNSHIPPED_FIELDS) delete copy[f];
-    entries[id] = copy;
-  }
+  for (const [id, e] of Object.entries(kb.entries)) entries[id] = shippedEntry(e);
   const { byType: _b, detectorOf: _d, ...rest } = kb as Dict;
   const doc = canonical({ ...rest, entries });
 

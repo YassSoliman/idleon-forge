@@ -25,7 +25,10 @@ body {
   font-variant-ligatures: var(--font-ligatures);
   font-feature-settings: var(--font-features);
   padding: var(--gutter);
-  overflow-x: hidden;
+  /* M25: clip, not hidden. The body's containment (below) stops its overflow passing to the viewport,
+     so `hidden` made the body a scroll container of its own height and broke every position: sticky
+     (the Systems search on a phone). `clip` cuts sideways overflow without making a scroller. */
+  overflow-x: clip;
   /* M24: the body is the inline-size container, so the top bar spans the window by container units
      (chrome.css) whatever the content column's width. */
   container-type: inline-size;
@@ -92,7 +95,7 @@ code,
   border: 0;
   border-radius: var(--radius-control);
   padding: 0 var(--space-4);
-  background: var(--accent);
+  background: var(--accent-fill);
   color: var(--on-accent);
   font-weight: var(--weight-bold);
 }

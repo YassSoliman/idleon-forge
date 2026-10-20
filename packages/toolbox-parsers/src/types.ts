@@ -246,6 +246,30 @@ export interface ToolboxCalls {
   bubbaTables(): ToolboxBubbaTables;
   /** M24: each live shrine's bonus at level 1 and per level, in `account.shrines` order. */
   shrineBonuses(): Array<{ baseBonus: number; bonusPerLevel: number }>;
+  // ---- M26 F-C: the anvil speed terms (src/anvil-parts.ts) ----
+  /** The nine `getAnvilSpeed` terms for one character, as `getPlayerAnvil` computes them; null without anvil stats. */
+  anvilSpeedTerms(character: unknown, account: unknown): AnvilSpeedTerms | null;
+  /** Toolbox `getAnvilSpeed` x 3600 (anvil work per hour) on these terms. */
+  anvilSpeedOf(terms: AnvilSpeedTerms): number;
+  /** Companion bonus 4: Hammer Hammer counts without being equipped. */
+  hammerHammerByCompanion(account: unknown): boolean;
+  /** `getSpeedBonusFromAgility(agility)`. */
+  agilityMultiplier(agility: number): number;
+  /** Toolbox `calcAnvilExp` (percent) with the character's Exp points; null when not finite. */
+  anvilExpBonus(character: unknown, characters: unknown[], account: unknown): number | null;
+}
+
+/** M26 F-C: the terms of `getAnvilSpeed` (src/anvil-parts.ts). */
+export interface AnvilSpeedTerms {
+  agility: number;
+  speedPoints: number;
+  stamp: number;
+  box: number;
+  hammerHammer: number;
+  statue: number;
+  starSign: number;
+  brokenTime: number;
+  vault: number;
 }
 
 /** M7 TR-4: one Vault row's Toolbox `cost` at levels L, L+1, ... (`costs[0]` is the parse's `cost`). */

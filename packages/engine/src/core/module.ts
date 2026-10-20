@@ -167,6 +167,8 @@ export interface ModuleOutput {
   world4?: EngineResult['world4'];
   /** M18 `gear` only (EngineResult.gear). */
   gear?: EngineResult['gear'];
+  /** M26 `production` only (EngineResult.production). */
+  production?: EngineResult['production'];
   /** M21 `session` only (EngineResult.session, TR-11). */
   session?: EngineResult['session'];
   /** M21 `map` only (EngineResult.map, TR-9). */

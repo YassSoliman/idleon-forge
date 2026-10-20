@@ -97,7 +97,7 @@ function fightingOf(
 
 /**
  * Only the monsters some character is AFK fighting: a Death Note Goal is a Purpose of its feeders
- * (M4 TR-4), and the whole page would push a big account past the 300 KB history cap (M1 TR-16).
+ * (M4 TR-4), and the whole page would push a big account past the history cap (M1 TR-16).
  */
 function readDeathNote(account: Dict, targets: ReadonlySet<string>): Record<string, number> | null {
   const dn = account.deathNote;

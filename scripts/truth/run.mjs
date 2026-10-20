@@ -4,7 +4,7 @@
 // M22 Layer 2, the truth run (docs/agents/truth-run.md). Local and dev-only. For each raw save:
 //   1. headless: the whole worker (parser, engine, truth checks) over the save, via Vitest
 //      (apps/activeon/test/truth-run.test.ts), written to <out>/<label>.headless.json;
-//   2. browser: the built app under `wrangler dev` (production headers), the save pasted, every
+//   2. browser: the built app under Wrangler's local server (production headers), the save pasted, every
 //      character's Build, Gear and Cards tabs opened, the shown numbers read off the DOM;
 //   3. diff: the DOM against the raw facts (points spent per tab, talent levels, "no points
 //      waiting" lines, next steps and their start level, class levels).
@@ -13,7 +13,7 @@
 //
 // Usage:
 //   node scripts/truth/run.mjs --out <dir> [--base http://127.0.0.1:8799/] [--serve] [--no-browser] <save.raw.json>...
-//   --serve       build the app and start `wrangler dev` on the --base port for the run
+//   --serve       build the app and serve it with Wrangler (no file watcher) on the --base port for the run
 //   --no-browser  headless only
 // Playwright is not a repo dependency: set PLAYWRIGHT to an installed `playwright` module path
 // (e.g. /tmp/pw/node_modules/playwright/index.js), or have it resolvable from here.
@@ -80,8 +80,9 @@ async function loadPlaywright() {
 }
 
 /**
- * Reads one character's Build tab (M24 design): it shows one preset and one talent tab at a time, so
- * this clicks each preset card (`.bd-preset[data-slot]`) and each tab control (`.bd-segbtn[data-tab]`,
+ * Reads one character's Build tab (M24 design, M25 preset tabs): it shows one preset and one talent tab
+ * at a time, so this clicks each preset tab (`.bd-ptabs [role=tab]`, id `…-tab-<slot>`; a lone preset
+ * has no tabs, only its `.bd-preset[data-slot]` answer) and each tab control (`.bd-segbtn[data-tab]`,
  * tab 0 the star tab) and reads that tab's ladder: every Build step's levels ("12 → 50", or "50" when
  * done), the line where the known points end, and the tab control's points. Runs in the page.
  */
@@ -91,14 +92,20 @@ async function readBuild() {
   const tick = () => new Promise((r) => setTimeout(r, 80));
   const n = (x) => Number(String(x).replace(/,/g, ''));
   const panels = [];
-  const slots = [...view.querySelectorAll('.bd-preset')].map((b) => Number(b.getAttribute('data-slot')));
+  const slotOf = (el) => Number(/-tab-(\d+)$/.exec(el.id)?.[1] ?? el.getAttribute('data-slot'));
+  const presetTabs = [...view.querySelectorAll('.bd-ptabs [role="tab"]')];
+  const slots = presetTabs.length
+    ? presetTabs.map(slotOf)
+    : [...view.querySelectorAll('.bd-preset[data-slot]')].map((b) => Number(b.getAttribute('data-slot')));
   for (const slot of slots) {
-    const card = view.querySelector(`.bd-preset[data-slot="${slot}"]`);
-    if (card && card.getAttribute('aria-pressed') !== 'true') {
-      card.click();
+    const tab = presetTabs.find((t) => slotOf(t) === slot) ?? null;
+    if (tab && tab.getAttribute('aria-selected') !== 'true') {
+      tab.click();
       await tick();
     }
-    const active = !!view.querySelector(`.bd-preset[data-slot="${slot}"] .bd-inuse`);
+    const active = !!(tab ?? view.querySelector(`.bd-preset[data-slot="${slot}"]`))?.querySelector(
+      '.bd-inuse',
+    );
     const tabs = [];
     const tiles = [];
     const ids = [...view.querySelectorAll('.bd-segbtn')].map((b) => Number(b.getAttribute('data-tab')));
@@ -258,18 +265,40 @@ function diff(head, dom) {
                 save: lv,
               },
             );
-          if (!st.done && st.current !== null && st.current !== lv)
+          // A later step of a talent the path already raised starts where that earlier step ends
+          // ("20 → 100" after "1 → 20"): the engine's `from`, not the save's level.
+          const from = ht?.path?.find((x) => x.label === st.label && x.goal === st.goal)?.from ?? null;
+          if (!st.done && st.current !== null && from !== null && st.current !== from)
+            add(
+              'P1',
+              `${where} · tab ${t.tab} · ${st.label}`,
+              'Build path start level differs from the engine',
+              {
+                shown: st.current,
+                engine: from,
+              },
+            );
+          else if (!st.done && st.current !== null && from === null && st.current !== lv)
             add('P1', `${where} · tab ${t.tab} · ${st.label}`, 'Build path level differs from the save', {
               shown: st.current,
               save: lv,
             });
         }
         // The marker's count is the engine's known count for that tab, and never below the save's floor.
+        // "Build complete at 1,001 · at least 1,935 points have no talent …" shows it as the build's
+        // cost plus the spare points, so the count there is the sum.
         const known = ht?.known;
+        const complete = /^Build complete at ([\d,]+)(?: · (?:at least )?([\d,]+) points? ha)?/.exec(
+          t.marker ?? '',
+        );
         const shown = /^([\d,]+) (?:points? waiting|unspent)|at least ([\d,]+)|^your ([\d,]+) /i.exec(
           t.marker ?? '',
         );
-        const shownN = shown ? num(shown[1] ?? shown[2] ?? shown[3]) : null;
+        const shownN = complete
+          ? num(complete[1]) + (complete[2] ? num(complete[2]) : 0)
+          : shown
+            ? num(shown[1] ?? shown[2] ?? shown[3])
+            : null;
         if (known && known.points !== null && shownN !== null && shownN !== known.points)
           add('P1', `${where} · tab ${t.tab}`, 'Build marker count differs from the engine’s count', {
             shown: t.marker,
@@ -381,6 +410,18 @@ function markdown(runs) {
   return L.join('\n');
 }
 
+/** Wrangler's local server for apps/activeon/dist, file watcher off (see main). argv[1]: port. */
+const SERVE = `
+import { unstable_startWorker } from 'wrangler';
+const port = Number(process.argv[1]);
+const worker = await unstable_startWorker({
+  config: 'wrangler.jsonc',
+  dev: { watch: false, liveReload: false, inspector: false, server: { hostname: '127.0.0.1', port } },
+});
+await worker.ready;
+for (const sig of ['SIGINT', 'SIGTERM']) process.on(sig, () => worker.dispose().finally(() => process.exit(0)));
+`;
+
 async function main() {
   const o = args(process.argv.slice(2));
   mkdirSync(o.out, { recursive: true });
@@ -396,9 +437,14 @@ async function main() {
       process.exit(2);
     }
     spawnSync('pnpm', ['build'], { cwd: ROOT, stdio: 'inherit' });
-    const port = new URL(o.base).port || '8799';
-    // Its own process group, so wrangler's workerd child goes down with it on exit.
-    server = spawn('pnpm', ['exec', 'wrangler', 'dev', '--port', port], {
+    const port = Number(new URL(o.base).port || '8799');
+    // Not `wrangler dev`: its assets watcher (chokidar) holds one descriptor per file in dist/, and
+    // the game art is ~19.7k files. On macOS a process holding descriptors above OPEN_MAX (10240)
+    // can no longer spawn a piped child (libuv's posix_spawn fails with EBADF), so Wrangler's own
+    // esbuild service dies at start-up. `dev.watch` is not a CLI flag, so the same local server
+    // (Workers static assets, _headers, SPA fallback) is started through the API with the watcher
+    // off. Its own process group, so the workerd child goes down with it on exit.
+    server = spawn(process.execPath, ['--input-type=module', '-e', SERVE, String(port)], {
       cwd: path.join(ROOT, 'apps/activeon'),
       stdio: 'ignore',
       detached: true,

@@ -147,7 +147,42 @@ export const INDEX_WORDS = {
   usuallyBy: (stage: string) => `usually done by ${stage}`,
   allTitle: 'All Systems',
   filterLabel: 'Filter',
-  filters: { needs: 'Needs you', all: 'All', notCovered: 'Not covered yet', locked: 'Locked' },
+  /** M25 (board m25/SystemsSearch.dc.html): the search field, its list and the quick filters. */
+  search: {
+    label: 'Search Systems',
+    placeholder: 'Find a System (try "cogs")',
+    key: '/',
+    keyHint: 'Press / to search',
+    listLabel: 'Matching Systems',
+    /** Around a matched player word: matches "cogs". */
+    aliasLead: 'matches "',
+    aliasEnd: '"',
+    sectionLead: 'section: ',
+    keys: '↑ ↓ move · Enter opens · Esc clears',
+    clearQuery: 'Clear the search',
+    count: (n: number) => (n === 1 ? '1 System matches' : `${n} Systems match`),
+    none: 'No System matches',
+  },
+  worldLegend: 'World',
+  accountWide: 'Account-wide',
+  worldShort: (w: number) => (w === 0 ? INDEX_WORDS.accountWide : `${w}`),
+  worldName: (w: number) => (w === 0 ? INDEX_WORDS.accountWide : `World ${w}`),
+  statusLegend: 'Status',
+  statusFilters: {
+    wasting: 'Wasting now',
+    behind: 'Behind',
+    todo: 'To do',
+    fine: 'Fine',
+    notCovered: 'Not covered',
+    locked: 'Locked',
+  },
+  clearAll: 'Clear all',
+  shown: (n: number, all: number) => `${n} of ${all} Systems`,
+  emptyTitle: 'Nothing here',
+  emptyQuery: (q: string) => `No System matches "${q}".`,
+  emptyFilters: 'No System fits these filters.',
+  emptyHint: 'Check the spelling, try a word like cogs or salts, or turn a filter off.',
+  emptyHintFilters: 'Turn a filter off to see more.',
   worldSub: (systems: number, need: number, notCovered: number, locked: number, readOnly = 0) =>
     [
       `${systems} ${systems === 1 ? 'System' : 'Systems'}`,
@@ -168,19 +203,20 @@ export const INDEX_WORDS = {
   >,
   legend: {
     wasting: 'wasting',
-    todo: 'to do',
+    todo: 'behind or to do',
     ok: 'nothing to fix',
     notCovered: 'not covered yet',
     locked: 'locked',
     readOnly: 'read-only, no checks yet',
   },
-  nothingHere: 'Nothing here with this filter.',
   moreWasting: (n: number) => `${n} more wasting`,
   fewer: 'Show fewer',
 } as const;
 
 /** M24: the System page template (header, the framed answer, the footer line). */
 export const PAGE_FRAME_WORDS = {
+  /** M26 FR-C1b: the tab a gate link opens on the page of the System that owns the gate. */
+  walkthroughTab: 'Walkthrough',
   back: (where: string) => `Systems · ${where}`,
   world: (w: number) => (w === 0 ? 'Across worlds' : `World ${w}`),
   status: {
@@ -307,6 +343,8 @@ export const ANVIL_WORDS = {
   respec: (speed: number, cap: number) => `Respec to ${speed} Speed, ${cap} Capacity`,
   fine: 'Fine as it is',
   cantTell: "Can't tell",
+  /** The header's reason when a check reads no field on this save but the Production Plan reads the anvils. */
+  someChecksUnread: "some checks can't read this save",
   timesWork: (x: number, h: number) => `about ${x} times the anvil work in ${h}h`,
   moreWork: (p: number, h: number) => `about ${p}% more anvil work in ${h}h`,
   respecAdds: (p: number, h: number) => `a respec adds only about ${p}% in ${h}h`,
@@ -334,7 +372,14 @@ export const ANVIL_WORDS = {
   splitTitle: "Every character's split",
   awayFor: 'Away for',
   legend: { speed: 'Speed', capacity: 'Capacity', spare: 'spare, doing nothing' },
-  tabs: { split: 'Point split', makes: 'What each anvil makes' },
+  tabs: {
+    split: 'Point split',
+    makes: 'What each anvil makes',
+    plan: 'Production Plan',
+    points: 'Points',
+    recipes: 'Recipes',
+    walkthrough: 'Walkthrough',
+  },
   whetstone: 'Anvil Reset Whetstone',
   whetstoneSub: 'moves points you already spent',
   where: 'Where',

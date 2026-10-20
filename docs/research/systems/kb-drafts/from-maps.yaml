@@ -1,0 +1,1222 @@
+# SPDX-License-Identifier: GPL-3.0-only
+note: 'M26: the KB drafts that lived only in the area maps (scratchpad m26/maps/<topic>.json kbEntryDrafts), copied verbatim
+  as research input for kb convert-drafts (spec FR-10). Ids already in another kb-drafts file are left out.'
+maps:
+  achievements:
+  - id: achievements.check.exact-stack
+    system: achievements
+    type: check
+    title: Split a stack for an achievement
+    subject: account
+    effect: next-action
+    category: spendable
+    priority:
+      frame: by-urgency
+    effortSeconds: 60
+    detector:
+      id: achievements/exact-stack
+    text: Split your {item} to a stack of exactly {n:int} in the Storage Chest
+    why: '{name} completes when a chest stack holds exactly {n:int} {item}, and you hold {held:int}. It gives {reward}.'
+    doneWhen:
+      field: account.achievements.totalCompleted
+      change: higher
+    appliesTo:
+      stages:
+      - from: W1-early
+        to: W4-entry
+    confidence: M
+    status: draft
+    notes: Dossier M20, C33 (data H) and C14 (wiki split-stack tip, tier 3, M). Requirement parsed from desc; 25 W1-W4 entries;
+      idx 179 (HONK chest) excluded. Stack detection reads per-slot amounts (account.storageStacks), M until a contract test
+      confirms Toolbox keeps slots separate.
+    sources:
+    - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/achievements.json
+      title: Toolbox achievements data (quantity, rewards, gems, candy, steamExclusive, steamIndex, secretAchievement)
+      tier: 1
+      verified: '2026-10-19'
+      gameVersion: 2.3.540
+    - url: https://idleon.wiki/wiki/Achievements
+      title: 'IdleOn Wiki: Achievements (exact-stack entries: split the stack)'
+      tier: 3
+      claimDate: '2026-10-03'
+      verified: '2026-10-19'
+      gameVersion: 2.3.540
+  - id: achievements.goal.task-tier
+    system: achievements
+    type: goal
+    title: Next Achievement task tier
+    text: Complete {left:int} more {world} achievements for the next Achievement task tier
+    why: 'The world''s Achievement task pays at {next:int} completed; you have {count:int}. Its last tier (70) can''t be reached:
+      no world has 70 achievements.'
+    scope: account
+    category: compounding
+    unit: achievements
+    progress:
+      id: achievements/task-tier
+    milestones:
+    - at: 1
+      reward: One more Achievement task tier
+    appliesTo:
+      stages:
+      - from: W1-early
+        to: W4-entry
+    confidence: H
+    status: draft
+    notes: Dossier M24, C11 (off-Steam ceiling is M), C38. Count = tasks[0][w][7], tier = tasks[1][w][7]; both test saves
+      match the per-world completed count.
+    sources:
+    - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/tasks.json
+      title: 'Toolbox tasks data: Achievement Hunter/Cowboy/Inuit/Astronaut breakpoints'
+      tier: 1
+      verified: '2026-10-19'
+      gameVersion: 2.3.540
+    - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/achievements.ts#L22-L30
+      title: 'Toolbox getAchievements: completed = AchieveReg[i] === -1, currentQuantity'
+      tier: 1
+      verified: '2026-10-19'
+      gameVersion: 2.3.540
+  - id: achievements.goal.bonus-list
+    system: achievements
+    type: goal
+    title: Achievements with permanent bonuses
+    text: '{count:int} achievements in your worlds still hold a permanent bonus'
+    why: Achievement bonuses apply the moment they complete and never need claiming. Grouped by what they boost; pick the
+      ones your play already approaches.
+    values:
+      detail: '{name}: {reward} ({progress})'
+      maxDetails: 3
+    scope: account
+    category: compounding
+    unit: achievements
+    progress:
+      id: achievements/bonus-list
+    appliesTo:
+      stages:
+      - from: W1-mid
+        to: W4-entry
+    confidence: H
+    status: draft
+    notes: 'Dossier M5-M19, M28, C12, C18-C31 (reward values H). Deliberately unordered: the dossier''s min-max ordering is
+      derived and L (no tier-4 consensus). Data-only entries (M32) appear with ''not modelled''.'
+    sources:
+    - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/achievements.ts#L30-L52
+      title: Toolbox getAchievementStatus multipliers
+      tier: 1
+      verified: '2026-10-19'
+      gameVersion: 2.3.540
+    - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/achievements.json
+      title: Toolbox achievements data (quantity, rewards, gems, candy, steamExclusive, steamIndex, secretAchievement)
+      tier: 1
+      verified: '2026-10-19'
+      gameVersion: 2.3.540
+    - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/misc.ts#L328
+      title: 'Toolbox: Checkout Takeout book level and library charge'
+      tier: 1
+      verified: '2026-10-19'
+      gameVersion: 2.3.540
+  - id: achievements.goal.talent-points
+    system: achievements
+    type: goal
+    title: Talent points from achievements
+    text: '{left:int} {tab} talent points wait in achievements'
+    why: '{names} give {left:int} {tab} points to every character, permanently.'
+    scope: account
+    category: compounding
+    unit: points
+    progress:
+      id: achievements/talent-points
+    appliesTo:
+      stages:
+      - from: W1-early
+        to: W4-entry
+    confidence: H
+    status: draft
+    notes: 'Dossier M12, C25. Uses the code values (talent-points-formula.ts#L100); idx 219 is 8 in code, 10 in reward text
+      (Disputed, L): show the code value and note the text.'
+    sources:
+    - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/achievements.json
+      title: Toolbox achievements data (quantity, rewards, gems, candy, steamExclusive, steamIndex, secretAchievement)
+      tier: 1
+      verified: '2026-10-19'
+      gameVersion: 2.3.540
+    - url: https://github.com/YassSoliman/idleon-forge/blob/main/packages/account-state/src/talent-points-formula.ts
+      title: ActiveOn talent-point formula port (achievement terms)
+      tier: 1
+      verified: '2026-10-19'
+      gameVersion: 2.3.540
+  - id: achievements.goal.arcade-balls
+    system: achievements
+    type: goal
+    title: Arcade ball rate from achievements
+    text: '{left:int}% faster Arcade balls wait in achievements'
+    why: '{count:int} achievements in your worlds each add Arcade ball rate; you have {earned:int}% of 47%.'
+    scope: account
+    category: compounding
+    unit: '%'
+    progress:
+      id: achievements/arcade-balls
+    appliesTo:
+      stages:
+      - from: W2-early
+        to: W4-entry
+    confidence: H
+    status: draft
+    notes: 'Dossier M7, C20. Code grants idx 140 (Reach World 3), not idx 144 (Sad Souls) whose text says 1%: follow the code,
+      note the text.'
+    sources:
+    - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/dungeons.ts#L93-L105
+      title: Toolbox getBallBonus over ballsBonuses
+      tier: 1
+      verified: '2026-10-19'
+      gameVersion: 2.3.540
+    - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json
+      title: Toolbox ballsBonuses table
+      tier: 1
+      verified: '2026-10-19'
+      gameVersion: 2.3.540
+  - id: achievements.info.steam-gems
+    system: achievements
+    type: info
+    title: Gems in Steam-only achievements
+    text: '{gems:int} gems sit in Steam-only achievements'
+    why: These entries count progress on every platform but only complete, and drop their gems and Time Candy, in the desktop
+      Steam client.
+    values:
+      why-seen: You've completed {done:int} of them before, so the counters are worth checking on Steam.
+    appliesTo:
+      stages:
+      - from: W1-early
+        to: W4-entry
+    confidence: M
+    status: draft
+    notes: 'Dossier M3, M4, C7, C8, C9, C16 (Steam gating is from prior N.js read, M). Gem totals from the gems field only
+      (C17). The wiki''s 275 Steam achievements vs 60 steamIndex values is unreconciled (C41, L): do not quote 275. Page-only,
+      not a Now line.'
+    sources:
+    - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/achievements.json
+      title: Toolbox achievements data (quantity, rewards, gems, candy, steamExclusive, steamIndex, secretAchievement)
+      tier: 1
+      verified: '2026-10-19'
+      gameVersion: 2.3.540
+    - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/achievements.ts#L22-L30
+      title: 'Toolbox getAchievements: completed = AchieveReg[i] === -1, currentQuantity'
+      tier: 1
+      verified: '2026-10-19'
+      gameVersion: 2.3.540
+    - url: https://idleon.wiki/wiki/Changelog/2025
+      title: 'IdleOn Wiki: Changelog 2025, v2.35 (275 achievements unlockable on Steam)'
+      tier: 3
+      claimDate: '2025-04-01'
+      verified: '2026-10-19'
+  - id: achievements.fact.catalogue
+    system: achievements
+    type: fact
+    title: Achievement catalogue
+    notes: Generated by achievements.gen.ts (see generators).
+    confidence: H
+    status: draft
+    sources:
+    - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/achievements.json
+      title: Toolbox achievements data (quantity, rewards, gems, candy, steamExclusive, steamIndex, secretAchievement)
+      tier: 1
+      verified: '2026-10-19'
+      gameVersion: 2.3.540
+    - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/tasks.json
+      title: 'Toolbox tasks data: Achievement Hunter/Cowboy/Inuit/Astronaut breakpoints'
+      tier: 1
+      verified: '2026-10-19'
+      gameVersion: 2.3.540
+  alchemy-cauldrons:
+  - id: alchemy-bubbles.check.spend-brew
+    revision: true
+    system: alchemy-bubbles
+    type: check
+    title: Roll for new bubbles
+    subject: account
+    effect: next-action
+    category: spendable
+    effortSeconds: 120
+    detector:
+      id: alchemy-bubbles/brew
+      params:
+        variant: plain
+    text: 'Roll your {rolls:int} banked new-bubble attempts in {cauldrons:int} cauldrons: about {bubbles:int} new bubbles'
+    why: Banked brew turns into new bubbles only when you roll it; the first roll has {odds:pct} odds.
+    doneWhen:
+      field: account.alchemy.cauldrons[*].unlockedBubbles
+      change: higher
+    appliesTo:
+      stages:
+      - from: W2-early
+        to: W4-entry
+    confidence: H
+    status: draft
+    notes: 'Revision of the active entry (coverage audit 2.1(d)): names the sink (rolls) and the odds so it reads next to
+      check.boost-speed. spend-brew-big gets the same text change.'
+    sources:
+    - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-2/alchemy.ts#L615-L638
+      title: Toolbox expected new bubbles from banked brew
+      tier: 1
+      verified: '2026-10-19'
+      gameVersion: 2.3.540
+    - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-2/alchemy.ts#L596-L607
+      title: 'Toolbox MaxCauldronQTY: brew per roll'
+      tier: 1
+      verified: '2026-10-19'
+      gameVersion: 2.3.540
+    - url: https://idleon.wiki/wiki/Alchemy
+      title: 'IdleOn Wiki: Alchemy (Boosts: Speed, Luck odd levels, Cost, 2x Extra; max 170)'
+      tier: 3
+      verified: '2026-10-19'
+      gameVersion: 2.3.540
+  contradictions-2:
+  - id: breeding.goal.arena-next-wave
+    system: breeding
+    type: goal
+    title: Next Pet Arena wave bonus
+    scope: account
+    category: compounding
+    unit: waves
+    progress:
+      id: breeding/arena-next-wave
+    detector:
+      id: breeding/arena-next-wave
+      params:
+        minLevel: 8
+    milestones:
+    - at: 8
+      reward: x1.2 total damage
+    - at: 20
+      reward: x1.5 monster cash
+    - at: 35
+      reward: Kitchen upgrades half price
+    - at: 100
+      reward: 3rd large Alchemy bubble
+    - at: 125
+      reward: 6th battle slot
+    - at: 150
+      reward: +20% Lab line width
+    - at: 175
+      reward: x2 monster cash (on top of wave 20)
+    - at: 200
+      reward: x1.4 total damage
+    text: 'Pet Arena best wave {best:int}: wave {next:int} gives {reward}'
+    why: Pet Arena (World 4 Breeding) bonuses are permanent once your best wave reaches them; waves 20 and 175 add +0.5 and
+      +1 to the monster-cash multiplier.
+    values:
+      lockedText: Pet Arena opens at Breeding level 8
+    appliesTo:
+      stages:
+      - from: W4-entry
+        to: W4-entry
+    confidence: H
+    status: draft
+    notes: 'contradictions-2 verdict 3: Pet Arena is W4 Breeding (accountOptions[89]); not the W2 Wakawaka War arena (Jawbreaker
+      wave 101). Reached = best >= list[i] (isArenaBonusActive). Lab and cooking effect wording M. Milestones are the key
+      rungs; the full 16-wave list comes from randomList[53].'
+    sources:
+    - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json
+      title: 'Toolbox game data: arenaBonuses'
+      tier: 1
+      verified: 2026-10-19
+      gameVersion: 2.3.540
+    - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/randomList.json
+      title: 'Toolbox game data: randomList[53] arena wave list'
+      tier: 1
+      verified: 2026-10-19
+      gameVersion: 2.3.540
+    - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/character.ts#L2778-L2781
+      title: 'Toolbox monster cash: arena bonus index 5 (wave 20) and 14 (wave 175)'
+      tier: 1
+      verified: 2026-10-19
+      gameVersion: 2.3.540
+    - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/damage.ts#L380-L383
+      title: 'Toolbox total damage: arena index 2 (wave 8) and 15 (wave 200)'
+      tier: 1
+      verified: 2026-10-19
+      gameVersion: 2.3.540
+  elite-classes:
+  - id: metapath.goal.elite (patch)
+    system: metapath
+    type: goal
+    status: draft
+    patch:
+      why: Your subclass has one elite. It adds a 4th talent tab and a family bonus; Divine Knight and Elemental Sorcerer
+        open Rift levels 8 and 9.
+      addSource:
+        url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/classPromotions.json
+        title: 'Game data: class promotions (each subclass has one promotesTo)'
+        tier: 1
+        verified: '2026-10-19'
+        gameVersion: 2.3.540
+      addSource2:
+        url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json
+        title: 'Game data: riftInfo (class-gated tasks at Rift 8 / 9 / 16)'
+        tier: 1
+        verified: '2026-10-19'
+        gameVersion: 2.3.540
+    confidence: L
+    notes: Keeps confidence L for the order. Replaces the 'W4 Roles' claim with the H facts.
+  family:
+  - id: family.check.duplicate-line
+    system: family
+    type: check
+    title: A second character of the same class adds no family bonus
+    subject: account
+    effect: next-action
+    category: nice
+    effortSeconds: 30
+    detector:
+      id: family/duplicate-line
+    text: 'Your {who:name} Lv {level:int} adds no family bonus: your {holder:name} Lv {holderLevel:int} already sets it'
+    why: Each class's family bonus comes from your highest character of that line only; a lower one still adds to family level.
+    values:
+      swap: A Sub Class Swap Token can move it to the other subclass of its line.
+    notes: Fact from Toolbox family.ts highest-wins walk (H). The swap line appears only when metapath.goal.swap-token would
+      fire for the same character. Counted level = familyClassLevel.
+    sources:
+    - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/family.ts#L44-L70
+      title: 'Toolbox family.ts: highest value per class wins; a character supplies every class in its line'
+      tier: 1
+      verified: '2026-10-19'
+      gameVersion: 2.3.540
+    - url: https://idleon.wiki/wiki/Sub_Class_Swap_Token
+      title: 'IdleOn Wiki: Sub Class Swap Token (swap inside the same line)'
+      tier: 3
+      claimDate: '2026-10-05'
+      verified: '2026-10-19'
+      gameVersion: 2.3.540
+    appliesTo:
+      stages: all
+    confidence: H
+    status: draft
+  - id: 'metapath.goal.elite (patch: values)'
+    system: metapath
+    type: goal
+    values:
+      family: 'It starts the {elite:name} family bonus for every character: {bonus} ({value} now, {next})'
+    notes: Adds a family why line filled by family/elite-bonus; the goal's own ranking and confidence stay as they are.
+    sources:
+    - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json
+      title: 'Toolbox game data: classFamilyBonuses (func, x1, x2, x3 per class index)'
+      tier: 1
+      verified: '2026-10-19'
+      gameVersion: 2.3.540
+    - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/utility/wiki/growth.mjs#L47-L56
+      title: Toolbox growth curves (intervalAdd, decay, decayMulti)
+      tier: 1
+      verified: '2026-10-19'
+      gameVersion: 2.3.540
+    - url: https://idleon.wiki/wiki/Classes
+      title: 'IdleOn Wiki: Classes (family bonus per class, promotion levels)'
+      tier: 3
+      claimDate: '2026-10-13'
+      verified: '2026-10-19'
+      gameVersion: 2.3.540
+    - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/character.ts#L521-L523
+      title: 'Toolbox character.ts: Elemental Sorcerer family bonus floored into added talent levels'
+      tier: 1
+      verified: '2026-10-19'
+      gameVersion: 2.3.540
+    confidence: H
+    status: draft
+  - id: 'metapath.goal.next-character (patch: values)'
+    system: metapath
+    type: goal
+    values:
+      family: A {line:name} gives every character {bonus} ({value} at Lv {level:int})
+    notes: Filled by family/line-bonus at start+30 (Lv 59 for a subclass). Facts H; which line to make next stays the roster's
+      call (M).
+    sources:
+    - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json
+      title: 'Toolbox game data: classFamilyBonuses (func, x1, x2, x3 per class index)'
+      tier: 1
+      verified: '2026-10-19'
+      gameVersion: 2.3.540
+    - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/utility/wiki/growth.mjs#L47-L56
+      title: Toolbox growth curves (intervalAdd, decay, decayMulti)
+      tier: 1
+      verified: '2026-10-19'
+      gameVersion: 2.3.540
+    - url: https://idleon.wiki/wiki/Classes
+      title: 'IdleOn Wiki: Classes (family bonus per class, promotion levels)'
+      tier: 3
+      claimDate: '2026-10-13'
+      verified: '2026-10-19'
+      gameVersion: 2.3.540
+    confidence: H
+    status: draft
+  - id: family.fact.bonuses
+    system: family
+    origin: generated
+    title: Family bonus per class (curve, start level, effect)
+    rows: generated by classes.gen.ts (see generators)
+    sources:
+    - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json
+      title: 'Toolbox game data: classFamilyBonuses (func, x1, x2, x3 per class index)'
+      tier: 1
+      verified: '2026-10-19'
+      gameVersion: 2.3.540
+    - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/utility/wiki/growth.mjs#L47-L56
+      title: Toolbox growth curves (intervalAdd, decay, decayMulti)
+      tier: 1
+      verified: '2026-10-19'
+      gameVersion: 2.3.540
+    - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/family.ts#L16-L20
+      title: 'Toolbox getClassFamilyBonus: class-index lookup, 0 below x3'
+      tier: 1
+      verified: '2026-10-19'
+      gameVersion: 2.3.540
+    status: draft
+  guild:
+  - id: guild.goal.join
+    system: guild
+    type: goal
+    title: Join a guild
+    text: 'Join an active guild: its bonuses apply to you in full'
+    why: You can join at any level. Every guild bonus the leader has bought (drop rate, carry cap, star talent points, skill
+      EXP) counts for each member, and your task progress starts paying Guild Points.
+    subject: account
+    effect: next-action
+    category: unlock
+    effortSeconds: 300
+    detector:
+      id: guild/not-a-member
+    doneWhen:
+      field: account.guild.member
+      change: higher
+    appliesTo:
+      stages: all
+    confidence: M
+    status: draft
+    sources:
+    - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/guild.ts
+      title: IdleOn Toolbox getGuild (bonuses, tasks, level, members)
+      tier: 1
+      verified: 2026-10-19
+      gameVersion: 2.3.540
+    - url: packages/sync/src/envelope.ts#L59-L64
+      title: 'ActiveOn envelope: guildData.stats is the save Guild array, points and members from the RTDB guild doc'
+      tier: 1
+      verified: 2026-10-19
+      gameVersion: 2.3.540
+    - url: https://idleon.wiki/wiki/Guilds
+      title: 'IdleOn Wiki: Guilds'
+      tier: 2
+      claimDate: 2026-10-07
+      verified: 2026-10-19
+      gameVersion: 2.3.540
+    notes: 'Dossier M1, C25, C28 (join at any level is wiki-only, L); bonuses apply to every member is H in code (getGuildBonusBonus
+      has no member term). Toolbox always reports unlocked: true for ActiveOn saves because the envelope always builds guildData,
+      so membership must be the adapter''s own test (members or points or OLA[37]).'
+  - id: guild.check.claim-met
+    system: guild
+    type: check
+    title: Claim finished guild tasks
+    text: Claim {count:int} finished guild task(s) in Codex > Guild ({gp:int} GP)
+    why: A finished guild task pays nothing until you claim it, and an unclaimed daily is lost at the daily reset.
+    values:
+      detail: '{task}: {progress:int} of {requirement:int}'
+    subject: account
+    effect: next-action
+    category: spendable
+    priority:
+      frame: by-urgency
+    effortSeconds: 30
+    detector:
+      id: guild/unclaimed-tasks
+    doneWhen:
+      field: account.guild.tasks.unclaimedCount
+      change: lower
+    appliesTo:
+      stages: all
+    confidence: M
+    status: draft
+    sources:
+    - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/guild.ts
+      title: IdleOn Toolbox getGuild (bonuses, tasks, level, members)
+      tier: 1
+      verified: 2026-10-19
+      gameVersion: 2.3.540
+    - url: packages/sync/src/envelope.ts#L61
+      title: Save Guild rows [taskIndex, flag, progress]; flag 1 on every met row of an in-guild save, 0 on a met row of a
+        no-guild save
+      tier: 1
+      verified: 2026-10-19
+      gameVersion: 2.3.540
+    notes: Dossier M8, M11, C10. Toolbox drops column 1; the adapter must read it from the raw save Guild array. Both test
+      saves fit 'column 1 = claimed' (no counter-example), confidence M; OLA[524] auto-claim was 0 on both.
+  - id: guild.check.daily
+    system: guild
+    type: check
+    title: Guild daily tasks
+    text: '{text}'
+    why: '{why}'
+    values:
+      row: Claim your guild's daily tasks
+      why: Guild tasks pay Guild Points; the daily ones reroll at your daily reset.
+      hint: '{met:int} of {total:int} met · left: {left}'
+      left-board: '{world} task board daily'
+    detector:
+      id: checklist/rows
+      params:
+        row: guild-daily
+    confidence: H
+    status: draft
+    sources:
+    - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/guild.ts
+      title: IdleOn Toolbox getGuild (bonuses, tasks, level, members)
+      tier: 1
+      verified: 2026-10-19
+      gameVersion: 2.3.540
+    - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json
+      title: 'Toolbox game data: guildBonuses and guildTasks'
+      tier: 1
+      verified: 2026-10-19
+      gameVersion: 2.3.540
+    notes: 'Edit of the active entry: names the unmet tasks (data guildTasks names, Filler rows dropped) instead of a bare
+      count. W1 Daily Task and W2 Daily Task are met by the task board 9th task, so ''left'' can point at account.taskBoardDailies.
+      Dossier M8, C11 (table H).'
+  - id: guild.check.weekly
+    system: guild
+    type: check
+    title: Guild weekly tasks
+    text: '{text}'
+    why: '{why}'
+    values:
+      row: Claim your guild's weekly tasks
+      why: Guild tasks pay Guild Points; the weekly ones reset at your weekly reset.
+      hint: '{met:int} of {total:int} met · left: {left}'
+      afk: '5+ hour AFK claims {progress:int} of 35: claim each character after a long AFK Stretch'
+    detector:
+      id: checklist/rows
+      params:
+        row: guild-weekly
+    confidence: H
+    status: draft
+    sources:
+    - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/guild.ts
+      title: IdleOn Toolbox getGuild (bonuses, tasks, level, members)
+      tier: 1
+      verified: 2026-10-19
+      gameVersion: 2.3.540
+    - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json
+      title: 'Toolbox game data: guildBonuses and guildTasks'
+      tier: 1
+      verified: 2026-10-19
+      gameVersion: 2.3.540
+    notes: 'Edit of the active entry. Weekly fixed rows: Defeat any Boss x20, Claim 5+ Hour AFK gain x35, Claim Guild Points
+      x250 (+1 rotating). The AFK row ties guild GP to the AFK Setup rhythm. Dossier M9, C11.'
+  - id: guild.goal.next-level
+    system: guild
+    type: goal
+    title: Next guild level
+    text: 'Guild Lv {level:int} → {next:int}: {gap:int} GP to go'
+    why: Each guild level adds 4 member slots (30 + 4 per level, up to 210 at Lv 45). Guild Points from every member's tasks
+      count.
+    values:
+      detail: '{members:int} of {maxMembers:int} members'
+    subject: account
+    effect: progress
+    category: nice
+    effortSeconds: 0
+    detector:
+      id: guild/level-progress
+    appliesTo:
+      stages: all
+    confidence: H
+    status: draft
+    sources:
+    - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/guild.ts
+      title: IdleOn Toolbox getGuild (bonuses, tasks, level, members)
+      tier: 1
+      verified: 2026-10-19
+      gameVersion: 2.3.540
+    notes: 'Dossier M2, M3, C1, C2. gap = levelReq - level points; level points are getGuildTotalPoints (points + spend from
+      save Guild[0]), which equals totalGp in ActiveOn because the envelope sets stats = Guild. Read-only Goal: members cannot
+      act on it beyond their tasks, so it gives the System a verdict, not a Next Action.'
+  - id: guild.priority.bonus-value
+    system: guild
+    type: priority
+    title: Best-value guild bonus levels
+    text: 'If you lead the guild: next level of {bonus} costs {cost:int} GP for {gain}'
+    why: 'Guild bonuses grow as x1·n/(n+x2): early levels give most per GP, and the level cost rises by a fixed step. This
+      ranks the live bonuses by gain per GP; you hold {points:int} unspent GP.'
+    values:
+      row: '{bonus} Lv {from:int} → {to:int}: {gain} for {cost:int} GP'
+      locked: needs {req} Lv {reqLevel:int}
+    list: order
+    subject: account
+    effect: next-action
+    category: spendable
+    effortSeconds: 60
+    detector:
+      id: guild/bonus-value
+    appliesTo:
+      stages: all
+    confidence: M
+    status: draft
+    sources:
+    - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/guild.ts
+      title: IdleOn Toolbox getGuild (bonuses, tasks, level, members)
+      tier: 1
+      verified: 2026-10-19
+      gameVersion: 2.3.540
+    - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json
+      title: 'Toolbox game data: guildBonuses and guildTasks'
+      tier: 1
+      verified: 2026-10-19
+      gameVersion: 2.3.540
+    notes: 'Dossier M4, M5, C5, C7, C8 (cost and value math H). Confidence M, not H: the ranking unit mixes effects (drop
+      % vs star points vs EXP %), so the page weighs each by Stage (Star Dazzle uses floor(value), Coin Supercharger x world).
+      Excludes Wait A Minute (max 0) and Bonus GP for small guilds (formula disputed, C13, L). Leader detection: rank 0 is
+      unique in the W4 test guild (L); without it, show as information on the Guild page only, never in Now.'
+  merit-tasks:
+  - id: task-board.check.claim
+    system: task-board
+    type: check
+    title: Claim task tiers
+    subject: account
+    effect: next-action
+    category: spendable
+    effortSeconds: 60
+    detector:
+      id: task-board/claimable
+    text: Claim {count:int} task tier{s} ({merits:int} merits, {points:int} task points)
+    values:
+      s: s
+      detail: 'W{world:int}: {task} x{tiers:int}'
+      detail-reset: 'W{world:int}: {task} x{tiers:int}, claim now: progress past the goal is lost'
+    why: Task tiers pay merits and task points only when you tap them on the board.
+    doneWhen:
+      field: account.taskBoard[*].tiersClaimed
+      change: higher
+    appliesTo:
+      stages: all
+    confidence: H
+    status: draft
+    notes: Dossier M1, C1-C3 (H), C4 reset-on-claim (M). Ready = breakpoints[level..] <= stat on an open board.
+    sources:
+    - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/tasks.ts#L40-L65
+      title: 'Toolbox getTasks: tasksDescriptions stat, level, maxLevel, requirement, meritReward'
+      tier: 1
+      verified: '2026-10-19'
+      gameVersion: 2.3.540
+    - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/tasks.json
+      title: 'Toolbox data: tasks.json breakpoints, x (base points), filler2 (reset-on-claim flag)'
+      tier: 1
+      verified: '2026-10-19'
+      gameVersion: 2.3.540
+    - url: https://idleon.wiki/wiki/Tasks
+      title: 'IdleOn Wiki: Tasks (board unlocks, claiming)'
+      tier: 2
+      claimDate: '2026-10-03'
+      verified: '2026-10-19'
+      gameVersion: 2.3.540
+  - id: task-board.goal.open-board
+    system: task-board
+    type: goal
+    title: Open the next task board
+    text: '{text}'
+    why: '{why}'
+    values:
+      w2: Finish Desert Davey's quest to open the W2 task board
+      w3: Finish Iceland Irwin's quest to open the W3 task board
+      w4: Finish Nebula Neddy's quest to open the W4 task board
+      why-open: 'A closed board still counts your progress: {waiting:int} tier{s} are already waiting there.'
+      detail-level: Desert Davey needs a character at level 50 first
+    detector:
+      id: task-board/board-locked
+    appliesTo:
+      stages:
+      - from: W2-early
+        to: W4-entry
+    confidence: M
+    status: draft
+    scope: account
+    category: compounding
+    notes: 'Dossier Unlocks bullet: C9 (N.js, L) and C10 (wiki, M). Quest ids Desert_Davey2, Iceland_Irwin1, Nebula_Neddy1.'
+    sources:
+    - url: https://idleon.wiki/wiki/Tasks
+      title: 'IdleOn Wiki: Tasks (board unlocks, claiming)'
+      tier: 2
+      claimDate: '2026-10-03'
+      verified: '2026-10-19'
+      gameVersion: 2.3.540
+    - url: https://www.legendsofidleon.com/ytGl5oc/N.js
+      title: Game client N.js _event_TASKS @7254340 (board quest checks)
+      tier: 1
+      note: not re-checked by verifiers (L)
+      verified: '2026-10-19'
+      gameVersion: 2.3.540
+  - id: task-board.check.daily (amend)
+    system: task-board
+    change: 'Add W4 to taskBoardDailies (Nebula_Neddy1) and a points slot: values.detail ''W{world:int}: {task} ({points:int}
+      pts)''. Keep confidence H, status active; amendment ships as draft.'
+    sources:
+    - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/tasks.ts#L40-L65
+      title: 'Toolbox getTasks: tasksDescriptions stat, level, maxLevel, requirement, meritReward'
+      tier: 1
+      verified: '2026-10-19'
+      gameVersion: 2.3.540
+    - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/utility/dashboard/account.js#L90-L104
+      title: Toolbox dashboard tasks alert (9th task level 0)
+      tier: 1
+      verified: '2026-10-19'
+      gameVersion: 2.3.540
+    - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/tasks.json
+      title: 'Toolbox data: tasks.json breakpoints, x (base points), filler2 (reset-on-claim flag)'
+      tier: 1
+      verified: '2026-10-19'
+      gameVersion: 2.3.540
+  - id: merit-shop.check.recipe-ready
+    system: merit-shop
+    type: check
+    title: Buy the next boss recipe
+    subject: account
+    effect: next-action
+    category: spendable
+    effortSeconds: 60
+    detector:
+      id: merit-shop/recipe-gate
+    text: 'Spend 2 W{world:int} merits: unlock the {item} recipe'
+    why: You reached the boss task tier this recipe needs, and recipes unlock in a fixed order.
+    doneWhen:
+      field: account.merits[*].unspent
+      change: lower
+    appliesTo:
+      stages: all
+    confidence: M
+    status: draft
+    notes: 'Dossier M5/M6: gate boss task tier >= 2 + row level (C16, C19 M). Optional gear for W2 (PV 7.2: Efaunt only a
+      little better than Amarok); W1 Amarok recipes are in every W1 order (C43 L) so keep this a plain Check, not a priority.'
+    sources:
+    - url: https://www.legendsofidleon.com/ytGl5oc/N.js
+      title: 'Game client N.js purchase handler @7263400-7265800 and _customEvent_TaskShopPurchase @7441806 (recipe gate:
+        boss task tier >= 2 + level; SkillLevelsMAX caps)'
+      tier: 1
+      note: 'Offsets not re-checked by the dossier verifiers: capped at M'
+      verified: '2026-10-19'
+      gameVersion: 2.3.540
+    - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json
+      title: 'Toolbox data: shared-data.json key merits (meritCost, totalLevels, extraStr)'
+      tier: 1
+      verified: '2026-10-19'
+      gameVersion: 2.3.540
+    - url: https://idleon.wiki/wiki/Tasks/Blunder_Hills
+      title: 'IdleOn Wiki: Tasks/Blunder Hills, Merit Shop tab'
+      tier: 2
+      claimDate: '2026-10-15'
+      verified: '2026-10-19'
+      gameVersion: 2.3.540
+  - id: merit-shop.check.star-cap
+    system: merit-shop
+    type: check
+    title: Use the star talent you raised
+    subject: account
+    effect: next-action
+    category: spendable
+    effortSeconds: 60
+    detector:
+      id: merit-shop/star-cap
+    text: '{talent} can go to level {cap:int}, but no character has a point in it'
+    why: The merit only raises the max level; each character still spends star talent points on it.
+    doneWhen:
+      field: account.starTalentCaps[*].highestSpent
+      change: higher
+    appliesTo:
+      stages: all
+    confidence: M
+    status: draft
+    notes: Dossier M6 rows 3 and Common mistakes; C18 (M). Talent ids 627/630/634/651 must be confirmed (parsed maxLevel -1).
+    sources:
+    - url: https://www.legendsofidleon.com/ytGl5oc/N.js
+      title: 'Game client N.js purchase handler @7263400-7265800 and _customEvent_TaskShopPurchase @7441806 (recipe gate:
+        boss task tier >= 2 + level; SkillLevelsMAX caps)'
+      tier: 1
+      note: 'Offsets not re-checked by the dossier verifiers: capped at M'
+      verified: '2026-10-19'
+      gameVersion: 2.3.540
+    - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json
+      title: 'Toolbox data: shared-data.json key merits (meritCost, totalLevels, extraStr)'
+      tier: 1
+      verified: '2026-10-19'
+      gameVersion: 2.3.540
+  - id: merit-shop.check.spend-w2-efaunt-recipes (amend)
+    system: merit-shop
+    change: Gate the w2-smithing-recipes2 order item on recipeGate.nextBuyable so the order never names a row the game refuses
+      (boss tier < 2 + level). Applies to the order used by every W2 entry.
+    sources:
+    - url: https://www.legendsofidleon.com/ytGl5oc/N.js
+      title: 'Game client N.js purchase handler @7263400-7265800 and _customEvent_TaskShopPurchase @7441806 (recipe gate:
+        boss task tier >= 2 + level; SkillLevelsMAX caps)'
+      tier: 1
+      note: 'Offsets not re-checked by the dossier verifiers: capped at M'
+      verified: '2026-10-19'
+      gameVersion: 2.3.540
+  - id: task-unlocks.goal.next-column
+    system: task-unlocks
+    type: goal
+    title: Open the next Unlocks column
+    text: '{text}'
+    why: '{why}'
+    values:
+      column: Buy {left:int} more unlocks to open column {col:int}
+      detail-anvil: and unlock anvil tab {col:int}
+      why-column: Each Unlocks column opens only after enough unlocks are bought and its anvil tab is owned.
+    detector:
+      id: task-unlocks/next-column
+    appliesTo:
+      stages: all
+    confidence: M
+    status: draft
+    scope: account
+    category: compounding
+    unit: unlocks
+    progress:
+      id: task-unlocks/next-column
+    notes: 'Dossier M4: thresholds 7/22/60/90/106/119 (C15 N.js L, C41 wiki M). Show both thresholds and the anvil tab; if
+      the in-game review disagrees, drop the anvil-tab half.'
+    sources:
+    - url: https://idleon.wiki/wiki/Tasks/Unlocks
+      title: 'IdleOn Wiki: Tasks/Unlocks (column gating)'
+      tier: 2
+      claimDate: '2026-10-07'
+      verified: '2026-10-19'
+      gameVersion: 2.3.540
+    - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/tasks.ts#L77-L140
+      title: 'Toolbox getTasks: taskUnlocksList, unlockedRecipes, unlockPointsOwned, pointsReq (UnlockPtsFORMULA)'
+      tier: 1
+      verified: '2026-10-19'
+      gameVersion: 2.3.540
+  - id: task-unlocks.check.spend (amend)
+    system: task-unlocks
+    change: openUnbought from the game's column gate instead of currentWorld columns; text unchanged; add detail 'next point
+      at {pointsReq:int} task points ({left:int} to go)'.
+    sources:
+    - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/tasks.ts#L77-L140
+      title: 'Toolbox getTasks: taskUnlocksList, unlockedRecipes, unlockPointsOwned, pointsReq (UnlockPtsFORMULA)'
+      tier: 1
+      verified: '2026-10-19'
+      gameVersion: 2.3.540
+    - url: https://idleon.wiki/wiki/Tasks/Unlocks
+      title: 'IdleOn Wiki: Tasks/Unlocks (column gating)'
+      tier: 2
+      claimDate: '2026-10-07'
+      verified: '2026-10-19'
+      gameVersion: 2.3.540
+  pets:
+  - id: pets.check.spend-token
+    system: pets
+    type: check
+    title: Spend your Pet Bonus Token
+    subject: account
+    effect: next-action
+    category: spendable
+    priority:
+      frame: by-urgency
+    effortSeconds: 60
+    detector:
+      id: pets/token-unspent
+    text: Spend your Pet Bonus Token on {pet}
+    why: A token gives a pet you don't own its full base bonus; {remaining:int} of your tokens are doing nothing.
+    doneWhen:
+      field: account.pets.tokens.remaining
+      change: lower
+    appliesTo:
+      stages: all
+    confidence: H
+    status: draft
+    notes: Token count and base-bonus-only rule are Toolbox code (H). The pick uses the dossier rating (M) and skips King
+      Doot before Divinity 2 (H). Tokens are spent from the Trade popup (prior research, L), so the text names no screen.
+    sources:
+    - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/misc.ts#L1411-L1436
+      title: 'Toolbox getCompanions: tokensOwned from OLA[605]/[615], list OLA[606]'
+      tier: 1
+      verified: '2026-10-19'
+      gameVersion: 2.3.540
+    - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/misc.ts#L1453-L1456
+      title: 'Toolbox: a token pet gets the base bonus only'
+      tier: 1
+      verified: '2026-10-19'
+      gameVersion: 2.3.540
+    - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-5/divinity.ts#L385-L392
+      title: 'Toolbox: King Doot reads 0 below Divinity level 2'
+      tier: 1
+      verified: '2026-10-19'
+      gameVersion: 2.3.540
+  - id: pets.check.token-wiped
+    system: pets
+    type: check
+    title: Your token pets are not active
+    subject: account
+    effect: next-action
+    category: spendable
+    priority:
+      frame: by-urgency
+    effortSeconds: 60
+    detector:
+      id: pets/token-wiped
+    text: Re-pick your Pet Bonus Token pets
+    why: Your token list names more pets than you have tokens, and since 2.3.540 the game clears such a list, so none of them
+      give a bonus.
+    doneWhen:
+      field: account.pets.tokens.rawListLength
+      change: lower
+    appliesTo:
+      stages: all
+    confidence: H
+    status: draft
+    notes: 'Rule: split('','').length of OLA[606] > 0.5 + tokensOwned (game Every5secs, quoted in Toolbox). Needs the new
+      rawListLength field because Toolbox discards a wiped list.'
+    sources:
+    - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/misc.ts#L1424-L1432
+      title: 'Toolbox: 2.3.540 wipe of an over-long OLA[606]'
+      tier: 1
+      verified: '2026-10-19'
+      gameVersion: 2.3.540
+  - id: pets.check.token-dead
+    system: pets
+    type: check
+    title: Your token is on King Doot
+    subject: account
+    effect: next-action
+    category: nice
+    priority:
+      frame: by-urgency
+    effortSeconds: 60
+    detector:
+      id: pets/token-dead
+    text: Move your Pet Bonus Token off King Doot
+    why: King Doot does nothing until a character has Divinity level 2 (World 5), so this token gives you no bonus yet.
+    doneWhen:
+      field: account.pets.tokens.used
+      change: changed
+    appliesTo:
+      stages:
+      - from: W1-early
+        to: W4-late
+    confidence: M
+    status: draft
+    notes: Gate is H in code (active character's Lv0[14] < 2); M because Toolbox reads the active character, and whether a
+      token can be moved freely is prior research (L). Community token players favoured King Doot (Reddit 1uc0az9, 2026-06-21,
+      pre-patch).
+    sources:
+    - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-5/divinity.ts#L385-L392
+      title: 'Toolbox: King Doot gated on Divinity level 2'
+      tier: 1
+      verified: '2026-10-19'
+      gameVersion: 2.3.540
+    - url: https://www.reddit.com/r/idleon/
+      title: 'r/idleon thread 1uc0az9: King Doot as a token pick'
+      tier: 4
+      verified: '2026-10-19'
+      gameVersion: 2.3.540
+      claimDate: '2026-06-21'
+  - id: pets.priority.spend-plan
+    system: pets
+    type: priority
+    title: Pet Spend Plan
+    text: Buy these pets with Pet Crystals, in this order
+    why: Every pet's bonus is permanent and account-wide; these give the most for their price at your Stage.
+    values:
+      row-1: '4'
+      from-1: W2-early
+      row-2: '20'
+      row-3: '18'
+      row-4: '3'
+      row-5: '2'
+      row-6: '14'
+      row-7: '1'
+      row-8: '12'
+      row-9: 15|17
+      from-9: W3-early
+      row-10: 35|157
+      from-10: W3-early
+      row-11: 162|16
+      from-11: W4-early
+      rows: 11
+    notes: 'Dossier Spend Plan (M): Sheepie -> Flying Worm -> Gigafrog -> Crystal Custard -> Dedotated Ram -> Rift Jocund
+      -> Rift Slug -> Ancient Golem, then Leek Spirit / Biggole Mole, Panda / Mechanical Mouse once W3 systems run, Wickerlight
+      Spirit / Crystal Capybara in W4. Values from Toolbox formulas (H); order and prices are wiki-based (L, Stale-risk) but
+      the detector reads today''s server price. No community order exists (C61).'
+    sources:
+    - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/talents.ts#L367
+      title: 'Toolbox: Rift Slug +25 talent levels'
+      tier: 1
+      verified: '2026-10-19'
+      gameVersion: 2.3.540
+    - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/talents.ts#L599
+      title: 'Toolbox: Flying Worm +30 talent points'
+      tier: 1
+      verified: '2026-10-19'
+      gameVersion: 2.3.540
+    - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/misc.ts#L1162-L1175
+      title: 'Toolbox: Gigafrog carry, Dedotated Ram'
+      tier: 1
+      verified: '2026-10-19'
+      gameVersion: 2.3.540
+    - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-2/alchemy.ts#L381-L386
+      title: 'Toolbox: Sheepie all big bubbles'
+      tier: 1
+      verified: '2026-10-19'
+      gameVersion: 2.3.540
+    - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/damage.ts#L511-L517
+      title: 'Toolbox: Ancient Golem damage'
+      tier: 1
+      verified: '2026-10-19'
+      gameVersion: 2.3.540
+    - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/damage.ts#L1567-L1574
+      title: 'Toolbox: Rift Jocund portal kills'
+      tier: 1
+      verified: '2026-10-19'
+      gameVersion: 2.3.540
+    - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/character.ts#L2115-L2128
+      title: 'Toolbox: Crystal Custard class EXP'
+      tier: 1
+      verified: '2026-10-19'
+      gameVersion: 2.3.540
+    - url: https://idleon.wiki/wiki/Pets
+      title: 'IdleOn Wiki: Pets'
+      tier: 3
+      verified: '2026-10-19'
+      gameVersion: 2.3.540
+      claimDate: '2026-10-19'
+    appliesTo:
+      stages: all
+    confidence: M
+    status: draft
+    list: order
+    tiers:
+    - - pets.goal.mart-target
+  - id: pets.goal.mart-target
+    system: pets
+    type: goal
+    title: Buy today's Spend Plan pet
+    subject: account
+    effect: next-action
+    category: spendable
+    priority:
+      frame: by-urgency
+    effortSeconds: 30
+    detector:
+      id: pets/mart-target
+    text: Buy {pet} in the Pet Mart for {price:int} crystals
+    why: It's next on your Spend Plan, it's on offer today ({discount:int}% off) and you hold {crystals:int} crystals; the
+      offer rotates at the daily reset.
+    doneWhen:
+      field: account.pets.list
+      change: higher
+    appliesTo:
+      stages: all
+    confidence: M
+    status: draft
+    notes: 'Fires only when affordable; otherwise the Pet Mart tab shows progress. Offers and prices are the server''s _TOURNAMENT
+      I/B/A (Toolbox, M: 5 a day per wiki).'
+    sources:
+    - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-7/tournament.ts#L116-L148
+      title: 'Toolbox getTournament: petMart offers and petCrystals'
+      tier: 1
+      verified: '2026-10-19'
+      gameVersion: 2.3.540
+    - url: https://idleon.wiki/wiki/Pet_Mart
+      title: 'IdleOn Wiki: Pet Mart'
+      tier: 3
+      verified: '2026-10-19'
+      gameVersion: 2.3.540
+      claimDate: '2026-10-19'
+  - id: pets.check.recycle-duplicate
+    system: pets
+    type: check
+    title: Recycle spare pet copies
+    subject: account
+    effect: next-action
+    category: nice
+    priority:
+      frame: by-urgency
+    effortSeconds: 60
+    detector:
+      id: pets/recycle-duplicate
+    text: Recycle {copies:int} spare {pet} for {crystals:int} Pet Crystals
+    why: A pet's bonus needs only one copy; spare tradable copies turn into crystals for your Spend Plan. Keep at least one
+      copy, and keep your Pet+ copy.
+    doneWhen:
+      field: account.pets.crystals
+      change: higher
+    appliesTo:
+      stages: all
+    confidence: M
+    status: draft
+    notes: 'Bonus is binary on owned (H, misc.ts#L1500); recycle value = filler (H); only tradable copies recycle (M); ''only
+      one copy counts in battle'' and ''last copy removes the bonus'' are wiki (L). Free-pull pets recycle for 0 (wiki, L):
+      the detector requires filler > 0 and tradable, which should exclude them.'
+    sources:
+    - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/misc.ts#L1385-L1395
+      title: 'Toolbox getCompanions: per-copy tradable flag'
+      tier: 1
+      verified: '2026-10-19'
+      gameVersion: 2.3.540
+    - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/misc.ts#L1500
+      title: Toolbox isCompanionBonusActive = acquired
+      tier: 1
+      verified: '2026-10-19'
+      gameVersion: 2.3.540
+    - url: https://idleon.wiki/wiki/Pets
+      title: 'IdleOn Wiki: Pets'
+      tier: 3
+      verified: '2026-10-19'
+      gameVersion: 2.3.540
+      claimDate: '2026-10-19'
+  - id: pets.check.friend-slot-empty
+    system: pets
+    type: check
+    title: Fill your Friend Bonus slots
+    subject: account
+    effect: next-action
+    category: nice
+    priority:
+      frame: by-urgency
+    effortSeconds: 120
+    detector:
+      id: pets/friend-slot-empty
+    text: Fill {empty:int} empty Friend Bonus slot(s)
+    why: Each slot gives a stat bonus (Damage, Class EXP, Drop Rate, Coins and more) that grows with your friend's level;
+      an empty slot gives nothing.
+    doneWhen:
+      field: account.pets.friendBonus.entries
+      change: higher
+    appliesTo:
+      stages: all
+    confidence: M
+    status: draft
+    notes: Slot count, per-stat bases and scaling are Toolbox code (H, misc.ts#L132-L225). M because no wiki or community
+      source on how friends are added was reachable (dossier open question 9), so the text names no screen; never quote friend
+      names.
+    sources:
+    - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/misc.ts#L132-L190
+      title: 'Toolbox getFriendBonusStats: slots, multiplier, OLA[476] list'
+      tier: 1
+      verified: '2026-10-19'
+      gameVersion: 2.3.540
+    - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/misc.ts#L198-L225
+      title: 'Toolbox getFriendBonusQuantity: base x level scaling'
+      tier: 1
+      verified: '2026-10-19'
+      gameVersion: 2.3.540
+  - id: pets.fact.catalogue
+    system: pets
+    type: fact
+    title: Pet catalogue
+    text: Every pet's effect, Pet+ effect, power, Pet+ cost and recycle value
+    why: Generated from Toolbox's companions.json at the pin.
+    notes: Generated by pets.gen.ts (new). Effect strings are the player-facing text (C45).
+    sources:
+    - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/companions.json
+      title: Toolbox companions.json (game data)
+      tier: 1
+      verified: '2026-10-19'
+      gameVersion: 2.3.540
+    appliesTo:
+      stages: all
+    confidence: H
+    status: draft

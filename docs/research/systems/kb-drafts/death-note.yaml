@@ -1,0 +1,314 @@
+# SPDX-License-Identifier: GPL-3.0-only
+# M26 KB drafts for System `death-note` (W3 synthesis, 2026-10-19). Every entry is status: draft.
+# Copied from scratchpad/m26/maps/*.json; dossiers in scratchpad/m26/dossiers/. Not yet validated
+# against the knowledge schema (the schema has no draft status: flip to active at merge).
+system: death-note
+entries:
+- id: death-note.check.cheap-point
+  system: death-note
+  type: check
+  title: Take the cheapest Death Note point
+  subject: account
+  effect: next-action
+  category: compounding
+  priority:
+    frame: by-urgency
+  effortSeconds: 30
+  detector:
+    id: death-note/cheap-point
+  text: '{monster:name} is {left:int} kills from its next Death Note point ({rank}): move a fighter there'
+  why: Rank points get dearer as a monster climbs (25k kills for the first, 4M for the step from 1M to 5M), so the
+    lowest monsters of a world are always the cheapest points, and each point adds multikill per damage tier in
+    that world.
+  doneWhen:
+    field: account.deathNotePages
+    change: higher
+  appliesTo:
+    stages:
+    - from: W3-early
+      to: W4-entry
+  confidence: M
+  status: draft
+  notes: 'Dossier Min-max line 1 (derived from tier-1 thresholds, no community priority list retrievable: M). Fires
+    only with the building at Lv >= 1 (else ranks bank: death-note.check.build owns that), only for monsters on
+    maps the account reaches, only when no character fights it, and only when left <= 20% of the step. W3-early
+    start: before the building the ranks pay nothing. M26 W3 synth (from maps/death-note.json).'
+  sources:
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-3/deathNote.ts
+    title: IdleOn Toolbox parsers/world-3/deathNote.ts (DEATH_NOTE_RANKS, getDeathNote)
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/damage.ts#L1503-L1760
+    title: 'IdleOn Toolbox damage.ts: getKillPerKill, overkill gate, multikill'
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  - url: https://idleon.wiki/wiki/Death_Note
+    title: 'IdleOn Wiki: Death Note (skull names and thresholds)'
+    tier: 2
+    claimDate: 2025-11-14
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+    note: pre-patch revision; thresholds match the 2.3.540 code
+  - url: scratchpad/m26/dossiers/death-note.md
+    title: M26 Death Note dossier (verified 2026-10-19)
+    tier: 4
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+    note: replace with the committed docs/research path when the dossier lands
+- id: death-note.check.overkill
+  system: death-note
+  type: check
+  title: This fighter earns no multikill here
+  subject: character
+  effect: next-action
+  category: compounding
+  priority:
+    frame: by-urgency
+  effortSeconds: 30
+  detector:
+    id: death-note/overkill
+  text: '{who} doesn''t overkill {monster:name} ({reason}), so multikill gives no extra kills there'
+  why: Multikill only fires while a character's max damage is at least 2x the monster's HP and its accuracy beats
+    1.5x the monster's Defence; below that, Death Note ranks add nothing to this fight.
+  appliesTo:
+    stages:
+    - from: W3-early
+      to: W4-entry
+  confidence: M
+  status: draft
+  notes: 'Mechanic H (damage.ts L1511, overkill = maxDamage >= 2 x HP AND towersTwo > 0.5 AND accuracy > 1.5 x Def).
+    Advice M: some fights are worth it without overkill (EXP, cards, quests), so this is a hint, never a Verdict.
+    reason slot: ''damage under 2x HP'' | ''accuracy under 1.5x Defence''. Silent while the building is Lv 0. M26
+    W3 synth (from maps/death-note.json).'
+  sources:
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/damage.ts#L1503-L1760
+    title: 'IdleOn Toolbox damage.ts: getKillPerKill, overkill gate, multikill'
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  - url: https://idleon.wiki/wiki/Multikill
+    title: 'IdleOn Wiki: Multikill'
+    tier: 2
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  - url: scratchpad/m26/dossiers/death-note.md
+    title: M26 Death Note dossier (verified 2026-10-19)
+    tier: 4
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+    note: replace with the committed docs/research path when the dossier lands
+- id: death-note.goal.world-points
+  system: death-note
+  type: goal
+  title: Death Note points in this world
+  text: 'World {world:int} Death Note: {value:int} of {max:int} points'
+  why: Each point is +1 multikill per damage tier for fights in that world only; W1 points do not help a W3 fight.
+  scope: account
+  category: compounding
+  unit: points
+  progress:
+    id: death-note/world-points
+  milestones:
+  - at: 10
+    reward: 10 points
+  - at: 25
+    reward: 25 points
+  - at: 50
+    reward: 50 points
+  appliesTo:
+    stages:
+    - from: W3-early
+      to: W4-entry
+  confidence: H
+  status: draft
+  notes: Dossier M2, M3, C11, C15. Page maxima W1 150, W2 110, W3 140, W4 130 (no Eclipse). The world shown is the
+    world of the account's current map; milestones are display ticks, not game rewards. M26 W3 synth (from maps/death-note.json).
+  sources:
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-3/deathNote.ts
+    title: IdleOn Toolbox parsers/world-3/deathNote.ts (DEATH_NOTE_RANKS, getDeathNote)
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/damage.ts#L1503-L1760
+    title: 'IdleOn Toolbox damage.ts: getKillPerKill, overkill gate, multikill'
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+- id: death-note.goal.blunder-skull
+  system: death-note
+  type: goal
+  title: Blunder Skull achievement
+  text: Copper skull on {value:int} of 15 Blunder Hills monsters
+  why: The Blunder Skull achievement needs 25,000 kills on every World 1 Death Note monster; the same kills are
+    World 1 Death Note points.
+  scope: account
+  category: nice
+  unit: monsters
+  progress:
+    id: death-note/skull-achievement
+    params:
+      world: 1
+      kills: 25000
+      achievement: 147
+  milestones:
+  - at: 15
+    reward: Blunder Skull (RNG item unlock)
+  appliesTo:
+    stages:
+    - from: W1-late
+      to: W4-entry
+  confidence: M
+  status: draft
+  notes: 'Dossier M14, C23 (achievement text, tier 1) + C24 (Copper = 25k, wiki: M). Done when achievements[147].completed.
+    Hidden once complete. M26 W3 synth (from maps/death-note.json).'
+  sources:
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/achievements.json
+    title: 'Game data: achievements 147 Blunder Skull, 158 Saharan Skull'
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  - url: https://idleon.wiki/wiki/Death_Note
+    title: 'IdleOn Wiki: Death Note (skull names and thresholds)'
+    tier: 2
+    claimDate: 2025-11-14
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+    note: pre-patch revision; thresholds match the 2.3.540 code
+- id: death-note.goal.saharan-skull
+  system: death-note
+  type: goal
+  title: Saharan Skull achievement
+  text: Golden skull on {value:int} of 11 YumYum Desert monsters
+  why: The Saharan Skull achievement (+1% Printer sample rate) needs 250,000 kills on every World 2 Death Note monster.
+  scope: account
+  category: nice
+  unit: monsters
+  progress:
+    id: death-note/skull-achievement
+    params:
+      world: 2
+      kills: 250000
+      achievement: 158
+  milestones:
+  - at: 11
+    reward: Saharan Skull (+1% Printer sample rate)
+  appliesTo:
+    stages:
+    - from: W3-early
+      to: W4-entry
+  confidence: M
+  status: draft
+  notes: 'Dossier M14, C23 + C24 (Golden = Gold = 250k is wiki naming: M). Blurple Skull (Dementia on all W3) left
+    out: which threshold Dementia means is unconfirmed (open question 3, L). M26 W3 synth (from maps/death-note.json).'
+  sources:
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/achievements.json
+    title: 'Game data: achievements 147 Blunder Skull, 158 Saharan Skull'
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  - url: https://idleon.wiki/wiki/Death_Note
+    title: 'IdleOn Wiki: Death Note (skull names and thresholds)'
+    tier: 2
+    claimDate: 2025-11-14
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+    note: pre-patch revision; thresholds match the 2.3.540 code
+- id: death-note.goal.nebulyte
+  system: death-note
+  type: goal
+  title: 1M kills on every W1-W3 monster
+  text: '{value:int} of 40 World 1-3 Death Note monsters at 1M kills'
+  why: Nebulyte's 'Species Slayer' quest asks for 1,000,000 Death Note kills on all 40 World 1-3 monsters, then
+    a visit to the Death Note; the same kills are rank 5 on each.
+  scope: account
+  category: compounding
+  unit: monsters
+  progress:
+    id: death-note/kills-at-least
+    params:
+      worlds:
+      - 1
+      - 2
+      - 3
+      kills: 1000000
+  milestones:
+  - at: 15
+    reward: World 1 done
+  - at: 26
+    reward: Worlds 1-2 done
+  - at: 40
+    reward: Nebulyte step 1
+  appliesTo:
+    stages:
+    - from: W3-late
+      to: W4-entry
+  confidence: H
+  status: draft
+  notes: Dossier M14, C27, C33 (quests.json, tier 1). Long horizon; shown on the Death Note page, not pushed to
+    Now. Milestone 15/26 assume the worlds are filled in order (display only). M26 W3 synth (from maps/death-note.json).
+  sources:
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/quests.json
+    title: 'Game data: Nebulyte quest step 1 (Deathnote 1M Kills, Visit Deathnote)'
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-3/deathNote.ts
+    title: IdleOn Toolbox parsers/world-3/deathNote.ts (DEATH_NOTE_RANKS, getDeathNote)
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+- id: death-note.goal.building-level
+  system: death-note
+  type: goal
+  title: Death Note building level
+  text: 'Death Note Lv {value:int} of 51: +{bonus:int} base multikill in every world'
+  why: Each Death Note level adds +2 base multikill in all worlds, independent of kills.
+  scope: account
+  category: compounding
+  unit: levels
+  progress:
+    id: death-note/building-level
+  milestones:
+  - at: 1
+    reward: multikill on
+  - at: 10
+    reward: +20 base multikill
+  - at: 25
+    reward: +50 base multikill
+  - at: 51
+    reward: +102 base multikill
+  appliesTo:
+    stages:
+    - from: W3-early
+      to: W4-entry
+  confidence: H
+  status: draft
+  notes: 'Dossier M5, C9, C13 (2 x towersTwo, damage.ts L1620-1640). Per-level item cost after Lv 1 is unknown (open
+    question 1): never quote a cost past Lv 1. Lv 0 -> 1 stays with death-note.check.build / build-slot. M26 W3
+    synth (from maps/death-note.json).'
+  sources:
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-3/construction.ts#L389
+    title: 'Toolbox getTowers: Death_Note level, max level 51'
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/damage.ts#L1503-L1760
+    title: 'IdleOn Toolbox damage.ts: getKillPerKill, overkill gate, multikill'
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  - url: https://idleon.wiki/wiki/Construction
+    title: 'IdleOn Wiki: Construction (Death Note: +2 base multikill per level)'
+    tier: 2
+    claimDate: 2026-10-07
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+- id: death-note.contribution.skull
+  why: Each Death Note rank adds +1 multikill per damage tier for fights in World {world:int} once the Death Note
+    building has a level; until then the kills are banked.
+  status: draft
+  notes: 'Change only: add {world} slot (from the generated goal''s values.world); C15 (only the fought world''s
+    page counts) H. M26 W3 synth (from maps/death-note.json).'
+  system: death-note

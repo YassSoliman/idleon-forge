@@ -1,0 +1,323 @@
+# SPDX-License-Identifier: GPL-3.0-only
+# M26 W4 synthesis: KB drafts copied from scratchpad/m26/maps/rift.json (entries). status: draft.
+# Target file: packages/knowledge/systems/rift.yaml (new; header '# SPDX-License-Identifier: GPL-3.0-only', 'system: rift', 'entries:')
+system: rift
+entries:
+- id: rift.check.unlock-quest
+  system: rift
+  type: check
+  title: Open The Rift
+  subject: account
+  effect: next-action
+  category: compounding
+  priority:
+    frame: by-urgency
+  effortSeconds: 120
+  detector:
+    id: rift/unlock-quest
+  text: "Finish the Rift Ripper's quest 'Entering The Rift...' in World 4: {missing}"
+  why: The Rift is a ladder of challenge levels; every 5th level unlocks a permanent account bonus (displayed Rift 6 Trap Box Vacuum, Rift 11 Infinite Stars, Rift 16 Skill Mastery; numbers from riftLabel()). Nothing in it counts until the quest
+    is done.
+  doneWhen:
+    field: account.rift.unlocked
+    change: higher
+  appliesTo:
+    stages:
+    - from: W4-entry
+      to: W4-entry
+  confidence: H
+  status: draft
+  notes: "Dossier C2 (tier 1 quests.json). Fires once the account is in World 4 and no character has Rift_Ripper1 done. {missing} lists the items short, e.g. '410 more Purple Mush Cap'; when all are held\
+    \ it reads 'you hold the items, hand them in'. The quest consumes the items."
+  sources:
+  - url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/quests.json"
+    title: "IdleOn Toolbox game data: quests Rift_Ripper1 'Entering The Rift...' (5 Lost Batteries, 878 Purple Mush Cap, 592 Wurm Tail)"
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  - url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-4/rift.ts#L8-L27"
+    title: "IdleOn Toolbox parsers/world-4/rift.ts: getRift, isRiftBonusUnlocked"
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  - url: "https://idleon.wiki/wiki/Rift"
+    title: "IdleOn Wiki: Rift (1-based level labels: wiki Lv N = Rift[0] N-1)"
+    tier: 2
+    claimDate: 2026-10-07
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  - url: scratchpad/m26/dossiers/rift.md
+    title: M26 Rift dossier (verified 2026-10-19)
+    tier: 4
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+    note: replace with the committed docs/research path when the dossier lands
+- id: rift.goal.next-bonus
+  system: rift
+  type: goal
+  title: Reach the next Rift bonus
+  detector:
+    id: rift/next-bonus
+  text: "Rift level {level:int} → {at:int}: {bonus}"
+  why: "Every 5th Rift level unlocks a permanent account-wide bonus; {left:int} more levels to go."
+  values:
+    bonus-5: "Trap Box Vacuum: the World 3 trapper drone collects traps every 24 h"
+    bonus-10: "Infinite Stars: your first 5 Star Signs count as worn by everyone"
+    bonus-15: "Skill Mastery: account-wide skill totals of 150 / 200 / 300 / 400 / 500 / 750 / 1000 unlock bonuses"
+    bonus-20: "Eclipse Skulls: Death Note rank 20 past 1B kills"
+    bonus-25: "Stamp Mastery: a daily chance at a Gilded Stamp (1% per 100 stamp levels)"
+    bonus-30: Eldritch Artifact (Sailing, World 5)
+    bonus-35: "Vial Mastery: each Lv 13 vial boosts every vial"
+    bonus-40: "Construct Mastery: total building levels give Refinery speed, damage, build speed, max levels"
+    bonus-45: "Ruby Cards: cards can reach Lv 6"
+    bonus-50: "Killroy Prime: damage from your Killroy best kills"
+    bonus-55: Sneak Mastery (World 6)
+    bonus-60: Cooking Mastery (needs 11 characters for levels 59 and 63 first)
+  appliesTo:
+    stages:
+    - from: W4-entry
+      to: W4-entry
+  confidence: H
+  status: draft
+  notes: "Dossier C6, C7, C12. Unlock predicate Rift[0] >= 5*(b+1) (Toolbox isRiftBonusUnlocked: riftInfo index <= currentRift). Store Rift[0]; label as 'Rift level N' with N = Rift[0] (do not mix in the\
+    \ wiki's 1-based labels, C35). Cap 65. Milestone values are short labels only; the effect text cites riftInfo[*].riftDescription."
+  sources:
+  - url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-4/rift.ts#L8-L27"
+    title: "IdleOn Toolbox parsers/world-4/rift.ts: getRift, isRiftBonusUnlocked"
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  - url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json"
+    title: "IdleOn Toolbox game data: riftInfo (70 entries; task text, riftBonus at indices 5..60)"
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  - url: "https://idleon.wiki/wiki/Rift"
+    title: "IdleOn Wiki: Rift (1-based level labels: wiki Lv N = Rift[0] N-1)"
+    tier: 2
+    claimDate: 2026-10-07
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  - url: scratchpad/m26/dossiers/rift.md
+    title: M26 Rift dossier (verified 2026-10-19)
+    tier: 4
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+    note: replace with the committed docs/research path when the dossier lands
+- id: rift.check.class-gate
+  system: rift
+  type: check
+  title: This Rift level needs an elite class
+  subject: account
+  effect: next-action
+  category: unblock
+  priority:
+    frame: by-urgency
+  effortSeconds: 60
+  detector:
+    id: rift/class-gate
+  text: "Rift level {level:int} is a {score} score on a {class:name}, and nobody on the account is one"
+  why: Score tasks (Orb, Pirate Flag, Wormhole) can only be done by that elite class, so the Rift stops here until one of your characters takes it.
+  appliesTo:
+    stages:
+    - from: W4-entry
+      to: W4-entry
+  confidence: H
+  status: draft
+  notes: "Dossier C9/C11/C33: Divine Knight at Rift[0] 7, 17, 28, 42 (Orb 180); Elemental Sorcerer at 8, 26, 43 (Wormhole 60); Siege Breaker at 15, 21, 35, 64 (Pirate Flag 75). Gate list is tier 1 (riftInfo\
+    \ task text). Links to metapath.goal.elite. Silent when a character of that class exists (then rift.check.active-task covers it)."
+  sources:
+  - url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json"
+    title: "IdleOn Toolbox game data: riftInfo (70 entries; task text, riftBonus at indices 5..60)"
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  - url: "https://idleon.wiki/wiki/Rift"
+    title: "IdleOn Wiki: Rift (1-based level labels: wiki Lv N = Rift[0] N-1)"
+    tier: 2
+    claimDate: 2026-10-07
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  - url: scratchpad/m26/dossiers/rift.md
+    title: M26 Rift dossier (verified 2026-10-19)
+    tier: 4
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+    note: replace with the committed docs/research path when the dossier lands
+- id: rift.check.afk-task
+  system: rift
+  type: check
+  title: Put a fighter on The Rift
+  subject: account
+  effect: next-action
+  category: idle
+  priority:
+    frame: by-urgency
+  effortSeconds: 30
+  detector:
+    id: rift/task-kind
+    params:
+      kind: afk
+  text: "Rift level {level:int} wants {quota:int} AFK kills ({progress:int} so far): AFK a fighter on The Rift"
+  why: AFK-kill levels only fill while a character is AFK on The Rift's mob; nobody is on it now.
+  doneWhen:
+    field: account.rift.progress
+    change: higher
+  appliesTo:
+    stages:
+    - from: W4-entry
+      to: W4-entry
+  confidence: M
+  status: draft
+  notes: "Dossier per-session actions + C9 (task ids/quotas from N.js RiftStuff, conf M; task text in riftInfo is tier 1 and states the quota). Fires when the current task is 200k / 1M / 5M AFK kills and\
+    \ no character's AFK target is riftAll. No 'which fighter' pick here: the AFK module's survivability check decides that (respawn base 45 s, C14). Community 'best AFK class' advice is tier 4 undated\
+    \ (L) and not used."
+  sources:
+  - url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json"
+    title: "IdleOn Toolbox game data: riftInfo (70 entries; task text, riftBonus at indices 5..60)"
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  - url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/character.ts#L1780-L1850"
+    title: "IdleOn Toolbox character.ts: riftAll AFK target, 45 s base respawn"
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  - url: "https://idleon.wiki/wiki/Rift"
+    title: "IdleOn Wiki: Rift (1-based level labels: wiki Lv N = Rift[0] N-1)"
+    tier: 2
+    claimDate: 2026-10-07
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  - url: scratchpad/m26/dossiers/rift.md
+    title: M26 Rift dossier (verified 2026-10-19)
+    tier: 4
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+    note: replace with the committed docs/research path when the dossier lands
+- id: rift.check.active-task
+  system: rift
+  type: check
+  title: This Rift level is played, not AFKed
+  subject: account
+  effect: next-action
+  category: active
+  priority:
+    frame: by-urgency
+  effortSeconds: 600
+  detector:
+    id: rift/task-kind
+    params:
+      kind: active
+  text: "Rift level {level:int}: {task}. Play it actively{withClass}"
+  why: Timed, score and multi-character tasks only progress while you play them; characters left AFK on The Rift add nothing here.
+  appliesTo:
+    stages:
+    - from: W4-entry
+      to: W4-entry
+  confidence: M
+  status: draft
+  notes: "Dossier per-session actions, C9, C10 (score tasks keep the best score, 'total' mode). {task} is the riftInfo task text, shortened by the generator ('Defeat 500 monsters within 5 min'). {withClass}\
+    \ = ' on your Divine Knight' etc. When characters are AFK on riftAll during an active task the text adds 'and move {n} AFK characters elsewhere'. Silent on a class-gated level with no such class (rift.check.class-gate\
+    \ owns it)."
+  sources:
+  - url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json"
+    title: "IdleOn Toolbox game data: riftInfo (70 entries; task text, riftBonus at indices 5..60)"
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  - url: "https://idleon.wiki/wiki/Rift"
+    title: "IdleOn Wiki: Rift (1-based level labels: wiki Lv N = Rift[0] N-1)"
+    tier: 2
+    claimDate: 2026-10-07
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  - url: scratchpad/m26/dossiers/rift.md
+    title: M26 Rift dossier (verified 2026-10-19)
+    tier: 4
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+    note: replace with the committed docs/research path when the dossier lands
+- id: rift.check.quota-done
+  system: rift
+  type: check
+  title: Your Rift task is done
+  subject: account
+  effect: next-action
+  category: idle
+  priority:
+    frame: by-urgency
+  effortSeconds: 30
+  detector:
+    id: rift/quota-done
+  text: "Rift level {level:int} task looks complete: {n:int} characters are still AFK on The Rift for it"
+  why: Kills past the quota count for nothing; the next level's task may not be an AFK one.
+  doneWhen:
+    field: account.rift.level
+    change: higher
+  appliesTo:
+    stages:
+    - from: W4-entry
+      to: W4-entry
+  confidence: M
+  status: draft
+  ship: neutral-wording
+  shipReason: 'Red team P1: whether Rift[0] advances by itself is open (dossier Q5, C10 L). Text must not say "claim" until V1 is traced.'
+  notes: "Dossier per-session actions ('finished AFK quota = idle state, reassign') and C8 (completed iff Rift[1] >= quota, N.js, M). Open question 5: whether Rift[0] advances automatically or by a UI action;\
+    \ wording says 'claim' until verified."
+  sources:
+  - url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json"
+    title: "IdleOn Toolbox game data: riftInfo (70 entries; task text, riftBonus at indices 5..60)"
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  - url: scratchpad/m26/dossiers/rift.md
+    title: M26 Rift dossier (verified 2026-10-19)
+    tier: 4
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+    note: replace with the committed docs/research path when the dossier lands
+- id: rift.goal.skill-mastery
+  system: rift
+  type: goal
+  title: Raise a skill's account total
+  detector:
+    id: rift/skill-mastery
+  text: "{skill:name} total {total:int} → {at:int}: {reward}"
+  why: With Skill Mastery (displayed Rift 16) every skill's level summed over all characters unlocks tiers at 150, 200, 300, 400, 500, 750 and 1000.
+  values:
+    tier-0: "150: +25% {skill:name} EXP"
+    tier-1: "200: the skill's own efficiency or capacity bonus"
+    tier-2: "300: all owned {skill:name} cards count as worn, and +5% total damage (not for Mining, Chopping, Fishing, Catching, Trapping, Worship)"
+    tier-3: "400: +10 to the account's Smithing EXP sum"
+    tier-4: "500: +5% skill efficiency (not for Mining, Chopping, Fishing, Catching, Trapping, Worship)"
+    tier-5: "750: +1 to the 3D Printer sum"
+    tier-6: "1000: +25 to the all-skill EXP sum"
+    locked: banked until Rift 16
+  appliesTo:
+    stages:
+    - from: W4-entry
+      to: W4-entry
+  confidence: H
+  status: draft
+  notes: "Dossier C15 (thresholds, tier 1 getSkillRank), C16 (per-skill tier 1/2 effects, M: tier-1 text is generic until per-skill strings are generated), C17 (cross-skill sums, wording M; the wiki's flat\
+    \ phrasing is the open question 1). Pick the skill nearest its next threshold in absolute levels. Before Rift 15 the goal shows as 'banked' (levels count once it opens, C26), never worthwhile on its\
+    \ own. Cooking tier 2 excepted (C40). Spelunking has its own table (C18, W7, out of scope)."
+  sources:
+  - url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/misc.ts#L833-L880"
+    title: "IdleOn Toolbox misc.ts: getSkillRank, isMasteryBonusUnlocked, getSkillMasteryBonusByIndex"
+    tier: 1
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  - url: "https://idleon.wiki/wiki/Rift"
+    title: "IdleOn Wiki: Rift (1-based level labels: wiki Lv N = Rift[0] N-1)"
+    tier: 2
+    claimDate: 2026-10-07
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+  - url: scratchpad/m26/dossiers/rift.md
+    title: M26 Rift dossier (verified 2026-10-19)
+    tier: 4
+    verified: 2026-10-19
+    gameVersion: 2.3.540
+    note: replace with the committed docs/research path when the dossier lands

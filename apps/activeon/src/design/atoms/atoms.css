@@ -34,8 +34,10 @@
   border: 0;
 }
 .a-btn--primary {
-  background: var(--accent);
+  background: var(--accent-fill);
   color: var(--on-accent);
+  /* M25: light mode's gold fill is a game button with a 3 px amber edge (transparent in dark). */
+  box-shadow: 0 3px 0 var(--accent-edge);
 }
 .a-btn--quiet {
   background: transparent;
@@ -101,6 +103,8 @@
   position: relative;
   background: var(--frame-bg);
   color: var(--fg);
+  /* M25: in light mode a vivid band across the top says what the frame holds (no band in dark). */
+  box-shadow: inset 0 var(--frame-band) 0 var(--frame-accent, var(--bad-fill));
   clip-path: polygon(
     0 var(--frame-notch),
     var(--frame-notch) var(--frame-notch),
@@ -128,9 +132,11 @@
 /* M24 (the canvas's .frame): the frame's tint says what it holds. Coral by default (losing value now),
    gold for "do it", mint for "done or fine". `--pad` is the canvas's 24 x 28 padding. */
 .a-frame--gold {
+  --frame-accent: var(--accent-fill);
   background: var(--frame-gold);
 }
 .a-frame--ok {
+  --frame-accent: var(--ok-fill);
   background: var(--frame-ok);
 }
 .a-frame--pad {
@@ -162,16 +168,16 @@
   background: var(--pip-later);
 }
 .a-pip--gold {
-  background: var(--accent);
+  background: var(--accent-fill);
 }
 .a-pip--coral {
-  background: var(--bad);
+  background: var(--bad-fill);
 }
 .a-pip--mint {
-  background: var(--ok);
+  background: var(--ok-fill);
 }
 .a-pip--sky {
-  background: var(--info);
+  background: var(--info-fill);
 }
 
 /* Tags (M24, the canvas's .badge): a short word or count on a quiet square. Filled gold and coral
@@ -190,11 +196,11 @@
   white-space: nowrap;
 }
 .a-tag--gold {
-  background: var(--accent);
+  background: var(--accent-fill);
   color: var(--on-accent);
 }
 .a-tag--coral {
-  background: var(--bad);
+  background: var(--bad-fill);
   color: var(--on-bad);
 }
 .a-tag--mint {
@@ -366,7 +372,7 @@
   height: 20px;
   padding: 0 6px;
   border-radius: 0;
-  background: var(--bad);
+  background: var(--bad-fill);
   color: var(--on-bad);
   font: var(--weight-bold) var(--text-xs) / 1 var(--font-numeral);
   font-variant-ligatures: var(--font-ligatures);
@@ -376,7 +382,7 @@
 /* M24 tones: a coral count is losing value now (the default), a gold one is "do it", a plain one is
    only a count, and `--text` is the canvas's bare gold number (the Timeline's limits). */
 .a-badge--gold {
-  background: var(--accent);
+  background: var(--accent-fill);
   color: var(--on-accent);
 }
 .a-badge--plain {
@@ -432,29 +438,29 @@
   inset: 0 auto 0 0;
   width: calc(var(--fill, 0) * 100%);
   border-radius: inherit;
-  background: var(--accent);
+  background: var(--accent-fill);
 }
 .a-meter--ok .a-meter__fill {
-  background: var(--ok);
+  background: var(--ok-fill);
 }
 .a-meter--fix .a-meter__fill {
-  background: var(--bad);
+  background: var(--bad-fill);
 }
 .a-meter--muted .a-meter__fill {
   background: var(--line-strong);
 }
 /* M24: the canvas's meter tones (rule 7): gold do it, coral losing now, mint done, sky a timer. */
 .a-meter--gold .a-meter__fill {
-  background: var(--accent);
+  background: var(--accent-fill);
 }
 .a-meter--coral .a-meter__fill {
-  background: var(--bad);
+  background: var(--bad-fill);
 }
 .a-meter--mint .a-meter__fill {
-  background: var(--ok);
+  background: var(--ok-fill);
 }
 .a-meter--sky .a-meter__fill {
-  background: var(--info);
+  background: var(--info-fill);
 }
 .a-meter--dashed {
   background: transparent;
@@ -534,6 +540,27 @@
 .a-tab--on {
   color: var(--fg);
   box-shadow: inset 0 -3px 0 var(--accent);
+}
+/* A two-line tab (M25): the label line, then a small line under it. */
+.a-tab--two {
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: var(--space-1);
+  padding: var(--space-2) var(--space-4);
+  text-align: left;
+}
+.a-tab__line {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+.a-tab__sub {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--text-sm);
+  line-height: 1.2;
 }
 
 /* Seals, status glyphs, speech, section ---------------------------------------------------------- */

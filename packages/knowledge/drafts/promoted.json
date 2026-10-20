@@ -1,0 +1,20 @@
+{
+  "note": "M26 FR-1: draft ids promoted to live entries in systems/<system>.yaml by their wave's PR. kb convert-drafts skips them.",
+  "ids": [
+    "rift.check.unlock-quest",
+    "rift.check.class-gate",
+    "rift.check.afk-task",
+    "rift.check.active-task",
+    "rift.check.quota-done",
+    "elite-classes.check.eliteus",
+    "tome.check.blue-pages",
+    "tome.check.claim-nametags",
+    "breeding.check.full-nest",
+    "breeding.check.idle-territory",
+    "cooking.check.idle-kitchen",
+    "cooking.check.capped-meal",
+    "lab.check.first-upload",
+    "lab.check.not-connected",
+    "lab.check.jewel-unlit"
+  ]
+}

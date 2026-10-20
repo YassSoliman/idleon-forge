@@ -217,7 +217,12 @@ describe('M24 the Systems index, the page template and the Anvil page', () => {
       { roster: [] },
       { now, id: 'equinox', highlight: null },
     );
-    expect(eq?.frame.answer).toMatchObject({ tone: 'mut', hero: "ActiveOn doesn't check Equinox yet" });
+    // M26 FR-6: no Mirror and no Dream Upgrade on this save, so Equinox reads locked, with how it opens.
+    expect(eq?.frame.answer).toMatchObject({
+      tone: 'mut',
+      hero: "Equinox isn't open yet",
+      cap: 'How it opens',
+    });
   });
   it('the Anvil page: the Bowman Lv 60 puts its 3 spare points into Speed; splits by work', () => {
     const { state } = fixture('scrubbed-w3');
@@ -231,7 +236,7 @@ describe('M24 the Systems index, the page template and the Anvil page', () => {
     // No character clears the respec Goal's 25% at 8 h, so no Whetstone order.
     expect(a?.whetstone).toEqual([]);
   });
-  it('World 4 read-only pages (isWorld4ReadOnly): a grey "read-only" tile and header, no answer of its own', () => {
+  it('World 4 pages with Checks (M26 Wave 1): a normal tile; the body answers while nothing fires', () => {
     const W4 = ['lab', 'cooking', 'breeding'];
     const r = {
       ...W3,
@@ -240,16 +245,16 @@ describe('M24 the Systems index, the page template and the Anvil page', () => {
     } as EngineResult;
     const h = buildSystemsHubView(r, EMPTY_PREFS, { now }, buildSystemsView(r, EMPTY_PREFS, { now })).index;
     const lab = h.worlds.flatMap((w) => w.tiles).find((t) => t.id === 'lab');
-    expect(lab).toMatchObject({ readOnly: true, tone: 'readonly', sub: 'read-only' });
-    expect(h.counts.notCovered).toBe(ix.counts.notCovered);
+    expect(lab?.readOnly).toBe(false);
     const page = buildSystemPageFrameView(
       r,
       EMPTY_PREFS,
       { roster: [] },
       { now, id: 'lab', highlight: null },
     );
-    expect(page?.frame.readOnly).toBe(true);
-    expect(page?.frame.status).toEqual({ tone: 'mut', word: 'Read-only', reason: 'no checks yet' });
+    expect(page?.frame.readOnly).toBe(false);
+    // No Lab Check fires on this save, so the Lab body draws its own answer and the template none.
+    expect(page?.frame.bodyAnswers).toBe(true);
   });
 });
 

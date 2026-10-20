@@ -8,6 +8,7 @@
 // the side column (Timers, About on average: PurposeBlock). Last, one "Next: <character>" tile. The
 // strip replaced the old pager, "you are here", the arrows, "Next: switch to" and "All characters"
 // (M24 rule 5). The <h2> takes keyboard focus only when the player opened the card.
+
 import {
   CARD_WORDS,
   FLOW_WORDS,
@@ -18,6 +19,8 @@ import {
   type NowView,
 } from '@idleon-forge/engine/now';
 import { type Ref, Suspense, useState } from 'react';
+import { TALENT_SYSTEMS } from '../art/game/game-art';
+import { TalentMention } from '../art/game/TalentMention';
 import { Avatar, GoalSprite } from '../characters/Avatar';
 import { CharacterShell } from '../characters/CharacterShell';
 import { PAGE_WORDS } from '../characters/words';
@@ -29,7 +32,7 @@ import { Meter } from '../design/atoms/Meter';
 import { VerdictStamp } from '../design/atoms/Pill';
 import { EmptyState } from '../design/atoms/States';
 import { span } from '../design/format';
-import { Loading } from '../lazy-part';
+import { Loading, lazyPart } from '../lazy-part';
 import { NOW_TAB, tabById, tabHref } from './character-tabs';
 import { ModalSheet as Sheet } from './chrome/ModalSheet';
 import { useNowActions } from './context';
@@ -46,6 +49,12 @@ import {
 import { characterStates } from './place/derive';
 import { NOW_PLACE_WORDS } from './place/words';
 import '../characters/now-tab.css';
+
+/** M26 F-C: the character's Production Plan, its own lazy chunk (the main chunk carries only this line). */
+const PlanSection = lazyPart(
+  () => import('../production/PlanSection'),
+  (m) => m.PlanSection,
+);
 
 export interface FocusProps {
   card: FocusCard;
@@ -104,7 +113,15 @@ function StepHero({ card, goal }: { card: FocusCard; goal: GoalView }) {
         onClick={() => setOpen(true)}
       >
         <span className="cp-hero-ic" aria-hidden="true">
-          <GoalSprite system={goal.system} fix={fix} size={48} />
+          {TALENT_SYSTEMS.has(goal.system) ? (
+            <TalentMention
+              text={a.text}
+              fallback={<GoalSprite system={goal.system} fix={fix} size={48} />}
+              size={48}
+            />
+          ) : (
+            <GoalSprite system={goal.system} fix={fix} size={48} />
+          )}
         </span>
         <span className="cp-hero-text">
           <span className="cp-hero-t a-h1 na-text">{a.text}</span>
@@ -409,6 +426,11 @@ export function Focus({
               ) : null}
 
               <BetterFit card={card} />
+
+              {/* M26 F-C: what this character's producers should make now (a lazy chunk). */}
+              <Suspense fallback={null}>
+                <PlanSection index={card.index} />
+              </Suspense>
 
               {card.activePlay.length > 0 ? (
                 <section aria-label={FOCUS_WORDS.ifYouHaveTime} className="n-extra">

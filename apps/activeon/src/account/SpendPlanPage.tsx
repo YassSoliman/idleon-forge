@@ -6,6 +6,8 @@
 // in storage, the lines without a price, and what the plan leaves out. Each character pays from its own
 // pocket (M7 D1). It only lays out the Now view's Spend Plan and M7's plan; no advice of its own.
 import { useMemo, useState } from 'react';
+import { GameIcon } from '../art/game/GameIcon';
+import { dataArt } from '../art/game/game-art';
 import { Sprite } from '../art/sprites/Sprite';
 import { SourceLabel } from '../design/atoms';
 import { cx } from '../design/atoms/Button';
@@ -34,6 +36,7 @@ function TopLine({ l, first }: { l: SpendPageLine; first: boolean }) {
           {l.n}
         </span>
         <Who l={l} scale={2} />
+        {l.art ? <GameIcon art={l.art} size={32} decorative /> : null}
         <span className="ac-sl__t">
           <b>{l.text}</b>
           <span className="ac-sub">{[l.who, l.where].filter(Boolean).join(' · ')}</span>
@@ -81,7 +84,10 @@ function RestLine({ l }: { l: SpendPageLine }) {
       <span className="ac-rl__n num">{l.n}</span>
       <span className={cx('ac-pip', l.priced ? 'is-gold' : 'is-later')} aria-hidden="true" />
       <span className="ac-rl__t">
-        <span className="ac-rl__what">{l.text}</span>
+        <span className="ac-rl__what">
+          {l.art ? <GameIcon art={l.art} size={24} decorative /> : null}
+          <span>{l.text}</span>
+        </span>
         <span className="ac-sub">{[l.who, l.where].filter(Boolean).join(' · ')}</span>
       </span>
       <span className={cx('ac-rl__cost num', !l.priced && 'is-later')}>
@@ -120,7 +126,7 @@ export function SpendPlanPage({ s }: { s: Session }) {
         <>
           <section className="a-frame a-frame--gold ac-hero" aria-labelledby="ac-spend-h">
             <div className="ac-hero__row">
-              <Sprite name="item-coin" size={64} decorative />
+              <GameIcon art={dataArt('Coins3')} fallback="item-coin" size={64} decorative />
               <h2 id="ac-spend-h" className="ac-hero__h" data-place-heading tabIndex={-1}>
                 <span className="ac-big num">{page.buys}</span>
                 <span className="ac-h1">

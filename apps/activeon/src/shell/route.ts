@@ -4,13 +4,16 @@
 //   none, #now           Now
 //   #characters          Characters (#builds, #cards, #skills: Characters scrolled to that overview)
 //   #<tab>-<index>       the Character page of CharacterState.index on that tab (#now-3, #build-3)
-//   #systems             the Systems hub
-//   #system-<systemId>   that System page
+//   #systems             the Systems hub (M25: `#systems?q=…&w=…&s=…` keeps its search and filters,
+//                        read by the hub itself, systems/hub-search.ts)
+//   #system-<systemId>   that System page; `?tab=<tabId>&focus=<key>` opens a tab and outlines a row
+//                        (M26 FR-C2: an unknown tab opens the first tab, an unknown focus is ignored)
 //   #timeline            the Timeline (Phase 2; opens Now until then)
 //   #daily, #slots       the Timeline at its Daily & Weekly or Parallel Slots section (M21 TR-6)
 //   #map                 the Map (M21; opens Now until the Map place exists, `known.map`)
 //   #map-<mapIndex>      the Map with that map's sheet open; an unknown index opens #map, no sheet
 //   #spend, #goals       M24: the Spend Plan page and the Goals page (they belong to Now)
+//   #production          M26 F-C: the Production Plan page (it belongs to Now)
 // Legacy `?c=<i>` links are read once and rewritten (D-2). Anything unknown opens Now and leaves the
 // URL as it was, so M10's in-page anchors (#spend-plan) still scroll. Pure and total.
 
@@ -19,13 +22,13 @@ export type Route =
   | { place: 'characters'; section: 'builds' | 'cards' | 'skills' | null }
   | { place: 'character'; index: number; tab: string }
   | { place: 'systems' }
-  | { place: 'system'; id: string }
+  | { place: 'system'; id: string; tab?: string; focus?: string }
   | { place: 'timeline'; section: 'daily' | 'slots' | null }
   | { place: 'map'; mapIndex: number | null }
   | { place: 'account'; page: AccountPage };
 
 /** M24: the account's own pages, reached from Now (the Spend Plan, the Goals list). */
-export type AccountPage = 'spend' | 'goals';
+export type AccountPage = 'spend' | 'goals' | 'production';
 
 /** The places of the shell (FR-1, M21 FR-M6); a Character page or a System page belongs to one of them. */
 export type Place = 'now' | 'characters' | 'systems' | 'timeline' | 'map';
@@ -47,17 +50,39 @@ export interface KnownRoutes {
 
 const NOW: Route = { place: 'now' };
 const PLACE_RE = /^#(now|characters|systems|timeline|map)$/;
+/** M25: the Systems hub with its search and filters in the fragment. */
+const SYSTEMS_QUERY_RE = /^#systems\?/;
 const TIMELINE_SECTION_RE = /^#(daily|slots)$/;
 /** Checked before TAB_RE, which `#map-3` would otherwise match as a tab named "map" (RT-27). */
 const MAP_RE = /^#map-(\d+)$/;
 const SECTION_RE = /^#(builds|cards|skills)$/;
-const ACCOUNT_RE = /^#(spend|goals)$/;
-const SYSTEM_RE = /^#system-([a-z0-9-]+)$/;
+const ACCOUNT_RE = /^#(spend|goals|production)$/;
+const SYSTEM_RE = /^#system-([a-z0-9-]+)(?:\?(.*))?$/;
+/** A tab id or a focus key: letters, digits, `-` and `_` only (M26 FR-C2). */
+const KEY_RE = /^[A-Za-z0-9_-]{1,64}$/;
+
+/** `tab=recipes&focus=EquipmentSword2` -> its two safe values; anything else is dropped. */
+function systemParams(query: string | undefined): { tab?: string; focus?: string } {
+  if (!query) return {};
+  let p: URLSearchParams;
+  try {
+    p = new URLSearchParams(query);
+  } catch {
+    return {};
+  }
+  const tab = p.get('tab');
+  const focus = p.get('focus');
+  return {
+    ...(tab && KEY_RE.test(tab) ? { tab } : {}),
+    ...(focus && KEY_RE.test(focus) ? { focus } : {}),
+  };
+}
 const TAB_RE = /^#([a-z]+)-(\d+)$/;
 const LEGACY_C = /^\d+$/;
 
 /** The route of one fragment, against what the app knows; Now for anything else (FR-7). */
 export function routeOfHash(hash: string, known: KnownRoutes): Route {
+  if (SYSTEMS_QUERY_RE.test(hash)) return { place: 'systems' };
   const place = PLACE_RE.exec(hash)?.[1];
   if (place === 'now' || hash === '' || hash === '#') return NOW;
   if (place === 'characters') return { place: 'characters', section: null };
@@ -74,12 +99,15 @@ export function routeOfHash(hash: string, known: KnownRoutes): Route {
     return { place: 'map', mapIndex: known.maps.includes(mapIndex) ? mapIndex : null };
   }
   const account = ACCOUNT_RE.exec(hash)?.[1];
-  if (account === 'spend' || account === 'goals') return { place: 'account', page: account };
+  if (account === 'spend' || account === 'goals' || account === 'production')
+    return { place: 'account', page: account };
   const section = SECTION_RE.exec(hash)?.[1];
   if (section === 'builds' || section === 'cards' || section === 'skills')
     return { place: 'characters', section };
-  const system = SYSTEM_RE.exec(hash)?.[1];
-  if (system !== undefined) return known.systems.includes(system) ? { place: 'system', id: system } : NOW;
+  const sys = SYSTEM_RE.exec(hash);
+  const system = sys?.[1];
+  if (system !== undefined)
+    return known.systems.includes(system) ? { place: 'system', id: system, ...systemParams(sys?.[2]) } : NOW;
   const tab = TAB_RE.exec(hash);
   if (tab?.[1] && tab[2] !== undefined) {
     const index = Number(tab[2]);
@@ -123,8 +151,13 @@ export function formatRoute(route: Route): string {
       return `#${route.tab}-${route.index}`;
     case 'systems':
       return '#systems';
-    case 'system':
-      return `#system-${route.id}`;
+    case 'system': {
+      const q = [
+        route.tab ? `tab=${encodeURIComponent(route.tab)}` : null,
+        route.focus ? `focus=${encodeURIComponent(route.focus)}` : null,
+      ].filter(Boolean);
+      return `#system-${route.id}${q.length ? `?${q.join('&')}` : ''}`;
+    }
     case 'timeline':
       return route.section ? `#${route.section}` : '#timeline';
     case 'map':
@@ -151,13 +184,15 @@ export function placeOf(route: Route): Place {
 
 /** One key per screen, for per-place scroll (FR-10). */
 export const routeKey = (route: Route): string =>
-  route.place === 'characters'
-    ? '#characters'
-    : route.place === 'timeline'
-      ? '#timeline'
-      : route.place === 'map'
-        ? '#map'
-        : formatRoute(route);
+  route.place === 'system'
+    ? `#system-${route.id}`
+    : route.place === 'characters'
+      ? '#characters'
+      : route.place === 'timeline'
+        ? '#timeline'
+        : route.place === 'map'
+          ? '#map'
+          : formatRoute(route);
 
 /** The same screen? (A Character page is one screen per character and tab.) */
 export const sameRoute = (a: Route, b: Route): boolean => formatRoute(a) === formatRoute(b);

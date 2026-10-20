@@ -1,0 +1,60 @@
+# SPDX-License-Identifier: GPL-3.0-only
+# M26 W4 synthesis: KB drafts copied from scratchpad/m26/maps/elite-classes.json (kbEntryDrafts). status: draft.
+# Target file: packages/knowledge/systems/metapath.yaml (patch existing entry)
+# Change note (from maps/rift.json kbDrafts.changes): metapath.metapath.role-* roles (packages/knowledge/systems/metapath.yaml L257): the existing '{ id: rift-8, classLine: Divine_Knight, does: "Clears Rift 8" }' uses the wiki's 1-based label (Rift[0] 7). Proposed draft additions with the same label scheme, so every class gate has a Role: '{ id: rift-9, classLine: Elemental_Sorcerer, does: "Clears Rift 9", activeFrom: W4-entry }' and '{ id: rift-16, classLine: Siege_Breaker, does: "Clears Rift 16", activeFrom: W4-entry }' (riftInfo task text, tier 1, conf H). Decide one numbering for UI: recommend 'Rift level N' = Rift[0] everywhere in ActiveOn and relabel rift-8 -> rift-7 'Clears Rift level 7 (wiki Lv 8)'.
+system: metapath
+entries:
+- id: metapath.goal.elite
+  system: metapath
+  type: goal
+  status: draft
+  patch:
+    why: Your subclass has one elite. It adds a 4th talent tab and a family bonus; Divine Knight and Elemental Sorcerer open Rift levels 8 and 9.
+    addSource:
+      url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/classPromotions.json"
+      title: "Game data: class promotions (each subclass has one promotesTo)"
+      tier: 1
+      verified: '2026-10-19'
+      gameVersion: 2.3.540
+    addSource2:
+      url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json"
+      title: "Game data: riftInfo (class-gated tasks at Rift 8 / 9 / 16)"
+      tier: 1
+      verified: '2026-10-19'
+      gameVersion: 2.3.540
+  confidence: L
+  notes: Keeps confidence L for the order. Replaces the 'W4 Roles' claim with the H facts.
+  patchOf: metapath.goal.elite
+# ---- M26 CL synthesis (class lines) appended entries ----
+# from maps/class-journeyman.json
+- id: metapath.goal.elite
+  system: metapath
+  status: draft
+  patch:
+    change: For a Maestro, use journeyman-line.goal.nebulyte (Voidwalker comes from Nebulyte, not Eliteus). In gate-chain.ts elitePending skip row.line == 'Journeyman' once the new Goal ships.
+  notes: Dossier class-journeyman.md C6
+
+# from maps/class-journeyman.json
+- id: metapath.goal.subclass (value journeyman)
+  system: metapath
+  status: draft
+  patch:
+    change: For a Journeyman, replace with journeyman-line.goal.cactolyte (skill gates, Cactolyte in Djonnuttown).
+  notes: Dossier class-journeyman.md C5
+
+# from maps/class-journeyman.json
+- id: Build path nextClass text (packages/engine/src/builds/roadmap.ts ~L380)
+  system: metapath
+  status: draft
+  patch:
+    change: 'Journeyman line: ''Next class: Maestro (Cactolyte quests)'' / ''Next class: Voidwalker (Nebulyte quests)'' instead of ''at Speccius'' / ''at Eliteus''; Beginner: Journeyman via Rocklyte is an extra option.'
+  notes: Dossier class-journeyman.md C3-C6
+
+# from maps/class-journeyman.json
+- id: metapath.goal.next-character (value journeyman)
+  system: metapath
+  status: draft
+  patch:
+    change: Append the Rocklyte how-to (500 Peanuts at Froggy Fields) or link journeyman-line.goal.rocklyte.
+  notes: Dossier class-journeyman.md C4
+

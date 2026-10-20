@@ -124,7 +124,6 @@ export function analyzeRoster(state: AccountState, kb: FactLookup, stage: StageI
   // Journeyman, then the 2nd Squire.
   const roles = roleDefs(kb);
   const now = stage === null ? 0 : stageIndex(stage);
-  let nextLine: string | null = null;
   const missing = missingLines
     .filter((l) => !tentative.has(l))
     .sort(
@@ -135,25 +134,34 @@ export function analyzeRoster(state: AccountState, kb: FactLookup, stage: StageI
   // M15 F3 (FR-6, FR-9): a Beginner made after the first character was made for the line the roster
   // asked for, so it tentatively holds the next missing line and the roster moves on to the one after
   // (a freshly made level-1 Hunter-to-be never re-asks for a Hunter). Slot 11 is a Beginner by plan.
+  // Past the six subclass lines the queue goes on in slot order: Journeyman (slot 7), then the 2nd
+  // Squire (slot 8), so a Beginner made for slot 7 is the Journeyman-to-be (owner report 2026-10-19).
+  const queue: { line: string; second: boolean }[] = missing.map((line) => ({ line, second: false }));
+  if (!byLine.has('Journeyman')) queue.push({ line: 'Journeyman', second: false });
+  if (![...slots.values()].some((s) => s.note === 'second-squire'))
+    queue.push({ line: 'Squire', second: true });
   const beginners = state.characters
     .filter((c) => c.index > 0 && slots.get(c.index)?.status === 'beginner')
     .sort((a, b) => b.level - a.level || a.index - b.index);
   const beginnerSlot = slotOf(kb, 'Beginner', 1);
   for (const c of beginners) {
     if (beginnerSlot !== null && charactersUsed >= beginnerSlot) break;
-    const line = missing.shift();
-    if (!line) break;
-    set(c, { slot: slotOf(kb, line, 1), line, status: 'tentative', note: null });
-    linesPresent.push(line);
-    linesPresent.sort((a, b) => lineNames.indexOf(a) - lineNames.indexOf(b));
-    missingLines.splice(missingLines.indexOf(line), 1);
+    const next = queue.shift();
+    if (!next) break;
+    const { line, second } = next;
+    set(c, {
+      slot: slotOf(kb, line, second ? 2 : 1),
+      line,
+      status: 'tentative',
+      note: second ? 'second-squire' : null,
+    });
+    if (missingLines.includes(line) && !second) {
+      linesPresent.push(line);
+      linesPresent.sort((a, b) => lineNames.indexOf(a) - lineNames.indexOf(b));
+      missingLines.splice(missingLines.indexOf(line), 1);
+    }
   }
-  if (missing.length) {
-    nextLine = missing[0] as string;
-  } else if (missingLines.length === 0) {
-    if (!byLine.has('Journeyman')) nextLine = 'Journeyman';
-    else if (![...slots.values()].some((s) => s.note === 'second-squire')) nextLine = 'Squire';
-  }
+  const nextLine = queue[0]?.line ?? null;
   let nextCharacter: NextCharacter | null = null;
   const slotNumber = charactersUsed + 1;
   if (nextLine && slotNumber <= gates.length + 1) {

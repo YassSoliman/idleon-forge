@@ -184,6 +184,9 @@ describe.each(publicSaves)('public save %s', (file) => {
   });
 });
 
+/** The Account State size cap (M1 TR-16): 1 MB, owner ruling 2026-10-19 (M26 spec Q12). */
+const STATE_CAP_BYTES = 1024 * 1024;
+
 describe('across all public saves', () => {
   const states = publicSaves.map((f) => accountStateOf(readSave(PUBLIC_DIR, f)));
   const all = states.flatMap((s) => s.characters);
@@ -212,10 +215,14 @@ describe('across all public saves', () => {
   // account), so the guard was 360 KB.
   // M24 adds the World 4 fields (Lab board and chips, the 10 kitchens, all 74 meals with their bonus
   // text, spices, territories, upgrades; numbers rounded to 4 digits): +24 KB on the late saves, ~3 KB on
-  // a real account just in World 4 and 0 before it, so the guard is 392 KB.
-  it('keeps every Account State under the 392 KB history cap (TR-16, M20 TR-2, M18 TR-2, M21 TR-3, M24)', () => {
+  // a real account just in World 4 and 0 before it, so the guard was 392 KB.
+  // M26: the owner ruled on 2026-10-19 (spec Q12) to raise the cap to 1 MB rather than trim each wave.
+  // Save history stores a whole state only on the newest save and the boundaries of the newest two
+  // Play Sessions, every other kept save compact (packages/sync history.ts `wholeStates`), so 30 days
+  // stay inside TR-16's 50 MB at this size.
+  it('keeps every Account State under the 1 MB history cap (TR-16, owner ruling 2026-10-19)', () => {
     const largest = Math.max(...states.map((s) => new TextEncoder().encode(JSON.stringify(s)).length));
-    expect(largest).toBeLessThan(392 * 1024);
+    expect(largest).toBeLessThan(STATE_CAP_BYTES);
   });
 
   it('has the 11 public saves', () => {

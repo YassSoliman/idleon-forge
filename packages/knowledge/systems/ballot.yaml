@@ -13,7 +13,7 @@ entries:
     values:
       row: "Vote in the Bonus Ballot (YumYum Grotto)"
       why: "Each week the vote picks one bonus for everyone; voting is free."
-      leading: "Leading now: {bonus}"
+      leading: "Active now: {bonus}"
     sources:
       - { url: "https://idleon.wiki/wiki/Bonus_Ballot", title: "IdleOn Wiki: Bonus Ballot", tier: 2, claimDate: 2026-10-09, verified: 2026-10-18, gameVersion: 2.3.540 }
       - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-2/voteBallot.ts", title: "IdleOn Toolbox getVoteBallot (the bonuses and the leader)", tier: 1, verified: 2026-10-18, gameVersion: 2.3.540 }

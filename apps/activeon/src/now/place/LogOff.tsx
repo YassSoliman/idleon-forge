@@ -5,9 +5,11 @@
 // Away line, "Before you're back" (how long you're away, the mini-timeline with who-glyphs), the
 // character cards in Visit Order with a state word that agrees with its pip, and the coins row.
 // Every fact is the engine's (Now view, Timeline view, session view); `derive.ts` only groups them.
+
 import type { NowView, TimelineView } from '@idleon-forge/engine/now';
 import type { EngineResult } from '@idleon-forge/engine/result';
 import { type CSSProperties, Fragment, forwardRef, type ReactNode } from 'react';
+import { dataArt } from '../../art/game/game-art';
 import { PixelArt } from '../../design/art/PixelArt';
 import { Blob } from '../../design/atoms/Blob';
 import { cx } from '../../design/atoms/Button';
@@ -19,6 +21,7 @@ import type { ClassFamily } from '../../design/who/WhoGlyph';
 import { formatRoute } from '../../shell/route';
 import { capGlyph } from '../chrome/cap-glyph';
 import type { CounterView, NowSessionView } from '../session/types';
+import { Badged } from './Badged';
 import {
   awayParts,
   type CardState,
@@ -38,8 +41,23 @@ import { Icon, systemSprite } from './icon';
 import { rowTabChip } from './tab-chip';
 import { NOW_PLACE_WORDS as W } from './words';
 
+/** The game's gold coin (Toolbox data/Coins3): the money a Spend Plan line spends. */
+const COIN = dataArt('Coins3');
+/** A full group's System, from its words (the cap pill's own rule, capGlyph): its game sprite draws. */
+const capSystem = (what: string): string | null =>
+  /anvil/i.test(what)
+    ? 'anvil'
+    : /worship|prayer/i.test(what)
+      ? 'worship'
+      : /trap/i.test(what)
+        ? 'trapping'
+        : null;
+
 type Vars = CSSProperties & Record<`--${string}`, string | number>;
 const familyOf = (view: NowView, i: number): ClassFamily => view.families?.[i] ?? 'beginner';
+/** M25: the game's class icon on the blob's corner (ClassBadge), as on the Characters list. */
+const classOf = (view: NowView, i: number): string | undefined =>
+  view.roster.find((r) => r.index === i)?.classLabel;
 const whoLabel = (view: NowView, i: number) => {
   const r = view.roster.find((x) => x.index === i);
   return r ? `${r.classLabel} ${r.level}` : '';
@@ -187,7 +205,11 @@ export function Hero(p: HeroProps) {
       ) : null}
       {groups.slice(state === 'collect' ? 1 : 0).map((g) => (
         <p key={g.entryId} className="np-hero__also">
-          <PixelArt name={capGlyph(g.what)} decorative />
+          {capSystem(g.what) ? (
+            <Icon name={systemSprite(capSystem(g.what))} size={16} />
+          ) : (
+            <PixelArt name={capGlyph(g.what)} decorative />
+          )}
           {W.alsoFull(g.what, g.indexes.length)}
         </p>
       ))}
@@ -437,7 +459,9 @@ export function CharacterCards({
                 label={`${r.position}. ${who}${r.map ? `, ${r.map}` : ''}, ${STATE_WORD[state]}${task ? `. ${task}` : ''}`}
               >
                 <span className="np-card__top">
-                  <Blob family={familyOf(view, r.index)} size={40} />
+                  <Badged classLabel={classOf(view, r.index)} size={40}>
+                    <Blob family={familyOf(view, r.index)} size={40} />
+                  </Badged>
                   <span className="np-card__who">
                     <span className="np-card__line">
                       <b>{who}</b>
@@ -486,7 +510,7 @@ export function CoinsRow({
   if (compact)
     return (
       <Go href="#spend" onGo={onSpend} className="np-coins np-coins--compact">
-        <Icon name="item-coin" size={32} />
+        <Icon art={COIN} fallback="item-coin" name="coin" size={32} />
         <span className="np-coins__t">
           <b>{W.coinsShort(buys, payers.length)}</b>
           <span className="np-muted np-xs">{W.coinsCap}</span>
@@ -496,7 +520,7 @@ export function CoinsRow({
     );
   return (
     <section className="np-coins" aria-label={W.coinsCap}>
-      <Icon name="item-coin" size={32} />
+      <Icon art={COIN} fallback="item-coin" name="coin" size={32} />
       <span className="np-coins__t">
         <b>{W.coinsTitle(buys, payers.length)}</b>
         <span className="np-muted np-sm">

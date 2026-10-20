@@ -16,6 +16,7 @@ import {
   itemOf,
   type QuestData,
   questOf,
+  recipeSmithingLevel,
   recipeTabs,
   type WalkthroughKnowledge,
 } from './knowledge';
@@ -41,12 +42,15 @@ const maxSmithing = (state: AccountState): number | null => {
   return Math.max(...known.map((c) => c.smithingLevel ?? 0));
 };
 
-function smithingGate(ctx: ExpandContext, level: number, depth: number): GateNode {
+/** A Smithing gate at the wiki's level; `null` level (no row in `anvil.fact.recipes`) is unknown. */
+function smithingGate(ctx: ExpandContext, level: number | null, depth: number): GateNode {
   const best = maxSmithing(ctx.state);
+  if (level === null)
+    return { kind: 'gate', gate: 'smithing', label: 'Smithing level', met: null, children: [], depth };
   return {
     kind: 'gate',
     gate: 'smithing',
-    label: `Smithing ${level}`,
+    label: `Smithing ${level} (wiki)`,
     met: best === null ? null : best >= level,
     children: [],
     depth,
@@ -114,7 +118,8 @@ export function expandItem(
     expandItem(ctx, m.rawName, m.amount * crafts, next, depth + 1, m.ref),
   );
   children.push(tabGate(ctx, rawName, next, depth + 1));
-  if (data.recipe.lvReqToCraft > 0) children.push(smithingGate(ctx, data.recipe.lvReqToCraft, depth + 1));
+  // M26 FR-C3: the wiki's Smithing level, never items.json lvReqToCraft (not the Smithing level).
+  children.push(smithingGate(ctx, recipeSmithingLevel(ctx.kb, rawName), depth + 1));
   return { ...base, children };
 }
 

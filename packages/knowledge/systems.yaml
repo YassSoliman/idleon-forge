@@ -3,6 +3,8 @@
 # and the cross-cutting ones). `coverage()` lists the unlocked ones with no active or contested
 # authored entry under "Not covered yet". `unlocked` is a first cut by world (worlds/reached) until
 # a System's owner module ships a sharper unlock Detector (for example M6's Post Office unlock).
+# M26 FR-6: `systems/unlocked` keys a System on its own unlock fact (packages/knowledge/src/unlock.ts),
+# currentWorld only as the fallback; the engine silences that System's Goals while it reads 'no'.
 # M17 TR-8: `kind: activeon` marks ActiveOn's own concepts (no Systems hub tile; default `game`), and
 # `unlockFact` names the fact table that says how a game System opens (systems/systems.facts.yaml).
 systems:
@@ -166,6 +168,14 @@ systems:
     dossier: https://github.com/YassSoliman/idleon-forge/blob/main/docs/specs/M4-purpose-milestones.md
     unlocked: always
     kind: activeon
+  # M26 F-C: the Production Plan, what each producer should make now (#production).
+  - id: production-plan
+    name: Production Plan
+    world: 0
+    scope: both
+    dossier: https://github.com/YassSoliman/idleon-forge/blob/research/m26-systems/docs/specs/M26-crafting-guidance.md
+    unlocked: always
+    kind: activeon
 
   # ---- World 1 ----
   - id: stamps
@@ -294,7 +304,7 @@ systems:
     world: 2
     scope: account
     dossier: https://github.com/YassSoliman/idleon-forge/blob/research/w2-systems/docs/research/systems/2026-10-17-w2-systems.md
-    unlocked: { id: worlds/reached, params: { world: 2 } }
+    unlocked: { id: systems/unlocked, params: { system: islands } }
     unlockFact: systems.fact.unlocks
   - id: killroy
     name: Killroy's Slaughterhouse
@@ -386,7 +396,7 @@ systems:
   - id: prayers
     name: Prayers
     world: 3
-    scope: character
+    scope: both
     dossier: https://github.com/YassSoliman/idleon-forge/blob/research/w3-systems/docs/research/systems/w3-systems/shrines-prayers-equinox-bosses-quests.md
     unlocked: { id: worlds/reached, params: { world: 3 } }
     unlockFact: systems.fact.unlocks
@@ -402,7 +412,7 @@ systems:
     world: 3
     scope: account
     dossier: https://github.com/YassSoliman/idleon-forge/blob/research/w3-systems/docs/research/systems/w3-systems/shrines-prayers-equinox-bosses-quests.md
-    unlocked: { id: worlds/reached, params: { world: 3 } }
+    unlocked: { id: systems/unlocked, params: { system: equinox } }
     unlockFact: systems.fact.unlocks
   - id: atom-collider
     name: Atom Collider
@@ -426,19 +436,120 @@ systems:
     world: 4
     scope: character
     dossier: https://github.com/YassSoliman/idleon-forge/blob/research/w4-systems/docs/research/systems/w4-systems/2026-10-17-lab.md
-    unlocked: { id: worlds/reached, params: { world: 4 } }
+    unlocked: { id: systems/unlocked, params: { system: lab } }
     unlockFact: systems.fact.unlocks
   - id: cooking
     name: Cooking
     world: 4
     scope: character
     dossier: https://github.com/YassSoliman/idleon-forge/blob/research/w4-systems/docs/research/systems/w4-systems/2026-10-17-cooking.md
-    unlocked: { id: worlds/reached, params: { world: 4 } }
+    unlocked: { id: systems/unlocked, params: { system: cooking } }
     unlockFact: systems.fact.unlocks
   - id: breeding
     name: Breeding
     world: 4
     scope: account
     dossier: https://github.com/YassSoliman/idleon-forge/blob/research/w4-systems/docs/research/systems/w4-systems/2026-10-17-breeding.md
+    unlocked: { id: systems/unlocked, params: { system: breeding } }
+    unlockFact: systems.fact.unlocks
+  # ---- M26 Wave 0 (FR-6, MASTER 0.8): registry rows ahead of their pages; generic page until then ----
+  - id: sigils
+    name: Sigils
+    world: 4
+    scope: both
+    dossier: https://github.com/YassSoliman/idleon-forge/blob/feat/M25-release/docs/research/systems/w4/sigils.md
+    unlocked: { id: systems/unlocked, params: { system: sigils } }
+    unlockFact: systems.fact.unlocks
+  - id: rift
+    name: The Rift
+    world: 4
+    scope: account
+    dossier: https://github.com/YassSoliman/idleon-forge/blob/feat/M25-release/docs/research/systems/w4/rift.md
+    unlocked: { id: systems/unlocked, params: { system: rift } }
+    unlockFact: systems.fact.unlocks
+  - id: tome
+    name: The Tome
+    world: 4
+    scope: account
+    dossier: https://github.com/YassSoliman/idleon-forge/blob/feat/M25-release/docs/research/systems/w4/tome.md
     unlocked: { id: worlds/reached, params: { world: 4 } }
     unlockFact: systems.fact.unlocks
+  - id: elite-classes
+    name: Elite classes
+    world: 4
+    scope: character
+    dossier: https://github.com/YassSoliman/idleon-forge/blob/feat/M25-release/docs/research/systems/w4/elite-classes.md
+    unlocked: { id: worlds/reached, params: { world: 4 } }
+    unlockFact: systems.fact.unlocks
+  - id: achievements
+    name: Achievements
+    world: 0
+    scope: account
+    dossier: https://github.com/YassSoliman/idleon-forge/blob/feat/M25-release/docs/research/systems/account/achievements.md
+    unlocked: always
+  - id: dungeons
+    name: Dungeons
+    world: 0
+    scope: account
+    dossier: https://github.com/YassSoliman/idleon-forge/blob/feat/M25-release/docs/research/systems/account/dungeons.md
+    unlocked: always
+  - id: family
+    name: Family bonuses
+    world: 0
+    scope: account
+    dossier: https://github.com/YassSoliman/idleon-forge/blob/feat/M25-release/docs/research/systems/account/family.md
+    unlocked: always
+  - id: food
+    name: Food
+    world: 0
+    scope: character
+    dossier: https://github.com/YassSoliman/idleon-forge/blob/feat/M25-release/docs/research/systems/cross/golden-food.md
+    unlocked: always
+  - id: storage
+    name: Storage and inventory
+    world: 0
+    scope: both
+    dossier: https://github.com/YassSoliman/idleon-forge/blob/feat/M25-release/docs/research/systems/cross/storage-inventory.md
+    unlocked: always
+  - id: stats
+    name: Stats and damage
+    world: 0
+    scope: character
+    dossier: https://github.com/YassSoliman/idleon-forge/blob/feat/M25-release/docs/research/systems/cross/stats-damage.md
+    unlocked: always
+  - id: coins
+    name: Coins
+    world: 0
+    scope: both
+    dossier: https://github.com/YassSoliman/idleon-forge/blob/feat/M25-release/docs/research/systems/cross/coins-cash.md
+    unlocked: always
+  - id: friend-bonuses
+    name: Friend bonuses
+    world: 0
+    scope: account
+    dossier: https://github.com/YassSoliman/idleon-forge/blob/feat/M25-release/docs/research/systems/cross/friend-bonuses.md
+    unlocked: always
+  - id: event-shop
+    name: Event Shop
+    world: 0
+    scope: account
+    dossier: https://github.com/YassSoliman/idleon-forge/blob/feat/M25-release/docs/research/systems/cross/event-shop.md
+    unlocked: always
+  - id: trophies-nametags
+    name: Trophies and nametags
+    world: 0
+    scope: character
+    dossier: https://github.com/YassSoliman/idleon-forge/blob/feat/M25-release/docs/research/systems/cross/trophies-nametags.md
+    unlocked: always
+  - id: town-shops
+    name: Town shops
+    world: 0
+    scope: account
+    dossier: https://github.com/YassSoliman/idleon-forge/blob/feat/M25-release/docs/research/systems/cross/town-shops.md
+    unlocked: always
+  - id: drop-rate
+    name: Drop rate
+    world: 0
+    scope: character
+    dossier: https://github.com/YassSoliman/idleon-forge/blob/feat/M25-release/docs/research/systems/cross/drop-rate.md
+    unlocked: always

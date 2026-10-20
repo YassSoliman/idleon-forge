@@ -98,6 +98,14 @@ export const DRAWINGS: ReadonlyArray<readonly [RegExp, string]> = [
     'M24 Map drawings: door keys, constellation stars and card frames',
   ],
   [/\.tl-mk\b/, "M24 Timeline lane marks: a limit's square on the rail (hollow: can't tell when)"],
+  [
+    /\.(bd-slot|bd-mono|ac-mono)\b[^,]*:has\(\.g-art\)/,
+    "M25 game item slots: a game sprite's 1 px slot frame, in place of the letter badge's fill",
+  ],
+  [
+    /\.(gl-ic|pp-ic|ar-ic)\b[^,]*:has\(\.g-art\)/,
+    'M26 game item slots: the gate chip, Production Plan and Recipes sprites in their 1 px slot frame',
+  ],
 ];
 
 /** The widest spread ring among a box-shadow's layers: `[inset] 0 0 0 Npx <color> [inset]`. */

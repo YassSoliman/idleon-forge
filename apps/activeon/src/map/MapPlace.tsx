@@ -23,7 +23,11 @@ import {
 import type { NowView } from '@idleon-forge/engine/now';
 import type { Goal } from '@idleon-forge/engine/result';
 import { type CSSProperties, useEffect, useMemo, useRef, useState } from 'react';
-import { Sprite } from '../art/sprites/Sprite';
+import { cardArt } from '../art/game/card-art';
+import { GameIcon } from '../art/game/GameIcon';
+import { itemArt, monsterArt } from '../art/game/game-art';
+import { KitSprite } from '../art/game/KitSprite';
+import { bossArt, constellationArt } from '../art/game/map-art';
 import { PixelArt } from '../design/art/PixelArt';
 import { cx, Frame, Meter, SegmentedControl, Sheet, Tabs, Tag } from '../design/atoms';
 import { localOffsetMinutes } from '../design/format';
@@ -86,15 +90,25 @@ function Dot({ n, next, side }: { n: MapNodeView; next?: boolean; side?: boolean
               : n.state === 'reached'
                 ? 'reached'
                 : 'none';
+  // M25: a fighting map wears its monster; the state glyph sits on it as a badge (never colour alone).
+  const glyph =
+    look === 'town' ? (
+      <PixelArt name="v2-map-town" decorative />
+    ) : look === 'open' ? (
+      <PixelArt name="ui-check" decorative />
+    ) : look === 'front' ? (
+      <PixelArt name="v2-map-flag" decorative />
+    ) : null;
+  if (n.kind === 'fight' && n.monster)
+    return (
+      <span className={cx('map-dot', `is-${look}`, 'has-mob')} aria-hidden="true">
+        <GameIcon art={monsterArt(n.monster)} fallback={null} size={32} decorative className="map-mob" />
+        {glyph ? <span className="map-dot-g">{glyph}</span> : null}
+      </span>
+    );
   return (
     <span className={cx('map-dot', `is-${look}`)} aria-hidden="true">
-      {look === 'town' ? (
-        <PixelArt name="v2-map-town" decorative />
-      ) : look === 'open' ? (
-        <PixelArt name="ui-check" decorative />
-      ) : look === 'front' ? (
-        <PixelArt name="v2-map-flag" decorative />
-      ) : null}
+      {glyph}
     </span>
   );
 }
@@ -196,12 +210,19 @@ function WorldTile({
         </div>
         {b.gate ? (
           <div className="a-tile2 map-boss">
-            <Sprite name="item-key" size={32} decorative />
+            <GameIcon art={bossArt(b.world)} fallback="item-key" size={48} decorative wiki={b.gate.boss} />
             <span className="map-boss-b">
               <b>{U.boss(b.gate.boss)}</b>
               {crystal ? <span className="map-boss-l">{crystal.text}</span> : null}
               {keys ? (
                 <span className={cx('map-boss-k', /^No one/.test(keys.text) ? 'is-muted' : 'is-gold')}>
+                  <GameIcon
+                    art={itemArt(b.gate.key)}
+                    fallback="item-key"
+                    size={16}
+                    decorative
+                    className="map-boss-key"
+                  />
                   {keys.text}
                 </span>
               ) : null}
@@ -283,9 +304,15 @@ function RouteHero({ v, view }: { v: MapPlaceView; view: NowView }) {
       </Frame>
     );
   }
+  const monster = v.worlds.flatMap((w) => w.nodes).find((n) => n.mapIndex === f.mapIndex)?.monster ?? null;
   return (
     <Frame tone="gold" className="map-hero" aria-label={U.heroCap}>
       <div className="map-hero-row">
+        {monster ? (
+          <span className="map-hero-ic" aria-hidden="true">
+            <GameIcon art={monsterArt(monster)} fallback="item-monster-material" size={64} decorative />
+          </span>
+        ) : null}
         <span className="map-hero-b">
           <span className="a-cap map-cap">{U.heroCap}</span>
           <span className="map-hero-a">{f.step}</span>
@@ -373,7 +400,7 @@ function StarTile({ x }: { x: MapStarView }) {
       className={cx('ms-star', `is-${x.state}`)}
       title={`${x.code}: ${x.requirement}${x.map ? ` · ${x.map}` : ''}`}
     >
-      <Sprite name="item-star" size={24} decorative />
+      <GameIcon art={constellationArt(x.rawIndex)} fallback="item-star" size={32} decorative />
       <span className="ms-code">{x.code}</span>
       <span className="ms-short">{short}</span>
       <span className="sr-only">
@@ -412,7 +439,7 @@ function StarsTab({ v, s }: { v: MapPlaceView; s: Session }) {
         <Frame tone="gold" className="map-hero" aria-label={U.starsCap}>
           <div className="map-hero-row">
             <span className="map-hero-ic" aria-hidden="true">
-              <Sprite name="sys-star-signs" size={48} decorative />
+              <KitSprite name="sys-star-signs" size={48} />
             </span>
             <span className="map-hero-b">
               <span className="a-cap map-cap">{U.starsCap}</span>
@@ -436,7 +463,10 @@ function StarsTab({ v, s }: { v: MapPlaceView; s: Session }) {
                   <span className={cx('ms-n', i === 0 && 'is-first')} aria-hidden="true">
                     {i + 1}
                   </span>
-                  <span className="ms-c">{n.name}</span>
+                  <span className="ms-c">
+                    <GameIcon art={constellationArt(x?.rawIndex)} fallback="item-star" size={24} decorative />
+                    {n.name}
+                  </span>
                   <span className="ms-t">{n.text}</span>
                   <span className={cx('ms-p', x?.state === 'ready' && 'is-gold')}>{x ? x.progress : ''}</span>
                   <span className="ms-pts">
@@ -519,7 +549,7 @@ function DeathNoteTab({ v, s }: { v: MapPlaceView; s: Session }) {
         <Frame tone="gold" className="map-hero" aria-label={goal ? U.dnCap : U.dnCloseCap}>
           <div className="map-hero-row">
             <span className="map-hero-ic" aria-hidden="true">
-              <Sprite name="sys-death-note" size={48} decorative />
+              <KitSprite name="sys-death-note" size={48} />
             </span>
             <span className="map-hero-b">
               <span className="a-cap map-cap">{goal ? U.dnCap : U.dnCloseCap}</span>
@@ -557,6 +587,12 @@ function DeathNoteTab({ v, s }: { v: MapPlaceView; s: Session }) {
                   <li key={r.mapIndex} className={cx('dn-row', i === 0 && 'is-closest')}>
                     <span className="dn-name">
                       <span className="dn-name-t">
+                        <GameIcon
+                          art={monsterArt(r.monster)}
+                          fallback="item-monster-material"
+                          size={32}
+                          decorative
+                        />
                         <b>{r.map}</b>
                         {i === 0 ? <Tag tone="gold">{U.dnClosest}</Tag> : null}
                       </span>
@@ -701,7 +737,13 @@ function CardsTab({
         <Frame tone="gold" className="map-hero" aria-label={U.cardsCap}>
           <div className="map-hero-row">
             <span className="map-hero-ic" aria-hidden="true">
-              <Sprite name="item-card-frame" size={48} decorative />
+              <GameIcon
+                art={cardArt(top.rawName)}
+                fallback="item-card-frame"
+                size={64}
+                decorative
+                wiki={top.name}
+              />
             </span>
             <span className="map-hero-b">
               <span className="a-cap map-cap">{U.cardsCap}</span>
@@ -738,6 +780,7 @@ function CardsTab({
               <li key={g.rawName}>
                 <button type="button" className="mc-also-b" onClick={() => onOpen(g.mapIndex)}>
                   <span className="mc-also-h">
+                    <GameIcon art={cardArt(g.rawName)} fallback="item-card-frame" size={32} decorative />
                     <b>{g.map}</b>
                     <span className={g.owned > 0 ? 'is-ok' : 'is-gold'}>{g.next.label}</span>
                   </span>
@@ -807,7 +850,13 @@ function CardsTab({
                         onClick={() => onOpen(n.mapIndex)}
                       >
                         <span className="mc-face" aria-hidden="true">
-                          {c.level !== null ? `Lv${c.level}` : '?'}
+                          <GameIcon
+                            art={cardArt(n.monster)}
+                            fallback={<>{c.level !== null ? `Lv${c.level}` : '?'}</>}
+                            size={48}
+                            decorative
+                            className="mc-art"
+                          />
                         </span>
                         <span className="mc-pips" aria-hidden="true">
                           {[1, 2, 3, 4, 5].map((k) => (
@@ -894,7 +943,12 @@ function SheetBody({ sh, view }: { sh: Sheet_; view: NowView }) {
         <section className="map-sh-sec">
           <h3>{W.sheetCard}</h3>
           <p className="map-sh-l map-sh-ico">
-            <PixelArt name="v2-map-card" decorative />
+            <GameIcon
+              art={cardArt(sh.monster)}
+              fallback={<PixelArt name="v2-map-card" decorative />}
+              size={32}
+              decorative
+            />
             <span>
               <b>{sh.card.text}</b>
               {sh.card.chance ? <span className="map-sh-m">{sh.card.chance}</span> : null}
@@ -906,7 +960,12 @@ function SheetBody({ sh, view }: { sh: Sheet_; view: NowView }) {
         <section className="map-sh-sec">
           <h3>{W.sheetDeathNote}</h3>
           <p className="map-sh-l map-sh-ico">
-            <PixelArt name="v2-map-skull" decorative />
+            <GameIcon
+              art={monsterArt(sh.monster)}
+              fallback={<PixelArt name="v2-map-skull" decorative />}
+              size={32}
+              decorative
+            />
             <span>
               <b className="num">{sh.deathNote.kills}</b>
               <span className="map-sh-m">{sh.deathNote.next}</span>

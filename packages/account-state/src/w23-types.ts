@@ -48,4 +48,11 @@ export interface ShrineInfo {
 export interface W23AccountFields {
   prayers?: PrayerInfo[] | null;
   shrines?: ShrineInfo[] | null;
+  /**
+   * M26 FR-8: Equinox is open. Authored reader, provenance "game client, not Toolbox": Toolbox's
+   * `equinox.unlocked` is true whenever the save has `Dream` and `WeeklyBoss`, so it reads every W3
+   * save as open. True when the Equinox Mirror (Quest78) is in the chest or a bag, or any Dream
+   * Upgrade has a level (`Dream[2 + i] > 0`); null when `Dream` can't be read.
+   */
+  equinoxUnlocked?: boolean | null;
 }

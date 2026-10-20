@@ -16,6 +16,7 @@ import {
   makeContext,
   runDetector,
   type SlotValue,
+  STAGE_DEFINITIONS,
 } from '@idleon-forge/knowledge';
 import {
   type BubbaNow,
@@ -98,7 +99,8 @@ const flag = (slots: Record<string, SlotValue>, k: string) => slots[k] === 1;
 function ratingStage(state: AccountState, kb: BubbaKnowledge): string {
   try {
     const s = detectStage(state, lookupOf(kb));
-    if (s.coverage === 'beyond') return 'W4-entry';
+    // World 4 bands (M26 FR-3) and beyond share the W4-entry row.
+    if (s.coverage === 'beyond' || (s.id && STAGE_DEFINITIONS[s.id].world === 4)) return 'W4-entry';
     if (s.id && typeof value(kb, ENTRY.ratings, s.id) === 'string') return s.id;
   } catch {
     // no Stage: the earliest row

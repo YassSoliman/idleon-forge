@@ -10,6 +10,7 @@ import type { BubbaResult } from './bubba/types';
 import type { Checklist } from './checklist/types';
 import type { CardsView } from './collections/cards-view-types';
 import type { GearResult } from './gear/types';
+import type { ProductionResult } from './production/types';
 import type { CharacterSkills, SkillGrid, SystemPicture } from './slots/types';
 import type { SpendPlan } from './spend/types';
 import type { StarSignsView } from './starsigns/types';
@@ -151,6 +152,8 @@ export interface WalkthroughTreeLine {
   text: string;
   /** true: held or met; false: missing or unmet; null: can't tell. */
   done: boolean | null;
+  /** An item line's rawName (its game sprite, ADR 0009 as amended 2026-10-19); absent on gates. */
+  item?: string;
 }
 /**
  * M14 TR-6, M18 X3: an inline Requirement Tree root a module hands M14 instead of an Acquisition id: a
@@ -451,7 +454,8 @@ export interface BuildTabView {
   /** The Build's talents, in its step order. Empty when no Build covers this tab. */
   rows: BuildTalentRow[];
   /** Talents with points the Build doesn't name, most first. */
-  others: { label: string; level: number }[];
+  /** `id` is the talent's skillIndex (its game sprite, ADR 0009 as amended 2026-10-19). */
+  others: { id: number; label: string; level: number }[];
   /**
    * M21 FR-C2: the points this tab's path can spend now. `lower-bound` (tabs 1–3, M9 TR-7), `exact`
    * (the star tab, FR-C10) or `none`. `overBy` is set only on an over-budget star tab. Declared by
@@ -517,6 +521,17 @@ export interface BuildNextPoint {
   to?: number;
 }
 
+/** M26 (owner ruling 2026-10-19): how sure a Build is, shown with it and never hidden. */
+export interface BuildConfidenceView {
+  level: 'H' | 'M' | 'L';
+  /** Independent dated authors behind the order. */
+  sourceCount: number;
+  /** "Community build · 6 sources", "Community build · one source". */
+  text: string;
+  /** The entry's own words ("sources agree on tab 4", "one source"); null when it gives none. */
+  label: string | null;
+}
+
 export interface BuildPresetView {
   slot: 0 | 1;
   active: boolean;
@@ -538,6 +553,12 @@ export interface BuildPresetView {
   attackBar: { set: string[]; recommended: string[]; missing: string[]; text: string } | null;
   /** The ordered checklist for this preset, by tab (the Build's steps minus current levels). */
   next: BuildNextPoint[];
+  /** M26: the preset's Build's confidence label; null (or absent) without a Build. */
+  confidence?: BuildConfidenceView | null;
+  /** M26: the Sources of this preset's Build (and the Build it inherits); absent without a Build. */
+  sources?: SourceRef[];
+  /** M26: the preset's Build entry id (provenance). */
+  entryId?: string;
 }
 
 export interface BuildPathStep {
@@ -559,6 +580,11 @@ export interface BuildRoadmap {
   path: BuildPathStep[];
   /** "Next class: take Hunter at Speccius", or null at the end of the covered path. */
   nextClass: string | null;
+  /**
+   * The level of the class pick this character takes at Promotheus (10), or null when it takes none: a
+   * class already picked, the slot-11 Beginner, or a Beginner planned as the Journeyman (Planned Path).
+   */
+  classPickAt?: number | null;
   presets: BuildPresetView[];
   /** What opens at the next milestones (class pick, new tab, second preset, stage-gated steps). */
   comingUp: string[];
@@ -571,6 +597,8 @@ export interface BuildRoadmap {
   sources: SourceRef[];
   /** The Build entry ids shown (provenance). */
   entryIds: string[];
+  /** M26: the leading Build's confidence label; null (or absent) without a Build. */
+  confidence?: BuildConfidenceView | null;
 }
 
 /**
@@ -617,7 +645,7 @@ export interface EngineResult {
   expectedReturn: { usedSeconds: number; learnedSeconds: number | null };
   /** M2: `unknown` (Can't tell banner), `not-covered` (no Stage module or Knowledge Base), or a Stage id.
    *  `needs`: what the next Stage needs (M2 FR-4, D5), one line each. */
-  /** `beyond`: past the last Stage the model knows (World 4 finished); the id and label stay W4-entry. */
+  /** `beyond`: past the last Stage the model knows (World 4 finished); the id and label are W4-late (M26 FR-3). */
   stage: { id: string; label: string; needs?: string[]; beyond?: true };
   /** In save order. */
   characters: CharacterResult[];
@@ -686,6 +714,8 @@ export interface EngineResult {
   world4?: World4View | null;
   /** M18 TR-5: the Gear tab, the Gear page's heat strip and the Smithy page; absent without M18. */
   gear?: GearResult | null;
+  /** M26 F-C: the Production Plan, the Anvil page's Recipes and Walkthrough tabs (production module). */
+  production?: ProductionResult | null;
   /**
    * M21 TR-11: Play Session facts for the pause points and the Away card (area N's `session` module).
    * Phase F registers a stub that emits null.
@@ -725,6 +755,8 @@ export interface MapNode {
   name: string;
   kind: 'fight' | 'skill' | 'town' | 'other';
   doors: { destination: number; requirement: number }[];
+  /** M25: the rawName of the monster the map's AFK target is ("mushG"), for its game sprite; null without one. */
+  monster?: string | null;
 }
 
 /** M21 TR-9: the Map place's data (area M). */
@@ -737,6 +769,9 @@ export interface MapResult {
     gate: {
       boss: string;
       bossMap: number | null;
+      /** M25: the arena key's item rawName ("Key1") and name, for its game sprite. */
+      key?: string | null;
+      keyName?: string | null;
       keysHeld: number | null;
       keysPerDay: number | null;
       crystal: { item: string; held: number | null; need: number } | null;
@@ -769,6 +804,8 @@ export interface MapResult {
    */
   stars?: {
     name: string;
+    /** M25: the game's constellation index (its picture, Toolbox's etc/Constellation_<n>). */
+    rawIndex?: number;
     world: number;
     mapIndex: number;
     /** The game's requirement, words spaced ("Reach Lv 30 on four players"). */

@@ -16,6 +16,7 @@ import {
   type ResolvedBuild,
   type ResolvedStarBuild,
   type ResolvedStarStep,
+  type ResolvedStep,
   talentLabel,
 } from './knowledge';
 
@@ -154,17 +155,19 @@ export function bandPath(
         ...(continues ? { from: first.current } : {}),
       });
     }
-    for (const { m, k } of members) {
+    for (const { m, k, saved } of members) {
+      // A later row shows the save's own level (M22 same-fact-everywhere); an earlier row's raise is its `from`.
       if (m.later !== null)
         out.push({
           ...base(m, k),
-          current: m.current,
+          current: saved,
           goal: m.goal,
           need: Math.max(0, m.goal - m.current),
           cumulative: null,
           band: 'later',
           condition: m.later,
           note: m.note,
+          ...(m.current !== saved ? { from: m.current } : {}),
         });
       else if (m.fixed !== null)
         out.push({
@@ -198,21 +201,20 @@ export function classGroups(
     const members: PathMember[] = [];
     for (const step of group) {
       const target = targetOf(p, step);
-      const max = maxOf(p, step.id);
+      const max = maxOf(p, step.id, step.tab);
       // Not on this preset's tabs, or locked (max ≤ 0): no step to show.
       if (target === null || max <= 0) continue;
       const goal = Math.min(target, max);
-      const stage = step.when.find((c) => c.kind === 'stageAtLeast');
       const accuracy = step.when.some((c) => c.kind === 'accuracyShort');
-      const gated = stage && stage.kind === 'stageAtLeast' && stepApplies(step, ctx) !== 'yes' && !accuracy;
+      const later = accuracy ? null : laterOf(step, ctx);
       members.push({
         id: step.id,
         label: talentLabel(step.talent),
         page: null,
-        current: levelOf(p, step.id),
+        current: levelOf(p, step.id, step.tab),
         goal,
         core: step.core,
-        later: gated && stage.kind === 'stageAtLeast' ? `from ${stageLabel(stage.stage)}` : null,
+        later,
         fixed: kb.talents.bubbleCapped.has(step.id) ? 'set by a bubble' : null,
         note: accuracy ? ACCURACY_NOTE : goal < target ? MAX_NOTE : null,
       });
@@ -220,6 +222,18 @@ export function classGroups(
     if (members.length) out.push(members);
   }
   return out;
+}
+
+/**
+ * Why a step waits ("from World 4, mid", "from World 5"), or null when it applies now. A World 5+ hint
+ * (M26 `stageHint`) waits until the account is past World 4; a Stage gate until that Stage.
+ */
+export function laterOf(step: ResolvedStep, ctx: WalkContext): string | null {
+  if (step.stageHint && ctx.beyond !== true) return `from World ${step.stageHint.slice(1)}`;
+  const s = step.when.find((c) => c.kind === 'stageAtLeast');
+  return s && s.kind === 'stageAtLeast' && stepApplies(step, ctx) !== 'yes'
+    ? `from ${stageLabel(s.stage)}`
+    : null;
 }
 
 // ---------- the star tab ----------
@@ -367,7 +381,7 @@ export function starTab(
     others: p.star
       .filter((x) => x.base > 0 && !named.has(x.id))
       .sort((a, c) => c.base - a.base || a.id - c.id)
-      .map((x) => ({ label: talentLabel(kb.talents.nameOf(x.id) ?? String(x.id)), level: x.base })),
+      .map((x) => ({ id: x.id, label: talentLabel(kb.talents.nameOf(x.id) ?? String(x.id)), level: x.base })),
     known,
     path,
   };

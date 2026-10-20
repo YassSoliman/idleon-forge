@@ -3,10 +3,12 @@
 // M24 World 4: the Breeding page body (board `after/sys/Breeding`), a read-only view of the save: the
 // framed answer, then Nest and Mobs (the nest's eggs, why Breeding matters as the World 4 loop),
 // Territories (won once, then foraged), the Mob Arena (wave bonuses on a track with the best wave) and
-// Upgrades (as they open).
+// Upgrades (as they open). M25: the game's eggs, spices and upgrade sprites (ADR 0009 as amended
+// 2026-10-19), our kit as the fallback.
 import type { BreedingPageView } from '@idleon-forge/engine/world4';
 import { type CSSProperties, useState } from 'react';
-import { Sprite } from '../art/sprites/Sprite';
+import { GameIcon } from '../art/game/GameIcon';
+import { eggArt, keyIndex, petUpgradeArt, spiceArt } from '../art/game/w4-art';
 import { cx, Pip, Tabs } from '../design/atoms';
 import type { Session } from '../shell/session';
 import { Frame, Rows, SourceLine, Tag } from './parts';
@@ -70,11 +72,11 @@ function Loop() {
   );
 }
 
-export function BreedingBody({ s, v }: { s: Session; v: BreedingPageView }) {
+export function BreedingBody({ s, v, framed = true }: { s: Session; v: BreedingPageView; framed?: boolean }) {
   const [tab, setTab] = useState<BreedTab>('nest');
   return (
     <div className="w4-page">
-      <Frame f={v.frame} s={s} />
+      {framed ? <Frame f={v.frame} s={s} /> : null}
       <Tabs<BreedTab>
         label="Breeding sections"
         value={tab}
@@ -105,8 +107,9 @@ export function BreedingBody({ s, v }: { s: Session; v: BreedingPageView }) {
                 {v.nest.map((e) => (
                   <li key={e.key} className={cx('w4-egg', `is-${e.state}`)}>
                     <span className="w4-egg__box">
-                      <Sprite
-                        name="item-pet-egg"
+                      <GameIcon
+                        art={eggArt()}
+                        fallback="item-pet-egg"
                         size={48}
                         decorative
                         className={e.state === 'egg' ? undefined : 'w4-dim'}
@@ -139,10 +142,14 @@ export function BreedingBody({ s, v }: { s: Session; v: BreedingPageView }) {
               <span className="w4-muted w4-small">{v.territoriesLine}</span>
             </header>
             <div className="w4-split">
-              <Rows rows={v.territories} label="Territories in order" />
+              <Rows
+                rows={v.territories}
+                label="Territories in order"
+                art={{ of: (r) => spiceArt(keyIndex(r.key)), fallback: 'item-spice', dim: (r) => !!r.quiet }}
+              />
               <aside className="a-tile2 w4-stack">
                 <span className="w4-cap">Forage teams</span>
-                <Sprite name="sys-territories" size={48} decorative />
+                <GameIcon art={spiceArt(0)} fallback="sys-territories" size={48} decorative />
                 <p className="w4-small w4-muted">{v.forageNote}</p>
                 <p className="w4-xs w4-muted">{v.claimsNote}</p>
               </aside>
@@ -189,7 +196,16 @@ export function BreedingBody({ s, v }: { s: Session; v: BreedingPageView }) {
                 </h3>
                 <span className="w4-muted w4-small">{v.upgradesLine}</span>
               </header>
-              <Rows rows={v.upgrades} label="Breeding upgrades" numbered={false} />
+              <Rows
+                rows={v.upgrades}
+                label="Breeding upgrades"
+                numbered={false}
+                art={{
+                  of: (r) => petUpgradeArt(keyIndex(r.key)),
+                  fallback: 'item-pet-egg',
+                  dim: (r) => !!r.quiet,
+                }}
+              />
             </section>
             <aside className="w4-stack">
               <div className="a-tile2 w4-stack">

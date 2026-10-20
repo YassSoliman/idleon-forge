@@ -1,4 +1,4 @@
-# golden v1: second · knowledge #9761de04 · parser 6c37e3d (game 2.3.540) · now 2024-06-08T06:05:26.262Z · return 8h · stage W4-entry · stale: 4 of 1003
+# golden v1: second · knowledge #04f5e113 · parser 6c37e3d (game 2.3.540) · now 2024-06-08T06:05:26.262Z · return 8h · stage W4-late · stale: 4 of 1060
 
 ## Verdict changes
 
@@ -16,31 +16,31 @@ ready fold: 8 characters
 ### C4 · Blood Berserker 501 · Unknown
 2 · Fighting The Rift · The Rift · [Traps idle in 2h 15m] · Can't tell from the save
 
-### C3 · Bubonic Conjuror 567 · Ready
-3 · Fighting Penguin · Signature Slopes · [Traps idle in 2h 15m] · Equip 1 stored obol in a personal sparkle slot
-purpose: Death Note: Penguin kills ~38M → 100M · about 8h
-
-### C2 · Divine Knight 544 · Ready
-4 · Fighting Penguin · Signature Slopes · [Traps idle in 2h 15m]
-purpose: Death Note: Penguin kills ~38M → 100M · about 8h
-
-### C6 · Siege Breaker 530 · Ready
-5 · Fighting Penguin · Signature Slopes · [Traps idle in 2h 14m]
-purpose: Death Note: Penguin kills ~38M → 100M · about 8h
-
-### C1 · Beast Master 507 · Ready
-6 · Fighting Penguin · Signature Slopes · [Traps idle in 2h 15m]
-purpose: Death Note: Penguin kills ~38M → 100M · about 8h
-
 ### C9 · Hunter 503 · Ready
-7 · Fighting Penguin · Signature Slopes · [Traps idle in 2h 15m] [Anvil full in 5h 37m · collect]
+3 · Fighting Penguin · Signature Slopes · [Traps idle in 2h 15m] [Anvil full in 5h 37m · collect] · Talk to Eliteus and take your Beast Master class
 purpose: Death Note: Penguin kills ~38M → 100M · about 8h
 
 ### C5 · Wizard 501 · Ready
-8 · Fighting Penguin · Signature Slopes · [Traps idle in 2h 15m] [Anvil full in 2h 27m · collect]
+4 · Fighting Penguin · Signature Slopes · [Traps idle in 2h 15m] [Anvil full in 2h 27m · collect] · Talk to Eliteus and take your Elemental Sorcerer class
 purpose: Death Note: Penguin kills ~38M → 100M · about 8h
 
 ### C10 · Barbarian 501 · Ready
+5 · Fighting Penguin · Signature Slopes · [Traps idle in 2h 15m] · Talk to Eliteus and take your Blood Berserker class
+purpose: Death Note: Penguin kills ~38M → 100M · about 8h
+
+### C3 · Bubonic Conjuror 567 · Ready
+6 · Fighting Penguin · Signature Slopes · [Traps idle in 2h 15m] · Equip 1 stored obol in a personal sparkle slot
+purpose: Death Note: Penguin kills ~38M → 100M · about 8h
+
+### C2 · Divine Knight 544 · Ready
+7 · Fighting Penguin · Signature Slopes · [Traps idle in 2h 15m]
+purpose: Death Note: Penguin kills ~38M → 100M · about 8h
+
+### C6 · Siege Breaker 530 · Ready
+8 · Fighting Penguin · Signature Slopes · [Traps idle in 2h 14m]
+purpose: Death Note: Penguin kills ~38M → 100M · about 8h
+
+### C1 · Beast Master 507 · Ready
 9 · Fighting Penguin · Signature Slopes · [Traps idle in 2h 15m]
 purpose: Death Note: Penguin kills ~38M → 100M · about 8h
 
@@ -58,9 +58,21 @@ purpose: Death Note: Penguin kills ~38M → 100M · about 8h
   · Wizard Lv 501: Witch Hat from the Elemental Sorcerer Lv 525's bag
 - Extra · Gems unspent: 4,645 gems unspent [IdleOn Wiki: Gem Shop]
   sources disagree: Infinity Hammer first: the universal first buy. | Extra Card Slots and the Crystal 3D Printer first; the hammer is no longer necessary.
-show more (6)
+show more (7)
 
 ## Not covered yet
+Achievements
+Coins
+Drop rate
+Dungeons
+Event Shop
+Family bonuses
+Food
+Friend bonuses
+Stats and damage
+Storage and inventory
+Town shops
+Trophies and nametags
 Bribes
 Forge
 Quests
@@ -72,9 +84,7 @@ Equinox
 Prayers
 Salt Lick
 Shrines
-Breeding
-Cooking
-Laboratory
+Sigils
 
 ## Systems
 W0 · Classes and subclasses · Nothing to fix · Nothing to fix
@@ -96,6 +106,18 @@ W0 · Random Events · Nothing to fix · Nothing to fix
 W0 · Pet Tournament · Nothing to fix · Nothing to fix
 W0 · Daily tasks · Nothing to fix · Nothing to fix
 W0 · Guild tasks · Nothing to fix · Nothing to fix
+W0 · Achievements · Not covered yet · Not covered yet
+W0 · Dungeons · Not covered yet · Not covered yet
+W0 · Family bonuses · Not covered yet · Not covered yet
+W0 · Food · Not covered yet · Not covered yet
+W0 · Storage and inventory · Not covered yet · Not covered yet
+W0 · Stats and damage · Not covered yet · Not covered yet
+W0 · Coins · Not covered yet · Not covered yet
+W0 · Friend bonuses · Not covered yet · Not covered yet
+W0 · Event Shop · Not covered yet · Not covered yet
+W0 · Trophies and nametags · Not covered yet · Not covered yet
+W0 · Town shops · Not covered yet · Not covered yet
+W0 · Drop rate · Not covered yet · Not covered yet
 W1 · Stamps · Nothing to fix · Nothing to fix · 2 to do
 W1 · Star Signs · Nothing to fix · Nothing to fix
 W1 · Anvil · Can't tell · Can't tell from the save · 2 full · collect
@@ -131,9 +153,13 @@ W3 · Shrines · Not covered yet · Not covered yet
 W3 · Equinox · Not covered yet · Not covered yet
 W3 · Atom Collider · Not covered yet · Not covered yet
 W3 · Bubba · Can't tell · Can't tell from the save
-W4 · Laboratory · Not covered yet · Not covered yet
-W4 · Cooking · Not covered yet · Not covered yet
-W4 · Breeding · Not covered yet · Not covered yet
+W4 · Laboratory · Nothing to fix · Nothing to fix
+W4 · Cooking · Nothing to fix · Nothing to fix
+W4 · Breeding · Nothing to fix · Nothing to fix
+W4 · Sigils · Not covered yet · Not covered yet
+W4 · The Rift · Nothing to fix · Nothing to fix
+W4 · The Tome · Nothing to fix · Nothing to fix · 1 to do
+W4 · Elite classes · Nothing to fix · Nothing to fix · 3 to do
 Worlds 5–7: not covered yet
 Needs you: Minigames (wasting)
 Other gaps: Talent builds past World 4, W4+ constellations and Infinite Stars
@@ -153,18 +179,6 @@ C4 · Blood Berserker 501
 - Traps idle · in 2h 15m · 08:20 · before · pill · fix none
 - anvil full · later · in 24h 50m · 06:55 · after · info · fix none
 - worship charge caps · later · in 14d 14h · 20:15 · after · info · fix none
-C3 · Bubonic Conjuror 567
-- Traps idle · in 2h 15m · 08:20 · before · pill · fix none
-- worship charge caps · later · in 19d 5h · 12:03 · after · info · fix none
-C2 · Divine Knight 544
-- Traps idle · in 2h 15m · 08:20 · before · pill · fix none
-- worship charge caps · later · in 14d 15h · 21:18 · after · info · fix none
-C6 · Siege Breaker 530
-- Traps idle · in 2h 14m · 08:19 · before · pill · fix none
-- worship charge caps · later · in 14d 15h · 21:50 · after · info · fix none
-C1 · Beast Master 507
-- Traps idle · in 2h 15m · 08:19 · before · pill · fix none
-- worship charge caps · later · in 14d 14h · 20:41 · after · info · fix none
 C9 · Hunter 503
 - Traps idle · in 2h 15m · 08:20 · before · pill · fix none
 - Anvil full · collect · in 5h 37m · 11:41 · before · pill · fix none
@@ -177,6 +191,18 @@ C10 · Barbarian 501
 - Traps idle · in 2h 15m · 08:20 · before · pill · fix none
 - anvil full · later · in 19h 09m · 01:14 · after · info · fix none
 - worship charge caps · later · in 14d 8h · 14:26 · after · info · fix none
+C3 · Bubonic Conjuror 567
+- Traps idle · in 2h 15m · 08:20 · before · pill · fix none
+- worship charge caps · later · in 19d 5h · 12:03 · after · info · fix none
+C2 · Divine Knight 544
+- Traps idle · in 2h 15m · 08:20 · before · pill · fix none
+- worship charge caps · later · in 14d 15h · 21:18 · after · info · fix none
+C6 · Siege Breaker 530
+- Traps idle · in 2h 14m · 08:19 · before · pill · fix none
+- worship charge caps · later · in 14d 15h · 21:50 · after · info · fix none
+C1 · Beast Master 507
+- Traps idle · in 2h 15m · 08:19 · before · pill · fix none
+- worship charge caps · later · in 14d 14h · 20:41 · after · info · fix none
 C8 · Elemental Sorcerer 525
 - Traps idle · in 2h 15m · 08:20 · before · pill · fix none
 - worship charge caps · later · in 2d 9h · 15:48 · after · info · fix none
@@ -241,15 +267,20 @@ Can't read Bubba from this save
 
 ## Builds
 ### C1 (Beast Master 507)
-- No build for this stage yet (builds cover World 1 to World 4): these are your talent levels
-- Current preset (in use): Calm Basics · Archer · Hunter · Beast Master · Star talents (all spent)
+- Fighting preset (in use): Calm Basics · Archer · Hunter · Beast Master · Star talents (all spent)
   - Star talents: All spent: the totals show where new points go
     - done: Stonks! 30
     - done: Will of the Eldest 50 (useful up to 56 (best level 567); its max for now)
     - done: Beginner Best Class 50 (useful up to 51 (best Beginner-line level 510); its max for now)
     - done: Tick Tock 196
     - and 7 more
-- Other preset: Calm Basics · Archer · Hunter · Beast Master · Star talents (all spent)
+- Skilling preset: Calm Basics (at least 766 unspent) · Archer (at least 700 unspent) · Hunter [Start here] (at least 710 unspent) · Beast Master (at least 700 unspent) · Star talents (all spent)
+  - Hunter: As of your last save: at least 710 points waiting · they end here
+    - done: Eagle Eye 156
+    - done: Invasive Species 158
+    - can add now: Stop Right There 0 → 100 · +100
+    - done: Reflective Eyesight 158
+    - and 1 more
   - Star talents: All spent: the totals show where new points go
     - done: Stonks! 30
     - done: Tick Tock 196
@@ -258,15 +289,14 @@ Can't read Bubba from this save
     - and 6 more
 
 ### C2 (Divine Knight 544)
-- No build for this stage yet (builds cover World 1 to World 4): these are your talent levels
-- Current preset (in use): Rage Basics · Warrior · Squire · Divine Knight · Star talents (all spent)
+- Fighting preset (in use): Rage Basics · Warrior · Squire · Divine Knight · Star talents (all spent)
   - Star talents: All spent: the totals show where new points go
     - done: Stonks! 30
     - done: Will of the Eldest 50 (useful up to 56 (best level 567); its max for now)
     - done: Beginner Best Class 50 (useful up to 51 (best Beginner-line level 510); its max for now)
     - done: Tick Tock 196
     - and 7 more
-- Other preset: Rage Basics · Warrior · Squire · Divine Knight · Star talents (254 unspent)
+- Skilling preset: Rage Basics (at least 977 unspent) · Warrior (at least 1,022 unspent) · Squire (at least 1,059 unspent) · Divine Knight (at least 951 unspent) · Star talents (254 unspent)
   - Star talents: 254 unspent · they end here
     - done: Stonks! 30
     - done: Tick Tock 196
@@ -275,15 +305,20 @@ Can't read Bubba from this save
     - and 6 more
 
 ### C3 (Bubonic Conjuror 567)
-- No build for this stage yet (builds cover World 1 to World 4): these are your talent levels
-- Current preset (in use): Savvy Basics · Mage · Shaman · Bubonic Conjuror · Star talents (all spent)
+- Fighting preset (in use): Savvy Basics · Mage · Shaman [Start here] · Bubonic Conjuror · Star talents (all spent)
+  - Shaman: No unspent points known from your last save: the totals show where new points go
+    - done: Virile Vials 245
+    - done: Tenteyecle 245
+    - done: Sizzling Skull 100
+    - done: Auspicious Aura 210
+    - and 1 more
   - Star talents: All spent: the totals show where new points go
     - done: Stonks! 30
     - done: Will of the Eldest 50 (useful up to 56 (best level 567); its max for now)
     - done: Beginner Best Class 50 (useful up to 51 (best Beginner-line level 510); its max for now)
     - done: Tick Tock 196
     - and 7 more
-- Other preset: Savvy Basics · Mage · Shaman · Bubonic Conjuror · Star talents (83 unspent)
+- Skilling preset: Savvy Basics (at least 540 unspent) · Mage (at least 490 unspent) · Shaman (at least 1,145 unspent) · Bubonic Conjuror (at least 923 unspent) · Star talents (83 unspent)
   - Star talents: 83 unspent · they end here
     - done: Stonks! 30
     - done: Tick Tock 196
@@ -292,15 +327,14 @@ Can't read Bubba from this save
     - and 6 more
 
 ### C4 (Blood Berserker 501)
-- No build for this stage yet (builds cover World 1 to World 4): these are your talent levels
-- Current preset (in use): Rage Basics · Warrior · Barbarian · Blood Berserker · Star talents (all spent)
+- Fighting preset (in use): Rage Basics · Warrior · Barbarian · Blood Berserker · Star talents (all spent)
   - Star talents: All spent: the totals show where new points go
     - done: Stonks! 30
     - done: Will of the Eldest 50 (useful up to 56 (best level 567); its max for now)
     - done: Beginner Best Class 50 (useful up to 51 (best Beginner-line level 510); its max for now)
     - done: Tick Tock 196
     - and 7 more
-- Other preset: Rage Basics · Warrior · Barbarian · Blood Berserker · Star talents (70 unspent)
+- Skilling preset: Rage Basics (at least 536 unspent) · Warrior (at least 430 unspent) · Barbarian (at least 925 unspent) · Blood Berserker (at least 400 unspent) · Star talents (70 unspent)
   - Star talents: 70 unspent · they end here
     - done: Stonks! 30
     - done: Tick Tock 196
@@ -326,15 +360,20 @@ Can't read Bubba from this save
     - and 6 more
 
 ### C6 (Siege Breaker 530)
-- No build for this stage yet (builds cover World 1 to World 4): these are your talent levels
-- Current preset (in use): Calm Basics · Archer · Bowman · Siege Breaker · Star talents (all spent)
+- Fighting preset (in use): Calm Basics [Start here] · Archer · Bowman · Siege Breaker · Star talents (all spent)
+  - Calm Basics: No unspent points known from your last save: the totals show where new points go
+    - done: Idle Shooting 50
+    - done: Gilded Sword 245
+    - done: Sharpened Axe 245
+    - done: Idle Shooting 100
+    - and 3 more
   - Star talents: All spent: the totals show where new points go
     - done: Stonks! 30
     - done: Will of the Eldest 50 (useful up to 56 (best level 567); its max for now)
     - done: Beginner Best Class 50 (useful up to 51 (best Beginner-line level 510); its max for now)
     - done: Tick Tock 196
     - and 7 more
-- Other preset: Calm Basics · Archer · Bowman · Siege Breaker · Star talents (all spent)
+- Skilling preset: Calm Basics (at least 358 unspent) · Archer (at least 1,100 unspent) · Bowman (at least 575 unspent) · Siege Breaker (at least 246 unspent) · Star talents (all spent)
   - Star talents: All spent: the totals show where new points go
     - done: Stonks! 30
     - done: Tick Tock 196
@@ -343,15 +382,20 @@ Can't read Bubba from this save
     - and 6 more
 
 ### C7 (Voidwalker 510)
-- No build for this stage yet (builds cover World 1 to World 4): these are your talent levels
-- Current preset (in use): Beginner · Journeyman · Maestro · Voidwalker · Star talents (all spent)
+- Fighting preset (in use): Beginner · Journeyman · Maestro · Voidwalker · Star talents (all spent)
   - Star talents: All spent: the totals show where new points go
     - done: Stonks! 30
     - done: Will of the Eldest 50 (useful up to 56 (best level 567); its max for now)
     - done: Beginner Best Class 50 (useful up to 51 (best Beginner-line level 510); its max for now)
     - done: Tick Tock 196
     - and 7 more
-- Other preset: Beginner · Journeyman · Maestro · Voidwalker · Star talents (all spent)
+- Skilling preset: Beginner · Journeyman (at least 710 unspent) · Maestro (at least 66 unspent) · Voidwalker [Start here] · Star talents (all spent)
+  - Voidwalker: No unspent points known from your last save: the totals show where new points go
+    - done: Void Trial Rerun 1
+    - next after these: Blood Marrow 102 → 270 · +168
+    - next after these: Species Epoch 100 → 270 · +338
+    - next after these: Voodoo Statufication 245 → 270 · +363
+    - and 4 more
   - Star talents: All spent: the totals show where new points go
     - done: Stonks! 30
     - done: Tick Tock 196
@@ -360,15 +404,20 @@ Can't read Bubba from this save
     - and 6 more
 
 ### C8 (Elemental Sorcerer 525)
-- No build for this stage yet (builds cover World 1 to World 4): these are your talent levels
-- Current preset (in use): Savvy Basics · Mage · Wizard · Elemental Sorcerer · Star talents (all spent)
+- Fighting preset (in use): Savvy Basics · Mage · Wizard · Elemental Sorcerer · Star talents (all spent)
   - Star talents: All spent: the totals show where new points go
     - done: Stonks! 30
     - done: Will of the Eldest 50 (useful up to 56 (best level 567); its max for now)
     - done: Beginner Best Class 50 (useful up to 51 (best Beginner-line level 510); its max for now)
     - done: Tick Tock 196
     - and 7 more
-- Other preset: Savvy Basics · Mage · Wizard · Elemental Sorcerer · Star talents (70 unspent)
+- Skilling preset: Savvy Basics (at least 293 unspent) · Mage (at least 123 unspent) · Wizard [Start here] (at least 982 unspent) · Elemental Sorcerer (at least 768 unspent) · Star talents (70 unspent)
+  - Wizard: As of your last save: at least 982 points waiting · they end here
+    - done: Charge Syphon 100
+    - done: Sooouls 100
+    - done: Bless Up 158
+    - done: Wis Wumbo 245
+    - and 4 more
   - Star talents: 70 unspent · they end here
     - done: Stonks! 30
     - done: Tick Tock 196
@@ -418,7 +467,7 @@ Can't read Bubba from this save
   - gate Efaunt (done): Glacier Quartz handed in; 0 keys waiting · 10 earned a day
 - World 3 · Frostbite Tundra [done] · 11 of 11 route doors open · 3 side maps not reached
   - gate Chizoar (done): Galaxial Amethyst handed in; 0 keys waiting · 10 earned a day
-  - Signature Slopes (cleared): C3 Bubonic Conjuror 567, C2 Divine Knight 544, C6 Siege Breaker 530, C1 Beast Master 507, C9 Hunter 503, C5 Wizard 501, C10 Barbarian 501, C8 Elemental Sorcerer 525
+  - Signature Slopes (cleared): C9 Hunter 503, C5 Wizard 501, C10 Barbarian 501, C3 Bubonic Conjuror 567, C2 Divine Knight 544, C6 Siege Breaker 530, C1 Beast Master 507, C8 Elemental Sorcerer 525
 - World 4 · Hyperion Nebula [done] · 3 of 3 route doors open
   - gate Massive Troll (done)
   - The Rift (reached): C4 Blood Berserker 501
@@ -515,6 +564,8 @@ Can't read Bubba from this save
 | anvil.check.spend-points | anvil/points | — | silent |  |
 | arcade.check.balls-cap | arcade/balls-cap | account | pass |  |
 | boss-keys.check.collect | boss-keys/banked | — | silent |  |
+| breeding.check.full-nest | breeding/full-nest | — | silent |  |
+| breeding.check.idle-territory | breeding/idle-territory | — | silent |  |
 | bubba.check.boon | bubba/boon | account | unknown (field-missing) |  |
 | bubba.check.charisma-idle | bubba/charisma-idle | account | unknown (field-missing) |  |
 | bubba.check.megaflesh | bubba/megaflesh | account | unknown (field-missing) |  |
@@ -541,6 +592,8 @@ Can't read Bubba from this save
 | classes.contribution.exp | classes/exp | C9 | advances yes eta 368853m | exp=134472638816533 expReq=360343574514598 rate=36741604025.36397 saved=503 |
 | colosseum.check.collect-tickets | colosseum/tickets-banked | — | silent |  |
 | construction.check.build-next | construction/build-next | account | pass |  |
+| cooking.check.capped-meal | cooking/capped-meal | — | silent |  |
+| cooking.check.idle-kitchen | cooking/idle-kitchen | — | silent |  |
 | death-note.check.build | death-note/build | — | silent |  |
 | death-note.check.build-slot | death-note/build | — | silent |  |
 | death-note.contribution.skull-penguin | death-note/skull | C1 | advances yes eta 625m | building=51 feeders=951 rate=7322117 rule=1 saved=23691505 target=Penguin |
@@ -551,9 +604,15 @@ Can't read Bubba from this save
 | death-note.contribution.skull-penguin | death-note/skull | C6 | advances yes eta 625m | building=51 feeders=951 rate=7322117 rule=1 saved=23691505 target=Penguin |
 | death-note.contribution.skull-penguin | death-note/skull | C8 | advances yes eta 625m | building=51 feeders=951 rate=7322117 rule=1 saved=23691505 target=Penguin |
 | death-note.contribution.skull-penguin | death-note/skull | C9 | advances yes eta 625m | building=51 feeders=951 rate=7322117 rule=1 saved=23691505 target=Penguin |
+| elite-classes.check.eliteus | elite-classes/eliteus | C10 | fires | class=Barbarian elite=Blood_Berserker kills=0 left=10 pick=1 |
+| elite-classes.check.eliteus | elite-classes/eliteus | C5 | fires | class=Wizard elite=Elemental_Sorcerer kills=0 left=10 pick=1 |
+| elite-classes.check.eliteus | elite-classes/eliteus | C9 | fires | class=Hunter elite=Beast_Master kills=0 left=10 pick=1 |
 | gem-shop.check.printer-buy | gem-shop/unspent | — | silent |  |
 | gem-shop.check.printer-progress | gem-shop/unspent | — | silent |  |
 | gem-shop.check.unspent | gem-shop/unspent | account | fires | gems=4645 price=875 |
+| lab.check.first-upload | lab/uploads | — | silent |  |
+| lab.check.jewel-unlit | lab/jewel-unlit | — | silent |  |
+| lab.check.not-connected | lab/uploads | — | silent |  |
 | merit-shop.check.spend-w1 | merit-shop/unspent | — | silent |  |
 | merit-shop.check.spend-w2 | merit-shop/unspent | — | silent |  |
 | merit-shop.check.spend-w2-afk-gains | merit-shop/unspent | — | silent |  |
@@ -598,6 +657,11 @@ Can't read Bubba from this save
 | refinery.check.salt-fuel | refinery/salt-off | — | silent |  |
 | refinery.check.salt-off | refinery/salt-off | — | silent |  |
 | refinery.check.unlock-next | refinery/unlock-next | — | silent |  |
+| rift.check.active-task | rift/task-kind | — | silent |  |
+| rift.check.afk-task | rift/task-kind | — | silent |  |
+| rift.check.class-gate | rift/class-gate | — | silent |  |
+| rift.check.quota-done | rift/quota-done | — | silent |  |
+| rift.check.unlock-quest | rift/unlock-quest | — | silent |  |
 | systems.yaml#alchemy | worlds/reached | account | reached yes |  |
 | systems.yaml#alchemy-bubbles | worlds/reached | account | reached yes |  |
 | systems.yaml#alchemy-p2w | worlds/reached | account | reached yes |  |
@@ -608,18 +672,19 @@ Can't read Bubba from this save
 | systems.yaml#atom-collider | worlds/reached | account | reached yes |  |
 | systems.yaml#ballot | worlds/reached | account | reached yes |  |
 | systems.yaml#boss-keys | worlds/reached | account | reached yes |  |
-| systems.yaml#breeding | worlds/reached | account | reached yes |  |
+| systems.yaml#breeding | systems/unlocked | account | reached yes |  |
 | systems.yaml#bribes | worlds/reached | account | reached yes |  |
 | systems.yaml#bubba | bubba/unlocked | account | reached yes |  |
 | systems.yaml#colosseum | worlds/reached | account | reached yes |  |
 | systems.yaml#construction | worlds/reached | account | reached yes |  |
-| systems.yaml#cooking | worlds/reached | account | reached yes |  |
+| systems.yaml#cooking | systems/unlocked | account | reached yes |  |
 | systems.yaml#death-note | worlds/reached | account | reached yes |  |
-| systems.yaml#equinox | worlds/reached | account | reached yes |  |
+| systems.yaml#elite-classes | worlds/reached | account | reached yes |  |
+| systems.yaml#equinox | systems/unlocked | account | reached yes |  |
 | systems.yaml#forge | worlds/reached | account | reached yes |  |
-| systems.yaml#islands | worlds/reached | account | reached yes |  |
+| systems.yaml#islands | systems/unlocked | account | reached yes |  |
 | systems.yaml#killroy | worlds/reached | account | reached yes |  |
-| systems.yaml#lab | worlds/reached | account | reached yes |  |
+| systems.yaml#lab | systems/unlocked | account | reached yes |  |
 | systems.yaml#library | worlds/reached | account | reached yes |  |
 | systems.yaml#owl | worlds/reached | account | reached yes |  |
 | systems.yaml#poppy | worlds/reached | account | reached yes |  |
@@ -628,15 +693,20 @@ Can't read Bubba from this save
 | systems.yaml#printer | worlds/reached | account | reached yes |  |
 | systems.yaml#quests | worlds/reached | account | reached yes |  |
 | systems.yaml#refinery | worlds/reached | account | reached yes |  |
+| systems.yaml#rift | systems/unlocked | account | reached yes |  |
 | systems.yaml#salt-lick | worlds/reached | account | reached yes |  |
 | systems.yaml#shrines | worlds/reached | account | reached yes |  |
+| systems.yaml#sigils | systems/unlocked | account | reached yes |  |
 | systems.yaml#stamps | worlds/reached | account | reached yes |  |
 | systems.yaml#star-signs | worlds/reached | account | reached yes |  |
 | systems.yaml#statues | worlds/reached | account | reached yes |  |
+| systems.yaml#tome | worlds/reached | account | reached yes |  |
 | systems.yaml#trapping | worlds/reached | account | reached yes |  |
 | systems.yaml#weekly-battles | worlds/reached | account | reached yes |  |
 | systems.yaml#worship | worlds/reached | account | reached yes |  |
 | task-unlocks.check.spend | task-unlocks/unspent | account | fires | points=644 |
+| tome.check.blue-pages | tome/blue-pages | — | silent |  |
+| tome.check.claim-nametags | tome/nametags | account | fires | available=4 |
 | trapping.check.finishes-early | trapping/finishes-early | C1 | fires | finishesIn=8071068 |
 | trapping.check.finishes-early | trapping/finishes-early | C10 | fires | finishesIn=8079068 |
 | trapping.check.finishes-early | trapping/finishes-early | C2 | fires | finishesIn=8079068 |

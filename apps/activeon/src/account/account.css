@@ -210,13 +210,13 @@
   height: 28px;
   display: grid;
   place-items: center;
-  background: var(--accent);
+  background: var(--accent-fill);
   color: var(--on-accent);
   font-size: var(--text-sm);
   font-weight: var(--weight-bold);
 }
 .ac-n.is-losing {
-  background: var(--bad);
+  background: var(--bad-fill);
   color: var(--on-bad);
 }
 .ac-pip {
@@ -228,7 +228,7 @@
   background: var(--muted);
 }
 .ac-pip.is-gold {
-  background: var(--accent);
+  background: var(--accent-fill);
 }
 .ac-pip.is-later {
   background: var(--muted);
@@ -427,7 +427,7 @@
   background: var(--line-strong);
 }
 .ac-bar__plan {
-  background: var(--accent);
+  background: var(--accent-fill);
 }
 .ac-key {
   display: flex;
@@ -512,6 +512,18 @@
 }
 .ac-mono.is-extra {
   background: var(--ok-soft);
+}
+/* M25: a Goal tile holding a game sprite: the card surface and a 1 px frame in the row's tone, not the
+   letter badge's fill. */
+.ac-mono:has(.g-art) {
+  background: var(--surface);
+  box-shadow: inset 0 0 0 1px var(--line);
+}
+.ac-mono.is-losing:has(.g-art) {
+  box-shadow: inset 0 0 0 1px var(--bad);
+}
+.ac-mono.is-extra:has(.g-art) {
+  box-shadow: inset 0 0 0 1px var(--ok);
 }
 
 /* ---- Goals: the filter and counts ---- */
@@ -677,4 +689,10 @@
 }
 .ac-gtop__foot > .see-it {
   margin-left: auto;
+}
+/* M25: a later line wears its game sprite beside its words (ADR 0009 as amended). */
+.ac-rl__what {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
 }

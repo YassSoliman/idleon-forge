@@ -1,4 +1,4 @@
-# golden v1: fresh · knowledge #9761de04 · parser 6c37e3d (game 2.3.540) · now 2026-08-20T18:41:58.956Z · return 8h · stage W4-entry · stale: 4 of 1003
+# golden v1: fresh · knowledge #04f5e113 · parser 6c37e3d (game 2.3.540) · now 2026-08-20T18:41:58.956Z · return 8h · stage W4-late · stale: 4 of 1060
 
 ## Verdict changes
 
@@ -33,20 +33,32 @@ Unknown: can't tell from the save
   ○ To do: Colosseum tickets · Typhoon: 3 days banked, 50 lost · Centurion: 3 days banked, 50 lost · Lonely Hunter: 3 days banked, 50 lost · resets in 4h 38m · lost before you are back
   ○ To do: Killroy's rooms · Archer room: your Siege Breaker Lv 478 · Warrior room: your Blood Berserker Lv 534 · your weekly reset in 3d 4h
   ○ To do: Weekly Battle · best this week: difficulty 0 of 5 · new boss Thursday 00:00 UTC, in 6d 5h
-  ○ To do: Bonus Ballot vote · Leading now: Boosts Refinery Cycle Speed by +55% · new ballot Monday about 17:00 UTC, in 3d 22h
+  ○ To do: Bonus Ballot vote · Active now: Boosts Refinery Cycle Speed by +55% · new ballot Monday about 17:00 UTC, in 3d 22h
   ○ To do: Guild weekly tasks · your weekly reset in 3d 4h
 - Spend · Collect banked Colosseum tickets: Collect 9 Colosseum tickets [IdleOn Wiki: Typhoon · Calculated by IdleOn Toolbox · 2.3.540]
 - Extra · Play Spiketrap Surprise: Spiketrap starts at :00: up to 40 gems today [IdleOn Wiki: Secrets · Calculated by IdleOn Toolbox · 2.3.540]
 - Extra · Today's Random Event: Random Event now on Jar Bridge (Snake Swarm): one a day [IdleOn Wiki: Random Events · Calculated by IdleOn Toolbox · 2.3.540]
 - Extra · Claim the free Pet Mart gems: Claim today's free Pet Mart gems [IdleOn Wiki: Daily Checklist · Calculated by IdleOn Toolbox · 2.3.540]
 - Spend · Use your vial attempts: Use your 18 vial attempts on the W2 town cauldron [IdleOn Wiki: Alchemy/Vials · Calculated by IdleOn Toolbox · 2.3.540]
-show more (16)
+show more (20)
 If you have time
 - Run Killroy's Archer room on your Siege Breaker Lv 478 (YumYum Grotto) · about 2m of hands-on play
 - Run Killroy's Warrior room on your Blood Berserker Lv 534 (YumYum Grotto) · about 2m of hands-on play
 - Run the Weekly Battle with every character (Yum Yum Desert) · about 3m of hands-on play
 
 ## Not covered yet
+Achievements
+Coins
+Drop rate
+Dungeons
+Event Shop
+Family bonuses
+Food
+Friend bonuses
+Stats and damage
+Storage and inventory
+Town shops
+Trophies and nametags
 Bribes
 Forge
 Quests
@@ -58,9 +70,7 @@ Equinox
 Prayers
 Salt Lick
 Shrines
-Breeding
-Cooking
-Laboratory
+Sigils
 
 ## Systems
 W0 · Classes and subclasses · Nothing to fix · Nothing to fix
@@ -82,6 +92,18 @@ W0 · Random Events · Wasting · 1 to fix before you leave
 W0 · Pet Tournament · Nothing to fix · Nothing to fix
 W0 · Daily tasks · Nothing to fix · Nothing to fix
 W0 · Guild tasks · Nothing to fix · Nothing to fix
+W0 · Achievements · Not covered yet · Not covered yet
+W0 · Dungeons · Not covered yet · Not covered yet
+W0 · Family bonuses · Not covered yet · Not covered yet
+W0 · Food · Not covered yet · Not covered yet
+W0 · Storage and inventory · Not covered yet · Not covered yet
+W0 · Stats and damage · Not covered yet · Not covered yet
+W0 · Coins · Not covered yet · Not covered yet
+W0 · Friend bonuses · Not covered yet · Not covered yet
+W0 · Event Shop · Not covered yet · Not covered yet
+W0 · Trophies and nametags · Not covered yet · Not covered yet
+W0 · Town shops · Not covered yet · Not covered yet
+W0 · Drop rate · Not covered yet · Not covered yet
 W1 · Stamps · Nothing to fix · Nothing to fix · 2 to do
 W1 · Star Signs · Nothing to fix · Nothing to fix
 W1 · Anvil · Can't tell · Can't tell from the save
@@ -117,13 +139,17 @@ W3 · Shrines · Not covered yet · Not covered yet
 W3 · Equinox · Not covered yet · Not covered yet
 W3 · Atom Collider · Not covered yet · Not covered yet
 W3 · Bubba · Nothing to fix · Nothing to fix · 1 to do
-W4 · Laboratory · Not covered yet · Not covered yet
-W4 · Cooking · Not covered yet · Not covered yet
-W4 · Breeding · Not covered yet · Not covered yet
+W4 · Laboratory · Nothing to fix · Nothing to fix · 1 to do
+W4 · Cooking · Nothing to fix · Nothing to fix
+W4 · Breeding · Wasting · 1 to fix before you leave · 1 to do
+W4 · Sigils · Not covered yet · Not covered yet
+W4 · The Rift · Nothing to fix · Nothing to fix · 1 to do
+W4 · The Tome · Nothing to fix · Nothing to fix
+W4 · Elite classes · Nothing to fix · Nothing to fix
 Worlds 5–7: not covered yet
-Needs you: Companions and pets (wasting), Minigames (wasting), Random Events (wasting), Boss keys (wasting), Colosseum (wasting), Alchemy vials (wasting)
+Needs you: Companions and pets (wasting), Minigames (wasting), Random Events (wasting), Boss keys (wasting), Colosseum (wasting), Alchemy vials (wasting), Breeding (wasting)
 Other gaps: Talent builds past World 4, W4+ constellations and Infinite Stars
-Wasting: 6
+Wasting: 7
 Report card: (none)
 Stamps picture: 105 of 121 owned · lit (none) · next 0
 Statues picture: 28 of 32 Gold · 18 Onyx · lit (none)
@@ -204,15 +230,18 @@ Locked: pats (Opens at Happi Boi), smoker (Opens at Smoker), charisma (Opens at 
 
 ## Builds
 ### C1 (Siege Breaker 478)
-- No build for this stage yet (builds cover World 1 to World 4): these are your talent levels
-- Other preset: Calm Basics · Archer · Bowman · Siege Breaker · Star talents (1,534 unspent)
+- Skilling preset: Calm Basics [Start here] (at least 2,110 unspent) · Archer (at least 1,573 unspent) · Bowman (at least 724 unspent) · Siege Breaker (at least 1,447 unspent) · Star talents (1,534 unspent)
+  - Calm Basics: As of your last save: at least 2,110 points waiting · they end here
+    - can add now: Elusive Efficiency 0 → 131 · +131
+    - can add now: Quickness Boots 0 → 460 · +591
+    - can add now: Broken Time 0 → 182 · +773
   - Star talents: 1,534 unspent · they end here (Stonks! returns more as it levels)
     - can add now: Stonks! 0 → 30 · +30 (pays for itself: it returns star points as it levels)
     - can add now: Tick Tock = Will of the Eldest = Toilet Paper Postage +254 · +284 (split evenly: Tick Tock 0 → 104, Will of the Eldest 0 → 50, Toilet Paper Postage 0 → 100 · useful up to 53 (best level 534); its max for now)
     - can add now: Printer Sampling 0 → 1 · +285
     - can add now: Shrine Architect 0 → 1 · +286
     - and 4 more
-- Current preset (in use): Calm Basics · Archer · Bowman · Siege Breaker · Star talents (645 unspent)
+- Fighting preset (in use): Calm Basics · Archer · Bowman · Siege Breaker · Star talents (645 unspent)
   - Star talents: 645 unspent · they end here (Stonks! returns more as it levels)
     - can add now: Stonks! 0 → 30 · +30 (pays for itself: it returns star points as it levels)
     - done: Will of the Eldest 50 (useful up to 53 (best level 534); its max for now)
@@ -221,21 +250,26 @@ Locked: pats (Opens at Happi Boi), smoker (Opens at Smoker), charisma (Opens at 
     - and 6 more
 
 ### C2 (Blood Berserker 534)
-- No build for this stage yet (builds cover World 1 to World 4): these are your talent levels
-- Other preset: Rage Basics · Warrior · Barbarian · Blood Berserker · Star talents (1,835 unspent)
+- Fighting preset: Rage Basics [Start here] (at least 2,075 unspent) · Warrior (at least 1,335 unspent) · Barbarian (at least 1,070 unspent) · Blood Berserker (at least 1,266 unspent) · Star talents (1,835 unspent)
+  - Rage Basics: As of your last save: at least 2,075 points waiting · they end here
+    - can add now: Idle Brawling 0 → 50 · +50
+    - can add now: Gilded Sword 0 → 153 · +203
+    - can add now: Sharpened Axe 0 → 142 · +345
+    - can add now: Idle Brawling 0 → 151 · +446 (you have 0 now; the steps above take it to 50)
+    - and 3 more
   - Star talents: 1,835 unspent · they end here (Stonks! returns more as it levels)
     - can add now: Stonks! 0 → 30 · +30 (pays for itself: it returns star points as it levels)
-    - can add now: Tick Tock = Will of the Eldest = Toilet Paper Postage +254 · +284 (split evenly: Tick Tock 0 → 104, Will of the Eldest 0 → 50, Toilet Paper Postage 0 → 100 · useful up to 53 (best level 534); its max for now)
-    - can add now: Printer Sampling 0 → 1 · +285
-    - can add now: Shrine Architect 0 → 1 · +286
-    - and 4 more
-- Current preset (in use): Rage Basics · Warrior · Barbarian · Blood Berserker · Star talents (501 unspent)
+    - can add now: Will of the Eldest 0 → 50 · +80 (useful up to 53 (best level 534); its max for now)
+    - done: Beginner Best Class 0 (no Beginner-line character yet)
+    - can add now: Tick Tock = Attacks On Simmer = Goblet of Hemoglobin +204 · +284 (split evenly: Tick Tock 0 → 104, Attacks On Simmer 0 → 50, Goblet of Hemoglobin 0 → 50)
+    - and 5 more
+- Skilling preset (in use): Rage Basics · Warrior · Barbarian · Blood Berserker · Star talents (501 unspent)
   - Star talents: 501 unspent · they end here (Stonks! returns more as it levels)
     - can add now: Stonks! 0 → 30 · +30 (pays for itself: it returns star points as it levels)
     - done: Will of the Eldest 50 (useful up to 53 (best level 534); its max for now)
-    - done: Beginner Best Class 0 (no Beginner-line character yet)
-    - done: Attacks On Simmer 50
-    - and 7 more
+    - can add now: Tick Tock = Toilet Paper Postage +87 · +117 (split evenly: Tick Tock 92 → 104, Toilet Paper Postage 25 → 100)
+    - done: Printer Sampling 1
+    - and 5 more
 
 ### C3 (Beginner 1)
 - No build for this stage yet (builds cover World 1 to World 4): these are your talent levels
@@ -298,6 +332,8 @@ Locked: pats (Opens at Happi Boi), smoker (Opens at Smoker), charisma (Opens at 
 | anvil.check.spend-points | anvil/points | account | fires | count=2 hours=8 |
 | arcade.check.balls-cap | arcade/balls-cap | account | unknown (field-missing) |  |
 | boss-keys.check.collect | boss-keys/banked | C2 | fires | chizoar=6 daysLost=50 efaunt=6 forestVilla=6 total=18 |
+| breeding.check.full-nest | breeding/full-nest | account | fires | capacity=15 eggs=15 first=0 |
+| breeding.check.idle-territory | breeding/idle-territory | account | fires | idle=1 territory=Dharma Mesa |
 | bubba.check.boon | bubba/boon | — | silent |  |
 | bubba.check.charisma-idle | bubba/charisma-idle | — | silent |  |
 | bubba.check.megaflesh | bubba/megaflesh | — | silent |  |
@@ -306,11 +342,17 @@ Locked: pats (Opens at Happi Boi), smoker (Opens at Smoker), charisma (Opens at 
 | bubba.check.start | bubba/start | account | fires | restart=0 |
 | colosseum.check.collect-tickets | colosseum/tickets-banked | account | fires | cappedNpcs=3 daysLost=50 total=9 |
 | construction.check.build-next | construction/build-next | account | pass |  |
+| cooking.check.capped-meal | cooking/capped-meal | — | silent |  |
+| cooking.check.idle-kitchen | cooking/idle-kitchen | — | silent |  |
 | death-note.check.build | death-note/build | — | silent |  |
 | death-note.check.build-slot | death-note/build | — | silent |  |
+| elite-classes.check.eliteus | elite-classes/eliteus | — | silent |  |
 | gem-shop.check.printer-buy | gem-shop/unspent | — | silent |  |
 | gem-shop.check.printer-progress | gem-shop/unspent | — | silent |  |
 | gem-shop.check.unspent | gem-shop/unspent | account | fires | gems=4500 price=875 |
+| lab.check.first-upload | lab/uploads | — | silent |  |
+| lab.check.jewel-unlit | lab/jewel-unlit | account | fires | dark=18 jewel=Amethyst_Rhinestone |
+| lab.check.not-connected | lab/uploads | — | silent |  |
 | merit-shop.check.spend-w1 | merit-shop/unspent | — | silent |  |
 | merit-shop.check.spend-w2 | merit-shop/unspent | — | silent |  |
 | merit-shop.check.spend-w2-afk-gains | merit-shop/unspent | — | silent |  |
@@ -342,6 +384,11 @@ Locked: pats (Opens at Happi Boi), smoker (Opens at Smoker), charisma (Opens at 
 | refinery.check.salt-fuel | refinery/salt-off | — | silent |  |
 | refinery.check.salt-off | refinery/salt-off | — | silent |  |
 | refinery.check.unlock-next | refinery/unlock-next | — | silent |  |
+| rift.check.active-task | rift/task-kind | account | fires | afk=0 level=47 progress=0 quota=4 task=DEFEAT_THE_MEGA_MONSTER,_WHO_CAN_SELF_HEAL,_ON_4_CHARS |
+| rift.check.afk-task | rift/task-kind | — | silent |  |
+| rift.check.class-gate | rift/class-gate | — | silent |  |
+| rift.check.quota-done | rift/quota-done | — | silent |  |
+| rift.check.unlock-quest | rift/unlock-quest | — | silent |  |
 | systems.yaml#alchemy | worlds/reached | account | reached yes |  |
 | systems.yaml#alchemy-bubbles | worlds/reached | account | reached yes |  |
 | systems.yaml#alchemy-p2w | worlds/reached | account | reached yes |  |
@@ -352,18 +399,19 @@ Locked: pats (Opens at Happi Boi), smoker (Opens at Smoker), charisma (Opens at 
 | systems.yaml#atom-collider | worlds/reached | account | reached yes |  |
 | systems.yaml#ballot | worlds/reached | account | reached yes |  |
 | systems.yaml#boss-keys | worlds/reached | account | reached yes |  |
-| systems.yaml#breeding | worlds/reached | account | reached yes |  |
+| systems.yaml#breeding | systems/unlocked | account | reached yes |  |
 | systems.yaml#bribes | worlds/reached | account | reached yes |  |
 | systems.yaml#bubba | bubba/unlocked | account | reached yes |  |
 | systems.yaml#colosseum | worlds/reached | account | reached yes |  |
 | systems.yaml#construction | worlds/reached | account | reached yes |  |
-| systems.yaml#cooking | worlds/reached | account | reached yes |  |
+| systems.yaml#cooking | systems/unlocked | account | reached yes |  |
 | systems.yaml#death-note | worlds/reached | account | reached yes |  |
-| systems.yaml#equinox | worlds/reached | account | reached yes |  |
+| systems.yaml#elite-classes | worlds/reached | account | reached yes |  |
+| systems.yaml#equinox | systems/unlocked | account | reached yes |  |
 | systems.yaml#forge | worlds/reached | account | reached yes |  |
-| systems.yaml#islands | worlds/reached | account | reached yes |  |
+| systems.yaml#islands | systems/unlocked | account | reached yes |  |
 | systems.yaml#killroy | worlds/reached | account | reached yes |  |
-| systems.yaml#lab | worlds/reached | account | reached yes |  |
+| systems.yaml#lab | systems/unlocked | account | reached yes |  |
 | systems.yaml#library | worlds/reached | account | reached yes |  |
 | systems.yaml#owl | worlds/reached | account | reached yes |  |
 | systems.yaml#poppy | worlds/reached | account | reached yes |  |
@@ -372,15 +420,20 @@ Locked: pats (Opens at Happi Boi), smoker (Opens at Smoker), charisma (Opens at 
 | systems.yaml#printer | worlds/reached | account | reached yes |  |
 | systems.yaml#quests | worlds/reached | account | reached yes |  |
 | systems.yaml#refinery | worlds/reached | account | reached yes |  |
+| systems.yaml#rift | systems/unlocked | account | reached yes |  |
 | systems.yaml#salt-lick | worlds/reached | account | reached yes |  |
 | systems.yaml#shrines | worlds/reached | account | reached yes |  |
+| systems.yaml#sigils | systems/unlocked | account | reached yes |  |
 | systems.yaml#stamps | worlds/reached | account | reached yes |  |
 | systems.yaml#star-signs | worlds/reached | account | reached yes |  |
 | systems.yaml#statues | worlds/reached | account | reached yes |  |
+| systems.yaml#tome | worlds/reached | account | reached yes |  |
 | systems.yaml#trapping | worlds/reached | account | reached yes |  |
 | systems.yaml#weekly-battles | worlds/reached | account | reached yes |  |
 | systems.yaml#worship | worlds/reached | account | reached yes |  |
 | task-unlocks.check.spend | task-unlocks/unspent | account | fires | points=180 |
+| tome.check.blue-pages | tome/blue-pages | — | silent |  |
+| tome.check.claim-nametags | tome/nametags | — | silent |  |
 | trapping.check.finishes-early | trapping/finishes-early | C1 | unknown (field-missing) |  |
 | trapping.check.finishes-early | trapping/finishes-early | C2 | pass |  |
 | trapping.check.finishes-early | trapping/finishes-early | C3 | fires | finishesIn=28300723 |

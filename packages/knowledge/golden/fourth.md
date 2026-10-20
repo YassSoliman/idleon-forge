@@ -1,4 +1,4 @@
-# golden v1: fourth · knowledge #9761de04 · parser 6c37e3d (game 2.3.540) · now 2024-05-17T07:51:22.362Z · return 8h · stage W4-entry · stale: 4 of 1003
+# golden v1: fourth · knowledge #04f5e113 · parser 6c37e3d (game 2.3.540) · now 2024-05-17T07:51:22.362Z · return 8h · stage W4-late · stale: 4 of 1060
 
 ## Verdict changes
 
@@ -22,11 +22,23 @@ fold: 1 we can't tell: see why
 - Spend · Fill today's Post Office orders: Fill today's Post Office orders from storage [IdleOn Wiki: Post Office, orders · Calculated by IdleOn Toolbox · 2.3.540]
 - Extra · Gems unspent: 999 gems unspent [IdleOn Wiki: Gem Shop]
   sources disagree: Infinity Hammer first: the universal first buy. | Extra Card Slots and the Crystal 3D Printer first; the hammer is no longer necessary.
-show more (12)
+show more (15)
 If you have time
 - Run the Weekly Battle with every character (Yum Yum Desert) · about 2m of hands-on play
 
 ## Not covered yet
+Achievements
+Coins
+Drop rate
+Dungeons
+Event Shop
+Family bonuses
+Food
+Friend bonuses
+Stats and damage
+Storage and inventory
+Town shops
+Trophies and nametags
 Bribes
 Forge
 Quests
@@ -38,9 +50,7 @@ Equinox
 Prayers
 Salt Lick
 Shrines
-Breeding
-Cooking
-Laboratory
+Sigils
 
 ## Systems
 W0 · Classes and subclasses · Nothing to fix · Nothing to fix
@@ -62,6 +72,18 @@ W0 · Random Events · Wasting · 1 to fix before you leave
 W0 · Pet Tournament · Nothing to fix · Nothing to fix
 W0 · Daily tasks · Nothing to fix · Nothing to fix
 W0 · Guild tasks · Nothing to fix · Nothing to fix
+W0 · Achievements · Not covered yet · Not covered yet
+W0 · Dungeons · Not covered yet · Not covered yet
+W0 · Family bonuses · Not covered yet · Not covered yet
+W0 · Food · Not covered yet · Not covered yet
+W0 · Storage and inventory · Not covered yet · Not covered yet
+W0 · Stats and damage · Not covered yet · Not covered yet
+W0 · Coins · Not covered yet · Not covered yet
+W0 · Friend bonuses · Not covered yet · Not covered yet
+W0 · Event Shop · Not covered yet · Not covered yet
+W0 · Trophies and nametags · Not covered yet · Not covered yet
+W0 · Town shops · Not covered yet · Not covered yet
+W0 · Drop rate · Not covered yet · Not covered yet
 W1 · Stamps · Nothing to fix · Nothing to fix · 2 to do
 W1 · Star Signs · Nothing to fix · Nothing to fix
 W1 · Anvil · Can't tell · Can't tell from the save
@@ -97,9 +119,13 @@ W3 · Shrines · Not covered yet · Not covered yet
 W3 · Equinox · Not covered yet · Not covered yet
 W3 · Atom Collider · Not covered yet · Not covered yet
 W3 · Bubba · Can't tell · Can't tell from the save
-W4 · Laboratory · Not covered yet · Not covered yet
-W4 · Cooking · Not covered yet · Not covered yet
-W4 · Breeding · Not covered yet · Not covered yet
+W4 · Laboratory · Nothing to fix · Nothing to fix · 1 to do
+W4 · Cooking · Nothing to fix · Nothing to fix
+W4 · Breeding · Nothing to fix · Nothing to fix · 1 to do
+W4 · Sigils · Not covered yet · Not covered yet
+W4 · The Rift · Nothing to fix · Nothing to fix · 1 to do
+W4 · The Tome · Nothing to fix · Nothing to fix
+W4 · Elite classes · Nothing to fix · Nothing to fix
 Worlds 5–7: not covered yet
 Needs you: Minigames (wasting), Random Events (wasting)
 Other gaps: Talent builds past World 4, W4+ constellations and Infinite Stars
@@ -159,15 +185,20 @@ Can't read Bubba from this save
 
 ## Builds
 ### C1 (Voidwalker 476)
-- No build for this stage yet (builds cover World 1 to World 4): these are your talent levels
-- Current preset (in use): Beginner · Journeyman · Maestro · Voidwalker · Star talents (over budget by about 201)
+- Fighting preset (in use): Beginner · Journeyman · Maestro · Voidwalker · Star talents (over budget by about 201)
   - Star talents: Over budget by about 201: the totals show where new points go
     - done: Stonks! 30
     - done: Will of the Eldest 47 (useful up to 47 (best level 476))
     - done: Beginner Best Class 47 (useful up to 47 (best Beginner-line level 476))
     - done: Attacks On Simmer 50
     - and 7 more
-- Other preset: Beginner · Journeyman · Maestro · Voidwalker · Star talents (563 unspent)
+- Skilling preset: Beginner [Start here] (at least 98 unspent) · Journeyman (at least 320 unspent) · Maestro (at least 410 unspent) · Voidwalker (at least 23 unspent) · Star talents (563 unspent)
+  - Beginner: As of your last save: at least 98 points waiting · they end here
+    - done: Happy Dude 560
+    - part now: Sleepin' On the Job 100 → 259 · +98 of 159 now · +159
+    - done: Fist of Rage 100
+    - done: Quickness Boots 100
+    - and 1 more
   - Star talents: 563 unspent · they end here
     - done: Stonks! 30
     - done: Tick Tock 100
@@ -230,6 +261,8 @@ Can't read Bubba from this save
 | anvil.check.spend-points | anvil/points | C2 | unknown (field-missing) |  |
 | arcade.check.balls-cap | arcade/balls-cap | account | pass |  |
 | boss-keys.check.collect | boss-keys/banked | — | silent |  |
+| breeding.check.full-nest | breeding/full-nest | — | silent |  |
+| breeding.check.idle-territory | breeding/idle-territory | account | fires | idle=1 territory=Smokey Lake |
 | bubba.check.boon | bubba/boon | account | unknown (field-missing) |  |
 | bubba.check.charisma-idle | bubba/charisma-idle | account | unknown (field-missing) |  |
 | bubba.check.megaflesh | bubba/megaflesh | account | unknown (field-missing) |  |
@@ -239,11 +272,17 @@ Can't read Bubba from this save
 | classes.contribution.exp | classes/exp | C1 | advances yes eta 7253m | exp=56064428209917 expReq=101659246119794 rate=377190580752.46124 saved=476 |
 | colosseum.check.collect-tickets | colosseum/tickets-banked | — | silent |  |
 | construction.check.build-next | construction/build-next | account | fires | building=3D_Printer fullIn=3312676000 held=77204 payTimed=1 salt=Redox_Salts thenNone=1 |
+| cooking.check.capped-meal | cooking/capped-meal | — | silent |  |
+| cooking.check.idle-kitchen | cooking/idle-kitchen | — | silent |  |
 | death-note.check.build | death-note/build | — | silent |  |
 | death-note.check.build-slot | death-note/build | — | silent |  |
+| elite-classes.check.eliteus | elite-classes/eliteus | — | silent |  |
 | gem-shop.check.printer-buy | gem-shop/unspent | — | silent |  |
 | gem-shop.check.printer-progress | gem-shop/unspent | — | silent |  |
 | gem-shop.check.unspent | gem-shop/unspent | account | fires | gems=999 price=875 |
+| lab.check.first-upload | lab/uploads | — | silent |  |
+| lab.check.jewel-unlit | lab/jewel-unlit | account | fires | dark=8 jewel=Amethyst_Rhinestone |
+| lab.check.not-connected | lab/uploads | — | silent |  |
 | merit-shop.check.spend-w1 | merit-shop/unspent | account | fires | unspent=12 world=1 |
 | merit-shop.check.spend-w2 | merit-shop/unspent | — | silent |  |
 | merit-shop.check.spend-w2-afk-gains | merit-shop/unspent | account | fires | unspent=17 world=2 |
@@ -274,6 +313,11 @@ Can't read Bubba from this save
 | refinery.check.salt-fuel | refinery/salt-off | — | silent |  |
 | refinery.check.salt-off | refinery/salt-off | — | silent |  |
 | refinery.check.unlock-next | refinery/unlock-next | — | silent |  |
+| rift.check.active-task | rift/task-kind | account | fires | afk=0 level=3 progress=1 quota=3 task=DEFEAT_ALL_MOBS_BEFORE_THEY_RESPAWN_ON_3_CHARACTERS |
+| rift.check.afk-task | rift/task-kind | — | silent |  |
+| rift.check.class-gate | rift/class-gate | — | silent |  |
+| rift.check.quota-done | rift/quota-done | — | silent |  |
+| rift.check.unlock-quest | rift/unlock-quest | — | silent |  |
 | systems.yaml#alchemy | worlds/reached | account | reached yes |  |
 | systems.yaml#alchemy-bubbles | worlds/reached | account | reached yes |  |
 | systems.yaml#alchemy-p2w | worlds/reached | account | reached yes |  |
@@ -284,18 +328,19 @@ Can't read Bubba from this save
 | systems.yaml#atom-collider | worlds/reached | account | reached yes |  |
 | systems.yaml#ballot | worlds/reached | account | reached yes |  |
 | systems.yaml#boss-keys | worlds/reached | account | reached yes |  |
-| systems.yaml#breeding | worlds/reached | account | reached yes |  |
+| systems.yaml#breeding | systems/unlocked | account | reached yes |  |
 | systems.yaml#bribes | worlds/reached | account | reached yes |  |
 | systems.yaml#bubba | bubba/unlocked | account | reached yes |  |
 | systems.yaml#colosseum | worlds/reached | account | reached yes |  |
 | systems.yaml#construction | worlds/reached | account | reached yes |  |
-| systems.yaml#cooking | worlds/reached | account | reached yes |  |
+| systems.yaml#cooking | systems/unlocked | account | reached yes |  |
 | systems.yaml#death-note | worlds/reached | account | reached yes |  |
-| systems.yaml#equinox | worlds/reached | account | reached yes |  |
+| systems.yaml#elite-classes | worlds/reached | account | reached yes |  |
+| systems.yaml#equinox | systems/unlocked | account | reached yes |  |
 | systems.yaml#forge | worlds/reached | account | reached yes |  |
-| systems.yaml#islands | worlds/reached | account | reached yes |  |
+| systems.yaml#islands | systems/unlocked | account | reached yes |  |
 | systems.yaml#killroy | worlds/reached | account | reached yes |  |
-| systems.yaml#lab | worlds/reached | account | reached yes |  |
+| systems.yaml#lab | systems/unlocked | account | reached yes |  |
 | systems.yaml#library | worlds/reached | account | reached yes |  |
 | systems.yaml#owl | worlds/reached | account | reached yes |  |
 | systems.yaml#poppy | worlds/reached | account | reached yes |  |
@@ -304,15 +349,20 @@ Can't read Bubba from this save
 | systems.yaml#printer | worlds/reached | account | reached yes |  |
 | systems.yaml#quests | worlds/reached | account | reached yes |  |
 | systems.yaml#refinery | worlds/reached | account | reached yes |  |
+| systems.yaml#rift | systems/unlocked | account | reached yes |  |
 | systems.yaml#salt-lick | worlds/reached | account | reached yes |  |
 | systems.yaml#shrines | worlds/reached | account | reached yes |  |
+| systems.yaml#sigils | systems/unlocked | account | reached yes |  |
 | systems.yaml#stamps | worlds/reached | account | reached yes |  |
 | systems.yaml#star-signs | worlds/reached | account | reached yes |  |
 | systems.yaml#statues | worlds/reached | account | reached yes |  |
+| systems.yaml#tome | worlds/reached | account | reached yes |  |
 | systems.yaml#trapping | worlds/reached | account | reached yes |  |
 | systems.yaml#weekly-battles | worlds/reached | account | reached yes |  |
 | systems.yaml#worship | worlds/reached | account | reached yes |  |
 | task-unlocks.check.spend | task-unlocks/unspent | account | fires | points=265 |
+| tome.check.blue-pages | tome/blue-pages | — | silent |  |
+| tome.check.claim-nametags | tome/nametags | — | silent |  |
 | trapping.check.finishes-early | trapping/finishes-early | C1 | pass |  |
 | trapping.check.finishes-early | trapping/finishes-early | C2 | unknown (field-missing) |  |
 | trapping.check.slots-and-timers | trapping/slots-and-timers | C2 | unknown (field-missing) |  |

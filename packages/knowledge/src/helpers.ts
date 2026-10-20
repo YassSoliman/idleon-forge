@@ -5,8 +5,10 @@
 // account-state is re-exported here.
 import type { AccountState, CharacterState } from '@idleon-forge/account-state';
 import { isKnown } from '@idleon-forge/account-state';
-import type { Subject } from './types';
+import type { HistoryEntry, Subject } from './types';
 
+// M26 FR-6: the shared unlock guard, here so Detectors may use it (M11 TR-1 import rule).
+export { hasUnlockRule, opensSystem, UNLOCK_RULES, type UnlockState, unlocked } from './unlock';
 export { isKnown };
 
 /** The readable characters, in save order. */
@@ -54,3 +56,43 @@ export function withUnknown(state: AccountState, ...paths: string[]): AccountSta
 }
 export * from './bubba-detectors';
 export * from './purpose-detectors';
+export * from './rift-detectors';
+export * from './w4-detectors';
+
+/** A value at a dot path ("account.lab.characters", "account.killroy.doneCode"); undefined when absent. */
+export function valueAt(root: unknown, path: string): unknown {
+  let v: unknown = root;
+  for (const k of path.split('.')) {
+    if (v === null || typeof v !== 'object') return undefined;
+    v = (v as Record<string, unknown>)[k];
+  }
+  return v;
+}
+
+/** One sub-field a previous-save Detector compares, and (optionally) the shape it must have. */
+export interface ComparedField {
+  path: string;
+  /** Rejects a reshaped value: true when the stored value has the shape this Detector compares. */
+  valid?: (v: unknown) => boolean;
+}
+
+/**
+ * The previous save, for a Detector that compares with it (M26 FR-7: Lab chain-broke, Killroy and
+ * Weekly Battles week rolls). It is the newest earlier save; it counts as "no previous save" (null)
+ * only when one of the declared sub-fields is missing (undefined) or fails its shape, never because
+ * `schemaVersion` differs: a release reshapes some fields, so it silences only the Detectors that
+ * compare those, for one sync. Each declared path must also be kept by the history's compact copy
+ * (packages/sync engine-history.ts `compactState`), or it reads as missing on every compact entry.
+ */
+export function previousSave(
+  history: readonly HistoryEntry[],
+  fields: readonly ComparedField[],
+): HistoryEntry | null {
+  const prev = history.at(-1);
+  if (!prev) return null;
+  for (const f of fields) {
+    const v = valueAt(prev.state, f.path);
+    if (v === undefined || (f.valid && !f.valid(v))) return null;
+  }
+  return prev;
+}

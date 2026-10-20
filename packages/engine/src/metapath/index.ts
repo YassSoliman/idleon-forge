@@ -50,6 +50,13 @@ export { familyUnlockGoal } from './goals';
 export { lookupOf, MetaPathKnowledgeError } from './knowledge';
 export { createMetaPathModule, type MetaPathModuleOptions, metaPathModule } from './module';
 export {
+  type PlannedPath,
+  type PlannedStep,
+  type PromotionVia,
+  plannedLine,
+  plannedPaths,
+} from './planned';
+export {
   compareGoals,
   effortCost,
   FRAME,
@@ -92,7 +99,7 @@ export function runMetaPath(state: AccountState, kb: MetaPathKnowledge, _now: nu
     roster,
     visitHints: visitHints(state, facts, roles),
     goals: [
-      ...subclassPending(state, facts, stage),
+      ...subclassPending(state, facts, stage, roster),
       ...worldTutorial(state, facts, stage, pusherIndex),
       ...elitePending(state, facts, stage),
       ...rosterGoals(roster, stage),

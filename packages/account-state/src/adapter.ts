@@ -13,16 +13,20 @@ import { readAlchemyPlan } from './alchemy';
 import { readBubba } from './bubba';
 import { readCollections } from './collections';
 import { readDepth } from './depth';
+import { readElite } from './elite';
 import { FIELD_RAW_KEYS, type RawKind } from './fields';
 import { readGear } from './gear';
 import { metaPathAccountFields, metaPathCharacterFields } from './metapath-fields';
+import { readProduction } from './production';
 import { readPurpose } from './purpose';
 import { readRedesign } from './redesign';
+import { readRift } from './rift';
 import { readSlotFields } from './slots';
 import { readSpendInputs } from './spend';
 import { readStarSigns } from './starsigns';
 import { readTalentPoints } from './talent-points';
 import { readResetItems, readTalents } from './talents';
+import { readTome } from './tome';
 import {
   type AccountState,
   type CharacterState,
@@ -510,6 +514,19 @@ export function toAccountState(
   const alchemyPlan = readAlchemyPlan({ account, states, failedSections }, c);
   // ---- M18 Gear & Tools (M18 TR-2) ----
   const gear = readGear({ account, characters, data, states, withData }, c);
+  // ---- M26 F-C the Production Plan's anvil reads (production.ts) ----
+  readProduction(
+    {
+      account,
+      characters,
+      data,
+      states,
+      calls: options.toolbox?.calls ?? null,
+      withFrozenClock: options.toolbox?.withFrozenClock ?? null,
+      asOf,
+    },
+    c,
+  );
   // ---- M21 Redesign (M21 TR-3); after M9's talents, which it extends ----
   const redesign = readRedesign(
     {
@@ -545,8 +562,32 @@ export function toAccountState(
     { account, characters, data, failedSections, calls: options.toolbox?.calls ?? null },
     c,
   );
+  // ---- M26 FR-17 the Eliteus step (elite.ts) ----
+  readElite({ data, states }, c);
+  // ---- M26 FR-11 the Rift (rift.ts) ----
+  let rift: AccountState['account']['rift'] = null;
+  if (data.Rift !== undefined && data.Rift !== null) {
+    if (['rift', 'quests'].some((s) => failedSections.includes(s))) c.unknown('account.rift');
+    else
+      try {
+        rift = readRift({ account, characters, data });
+      } catch {
+        c.unknown('account.rift');
+      }
+  }
+  // ---- M26 FR-16 the Tome (tome.ts) ----
+  let tome: AccountState['account']['tome'] = null;
+  if (isDict(account.tome)) {
+    if (failedSections.includes('tome')) c.unknown('account.tome');
+    else
+      try {
+        tome = readTome(account, accountLevel);
+      } catch {
+        c.unknown('account.tome');
+      }
+  }
   // ---- M24 the World 3 System pages: prayers and shrines (read-only facts) ----
-  const w23 = readW23({ account, failedSections, calls: options.toolbox?.calls ?? null }, c);
+  const w23 = readW23({ account, data, failedSections, calls: options.toolbox?.calls ?? null }, c);
   // ---- M7 Spend Plan (M7 TR-2) ----
   const spend = readSpendInputs({
     parsed,
@@ -609,6 +650,8 @@ export function toAccountState(
       ...w23,
       ...bubba,
       ...world4,
+      rift,
+      tome,
       // One salt list: M6's entries carry M2's rawName/unlocked plus the fuel state (M6 TR-3).
       salts: metaPath.salts === null ? null : (unspent.salts ?? metaPath.salts ?? null),
     },

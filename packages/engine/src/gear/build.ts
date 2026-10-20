@@ -109,7 +109,7 @@ export function buildGear(input: GearBuildInput): GearBuildOutput | null {
   if (!facts) return null;
   const world = state.account.currentWorld ?? null;
   const stage = planStage(meta?.stage.id ?? null, world);
-  const beyond = (world ?? 0) >= 4 || stage === 'W4-entry';
+  const beyond = (world ?? 0) >= 4 || (stage !== null && reached(stage, 'W4-entry'));
   const s = (id: string, key: string, slots: Record<string, SlotValue> = {}) => say(kb, id, key, slots);
   const sn = (key: string, slots: Record<string, SlotValue> = {}) => s(ENTRY.next, key, slots);
   const slotWord = (slot: GearSlotId) => sn(`slot-${slot}`);

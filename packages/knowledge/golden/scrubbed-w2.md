@@ -1,4 +1,4 @@
-# golden v1: scrubbed-w2 · knowledge #9761de04 · parser 6c37e3d (game 2.3.540) · now 2026-10-17T15:47:05.447Z · return 8h · stage W2-late · stale: 4 of 1003
+# golden v1: scrubbed-w2 · knowledge #04f5e113 · parser 6c37e3d (game 2.3.540) · now 2026-10-17T15:47:05.447Z · return 8h · stage W2-late · stale: 4 of 1060
 
 ## Verdict changes
 
@@ -42,7 +42,7 @@ Fix before you leave
   ○ To do: Colosseum tickets · Typhoon: 3 days banked, 1 lost · Centurion: 2 days banked · resets in 23h 42m · lost before you are back
   ○ To do: Killroy's rooms · Warrior room: your Barbarian Lv 60 · your weekly reset in 2d 23h
   ○ To do: Weekly Battle · best this week: difficulty 0 of 5 · new boss Thursday 00:00 UTC, in 4d 8h
-  ○ To do: Bonus Ballot vote · Leading now: Boosts Equinox Bar Fill rate by 1.4x · new ballot Monday about 17:00 UTC, in 2d 1h
+  ○ To do: Bonus Ballot vote · Active now: Boosts Equinox Bar Fill rate by 1.4x · new ballot Monday about 17:00 UTC, in 2d 1h
 - Spend · Claim the free pet pull: Claim your free pet pull at Doggy [IdleOn Wiki: Pets · Calculated by IdleOn Toolbox · 2.3.540]
 - Spend · Collect banked Colosseum tickets: Collect 5 Colosseum tickets [IdleOn Wiki: Typhoon · Calculated by IdleOn Toolbox · 2.3.540]
 - Extra · Play Spiketrap Surprise: Spiketrap starts at :00: up to 40 gems today [IdleOn Wiki: Secrets · Calculated by IdleOn Toolbox · 2.3.540]
@@ -67,6 +67,18 @@ If you have time
 - Run the Weekly Battle with every character (Yum Yum Desert) · about 5m of hands-on play
 
 ## Not covered yet
+Achievements
+Coins
+Drop rate
+Dungeons
+Event Shop
+Family bonuses
+Food
+Friend bonuses
+Stats and damage
+Storage and inventory
+Town shops
+Trophies and nametags
 Bribes
 Forge
 Quests
@@ -94,6 +106,18 @@ W0 · Random Events · Nothing to fix · Nothing to fix
 W0 · Pet Tournament · Nothing to fix · Nothing to fix
 W0 · Daily tasks · Nothing to fix · Nothing to fix
 W0 · Guild tasks · Nothing to fix · Nothing to fix
+W0 · Achievements · Not covered yet · Not covered yet
+W0 · Dungeons · Not covered yet · Not covered yet
+W0 · Family bonuses · Not covered yet · Not covered yet
+W0 · Food · Not covered yet · Not covered yet
+W0 · Storage and inventory · Not covered yet · Not covered yet
+W0 · Stats and damage · Not covered yet · Not covered yet
+W0 · Coins · Not covered yet · Not covered yet
+W0 · Friend bonuses · Not covered yet · Not covered yet
+W0 · Event Shop · Not covered yet · Not covered yet
+W0 · Trophies and nametags · Not covered yet · Not covered yet
+W0 · Town shops · Not covered yet · Not covered yet
+W0 · Drop rate · Not covered yet · Not covered yet
 W1 · Stamps · Behind · Behind for your Stage · 6 to do
 W1 · Star Signs · Nothing to fix · Nothing to fix · 1 to do
 W1 · Anvil · Nothing to fix · Nothing to fix · 1 full · collect
@@ -126,10 +150,10 @@ W3 · Armor-set Smithy · Locked · Opens in World 3 · Frostbite Tundra
 W3 · Salt Lick · Locked · Opens in World 3 · Frostbite Tundra
 W3 · Prayers · Locked · Opens in World 3 · Frostbite Tundra
 W3 · Shrines · Locked · Opens in World 3 · Frostbite Tundra
-W3 · Equinox · Locked · Opens in World 3 · Frostbite Tundra
+W3 · Equinox · Locked · Needs an Equinox Mirror, a rare drop from Bloodbone in Frostbite Tundra
 W3 · Atom Collider · Locked · Opens in World 3 · Frostbite Tundra
 W3 · Bubba · Locked · Opens once a character opens YumYum Grotto's door to Frostbite Tundra (World 3); find it in the Codex
-Later worlds: 3 Systems: Laboratory, Cooking, Breeding
+Later worlds: 7 Systems: Laboratory, Cooking, Breeding, Sigils, The Rift, The Tome, Elite classes
 Needs you: Companions and pets (wasting), Minigames (wasting), Colosseum (wasting), Arcade (wasting), Talent presets (behind), Cards (behind), Gear & Tools (behind), Stamps (behind), Alchemy bubbles (behind)
 Other gaps: Stamp cap raises that need farming or carry capacity
 Wasting: 4
@@ -381,6 +405,8 @@ step: Use your 11 vial attempts on the W2 town cauldron
 | anvil.check.spend-points | anvil/points | — | silent |  |
 | arcade.check.balls-cap | arcade/balls-cap | account | fires | capsIn=0 fullFor=173852724 |
 | boss-keys.check.collect | boss-keys/banked | — | silent |  |
+| breeding.check.full-nest | breeding/full-nest | account | fires | capacity=3 eggs=3 first=1 |
+| breeding.check.idle-territory | breeding/idle-territory | — | silent |  |
 | bubba.check.boon | bubba/boon | — | silent |  |
 | bubba.check.charisma-idle | bubba/charisma-idle | — | silent |  |
 | bubba.check.megaflesh | bubba/megaflesh | — | silent |  |
@@ -398,15 +424,25 @@ step: Use your 11 vial attempts on the W2 town cauldron
 | classes.contribution.exp | classes/exp | C5 | advances yes eta 43m | exp=1531517 expReq=2665976 rate=1595446.663156712 saved=56 |
 | colosseum.check.collect-tickets | colosseum/tickets-banked | account | fires | cappedNpcs=1 daysLost=1 total=5 |
 | construction.check.build-next | construction/build-next | — | silent |  |
+| cooking.check.capped-meal | cooking/capped-meal | — | silent |  |
+| cooking.check.idle-kitchen | cooking/idle-kitchen | — | silent |  |
 | death-note.check.build | death-note/build | — | silent |  |
 | death-note.check.build-slot | death-note/build | — | silent |  |
 | death-note.contribution.skull-mush-g | death-note/skull | C4 | advances yes eta 1036m | building=0 feeders=8 rate=1431 rule=0 saved=300 target=Green_Mushroom |
 | death-note.contribution.skull-poop-small | death-note/skull | C1 | advances yes eta 923m | building=0 feeders=1 rate=1430 rule=0 saved=2995 target=Poop |
 | death-note.contribution.skull-slime-g | death-note/skull | C3 | advances yes eta 486m | building=0 feeders=4 rate=1285 rule=0 saved=14596 target=Slime |
 | death-note.contribution.skull-snail-z | death-note/skull | C5 | advances yes eta 711m | building=0 feeders=16 rate=874 rule=0 saved=14641 target=Snelbie |
+| elite-classes.check.eliteus | elite-classes/eliteus | C1 | fires | class=Barbarian elite=Blood_Berserker kills=0 left=10 pick=0 |
+| elite-classes.check.eliteus | elite-classes/eliteus | C2 | fires | class=Squire elite=Divine_Knight kills=0 left=10 pick=0 |
+| elite-classes.check.eliteus | elite-classes/eliteus | C3 | fires | class=Shaman elite=Bubonic_Conjuror kills=0 left=10 pick=0 |
+| elite-classes.check.eliteus | elite-classes/eliteus | C4 | fires | class=Bowman elite=Siege_Breaker kills=0 left=10 pick=0 |
+| elite-classes.check.eliteus | elite-classes/eliteus | C5 | fires | class=Wizard elite=Elemental_Sorcerer kills=0 left=10 pick=0 |
 | gem-shop.check.printer-buy | gem-shop/unspent | — | silent |  |
 | gem-shop.check.printer-progress | gem-shop/unspent | — | silent |  |
 | gem-shop.check.unspent | gem-shop/unspent | account | fires | gems=628 price=875 |
+| lab.check.first-upload | lab/uploads | account | fires | distance=138 node=Animal_Farm |
+| lab.check.jewel-unlit | lab/jewel-unlit | — | silent |  |
+| lab.check.not-connected | lab/uploads | — | silent |  |
 | merit-shop.check.spend-w1 | merit-shop/unspent | account | fires | unspent=12 world=1 |
 | merit-shop.check.spend-w2 | merit-shop/unspent | — | silent |  |
 | merit-shop.check.spend-w2-afk-gains | merit-shop/unspent | — | silent |  |
@@ -439,6 +475,11 @@ step: Use your 11 vial attempts on the W2 town cauldron
 | refinery.check.salt-fuel | refinery/salt-off | — | silent |  |
 | refinery.check.salt-off | refinery/salt-off | — | silent |  |
 | refinery.check.unlock-next | refinery/unlock-next | — | silent |  |
+| rift.check.active-task | rift/task-kind | — | silent |  |
+| rift.check.afk-task | rift/task-kind | — | silent |  |
+| rift.check.class-gate | rift/class-gate | — | silent |  |
+| rift.check.quota-done | rift/quota-done | — | silent |  |
+| rift.check.unlock-quest | rift/unlock-quest | — | silent |  |
 | roles.contribution.mining | roles/skill | C2 | advances yes | rule=1 |
 | skills.contribution.door-mining | skills/door | C2 | advances yes | destination=The_Ol'_Straightaway rule=1 saved=20 |
 | skills.contribution.tool-mining | skills/tool-chain | C2 | advances no | need=0 rule=0 saved=20 target=Copper tool=Iron_Pickaxe |
@@ -453,18 +494,19 @@ step: Use your 11 vial attempts on the W2 town cauldron
 | systems.yaml#atom-collider | worlds/reached | account | reached no |  |
 | systems.yaml#ballot | worlds/reached | account | reached yes |  |
 | systems.yaml#boss-keys | worlds/reached | account | reached yes |  |
-| systems.yaml#breeding | worlds/reached | account | reached no |  |
+| systems.yaml#breeding | systems/unlocked | account | reached no |  |
 | systems.yaml#bribes | worlds/reached | account | reached yes |  |
 | systems.yaml#bubba | bubba/unlocked | account | reached no |  |
 | systems.yaml#colosseum | worlds/reached | account | reached yes |  |
 | systems.yaml#construction | worlds/reached | account | reached no |  |
-| systems.yaml#cooking | worlds/reached | account | reached no |  |
+| systems.yaml#cooking | systems/unlocked | account | reached no |  |
 | systems.yaml#death-note | worlds/reached | account | reached no |  |
-| systems.yaml#equinox | worlds/reached | account | reached no |  |
+| systems.yaml#elite-classes | worlds/reached | account | reached no |  |
+| systems.yaml#equinox | systems/unlocked | account | reached no |  |
 | systems.yaml#forge | worlds/reached | account | reached yes |  |
-| systems.yaml#islands | worlds/reached | account | reached yes |  |
+| systems.yaml#islands | systems/unlocked | account | reached yes |  |
 | systems.yaml#killroy | worlds/reached | account | reached yes |  |
-| systems.yaml#lab | worlds/reached | account | reached no |  |
+| systems.yaml#lab | systems/unlocked | account | reached no |  |
 | systems.yaml#library | worlds/reached | account | reached no |  |
 | systems.yaml#owl | worlds/reached | account | reached yes |  |
 | systems.yaml#poppy | worlds/reached | account | reached yes |  |
@@ -473,15 +515,20 @@ step: Use your 11 vial attempts on the W2 town cauldron
 | systems.yaml#printer | worlds/reached | account | reached no |  |
 | systems.yaml#quests | worlds/reached | account | reached yes |  |
 | systems.yaml#refinery | worlds/reached | account | reached no |  |
+| systems.yaml#rift | systems/unlocked | account | reached no |  |
 | systems.yaml#salt-lick | worlds/reached | account | reached no |  |
 | systems.yaml#shrines | worlds/reached | account | reached no |  |
+| systems.yaml#sigils | systems/unlocked | account | reached no |  |
 | systems.yaml#stamps | worlds/reached | account | reached yes |  |
 | systems.yaml#star-signs | worlds/reached | account | reached yes |  |
 | systems.yaml#statues | worlds/reached | account | reached yes |  |
+| systems.yaml#tome | worlds/reached | account | reached no |  |
 | systems.yaml#trapping | worlds/reached | account | reached no |  |
 | systems.yaml#weekly-battles | worlds/reached | account | reached yes |  |
 | systems.yaml#worship | worlds/reached | account | reached no |  |
 | task-unlocks.check.spend | task-unlocks/unspent | account | fires | points=2 |
+| tome.check.blue-pages | tome/blue-pages | — | silent |  |
+| tome.check.claim-nametags | tome/nametags | — | silent |  |
 | trapping.check.finishes-early | trapping/finishes-early | — | silent |  |
 | trapping.check.slots-and-timers | trapping/slots-and-timers | — | silent |  |
 | upgrade-vault.contribution.kill-row-kill-row-map-8 | upgrade-vault/kill-row | C1 | advances yes eta 294m | feeders=1 rate=1430 rowLevel=25 rule=1 saved=2995 target=Poop |

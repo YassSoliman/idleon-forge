@@ -1,4 +1,4 @@
-# golden v1: highend · knowledge #9761de04 · parser 6c37e3d (game 2.3.540) · now 2026-08-10T21:25:42.904Z · return 8h · stage W4-entry · stale: 4 of 1003
+# golden v1: highend · knowledge #04f5e113 · parser 6c37e3d (game 2.3.540) · now 2026-08-10T21:25:42.904Z · return 8h · stage W4-late · stale: 4 of 1060
 
 ## Verdict changes
 
@@ -62,18 +62,30 @@ finding: Worship full on 7 · spend
   ○ To do: Guild weekly tasks · your weekly reset in 4d 0h
   ✓ Done: Killroy's rooms · Archer room: done · Archer room: done · Beginner room: done · your weekly reset in 4d 0h
   ✓ Done: Weekly Battle · best this week: difficulty 5 of 5 · new boss Thursday 00:00 UTC, in 2d 2h
-  ✓ Done: Bonus Ballot vote · Leading now: Boosts Artifact Find chance in Sailing by 3.41x · new ballot Monday about 17:00 UTC, in 6d 19h
+  ✓ Done: Bonus Ballot vote · Active now: Boosts Artifact Find chance in Sailing by 3.41x · new ballot Monday about 17:00 UTC, in 6d 19h
 - Spend · Claim the free pet pull: Claim your free pet pull at Doggy [IdleOn Wiki: Pets · Calculated by IdleOn Toolbox · 2.3.540]
 - Spend · Fill today's Post Office orders: Fill today's Post Office orders from storage [IdleOn Wiki: Post Office, orders · Calculated by IdleOn Toolbox · 2.3.540]
 - Spend · Play a round of Darts: Play one round of Darts [IdleOn Wiki: Minigames, Throwy Darts · Calculated by IdleOn Toolbox · 2.3.540]
 - Spend · Play a round of Hoops: Play one round of Hoops [IdleOn Wiki: Minigames, Swishy Hoops · Calculated by IdleOn Toolbox · 2.3.540]
 - Grow · Star talents empty on one preset: Spend your star points on the other preset too [IdleOn Wiki: Special Talents (also called Star Talents)]
   · Beginner 1717: 10,373 star points unspent on the other preset
-show more (12)
+show more (13)
 If you have time
 - Use today's 20 minigame plays · about 10m of hands-on play
 
 ## Not covered yet
+Achievements
+Coins
+Drop rate
+Dungeons
+Event Shop
+Family bonuses
+Food
+Friend bonuses
+Stats and damage
+Storage and inventory
+Town shops
+Trophies and nametags
 Bribes
 Forge
 Quests
@@ -85,9 +97,7 @@ Equinox
 Prayers
 Salt Lick
 Shrines
-Breeding
-Cooking
-Laboratory
+Sigils
 
 ## Systems
 W0 · Classes and subclasses · Nothing to fix · Nothing to fix
@@ -109,6 +119,18 @@ W0 · Random Events · Nothing to fix · Nothing to fix
 W0 · Pet Tournament · Nothing to fix · Nothing to fix
 W0 · Daily tasks · Nothing to fix · Nothing to fix
 W0 · Guild tasks · Nothing to fix · Nothing to fix
+W0 · Achievements · Not covered yet · Not covered yet
+W0 · Dungeons · Not covered yet · Not covered yet
+W0 · Family bonuses · Not covered yet · Not covered yet
+W0 · Food · Not covered yet · Not covered yet
+W0 · Storage and inventory · Not covered yet · Not covered yet
+W0 · Stats and damage · Not covered yet · Not covered yet
+W0 · Coins · Not covered yet · Not covered yet
+W0 · Friend bonuses · Not covered yet · Not covered yet
+W0 · Event Shop · Not covered yet · Not covered yet
+W0 · Trophies and nametags · Not covered yet · Not covered yet
+W0 · Town shops · Not covered yet · Not covered yet
+W0 · Drop rate · Not covered yet · Not covered yet
 W1 · Stamps · Nothing to fix · Nothing to fix · 2 to do
 W1 · Star Signs · Nothing to fix · Nothing to fix
 W1 · Anvil · Nothing to fix · Nothing to fix · 2 to do · 11 full · collect
@@ -144,13 +166,17 @@ W3 · Shrines · Not covered yet · Not covered yet
 W3 · Equinox · Not covered yet · Not covered yet
 W3 · Atom Collider · Not covered yet · Not covered yet
 W3 · Bubba · Nothing to fix · Nothing to fix
-W4 · Laboratory · Not covered yet · Not covered yet
-W4 · Cooking · Not covered yet · Not covered yet
-W4 · Breeding · Not covered yet · Not covered yet
+W4 · Laboratory · Nothing to fix · Nothing to fix
+W4 · Cooking · Nothing to fix · Nothing to fix
+W4 · Breeding · Wasting · 1 to fix before you leave
+W4 · Sigils · Not covered yet · Not covered yet
+W4 · The Rift · Nothing to fix · Nothing to fix
+W4 · The Tome · Nothing to fix · Nothing to fix
+W4 · Elite classes · Nothing to fix · Nothing to fix
 Worlds 5–7: not covered yet
-Needs you: Companions and pets (wasting), Minigames (wasting), Post Office (wasting), Trapping (wasting)
+Needs you: Companions and pets (wasting), Minigames (wasting), Post Office (wasting), Trapping (wasting), Breeding (wasting)
 Other gaps: Talent builds past World 4, W4+ constellations and Infinite Stars
-Wasting: 4
+Wasting: 5
 Report card: (none)
 Stamps picture: 120 of 121 owned · lit (none) · next 0
 Statues picture: 32 of 32 Gold · 32 Onyx · lit (none)
@@ -288,15 +314,20 @@ Gifts: Beeg Slice, Slabcakes
 
 ## Builds
 ### C1 (Death Bringer 1701)
-- No build for this stage yet (builds cover World 1 to World 4): these are your talent levels
-- Other preset: Rage Basics · Warrior · Barbarian · Blood Berserker · Death Bringer · Star talents (5,983 unspent)
+- Skilling preset: Rage Basics · Warrior · Barbarian · Blood Berserker · Death Bringer · Star talents (5,983 unspent)
   - Star talents: 5,983 unspent · they end here (Stonks! returns more as it levels)
     - can add now: Stonks! 20 → 30 · +10 (pays for itself: it returns star points as it levels)
     - done: Tick Tock 191
     - done: Will of the Eldest 50 (useful up to 181 (best level 1,819); its max for now)
     - can add now: Toilet Paper Postage 0 → 100 · +110
     - and 6 more
-- Current preset (in use): Rage Basics · Warrior · Barbarian · Blood Berserker · Death Bringer · Star talents (59 unspent)
+- Fighting preset (in use): Rage Basics (at least 250 unspent) · Warrior · Barbarian · Blood Berserker · Death Bringer [Start here] (at least 2,582 unspent) · Star talents (59 unspent)
+  - Death Bringer: As of your last save: at least 2,582 points waiting · they end here
+    - can add now: Graveyard Shift 290 → 396 · +106
+    - can add now: Grimoire 1 → 396 · +501
+    - can add now: Sentinel Axes 290 → 396 · +607
+    - can add now: Detonation 1 → 396 · +1,002
+    - and 3 more
   - Star talents: 59 unspent · they end here (Stonks! returns more as it levels)
     - can add now: Stonks! 20 → 30 · +10 (pays for itself: it returns star points as it levels)
     - done: Will of the Eldest 50 (useful up to 181 (best level 1,819); its max for now)
@@ -305,15 +336,14 @@ Gifts: Beeg Slice, Slabcakes
     - and 7 more
 
 ### C2 (Siege Breaker 1725)
-- No build for this stage yet (builds cover World 1 to World 4): these are your talent levels
-- Other preset: Calm Basics · Archer · Bowman · Siege Breaker · Star talents (5,415 unspent)
+- Skilling preset: Calm Basics · Archer · Bowman · Siege Breaker · Star talents (5,415 unspent)
   - Star talents: 5,415 unspent · they end here (Stonks! returns more as it levels)
     - can add now: Stonks! 20 → 30 · +10 (pays for itself: it returns star points as it levels)
     - done: Tick Tock 191
     - done: Will of the Eldest 50 (useful up to 181 (best level 1,819); its max for now)
     - done: Toilet Paper Postage 100
     - and 6 more
-- Current preset (in use): Calm Basics · Archer · Bowman · Siege Breaker · Star talents (349 unspent)
+- Fighting preset (in use): Calm Basics · Archer · Bowman · Siege Breaker · Star talents (349 unspent)
   - Star talents: 349 unspent · they end here (Stonks! returns more as it levels)
     - can add now: Stonks! 20 → 30 · +10 (pays for itself: it returns star points as it levels)
     - done: Will of the Eldest 50 (useful up to 181 (best level 1,819); its max for now)
@@ -322,15 +352,14 @@ Gifts: Beeg Slice, Slabcakes
     - and 7 more
 
 ### C3 (Elemental Sorcerer 1734)
-- No build for this stage yet (builds cover World 1 to World 4): these are your talent levels
-- Current preset (in use): Savvy Basics · Mage · Wizard · Elemental Sorcerer · Star talents (4,211 unspent)
+- Fighting preset (in use): Savvy Basics · Mage · Wizard · Elemental Sorcerer · Star talents (4,211 unspent)
   - Star talents: 4,211 unspent · they end here (Stonks! returns more as it levels)
     - can add now: Stonks! 18 → 30 · +12 (pays for itself: it returns star points as it levels)
     - done: Will of the Eldest 50 (useful up to 181 (best level 1,819); its max for now)
     - can add now: Beginner Best Class 12 → 50 · +50 (useful up to 176 (best Beginner-line level 1,764); its max for now)
     - done: Tick Tock 191
     - and 7 more
-- Other preset: Savvy Basics · Mage · Wizard · Elemental Sorcerer · Star talents (6,515 unspent)
+- Skilling preset: Savvy Basics · Mage · Wizard · Elemental Sorcerer (at least 7 unspent) · Star talents (6,515 unspent)
   - Star talents: 6,515 unspent · they end here (Stonks! returns more as it levels)
     - can add now: Stonks! 20 → 30 · +10 (pays for itself: it returns star points as it levels)
     - done: Tick Tock 191
@@ -339,15 +368,14 @@ Gifts: Beeg Slice, Slabcakes
     - and 6 more
 
 ### C4 (Divine Knight 1819)
-- No build for this stage yet (builds cover World 1 to World 4): these are your talent levels
-- Other preset: Rage Basics · Warrior · Squire · Divine Knight · Star talents (668 unspent)
+- Skilling preset: Rage Basics · Warrior · Squire · Divine Knight · Star talents (668 unspent)
   - Star talents: 668 unspent · they end here (Stonks! returns more as it levels)
     - can add now: Stonks! 20 → 30 · +10 (pays for itself: it returns star points as it levels)
     - done: Tick Tock 191
     - done: Will of the Eldest 50 (useful up to 181 (best level 1,819); its max for now)
     - done: Toilet Paper Postage 100
     - and 6 more
-- Current preset (in use): Rage Basics · Warrior · Squire · Divine Knight · Star talents (7,488 unspent)
+- Fighting preset (in use): Rage Basics (at least 122 unspent) · Warrior · Squire · Divine Knight · Star talents (7,488 unspent)
   - Star talents: 7,488 unspent · they end here (Stonks! returns more as it levels)
     - can add now: Stonks! 25 → 30 · +5 (pays for itself: it returns star points as it levels)
     - done: Will of the Eldest 50 (useful up to 181 (best level 1,819); its max for now)
@@ -356,15 +384,20 @@ Gifts: Beeg Slice, Slabcakes
     - and 7 more
 
 ### C5 (Arcane Cultist 1762)
-- No build for this stage yet (builds cover World 1 to World 4): these are your talent levels
-- Current preset (in use): Savvy Basics · Mage · Shaman · Bubonic Conjuror · Arcane Cultist · Star talents (5,154 unspent)
+- Fighting preset (in use): Savvy Basics (at least 125 unspent) · Mage · Shaman · Bubonic Conjuror · Arcane Cultist · Star talents (5,154 unspent)
   - Star talents: 5,154 unspent · they end here (Stonks! returns more as it levels)
     - can add now: Stonks! 20 → 30 · +10 (pays for itself: it returns star points as it levels)
     - done: Will of the Eldest 50 (useful up to 181 (best level 1,819); its max for now)
     - done: Beginner Best Class 50 (useful up to 176 (best Beginner-line level 1,764); its max for now)
     - done: Tick Tock 191
     - and 7 more
-- Other preset: Savvy Basics · Mage · Shaman · Bubonic Conjuror · Arcane Cultist · Star talents (1,201 unspent)
+- Skilling preset: Savvy Basics · Mage · Shaman · Bubonic Conjuror · Arcane Cultist [Start here] (at least 3,603 unspent) · Star talents (1,201 unspent)
+  - Arcane Cultist: As of your last save: at least 3,603 points waiting · they end here
+    - done: Absolute Stardom 396
+    - done: Essential Essence 396
+    - done: Passion of the Summon 396
+    - done: Tachyon Truth 396
+    - and 1 more
   - Star talents: 1,201 unspent · they end here (Stonks! returns more as it levels)
     - can add now: Stonks! 17 → 30 · +13 (pays for itself: it returns star points as it levels)
     - done: Tick Tock 191
@@ -373,15 +406,14 @@ Gifts: Beeg Slice, Slabcakes
     - and 6 more
 
 ### C6 (Wind Walker 1744)
-- No build for this stage yet (builds cover World 1 to World 4): these are your talent levels
-- Other preset: Calm Basics · Archer · Hunter · Beast Master · Wind Walker · Star talents (6,292 unspent)
+- Skilling preset: Calm Basics · Archer · Hunter · Beast Master · Wind Walker · Star talents (6,292 unspent)
   - Star talents: 6,292 unspent · they end here (Stonks! returns more as it levels)
     - can add now: Stonks! 17 → 30 · +13 (pays for itself: it returns star points as it levels)
     - done: Tick Tock 191
     - done: Will of the Eldest 50 (useful up to 181 (best level 1,819); its max for now)
     - can add now: Toilet Paper Postage 6 → 100 · +107
     - and 6 more
-- Current preset (in use): Calm Basics · Archer · Hunter · Beast Master · Wind Walker · Star talents (3,423 unspent)
+- Fighting preset (in use): Calm Basics · Archer · Hunter · Beast Master · Wind Walker · Star talents (3,423 unspent)
   - Star talents: 3,423 unspent · they end here (Stonks! returns more as it levels)
     - can add now: Stonks! 17 → 30 · +13 (pays for itself: it returns star points as it levels)
     - done: Will of the Eldest 50 (useful up to 181 (best level 1,819); its max for now)
@@ -390,15 +422,14 @@ Gifts: Beeg Slice, Slabcakes
     - and 7 more
 
 ### C7 (Divine Knight 1734)
-- No build for this stage yet (builds cover World 1 to World 4): these are your talent levels
-- Other preset: Rage Basics · Warrior · Squire · Divine Knight · Star talents (4,108 unspent)
+- Skilling preset: Rage Basics · Warrior · Squire · Divine Knight · Star talents (4,108 unspent)
   - Star talents: 4,108 unspent · they end here (Stonks! returns more as it levels)
     - can add now: Stonks! 25 → 30 · +5 (pays for itself: it returns star points as it levels)
     - done: Tick Tock 191
     - done: Will of the Eldest 50 (useful up to 181 (best level 1,819); its max for now)
     - done: Toilet Paper Postage 100
     - and 6 more
-- Current preset (in use): Rage Basics · Warrior · Squire · Divine Knight · Star talents (1,189 unspent)
+- Fighting preset (in use): Rage Basics · Warrior · Squire · Divine Knight · Star talents (1,189 unspent)
   - Star talents: 1,189 unspent · they end here (Stonks! returns more as it levels)
     - can add now: Stonks! 18 → 30 · +12 (pays for itself: it returns star points as it levels)
     - done: Will of the Eldest 50 (useful up to 181 (best level 1,819); its max for now)
@@ -407,15 +438,20 @@ Gifts: Beeg Slice, Slabcakes
     - and 7 more
 
 ### C8 (Voidwalker 1764)
-- No build for this stage yet (builds cover World 1 to World 4): these are your talent levels
-- Other preset: Beginner · Journeyman · Maestro · Voidwalker · Star talents (7,748 unspent)
+- Skilling preset: Beginner · Journeyman · Maestro · Voidwalker · Star talents (7,748 unspent)
   - Star talents: 7,748 unspent · they end here (Stonks! returns more as it levels)
     - can add now: Stonks! 18 → 30 · +12 (pays for itself: it returns star points as it levels)
     - done: Tick Tock 191
     - done: Will of the Eldest 50 (useful up to 181 (best level 1,819); its max for now)
     - can add now: Toilet Paper Postage 1 → 100 · +111
     - and 6 more
-- Current preset (in use): Beginner · Journeyman · Maestro · Voidwalker · Star talents (5,008 unspent)
+- Fighting preset (in use): Beginner · Journeyman · Maestro · Voidwalker [Start here] (at least 305 unspent) · Star talents (5,008 unspent)
+  - Voidwalker: As of your last save: at least 305 points waiting · they end here
+    - done: Void Trial Rerun 1
+    - done: Master of the System 389
+    - part now: Void Trial Rerun = Void Radius = Bossing Vain +1,185 · +305 of 1,185 now · +1,185 (split evenly: Void Trial Rerun 1 → 396, Void Radius 1 → 396, Bossing Vain 1 → 396)
+    - done: Voodoo Statufication 396
+    - and 7 more
   - Star talents: 5,008 unspent · they end here (Stonks! returns more as it levels)
     - can add now: Stonks! 17 → 30 · +13 (pays for itself: it returns star points as it levels)
     - done: Will of the Eldest 50 (useful up to 181 (best level 1,819); its max for now)
@@ -424,15 +460,20 @@ Gifts: Beeg Slice, Slabcakes
     - and 7 more
 
 ### C9 (Arcane Cultist 1743)
-- No build for this stage yet (builds cover World 1 to World 4): these are your talent levels
-- Current preset (in use): Savvy Basics · Mage · Shaman · Bubonic Conjuror · Arcane Cultist · Star talents (3,296 unspent)
+- Fighting preset (in use): Savvy Basics · Mage · Shaman · Bubonic Conjuror · Arcane Cultist [Start here] · Star talents (3,296 unspent)
+  - Arcane Cultist: No unspent points known from your last save: the totals show where new points go
+    - done: Arcanist Form 1
+    - done: Tesseract 1
+    - done: Arcane Skulls 1
+    - done: Arcane Crystals 1
+    - and 20 more
   - Star talents: 3,296 unspent · they end here (Stonks! returns more as it levels)
     - can add now: Stonks! 18 → 30 · +12 (pays for itself: it returns star points as it levels)
     - done: Will of the Eldest 50 (useful up to 181 (best level 1,819); its max for now)
     - done: Beginner Best Class 50 (useful up to 176 (best Beginner-line level 1,764); its max for now)
     - done: Tick Tock 191
     - and 7 more
-- Other preset: Savvy Basics · Mage · Shaman · Bubonic Conjuror · Arcane Cultist · Star talents (743 unspent)
+- Skilling preset: Savvy Basics (at least 6 unspent) · Mage · Shaman · Bubonic Conjuror · Arcane Cultist (at least 418 unspent) · Star talents (743 unspent)
   - Star talents: 743 unspent · they end here (Stonks! returns more as it levels)
     - can add now: Stonks! 20 → 30 · +10 (pays for itself: it returns star points as it levels)
     - done: Tick Tock 191
@@ -441,15 +482,18 @@ Gifts: Beeg Slice, Slabcakes
     - and 6 more
 
 ### C10 (Wind Walker 1742)
-- No build for this stage yet (builds cover World 1 to World 4): these are your talent levels
-- Current preset (in use): Calm Basics · Archer · Hunter · Beast Master · Wind Walker · Star talents (5,723 unspent)
+- Fighting preset (in use): Calm Basics (at least 125 unspent) · Archer · Hunter · Beast Master · Wind Walker · Star talents (5,723 unspent)
   - Star talents: 5,723 unspent · they end here (Stonks! returns more as it levels)
     - can add now: Stonks! 22 → 30 · +8 (pays for itself: it returns star points as it levels)
     - done: Will of the Eldest 50 (useful up to 181 (best level 1,819); its max for now)
     - done: Beginner Best Class 50 (useful up to 176 (best Beginner-line level 1,764); its max for now)
     - done: Tick Tock 191
     - and 7 more
-- Other preset: Calm Basics · Archer · Hunter · Beast Master · Wind Walker · Star talents (3,979 unspent)
+- Skilling preset: Calm Basics · Archer · Hunter · Beast Master · Wind Walker [Start here] (at least 1,666 unspent) · Star talents (3,979 unspent)
+  - Wind Walker: As of your last save: at least 1,666 points waiting · they end here
+    - can add now: Generational Gemstones 389 → 396 · +7
+    - can add now: Price Recession 389 → 396 · +14
+    - can add now: Sneaky Skilling 389 → 396 · +21
   - Star talents: 3,979 unspent · they end here (Stonks! returns more as it levels)
     - can add now: Stonks! 22 → 30 · +8 (pays for itself: it returns star points as it levels)
     - done: Tick Tock 191
@@ -570,6 +614,8 @@ Gifts: Beeg Slice, Slabcakes
 | anvil.check.spend-points | anvil/points | account | fires | count=11 hours=8 manyMixed=1 |
 | arcade.check.balls-cap | arcade/balls-cap | account | pass |  |
 | boss-keys.check.collect | boss-keys/banked | — | silent |  |
+| breeding.check.full-nest | breeding/full-nest | account | fires | capacity=15 eggs=15 first=0 |
+| breeding.check.idle-territory | breeding/idle-territory | — | silent |  |
 | bubba.check.boon | bubba/boon | — | silent |  |
 | bubba.check.charisma-idle | bubba/charisma-idle | — | silent |  |
 | bubba.check.megaflesh | bubba/megaflesh | — | silent |  |
@@ -582,11 +628,17 @@ Gifts: Beeg Slice, Slabcakes
 | classes.contribution.exp | classes/exp | C9 | advances yes eta 14m | exp=2.988201516147185e+38 expReq=5.74356605180467e+38 rate=1.1449587867748892e+39 saved=1743 |
 | colosseum.check.collect-tickets | colosseum/tickets-banked | — | silent |  |
 | construction.check.build-next | construction/build-next | account | fires | building=3D_Printer holder=Voidinator salt=Redox_Salts swap=1 thenNone=1 |
+| cooking.check.capped-meal | cooking/capped-meal | — | silent |  |
+| cooking.check.idle-kitchen | cooking/idle-kitchen | — | silent |  |
 | death-note.check.build | death-note/build | — | silent |  |
 | death-note.check.build-slot | death-note/build | — | silent |  |
+| elite-classes.check.eliteus | elite-classes/eliteus | — | silent |  |
 | gem-shop.check.printer-buy | gem-shop/unspent | — | silent |  |
 | gem-shop.check.printer-progress | gem-shop/unspent | — | silent |  |
 | gem-shop.check.unspent | gem-shop/unspent | — | silent |  |
+| lab.check.first-upload | lab/uploads | — | silent |  |
+| lab.check.jewel-unlit | lab/jewel-unlit | — | silent |  |
+| lab.check.not-connected | lab/uploads | — | silent |  |
 | merit-shop.check.spend-w1 | merit-shop/unspent | — | silent |  |
 | merit-shop.check.spend-w2 | merit-shop/unspent | — | silent |  |
 | merit-shop.check.spend-w2-afk-gains | merit-shop/unspent | — | silent |  |
@@ -626,6 +678,11 @@ Gifts: Beeg Slice, Slabcakes
 | refinery.check.salt-fuel | refinery/salt-off | — | silent |  |
 | refinery.check.salt-off | refinery/salt-off | — | silent |  |
 | refinery.check.unlock-next | refinery/unlock-next | — | silent |  |
+| rift.check.active-task | rift/task-kind | — | silent |  |
+| rift.check.afk-task | rift/task-kind | — | silent |  |
+| rift.check.class-gate | rift/class-gate | — | silent |  |
+| rift.check.quota-done | rift/quota-done | — | silent |  |
+| rift.check.unlock-quest | rift/unlock-quest | — | silent |  |
 | systems.yaml#alchemy | worlds/reached | account | reached yes |  |
 | systems.yaml#alchemy-bubbles | worlds/reached | account | reached yes |  |
 | systems.yaml#alchemy-p2w | worlds/reached | account | reached yes |  |
@@ -636,18 +693,19 @@ Gifts: Beeg Slice, Slabcakes
 | systems.yaml#atom-collider | worlds/reached | account | reached yes |  |
 | systems.yaml#ballot | worlds/reached | account | reached yes |  |
 | systems.yaml#boss-keys | worlds/reached | account | reached yes |  |
-| systems.yaml#breeding | worlds/reached | account | reached yes |  |
+| systems.yaml#breeding | systems/unlocked | account | reached yes |  |
 | systems.yaml#bribes | worlds/reached | account | reached yes |  |
 | systems.yaml#bubba | bubba/unlocked | account | reached yes |  |
 | systems.yaml#colosseum | worlds/reached | account | reached yes |  |
 | systems.yaml#construction | worlds/reached | account | reached yes |  |
-| systems.yaml#cooking | worlds/reached | account | reached yes |  |
+| systems.yaml#cooking | systems/unlocked | account | reached yes |  |
 | systems.yaml#death-note | worlds/reached | account | reached yes |  |
-| systems.yaml#equinox | worlds/reached | account | reached yes |  |
+| systems.yaml#elite-classes | worlds/reached | account | reached yes |  |
+| systems.yaml#equinox | systems/unlocked | account | reached yes |  |
 | systems.yaml#forge | worlds/reached | account | reached yes |  |
-| systems.yaml#islands | worlds/reached | account | reached yes |  |
+| systems.yaml#islands | systems/unlocked | account | reached yes |  |
 | systems.yaml#killroy | worlds/reached | account | reached yes |  |
-| systems.yaml#lab | worlds/reached | account | reached yes |  |
+| systems.yaml#lab | systems/unlocked | account | reached yes |  |
 | systems.yaml#library | worlds/reached | account | reached yes |  |
 | systems.yaml#owl | worlds/reached | account | reached yes |  |
 | systems.yaml#poppy | worlds/reached | account | reached yes |  |
@@ -656,15 +714,20 @@ Gifts: Beeg Slice, Slabcakes
 | systems.yaml#printer | worlds/reached | account | reached yes |  |
 | systems.yaml#quests | worlds/reached | account | reached yes |  |
 | systems.yaml#refinery | worlds/reached | account | reached yes |  |
+| systems.yaml#rift | systems/unlocked | account | reached yes |  |
 | systems.yaml#salt-lick | worlds/reached | account | reached yes |  |
 | systems.yaml#shrines | worlds/reached | account | reached yes |  |
+| systems.yaml#sigils | systems/unlocked | account | reached yes |  |
 | systems.yaml#stamps | worlds/reached | account | reached yes |  |
 | systems.yaml#star-signs | worlds/reached | account | reached yes |  |
 | systems.yaml#statues | worlds/reached | account | reached yes |  |
+| systems.yaml#tome | worlds/reached | account | reached yes |  |
 | systems.yaml#trapping | worlds/reached | account | reached yes |  |
 | systems.yaml#weekly-battles | worlds/reached | account | reached yes |  |
 | systems.yaml#worship | worlds/reached | account | reached yes |  |
 | task-unlocks.check.spend | task-unlocks/unspent | — | silent |  |
+| tome.check.blue-pages | tome/blue-pages | — | silent |  |
+| tome.check.claim-nametags | tome/nametags | — | silent |  |
 | trapping.check.finishes-early | trapping/finishes-early | C1 | fires | finishesIn=11364853 |
 | trapping.check.finishes-early | trapping/finishes-early | C10 | fires | finishesIn=11364853 |
 | trapping.check.finishes-early | trapping/finishes-early | C11 | fires | finishesIn=11360853 |

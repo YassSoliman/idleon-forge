@@ -1,0 +1,191 @@
+# SPDX-License-Identifier: GPL-3.0-only
+# M26 KB drafts for System `refinery` (W3 synthesis, 2026-10-19). Every entry is status: draft.
+# Copied from scratchpad/m26/maps/*.json; dossiers in scratchpad/m26/dossiers/. Not yet validated
+# against the knowledge schema (the schema has no draft status: flip to active at merge).
+system: refinery
+entries:
+- status: draft
+  id: refinery.check.salt-deficit
+  system: refinery
+  type: check
+  title: A Refinery salt burns more than its predecessor makes
+  subject: account
+  effect: next-action
+  category: compounding
+  priority:
+    frame: by-urgency
+  effortSeconds: 30
+  detector:
+    id: refinery/salt-balance
+    params:
+      form: deficit
+  text: Rank up {previous:name} before ranking {salt:name} again
+  why: '{salt:name} burns {consumed:int} {previous:name} an hour; the Refinery makes {made:int}. The stock runs
+    down until {salt:name} stops, so its next ranks cost you salt instead of making it.'
+  doneWhen:
+    field: account.refinery.salts[*].isDeficit
+    becomes: false
+  appliesTo:
+    stages:
+    - from: W3-mid
+      to: W4-entry
+  confidence: M
+  notes: 'Toolbox dashboard saltDeficit rule: unlocked, active, Auto Refine off, rank >= maxSafeRank, !outputMaxed,
+    isDeficit. Reads saltMaxSafeRank (predecessor), never the printer-capped maxSafeRank (M15 red-team #1). Never
+    says ''turn Auto Refine on'' (M15 D-2). Dossier W3-late: ''do not rank a salt beyond saltMaxSafeRank'' (M).
+    M26 W3 synth (from maps/refinery.json).'
+  sources:
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-3/refinery.ts#L339-L417
+    title: Toolbox getSaltsBalance (outputPerHour, consumedPerHour, isDeficit, saltMaxSafeRank)
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/utility/dashboard/account.js#L815-L850
+    title: Toolbox dashboard alerts saltDeficit / saltRankUpRoom (getSaltsBalance)
+    tier: 2
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+  - url: https://idleon.wiki/wiki/Construction
+    title: 'IdleOn Wiki: Construction (Refinery)'
+    tier: 2
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+    claimDate: '2026-10-07'
+- status: draft
+  id: refinery.check.throttle-ready
+  system: refinery
+  type: check
+  title: Use Refinery Throttle
+  subject: character
+  effect: next-action
+  category: spendable
+  priority:
+    frame: by-urgency
+  effortSeconds: 20
+  detector:
+    id: refinery/throttle
+  text: 'Cast Refinery Throttle on {character}: +{cycles:int} Refinery cycles'
+  why: Refinery Throttle is off cooldown. Each cast runs {cycles:int} extra cycles of every active salt at once
+    (they still cost fuel); the cooldown only restarts when you cast it.
+  doneWhen:
+    field: characters[*].refineryThrottle.cooldownEndsAt
+    change: higher
+  appliesTo:
+    stages:
+    - from: W3-early
+      to: W4-entry
+    classes:
+    - Squire
+    - Divine_Knight
+  confidence: M
+  notes: 'Silent unless the character''s REFINERY_THROTTLE level > 0, the cooldown (cooldowns[130] minus time since
+    afkTime) is <= 0, and at least one active salt has fuel for one cycle. Cycles = 3 + floor(level/8) (talents.json
+    x1=3, x2=8). Open question: Toolbox reads maxLevel, not level, for the cycle count. M26 W3 synth (from maps/refinery.json).'
+  sources:
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-3/refinery.ts#L182-L213
+    title: 'Toolbox getRefineryCycles: squiresCycles, squiresCooldowns (cooldowns[130])'
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/talents.json#L1617
+    title: 'Toolbox game data: REFINERY_THROTTLE (x1 3, x2 8, cooldown 72000)'
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/utility/dashboard/baseTrackers.js#L885
+    title: Toolbox dashboard talent-cooldown alert includes refineryThrottle
+    tier: 2
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+- status: draft
+  id: refinery.check.move-storage
+  system: refinery
+  type: check
+  title: Move salts out of Refinery storage
+  subject: account
+  effect: next-action
+  category: spendable
+  effortSeconds: 30
+  detector:
+    id: refinery/storage-claim
+  text: Move {amount:int} {salt:name} from Refinery storage to your chest
+  why: '{use} is paid from your storage chest and bags only, not from Refinery storage. You have {chest:int} in
+    the chest and {waiting:int} waiting in the Refinery.'
+  values:
+    use-unlock: Unlocking {next:name}
+    use-build: The {building} level waiting for payment
+  doneWhen:
+    field: account.refineryStorage
+    change: lower
+  appliesTo:
+    stages:
+    - from: W3-early
+      to: W4-entry
+  confidence: M
+  notes: 'Fires only when chest holding < cost <= chest + Refinery storage, for the next salt unlock (refinery.fact.salt-unlock-costs)
+    or a Construction building with bodyFull paid in that salt. Chest-only payment: N.js @7643805/@8779435 per KB
+    notes (C3, M). M26 W3 synth (from maps/refinery.json).'
+  sources:
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-3/refinery.ts#L32-L41
+    title: Toolbox getRefineryStorage (Refinery[1], Refinery[2])
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+  - url: https://idleon.wiki/wiki/Construction
+    title: 'IdleOn Wiki: Construction (Refinery)'
+    tier: 2
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+    claimDate: '2026-10-07'
+facts:
+- id: refinery.fact.speed-sources
+  system: refinery
+  origin: authored
+  title: Refinery speed sources
+  rows:
+  - source: Red Malt vial
+    kind: additive
+    system: alchemy-vials
+  - source: Salt Lick upgrade 3 (+2%/level, max 100)
+    kind: additive
+    system: salt-lick
+  - source: Divine Knight family bonus
+    kind: additive
+    system: family
+  - source: Pipe Gauge sigil
+    kind: additive
+    system: sigils
+  - source: Refinery stamp
+    kind: additive
+    system: stamps
+  - source: Shiny pet 'Faster Refinery Speed'
+    kind: additive
+    system: breeding
+  - source: Construction Mastery (Rift 40)
+    kind: additive
+    system: rift
+  - source: Arcade 'Refinery Speed'
+    kind: additive
+    system: arcade
+  - source: Vote bonus 33
+    kind: additive
+    system: ballot
+  - source: Polymer Refinery (Research 49)
+    kind: additive
+    system: research
+  - source: Gilded Cyclical Tubing (Lab jewel)
+    kind: x3 multiplier
+    system: lab
+  - source: Legend talent 19
+    kind: multiplier
+    system: legend
+  notes: 'Display only; no buy order (no Source ranks them). Polymerize-only: Materials Science (Research 48), Tasty
+    Treat meal. M26 W3 synth (from maps/refinery.json).'
+  confidence: H
+  status: draft
+  sources:
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-3/refinery.ts#L113-L147
+    title: Toolbox getRefineryCycleBonuses
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540

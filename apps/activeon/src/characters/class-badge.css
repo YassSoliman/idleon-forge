@@ -1,0 +1,18 @@
+/* SPDX-License-Identifier: GPL-3.0-only */
+/* M25: the game's class icon pinned to a character picture's lower-right corner (ClassBadge.tsx). It
+   hangs a little outside the picture so neither hides the other, inside the row's own padding. */
+.cb {
+  position: relative;
+  display: inline-flex;
+  flex: none;
+}
+.cb__icon {
+  position: absolute;
+  right: -6px;
+  bottom: -4px;
+  pointer-events: none;
+}
+.cb[data-size="32"] .cb__icon {
+  right: -10px;
+  bottom: -6px;
+}

@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: GPL-3.0-only
 // Copyright (C) 2026 IdleOn Forge contributors.
-// Stage detection (M2 FR-1 to FR-5, TR-4 to TR-6a): the whole account on one of the 10 Stages, from the
+// Stage detection (M2 FR-1 to FR-5, TR-4 to TR-6a; M26 FR-3): the whole account on one of the Stages, from the
 // save alone, with its evidence and its certainty. Pure: (state, kb) in, a StageResult out.
 //
 // Each rule is written as predicates over the fields it reads. A predicate over an unknown field is
@@ -9,7 +9,16 @@
 // last one that holds wins (TR-5).
 import { type AccountState, isKnown } from '@idleon-forge/account-state';
 import { render, STAGE_DEFINITIONS, STAGES, type StageId, stageIndex } from '@idleon-forge/knowledge';
-import { type ClassTree, classTree, ENTRY, FACT, obolAltarLevel, stageRows, townUnlock } from './knowledge';
+import {
+  type ClassTree,
+  classTree,
+  ENTRY,
+  FACT,
+  obolAltarLevel,
+  routeDoorOutOf,
+  stageRows,
+  townUnlock,
+} from './knowledge';
 import type { FactLookup, StageEvidence, StageResult } from './types';
 
 /** 9999 marks an NPC as met on characters that never pushed: never band evidence (TR-5, red-team F12). */
@@ -29,6 +38,10 @@ interface Inputs {
   hoggindaz5: boolean;
   nullo: boolean;
   amethyst: boolean;
+  /** M26 FR-3: some character opened the W4 mid band door (the `w4-mid-door` map's door). */
+  w4Mid: boolean;
+  /** M26 FR-3: some character opened the W4 late band door (the `w4-late-door` map's door). */
+  w4Late: boolean;
 }
 
 export interface Thresholds {
@@ -63,6 +76,8 @@ export function stageOf(x: Inputs, t: Thresholds): StageId {
     ['W3-mid', w2 && !w3 && x.deathNote && x.printer && x.hoggindaz5],
     ['W3-late', w2 && !w3 && (x.nullo || x.amethyst)],
     ['W4-entry', w3],
+    ['W4-mid', w3 && x.w4Mid],
+    ['W4-late', w3 && x.w4Late],
   ];
   let stage: StageId = 'W1-early';
   for (const [id, holds] of rules) if (holds) stage = id;
@@ -200,9 +215,44 @@ function read(state: AccountState, kb: FactLookup): Read | null {
       known: crystals !== null,
     });
   }
+  if (world === 4) {
+    const { values } = stageRows(kb);
+    for (const [flag, key] of [
+      ['w4Mid', 'w4-mid-door'],
+      ['w4Late', 'w4-late-door'],
+    ] as const) {
+      const map = values[key];
+      const door = typeof map === 'string' ? routeDoorOutOf(kb, 4, map) : null;
+      // A band door the KB can't place is unknown, never "not reached".
+      facts[flag] = door === null ? null : doorOpened(state, door);
+      evidence.push({
+        field: `characters[*].doorKillsLeft.${door?.mapName ?? key}`,
+        value: facts[flag] ?? null,
+        known: facts[flag] !== null,
+      });
+    }
+  }
   if (contradiction)
     evidence.push({ field: 'account.finishedWorlds (contradicted)', value: finished, known: true });
   return { facts, knownMaxLevel, maxLevelKnown: !unreadable, evidence, contradiction, finished, beyond };
+}
+
+/**
+ * Whether some character has opened `door` (M26 FR-3): its `doorKillsLeft` reads 0 there (the adapter
+ * clamps a cleared door at 0; a map never reached reads []). Unknown when a character that could have
+ * opened it can't be read.
+ */
+function doorOpened(state: AccountState, door: { mapIndex: number; door: number }): Tri {
+  let unknown = state.diagnostics.unreadableCharacters.length > 0;
+  for (const c of state.characters) {
+    const table = isKnown(state, `characters[${c.index}].doorKillsLeft`) ? (c.doorKillsLeft ?? null) : null;
+    if (table === null) {
+      unknown = true;
+      continue;
+    }
+    if (table[door.mapIndex]?.[door.door] === 0) return true;
+  }
+  return unknown ? null : false;
 }
 
 /** The rawName of Nullo Salt (salt 6) from refinery.fact.salts, so a reorder shows in the KB diff. */
@@ -220,6 +270,8 @@ const FLAGS = [
   'hoggindaz5',
   'nullo',
   'amethyst',
+  'w4Mid',
+  'w4Late',
 ] as const;
 
 /** Every Stage the unknown predicates allow (TR-6). */
@@ -242,6 +294,8 @@ function possibleStages(r: Read, t: Thresholds): Set<StageId> {
         hoggindaz5: false,
         nullo: false,
         amethyst: false,
+        w4Mid: false,
+        w4Late: false,
       };
       for (const f of FLAGS) {
         const v = r.facts[f];
@@ -294,6 +348,10 @@ function requirements(
       ];
     case 'W4-entry':
       return [{ holds: r.finished >= 3, check: 'check-characters' }];
+    case 'W4-mid':
+      return [{ holds: f('w4Mid'), check: 'check-characters' }];
+    case 'W4-late':
+      return [{ holds: f('w4Late'), check: 'check-characters' }];
     default:
       return [];
   }
@@ -321,15 +379,16 @@ export function detectStage(state: AccountState, kb: FactLookup): StageResult {
   const t = thresholds(kb);
   const fields = r.evidence.map((e) => e.field);
 
+  // Past World 4: the last Stage, flagged beyond (M26 FR-3 beyond policy).
   if (r.beyond) {
-    const def = STAGE_DEFINITIONS['W4-entry'];
+    const def = STAGE_DEFINITIONS['W4-late'];
     return {
-      id: 'W4-entry',
+      id: 'W4-late',
       label: def.label,
       world: 4,
       certainty: r.contradiction ? 'partial' : 'certain',
       coverage: 'beyond',
-      rule: rows.find((x) => x.id === 'W4-entry')?.rule ?? 'w4-entry',
+      rule: rows.find((x) => x.id === 'W4-late')?.rule ?? 'w4-late',
       evidence: r.evidence,
       next: null,
       provenance: provenance(fields),

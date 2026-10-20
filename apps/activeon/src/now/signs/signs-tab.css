@@ -31,7 +31,7 @@
   background: var(--sunk);
 }
 .ss-slot__ic[data-tone="gold"] {
-  background: var(--accent);
+  background: var(--accent-fill);
 }
 .ss-slot__ic--n {
   font-family: var(--font-display);

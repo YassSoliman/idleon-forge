@@ -31,7 +31,7 @@
   display: block;
   height: 100%;
   width: calc(var(--fill, 0) * 100%);
-  background: var(--accent);
+  background: var(--accent-fill);
 }
 .walkthrough {
   display: grid;
@@ -125,4 +125,10 @@
 }
 .wt-unknown {
   color: var(--unk);
+}
+/* M25: the talent a step names, its game icon inline before the words. */
+.wt-text .g-art {
+  display: inline-block;
+  vertical-align: middle;
+  margin-right: 6px;
 }

@@ -1,4 +1,4 @@
-# golden v1: toolbox-raw · knowledge #9761de04 · parser 6c37e3d (game 2.3.540) · now 2026-08-26T17:27:35.771Z · return 8h · stage W4-entry · stale: 4 of 1003
+# golden v1: toolbox-raw · knowledge #04f5e113 · parser 6c37e3d (game 2.3.540) · now 2026-08-26T17:27:35.771Z · return 8h · stage W4-late · stale: 4 of 1060
 
 ## Verdict changes
 
@@ -60,7 +60,7 @@ finding: Worship full on 10 · spend
   ○ To do: Colosseum tickets · Typhoon: 1 day banked · Centurion: 1 day banked · Lonely Hunter: 1 day banked · resets in 15h 12m
   ○ To do: Killroy's rooms · Warrior room: your Royal Guardian Lv 1307 · Archer room: your Siege Breaker Lv 1291 · Archer room: your Siege Breaker Lv 1291 · your weekly reset in 3d 15h
   ○ To do: Weekly Battle · best this week: difficulty 0 of 5 · new boss Thursday 00:00 UTC, in 6h 32m · lost before you are back
-  ○ To do: Bonus Ballot vote · Leading now: Boosts Crop Value, and Farming EXP gain, AND Next Crop Chance by +88.35% · new ballot Monday about 17:00 UTC, in 4d 23h
+  ○ To do: Bonus Ballot vote · Active now: Boosts Crop Value, and Farming EXP gain, AND Next Crop Chance by +88.35% · new ballot Monday about 17:00 UTC, in 4d 23h
   ○ To do: Guild weekly tasks · your weekly reset in 3d 15h
 - Spend · Play a round of Darts: Play one round of Darts [IdleOn Wiki: Minigames, Throwy Darts · Calculated by IdleOn Toolbox · 2.3.540]
 - Spend · Play a round of Hoops: Play one round of Hoops [IdleOn Wiki: Minigames, Swishy Hoops · Calculated by IdleOn Toolbox · 2.3.540]
@@ -78,7 +78,7 @@ finding: Worship full on 10 · spend
   · Royal Guardian 1307: 9,167 star points unspent on the other preset
   · Bubonic Conjuror 1268: 6,857 star points unspent on the other preset
   · Beginner 1224: 5,921 star points unspent on the other preset
-show more (15)
+show more (18)
 If you have time
 - Run Killroy's Warrior room on your Royal Guardian Lv 1307 (YumYum Grotto) · about 2m of hands-on play
 - Run Killroy's Archer room on your Siege Breaker Lv 1291 (YumYum Grotto) · about 2m of hands-on play
@@ -86,6 +86,18 @@ If you have time
 - Run the Weekly Battle with every character (Yum Yum Desert) · about 11m of hands-on play
 
 ## Not covered yet
+Achievements
+Coins
+Drop rate
+Dungeons
+Event Shop
+Family bonuses
+Food
+Friend bonuses
+Stats and damage
+Storage and inventory
+Town shops
+Trophies and nametags
 Bribes
 Forge
 Quests
@@ -97,9 +109,7 @@ Equinox
 Prayers
 Salt Lick
 Shrines
-Breeding
-Cooking
-Laboratory
+Sigils
 
 ## Systems
 W0 · Classes and subclasses · Nothing to fix · Nothing to fix
@@ -121,6 +131,18 @@ W0 · Random Events · Nothing to fix · Nothing to fix
 W0 · Pet Tournament · Nothing to fix · Nothing to fix
 W0 · Daily tasks · Nothing to fix · Nothing to fix
 W0 · Guild tasks · Nothing to fix · Nothing to fix
+W0 · Achievements · Not covered yet · Not covered yet
+W0 · Dungeons · Not covered yet · Not covered yet
+W0 · Family bonuses · Not covered yet · Not covered yet
+W0 · Food · Not covered yet · Not covered yet
+W0 · Storage and inventory · Not covered yet · Not covered yet
+W0 · Stats and damage · Not covered yet · Not covered yet
+W0 · Coins · Not covered yet · Not covered yet
+W0 · Friend bonuses · Not covered yet · Not covered yet
+W0 · Event Shop · Not covered yet · Not covered yet
+W0 · Trophies and nametags · Not covered yet · Not covered yet
+W0 · Town shops · Not covered yet · Not covered yet
+W0 · Drop rate · Not covered yet · Not covered yet
 W1 · Stamps · Nothing to fix · Nothing to fix · 2 to do
 W1 · Star Signs · Nothing to fix · Nothing to fix · 1 to do
 W1 · Anvil · Nothing to fix · Nothing to fix · 2 to do · 11 full · collect
@@ -156,13 +178,17 @@ W3 · Shrines · Not covered yet · Not covered yet
 W3 · Equinox · Not covered yet · Not covered yet
 W3 · Atom Collider · Not covered yet · Not covered yet
 W3 · Bubba · Nothing to fix · Nothing to fix · 1 to do
-W4 · Laboratory · Not covered yet · Not covered yet
-W4 · Cooking · Not covered yet · Not covered yet
-W4 · Breeding · Not covered yet · Not covered yet
+W4 · Laboratory · Nothing to fix · Nothing to fix · 1 to do
+W4 · Cooking · Nothing to fix · Nothing to fix
+W4 · Breeding · Wasting · 1 to fix before you leave
+W4 · Sigils · Not covered yet · Not covered yet
+W4 · The Rift · Nothing to fix · Nothing to fix · 1 to do
+W4 · The Tome · Nothing to fix · Nothing to fix
+W4 · Elite classes · Nothing to fix · Nothing to fix
 Worlds 5–7: not covered yet
-Needs you: Minigames (wasting), Trapping (wasting)
+Needs you: Minigames (wasting), Trapping (wasting), Breeding (wasting)
 Other gaps: Talent builds past World 4, W4+ constellations and Infinite Stars
-Wasting: 2
+Wasting: 3
 Report card: (none)
 Stamps picture: 111 of 121 owned · lit (none) · next 0
 Statues picture: 32 of 32 Gold · 32 Onyx · lit (none)
@@ -310,15 +336,18 @@ Gifts: Slabcakes, Surprise Box
 
 ## Builds
 ### C1 (Siege Breaker 1291)
-- No build for this stage yet (builds cover World 1 to World 4): these are your talent levels
-- Other preset: Calm Basics · Archer · Bowman · Siege Breaker · Star talents (6,481 unspent)
+- Skilling preset: Calm Basics [Start here] (at least 2,936 unspent) · Archer (at least 2,213 unspent) · Bowman (at least 2,085 unspent) · Siege Breaker (at least 3,403 unspent) · Star talents (6,481 unspent)
+  - Calm Basics: As of your last save: at least 2,936 points waiting · they end here
+    - can add now: Elusive Efficiency 0 → 131 · +131
+    - can add now: Quickness Boots 0 → 688 · +819
+    - can add now: Broken Time 0 → 182 · +1,001
   - Star talents: 6,481 unspent · they end here (Stonks! returns more as it levels)
     - can add now: Stonks! 0 → 30 · +30 (pays for itself: it returns star points as it levels)
     - can add now: Tick Tock = Will of the Eldest = Toilet Paper Postage +254 · +284 (split evenly: Tick Tock 0 → 104, Will of the Eldest 0 → 50, Toilet Paper Postage 0 → 100 · useful up to 130 (best level 1,307); its max for now)
     - can add now: Printer Sampling 0 → 1 · +285
     - can add now: Shrine Architect 0 → 1 · +286
     - and 4 more
-- Current preset (in use): Calm Basics · Archer · Bowman · Siege Breaker · Star talents (3,122 unspent)
+- Fighting preset (in use): Calm Basics · Archer · Bowman · Siege Breaker · Star talents (3,122 unspent)
   - Star talents: 3,122 unspent · they end here (Stonks! returns more as it levels)
     - can add now: Stonks! 0 → 30 · +30 (pays for itself: it returns star points as it levels)
     - done: Will of the Eldest 50 (useful up to 130 (best level 1,307); its max for now)
@@ -327,32 +356,39 @@ Gifts: Slabcakes, Surprise Box
     - and 7 more
 
 ### C2 (Death Bringer 1292)
-- No build for this stage yet (builds cover World 1 to World 4): these are your talent levels
-- Other preset: Rage Basics · Warrior · Barbarian · Blood Berserker · Death Bringer · Star talents (8,019 unspent)
+- Fighting preset: Rage Basics [Start here] (at least 2,729 unspent) · Warrior (at least 1,804 unspent) · Barbarian (at least 2,243 unspent) · Blood Berserker (at least 2,656 unspent) · Death Bringer (at least 3,390 unspent) · Star talents (8,019 unspent)
+  - Rage Basics: As of your last save: at least 2,729 points waiting · they end here
+    - can add now: Idle Brawling 0 → 50 · +50
+    - can add now: Gilded Sword 0 → 153 · +203
+    - can add now: Sharpened Axe 0 → 142 · +345
+    - can add now: Idle Brawling 0 → 151 · +446 (you have 0 now; the steps above take it to 50)
+    - and 3 more
   - Star talents: 8,019 unspent · they end here (Stonks! returns more as it levels)
     - can add now: Stonks! 0 → 30 · +30 (pays for itself: it returns star points as it levels)
-    - can add now: Tick Tock = Will of the Eldest = Toilet Paper Postage +254 · +284 (split evenly: Tick Tock 0 → 104, Will of the Eldest 0 → 50, Toilet Paper Postage 0 → 100 · useful up to 130 (best level 1,307); its max for now)
-    - can add now: Printer Sampling 0 → 1 · +285
-    - can add now: Shrine Architect 0 → 1 · +286
-    - and 4 more
-- Current preset (in use): Rage Basics · Warrior · Barbarian · Blood Berserker · Death Bringer · Star talents (4,603 unspent)
+    - can add now: Will of the Eldest 0 → 50 · +80 (useful up to 130 (best level 1,307); its max for now)
+    - can add now: Beginner Best Class 0 → 50 · +130 (useful up to 122 (best Beginner-line level 1,224); its max for now)
+    - can add now: Tick Tock = Attacks On Simmer = Goblet of Hemoglobin +204 · +334 (split evenly: Tick Tock 0 → 104, Attacks On Simmer 0 → 50, Goblet of Hemoglobin 0 → 50)
+    - and 5 more
+- Skilling preset (in use): Rage Basics · Warrior · Barbarian · Blood Berserker · Death Bringer · Star talents (4,603 unspent)
   - Star talents: 4,603 unspent · they end here (Stonks! returns more as it levels)
     - can add now: Stonks! 0 → 30 · +30 (pays for itself: it returns star points as it levels)
-    - done: Will of the Eldest 50 (useful up to 130 (best level 1,307); its max for now)
-    - done: Beginner Best Class 50 (useful up to 122 (best Beginner-line level 1,224); its max for now)
     - done: Tick Tock 104
-    - and 7 more
+    - done: Will of the Eldest 50 (useful up to 130 (best level 1,307); its max for now)
+    - can add now: Toilet Paper Postage 25 → 100 · +105
+    - and 6 more
 
 ### C3 (Elemental Sorcerer 1259)
-- No build for this stage yet (builds cover World 1 to World 4): these are your talent levels
-- Other preset: Savvy Basics · Mage · Wizard · Elemental Sorcerer · Star talents (6,354 unspent)
+- Skilling preset: Savvy Basics [Start here] (at least 3,294 unspent) · Mage (at least 1,881 unspent) · Wizard (at least 3,256 unspent) · Elemental Sorcerer (at least 3,671 unspent) · Star talents (6,354 unspent)
+  - Savvy Basics: As of your last save: at least 3,294 points waiting · they end here
+    - can add now: Smart Efficiency = Active AFK'er +296 · +296 (split evenly: Smart Efficiency 0 → 149, Active AFK'er 0 → 147)
+    - can add now: Mana Booster = Book of the Wise +1,193 · +1,489 (split evenly: Mana Booster 0 → 267, Book of the Wise 0 → 926)
   - Star talents: 6,354 unspent · they end here (Stonks! returns more as it levels)
     - can add now: Stonks! 0 → 30 · +30 (pays for itself: it returns star points as it levels)
     - can add now: Tick Tock = Will of the Eldest = Toilet Paper Postage +254 · +284 (split evenly: Tick Tock 0 → 104, Will of the Eldest 0 → 50, Toilet Paper Postage 0 → 100 · useful up to 130 (best level 1,307); its max for now)
     - can add now: Printer Sampling 0 → 1 · +285
     - can add now: Shrine Architect 0 → 1 · +286
     - and 4 more
-- Current preset (in use): Savvy Basics · Mage · Wizard · Elemental Sorcerer · Star talents (4,275 unspent)
+- Fighting preset (in use): Savvy Basics · Mage · Wizard · Elemental Sorcerer · Star talents (4,275 unspent)
   - Star talents: 4,275 unspent · they end here (Stonks! returns more as it levels)
     - can add now: Stonks! 22 → 30 · +8 (pays for itself: it returns star points as it levels)
     - done: Will of the Eldest 50 (useful up to 130 (best level 1,307); its max for now)
@@ -361,15 +397,20 @@ Gifts: Slabcakes, Surprise Box
     - and 7 more
 
 ### C4 (Divine Knight 1240)
-- No build for this stage yet (builds cover World 1 to World 4): these are your talent levels
-- Other preset: Rage Basics · Warrior · Squire · Divine Knight · Star talents (7,857 unspent)
+- Skilling preset: Rage Basics [Start here] (at least 1,938 unspent) · Warrior (at least 1,158 unspent) · Squire (at least 1,474 unspent) · Divine Knight (at least 1,500 unspent) · Star talents (7,857 unspent)
+  - Rage Basics: As of your last save: at least 1,938 points waiting · they end here
+    - can add now: Brute Efficiency 0 → 151 · +151
+    - can add now: Idle Skilling 0 → 149 · +300
+    - can add now: Fist of Rage 0 → 618 · +918
+    - can add now: Health Booster 0 → 153 · +1,071
+    - and 1 more
   - Star talents: 7,857 unspent · they end here (Stonks! returns more as it levels)
     - can add now: Stonks! 0 → 30 · +30 (pays for itself: it returns star points as it levels)
     - can add now: Tick Tock = Will of the Eldest = Toilet Paper Postage +254 · +284 (split evenly: Tick Tock 0 → 104, Will of the Eldest 0 → 50, Toilet Paper Postage 0 → 100 · useful up to 130 (best level 1,307); its max for now)
     - can add now: Printer Sampling 0 → 1 · +285
     - can add now: Shrine Architect 0 → 1 · +286
     - and 4 more
-- Current preset (in use): Rage Basics · Warrior · Squire · Divine Knight · Star talents (5,254 unspent)
+- Fighting preset (in use): Rage Basics · Warrior · Squire · Divine Knight · Star talents (5,254 unspent)
   - Star talents: 5,254 unspent · they end here (Stonks! returns more as it levels)
     - can add now: Stonks! 0 → 30 · +30 (pays for itself: it returns star points as it levels)
     - done: Will of the Eldest 50 (useful up to 130 (best level 1,307); its max for now)
@@ -378,15 +419,18 @@ Gifts: Slabcakes, Surprise Box
     - and 7 more
 
 ### C5 (Arcane Cultist 1231)
-- No build for this stage yet (builds cover World 1 to World 4): these are your talent levels
-- Other preset: Savvy Basics · Mage · Shaman · Bubonic Conjuror · Arcane Cultist · Star talents (7,559 unspent)
+- Skilling preset: Savvy Basics [Start here] (at least 3,155 unspent) · Mage (at least 2,785 unspent) · Shaman (at least 3,222 unspent) · Bubonic Conjuror (at least 3,493 unspent) · Arcane Cultist (at least 3,791 unspent) · Star talents (7,559 unspent)
+  - Savvy Basics: As of your last save: at least 3,155 points waiting · they end here
+    - can add now: Smart Efficiency 0 → 142 · +142
+    - can add now: Book of the Wise 0 → 699 · +841
+    - can add now: Active AFK'er 0 → 139 · +980
   - Star talents: 7,559 unspent · they end here (Stonks! returns more as it levels)
     - can add now: Stonks! 0 → 30 · +30 (pays for itself: it returns star points as it levels)
     - can add now: Tick Tock = Will of the Eldest = Toilet Paper Postage +254 · +284 (split evenly: Tick Tock 0 → 104, Will of the Eldest 0 → 50, Toilet Paper Postage 0 → 100 · useful up to 130 (best level 1,307); its max for now)
     - can add now: Printer Sampling 0 → 1 · +285
     - can add now: Shrine Architect 0 → 1 · +286
     - and 4 more
-- Current preset (in use): Savvy Basics · Mage · Shaman · Bubonic Conjuror · Arcane Cultist · Star talents (3,680 unspent)
+- Fighting preset (in use): Savvy Basics · Mage · Shaman · Bubonic Conjuror · Arcane Cultist · Star talents (3,680 unspent)
   - Star talents: 3,680 unspent · they end here
     - done: Stonks! 30
     - done: Will of the Eldest 50 (useful up to 130 (best level 1,307); its max for now)
@@ -395,15 +439,19 @@ Gifts: Slabcakes, Surprise Box
     - and 7 more
 
 ### C6 (Wind Walker 1280)
-- No build for this stage yet (builds cover World 1 to World 4): these are your talent levels
-- Current preset (in use): Calm Basics · Archer · Hunter · Beast Master · Wind Walker · Star talents (4,520 unspent)
+- Fighting preset (in use): Calm Basics · Archer · Hunter · Beast Master · Wind Walker · Star talents (4,520 unspent)
   - Star talents: 4,520 unspent · they end here
     - done: Stonks! 30
     - done: Will of the Eldest 50 (useful up to 130 (best level 1,307); its max for now)
     - done: Beginner Best Class 50 (useful up to 122 (best Beginner-line level 1,224); its max for now)
     - done: Tick Tock 104
     - and 7 more
-- Other preset: Calm Basics · Archer · Hunter · Beast Master · Wind Walker · Star talents (6,901 unspent)
+- Skilling preset: Calm Basics [Start here] (at least 2,944 unspent) · Archer (at least 1,855 unspent) · Hunter (at least 2,419 unspent) · Beast Master (at least 2,555 unspent) · Wind Walker (at least 2,893 unspent) · Star talents (6,901 unspent)
+  - Calm Basics: As of your last save: at least 2,944 points waiting · they end here
+    - can add now: Elusive Efficiency 0 → 220 · +220
+    - can add now: Broken Time 0 → 220 · +440
+    - can add now: Book of the Wise 0 → 100 · +540
+    - can add now: Star Player 0 → 100 · +640
   - Star talents: 6,901 unspent · they end here (Stonks! returns more as it levels)
     - can add now: Stonks! 0 → 30 · +30 (pays for itself: it returns star points as it levels)
     - can add now: Tick Tock = Will of the Eldest = Toilet Paper Postage +254 · +284 (split evenly: Tick Tock 0 → 104, Will of the Eldest 0 → 50, Toilet Paper Postage 0 → 100 · useful up to 130 (best level 1,307); its max for now)
@@ -412,15 +460,18 @@ Gifts: Slabcakes, Surprise Box
     - and 4 more
 
 ### C7 (Voidwalker 1157)
-- No build for this stage yet (builds cover World 1 to World 4): these are your talent levels
-- Current preset (in use): Beginner · Journeyman · Maestro · Voidwalker · Star talents (5,604 unspent)
+- Skilling preset (in use): Beginner · Journeyman · Maestro · Voidwalker · Star talents (5,604 unspent)
   - Star talents: 5,604 unspent · they end here (Stonks! returns more as it levels)
     - can add now: Stonks! 25 → 30 · +5 (pays for itself: it returns star points as it levels)
     - done: Will of the Eldest 50 (useful up to 130 (best level 1,307); its max for now)
     - can add now: Tick Tock = Toilet Paper Postage +52 · +57 (split evenly: Tick Tock 92 → 104, Toilet Paper Postage 60 → 100)
     - done: Printer Sampling 1
     - and 5 more
-- Other preset: Beginner · Journeyman · Maestro · Voidwalker · Star talents (7,944 unspent)
+- Fighting preset: Beginner [Start here] (at least 2,666 unspent) · Journeyman (at least 2,264 unspent) · Maestro (at least 2,482 unspent) · Voidwalker (at least 1,096 unspent) · Star talents (7,944 unspent)
+  - Beginner: As of your last save: at least 2,666 points waiting · they end here
+    - can add now: Sharpened Axe = Gilded Sword = Lucky Clover +563 · +563 (split evenly: Sharpened Axe 0 → 202, Gilded Sword 0 → 214, Lucky Clover 0 → 147)
+    - can add now: Health Booster = Mana Booster = Fist of Rage = Quickness Boots = Book of the Wise +547 · +1,110 (split evenly: Health Booster 0 → 147, Mana Booster 0 → 100, Fist of Rage 0 → 100, Quickness Boots 0 → 100, Book of the Wise 0 → 100)
+    - can add now: Knucklebuster = Feather Flight +294 · +1,404 (split evenly: Knucklebuster 0 → 147, Feather Flight 0 → 147)
   - Star talents: 7,944 unspent · they end here (Stonks! returns more as it levels)
     - can add now: Stonks! 0 → 30 · +30 (pays for itself: it returns star points as it levels)
     - can add now: Will of the Eldest 0 → 50 · +80 (useful up to 130 (best level 1,307); its max for now)
@@ -429,15 +480,18 @@ Gifts: Slabcakes, Surprise Box
     - and 5 more
 
 ### C8 (Siege Breaker 1261)
-- No build for this stage yet (builds cover World 1 to World 4): these are your talent levels
-- Current preset (in use): Calm Basics · Archer · Bowman · Siege Breaker · Star talents (4,346 unspent)
+- Fighting preset (in use): Calm Basics · Archer · Bowman · Siege Breaker · Star talents (4,346 unspent)
   - Star talents: 4,346 unspent · they end here (Stonks! returns more as it levels)
     - can add now: Stonks! 0 → 30 · +30 (pays for itself: it returns star points as it levels)
     - done: Will of the Eldest 50 (useful up to 130 (best level 1,307); its max for now)
     - done: Beginner Best Class 50 (useful up to 122 (best Beginner-line level 1,224); its max for now)
     - done: Attacks On Simmer 50
     - and 7 more
-- Other preset: Calm Basics · Archer · Bowman · Siege Breaker · Star talents (6,267 unspent)
+- Skilling preset: Calm Basics [Start here] (at least 2,770 unspent) · Archer (at least 1,659 unspent) · Bowman (at least 1,322 unspent) · Siege Breaker (at least 2,399 unspent) · Star talents (6,267 unspent)
+  - Calm Basics: As of your last save: at least 2,770 points waiting · they end here
+    - can add now: Elusive Efficiency 0 → 155 · +155
+    - can add now: Quickness Boots 0 → 637 · +792
+    - can add now: Broken Time 0 → 148 · +940
   - Star talents: 6,267 unspent · they end here (Stonks! returns more as it levels)
     - can add now: Stonks! 0 → 30 · +30 (pays for itself: it returns star points as it levels)
     - can add now: Tick Tock = Will of the Eldest = Toilet Paper Postage +254 · +284 (split evenly: Tick Tock 0 → 104, Will of the Eldest 0 → 50, Toilet Paper Postage 0 → 100 · useful up to 130 (best level 1,307); its max for now)
@@ -446,15 +500,20 @@ Gifts: Slabcakes, Surprise Box
     - and 4 more
 
 ### C9 (Royal Guardian 1307)
-- No build for this stage yet (builds cover World 1 to World 4): these are your talent levels
-- Current preset (in use): Rage Basics · Warrior · Squire · Divine Knight · Royal Guardian · Star talents (5,403 unspent)
+- Fighting preset (in use): Rage Basics · Warrior · Squire · Divine Knight · Royal Guardian · Star talents (5,403 unspent)
   - Star talents: 5,403 unspent · they end here
     - done: Stonks! 30
     - done: Will of the Eldest 50 (useful up to 130 (best level 1,307); its max for now)
     - done: Beginner Best Class 50 (useful up to 122 (best Beginner-line level 1,224); its max for now)
     - done: Tick Tock 104
     - and 7 more
-- Other preset: Rage Basics · Warrior · Squire · Divine Knight · Royal Guardian · Star talents (9,167 unspent)
+- Skilling preset: Rage Basics [Start here] (at least 5,020 unspent) · Warrior (at least 4,186 unspent) · Squire (at least 4,067 unspent) · Divine Knight (at least 3,917 unspent) · Royal Guardian (at least 1,622 unspent) · Star talents (9,167 unspent)
+  - Rage Basics: As of your last save: at least 5,020 points waiting · they end here
+    - can add now: Brute Efficiency 10 → 308 · +298
+    - can add now: Idle Skilling 38 → 308 · +568
+    - can add now: Fist of Rage 0 → 1,133 · +1,701
+    - can add now: Health Booster 0 → 308 · +2,009
+    - and 1 more
   - Star talents: 9,167 unspent · they end here (Stonks! returns more as it levels)
     - can add now: Stonks! 0 → 30 · +30 (pays for itself: it returns star points as it levels)
     - can add now: Tick Tock = Will of the Eldest = Toilet Paper Postage +254 · +284 (split evenly: Tick Tock 0 → 104, Will of the Eldest 0 → 50, Toilet Paper Postage 0 → 100 · useful up to 130 (best level 1,307); its max for now)
@@ -463,15 +522,18 @@ Gifts: Slabcakes, Surprise Box
     - and 4 more
 
 ### C10 (Bubonic Conjuror 1268)
-- No build for this stage yet (builds cover World 1 to World 4): these are your talent levels
-- Current preset (in use): Savvy Basics · Mage · Shaman · Bubonic Conjuror · Star talents (5,174 unspent)
+- Fighting preset (in use): Savvy Basics · Mage · Shaman · Bubonic Conjuror · Star talents (5,174 unspent)
   - Star talents: 5,174 unspent · they end here (Stonks! returns more as it levels)
     - can add now: Stonks! 0 → 30 · +30 (pays for itself: it returns star points as it levels)
     - done: Will of the Eldest 50 (useful up to 130 (best level 1,307); its max for now)
     - done: Beginner Best Class 50 (useful up to 122 (best Beginner-line level 1,224); its max for now)
     - done: Tick Tock 104
     - and 7 more
-- Other preset: Savvy Basics · Mage · Shaman · Bubonic Conjuror · Star talents (6,857 unspent)
+- Skilling preset: Savvy Basics [Start here] (at least 2,825 unspent) · Mage (at least 1,359 unspent) · Shaman (at least 1,690 unspent) · Bubonic Conjuror (at least 3,230 unspent) · Star talents (6,857 unspent)
+  - Savvy Basics: As of your last save: at least 2,825 points waiting · they end here
+    - can add now: Smart Efficiency 0 → 136 · +136
+    - can add now: Book of the Wise 0 → 637 · +773
+    - can add now: Active AFK'er 0 → 150 · +923
   - Star talents: 6,857 unspent · they end here (Stonks! returns more as it levels)
     - can add now: Stonks! 0 → 30 · +30 (pays for itself: it returns star points as it levels)
     - can add now: Tick Tock = Will of the Eldest = Toilet Paper Postage +254 · +284 (split evenly: Tick Tock 0 → 104, Will of the Eldest 0 → 50, Toilet Paper Postage 0 → 100 · useful up to 130 (best level 1,307); its max for now)
@@ -584,6 +646,8 @@ Gifts: Slabcakes, Surprise Box
 | anvil.check.spend-points | anvil/points | account | fires | count=11 hours=8 manyMixed=1 |
 | arcade.check.balls-cap | arcade/balls-cap | account | pass |  |
 | boss-keys.check.collect | boss-keys/banked | — | silent |  |
+| breeding.check.full-nest | breeding/full-nest | account | fires | capacity=15 eggs=15 first=0 |
+| breeding.check.idle-territory | breeding/idle-territory | — | silent |  |
 | bubba.check.boon | bubba/boon | — | silent |  |
 | bubba.check.charisma-idle | bubba/charisma-idle | account | fires | banked=120 mindful=1 none=0 selected=1 |
 | bubba.check.megaflesh | bubba/megaflesh | — | silent |  |
@@ -595,13 +659,19 @@ Gifts: Slabcakes, Surprise Box
 | classes.contribution.exp | classes/exp | C9 | advances yes eta 479009996855998m | exp=8.1176933947005e+29 expReq=2.3437430699174437e+30 rate=191892495835481500 saved=1307 |
 | colosseum.check.collect-tickets | colosseum/tickets-banked | — | silent |  |
 | construction.check.build-next | construction/build-next | account | pass |  |
+| cooking.check.capped-meal | cooking/capped-meal | — | silent |  |
+| cooking.check.idle-kitchen | cooking/idle-kitchen | — | silent |  |
 | death-note.check.build | death-note/build | — | silent |  |
 | death-note.check.build-slot | death-note/build | — | silent |  |
 | death-note.contribution.skull-miniboss-fm-rat | death-note/skull | C9 | advances unknown |  |
 | death-note.contribution.skull-mush-g | death-note/skull | C10 | advances no | building=51 feeders=512 rate=1886483522 rule=1 saved=361864979520 target=Green_Mushroom |
+| elite-classes.check.eliteus | elite-classes/eliteus | — | silent |  |
 | gem-shop.check.printer-buy | gem-shop/unspent | — | silent |  |
 | gem-shop.check.printer-progress | gem-shop/unspent | — | silent |  |
 | gem-shop.check.unspent | gem-shop/unspent | account | fires | gems=29781713 price=875 |
+| lab.check.first-upload | lab/uploads | — | silent |  |
+| lab.check.jewel-unlit | lab/jewel-unlit | account | fires | dark=1 jewel=Eternal_Energy_Jewel |
+| lab.check.not-connected | lab/uploads | — | silent |  |
 | merit-shop.check.spend-w1 | merit-shop/unspent | — | silent |  |
 | merit-shop.check.spend-w2 | merit-shop/unspent | — | silent |  |
 | merit-shop.check.spend-w2-afk-gains | merit-shop/unspent | — | silent |  |
@@ -642,6 +712,11 @@ Gifts: Slabcakes, Surprise Box
 | refinery.check.salt-fuel | refinery/salt-off | — | silent |  |
 | refinery.check.salt-off | refinery/salt-off | — | silent |  |
 | refinery.check.unlock-next | refinery/unlock-next | — | silent |  |
+| rift.check.active-task | rift/task-kind | account | fires | afk=0 level=60 progress=0 quota=11 task=DEFEAT_ANY_MONSTER_HERE_ON_11_CHARS |
+| rift.check.afk-task | rift/task-kind | — | silent |  |
+| rift.check.class-gate | rift/class-gate | — | silent |  |
+| rift.check.quota-done | rift/quota-done | — | silent |  |
+| rift.check.unlock-quest | rift/unlock-quest | — | silent |  |
 | roles.contribution.fishing | roles/skill | C7 | advances yes | rule=1 |
 | skills.contribution.door-fishing | skills/door | C7 | advances no | destination= rule=0 saved=122 |
 | skills.contribution.tool-fishing | skills/tool-chain | C7 | advances no | need=0 rule=0 saved=122 target=Medium_Fish tool=Lustre_Rod |
@@ -656,18 +731,19 @@ Gifts: Slabcakes, Surprise Box
 | systems.yaml#atom-collider | worlds/reached | account | reached yes |  |
 | systems.yaml#ballot | worlds/reached | account | reached yes |  |
 | systems.yaml#boss-keys | worlds/reached | account | reached yes |  |
-| systems.yaml#breeding | worlds/reached | account | reached yes |  |
+| systems.yaml#breeding | systems/unlocked | account | reached yes |  |
 | systems.yaml#bribes | worlds/reached | account | reached yes |  |
 | systems.yaml#bubba | bubba/unlocked | account | reached yes |  |
 | systems.yaml#colosseum | worlds/reached | account | reached yes |  |
 | systems.yaml#construction | worlds/reached | account | reached yes |  |
-| systems.yaml#cooking | worlds/reached | account | reached yes |  |
+| systems.yaml#cooking | systems/unlocked | account | reached yes |  |
 | systems.yaml#death-note | worlds/reached | account | reached yes |  |
-| systems.yaml#equinox | worlds/reached | account | reached yes |  |
+| systems.yaml#elite-classes | worlds/reached | account | reached yes |  |
+| systems.yaml#equinox | systems/unlocked | account | reached yes |  |
 | systems.yaml#forge | worlds/reached | account | reached yes |  |
-| systems.yaml#islands | worlds/reached | account | reached yes |  |
+| systems.yaml#islands | systems/unlocked | account | reached yes |  |
 | systems.yaml#killroy | worlds/reached | account | reached yes |  |
-| systems.yaml#lab | worlds/reached | account | reached yes |  |
+| systems.yaml#lab | systems/unlocked | account | reached yes |  |
 | systems.yaml#library | worlds/reached | account | reached yes |  |
 | systems.yaml#owl | worlds/reached | account | reached yes |  |
 | systems.yaml#poppy | worlds/reached | account | reached yes |  |
@@ -676,15 +752,20 @@ Gifts: Slabcakes, Surprise Box
 | systems.yaml#printer | worlds/reached | account | reached yes |  |
 | systems.yaml#quests | worlds/reached | account | reached yes |  |
 | systems.yaml#refinery | worlds/reached | account | reached yes |  |
+| systems.yaml#rift | systems/unlocked | account | reached yes |  |
 | systems.yaml#salt-lick | worlds/reached | account | reached yes |  |
 | systems.yaml#shrines | worlds/reached | account | reached yes |  |
+| systems.yaml#sigils | systems/unlocked | account | reached yes |  |
 | systems.yaml#stamps | worlds/reached | account | reached yes |  |
 | systems.yaml#star-signs | worlds/reached | account | reached yes |  |
 | systems.yaml#statues | worlds/reached | account | reached yes |  |
+| systems.yaml#tome | worlds/reached | account | reached yes |  |
 | systems.yaml#trapping | worlds/reached | account | reached yes |  |
 | systems.yaml#weekly-battles | worlds/reached | account | reached yes |  |
 | systems.yaml#worship | worlds/reached | account | reached yes |  |
 | task-unlocks.check.spend | task-unlocks/unspent | — | silent |  |
+| tome.check.blue-pages | tome/blue-pages | — | silent |  |
+| tome.check.claim-nametags | tome/nametags | — | silent |  |
 | trapping.check.finishes-early | trapping/finishes-early | C2 | fires | finishesIn=23752448 |
 | trapping.check.finishes-early | trapping/finishes-early | C9 | fires | finishesIn=23748448 |
 | trapping.check.slots-and-timers | trapping/slots-and-timers | C1 | fires | idleFor=19447552 traps=6 |

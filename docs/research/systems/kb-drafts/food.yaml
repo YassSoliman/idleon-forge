@@ -1,0 +1,188 @@
+# SPDX-License-Identifier: GPL-3.0-only
+# M26 KB drafts for System food (area AW synthesis, verified 2026-10-19, Toolbox 6c37e3d, game 2.3.540).
+# status: draft is a workflow marker; the KB schema accepts active|contested|retired only.
+# entries = new entries; facts = new fact rows (land in <system>.facts.yaml at merge);
+# amendments = changes to entries already in packages/knowledge/systems (or to other drafts).
+# AW synthesis added: topics golden-food (maps/<topic>.json).
+system: food
+status: draft
+entries:
+- id: food.check.golden-unequipped
+  system: food
+  type: check
+  title: Equip the golden food you own
+  subject: account
+  effect: next-action
+  category: spendable
+  effortSeconds: 30
+  detector:
+    id: food/golden-unequipped
+  text: Equip {food:name} in a food slot (+{bonus:num} {stat})
+  values:
+    text-many: Equip {count:int} golden foods you own; {food:name} first (+{bonus:num} {stat})
+    text-one: Equip {food:name} on {class:name} Lv {level:int} (+{bonus:num} {stat})
+    detail: '{food:name} x{amount:int} in {where}: +{bonus:num} {stat}'
+  why: 'Golden food is never eaten: it sits in a food slot and gives a permanent bonus that grows with the stack. In storage
+    or a bag it does nothing.'
+  notes: 'Bonus = Toolbox getGoldenFoodBonus on a food clone (misc.ts#L1046-L1072, H). Only certainly-unlocked slots count
+    (1 + the highest used slot index across the account), because the base unlocked slot count is unverified (dossier M1,
+    L). Which character gets a storage food is not ranked (no Source): the line names the food and the free slots, not a character.'
+  doneWhen:
+    field: characters[*].food.slots
+    change: golden food equipped
+  appliesTo:
+    stages: all
+  confidence: H
+  status: draft
+  sources:
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/misc.ts#L1046-L1072
+    title: IdleOn Toolbox, getGoldenFoodBonus (equipped GOLDEN_FOOD slots, log stack curve, no consumption)
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/items.json
+    title: IdleOn Toolbox game data, items.json (Type GOLDEN_FOOD / HEALTH_FOOD / BOOST_FOOD, Effect, Amount, Trigger, Cooldown)
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/character.ts#L364
+    title: IdleOn Toolbox, character food buffer (EquipmentOrder[2] / EquipmentQuantity[2])
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+  - url: https://idleon.wiki/wiki/Food
+    title: 'IdleOn Wiki: Food'
+    tier: 3
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+    claimDate: '2026-09-13'
+  fromTopic: golden-food
+- id: food.check.golden-wrong-effect
+  system: food
+  type: check
+  title: Golden food for a skill this character isn't doing
+  subject: character
+  effect: next-action
+  category: misplaced
+  effortSeconds: 30
+  detector:
+    id: food/golden-wrong-effect
+    params:
+      effects:
+        MiningEff: Mining
+        FishingEff: Fishing
+  text: Move {food:name} to a {skill} character
+  values:
+    detail: '{food:name} gives {skill} efficiency; this character is AFK on {afkType}'
+  why: '{food:name} only raises {skill} efficiency. On a character that isn''t {skill}, its slot could hold a golden food
+    that helps it.'
+  notes: 'Effects from items.json (Golden Peanut MiningEff 30, Golden Ribs FishingEff 40, H); read only by skill efficiency
+    (efficiency.ts#L273, L471). The judgment ''move it'' is the dossier''s common-mistake line (M): a player may keep it there
+    on purpose for a later switch.'
+  doneWhen:
+    field: characters[*].food.slots
+    change: food moved
+  appliesTo:
+    stages:
+    - from: W1-mid
+      to: W4-late
+  confidence: M
+  status: draft
+  sources:
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/items.json
+    title: IdleOn Toolbox game data, items.json (Type GOLDEN_FOOD / HEALTH_FOOD / BOOST_FOOD, Effect, Amount, Trigger, Cooldown)
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/efficiency.ts#L273
+    title: IdleOn Toolbox, skill efficiency reads Golden Peanut / Ribs (MiningEff, FishingEff)
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/misc.ts#L1046-L1072
+    title: IdleOn Toolbox, getGoldenFoodBonus (equipped GOLDEN_FOOD slots, log stack curve, no consumption)
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+  fromTopic: golden-food
+- id: food.goal.nutty-crafter
+  system: food
+  type: goal
+  title: 'Nutty Crafter: craft 42 Golden Peanuts'
+  subject: account
+  effect: goal
+  category: long-term
+  effortSeconds: 120
+  detector:
+    id: food/nutty-crafter
+  text: 'Craft Golden Peanuts: {crafted:int} of 42'
+  values:
+    text-now: Craft {canCraft:int} Golden Peanuts now ({crafted:int} of 42)
+    detail: Each needs 100 Peanut and 50 Gold Bar
+  why: The Nutty Crafter achievement gives +5% golden food effect to every character, for good.
+  notes: Achievement 37 (+5% in getGoldenFoodMulti, misc.ts#L923-L1031, H); recipe crafts.json (H). The dossier's W1 mid/late
+    order puts it after the Gem Shop slot (derived, M); the cost (4,200 Peanut, 2,100 Gold Bar) makes it a long Goal, not
+    a Check.
+  doneWhen:
+    field: account.food.nuttyCrafter.done
+    change: 'true'
+  appliesTo:
+    stages:
+    - from: W1-late
+      to: W4-late
+  confidence: M
+  status: draft
+  sources:
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/achievements.json
+    title: IdleOn Toolbox game data, achievement 37 Nutty_Crafter (craft 42 Golden Peanuts)
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/crafts.json
+    title: IdleOn Toolbox game data, Golden_Peanut recipe (100 Peanut + 50 Gold Bar)
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/misc.ts#L923-L1031
+    title: IdleOn Toolbox, getGoldenFoodMulti (per-character golden food multiplier)
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+  fromTopic: golden-food
+facts:
+- id: food.fact.golden-foods
+  system: food
+  origin: generated
+  title: 'The 17 golden foods: effect, base amount, world, source'
+  generator: items.json Type GOLDEN_FOOD (Effect, Amount) + monsterDrops.json best effectiveChance per world; Golden Peanut
+    source 'craft'
+  rows: rawName -> { effect, amount, world, source }
+  sources:
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/items.json
+    title: IdleOn Toolbox game data, items.json (Type GOLDEN_FOOD / HEALTH_FOOD / BOOST_FOOD, Effect, Amount, Trigger, Cooldown)
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/monsterDrops.json
+    title: IdleOn Toolbox game data, monsterDrops
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+  status: draft
+  fromTopic: golden-food
+- id: food.fact.effect-words
+  system: food
+  origin: authored
+  title: Golden food Effect ids in plain words
+  rows: MaxHPpct -> 'max HP %', Damage -> 'damage %', Defence -> 'defence', BaseDamage -> 'base damage', SkillExp -> 'skill
+    EXP', MonsterCash -> 'monster coins', FishingEff -> 'fishing efficiency', MiningEff -> 'mining efficiency', ShrineEffect
+    -> 'shrine effect', AllStatz -> 'all stats', ClassEXPz -> 'class EXP', AllAFK -> 'AFK gains', DropRatez -> 'drop rate',
+    BaseAcc -> 'accuracy', SailAFKz -> 'sailing AFK', SpelunkEXPz -> 'spelunking EXP'
+  sources:
+  - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/items.json
+    title: IdleOn Toolbox game data, items.json (Type GOLDEN_FOOD / HEALTH_FOOD / BOOST_FOOD, Effect, Amount, Trigger, Cooldown)
+    tier: 1
+    verified: '2026-10-19'
+    gameVersion: 2.3.540
+  status: draft
+  fromTopic: golden-food

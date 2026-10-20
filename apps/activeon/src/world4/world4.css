@@ -213,15 +213,23 @@
   font-feature-settings: var(--font-features);
 }
 .w4-num.w4-t--gold {
-  background: var(--accent);
+  background: var(--accent-fill);
   color: var(--on-accent);
 }
 .w4-num.w4-t--mint {
-  background: var(--ok);
+  background: var(--ok-fill);
   color: var(--on-ok);
 }
 .w4-class {
   flex: none;
+}
+/* M25: a row's game sprite in a fixed 24 px box (nothing moves while it loads). */
+.w4-row__ic {
+  flex: none;
+  width: 24px;
+  height: 24px;
+  display: grid;
+  place-items: center;
 }
 .w4-who {
   display: inline-flex;
@@ -231,6 +239,14 @@
 @media (max-width: 719.98px) {
   .w4-row {
     flex-wrap: wrap;
+  }
+  /* The words take the room beside the number and icon (a zero basis), so a long line wraps inside
+     its column instead of dropping the whole block under the icon: every row lays out alike. */
+  .w4-row > .w4-row__main {
+    flex: 1 1 0;
+  }
+  .w4-row__end {
+    margin-left: auto;
   }
   .w4-row__extra {
     flex-basis: 100%;
@@ -348,10 +364,10 @@
   stroke: var(--info);
 }
 .w4-board__jewel.is-lit {
-  fill: var(--info);
+  fill: var(--info-fill);
 }
 .w4-board__reach {
-  fill: var(--ok);
+  fill: var(--ok-fill);
   fill-opacity: 0.06;
   stroke: var(--ok);
   stroke-opacity: 0.5;
@@ -363,10 +379,10 @@
   stroke-width: 4;
 }
 .w4-board__prism rect {
-  fill: var(--info);
+  fill: var(--info-fill);
 }
 .w4-board__prism text {
-  fill: var(--info);
+  fill: var(--info-fill);
   /* The board draws at about half its game size at 1440, so 24 units read as 12 px or more (QA P2). */
   font: var(--weight-bold) 24px var(--font-body);
   font-variant-ligatures: var(--font-ligatures);
@@ -386,7 +402,7 @@
   text-anchor: middle;
 }
 .w4-loop__label text.is-key {
-  fill: var(--accent);
+  fill: var(--accent-fill);
 }
 .w4-loop__arrow rect {
   fill: var(--line-strong);
@@ -417,11 +433,11 @@
   }
 }
 .w4-board__node.is-lit rect {
-  fill: var(--ok);
+  fill: var(--ok-fill);
   stroke: var(--ok);
 }
 .w4-board__node.is-lit text {
-  fill: var(--ok);
+  fill: var(--ok-fill);
   font-weight: var(--weight-bold);
 }
 .w4-board__node.is-next rect {
@@ -429,7 +445,7 @@
   stroke: var(--accent);
 }
 .w4-board__node.is-next text {
-  fill: var(--accent);
+  fill: var(--accent-fill);
   font-weight: var(--weight-bold);
 }
 .w4-board__char-bg {
@@ -458,7 +474,7 @@
 .w4-key--beam {
   width: 18px;
   height: 4px;
-  background: var(--ok);
+  background: var(--ok-fill);
 }
 .w4-key--reach {
   width: 14px;
@@ -468,12 +484,12 @@
 .w4-key--lit {
   width: 10px;
   height: 10px;
-  background: var(--ok);
+  background: var(--ok-fill);
 }
 .w4-key--next {
   width: 10px;
   height: 10px;
-  background: var(--accent);
+  background: var(--accent-fill);
 }
 .w4-key--off {
   width: 10px;
@@ -689,7 +705,7 @@
   background: var(--accent-soft);
 }
 .w4-wave.is-reached .w4-wave__dot {
-  background: var(--ok);
+  background: var(--ok-fill);
 }
 .w4-wave.is-reached {
   color: var(--fg);
@@ -757,7 +773,7 @@
   padding: 14px var(--space-4);
 }
 .w4-step.is-now {
-  background: color-mix(in srgb, var(--accent) 12%, var(--accent-soft));
+  background: color-mix(in srgb, var(--accent-fill) 12%, var(--accent-soft));
 }
 .w4-step__n {
   display: grid;
@@ -772,7 +788,7 @@
   font-feature-settings: var(--font-features);
 }
 .w4-step.is-now .w4-step__n {
-  background: var(--accent);
+  background: var(--accent-fill);
   color: var(--on-accent);
 }
 .w4-step.is-done .w4-step__n {
@@ -801,6 +817,11 @@
     align-items: flex-start;
     padding: var(--space-3);
   }
+  /* The words sit beside the number (a zero basis, so they never wrap under it); the progress line
+     below starts where the words start. */
+  .w4-step > .w4-row__main {
+    flex: 1 1 0;
+  }
   .w4-step__end {
     width: auto;
     flex-basis: 100%;
@@ -812,4 +833,9 @@
 
 .w4-source a {
   color: var(--muted);
+}
+.w4-slot__in {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
 }

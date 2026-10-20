@@ -38,6 +38,33 @@ describe('parseRoute (FR-7)', () => {
     expect(r('#goals').route).toEqual({ place: 'account', page: 'goals' });
     expect(formatRoute({ place: 'account', page: 'spend' })).toBe('#spend');
     expect(placeOf({ place: 'account', page: 'goals' })).toBe('now');
+    // M26 F-C: the Production Plan page.
+    expect(r('#production').route).toEqual({ place: 'account', page: 'production' });
+    expect(formatRoute({ place: 'account', page: 'production' })).toBe('#production');
+  });
+
+  it('M26 FR-C2: a System page with a tab and a focused row, round-tripping; junk params are dropped', () => {
+    expect(r('#system-refinery?tab=recipes&focus=EquipmentSword2').route).toEqual({
+      place: 'system',
+      id: 'refinery',
+      tab: 'recipes',
+      focus: 'EquipmentSword2',
+    });
+    expect(r('#system-refinery?tab=walkthrough').route).toEqual({
+      place: 'system',
+      id: 'refinery',
+      tab: 'walkthrough',
+    });
+    expect(r('#system-refinery?tab=<b>&focus=a%20b').route).toEqual({ place: 'system', id: 'refinery' });
+    const route: Route = {
+      place: 'system',
+      id: 'refinery',
+      tab: 'walkthrough',
+      focus: 'EquipmentSmithingTabs4',
+    };
+    expect(formatRoute(route)).toBe('#system-refinery?tab=walkthrough&focus=EquipmentSmithingTabs4');
+    expect(r(formatRoute(route)).route).toEqual(route);
+    expect(routeKey(route)).toBe('#system-refinery');
   });
 
   it('opens Now for anything unknown, with no rewrite', () => {

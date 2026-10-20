@@ -14,13 +14,14 @@
 // a System picks its page (pages.ts) and SimplePage.tsx for the thin default.
 import type { FrameTone, SystemFrameView } from '@idleon-forge/engine/systems-ui';
 import { PAGE_FRAME_WORDS } from '@idleon-forge/engine/systems-ui';
-import { type KeyboardEvent, type ReactNode, useId, useRef, useState } from 'react';
+import { type KeyboardEvent, type ReactNode, useEffect, useId, useRef, useState } from 'react';
 import { PixelArt } from '../../design/art/PixelArt';
 import { Frame, Pip as SharedPip } from '../../design/atoms/Surfaces';
 import { PageSources } from '../../shell/page-sources';
 import { formatRoute } from '../../shell/route';
 import type { Session } from '../../shell/session';
 import { SystemIcon } from './SystemIcon';
+import { GateWalkthroughs, gateWalkthroughsOf } from './WalkthroughTab';
 import './frame.css';
 
 export type { FrameTone };
@@ -90,6 +91,26 @@ export function SystemFrame({
 }: SystemFrameProps) {
   const { tile } = page;
   const toolbox = s.result.versions.parserTarget;
+  // M26 FR-C1b: a System that owns a gate gets a Walkthrough tab with the Walkthroughs that hold one.
+  const gated = gateWalkthroughsOf(s.result, tile.id);
+  const allTabs =
+    tabs && gated.length > 0 && !tabs.some((t) => t.id === 'walkthrough')
+      ? [
+          ...tabs,
+          {
+            id: 'walkthrough',
+            label: PAGE_FRAME_WORDS.walkthroughTab,
+            badge: gated.length,
+            render: () => <GateWalkthroughs s={s} items={gated} />,
+          },
+        ]
+      : tabs;
+  // M26 FR-C2: the route names the open tab (an unknown one opens the first) and a row to outline.
+  const route = s.route.place === 'system' && s.route.id === tile.id ? s.route : null;
+  const routeTab = route?.tab && allTabs?.some((t) => t.id === route.tab) ? route.tab : undefined;
+  const onTab = (id: string) =>
+    s.navigate({ place: 'system', id: tile.id, tab: id }, 'replace', { origin: s.origin });
+  useFocusRow(route?.focus ?? null, routeTab ?? initialTab ?? null);
   return (
     <article className="system-page sy-page sf" aria-labelledby="system-h">
       <p className="sf-back">
@@ -131,10 +152,16 @@ export function SystemFrame({
 
       {answer ? <Answer answer={answer} /> : null}
 
-      {tabs && tabs.length > 1 ? (
-        <Tabs name={tile.name} tabs={tabs} initial={initialTab} />
-      ) : tabs?.[0] ? (
-        <div className="sf-body">{tabs[0].render()}</div>
+      {allTabs && allTabs.length > 1 ? (
+        <Tabs
+          name={tile.name}
+          tabs={allTabs}
+          initial={routeTab ?? initialTab}
+          current={routeTab}
+          onChange={onTab}
+        />
+      ) : allTabs?.[0] ? (
+        <div className="sf-body">{allTabs[0].render()}</div>
       ) : (
         <div className="sf-body">{children}</div>
       )}
@@ -216,8 +243,31 @@ export function Answer({ answer }: { answer: FrameAnswer }) {
 }
 
 /** Real tabs (WAI-ARIA tabs pattern): one tab stop, arrow keys, Home and End move between tabs. */
-export function Tabs({ name, tabs, initial }: { name: string; tabs: FrameTab[]; initial?: string }) {
-  const [on, setOn] = useState(() => tabs.find((t) => t.id === initial)?.id ?? tabs[0]?.id ?? '');
+export function Tabs({
+  name,
+  tabs,
+  initial,
+  current: wanted,
+  onChange,
+}: {
+  name: string;
+  tabs: FrameTab[];
+  initial?: string;
+  /** M26 FR-C2: the tab the route names; it wins over the local choice when it changes. */
+  current?: string;
+  onChange?: (id: string) => void;
+}) {
+  const [own, setOwn] = useState(() => tabs.find((t) => t.id === initial)?.id ?? tabs[0]?.id ?? '');
+  const [seen, setSeen] = useState(wanted);
+  if (wanted !== seen) {
+    setSeen(wanted);
+    if (wanted) setOwn(wanted);
+  }
+  const on = own;
+  const setOn = (id: string) => {
+    setOwn(id);
+    onChange?.(id);
+  };
   const base = useId();
   const refs = useRef<Array<HTMLButtonElement | null>>([]);
   const current = tabs.find((t) => t.id === on) ?? tabs[0];
@@ -286,4 +336,37 @@ export function Tabs({ name, tabs, initial }: { name: string; tabs: FrameTab[]; 
 /** The shared pip (design/atoms Surfaces), keyed by the frame's tones: grey ('mut') is "later". */
 export function Pip({ tone }: { tone: FrameTone }) {
   return <SharedPip {...(tone === 'mut' ? {} : { tone: tone === 'mint' ? 'mint' : tone })} />;
+}
+
+/**
+ * M26 FR-C2: the route's focused row (`[data-focus-key]`) is scrolled into view, outlined for 2 s and
+ * given keyboard focus, once per focus key and tab.
+ */
+function useFocusRow(focus: string | null, tab: string | null) {
+  // The tab is part of the key: the same focus on another tab is found again.
+  const key = focus ? `${tab ?? ''}:${focus}` : null;
+  useEffect(() => {
+    if (!key) return;
+    const focus = key.slice(key.indexOf(':') + 1);
+    let tries = 0;
+    let timer = 0;
+    let clear = 0;
+    const find = () => {
+      const el = document.querySelector<HTMLElement>(`[data-focus-key="${CSS.escape(focus)}"]`);
+      if (!el) {
+        if (tries++ < 20) timer = window.setTimeout(find, 100);
+        return;
+      }
+      el.scrollIntoView?.({ block: 'center' });
+      if (!el.hasAttribute('tabindex')) el.setAttribute('tabindex', '-1');
+      el.focus({ preventScroll: true });
+      el.classList.add('is-focus');
+      clear = window.setTimeout(() => el.classList.remove('is-focus'), 2000);
+    };
+    find();
+    return () => {
+      window.clearTimeout(timer);
+      window.clearTimeout(clear);
+    };
+  }, [key]);
 }

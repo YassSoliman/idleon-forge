@@ -3,9 +3,10 @@
 // M2's findings as EngineResult Goals (M10 TR-2): every word comes from the Goal's entry (its title,
 // why and the per-case Next Action template in `values`), filled with the finding's slots.
 import { type Entry, render, type SlotValue } from '@idleon-forge/knowledge';
-import type { Goal, Milestone, NextAction, SourceRef, Subject } from '../result';
+import type { Goal, Milestone, NextAction, SourceRef, Subject, WalkthroughStepView } from '../result';
 import { FAMILY_UNLOCK_ID, type FamilyGate, type FamilyUnlock, OBOL_SLOTS_FACT } from './family';
-import { worldGates } from './knowledge';
+import { rocklyteNeed, rocklyteQuestId } from './gate-chain';
+import { lookupOf, worldGates } from './knowledge';
 import type { FactLookup, MetaPathGoal, MetaPathKnowledge, MetaPathResult, PushGoal } from './types';
 
 export interface MetaPathGoalOut {
@@ -109,13 +110,20 @@ function findingOut(kb: MetaPathKnowledge, g: MetaPathGoal): Goal | null {
   const fields = g.provenance.fields;
   switch (g.entryId) {
     case 'metapath.goal.subclass': {
+      if (g.slots.action === 'become-journeyman') return becomeJourneyman(kb, g, subject);
+      // The Planned Path's class when the roster has one ("Pick Archer at Promotheus").
+      const next = typeof g.slots.next === 'string' ? g.slots.next : '';
       const template =
         g.slots.action === 'pick-class'
-          ? 'pick-class'
+          ? next
+            ? 'pick-planned'
+            : 'pick-class'
           : g.slots.class === 'Journeyman'
             ? 'journeyman'
-            : 'subclass';
-      return goalOf(kb, g.entryId, subject, template, {}, { fields });
+            : next
+              ? 'subclass-planned'
+              : 'subclass';
+      return goalOf(kb, g.entryId, subject, template, { next }, { fields });
     }
     case 'metapath.goal.world-tutorial-w3':
       return goalOf(
@@ -149,6 +157,95 @@ function findingOut(kb: MetaPathKnowledge, g: MetaPathGoal): Goal | null {
         { fields },
       );
   }
+}
+
+/**
+ * A Beginner planned as the Journeyman (owner report 2026-10-19): "don't pick a class at Lv 10", with
+ * Rocklyte's three quests as a Walkthrough on the card. The amounts, items, recipe and map come from the
+ * generated quest entries (Toolbox quests.json#Rocklyte); the ones the save's quest log shows done are
+ * left out, and the items the account holds are the progress.
+ */
+function becomeJourneyman(kb: MetaPathKnowledge, g: MetaPathGoal, subject: Subject): Goal | null {
+  const e = kb.entries[g.entryId];
+  if (e?.type !== 'goal') return null;
+  const facts = lookupOf(kb);
+  const v = e.values;
+  const t = (k: string) => (typeof v[k] === 'string' ? (v[k] as string) : null);
+  const fill = (k: string, slots: Record<string, SlotValue>) => {
+    const tpl = t(k);
+    if (!tpl) return null;
+    try {
+      return render(tpl, slots);
+    } catch {
+      return null;
+    }
+  };
+  const goal = goalOf(
+    kb,
+    g.entryId,
+    subject,
+    'become-journeyman',
+    {},
+    {
+      why: t('become-journeyman-why') ?? undefined,
+      fields: g.provenance.fields,
+      entryIds: [...g.provenance.entryIds, rocklyteQuestId(1), rocklyteQuestId(2), rocklyteQuestId(3)],
+    },
+  );
+  if (!goal) return null;
+  const done = typeof g.slots.done === 'number' ? Math.max(0, g.slots.done) : 0;
+  const sources = sourcesOf(e);
+  const quests = [1, 2, 3].map((n) => {
+    const need = n < 3 ? rocklyteNeed(facts, n) : null;
+    const held = typeof g.slots[`held${n}`] === 'number' ? (g.slots[`held${n}`] as number) : -1;
+    const [a, b] = need?.craft?.materials ?? [];
+    const why =
+      need?.craft && a && b
+        ? fill(`rocklyte-${n}-why`, {
+            item: need.name,
+            a: a.amount,
+            ma: a.name ?? a.rawName,
+            b: b.amount,
+            mb: b.name ?? b.rawName,
+            lv: need.craft.lvReqToCraft,
+          })
+        : null;
+    const text = need
+      ? fill(`rocklyte-${n}`, { amount: need.amount, item: need.name })
+      : fill(`rocklyte-${n}`, {});
+    return { n, need, held, text, why };
+  });
+  const map = rocklyteNeed(facts, 1)?.map ?? null;
+  const left = quests.slice(done).filter((q) => q.text !== null);
+  const steps: WalkthroughStepView[] = left.map((q, i) => ({
+    order: i + 1,
+    text: q.text as string,
+    when: i === 0 ? 'now' : 'after',
+    after: i === 0 ? [] : [i],
+    subject,
+    progress: q.need && q.held >= 0 ? { held: Math.min(q.held, q.need.amount), need: q.need.amount } : null,
+    why: q.why,
+    sources,
+    ...(map !== null ? { mapIndex: map } : {}),
+  }));
+  if (steps.length === 0) return goal;
+  const caveat = t('rocklyte-caveat');
+  return {
+    ...goal,
+    walkthrough: {
+      targetId: rocklyteQuestId(3),
+      collapsed: fill('rocklyte-collapsed', { left: steps.length }) ?? '',
+      steps,
+      tree: left.map((q) => ({
+        depth: 0,
+        text: q.text as string,
+        done: !q.need || q.held < 0 ? null : q.held >= q.need.amount,
+        ...(q.need ? { item: q.need.rawName } : {}),
+      })),
+      otherWays: [],
+      caveats: caveat ? [caveat] : [],
+    },
+  };
 }
 
 /** M15 FR-15: what opens at one gate, from the entry's templates ("character slot 6 for your Hunter"). */

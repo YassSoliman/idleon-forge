@@ -27,6 +27,8 @@ export interface KbLayout {
   majorsYaml: string;
   systemsDir: string;
   generatedDir: string;
+  /** Game-client builds and excerpts (M26 FR-2b): the repo's docs/research/game-client, or <root>/game-client. */
+  gameClientDir: string;
 }
 
 export const layoutOf = (root: string = KNOWLEDGE): KbLayout => ({
@@ -35,6 +37,8 @@ export const layoutOf = (root: string = KNOWLEDGE): KbLayout => ({
   majorsYaml: path.join(root, 'majors.yaml'),
   systemsDir: path.join(root, 'systems'),
   generatedDir: path.join(root, 'generated'),
+  gameClientDir:
+    root === KNOWLEDGE ? path.join(REPO, 'docs/research/game-client') : path.join(root, 'game-client'),
 });
 
 export interface Located<T> {
@@ -77,6 +81,8 @@ export interface KbSource {
   systems: Located<SystemDefT>[];
   majors: z.infer<typeof MajorsFile>['majors'];
   authored: Located<AuthoredEntryT>[];
+  /** `status: draft` entries (M26 FR-1): schema-checked, id-checked, never compiled or checked as live. */
+  drafts: Located<AuthoredEntryT>[];
   generated: Located<GeneratedEntryT>[];
   facts: Located<FactTableT>[];
   patches: string[];
@@ -134,6 +140,7 @@ export function loadSource(root: string = KNOWLEDGE): KbSource {
     systems: [],
     majors: [],
     authored: [],
+    drafts: [],
     generated: [],
     facts: [],
     patches: [],
@@ -196,7 +203,9 @@ export function loadSource(root: string = KNOWLEDGE): KbSource {
     const y = readYamlFile(file, issues);
     if (!y) continue;
     const isFacts = /\.facts\.ya?ml$/.test(file);
-    const stem = path.basename(file).replace(/(\.facts)?\.ya?ml$/, '');
+    // `<system>.drafts.yaml` (M26 FR-10) holds a System's drafts, written by `kb convert-drafts`.
+    const isDrafts = /\.drafts\.ya?ml$/.test(file);
+    const stem = path.basename(file).replace(/(\.facts|\.drafts)?\.ya?ml$/, '');
     const raw = y.value as {
       system?: unknown;
       entries?: { id?: unknown }[];
@@ -249,7 +258,20 @@ export function loadSource(root: string = KNOWLEDGE): KbSource {
           id: value.id,
           message: 'authored entries never set origin or generatedBy',
         });
-      src.authored.push({ file: y.file, value, lineOf: (p = []) => y.lineOf(['entries', i, ...p]) });
+      if (isDrafts && value.status !== 'draft')
+        issues.push({
+          level: 'error',
+          file: y.file,
+          line: y.lineOf(['entries', i, 'status']),
+          id: value.id,
+          message: 'a .drafts.yaml file holds drafts only (status: draft)',
+        });
+      const located: Located<AuthoredEntryT> = {
+        file: y.file,
+        value,
+        lineOf: (p = []) => y.lineOf(['entries', i, ...p]),
+      };
+      (value.status === 'draft' ? src.drafts : src.authored).push(located);
     });
   }
 

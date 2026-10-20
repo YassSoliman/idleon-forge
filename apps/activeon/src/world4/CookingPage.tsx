@@ -3,10 +3,13 @@
 // M24 World 4: the Cooking page body (board `after/sys/Cooking`), a read-only view of the save: the
 // framed answer, then Kitchens (a tile per kitchen with its state and upgrade levels or the spice each
 // costs, and the next kitchens' prices), Meals (the three to find first, the meal table, how a meal
-// grows) and Spices (held, what each pays for, claims today, ladles).
+// grows) and Spices (held, what each pays for, claims today, ladles). M25: the game's kitchen, meal and
+// spice sprites (ADR 0009 as amended 2026-10-19), our kit as the fallback.
 import type { CookingPageView } from '@idleon-forge/engine/world4';
 import { useState } from 'react';
-import { Sprite } from '../art/sprites/Sprite';
+import { GameIcon } from '../art/game/GameIcon';
+import { etcArt } from '../art/game/game-art';
+import { keyIndex, mealArt, spiceArt } from '../art/game/w4-art';
 import { cx, Meter, Pip, Tabs } from '../design/atoms';
 import type { Session } from '../shell/session';
 import { Frame, SourceLine, Tag, toneClass } from './parts';
@@ -14,13 +17,13 @@ import { Frame, SourceLine, Tag, toneClass } from './parts';
 type CookTab = 'kitchens' | 'meals' | 'spices';
 const MEAL_ROWS = 12;
 
-export function CookingBody({ s, v }: { s: Session; v: CookingPageView }) {
+export function CookingBody({ s, v, framed = true }: { s: Session; v: CookingPageView; framed?: boolean }) {
   const [tab, setTab] = useState<CookTab>('kitchens');
   const [allMeals, setAllMeals] = useState(false);
   const meals = allMeals ? v.meals : v.meals.slice(0, MEAL_ROWS);
   return (
     <div className="w4-page">
-      <Frame f={v.frame} s={s} />
+      {framed ? <Frame f={v.frame} s={s} /> : null}
       <Tabs<CookTab>
         label="Cooking sections"
         value={tab}
@@ -53,8 +56,9 @@ export function CookingBody({ s, v }: { s: Session; v: CookingPageView }) {
                   className={cx('a-tile w4-kitchen', toneClass(k.tone), k.owned ? 'is-owned' : 'is-locked')}
                 >
                   <div className="w4-card__head">
-                    <Sprite
-                      name="sys-cooking"
+                    <GameIcon
+                      art={etcArt('Kitchen')}
+                      fallback="sys-cooking"
                       size={32}
                       decorative
                       className={k.lit ? undefined : 'w4-dim'}
@@ -108,6 +112,7 @@ export function CookingBody({ s, v }: { s: Session; v: CookingPageView }) {
                         <span className="w4-num w4-t--gold" aria-hidden="true">
                           {m.n}
                         </span>
+                        <GameIcon art={mealArt(m.key)} fallback="item-meal" size={32} decorative />
                         <span className="w4-strong">{m.name}</span>
                       </div>
                       <span className="w4-small">{m.bonus}</span>
@@ -133,7 +138,12 @@ export function CookingBody({ s, v }: { s: Session; v: CookingPageView }) {
                 <tbody>
                   {meals.map((m) => (
                     <tr key={m.key}>
-                      <th scope="row">{m.name}</th>
+                      <th scope="row">
+                        <span className="w4-who">
+                          <GameIcon art={mealArt(m.key)} fallback="item-meal" size={32} decorative />
+                          {m.name}
+                        </span>
+                      </th>
                       <td className="w4-muted">{m.bonus}</td>
                       <td className="w4-muted">{m.spice}</td>
                       <td className="w4-r w4-muted num">{m.time}</td>
@@ -163,7 +173,10 @@ export function CookingBody({ s, v }: { s: Session; v: CookingPageView }) {
               </dl>
               {v.closest ? (
                 <div className="a-tile2 w4-stack">
-                  <span className="w4-small w4-strong">{v.closest.name}</span>
+                  <span className="w4-who w4-small w4-strong">
+                    <GameIcon art={mealArt(v.closest.name)} fallback="item-meal" size={32} decorative />
+                    {v.closest.name}
+                  </span>
                   <Meter value={v.closest.have} max={v.closest.need} label={v.closest.text} />
                   <span className="w4-xs w4-muted">{v.closest.text}</span>
                 </div>
@@ -182,7 +195,13 @@ export function CookingBody({ s, v }: { s: Session; v: CookingPageView }) {
             <ul className="w4-rows">
               {v.spices.map((x) => (
                 <li key={x.key} className={cx('w4-row', !x.found && 'is-quiet')}>
-                  <Sprite name="item-spice" size={24} decorative className={x.found ? undefined : 'w4-dim'} />
+                  <GameIcon
+                    art={spiceArt(keyIndex(x.key))}
+                    fallback="item-spice"
+                    size={24}
+                    decorative
+                    className={x.found ? undefined : 'w4-dim'}
+                  />
                   <span className="w4-row__main">
                     <span className="w4-strong w4-small">{x.name}</span>
                     <span className="w4-xs w4-muted">{x.use}</span>

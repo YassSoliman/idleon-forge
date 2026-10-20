@@ -27,7 +27,7 @@ export const DETECTOR_ID_RE = new RegExp(`^${SLUG}/${SLUG}$`);
 export const DetectorId = z.string().regex(DETECTOR_ID_RE, 'detector id must be <system>/<name>');
 export const GameVersion = z.string().regex(/^\d+\.\d+\.\d+$/, 'game version like 2.3.540');
 export const IsoDate = z.iso.date();
-export const StageId = z.enum(STAGES); // W1-early … W4-entry (10 values, #26)
+export const StageId = z.enum(STAGES); // W1-early … W4-late (12 values, #26, M26 FR-3)
 export type StageId = z.infer<typeof StageId>;
 export const RoleId = z.string().regex(new RegExp(`^${SLUG}$`));
 /** Toolbox class name, e.g. "Squire", "Divine_Knight". Checked against generated/_lookups.json in TR-8. */
@@ -58,6 +58,15 @@ export const VERIFICATION = ['confirmed', 'corrected', 'contested', 'unverified'
 // ---------- Sources (ADR 0004) ----------
 /** A tier 1 Source must be a permalink to game data: a Toolbox file at a 40-character commit sha (FR-3). */
 export const TIER1_URL_RE = /^https:\/\/github\.com\/Morta1\/IdleonToolbox\/blob\/[0-9a-f]{40}\//;
+/**
+ * ADR 0004 amendment (M26 FR-2b, owner Q10): a tier 1 Source may also be a read of the game client
+ * itself, the web build's script on legendsofidleon.com. It then carries the hash of the excerpt we
+ * stored (`docs/research/game-client/excerpts/<excerptSha256>.txt`) and the client build it came from.
+ */
+export const GAME_CLIENT_URL_RE = /^https:\/\/legendsofidleon\.com\/[^?#]+\.js$/;
+const Sha256 = z.string().regex(/^[0-9a-f]{64}$/, 'a sha256 in lowercase hex');
+/** The client file a game-client Source read: its sha256 and its Last-Modified date. */
+export const ClientBuild = z.strictObject({ sha256: Sha256, lastModified: IsoDate });
 
 export const Source = z
   .strictObject({
@@ -73,15 +82,36 @@ export const Source = z
     note: z.string().max(200).optional(),
     /** #27 legend, for judgment entries. */
     verification: z.enum(VERIFICATION).optional(),
+    /** Game-client Sources only (M26 FR-2b): sha256 of the stored excerpt. */
+    excerptSha256: Sha256.optional(),
+    /** Game-client Sources only (M26 FR-2b): the client build read; `gameVersion` is the version it was matched to. */
+    clientBuild: ClientBuild.optional(),
   })
   .refine((s) => s.tier === 1 || s.tier === 4 || s.claimDate !== undefined, {
     message: 'tier 2 and tier 3 Sources need claimDate',
     path: ['claimDate'],
   })
-  .refine((s) => s.tier !== 1 || TIER1_URL_RE.test(s.url), {
-    message: 'a tier 1 Source is a Toolbox permalink at a 40-character commit sha',
+  .refine((s) => s.tier !== 1 || TIER1_URL_RE.test(s.url) || GAME_CLIENT_URL_RE.test(s.url), {
+    message: 'a tier 1 Source is a Toolbox permalink at a 40-character commit sha, or a game-client read',
     path: ['url'],
-  });
+  })
+  .refine(
+    (s) =>
+      !GAME_CLIENT_URL_RE.test(s.url) ||
+      s.tier !== 1 ||
+      (s.excerptSha256 !== undefined && s.clientBuild !== undefined),
+    {
+      message: 'a tier 1 game-client Source needs excerptSha256 and clientBuild (ADR 0004, M26 FR-2b)',
+      path: ['url'],
+    },
+  )
+  .refine(
+    (s) => (s.excerptSha256 === undefined && s.clientBuild === undefined) || GAME_CLIENT_URL_RE.test(s.url),
+    {
+      message: 'excerptSha256 and clientBuild belong to game-client Sources only',
+      path: ['excerptSha256'],
+    },
+  );
 
 // ---------- shared pieces ----------
 const StageRange = z.strictObject({ from: StageId, to: StageId });
@@ -90,6 +120,11 @@ export const AppliesTo = z.strictObject({
   /** Matches the class and every class it promotes to (Squire matches Divine_Knight, Royal_Guardian). Omit for all classes. */
   classes: z.array(ClassName).min(1).optional(),
   levels: z.strictObject({ min: z.int().min(1).optional(), max: z.int().min(1).optional() }).optional(),
+  /**
+   * M26 FR-3: the first Stage the entry no longer applies at. Without it a range ending at W4-entry or
+   * later stays live through W4-late and past World 4 (the beyond policy, `stages.ts`).
+   */
+  stopsAt: StageId.optional(),
 });
 export const DetectorRef = z.strictObject({
   id: DetectorId,
@@ -98,6 +133,13 @@ export const DetectorRef = z.strictObject({
 });
 export const Side = z.strictObject({ position: Template, sources: z.array(Source).min(1) });
 const ActivePlay = z.strictObject({ minutes: z.int().positive() });
+
+/**
+ * M26 FR-5, "claimed by": the thing a Check or Goal is about, when another System's entry can fire on the
+ * same thing (golden food in storage, an empty friend slot). The engine keeps one card per claimed key,
+ * the one from the entry whose own System is `system`, and adds the others' reasons to it as detail lines.
+ */
+export const Claim = z.strictObject({ system: SystemId, key: z.string().regex(new RegExp(`^${SLUG}$`)) });
 
 const Base = z.strictObject({
   id: EntryId,
@@ -110,7 +152,11 @@ const Base = z.strictObject({
   sources: z.array(Source).min(1),
   appliesTo: AppliesTo,
   confidence: z.enum(['H', 'M', 'L']),
-  status: z.enum(['active', 'contested', 'retired']),
+  /**
+   * `draft` (M26 FR-1, owner Q1): validated like any entry but never compiled, so it never reaches the
+   * engine; promotion flips it to `active` or `contested` in the PR that ships its Detector.
+   */
+  status: z.enum(['active', 'contested', 'retired', 'draft']),
   contested: z.strictObject({ sides: z.array(Side).min(2) }).optional(),
   retired: z.strictObject({ reason: z.string().min(1), replacedBy: EntryId.optional() }).optional(),
   /** Set only by the staleness pass (TR-11). */
@@ -129,6 +175,7 @@ const FieldPathSchema = z.string().min(1).max(200);
 
 export const GoalEntry = Base.extend({
   type: z.literal('goal'),
+  claims: z.array(Claim).min(1).optional(),
   scope: z.enum(['character', 'account']),
   category: Category,
   unit: z.string().min(1).max(24),
@@ -175,6 +222,7 @@ export const ContributionEntry = Base.extend({
 
 export const CheckEntry = Base.extend({
   type: z.literal('check'),
+  claims: z.array(Claim).min(1).optional(),
   subject: z.enum(['character', 'account']),
   /** blocker = Verdict "Fix before you leave"; next-action = a Next Action under `goal`. */
   effect: z.enum(['blocker', 'next-action']),
@@ -280,6 +328,14 @@ export const StepCondition = z.union([
   z.strictObject({ kind: z.literal('stageAtLeast'), stage: StageId }),
   z.strictObject({ kind: z.literal('accuracyShort') }),
 ]);
+/**
+ * M26: a world past the Stage model (Stages end in World 4). A step or Build with a hint applies only
+ * on an account past World 4; the Stage model can't tell W5 from W7 yet, so the hint is the earliest.
+ */
+export const WORLD_HINTS = ['W5', 'W6', 'W7'] as const;
+export const WorldHint = z.enum(WORLD_HINTS);
+/** A class talent tab: 1-3 up to the subclass, 4 the elite class, 5 the master class (M26). */
+export const BuildTab = z.union([z.literal(1), z.literal(2), z.literal(3), z.literal(4), z.literal(5)]);
 export const BuildStep = z.strictObject({
   talent: RawName, // a generated talent fact, checked against talents.fact tables
   target: z.union([z.int().positive(), z.literal('max')]),
@@ -288,6 +344,8 @@ export const BuildStep = z.strictObject({
   hardCap: z.boolean().optional(),
   when: z.array(StepCondition).optional(),
   breakpoints: z.array(z.int().positive()).optional(),
+  /** M26: applies only past World 4, from this world (Gaming talents at W5). */
+  stageHint: WorldHint.optional(),
 });
 export const BuildEntry = Base.extend({
   type: z.literal('build'),
@@ -300,13 +358,24 @@ export const BuildEntry = Base.extend({
   tabs: z
     .array(
       z.strictObject({
-        tab: z.union([z.literal(1), z.literal(2), z.literal(3)]),
+        tab: BuildTab,
         steps: z.array(BuildStep).min(1),
       }),
     )
     .min(1),
   attacks: z.array(RawName).default([]),
   onePointOk: z.array(RawName).default([]),
+  /**
+   * M26: the Build whose tabs this one takes for every tab it doesn't list (a master Build lists tab 5
+   * and takes tabs 1-4 from its elite Build).
+   */
+  inherits: EntryId.optional(),
+  /** M26: independent dated authors behind the order, when more than the listed Sources show. */
+  sourceCount: z.int().min(1).optional(),
+  /** M26 (owner ruling 2026-10-19): the confidence words shown with the Build ("one source"). */
+  confidenceLabel: z.string().min(1).max(60).optional(),
+  /** M26: the world past the Stage model the whole Build applies from (master classes: W6). */
+  stageHint: WorldHint.optional(),
 });
 
 /** M21 TR-8 (FR-C12): a useful cap a star step stops at, worked out from save data. */

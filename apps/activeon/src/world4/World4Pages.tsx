@@ -13,17 +13,17 @@ const Missing = ({ what }: { what: string }) => (
   <p className="w4-small w4-muted">This save has no {what} record yet, so there is nothing to show.</p>
 );
 
-export function LaboratoryPage({ s }: SystemPageBodyProps) {
+export function LaboratoryPage({ s, page }: SystemPageBodyProps) {
   const v = s.result.world4?.lab;
-  return v ? <LabBody s={s} v={v} /> : <Missing what="Laboratory" />;
+  return v ? <LabBody s={s} v={v} framed={page.goals.length === 0} /> : <Missing what="Laboratory" />;
 }
 
-export function CookingPage({ s }: SystemPageBodyProps) {
+export function CookingPage({ s, page }: SystemPageBodyProps) {
   const v = s.result.world4?.cooking;
-  return v ? <CookingBody s={s} v={v} /> : <Missing what="Cooking" />;
+  return v ? <CookingBody s={s} v={v} framed={page.goals.length === 0} /> : <Missing what="Cooking" />;
 }
 
-export function BreedingPage({ s }: SystemPageBodyProps) {
+export function BreedingPage({ s, page }: SystemPageBodyProps) {
   const v = s.result.world4?.breeding;
-  return v ? <BreedingBody s={s} v={v} /> : <Missing what="Breeding" />;
+  return v ? <BreedingBody s={s} v={v} framed={page.goals.length === 0} /> : <Missing what="Breeding" />;
 }

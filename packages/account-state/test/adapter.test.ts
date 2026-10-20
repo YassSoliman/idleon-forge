@@ -199,12 +199,15 @@ describe('toAccountState', () => {
       statues: null,
       prayers: null,
       shrines: null,
+      equinoxUnlocked: false,
       // M23 TR-2: no Bubba record (a save from before Bubba): null, and not unknown.
       bubba: null,
       // M24: no Lab, Cooking or Breeding record (a save from before World 4): null, and not unknown.
       lab: null,
       cooking: null,
       breeding: null,
+      rift: null,
+      tome: null,
     });
     expect(state.characters.map(withoutUnspentCharacter)).toEqual([
       {
@@ -232,6 +235,9 @@ describe('toAccountState', () => {
         slots: null,
         // M18 TR-2: no EquipOrder key.
         gear: null,
+        // M26 F-C: no AnvilPA key.
+        anvil: null,
+        eliteStep: null,
         // M21 TR-3: no KillsLeft2Advance key.
         doorKillsLeft: null,
       },

@@ -25,7 +25,10 @@ describe('US-5, US-8, US-9 the hub and System pages', () => {
     const { container } = renderNow(props(r, saveOf(r, 1, 'first', null, 'paste')));
     const anvil = screen.getByRole('link', { name: /^Anvil,/ });
     expect(anvil.getAttribute('aria-label')).toBe('Anvil, Wasting, 1 to fix before you leave');
-    expect(anvil.querySelector('svg[aria-hidden="true"]')).toBeTruthy();
+    // M25: the System's game sprite (decorative), our own sprite only as its fallback.
+    expect(anvil.querySelector('img.g-art[aria-hidden="true"]')?.getAttribute('src')).toBe(
+      '/game-art/data/ClassIcons43.webp',
+    );
     expect(screen.getByRole('link', { name: /^Post Office,/ }).getAttribute('aria-label')).toBe(
       'Post Office, Locked, Opens once a character reaches class Lv 50 · 1 to do',
     );
@@ -37,10 +40,11 @@ describe('US-5, US-8, US-9 the hub and System pages', () => {
         .getAllByRole('link')
         .map((a) => a.getAttribute('aria-label')),
     ).toEqual(['See the fix: Anvil']);
-    // The filters: Needs you shows only the wasting and behind tiles.
-    fireEvent.click(screen.getByRole('button', { name: /^Needs you/ }));
+    // The filters (M25: toggles, combinable): Wasting now shows only the wasting tiles.
+    fireEvent.click(screen.getByRole('button', { name: /^Wasting now/ }));
     expect(screen.getByRole('link', { name: /^Anvil,/ })).toBeTruthy();
     expect(screen.queryByRole('link', { name: /^Post Office,/ })).toBeNull();
+    fireEvent.click(screen.getByRole('button', { name: /^Wasting now/ }));
     fireEvent.click(screen.getByRole('button', { name: /^Locked/ }));
     expect(screen.getByRole('link', { name: /^Post Office,/ })).toBeTruthy();
     expect(screen.queryByRole('link', { name: /^Anvil,/ })).toBeNull();

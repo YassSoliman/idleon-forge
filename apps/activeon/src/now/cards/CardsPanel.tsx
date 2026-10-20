@@ -6,6 +6,8 @@
 // classes, never inline styles).
 import type { CardsNowView, NowView } from '@idleon-forge/engine/now';
 import type { GrindItem } from '@idleon-forge/engine/result';
+import { cardArt } from '../../art/game/card-art';
+import { GameIcon } from '../../art/game/GameIcon';
 import { PixelArt } from '../../design/art/PixelArt';
 import { GLYPH, SourceLabel } from '../../design/atoms';
 import { SeeOnMap } from '../../map/SeeOnMap';
@@ -39,6 +41,13 @@ function GrindItemView({ g, account }: { g: GrindItem; account: boolean }) {
   return (
     <li className="cv-grind-item" data-quick={g.quick ? 'yes' : 'no'}>
       <p className="cv-grind-head">
+        <GameIcon
+          art={cardArt(g.rawName)}
+          fallback="item-card-frame"
+          size={24}
+          decorative
+          wiki={`${g.name} Card`}
+        />
         <b>{g.name} card</b>
         <span className="cv-step num">
           {g.level > 0 ? `Lv ${g.level} → Lv ${g.level + 1}` : g.next.label}

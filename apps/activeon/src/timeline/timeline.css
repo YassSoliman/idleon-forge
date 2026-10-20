@@ -113,7 +113,7 @@
 .tl-next-go {
   flex: none;
   padding: 0 var(--space-4);
-  background: var(--accent);
+  background: var(--accent-fill);
   color: var(--on-accent);
   font-weight: var(--weight-bold);
 }
@@ -224,12 +224,12 @@
 .tl-earn {
   left: 0;
   width: calc(var(--stop) * 100%);
-  background: var(--ok);
+  background: var(--ok-fill);
 }
 .tl-lose {
   left: calc(var(--stop) * 100%);
   width: calc((var(--back) - var(--stop)) * 100%);
-  background: repeating-linear-gradient(135deg, var(--bad) 0 4px, transparent 4px 8px);
+  background: repeating-linear-gradient(135deg, var(--bad-fill) 0 4px, transparent 4px 8px);
 }
 .tl-after {
   left: calc(max(var(--stop), var(--back)) * 100%);
@@ -242,7 +242,7 @@
   top: 0;
   bottom: 0;
   width: 2px;
-  background: var(--accent);
+  background: var(--accent-fill);
 }
 .tl-resetl {
   position: absolute;
@@ -266,14 +266,14 @@
   color: var(--bg);
 }
 .tl-mk.is-full {
-  background: var(--accent);
+  background: var(--accent-fill);
 }
 .tl-mk.is-losing,
 .tl-mk.is-before {
-  background: var(--bad);
+  background: var(--bad-fill);
 }
 .tl-mk.is-after {
-  background: var(--info);
+  background: var(--info-fill);
 }
 .tl-mk.is-unknown {
   background: var(--bg);
@@ -321,10 +321,10 @@
   height: 6px;
 }
 .tl-key.is-earn {
-  background: var(--ok);
+  background: var(--ok-fill);
 }
 .tl-key.is-before {
-  background: repeating-linear-gradient(135deg, var(--bad) 0 4px, transparent 4px 8px);
+  background: repeating-linear-gradient(135deg, var(--bad-fill) 0 4px, transparent 4px 8px);
 }
 .tl-key.is-after {
   background: repeating-linear-gradient(135deg, var(--line-strong) 0 4px, transparent 4px 8px);
@@ -332,7 +332,7 @@
 .tl-key.is-full {
   width: 14px;
   height: 14px;
-  background: var(--accent);
+  background: var(--accent-fill);
 }
 .tl-key.is-unknown {
   width: 14px;
@@ -637,7 +637,7 @@
   right: 6px;
   padding: 1px 6px;
   border-radius: var(--radius-xs);
-  background: var(--accent);
+  background: var(--accent-fill);
   color: var(--on-accent);
   font-size: var(--text-xs);
   font-weight: var(--weight-bold);
@@ -779,7 +779,7 @@
   font-size: 12px;
 }
 .dw-ring-v {
-  fill: var(--info);
+  fill: var(--info-fill);
   font-family: var(--font-display);
   font-size: 22px;
   font-variant-ligatures: var(--font-ligatures);
@@ -843,7 +843,7 @@
   display: inline-block;
   width: 14px;
   height: 14px;
-  background: var(--info);
+  background: var(--info-fill);
 }
 .dw-key.is-week {
   opacity: 0.6;
@@ -895,19 +895,19 @@
   min-width: 4px;
   height: 28px;
   overflow: hidden;
-  background: var(--accent);
+  background: var(--accent-fill);
   color: var(--on-accent);
   font-size: var(--text-xs);
   font-weight: var(--weight-bold);
 }
 .dw-job.is-lost,
 .dw-n.is-lost {
-  background: var(--bad);
+  background: var(--bad-fill);
   color: var(--bg);
 }
 .dw-job.is-weekly,
 .dw-n.is-weekly {
-  background: var(--info);
+  background: var(--info-fill);
   color: var(--bg);
 }
 .dw-strip-rest {
@@ -940,7 +940,7 @@
   place-items: center;
   width: 28px;
   height: 28px;
-  background: var(--accent);
+  background: var(--accent-fill);
   color: var(--on-accent);
   font-size: var(--text-sm);
   font-weight: var(--weight-bold);
@@ -1051,21 +1051,21 @@
   background: transparent;
 }
 .dw-pip.s-done {
-  background: var(--ok);
+  background: var(--ok-fill);
 }
 .dw-bank-p .dw-pip {
   width: 14px;
   height: 14px;
 }
 .dw-pip.s-banked {
-  background: var(--accent);
+  background: var(--accent-fill);
 }
 .dw-pip.s-empty {
   background: transparent;
   box-shadow: inset 0 0 0 2px var(--line-strong);
 }
 .dw-pip.s-lostday {
-  background: var(--bad);
+  background: var(--bad-fill);
 }
 .dw-banks,
 .dw-weekly {
@@ -1111,7 +1111,7 @@
   font-weight: var(--weight-bold);
 }
 .dw-pip.lost {
-  background: var(--bad);
+  background: var(--bad-fill);
 }
 .dw-wk-c {
   font-size: var(--text-xs);
@@ -1373,15 +1373,15 @@
   border: 0;
 }
 .cl-pip.is-on {
-  background: var(--accent);
+  background: var(--accent-fill);
   --ring: var(--accent);
 }
 .cl-pip.is-last.is-on {
-  background: var(--bad);
+  background: var(--bad-fill);
   --ring: var(--bad);
 }
 .cl-pip.is-lost {
-  background: repeating-linear-gradient(135deg, var(--bad) 0 2px, transparent 2px 4px);
+  background: repeating-linear-gradient(135deg, var(--bad-fill) 0 2px, transparent 2px 4px);
   --ring: var(--bad);
 }
 .cl-lost {
@@ -1410,4 +1410,19 @@
 }
 .cl-tick.on {
   color: var(--ok);
+}
+
+/* M25: a Daily & Weekly job wears its game sprite (ADR 0009 as amended). */
+.dw-job-ic {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+}
+.dw-wk-l {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  min-width: 0;
 }

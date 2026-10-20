@@ -44,6 +44,57 @@ describe('kb check on a throwaway tree', () => {
     expect(has(issues, /a contested entry cannot be a Verdict blocker/)).toBe(true);
   });
 
+  it('M26 FR-1: a draft is schema-checked and holds its id, but its Detector and references wait', async () => {
+    const draft = (extra: Record<string, string> = {}) =>
+      entry({
+        id: 'alchemy.check.later',
+        system: 'alchemy',
+        type: 'check',
+        subject: 'account',
+        effect: 'next-action',
+        confidence: 'M',
+        status: 'draft',
+        goal: 'alchemy.goal.not-yet',
+        detector: '{ id: alchemy/not-built }',
+        ...extra,
+      });
+    const ok = await run({ 'systems/alchemy.yaml': file('alchemy', draft()) });
+    expect(errors(ok).filter((m) => !m.includes('orphan'))).toEqual([]);
+    const bad = await run({ 'systems/alchemy.yaml': file('alchemy', draft({ effect: 'sometimes' })) });
+    expect(errors(bad).length).toBeGreaterThan(0);
+    const dup = await run({
+      'systems/afk.yaml': file('afk', blocker()),
+      'systems/alchemy.yaml': file('alchemy', draft({ id: 'afk.check.no-target', system: 'afk' })),
+    });
+    expect(has(dup, /afk\.check\.no-target: duplicate id/)).toBe(true);
+  });
+
+  it('M26 FR-1: a live entry may not depend on a draft', async () => {
+    const g = entry({
+      id: 'alchemy.goal.g',
+      system: 'alchemy',
+      type: 'goal',
+      scope: 'account',
+      category: 'nice',
+      unit: 'x',
+      status: 'draft',
+      progress: '{ id: afk/no-target }',
+      milestones: '[{ at: 5, reward: r }]',
+    });
+    const c = entry({
+      id: 'alchemy.check.slot',
+      system: 'alchemy',
+      type: 'check',
+      subject: 'character',
+      effect: 'next-action',
+      confidence: 'M',
+      goal: 'alchemy.goal.g',
+      detector: '{ id: afk/no-target }',
+    });
+    const issues = await run({ 'systems/alchemy.yaml': file('alchemy', c, g) });
+    expect(has(issues, /references alchemy\.goal\.g, which is a draft/)).toBe(true);
+  });
+
   it('passes a clean blocker and reports its Detector as used', async () => {
     const issues = await run({ 'systems/afk.yaml': file('afk', blocker()) });
     expect(errors(issues).filter((m) => !m.includes('orphan'))).toEqual([]);

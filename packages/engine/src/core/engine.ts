@@ -9,7 +9,7 @@
 // Return, so `rerun` re-runs only the dependent ones (M3's Verdicts, firstFill, M6 urgencies) and
 // re-assembles, including Visit Order.
 
-import { STAGES, type StageId } from '@idleon-forge/knowledge';
+import { hasUnlockRule, opensSystem, STAGES, type StageId, unlocked } from '@idleon-forge/knowledge';
 import { behindAnalysis } from '../metapath/behind';
 import { lookupOf } from '../metapath/knowledge';
 import { metaPathModule } from '../metapath/module';
@@ -26,7 +26,7 @@ import type {
 import { classFamilies } from './families';
 import { activityLabel, classLabel, mapLabel } from './labels';
 import type { EngineHistory, EngineInput, EngineModule, ModuleOutput } from './module';
-import { rankGoals, type TaggedGoal } from './rank';
+import { applyClaims, rankGoals, type TaggedGoal } from './rank';
 import { systemSummaries } from './systems';
 import { visitOrder } from './visit-order';
 
@@ -117,13 +117,27 @@ export function assemble(input: EngineInput, ran: readonly Ran[]): EngineResult 
   const spendPlan = outputs.find((o) => o.output.account?.spendPlan)?.output.account?.spendPlan ?? null;
   const lastPlayed = state.lastPlayedCharacterIndex;
   const taggedOf = new Map<number, TaggedGoal[]>();
+  // M26 FR-6: a System with its own unlock fact says nothing while that fact (or, when it is null, the
+  // world) says it is locked. 'unknown' keeps the Goal: a guard that can't tell never hides advice.
+  const locked = new Map<string, boolean>();
+  const open = (system: string) => {
+    if (!hasUnlockRule(system)) return true;
+    let l = locked.get(system);
+    if (l === undefined) {
+      l = unlocked(system, state) === 'no';
+      locked.set(system, l);
+    }
+    return !l;
+  };
 
   const characters: CharacterResult[] = state.characters.map((c) => {
     const parts = outputs.flatMap(({ module, output }) =>
       (output.characters ?? []).filter((x) => x.index === c.index).map((x) => ({ module, x })),
     );
     const tagged: TaggedGoal[] = parts.flatMap(({ module, x }) =>
-      (x.goals ?? []).map((g) => ({ ...g, moduleId: module.id })),
+      (x.goals ?? [])
+        .filter((g) => open(g.goal.system) || opensSystem(g.goal.system, g.goal.id))
+        .map((g) => ({ ...g, moduleId: module.id })),
     );
     taggedOf.set(c.index, tagged);
     const given = parts.find((p) => p.x.verdict)?.x.verdict;
@@ -183,7 +197,9 @@ export function assemble(input: EngineInput, ran: readonly Ran[]): EngineResult 
   characters.sort((a, b) => a.index - b.index);
 
   const accountTagged: TaggedGoal[] = outputs.flatMap(({ module, output }) =>
-    (output.account?.goals ?? []).map((g) => ({ ...g, moduleId: module.id })),
+    (output.account?.goals ?? [])
+      .filter((g) => open(g.goal.system) || opensSystem(g.goal.system, g.goal.id))
+      .map((g) => ({ ...g, moduleId: module.id })),
   );
   const givenSafety = outputs.find((o) => o.output.account?.safety)?.output.account?.safety;
   const safety: EngineResult['account']['safety'] = blockerFailure
@@ -230,8 +246,17 @@ export function assemble(input: EngineInput, ran: readonly Ran[]): EngineResult 
       : null;
   const behind = analysis?.result ?? null;
   const kept = (gs: readonly TaggedGoal[]) => (behind ? gs.filter((g) => !behind.moved.has(g)) : [...gs]);
-  for (const c of characters) c.goals = rankGoals(kept(taggedOf.get(c.index) ?? []), list);
-  const accountGoals = rankGoals([...kept(accountTagged), ...(behind ? [behind.goal] : [])], list);
+  // M26 FR-5: one card per claimed thing, before the rank (the owner's place is its own).
+  const claimsOf = (entryId: string) => {
+    const e = kb?.entries[entryId];
+    return e && (e.type === 'check' || e.type === 'goal') ? e.claims : undefined;
+  };
+  for (const c of characters)
+    c.goals = rankGoals(applyClaims(kept(taggedOf.get(c.index) ?? []), claimsOf, `c${c.index}`), list);
+  const accountGoals = rankGoals(
+    applyClaims([...kept(accountTagged), ...(behind ? [behind.goal] : [])], claimsOf, 'account'),
+    list,
+  );
   const blockerSet = new Set(outputs.flatMap(({ output }) => output.account?.blockerKeys ?? []));
   const blockerKeys = accountGoals
     .filter((g) => g.category === 'blocker' && blockerSet.has(g.nextAction.key))
@@ -352,6 +377,11 @@ export function assemble(input: EngineInput, ran: readonly Ran[]): EngineResult 
     ...(() => {
       const o = outputs.find((x) => x.output.gear !== undefined)?.output;
       return o ? { gear: o.gear ?? null } : {};
+    })(),
+    // M26 F-C: the Production Plan rides through untouched.
+    ...(() => {
+      const o = outputs.find((x) => x.output.production !== undefined)?.output;
+      return o ? { production: o.production ?? null } : {};
     })(),
     // M20: the checklist, Skills tabs, pictures and Skill Grid ride through untouched.
     ...(() => {

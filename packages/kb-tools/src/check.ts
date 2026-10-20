@@ -22,16 +22,20 @@ import {
   STAGES,
   type StageId,
   SystemUnlockRows,
-  stagesBetween,
+  stagesOf as stagesCovered,
   systemKind,
   TemplateError,
 } from '@idleon-forge/knowledge';
 import type { z } from 'zod';
+import { buildIssues } from './build-checks';
 import { copyIssuesOf } from './copy';
 import { detectorFiles, discoverDetectors, type Registries } from './discover';
+import { gameClientIssues } from './game-client';
 import type { Issue } from './issues';
 import type { KbSource, Located } from './load';
 import { DETECTORS_DIR, REPO, readPin } from './paths';
+import { riftLabelIssues } from './rift-label';
+import { twoSourceIssues } from './two-source';
 
 type AnyEntry = Located<Entry>;
 
@@ -150,10 +154,7 @@ function expandList(
   return { ids, cycle };
 }
 
-const stagesOf = (e: Entry): StageId[] =>
-  e.appliesTo.stages === 'all'
-    ? [...STAGES]
-    : e.appliesTo.stages.flatMap((s) => (typeof s === 'string' ? [s] : stagesBetween(s.from, s.to)));
+const stagesOf = (e: Entry): StageId[] => stagesCovered(e.appliesTo);
 
 /** Runs every TR-8 rule. Returns errors and warnings; schema issues from loading are included. */
 export async function checkSource(src: KbSource, registries?: Registries): Promise<Issue[]> {
@@ -172,6 +173,53 @@ export async function checkSource(src: KbSource, registries?: Registries): Promi
     if (prev)
       err(e.file, e.lineOf(['id']), e.value.id, `duplicate id (also in ${prev.file}:${prev.lineOf(['id'])})`);
     else byId.set(e.value.id, e);
+  }
+  // Drafts (M26 FR-1): their ids are taken, and nothing live may depend on one. Nothing else here
+  // reads them: they ship nothing, so their Detectors and references are their wave's to settle.
+  const draftIds = new Map<string, KbSource['drafts'][number]>();
+  for (const d of src.drafts) {
+    const prev = byId.get(d.value.id) ?? draftIds.get(d.value.id);
+    if (prev)
+      err(d.file, d.lineOf(['id']), d.value.id, `duplicate id (also in ${prev.file}:${prev.lineOf(['id'])})`);
+    else draftIds.set(d.value.id, d);
+  }
+  for (const e of all)
+    for (const ref of referencesOf(e.value))
+      if (!byId.has(ref.id) && draftIds.has(ref.id))
+        err(e.file, e.lineOf(ref.where), e.value.id, `references ${ref.id}, which is a draft (M26 FR-1)`);
+  issues.push(...gameClientIssues(src));
+  issues.push(...twoSourceIssues(src));
+  issues.push(...riftLabelIssues(src));
+  // M26 FR-5: a claim names a registry System, and that System's own entry should claim the key too.
+  {
+    const systemIds = new Set(src.systems.map((x) => x.value.id));
+    const owners = new Set<string>();
+    const claimers: Array<{ e: (typeof src.authored)[number]; k: string; i: number }> = [];
+    for (const e of [...src.authored, ...src.drafts]) {
+      const v = e.value;
+      if (v.type !== 'check' && v.type !== 'goal') continue;
+      for (const [i, c] of (v.claims ?? []).entries()) {
+        const k = `${c.system}:${c.key}`;
+        if (!systemIds.has(c.system))
+          err(
+            e.file,
+            e.lineOf(['claims', i]),
+            v.id,
+            `claims ${k}: ${c.system} is not a System in systems.yaml`,
+          );
+        if (v.system === c.system) owners.add(k);
+        else claimers.push({ e, k, i });
+      }
+    }
+    for (const { e, k, i } of claimers)
+      if (!owners.has(k))
+        warn(
+          e.file,
+          e.lineOf(['claims', i]),
+          e.value.id,
+          `claims ${k}, which no entry of that System claims yet`,
+          'claim-no-owner',
+        );
   }
   const facts = new Map<string, Located<FactTableT>>();
   for (const f of src.facts) {
@@ -456,6 +504,8 @@ export async function checkSource(src: KbSource, registries?: Registries): Promi
     }
   // ---- M17 FR-34, TR-8: how each game System opens ----
   for (const issue of systemUnlockIssues(src, facts)) err(issue.file, issue.line, issue.id, issue.message);
+  // ---- M26: class Builds past the third class (own-tab talents, inherits, skilling variants) ----
+  for (const issue of buildIssues(src, facts)) err(issue.file, issue.line, issue.id, issue.message);
   for (const [id, n] of pending)
     warn(
       'packages/knowledge/generated',

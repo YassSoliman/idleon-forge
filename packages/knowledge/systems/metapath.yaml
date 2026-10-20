@@ -9,7 +9,7 @@ entries:
   - id: metapath.metapath.stages
     system: metapath
     type: metapath
-    title: The ten Stages
+    title: The Stages
     text: "{stage}"
     why: Where the account is on the route decides how every Goal is ranked.
     values:
@@ -18,6 +18,12 @@ entries:
       check-refinery: "Check the Refinery salts (couldn't read them)"
       check-storage: "Check your Galaxial Amethyst count (couldn't read it)"
       check-characters: "Check your characters in game (couldn't read them all)"
+      # M26 FR-3: the World 4 band doors, by Toolbox map name (portals.fact.world-routes, maps.fact.maps).
+      # W4-mid: the door out of Wurm Highway, the 6th of the 12 World 4 path doors (the route's halfway
+      # point, into Jelly Cube Bridge). W4-late: the last one, out of Flamboyant Bayou into Enclave of
+      # Eyes, where the Troll and the W5 gate are.
+      w4-mid-door: Wurm_Highway
+      w4-late-door: Flamboyant_Bayou
     sources:
       - url: https://github.com/YassSoliman/idleon-forge/blob/research/leverage-model/docs/research/2026-10-17-leverage-model.md
         title: Leverage model, section 1 (Stage definitions)
@@ -33,6 +39,18 @@ entries:
         gameVersion: 2.3.540
       - { url: "https://idleon.wiki/wiki/Worlds", title: "IdleOn Wiki: Worlds", tier: 2, claimDate: 2026-10-04, verified: 2026-10-17, gameVersion: 2.3.540 }
       - { url: "https://idleon.wiki/wiki/Portal_Requirements", title: "IdleOn Wiki: Portal Requirements", tier: 2, claimDate: 2026-10-07, verified: 2026-10-17, gameVersion: 2.3.540 }
+      - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json
+        title: "IdleOn Toolbox game data: mapPortals (the World 4 route doors and their kill requirements)"
+        tier: 1
+        verified: 2026-10-19
+        gameVersion: 2.3.540
+        note: M26 FR-3 band doors; World 4's path runs from Spaceway Raceway to Enclave of Eyes in 12 doors
+      - url: https://github.com/YassSoliman/idleon-forge/blob/feat/M25-release/docs/research/systems/w4/elite-classes.md
+        title: M26 dossier, Elite classes, "Min-max by stage" (W4 entry, mid and late)
+        tier: 4
+        verified: 2026-10-19
+        gameVersion: 2.3.540
+        note: W4 late is the Troll and the W5 portal (Enclave of Eyes and Enclave a la Troll); mid is the elites' Rift and Lab work in between
     appliesTo: { stages: all }
     confidence: M
     status: active
@@ -89,6 +107,14 @@ entries:
             metapath.fact.family-slots,
             maps.fact.maps,
           ]
+      - id: W4-mid
+        rule: w4-mid
+        needs: ["Open the door out of Wurm Highway on any character"]
+        factRefs: [portals.fact.world-routes, maps.fact.maps]
+      - id: W4-late
+        rule: w4-late
+        needs: ["Open the door out of Flamboyant Bayou into Enclave of Eyes on any character"]
+        factRefs: [portals.fact.world-routes, maps.fact.maps]
 
   # ---------------------------------------------------------------- Slot plan (M2 TR-8)
   - id: metapath.metapath.slot-plan
@@ -254,7 +280,7 @@ entries:
       - { id: construction-builder, classLine: Squire, does: "Builds on the Cog Board", activeFrom: W3-early, owns: ["parallel:cog"] }
       - { id: refinery-throttle, classLine: Squire, does: "Runs Refinery Throttle", activeFrom: W3-early, visitHint: cooldown }
       - { id: construction-builder-2nd, classLine: Squire, does: "Builds on the Cog Board (2nd Squire)", activeFrom: W3-early, owns: ["parallel:cog"] }
-      - { id: rift-8, classLine: Divine_Knight, does: "Clears Rift 8", activeFrom: W4-entry }
+      - { id: rift-8, classLine: Divine_Knight, does: "Clears the Rift levels that need a Divine Knight", activeFrom: W4-entry }
 
   - id: metapath.metapath.role-bowman
     system: metapath
@@ -649,8 +675,29 @@ entries:
     why: "A base class misses its subclass talents and its Meta Path Role."
     values:
       subclass: "Take your subclass at Speccius"
+      subclass-planned: "Take {next:name} at Speccius"
       journeyman: "Take your Maestro subclass"
       pick-class: "Pick your class"
+      pick-planned: "Pick {next:name} at Promotheus"
+      become-journeyman: "Become a Journeyman at Rocklyte, not a Lv 10 class"
+      become-journeyman-why: "The Meta Path holds this character's slot for the Journeyman line, and the Journeyman is not in the Lv 10 class pick: Rocklyte's quests give it."
+      rocklyte-title: "Rocklyte's quests"
+      # The generated quest entries the steps read their items, amounts, recipe and map from (they ship
+      # because they are named here).
+      rocklyte-quest-1: quests.acquisition.rocklyte1
+      rocklyte-quest-2: quests.acquisition.rocklyte2
+      rocklyte-quest-3: quests.acquisition.rocklyte3
+      rocklyte-1: "Bring Rocklyte {amount:int} {item:name}s in Froggy Fields"
+      rocklyte-2: "Bring Rocklyte {amount:int} {item:name}s, crafted at the Anvil"
+      rocklyte-2-why: "Each {item:name} takes {a:int} {ma:name}s and {b:int} {mb:name}s, at Smithing Lv {lv:int}."
+      rocklyte-3: "Talk to Rocklyte again: Become a Journeyman"
+      rocklyte-collapsed: "{left:int} of 3 left: Rocklyte's quests in Froggy Fields"
+      rocklyte-caveat: "From the save's quest log and the Peanuts held now"
+      roadmap-journeyman: "Skip the Lv 10 class pick: Rocklyte's quests make a Journeyman"
+      roadmap-maestro: "Next class: Maestro, through Cactolyte's quests in Djonnuttown"
+      roadmap-voidwalker: "Elite class: Voidwalker, through Nebulyte's quests in Outer World Town"
+      build-journeyman: "Journeyman line: keep the Beginner build, skip the class pick"
+      build-journeyman-past: "No Beginner build past Lv 15: finish Rocklyte's quests for Journeyman"
     sources:
       - url: https://github.com/YassSoliman/idleon-forge/blob/research/priority-verification/docs/research/2026-10-17-priority-verification.md
         title: Priority verification, PV 4.8 (Speccius subclass for every base character)
@@ -665,6 +712,15 @@ entries:
         verified: 2026-10-17
         gameVersion: 2.3.540
       - { url: "https://idleon.wiki/wiki/Classes", title: "IdleOn Wiki: Classes", tier: 2, claimDate: 2026-10-13, verified: 2026-10-17, gameVersion: 2.3.540 }
+      - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/quests.json", title: "IdleOn Toolbox game data: quests (Rocklyte 1-3: 500 Peanuts, 5 Golden Peanuts, Become a Journeyman)", tier: 1, verified: 2026-10-19, gameVersion: 2.3.540 }
+      - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/classPromotions.json", title: "IdleOn Toolbox game data: class promotions (Journeyman is not a Beginner promotion)", tier: 1, verified: 2026-10-19, gameVersion: 2.3.540 }
+      - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/crafts.json", title: "IdleOn Toolbox game data: crafts (Golden Peanut: 100 Peanuts, 50 Gold Bars, Smithing Lv 10)", tier: 1, verified: 2026-10-19, gameVersion: 2.3.540 }
+      - url: https://github.com/YassSoliman/idleon-forge/blob/b74454e107b680cd8510e08ebed2141e3b8af8a1/docs/research/systems/classes/class-journeyman.md
+        title: Class dossier, Beginner / Journeyman line, claims C3, C4, C5, C6, C10
+        tier: 3
+        claimDate: 2026-10-19
+        verified: 2026-10-19
+        gameVersion: 2.3.540
     appliesTo: { stages: [{ from: W2-early, to: W4-entry }] }
     confidence: H
     status: active
@@ -710,9 +766,10 @@ entries:
     type: goal
     title: Get your elite class
     text: "Get your elite class at Eliteus"
-    why: "Elite classes unlock the W4 Roles; Divine Knight and Elemental Sorcerer push best."
+    why: "Each elite also starts a family bonus for every character. Divine Knight and Elemental Sorcerer open Rift levels 8 and 9, and push best."
+    claims: [{ system: elite-classes, key: promotion }]
     values:
-      next: "Become a {elite:name} at Eliteus"
+      next: "Take your {elite:name} class at Eliteus"
     sources:
       - url: https://github.com/YassSoliman/idleon-forge/blob/research/priority-verification/docs/research/2026-10-17-priority-verification.md
         title: Priority verification, PV 6.2 (elite order)
@@ -1450,7 +1507,15 @@ entries:
       - [{ include: metapath.priority.never-skip }]
       - [metapath.goal.push]
       - [{ include: metapath.priority.free-value-fills }]
-      - [metapath.goal.subclass, metapath.goal.elite, metapath.goal.swap-token]
+      - [metapath.goal.subclass, elite-classes.check.eliteus, metapath.goal.elite, metapath.goal.swap-token]
+      # M26 Wave 1 (FR-11): the Rift, one card at a time: a met quota first (progress is lost past it).
+      - [rift.check.quota-done, rift.check.class-gate, rift.check.unlock-quest, rift.check.afk-task, rift.check.active-task]
+      # M26 Wave 1 (FR-13, FR-14): Breeding and Cooking, value lost first.
+      - [breeding.check.full-nest, cooking.check.idle-kitchen, cooking.check.capped-meal, breeding.check.idle-territory]
+      # M26 Wave 1 (FR-12): the Lab.
+      - [lab.check.first-upload, lab.check.not-connected, lab.check.jewel-unlit]
+      # M26 Wave 1 (FR-16): the Tome's two one-time steps.
+      - [tome.check.claim-nametags, tome.check.blue-pages]
       - [alchemy-bubbles.goal.level-next, alchemy-vials.goal.level-next]
       # M23 FR-19: Bubba's one account Goal.
       - [bubba.goal.visit]

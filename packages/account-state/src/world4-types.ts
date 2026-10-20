@@ -143,7 +143,7 @@ export interface Territory {
   /** Total enemy HP in the battle. */
   enemyHp: number;
   /**
-   * `foraging`: a team brings its spice in (raw `Territory[i][3]` names the spice); `won`: its spice was
+   * `foraging`: a team brings its spice in (Toolbox's team has a Mob, M26 Wave 1); `won`: its spice was
    * found (raw `Meals[3][i] >= 0`) but nothing forages there now; `not-won` otherwise.
    */
   status: TerritoryStatus;
@@ -161,11 +161,18 @@ export interface BreedingUpgrade {
 export interface BreedingState {
   /** The account's Breeding level (the skill is shared, so the highest character's). */
   level: number;
+  /** Bred at least once: the skill sits at level 0 until the first breed (M26 FR-8). Optional for hand-built states. */
+  started?: boolean;
   /** Eggs in the nest. */
   eggs: number;
   /** Toolbox `eggCapacity`: nest slots. */
   eggCapacity: number;
-  /** Seconds to the next egg (Toolbox `timeToNextEgg`); 0 when the nest is full. */
+  /** Seconds banked toward the next egg (raw `OptionsListAccount[87]`, Toolbox `timeToNextEgg`). Optional for hand-built states. */
+  eggBankSeconds?: number;
+  /**
+   * At most this many seconds to the next egg: the 2-hour base period minus the banked time (bonuses
+   * only shorten the period, M26 FR-8); 0 when the nest is full or an egg is due.
+   */
   nextEggInSeconds: number;
   /** Dead DNA held (Toolbox `deadCells`). */
   deadDna: number;

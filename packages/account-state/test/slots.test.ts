@@ -101,6 +101,28 @@ describe('M20 fields on the scrubbed W2-late save', () => {
   });
 });
 
+describe('Killroy rooms (M26 FR-8: a regression test, not a fix)', () => {
+  // Room 2 opens only once World 3 is finished (game client; MASTER X3). Toolbox's getKillRoy counts a
+  // 2-room baseline on any save; ActiveOn's readKillroy gates it, and this keeps it that way.
+  it('a save that has not finished World 3 has 1 room, even past the Killroy unlock', () => {
+    const w3 = scrubbed('scrubbed-w3');
+    expect(w3.account.finishedWorlds).not.toContain(3);
+    expect(w3.account.killroy?.roomsOpen).toBe(1);
+    expect(w3.account.killroy?.roomClasses.every((r) => r.length === 1)).toBe(true);
+  });
+  it('a save past World 3 has 2 or 3 rooms', () => {
+    const env = normalizeEnvelope(
+      readSave(PUBLIC_DIR, 'first.json') as Parameters<typeof normalizeEnvelope>[0],
+    );
+    const now = Date.UTC(2026, 9, 17, 12);
+    const first = toAccountState(parseSave(env, { now }), env, {
+      toolbox: { calls: toolboxCalls, withFrozenClock },
+    });
+    expect(first.account.finishedWorlds).toContain(3);
+    expect([2, 3]).toContain(first.account.killroy?.roomsOpen);
+  });
+});
+
 describe('without the worker functions', () => {
   it('Killroy and Random Events are not computed (null), never a default', () => {
     const raw = JSON.parse(

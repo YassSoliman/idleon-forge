@@ -13,6 +13,11 @@
 /assets/*
   Cache-Control: public, max-age=31536000, immutable
 
+# Game sprites (ADR 0009 as amended 2026-10-19): unhashed names that change only on a re-sync of the
+# Toolbox pin, so a week's cache with background revalidation. Same origin, so img-src 'self' covers them.
+/game-art/*
+  Cache-Control: public, max-age=604800, stale-while-revalidate=86400
+
 # The page may reach only our origin, Google's OAuth endpoints, Firebase Auth / Firestore, and the
 # game's Realtime Database. The RTDB SDK connects to idlemmo.firebaseio.com and is then REDIRECTED to a
 # per-user shard host (e.g. s-gke-usc1-nssi4-13.firebaseio.com, seen live 2026-10-17); shards differ

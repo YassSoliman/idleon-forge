@@ -6,12 +6,18 @@
 // level), a stepper with three-state needs, then the missing leaves as "990 more" with the full tree and
 // the other ways behind one button each. One NOW step per Walkthrough (DS-2). All text is React text
 // (TR-13); indentation is a class per depth, never an inline style (CSP).
+
 import { CARD_WORDS, type GoalView } from '@idleon-forge/engine/now';
 import { type CSSProperties, useState } from 'react';
+import { GameIcon } from '../../art/game/GameIcon';
+import { itemArt } from '../../art/game/game-art';
+import { TalentMention } from '../../art/game/TalentMention';
 import { PixelArt } from '../../design/art/PixelArt';
 import { cx } from '../../design/atoms/Button';
+import { GateText } from '../../design/atoms/GateLink';
 import { Meter } from '../../design/atoms/Meter';
 import { SeeOnMap } from '../../map/SeeOnMap';
+import { useGates } from '../../production/use-gates';
 import './walkthrough.css';
 
 type View = NonNullable<GoalView['walkthrough']>;
@@ -51,11 +57,13 @@ export function WalkthroughPin({ view }: { view: View }) {
 }
 
 /** The why sheet's Walkthrough: every step, the missing leaves, then the full tree and other ways. */
-export function WalkthroughSteps({ view }: { view: View }) {
+/** `self`: the gate focus this Walkthrough is (the tab item on the Anvil page): no chip back to itself. */
+export function WalkthroughSteps({ view, self }: { view: View; self?: string }) {
   const [tree, setTree] = useState(false);
   const [other, setOther] = useState(false);
   const now = currentStep(view);
   const missing = view.tree.filter((t) => t.done === false);
+  const gates = useGates();
   return (
     <section className="walkthrough" aria-label={CARD_WORDS.walkthroughAll}>
       <p className="wt-collapsed">{view.collapsed}</p>
@@ -78,7 +86,10 @@ export function WalkthroughSteps({ view }: { view: View }) {
               />
               <span className="wt-step__body">
                 <span className="wt-when">{isNow ? 'Now' : s.when === 'blocked' ? 'Blocked' : 'After'}</span>
-                <span className="wt-text">{s.text}</span>
+                <span className="wt-text">
+                  <TalentMention text={s.text} fallback={null} size={24} />
+                  <GateText text={s.text} {...gates} {...(self ? { self } : {})} />
+                </span>
                 {p ? (
                   <>
                     <span className="wt-progress num">
@@ -105,6 +116,7 @@ export function WalkthroughSteps({ view }: { view: View }) {
             // biome-ignore lint/suspicious/noArrayIndexKey: tree lines are positional and never reorder.
             <li key={i} className="wt-missing">
               <PixelArt name="cards-req-missing" decorative />
+              {t.item ? <GameIcon art={itemArt(t.item)} fallback="item-ore" size={24} decorative /> : null}
               <span>{t.text}</span>
             </li>
           ))}
@@ -143,6 +155,7 @@ export function WalkthroughSteps({ view }: { view: View }) {
                 }
                 decorative
               />
+              {t.item ? <GameIcon art={itemArt(t.item)} fallback="item-ore" size={24} decorative /> : null}
               <span className="sr-only">
                 {t.done === true ? 'Done: ' : t.done === false ? 'Missing: ' : ''}
               </span>

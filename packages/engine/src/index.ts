@@ -25,9 +25,17 @@ export type {
   RankHints,
   ToolboxPort,
 } from './core/module';
-export { applyContestedRule, dedupe, rankGoals, type TaggedGoal } from './core/rank';
+export {
+  applyClaims,
+  applyContestedRule,
+  type ClaimRef,
+  dedupe,
+  rankGoals,
+  type TaggedGoal,
+} from './core/rank';
 export { type VisitCandidate, visitOrder } from './core/visit-order';
 export { metaPathModule } from './metapath/module';
 export { compareGoals, EMPTY_PRIORITY_LIST, positionOf } from './metapath/priority';
 export type { Rankable, ResolvedPriorityList, VisitHint } from './metapath/types';
 export type * from './result';
+export { riftLabel, riftText } from './world4/rift-label';

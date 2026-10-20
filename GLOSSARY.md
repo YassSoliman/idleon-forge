@@ -74,6 +74,10 @@ _Avoid_: archetype, specialization
 The single reference route through the game (class choices, character order, per-world milestones) that the community currently considers most efficient; all advice measures progress against it.
 _Avoid_: build guide, playstyle, meta (bare)
 
+**Planned Path**:
+The classes one character is meant to take, in order, from its class now to the end of the line the Meta Path's slot plan holds it for (a Beginner in the Journeyman slot: Beginner › Journeyman › Maestro › Voidwalker); the class tree's options apply only when the slot plan has no opinion. Every view that names a character's next class reads it.
+_Avoid_: class tree (that is the game's promotion table), next class (bare), promotion path, class line (bare)
+
 ## Advice
 
 **Knowledge Base**:
@@ -237,6 +241,10 @@ _Avoid_: source (that is a citation), route, farm spot
 **Bottleneck**:
 The part of a Walkthrough expected to take longest, which starts first, even before the steps that come earlier in the tree.
 _Avoid_: long pole, blocker (that is a Verdict term), critical path
+
+**Production Plan**:
+What each producer (a character's anvil slots, the forge, the Refinery, a kitchen, a cauldron's brewers, the 3D Printer) should make right now and why: the item whose Demand is largest against its Supply, ranked by the Bottleneck it shortens, with the upgrades that would speed it up as steps.
+_Avoid_: production queue, crafting list, what to AFK (that is an AFK Setup)
 
 **Parallel Slot Plan**:
 What each character's Parallel Slot should be doing to feed the Demand (first the 3D Printer: which sample to print, take or keep), and when to change it.

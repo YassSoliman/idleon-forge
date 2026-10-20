@@ -24,7 +24,7 @@
   place-items: center;
   width: 104px;
   height: 120px;
-  background: var(--accent);
+  background: var(--accent-fill);
 }
 .ct-card[data-out="yes"] .ct-card__art {
   background: var(--sunk);
@@ -115,6 +115,9 @@
 }
 .ct-preset__set {
   margin-left: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
 }
 
 /* ---- the farm table ---- */
@@ -187,9 +190,12 @@
 }
 .ct-set-head {
   display: flex;
-  align-items: baseline;
-  justify-content: space-between;
+  align-items: center;
   gap: var(--space-2);
+}
+/* The tier word keeps to the right of the set's picture and name. */
+.ct-set-head > :last-child {
+  margin-left: auto;
 }
 .ct-sheet {
   display: grid;

@@ -1,4 +1,4 @@
-# golden v1: first · knowledge #9761de04 · parser 6c37e3d (game 2.3.540) · now 2024-06-07T21:16:34.518Z · return 8h · stage W4-entry · stale: 4 of 1003
+# golden v1: first · knowledge #04f5e113 · parser 6c37e3d (game 2.3.540) · now 2024-06-07T21:16:34.518Z · return 8h · stage W4-entry · stale: 4 of 1060
 
 ## Verdict changes
 
@@ -59,7 +59,7 @@ purpose: Death Note: Purp Mushroom kills ~47k → 100k · about 19h
   · Easiest rolls with what you hold: Sippy Cup (a roll of 97 or more, Sippy Straw), 40-40 Purity (a roll of 98 or more, Contact Lense)
   · Drop several stacks quickly: each counts as a roll
 - Spend · Fill today's Post Office orders: Fill today's Post Office orders from storage [IdleOn Wiki: Post Office, orders · Calculated by IdleOn Toolbox · 2.3.540]
-show more (21)
+show more (22)
 Spend coins: 34 buys now on 3 characters
   1. Buy the bribe Photoshopped Dmg Range on Bubonic Conjuror Lv 87: 100M coins · Lv 0 → 1 · withdraw 100M coins from storage on C2, then buy · total 100M coins on C2
   2. Buy the bribe Glitched Acc Formula on Bubonic Conjuror Lv 87: 300M coins · Lv 0 → 1 · withdraw 300M coins from storage on C2, then buy · total 400M coins on C2
@@ -72,6 +72,18 @@ If you have time
 - Clear the Sandstone Colosseum on 2 more characters (2 of 4): try your Bubonic Conjuror Lv 87 first (highest level); spends 2 Colosseum Tickets each · about 5m of hands-on play
 
 ## Not covered yet
+Achievements
+Coins
+Drop rate
+Dungeons
+Event Shop
+Family bonuses
+Food
+Friend bonuses
+Stats and damage
+Storage and inventory
+Town shops
+Trophies and nametags
 Bribes
 Forge
 Quests
@@ -79,19 +91,16 @@ Statues
 The Owl
 Islands
 Atom Collider
-Equinox
 Prayers
 Salt Lick
 Shrines
-Breeding
-Cooking
-Laboratory
+Sigils
 
 ## Systems
 W0 · Classes and subclasses · Nothing to fix · Nothing to fix
 W0 · Talents · Nothing to fix · Nothing to fix · 3 to do
 W0 · Talent presets · Nothing to fix · Nothing to fix · 6 to do
-W0 · Talent resets · Nothing to fix · Nothing to fix
+W0 · Talent resets · Nothing to fix · Nothing to fix · 1 to do
 W0 · Upgrade Vault · Nothing to fix · Nothing to fix
 W0 · Gem Shop · Nothing to fix · Nothing to fix · 1 to do
 W0 · Merit Shop · Nothing to fix · Nothing to fix · 2 to do
@@ -107,6 +116,18 @@ W0 · Random Events · Nothing to fix · Nothing to fix
 W0 · Pet Tournament · Nothing to fix · Nothing to fix
 W0 · Daily tasks · Nothing to fix · Nothing to fix
 W0 · Guild tasks · Nothing to fix · Nothing to fix
+W0 · Achievements · Not covered yet · Not covered yet
+W0 · Dungeons · Not covered yet · Not covered yet
+W0 · Family bonuses · Not covered yet · Not covered yet
+W0 · Food · Not covered yet · Not covered yet
+W0 · Storage and inventory · Not covered yet · Not covered yet
+W0 · Stats and damage · Not covered yet · Not covered yet
+W0 · Coins · Not covered yet · Not covered yet
+W0 · Friend bonuses · Not covered yet · Not covered yet
+W0 · Event Shop · Not covered yet · Not covered yet
+W0 · Trophies and nametags · Not covered yet · Not covered yet
+W0 · Town shops · Not covered yet · Not covered yet
+W0 · Drop rate · Not covered yet · Not covered yet
 W1 · Stamps · Nothing to fix · Nothing to fix · 3 to do
 W1 · Star Signs · Nothing to fix · Nothing to fix · 2 to do
 W1 · Anvil · Behind · Behind for your Stage · 2 to do · 1 full · collect
@@ -139,14 +160,18 @@ W3 · Armor-set Smithy · Nothing to fix · Nothing to fix · 1 to do
 W3 · Salt Lick · Not covered yet · Not covered yet
 W3 · Prayers · Not covered yet · Not covered yet
 W3 · Shrines · Not covered yet · Not covered yet
-W3 · Equinox · Not covered yet · Not covered yet
+W3 · Equinox · Locked · Needs an Equinox Mirror, a rare drop from Bloodbone in Frostbite Tundra
 W3 · Atom Collider · Not covered yet · Not covered yet
 W3 · Bubba · Can't tell · Can't tell from the save
-W4 · Laboratory · Not covered yet · Not covered yet
-W4 · Cooking · Not covered yet · Not covered yet
-W4 · Breeding · Not covered yet · Not covered yet
+W4 · Laboratory · Nothing to fix · Nothing to fix
+W4 · Cooking · Nothing to fix · Nothing to fix
+W4 · Breeding · Nothing to fix · Nothing to fix
+W4 · Sigils · Not covered yet · Not covered yet
+W4 · The Rift · Locked · Opens once a character finishes the Rift Ripper quest in The Untraveled Octopath (World 4) · 1 to do
+W4 · The Tome · Nothing to fix · Nothing to fix
+W4 · Elite classes · Nothing to fix · Nothing to fix
 Needs you: Minigames (wasting), Colosseum (wasting), Refinery (wasting), Anvil (behind)
-Other gaps: Journeyman talent builds, Elite talent builds, Stamp cap raises that need farming or carry capacity, W4+ constellations and Infinite Stars
+Other gaps: Stamp cap raises that need farming or carry capacity, W4+ constellations and Infinite Stars
 Wasting: 3
 Report card (W4-entry):
 - Anvil · W1-mid · 8 behind · step: Unspent anvil points on 3 characters → Speed
@@ -275,7 +300,7 @@ Can't read Bubba from this save
     - next after these: Beginner Best Class 6 → 7 · +1 (useful up to 7 (best Beginner-line level 73))
     - done: Attacks On Simmer 50
     - and 6 more
-- Skilling preset: Rage Basics [Start here] (114 unspent) · Warrior (12 unspent) · Barbarian (3 unspent) · Blood Berserker · Star talents (all spent)
+- Skilling preset: Rage Basics [Start here] (114 unspent) · Warrior (12 unspent) · Barbarian (3 unspent) · Blood Berserker (3 unspent) · Star talents (all spent)
   - Rage Basics: 114 points waiting · they end here
     - done: Brute Efficiency 126
     - done: Idle Skilling 127
@@ -362,10 +387,10 @@ Can't read Bubba from this save
 - Skilling preset (in use): Savvy Basics (49 unspent) · Mage [Start here] (9 unspent) · Wizard · Elemental Sorcerer · Star talents (all spent)
   - Mage: 9 points waiting · they end here
     - part now: Log On Logs 1 → 100 · +9 of 99 now · +99
-    - next after these: Leaf Thief 84 → 100 · +115
-    - next after these: Deforesting All Doubt 85 → 100 · +130
+    - done: Inner Peace 125
+    - next after these: Leaf Thief = Deforesting All Doubt = Mana Overdrive +146 · +245 (split evenly: Leaf Thief 84 → 100, Deforesting All Doubt 85 → 100, Mana Overdrive 0 → 115)
     - done: Individual Insight 125
-    - and 2 more
+    - and 1 more
   - Star talents: All spent: the totals show where new points go
     - done: Stonks! 30
     - done: Will of the Eldest 9 (useful up to 9 (best level 96))
@@ -386,6 +411,7 @@ Can't read Bubba from this save
     - done: Elusive Efficiency 127
     - done: Broken Time 126
     - can add now: Book of the Wise 0 → 100 · +100
+    - part now: Star Player 0 → 100 · +79 of 100 now · +200
   - Star talents: All spent: the totals show where new points go
     - done: Stonks! 30
     - done: Will of the Eldest 9 (useful up to 9 (best level 96))
@@ -394,15 +420,20 @@ Can't read Bubba from this save
     - and 6 more
 
 ### C7 (Maestro 73)
-- No build yet for this class (Journeyman line): these are your talent levels
-- Current preset (in use): Beginner · Journeyman · Maestro · Star talents (all spent)
+- Fighting preset (in use): Beginner · Journeyman (9 unspent) · Maestro · Star talents (all spent)
   - Star talents: All spent: the totals show where new points go
     - done: Stonks! 30
     - done: Will of the Eldest 9 (useful up to 9 (best level 96))
     - done: Beginner Best Class 7 (useful up to 7 (best Beginner-line level 73))
     - done: Tick Tock 88
     - and 7 more
-- Other preset: Beginner · Journeyman · Maestro · Star talents (all spent)
+- Skilling preset: Beginner [Start here] (1 unspent) · Journeyman (9 unspent) · Maestro · Star talents (all spent)
+  - Beginner: 1 point waiting · they end here
+    - done: Happy Dude 100
+    - done: Fist of Rage 1
+    - done: Quickness Boots 1
+    - done: Book of the Wise 1
+    - and 1 more
   - Star talents: All spent: the totals show where new points go
     - done: Stonks! 30
     - done: Tick Tock 88
@@ -482,6 +513,8 @@ Can't read Bubba from this save
 | anvil.check.spend-points | anvil/points | account | fires | count=3 hours=8 |
 | arcade.check.balls-cap | arcade/balls-cap | account | pass |  |
 | boss-keys.check.collect | boss-keys/banked | C1 | fires | chizoar=0 daysLost=0 efaunt=2 forestVilla=0 total=2 |
+| breeding.check.full-nest | breeding/full-nest | — | silent |  |
+| breeding.check.idle-territory | breeding/idle-territory | — | silent |  |
 | bubba.check.boon | bubba/boon | account | unknown (field-missing) |  |
 | bubba.check.charisma-idle | bubba/charisma-idle | account | unknown (field-missing) |  |
 | bubba.check.megaflesh | bubba/megaflesh | account | unknown (field-missing) |  |
@@ -494,13 +527,19 @@ Can't read Bubba from this save
 | classes.contribution.exp | classes/exp | C4 | advances yes eta 259m | exp=18177424 expReq=40374576 rate=5133507.495085055 saved=86 |
 | colosseum.check.collect-tickets | colosseum/tickets-banked | account | fires | cappedNpcs=2 daysLost=48 total=9 |
 | construction.check.build-next | construction/build-next | account | pass |  |
+| cooking.check.capped-meal | cooking/capped-meal | — | silent |  |
+| cooking.check.idle-kitchen | cooking/idle-kitchen | — | silent |  |
 | death-note.check.build | death-note/build | — | silent |  |
 | death-note.check.build-slot | death-note/build | — | silent |  |
 | death-note.contribution.skull-mush-p | death-note/skull | C1 | advances yes eta 1187m | building=6 feeders=9 rate=2726 rule=1 saved=46090 target=Purp_Mushroom |
 | death-note.contribution.skull-mush-p | death-note/skull | C4 | advances yes eta 1187m | building=6 feeders=9 rate=2726 rule=1 saved=46090 target=Purp_Mushroom |
+| elite-classes.check.eliteus | elite-classes/eliteus | — | silent |  |
 | gem-shop.check.printer-buy | gem-shop/unspent | — | silent |  |
 | gem-shop.check.printer-progress | gem-shop/unspent | — | silent |  |
 | gem-shop.check.unspent | gem-shop/unspent | account | fires | gems=304 price=875 |
+| lab.check.first-upload | lab/uploads | — | silent |  |
+| lab.check.jewel-unlit | lab/jewel-unlit | — | silent |  |
+| lab.check.not-connected | lab/uploads | — | silent |  |
 | merit-shop.check.spend-w1 | merit-shop/unspent | account | fires | unspent=3 world=1 |
 | merit-shop.check.spend-w2 | merit-shop/unspent | — | silent |  |
 | merit-shop.check.spend-w2-afk-gains | merit-shop/unspent | — | silent |  |
@@ -537,6 +576,11 @@ Can't read Bubba from this save
 | refinery.check.salt-fuel | refinery/salt-off | — | silent |  |
 | refinery.check.salt-off | refinery/salt-off | account | fires | offSalts=2 salt=Explosive_Salts |
 | refinery.check.unlock-next | refinery/unlock-next | — | silent |  |
+| rift.check.active-task | rift/task-kind | — | silent |  |
+| rift.check.afk-task | rift/task-kind | — | silent |  |
+| rift.check.class-gate | rift/class-gate | — | silent |  |
+| rift.check.quota-done | rift/quota-done | — | silent |  |
+| rift.check.unlock-quest | rift/unlock-quest | account | fires | batteries=0 caps=0 short=1 tails=592 |
 | systems.yaml#alchemy | worlds/reached | account | reached yes |  |
 | systems.yaml#alchemy-bubbles | worlds/reached | account | reached yes |  |
 | systems.yaml#alchemy-p2w | worlds/reached | account | reached yes |  |
@@ -547,18 +591,19 @@ Can't read Bubba from this save
 | systems.yaml#atom-collider | worlds/reached | account | reached yes |  |
 | systems.yaml#ballot | worlds/reached | account | reached yes |  |
 | systems.yaml#boss-keys | worlds/reached | account | reached yes |  |
-| systems.yaml#breeding | worlds/reached | account | reached yes |  |
+| systems.yaml#breeding | systems/unlocked | account | reached yes |  |
 | systems.yaml#bribes | worlds/reached | account | reached yes |  |
 | systems.yaml#bubba | bubba/unlocked | account | reached yes |  |
 | systems.yaml#colosseum | worlds/reached | account | reached yes |  |
 | systems.yaml#construction | worlds/reached | account | reached yes |  |
-| systems.yaml#cooking | worlds/reached | account | reached yes |  |
+| systems.yaml#cooking | systems/unlocked | account | reached yes |  |
 | systems.yaml#death-note | worlds/reached | account | reached yes |  |
-| systems.yaml#equinox | worlds/reached | account | reached yes |  |
+| systems.yaml#elite-classes | worlds/reached | account | reached yes |  |
+| systems.yaml#equinox | systems/unlocked | account | reached no |  |
 | systems.yaml#forge | worlds/reached | account | reached yes |  |
-| systems.yaml#islands | worlds/reached | account | reached yes |  |
+| systems.yaml#islands | systems/unlocked | account | reached yes |  |
 | systems.yaml#killroy | worlds/reached | account | reached yes |  |
-| systems.yaml#lab | worlds/reached | account | reached yes |  |
+| systems.yaml#lab | systems/unlocked | account | reached yes |  |
 | systems.yaml#library | worlds/reached | account | reached yes |  |
 | systems.yaml#owl | worlds/reached | account | reached yes |  |
 | systems.yaml#poppy | worlds/reached | account | reached yes |  |
@@ -567,15 +612,20 @@ Can't read Bubba from this save
 | systems.yaml#printer | worlds/reached | account | reached yes |  |
 | systems.yaml#quests | worlds/reached | account | reached yes |  |
 | systems.yaml#refinery | worlds/reached | account | reached yes |  |
+| systems.yaml#rift | systems/unlocked | account | reached no |  |
 | systems.yaml#salt-lick | worlds/reached | account | reached yes |  |
 | systems.yaml#shrines | worlds/reached | account | reached yes |  |
+| systems.yaml#sigils | systems/unlocked | account | reached yes |  |
 | systems.yaml#stamps | worlds/reached | account | reached yes |  |
 | systems.yaml#star-signs | worlds/reached | account | reached yes |  |
 | systems.yaml#statues | worlds/reached | account | reached yes |  |
+| systems.yaml#tome | worlds/reached | account | reached yes |  |
 | systems.yaml#trapping | worlds/reached | account | reached yes |  |
 | systems.yaml#weekly-battles | worlds/reached | account | reached yes |  |
 | systems.yaml#worship | worlds/reached | account | reached yes |  |
 | task-unlocks.check.spend | task-unlocks/unspent | account | fires | points=15 |
+| tome.check.blue-pages | tome/blue-pages | — | silent |  |
+| tome.check.claim-nametags | tome/nametags | — | silent |  |
 | trapping.check.finishes-early | trapping/finishes-early | C1 | fires | finishesIn=16381026 |
 | trapping.check.finishes-early | trapping/finishes-early | C2 | fires | finishesIn=16375026 |
 | trapping.check.finishes-early | trapping/finishes-early | C3 | fires | finishesIn=16375026 |

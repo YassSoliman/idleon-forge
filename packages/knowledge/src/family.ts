@@ -23,9 +23,11 @@ const generatorOf = (g: Entry): string | null =>
 
 /** The highest world among the Contribution's Stages; null for `stages: all`. */
 function maxWorld(c: Pick<ContributionLike, 'appliesTo'>): number | null {
-  const s = c.appliesTo.stages;
-  if (s === 'all') return null;
-  const ids: StageId[] = s.flatMap((x) => (typeof x === 'string' ? [x] : stagesBetween(x.from, x.to)));
+  if (c.appliesTo.stages === 'all') return null;
+  // The authored span, not the beyond policy: a family "to W4-entry" means World 4 Goals, not W5.
+  const ids: StageId[] = c.appliesTo.stages.flatMap((x) =>
+    typeof x === 'string' ? [x] : stagesBetween(x.from, x.to),
+  );
   if (ids.length === 0) return null;
   return Math.max(...ids.filter((id) => STAGES.includes(id)).map((id) => STAGE_DEFINITIONS[id].world));
 }

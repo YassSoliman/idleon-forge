@@ -19,24 +19,40 @@ export const tabSpent = (p: PresetTalents, tab: number): number =>
 /** Points bought in tabs 1–3 (`spent(P)`, TR-6). */
 export const spent = (p: PresetTalents): number => tabSpent(p, 1) + tabSpent(p, 2) + tabSpent(p, 3);
 
-/** Base level of one talent on tabs 1–3 (a shared Basics talent is counted once). */
-export function levelOf(p: PresetTalents, id: number): number {
-  for (const t of p.tabs) {
-    if (t.tab > 3) continue;
-    const x = t.talents.find((y) => y.id === id);
-    if (x) return x.base;
-  }
-  return 0;
+/**
+ * Points bought in tabs 1–3 and in any later tab the Builds name (M26: an elite Build tags its tab 4,
+ * so tab 4's points count there; without an elite Build they stay out, as before).
+ */
+function spentFor(p: PresetTalents, builds: Readonly<Record<PresetRole, ResolvedBuild | null>>): number {
+  const later = new Set<number>();
+  for (const b of [builds.fighting, builds.skilling])
+    for (const t of b?.tabs ?? []) if (t.tab > 3) later.add(t.tab);
+  let n = spent(p);
+  for (const t of later) n += tabSpent(p, t);
+  return n;
 }
 
-/** The save's max level of one talent on tabs 1–3; 0 when the preset doesn't have it. */
-export function maxOf(p: PresetTalents, id: number): number {
+/** The talent's row on one tab, or on the first class tab that has it (a shared Basics talent counts once). */
+function rowOf(p: PresetTalents, id: number, tab?: number) {
   for (const t of p.tabs) {
-    if (t.tab > 3) continue;
+    if (tab === undefined ? t.tab > 5 : t.tab !== tab) continue;
     const x = t.talents.find((y) => y.id === id);
-    if (x) return x.max;
+    if (x) return x;
   }
-  return 0;
+  return undefined;
+}
+
+/**
+ * Base level of one talent on the class tabs. With `tab`, only that tab is read (M26: a Build step is
+ * resolved within its own tab, since The Family Guy and the like sit on every elite tab).
+ */
+export function levelOf(p: PresetTalents, id: number, tab?: number): number {
+  return rowOf(p, id, tab)?.base ?? 0;
+}
+
+/** The save's max level of one talent on the class tabs (or on `tab`); 0 when the preset doesn't have it. */
+export function maxOf(p: PresetTalents, id: number, tab?: number): number {
+  return rowOf(p, id, tab)?.max ?? 0;
 }
 
 /** `tagged(P, B)`: the preset's points in the Build's tagged talents. */
@@ -52,7 +68,7 @@ export function classifyPreset(
   p: PresetTalents,
   builds: Readonly<Record<PresetRole, ResolvedBuild | null>>,
 ): PresetClass {
-  const total = spent(p);
+  const total = spentFor(p, builds);
   if (total === 0) return 'empty';
   if (tabSpent(p, 1) === 0 && tabSpent(p, 2) === 0) return 'incomplete';
   const f = tagged(p, builds.fighting);

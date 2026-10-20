@@ -1,4 +1,4 @@
-# golden v1: third · knowledge #9761de04 · parser 6c37e3d (game 2.3.540) · now 2024-06-06T19:59:40.215Z · return 8h · stage W4-entry · stale: 4 of 1003
+# golden v1: third · knowledge #04f5e113 · parser 6c37e3d (game 2.3.540) · now 2024-06-06T19:59:40.215Z · return 8h · stage W4-late · stale: 4 of 1060
 
 ## Verdict changes
 
@@ -76,11 +76,23 @@ purpose: Godshard: stamp material for Forge Stamp
   · Divine Knight Lv 558: 13 into Speed, 0 into Capacity
   · Elemental Sorcerer Lv 552: 11 into Speed, 0 into Capacity
   · Siege Breaker Lv 522: 28 into Speed, 0 into Capacity
-show more (11)
+show more (13)
 If you have time
 - Use today's 21 minigame plays · about 10m of hands-on play
 
 ## Not covered yet
+Achievements
+Coins
+Drop rate
+Dungeons
+Event Shop
+Family bonuses
+Food
+Friend bonuses
+Stats and damage
+Storage and inventory
+Town shops
+Trophies and nametags
 Bribes
 Forge
 Quests
@@ -92,9 +104,7 @@ Equinox
 Prayers
 Salt Lick
 Shrines
-Breeding
-Cooking
-Laboratory
+Sigils
 
 ## Systems
 W0 · Classes and subclasses · Nothing to fix · Nothing to fix
@@ -116,6 +126,18 @@ W0 · Random Events · Nothing to fix · Nothing to fix
 W0 · Pet Tournament · Nothing to fix · Nothing to fix
 W0 · Daily tasks · Nothing to fix · Nothing to fix
 W0 · Guild tasks · Nothing to fix · Nothing to fix
+W0 · Achievements · Not covered yet · Not covered yet
+W0 · Dungeons · Not covered yet · Not covered yet
+W0 · Family bonuses · Not covered yet · Not covered yet
+W0 · Food · Not covered yet · Not covered yet
+W0 · Storage and inventory · Not covered yet · Not covered yet
+W0 · Stats and damage · Not covered yet · Not covered yet
+W0 · Coins · Not covered yet · Not covered yet
+W0 · Friend bonuses · Not covered yet · Not covered yet
+W0 · Event Shop · Not covered yet · Not covered yet
+W0 · Trophies and nametags · Not covered yet · Not covered yet
+W0 · Town shops · Not covered yet · Not covered yet
+W0 · Drop rate · Not covered yet · Not covered yet
 W1 · Stamps · Nothing to fix · Nothing to fix · 2 to do
 W1 · Star Signs · Nothing to fix · Nothing to fix
 W1 · Anvil · Nothing to fix · Nothing to fix · 2 to do · 3 full · collect
@@ -151,9 +173,13 @@ W3 · Shrines · Not covered yet · Not covered yet
 W3 · Equinox · Not covered yet · Not covered yet
 W3 · Atom Collider · Not covered yet · Not covered yet
 W3 · Bubba · Can't tell · Can't tell from the save
-W4 · Laboratory · Not covered yet · Not covered yet
-W4 · Cooking · Not covered yet · Not covered yet
-W4 · Breeding · Not covered yet · Not covered yet
+W4 · Laboratory · Nothing to fix · Nothing to fix
+W4 · Cooking · Nothing to fix · Nothing to fix
+W4 · Breeding · Nothing to fix · Nothing to fix
+W4 · Sigils · Not covered yet · Not covered yet
+W4 · The Rift · Nothing to fix · Nothing to fix · 1 to do
+W4 · The Tome · Nothing to fix · Nothing to fix · 1 to do
+W4 · Elite classes · Nothing to fix · Nothing to fix
 Worlds 5–7: not covered yet
 Needs you: Minigames (wasting), Post Office (wasting), Refinery (wasting)
 Other gaps: Talent builds past World 4, W4+ constellations and Infinite Stars
@@ -266,32 +292,40 @@ Can't read Bubba from this save
 
 ## Builds
 ### C1 (Blood Berserker 521)
-- No build for this stage yet (builds cover World 1 to World 4): these are your talent levels
-- Other preset: Rage Basics · Warrior · Barbarian · Blood Berserker · Star talents (437 unspent)
+- Fighting preset: Rage Basics · Warrior (at least 280 unspent) · Barbarian · Blood Berserker · Star talents (437 unspent)
   - Star talents: 437 unspent · they end here
     - done: Stonks! 30
-    - done: Tick Tock 203
     - done: Will of the Eldest 50 (useful up to 65 (best level 655); its max for now)
-    - can add now: Toilet Paper Postage 0 → 100 · +100
-    - and 6 more
-- Current preset (in use): Rage Basics · Warrior · Barbarian · Blood Berserker · Star talents (305 unspent)
-  - Star talents: 305 unspent · they end here
-    - done: Stonks! 30
-    - done: Will of the Eldest 50 (useful up to 65 (best level 655); its max for now)
-    - can add now: Beginner Best Class 0 → 50 · +50 (useful up to 52 (best Beginner-line level 523); its max for now)
+    - done: Beginner Best Class 50 (useful up to 52 (best Beginner-line level 523); its max for now)
     - done: Tick Tock 203
     - and 7 more
+- Skilling preset (in use): Rage Basics (at least 1,144 unspent) · Warrior · Barbarian (at least 554 unspent) · Blood Berserker [Start here] (at least 27 unspent) · Star talents (305 unspent)
+  - Blood Berserker: As of your last save: at least 27 points waiting · they end here
+    - done: Waiting To Cool 270
+    - done: Overflowing Ladle 270
+    - done: Symbols of Beyond 1
+    - done: Apocalypse Chow 299
+    - and 3 more
+  - Star talents: 305 unspent · they end here
+    - done: Stonks! 30
+    - done: Tick Tock 203
+    - done: Will of the Eldest 50 (useful up to 65 (best level 655); its max for now)
+    - done: Toilet Paper Postage 100
+    - and 5 more
 
 ### C2 (Siege Breaker 527)
-- No build for this stage yet (builds cover World 1 to World 4): these are your talent levels
-- Current preset (in use): Calm Basics · Archer · Bowman · Siege Breaker · Star talents (531 unspent)
+- Fighting preset (in use): Calm Basics · Archer · Bowman · Siege Breaker · Star talents (531 unspent)
   - Star talents: 531 unspent · they end here (Stonks! returns more as it levels)
     - can add now: Stonks! 25 → 30 · +5 (pays for itself: it returns star points as it levels)
     - done: Will of the Eldest 50 (useful up to 65 (best level 655); its max for now)
     - done: Beginner Best Class 50 (useful up to 52 (best Beginner-line level 523); its max for now)
     - done: Tick Tock 203
     - and 7 more
-- Other preset: Calm Basics · Archer · Bowman · Siege Breaker · Star talents (1,006 unspent)
+- Skilling preset: Calm Basics [Start here] (at least 2,308 unspent) · Archer (at least 260 unspent) · Bowman (at least 1,430 unspent) · Siege Breaker (at least 947 unspent) · Star talents (1,006 unspent)
+  - Calm Basics: As of your last save: at least 2,308 points waiting · they end here
+    - can add now: Elusive Efficiency 270 → 299 · +29
+    - can add now: Quickness Boots 1,090 → 1,192 · +131
+    - done: Broken Time 257
   - Star talents: 1,006 unspent · they end here
     - done: Stonks! 30
     - done: Will of the Eldest 50 (useful up to 65 (best level 655); its max for now)
@@ -300,15 +334,20 @@ Can't read Bubba from this save
     - and 6 more
 
 ### C3 (Bubonic Conjuror 568)
-- No build for this stage yet (builds cover World 1 to World 4): these are your talent levels
-- Current preset (in use): Savvy Basics · Mage · Shaman · Bubonic Conjuror · Star talents (42 unspent)
+- Fighting preset (in use): Savvy Basics · Mage · Shaman · Bubonic Conjuror · Star talents (42 unspent)
   - Star talents: 42 unspent · they end here (Stonks! returns more as it levels)
     - can add now: Stonks! 25 → 30 · +5 (pays for itself: it returns star points as it levels)
     - done: Will of the Eldest 50 (useful up to 65 (best level 655); its max for now)
     - done: Beginner Best Class 50 (useful up to 52 (best Beginner-line level 523); its max for now)
     - done: Tick Tock 203
     - and 7 more
-- Other preset: Savvy Basics · Mage · Shaman · Bubonic Conjuror · Star talents (733 unspent)
+- Skilling preset: Savvy Basics (at least 1,719 unspent) · Mage [Start here] (at least 760 unspent) · Shaman (at least 1,695 unspent) · Bubonic Conjuror (at least 126 unspent) · Star talents (733 unspent)
+  - Mage: As of your last save: at least 760 points waiting · they end here
+    - can add now: Log On Logs 270 → 299 · +29
+    - can add now: Leaf Thief 270 → 299 · +58
+    - done: Deforesting All Doubt 270
+    - can add now: Individual Insight 270 → 299 · +87
+    - and 2 more
   - Star talents: 733 unspent · they end here
     - done: Stonks! 30
     - done: Tick Tock 203
@@ -317,15 +356,20 @@ Can't read Bubba from this save
     - and 6 more
 
 ### C4 (Divine Knight 655)
-- No build for this stage yet (builds cover World 1 to World 4): these are your talent levels
-- Current preset (in use): Rage Basics · Warrior · Squire · Divine Knight · Star talents (294 unspent)
+- Fighting preset (in use): Rage Basics · Warrior · Squire · Divine Knight · Star talents (294 unspent)
   - Star talents: 294 unspent · they end here
     - done: Stonks! 30
     - done: Will of the Eldest 50 (useful up to 65 (best level 655); its max for now)
     - done: Beginner Best Class 50 (useful up to 52 (best Beginner-line level 523); its max for now)
     - done: Tick Tock 203
     - and 7 more
-- Other preset: Rage Basics · Warrior · Squire · Divine Knight · Star talents (937 unspent)
+- Skilling preset: Rage Basics [Start here] (at least 1,826 unspent) · Warrior (at least 963 unspent) · Squire (at least 1,646 unspent) · Divine Knight (at least 872 unspent) · Star talents (937 unspent)
+  - Rage Basics: As of your last save: at least 1,826 points waiting · they end here
+    - done: Brute Efficiency 299
+    - done: Idle Skilling 299
+    - can add now: Fist of Rage 1,188 → 1,248 · +60
+    - can add now: Health Booster 270 → 299 · +89
+    - and 1 more
   - Star talents: 937 unspent · they end here (Stonks! returns more as it levels)
     - can add now: Stonks! 20 → 30 · +10 (pays for itself: it returns star points as it levels)
     - done: Tick Tock 203
@@ -334,15 +378,19 @@ Can't read Bubba from this save
     - and 6 more
 
 ### C5 (Beast Master 561)
-- No build for this stage yet (builds cover World 1 to World 4): these are your talent levels
-- Current preset (in use): Calm Basics · Archer · Hunter · Beast Master · Star talents (462 unspent)
+- Fighting preset (in use): Calm Basics · Archer · Hunter · Beast Master · Star talents (462 unspent)
   - Star talents: 462 unspent · they end here
     - done: Stonks! 30
     - done: Will of the Eldest 50 (useful up to 65 (best level 655); its max for now)
     - done: Beginner Best Class 50 (useful up to 52 (best Beginner-line level 523); its max for now)
     - done: Tick Tock 203
     - and 7 more
-- Other preset: Calm Basics · Archer · Hunter · Beast Master · Star talents (1,152 unspent)
+- Skilling preset: Calm Basics [Start here] (at least 2,763 unspent) · Archer (at least 1,171 unspent) · Hunter (at least 1,889 unspent) · Beast Master (at least 1,620 unspent) · Star talents (1,152 unspent)
+  - Calm Basics: As of your last save: at least 2,763 points waiting · they end here
+    - done: Elusive Efficiency 270
+    - done: Broken Time 261
+    - can add now: Book of the Wise 10 → 500 · +490
+    - can add now: Star Player 10 → 270 · +750
   - Star talents: 1,152 unspent · they end here
     - done: Stonks! 30
     - done: Will of the Eldest 50 (useful up to 65 (best level 655); its max for now)
@@ -351,15 +399,20 @@ Can't read Bubba from this save
     - and 6 more
 
 ### C6 (Elemental Sorcerer 545)
-- No build for this stage yet (builds cover World 1 to World 4): these are your talent levels
-- Current preset (in use): Savvy Basics · Mage · Wizard · Elemental Sorcerer · Star talents (256 unspent)
+- Fighting preset (in use): Savvy Basics · Mage (at least 530 unspent) · Wizard · Elemental Sorcerer · Star talents (256 unspent)
   - Star talents: 256 unspent · they end here
     - done: Stonks! 30
     - done: Will of the Eldest 50 (useful up to 65 (best level 655); its max for now)
     - done: Beginner Best Class 50 (useful up to 52 (best Beginner-line level 523); its max for now)
     - done: Tick Tock 203
     - and 7 more
-- Other preset: Savvy Basics · Mage · Wizard · Elemental Sorcerer · Star talents (446 unspent)
+- Skilling preset: Savvy Basics (at least 705 unspent) · Mage · Wizard [Start here] (at least 471 unspent) · Elemental Sorcerer (at least 624 unspent) · Star talents (446 unspent)
+  - Wizard: As of your last save: at least 471 points waiting · they end here
+    - done: Charge Syphon 270
+    - done: Sooouls 257
+    - done: Wis Wumbo 270
+    - can add now: Bless Up = Earlier Education +198 · +198 (split evenly: Bless Up 1 → 100, Earlier Education 1 → 100)
+    - and 3 more
   - Star talents: 446 unspent · they end here
     - done: Stonks! 30
     - done: Tick Tock 203
@@ -368,15 +421,20 @@ Can't read Bubba from this save
     - and 6 more
 
 ### C7 (Voidwalker 523)
-- No build for this stage yet (builds cover World 1 to World 4): these are your talent levels
-- Other preset: Beginner · Journeyman · Maestro · Voidwalker · Star talents (631 unspent)
+- Fighting preset: Beginner [Start here] (at least 333 unspent) · Journeyman (at least 249 unspent) · Maestro (at least 829 unspent) · Voidwalker (at least 160 unspent) · Star talents (631 unspent)
+  - Beginner: As of your last save: at least 333 points waiting · they end here
+    - done: Sharpened Axe 270
+    - done: Gilded Sword 270
+    - done: Lucky Clover 270
+    - done: Health Booster 100
+    - and 4 more
   - Star talents: 631 unspent · they end here
     - done: Stonks! 30
     - done: Will of the Eldest 50 (useful up to 65 (best level 655); its max for now)
     - done: Beginner Best Class 50 (useful up to 52 (best Beginner-line level 523); its max for now)
     - done: Tick Tock 203
     - and 7 more
-- Current preset (in use): Beginner · Journeyman · Maestro · Voidwalker · Star talents (259 unspent)
+- Skilling preset (in use): Beginner · Journeyman · Maestro · Voidwalker · Star talents (259 unspent)
   - Star talents: 259 unspent · they end here
     - done: Stonks! 30
     - done: Tick Tock 203
@@ -385,15 +443,20 @@ Can't read Bubba from this save
     - and 6 more
 
 ### C8 (Divine Knight 558)
-- No build for this stage yet (builds cover World 1 to World 4): these are your talent levels
-- Current preset (in use): Rage Basics · Warrior · Squire · Divine Knight · Star talents (820 unspent)
+- Fighting preset (in use): Rage Basics · Warrior · Squire · Divine Knight · Star talents (820 unspent)
   - Star talents: 820 unspent · they end here
     - done: Stonks! 30
     - done: Will of the Eldest 50 (useful up to 65 (best level 655); its max for now)
     - done: Beginner Best Class 50 (useful up to 52 (best Beginner-line level 523); its max for now)
     - done: Tick Tock 203
     - and 7 more
-- Other preset: Rage Basics · Warrior · Squire · Divine Knight · Star talents (1,945 unspent)
+- Skilling preset: Rage Basics (at least 2,542 unspent) · Warrior [Start here] (at least 588 unspent) · Squire (at least 1,791 unspent) · Divine Knight (at least 1,011 unspent) · Star talents (1,945 unspent)
+  - Warrior: As of your last save: at least 588 points waiting · they end here
+    - can add now: Big Pick 270 → 299 · +29
+    - can add now: Copper Collector 228 → 299 · +100
+    - can add now: Tool Proficiency 270 → 299 · +129
+    - can add now: Motherlode Miner 141 → 270 · +258
+    - and 4 more
   - Star talents: 1,945 unspent · they end here
     - done: Stonks! 30
     - done: Will of the Eldest 50 (useful up to 65 (best level 655); its max for now)
@@ -402,15 +465,18 @@ Can't read Bubba from this save
     - and 6 more
 
 ### C9 (Elemental Sorcerer 552)
-- No build for this stage yet (builds cover World 1 to World 4): these are your talent levels
-- Current preset (in use): Savvy Basics · Mage · Wizard · Elemental Sorcerer · Star talents (403 unspent)
+- Fighting preset (in use): Savvy Basics · Mage (at least 221 unspent) · Wizard · Elemental Sorcerer · Star talents (403 unspent)
   - Star talents: 403 unspent · they end here
     - done: Stonks! 30
     - done: Will of the Eldest 50 (useful up to 65 (best level 655); its max for now)
     - done: Beginner Best Class 50 (useful up to 52 (best Beginner-line level 523); its max for now)
     - done: Tick Tock 203
     - and 7 more
-- Other preset: Savvy Basics · Mage · Wizard · Elemental Sorcerer · Star talents (989 unspent)
+- Skilling preset: Savvy Basics [Start here] (at least 1,144 unspent) · Mage · Wizard (at least 417 unspent) · Elemental Sorcerer (at least 686 unspent) · Star talents (989 unspent)
+  - Savvy Basics: As of your last save: at least 1,144 points waiting · they end here
+    - done: Smart Efficiency 299
+    - can add now: Active AFK'er 171 → 270 · +99
+    - can add now: Mana Booster = Book of the Wise +226 · +325 (split evenly: Mana Booster 185 → 270, Book of the Wise 1,055 → 1,196)
   - Star talents: 989 unspent · they end here
     - done: Stonks! 30
     - done: Tick Tock 203
@@ -419,15 +485,18 @@ Can't read Bubba from this save
     - and 6 more
 
 ### C10 (Siege Breaker 522)
-- No build for this stage yet (builds cover World 1 to World 4): these are your talent levels
-- Current preset (in use): Calm Basics · Archer · Bowman · Siege Breaker · Star talents (511 unspent)
+- Fighting preset (in use): Calm Basics · Archer · Bowman · Siege Breaker · Star talents (511 unspent)
   - Star talents: 511 unspent · they end here
     - done: Stonks! 30
     - done: Will of the Eldest 50 (useful up to 65 (best level 655); its max for now)
     - done: Beginner Best Class 50 (useful up to 52 (best Beginner-line level 523); its max for now)
     - done: Tick Tock 203
     - and 7 more
-- Other preset: Calm Basics · Archer · Bowman · Siege Breaker · Star talents (1,228 unspent)
+- Skilling preset: Calm Basics [Start here] (at least 1,570 unspent) · Archer (at least 1,190 unspent) · Bowman (at least 1,589 unspent) · Siege Breaker (at least 1,713 unspent) · Star talents (1,228 unspent)
+  - Calm Basics: As of your last save: at least 1,570 points waiting · they end here
+    - can add now: Elusive Efficiency 270 → 299 · +29
+    - can add now: Quickness Boots 974 → 1,192 · +247
+    - done: Broken Time 246
   - Star talents: 1,228 unspent · they end here
     - done: Stonks! 30
     - done: Will of the Eldest 50 (useful up to 65 (best level 655); its max for now)
@@ -546,6 +615,8 @@ Can't read Bubba from this save
 | anvil.check.spend-points | anvil/points | account | fires | count=9 hours=8 |
 | arcade.check.balls-cap | arcade/balls-cap | account | pass |  |
 | boss-keys.check.collect | boss-keys/banked | — | silent |  |
+| breeding.check.full-nest | breeding/full-nest | — | silent |  |
+| breeding.check.idle-territory | breeding/idle-territory | — | silent |  |
 | bubba.check.boon | bubba/boon | account | unknown (field-missing) |  |
 | bubba.check.charisma-idle | bubba/charisma-idle | account | unknown (field-missing) |  |
 | bubba.check.megaflesh | bubba/megaflesh | account | unknown (field-missing) |  |
@@ -570,6 +641,8 @@ Can't read Bubba from this save
 | classes.contribution.exp | classes/exp | C9 | advances yes eta 22172092m | exp=1263133930209967 expReq=3534862259109551 rate=6147534596.475718 saved=552 |
 | colosseum.check.collect-tickets | colosseum/tickets-banked | — | silent |  |
 | construction.check.build-next | construction/build-next | account | pass |  |
+| cooking.check.capped-meal | cooking/capped-meal | — | silent |  |
+| cooking.check.idle-kitchen | cooking/idle-kitchen | — | silent |  |
 | death-note.check.build | death-note/build | — | silent |  |
 | death-note.check.build-slot | death-note/build | — | silent |  |
 | death-note.contribution.skull-mush-g | death-note/skull | C10 | advances no | building=51 feeders=942 rate=603292699 rule=1 saved=148485650144 target=Green_Mushroom |
@@ -579,9 +652,13 @@ Can't read Bubba from this save
 | death-note.contribution.skull-mush-g | death-note/skull | C6 | advances no | building=51 feeders=942 rate=603292699 rule=1 saved=148485650144 target=Green_Mushroom |
 | death-note.contribution.skull-mush-g | death-note/skull | C8 | advances no | building=51 feeders=942 rate=603292699 rule=1 saved=148485650144 target=Green_Mushroom |
 | death-note.contribution.skull-mush-g | death-note/skull | C9 | advances no | building=51 feeders=942 rate=603292699 rule=1 saved=148485650144 target=Green_Mushroom |
+| elite-classes.check.eliteus | elite-classes/eliteus | — | silent |  |
 | gem-shop.check.printer-buy | gem-shop/unspent | — | silent |  |
 | gem-shop.check.printer-progress | gem-shop/unspent | — | silent |  |
 | gem-shop.check.unspent | gem-shop/unspent | account | fires | gems=4103 price=875 |
+| lab.check.first-upload | lab/uploads | — | silent |  |
+| lab.check.jewel-unlit | lab/jewel-unlit | — | silent |  |
+| lab.check.not-connected | lab/uploads | — | silent |  |
 | merit-shop.check.spend-w1 | merit-shop/unspent | — | silent |  |
 | merit-shop.check.spend-w2 | merit-shop/unspent | — | silent |  |
 | merit-shop.check.spend-w2-afk-gains | merit-shop/unspent | — | silent |  |
@@ -627,6 +704,11 @@ Can't read Bubba from this save
 | refinery.check.salt-fuel | refinery/salt-off | — | silent |  |
 | refinery.check.salt-off | refinery/salt-off | account | fires | offSalts=1 salt=Nullo_Salt |
 | refinery.check.unlock-next | refinery/unlock-next | — | silent |  |
+| rift.check.active-task | rift/task-kind | account | fires | afk=0 level=60 progress=0 quota=11 task=DEFEAT_ANY_MONSTER_HERE_ON_11_CHARS |
+| rift.check.afk-task | rift/task-kind | — | silent |  |
+| rift.check.class-gate | rift/class-gate | — | silent |  |
+| rift.check.quota-done | rift/quota-done | — | silent |  |
+| rift.check.unlock-quest | rift/unlock-quest | — | silent |  |
 | roles.contribution.mining | roles/skill | C7 | advances yes | rule=1 |
 | skills.contribution.door-mining | skills/door | C7 | advances no | destination= rule=0 saved=146 |
 | skills.contribution.tool-mining | skills/tool-chain | C7 | advances no | need=0 rule=0 saved=146 target=Godshard tool=Prehistoric_Pickaxe |
@@ -641,18 +723,19 @@ Can't read Bubba from this save
 | systems.yaml#atom-collider | worlds/reached | account | reached yes |  |
 | systems.yaml#ballot | worlds/reached | account | reached yes |  |
 | systems.yaml#boss-keys | worlds/reached | account | reached yes |  |
-| systems.yaml#breeding | worlds/reached | account | reached yes |  |
+| systems.yaml#breeding | systems/unlocked | account | reached yes |  |
 | systems.yaml#bribes | worlds/reached | account | reached yes |  |
 | systems.yaml#bubba | bubba/unlocked | account | reached yes |  |
 | systems.yaml#colosseum | worlds/reached | account | reached yes |  |
 | systems.yaml#construction | worlds/reached | account | reached yes |  |
-| systems.yaml#cooking | worlds/reached | account | reached yes |  |
+| systems.yaml#cooking | systems/unlocked | account | reached yes |  |
 | systems.yaml#death-note | worlds/reached | account | reached yes |  |
-| systems.yaml#equinox | worlds/reached | account | reached yes |  |
+| systems.yaml#elite-classes | worlds/reached | account | reached yes |  |
+| systems.yaml#equinox | systems/unlocked | account | reached yes |  |
 | systems.yaml#forge | worlds/reached | account | reached yes |  |
-| systems.yaml#islands | worlds/reached | account | reached yes |  |
+| systems.yaml#islands | systems/unlocked | account | reached yes |  |
 | systems.yaml#killroy | worlds/reached | account | reached yes |  |
-| systems.yaml#lab | worlds/reached | account | reached yes |  |
+| systems.yaml#lab | systems/unlocked | account | reached yes |  |
 | systems.yaml#library | worlds/reached | account | reached yes |  |
 | systems.yaml#owl | worlds/reached | account | reached yes |  |
 | systems.yaml#poppy | worlds/reached | account | reached yes |  |
@@ -661,15 +744,20 @@ Can't read Bubba from this save
 | systems.yaml#printer | worlds/reached | account | reached yes |  |
 | systems.yaml#quests | worlds/reached | account | reached yes |  |
 | systems.yaml#refinery | worlds/reached | account | reached yes |  |
+| systems.yaml#rift | systems/unlocked | account | reached yes |  |
 | systems.yaml#salt-lick | worlds/reached | account | reached yes |  |
 | systems.yaml#shrines | worlds/reached | account | reached yes |  |
+| systems.yaml#sigils | systems/unlocked | account | reached yes |  |
 | systems.yaml#stamps | worlds/reached | account | reached yes |  |
 | systems.yaml#star-signs | worlds/reached | account | reached yes |  |
 | systems.yaml#statues | worlds/reached | account | reached yes |  |
+| systems.yaml#tome | worlds/reached | account | reached yes |  |
 | systems.yaml#trapping | worlds/reached | account | reached yes |  |
 | systems.yaml#weekly-battles | worlds/reached | account | reached yes |  |
 | systems.yaml#worship | worlds/reached | account | reached yes |  |
 | task-unlocks.check.spend | task-unlocks/unspent | account | fires | points=294 |
+| tome.check.blue-pages | tome/blue-pages | — | silent |  |
+| tome.check.claim-nametags | tome/nametags | account | fires | available=7 |
 | trapping.check.finishes-early | trapping/finishes-early | C1 | fires | finishesIn=8156804 |
 | trapping.check.finishes-early | trapping/finishes-early | C10 | fires | finishesIn=15372232 |
 | trapping.check.finishes-early | trapping/finishes-early | C2 | fires | finishesIn=15370232 |

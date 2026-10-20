@@ -1,0 +1,2 @@
+if("Task"==d)return c.asNumber(a.engine.getGameAttribute("CustomLists").h.RiftStuff[4][c.asNumber(a.engine.getGameAttribute("Rift")[0])-100*Math.floor(c.asNumber(a.engine.getGameAttribute("Rift")[0])/100)|0]);if("HoopsRewardType"=if("RiftCompleted"==d)return c.asNumber(a.engine.getGameAttribute("Rift")[1])>=
+c.asNumber(a.engine.getGameAttribute("CustomLists").h.RiftStuff[5][m._customBlock_RiftStuff("Task",0)|0])?1:0;if("mobRespBase"==d)return 45;if("enabledStarSigns

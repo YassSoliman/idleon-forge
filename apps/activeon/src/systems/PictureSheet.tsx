@@ -7,6 +7,9 @@
 import { PAGE_WORDS } from '@idleon-forge/engine/now';
 import { FRAME_WORDS } from '@idleon-forge/engine/systems-ui';
 import { type ReactNode, useCallback, useState } from 'react';
+import { GameIcon } from '../art/game/GameIcon';
+import type { GameArt } from '../art/game/game-art';
+import { wikiHref, wikiLabel } from '../art/game/wiki';
 import { Sheet } from '../design/atoms';
 
 export interface SheetItem {
@@ -15,6 +18,10 @@ export interface SheetItem {
   rows: { label: string; value: string | null }[];
   /** One extra line (how to get it, the Spend Plan note). */
   note?: string | null;
+  /** M25: the thing's game sprite, drawn at the top of the sheet. */
+  art?: GameArt | null;
+  /** M25: the thing's display name when it has an IdleOn Wiki page of its own. */
+  wikiName?: string | null;
 }
 
 export function usePictureSheet(wiki: string | null): {
@@ -33,6 +40,11 @@ export function usePictureSheet(wiki: string | null): {
     >
       {item ? (
         <div className="sy-sheet">
+          {item.art ? (
+            <span className="sy-sheet__art">
+              <GameIcon art={item.art} size={64} decorative />
+            </span>
+          ) : null}
           {rows.length ? (
             <dl className="sy-sheet__rows">
               {rows.map((r) => (
@@ -44,6 +56,13 @@ export function usePictureSheet(wiki: string | null): {
             </dl>
           ) : null}
           {item.note ? <p>{item.note}</p> : null}
+          {item.wikiName && wikiHref(item.wikiName) ? (
+            <p className="sy-sheet__src">
+              <a href={wikiHref(item.wikiName) ?? ''} target="_blank" rel="noopener noreferrer">
+                {wikiLabel(item.wikiName)}
+              </a>
+            </p>
+          ) : null}
           {wiki ? (
             <p className="sy-sheet__src">
               <a href={wiki} target="_blank" rel="noopener noreferrer">

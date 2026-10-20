@@ -20,8 +20,9 @@ import {
   otherRole,
   type PresetRole,
   type ResolvedBuild,
+  type TabNo,
 } from './knowledge';
-import { lowerBounds } from './unspent';
+import { lowerBounds, type TabPoints, tabsCounted } from './unspent';
 
 /** Talent presets open at class Lv 15 (FR-1, FR-2). */
 export const PRESET_LEVEL = 15;
@@ -47,7 +48,7 @@ export interface PresetView {
   states: StepState[];
   next: StepState | null;
   /** Lower bounds against the other preset (null without one). */
-  lb: { byTab: Record<1 | 2 | 3, number>; total: number } | null;
+  lb: { byTab: TabPoints; total: number } | null;
 }
 
 export type NotCoveredReason = 'beyond' | 'journeyman' | 'beginner' | 'elite';
@@ -62,6 +63,8 @@ export interface CharacterAnalysis {
   /** Tab-4 or tab-5 points on either preset (FR-15 condition 5). */
   eliteSpend: boolean;
   walkCtx: WalkContext;
+  /** The class tabs the Builds count points on (1–3, plus 4 or 5 when a Build names them, M26). */
+  tabs: TabNo[];
 }
 
 export interface AccountAnalysis {
@@ -70,8 +73,14 @@ export interface AccountAnalysis {
   characters: Map<number, CharacterAnalysis>;
   /** Characters M9 says nothing about, and why (FR-21). */
   notCovered: Map<number, NotCoveredReason>;
-  /** Characters with an elite or master tab M9 doesn't cover (FR-21, "elite talent builds"). */
+  /** Characters with an elite or master tab no Build of theirs covers (FR-21, "elite talent builds"). */
   eliteTabs: number[];
+  /**
+   * M26: past World 4, the elite and master characters' analyses for the Build view only. M9's Goals
+   * stay silent there (FR-21: the W1-W4 point rules misread a World 6 account), but the page shows the
+   * character's own elite or master Build.
+   */
+  viewOnly: Map<number, CharacterAnalysis>;
   kb: BuildsKnowledge;
 }
 
@@ -128,15 +137,22 @@ function analyzeCharacter(
   state: AccountState,
   kb: BuildsKnowledge,
   stage: StageId | null,
+  beyond: boolean,
 ): CharacterAnalysis | NotCoveredReason | null {
   const t = c.talents;
   if (!t || !isKnown(state, `characters[${c.index}].talents`)) return null;
   const line = kb.lineOf(c.class);
   if (line === null) return kb.tierOf(c.class) === null ? null : 'journeyman';
   if (line === 'Beginner' && c.level >= PRESET_LEVEL) return 'beginner';
-  const builds = { fighting: kb.build(line, 'fighting'), skilling: kb.build(line, 'skilling') };
+  // M26: a Build for a world past the Stage model (a master class, W6) stays silent until the account is there.
+  const live = (b: ResolvedBuild | null) => (b && (b.stageHint === null || beyond) ? b : null);
+  const builds = {
+    fighting: live(kb.build(line, 'fighting')),
+    skilling: live(kb.build(line, 'skilling', c.afkType)),
+  };
   if (!builds.fighting && !builds.skilling) return null;
-  const walkCtx: WalkContext = { stage, bubbleCapped: kb.talents.bubbleCapped };
+  const walkCtx: WalkContext = { stage, bubbleCapped: kb.talents.bubbleCapped, beyond };
+  const tabs = tabsCounted([builds.fighting, builds.skilling]);
   const activeSlot = t.selectedPreset;
   const active = view(t.active, activeSlot, true, builds, walkCtx);
   const other =
@@ -144,8 +160,8 @@ function analyzeCharacter(
       ? view(t.other, activeSlot === 0 ? 1 : 0, false, builds, walkCtx)
       : null;
   if (other) {
-    active.lb = lowerBounds(active.talents, other.talents, kb.talents.tab2Granting);
-    other.lb = lowerBounds(other.talents, active.talents, kb.talents.tab2Granting);
+    active.lb = lowerBounds(active.talents, other.talents, kb.talents.tab2Granting, tabs);
+    other.lb = lowerBounds(other.talents, active.talents, kb.talents.tab2Granting, tabs);
     active.next = spendableNext(active);
     other.next = spendableNext(other);
   }
@@ -153,13 +169,23 @@ function analyzeCharacter(
   return {
     index: c.index,
     classLine: line,
-    neededRole: neededRoleOf(c.afkType),
+    // M26: an AFK Target a skilling Build serves (Cooking for a Blood Berserker) needs the skilling preset.
+    neededRole:
+      neededRoleOf(c.afkType) ??
+      (c.afkType !== null && builds.skilling?.entry.serves.includes(c.afkType as never) ? 'skilling' : null),
     builds,
     active,
     other,
     eliteSpend: elite(t.active) || elite(t.other),
     walkCtx,
+    tabs,
   };
+}
+
+/** M26: a class whose own Build is an elite or master one (the Builds that run past World 4). */
+export function lateBuild(kb: BuildsKnowledge, cls: string): boolean {
+  const tier = kb.tierOf(cls);
+  return (tier === 'elite' || tier === 'master') && kb.lineOf(cls) === cls;
 }
 
 const memo = new WeakMap<AccountState, WeakMap<FactLookup, AccountAnalysis>>();
@@ -177,20 +203,26 @@ export function analyzeAccount(state: AccountState, facts: FactLookup): AccountA
     characters: new Map(),
     notCovered: new Map(),
     eliteTabs: [],
+    viewOnly: new Map(),
     kb,
   };
   for (const c of state.characters) {
+    // Past World 4 no M9 Goal fires (FR-21); the Build view shows a character's own elite or master
+    // Build (M26: those run into World 5 and later), never the W1-W4 Builds, which stop at World 4.
     if (out.beyond) {
-      out.notCovered.set(c.index, 'beyond');
+      if (kb.tierOf(c.class) !== null) out.notCovered.set(c.index, 'beyond');
+      const a = lateBuild(kb, c.class) ? analyzeCharacter(c, state, kb, s.id, true) : null;
+      if (a !== null && typeof a !== 'string') out.viewOnly.set(c.index, a);
       continue;
     }
-    const a = analyzeCharacter(c, state, kb, s.id);
+    const a = analyzeCharacter(c, state, kb, s.id, false);
     if (a === null) continue;
     if (typeof a === 'string') out.notCovered.set(c.index, a);
     else {
       out.characters.set(c.index, a);
-      const tier = kb.tierOf(c.class);
-      if (tier === 'elite' || tier === 'master') out.eliteTabs.push(c.index);
+      // An elite or master tab is covered once one of the character's Builds names it (M26).
+      const own = (kb.talentTabsOf(c.class) ?? []).length;
+      if (own >= 4 && !a.tabs.includes(own as TabNo)) out.eliteTabs.push(c.index);
     }
   }
   if (!byFacts) {
@@ -227,7 +259,7 @@ export function attackBar(a: CharacterAnalysis, kb: BuildsKnowledge): AttackBar 
   const onBar = bar.filter((id) => kb.talents.isAttack(id));
   const levelled: number[] = [];
   for (const t of a.active.talents.tabs)
-    if (t.tab <= 3)
+    if (a.tabs.includes(t.tab))
       for (const x of t.talents)
         if (x.base >= 1 && kb.talents.isAttack(x.id) && !levelled.includes(x.id)) levelled.push(x.id);
   return { onBar, levelled, missing: levelled.filter((id) => !bar.includes(id)) };
@@ -295,7 +327,7 @@ export function sameRole(a: CharacterAnalysis): { role: PresetRole; build: Resol
 export function presetBehind(
   a: CharacterAnalysis,
   minPoints: number,
-): { preset: PresetView; tabs: (1 | 2 | 3)[]; firstSteps: StepState[] } | null {
+): { preset: PresetView; tabs: TabNo[]; firstSteps: StepState[] } | null {
   const candidates = [a.active, a.other].filter(
     (v): v is PresetView =>
       !!v && v.cls !== 'empty' && v.cls !== 'incomplete' && (v.lb?.total ?? 0) >= minPoints,
@@ -306,7 +338,7 @@ export function presetBehind(
   const p = candidates[0];
   if (!p?.lb) return null;
   const lb = p.lb;
-  const tabs = ([1, 2, 3] as const).filter((t) => lb.byTab[t] > 0);
+  const tabs = a.tabs.filter((t) => lb.byTab[t] > 0);
   // One step per tab with points waiting, the preset's next step first (the same rule as the Build view).
   const open = spendableStates(p);
   const lead = p.next?.tab;
