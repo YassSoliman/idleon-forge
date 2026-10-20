@@ -59,7 +59,8 @@ export default function StampsPage({ s, page }: FullPageProps) {
   const laterCount = pic.elements.filter((e) => e.status === 'later' || e.status === 'unknown').length;
   const base = frameAnswer(page);
   const answer: FrameAnswer =
-    nowCount > 0 && base.tone !== 'mut' && base.tone === 'gold'
+    // The big count is the stamps to collect now: only while the step's stamp is one of them.
+    nowCount > 0 && base.tone === 'gold' && next[0]?.status === 'now'
       ? {
           ...base,
           big: {

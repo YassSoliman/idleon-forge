@@ -39,8 +39,13 @@ export interface StampsPicture {
   owned: number;
   total: number;
   tabs: { tab: StampTab; owned: number; total: number }[];
-  /** FR-S4's "next three" ribbon: element ids, the lit one first. */
+  /** FR-S4's "next three" ribbon: element ids, the lit one first (the System page's: up to five, in step order). */
   next: string[];
+  /**
+   * Each stamps Goal's unowned stamps (element ids, the Goal's own order), by Next Action key. The
+   * System page reorders `lit` and `next` by its steps with it, so its answer and list agree.
+   */
+  byGoal?: Record<string, string[]>;
 }
 
 export interface StatueTile extends PictureElement {

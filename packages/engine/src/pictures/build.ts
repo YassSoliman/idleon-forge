@@ -68,13 +68,26 @@ const STATUS_RANK: Record<StampStatus, number> = {
   unknown: 4,
   owned: 5,
 };
-/** The stamps a stamps Goal is about, in its own order (M8's Checks, `collections/stamps.ts`). */
+/**
+ * The stamps a stamps Goal is about, in its own order (M8's Checks, `collections/stamps.ts`). A
+ * character's Goal names only that character's stamps (its quest, its drop, what it carries), so the
+ * page's step and its "Next stamps" row point at the same stamp (final QA P2).
+ */
 function stampsOfGoal(g: Goal, ev: StampsEval): string[] {
   const id = g.id;
+  const who = g.nextAction.key.match(/@c(\d+)$/);
+  const index = who ? Number(who[1]) : null;
+  const mine = (c: number | null) => index === null || c === index;
+  const quests = (os: StampsEval['toward']) =>
+    os.filter((o) => mine(o.character)).flatMap((o) => o.stamps.map((s) => s.rawName));
   if (id === 'stamps.check.shop-now') return ev.shopNow.map((s) => s.rawName);
-  if (id === 'stamps.check.held-now') return ev.held.map((s) => s.rawName);
-  if (id === 'stamps.check.handin-now') return ev.handins.flatMap((h) => h.stamps.map((s) => s.rawName));
-  if (id === 'stamps.check.quest-toward') return ev.toward.flatMap((h) => h.stamps.map((s) => s.rawName));
+  if (id === 'stamps.check.held-now')
+    return ev.held.filter((h) => h.character === index).map((s) => s.rawName);
+  if (id === 'stamps.check.handin-now') return quests(ev.handins);
+  if (id === 'stamps.check.quest-toward')
+    return index === null
+      ? ev.soldOut.map((b) => b.rawName)
+      : [...quests(ev.toward), ...ev.drops.filter((d) => d.character === index).map((d) => d.rawName)];
   if (id.startsWith('stamps.check.activeplay-'))
     return ev.active.flatMap((h) => h.stamps.map((s) => s.rawName));
   if (id === 'stamps.goal.collect') return ev.items.filter((s) => s.status === 'now').map((s) => s.rawName);
@@ -117,6 +130,13 @@ export function stampsPicture(state: AccountState, kb: Kb, prior: EngineResult):
   for (const g of goalsInOrder(prior))
     if (g.system === 'stamps')
       for (const r of stampsOfGoal(g, ev)) if (!keyOf.has(r)) keyOf.set(r, g.nextAction.key);
+  // Each stamps Goal's unowned stamps, in its own order: the page orders "Next stamps" by its steps.
+  const byGoal: Record<string, string[]> = {};
+  for (const g of goalsInOrder(prior))
+    if (g.system === 'stamps')
+      byGoal[g.nextAction.key] = stampsOfGoal(g, ev)
+        .filter((r) => levels[r] && !(levels[r].level > 0 || levels[r].maxLevel > 0))
+        .map((r) => `stamp-${r}`);
   const byRaw = new Map<string, StampAcquisition>(ev.items.map((s) => [s.rawName, s]));
   litRaw ??= ev.items.find((s) => s.status === 'now')?.rawName ?? null;
   const elements: StampTile[] = ev.items.map((s) => {
@@ -159,6 +179,7 @@ export function stampsPicture(state: AccountState, kb: Kb, prior: EngineResult):
       return { tab, owned: xs.filter((t) => t.status === 'owned').length, total: xs.length };
     }),
     next,
+    byGoal,
   };
 }
 
