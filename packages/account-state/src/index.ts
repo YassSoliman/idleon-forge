@@ -232,6 +232,8 @@ export type {
   TalentPoints,
 } from './talent-types';
 export { ATTACK_BAR_ROWS, attackBarOf, PRESET_LEVEL } from './talents';
+export { readTome } from './tome';
+export type { TomeAccountFields, TomeMetric, TomeState, TomeTier } from './tome-types';
 export type {
   AccountState,
   AccountSummary,
