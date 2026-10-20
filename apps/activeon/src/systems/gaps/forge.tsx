@@ -56,8 +56,6 @@ export const FORGE_WORDS = {
 } as const;
 const W = FORGE_WORDS;
 
-const human = (s: string) => s.replace(/_/g, ' ');
-
 /** Seconds still to run now, from the save's figure and the time since the save. */
 const leftNow = (p: SystemPageBodyProps, s: number) => Math.max(0, s - (p.s.now - p.s.state.asOf) / 1000);
 
