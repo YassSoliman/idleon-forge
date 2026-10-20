@@ -377,6 +377,7 @@ export function GearTab({ view, index }: CharacterTabProps) {
   );
   const count = (k: Kind) => armour.filter((v) => kindOf(v) === k).length;
   const litView = g.lit ? byId(g.lit) : null;
+  const needsWork = count('empty') + count('replace') > 0;
   const tile = (slot: SlotId) => {
     const v = byId(slot);
     const look = looks.get(slot);
@@ -408,7 +409,15 @@ export function GearTab({ view, index }: CharacterTabProps) {
           action={<GoalLink actionKey={litView?.actionKey ?? null} />}
         />
       ) : (
-        <Answer tone="ok" icon="status-check" cap="Gear" title={upper(g.status)} sub={g.note} />
+        // No lit step (e.g. past the Gear Plan's worlds), yet slots can still be behind or empty: the
+        // tone follows them, so "Ring 49 levels behind" never wears the green check (final QA P2).
+        <Answer
+          tone={needsWork ? 'gold' : 'ok'}
+          icon={needsWork ? 'status-warning' : 'status-check'}
+          cap="Gear"
+          title={upper(g.status)}
+          sub={g.note}
+        />
       )}
 
       <ul className="tb-list tb-legend" aria-label="Slots by state">

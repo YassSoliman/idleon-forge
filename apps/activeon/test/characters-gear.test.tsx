@@ -93,3 +93,45 @@ describe('the Gear tab', () => {
     );
   });
 });
+
+describe('the Gear answer without a lit step (final QA P2)', () => {
+  const withoutStep = (slotsBehind: boolean): EngineResult => {
+    const i = bowman();
+    const gear = result.gear;
+    if (!gear) throw new Error('expected gear');
+    return {
+      ...result,
+      gear: {
+        ...gear,
+        characters: gear.characters.map((c) =>
+          c.index !== i
+            ? c
+            : {
+                ...c,
+                lit: null,
+                step: null,
+                why: null,
+                status: slotsBehind ? 'Ring 49 levels behind' : 'ok',
+                slots: c.slots.map((s) =>
+                  slotsBehind || s.state === 'm20' ? s : { ...s, state: 'ok' as const, actionKey: null },
+                ),
+              },
+        ),
+      },
+    };
+  };
+
+  it('is gold with a warning while slots still need replacing', () => {
+    window.history.replaceState(null, '', `/#gear-${bowman()}`);
+    renderNow(props(withoutStep(true), save()));
+    const answer = screen.getByRole('region', { name: 'Gear' });
+    expect(answer.getAttribute('data-tone')).toBe('gold');
+    expect(within(answer).getByText(/49 levels behind/)).toBeTruthy();
+  });
+
+  it('is green with a check when every slot is OK', () => {
+    window.history.replaceState(null, '', `/#gear-${bowman()}`);
+    renderNow(props(withoutStep(false), save()));
+    expect(screen.getByRole('region', { name: 'Gear' }).getAttribute('data-tone')).toBe('ok');
+  });
+});
