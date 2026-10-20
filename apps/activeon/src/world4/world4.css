@@ -809,6 +809,11 @@
     align-items: flex-start;
     padding: var(--space-3);
   }
+  /* The words sit beside the number (a zero basis, so they never wrap under it); the progress line
+     below starts where the words start. */
+  .w4-step > .w4-row__main {
+    flex: 1 1 0;
+  }
   .w4-step__end {
     width: auto;
     flex-basis: 100%;

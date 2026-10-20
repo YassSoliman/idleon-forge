@@ -274,6 +274,15 @@
   .sf-split {
     grid-template-columns: minmax(0, 1fr) var(--sf-side, 340px);
   }
+  /* A thin page with nothing in its main column: the checks tile sits under the answer, not across an
+     empty column. */
+  .sf-split:has(> .sf-col:empty) {
+    grid-template-columns: minmax(0, var(--sf-side, 340px));
+  }
+}
+/* An empty main column takes no row (and no gap) above the checks tile. */
+.sf-split > .sf-col:empty {
+  display: none;
 }
 .sf-col {
   display: grid;
