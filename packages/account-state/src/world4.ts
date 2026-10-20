@@ -260,6 +260,10 @@ function readBreeding(input: World4Inputs): BreedingState {
     const name = str(t.territoryName);
     if (name === null) return [];
     const foraging = str(list(territoryRaw[index])[3]);
+    // A team forages it: Toolbox's team (raw Pets rows 27+, 4 per territory) has a Mob, or its speed is
+    // above 0. Raw Territory[i][3] alone reads "Blank" on foraged territories (M26 Wave 1 fix).
+    const team = list(t.team).filter((m) => isDict(m) && str(m.name) !== null && m.name !== 'none');
+    const foragedByTeam = team.length > 0 || num(t.forageSpeed) > 0;
     const found = num(spicesHeld[index], -1) >= 0;
     return [
       {
@@ -267,7 +271,7 @@ function readBreeding(input: World4Inputs): BreedingState {
         name,
         battle: str(t.battleName) ?? '',
         enemyHp: list(t.enemies).reduce<number>((s, e) => s + (isDict(e) ? num(e.health) : 0), 0),
-        status: foraging !== null && foraging !== 'Blank' ? 'foraging' : found ? 'won' : 'not-won',
+        status: foragedByTeam || (foraging !== null && foraging !== 'Blank') ? 'foraging' : found ? 'won' : 'not-won',
       },
     ];
   });

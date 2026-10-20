@@ -143,7 +143,7 @@ export interface Territory {
   /** Total enemy HP in the battle. */
   enemyHp: number;
   /**
-   * `foraging`: a team brings its spice in (raw `Territory[i][3]` names the spice); `won`: its spice was
+   * `foraging`: a team brings its spice in (Toolbox's team has a Mob, M26 Wave 1); `won`: its spice was
    * found (raw `Meals[3][i] >= 0`) but nothing forages there now; `not-won` otherwise.
    */
   status: TerritoryStatus;
