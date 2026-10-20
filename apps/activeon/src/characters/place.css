@@ -366,6 +366,13 @@
   }
 }
 @media (max-width: 899.98px) {
+  /* Final QA P3: on a phone the desktop's 64 px between sections left a hole under the legend. */
+  .characters-place {
+    gap: var(--space-8);
+  }
+  .characters-place .cp-head + .cp-grid-wrap {
+    margin-top: calc(var(--space-4) - var(--space-8));
+  }
   .characters-place .cp-grid,
   .characters-place .cp-grid tbody {
     display: grid;
