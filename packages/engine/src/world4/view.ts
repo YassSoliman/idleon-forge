@@ -610,22 +610,14 @@ export function buildBreedingPage(br: BreedingState, ck: CookingState | null): B
         link: null,
       };
   const capUpgrade = br.upgrades.find((u) => u.name.startsWith('Egg_Capacity'));
-  const nest = [
-    ...Array.from({ length: br.eggCapacity }, (_, i) => ({
-      key: `egg${i}`,
-      state: i < br.eggs ? ('egg' as const) : ('empty' as const),
-      label: i < br.eggs ? `egg ${i + 1}` : 'empty',
-    })),
-    ...(capUpgrade && capUpgrade.level < capUpgrade.maxLevel
-      ? [
-          {
-            key: 'cap',
-            state: 'locked' as const,
-            label: `Egg Capacity +${capUpgrade.maxLevel - capUpgrade.level}`,
-          },
-        ]
-      : []),
-  ];
+  // Only the slots the nest has: a locked "Egg Capacity +5" tile beside "of 3 eggs" read as a 4th slot
+  // (final QA P3). The room left to grow is said in the nest line instead.
+  const nest = Array.from({ length: br.eggCapacity }, (_, i) => ({
+    key: `egg${i}`,
+    state: i < br.eggs ? ('egg' as const) : ('empty' as const),
+    label: i < br.eggs ? `egg ${i + 1}` : 'empty',
+  }));
+  const capLeft = capUpgrade ? Math.max(0, capUpgrade.maxLevel - capUpgrade.level) : 0;
   const won = br.territories.filter((t) => t.status !== 'not-won');
   const firstNotWon = br.territories.findIndex((t) => t.status === 'not-won');
   const shownTo = Math.max(6, (firstNotWon < 0 ? br.territories.length : firstNotWon) + 3);
@@ -698,7 +690,7 @@ export function buildBreedingPage(br: BreedingState, ck: CookingState | null): B
       { id: 'upgrades', label: 'Upgrades', badge: null },
     ],
     nest,
-    nestLine: `1 egg every 2 hours · ${plural(br.speciesBred, 'Mob species', 'Mob species')} bred · ${num(br.deadDna)} Dead DNA`,
+    nestLine: `1 egg every 2 hours · ${plural(br.speciesBred, 'Mob species', 'Mob species')} bred · ${num(br.deadDna)} Dead DNA${capLeft > 0 ? ` · Egg Capacity: ${capLeft} more ${capLeft === 1 ? 'level' : 'levels'} to buy` : ''}`,
     nestNote:
       "Hatch every egg, keep the best Mob of each kind, and trash the rest: each trashed Mob gives 3 to 5 Dead DNA, which pays for upgrades. A Mob's power comes mostly from your Breeding level, so old Mobs get trashed as you level.",
     loopNote:

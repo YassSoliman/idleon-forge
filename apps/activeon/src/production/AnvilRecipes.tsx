@@ -2,7 +2,7 @@
 // Copyright (C) 2026 IdleOn Forge contributors.
 // M26 F-C FR-C3 (board m26/AnvilRecipes.dc.html, Recipes in Daylight): the Anvil page's Recipes tab.
 // A strip of anvil tabs (owned, locked, later), a filter (Wanted, the default: a Gear Plan target or a
-// craft-next piece of any character; Craftable now; All), the open tab's counts, and one card per recipe:
+// craft-next piece of any character; Unlocked: tab, recipe and Smithing met; All), the open tab's counts, and one card per recipe:
 // its sprite, name, "#6 on tab 3 · Smithing 39 (wiki)", its state, its materials as "held of need" and
 // who wants it. The next tab's card sits beside it and opens the Walkthrough. Reads only (M17): the
 // engine words everything (EngineResult.production).
@@ -17,7 +17,7 @@ import './production.css';
 type Filter = 'wanted' | 'craftable' | 'all';
 const FILTERS: Array<{ id: Filter; label: string }> = [
   { id: 'wanted', label: 'Wanted' },
-  { id: 'craftable', label: 'Craftable now' },
+  { id: 'craftable', label: 'Unlocked' },
   { id: 'all', label: 'All' },
 ];
 const STATE_WORD: Record<RecipeView['state'], string> = {
@@ -121,7 +121,7 @@ export function AnvilRecipes({
           <p className="sf-note">
             {filter === 'wanted'
               ? 'No character wants a recipe on this tab right now. Show all to browse it.'
-              : 'Nothing here can be crafted right now.'}
+              : 'Nothing on this tab is unlocked to craft yet.'}
           </p>
         ) : (
           <ul className="ar-grid">
@@ -167,9 +167,12 @@ function RecipeCard({
     const c = rows.find((x) => x.index === i);
     return c ? `${c.classLabel} Lv ${c.level}` : `Character ${i + 1}`;
   };
+  // "craft now" only when every material is held (or worn by a character who wants it); a craft-next
+  // piece still short of materials reads "unlocked": tab owned, recipe open, Smithing met (final QA P3).
+  const matsHeld = r.materials.every(([m, need]) => (held[m] ?? 0) >= need || worn.has(m));
   const chip =
     (r.craftNext?.length ?? 0) > 0 && r.craftable
-      ? { text: 'craft now', tone: 'gold' }
+      ? { text: matsHeld ? 'craft now' : 'unlocked', tone: 'gold' }
       : {
           text: STATE_WORD[r.state],
           tone: r.state === 'crafted' ? 'ok' : r.state === 'locked' ? 'mut' : 'plain',
