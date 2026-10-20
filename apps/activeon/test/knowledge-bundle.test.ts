@@ -61,7 +61,7 @@ describe('the shipped Knowledge Base', () => {
     if (!res.ok || !res.result || 'error' in res.result) throw new Error('no engine result');
     expect(res.result.versions.knowledge).toBe(shippedKnowledge().kb?.version.display);
     const gaps = res.result.notCovered.map((n) => n.systemId);
-    expect(gaps).toContain('owl');
+    expect(gaps).toContain('achievements');
     expect(gaps).not.toContain('metapath');
   });
 

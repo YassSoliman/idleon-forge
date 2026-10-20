@@ -31,7 +31,6 @@ const PENDING: Readonly<Record<string, number | null>> = {
   classes: 2,
   bribes: 4,
   'post-office': 4,
-  owl: 4,
   'boss-keys': 4,
   'death-note': 4,
   'salt-lick': 4,
