@@ -1,4 +1,4 @@
-# golden v1: latest · knowledge #a52cf9dd · parser 6c37e3d (game 2.3.540) · now 2026-10-10T19:12:32.605Z · return 8h · stage W4-late · stale: 4 of 1064
+# golden v1: latest · knowledge #dada5ab9 · parser 6c37e3d (game 2.3.540) · now 2026-10-10T19:12:32.605Z · return 8h · stage W4-late · stale: 4 of 1070
 
 ## Verdict changes
 
@@ -52,7 +52,7 @@ Fix before you leave
 - Extra · Today's Random Event: Random Event now on Poopy Sewers (Mega Grumblo): one a day [IdleOn Wiki: Random Events · Calculated by IdleOn Toolbox · 2.3.540]
 - Spend · Play a round of Darts: Play one round of Darts [IdleOn Wiki: Minigames, Throwy Darts · Calculated by IdleOn Toolbox · 2.3.540]
 - Spend · Play a round of Hoops: Play one round of Hoops [IdleOn Wiki: Minigames, Swishy Hoops · Calculated by IdleOn Toolbox · 2.3.540]
-show more (23)
+show more (25)
 If you have time
 - Run Killroy's Warrior room on your Royal Guardian Lv 1307 (YumYum Grotto) · about 2m of hands-on play
 - Run Killroy's Archer room on your Siege Breaker Lv 1291 (YumYum Grotto) · about 2m of hands-on play
@@ -75,7 +75,6 @@ Trophies and nametags
 Bribes
 Quests
 Statues
-The Owl
 Islands
 Atom Collider
 Equinox
@@ -123,7 +122,7 @@ W1 · Forge · Nothing to fix · Nothing to fix · 1 to do
 W1 · Bribes · Not covered yet · Not covered yet
 W1 · Statues · Not covered yet · Not covered yet
 W1 · Post Office · Nothing to fix · Nothing to fix · 2 to do
-W1 · The Owl · Not covered yet · Not covered yet
+W1 · The Owl · Nothing to fix · Nothing to fix · 2 to do
 W1 · Quests · Not covered yet · Not covered yet
 W1 · Boss keys · Nothing to fix · Nothing to fix
 W1 · Colosseum · Nothing to fix · Nothing to fix
@@ -664,6 +663,12 @@ Gifts: Slabcakes, Surprise Box
 | minigames.check.hoops-play | minigames/cooldown-play | account | fires |  |
 | minigames.check.hoops-spend | minigames/cooldown-spend | account | fires | points=12 |
 | minigames.check.spiketrap | minigames/spiketrap | account | pass |  |
+| owl.check.bonuses | owl/state | — | silent |  |
+| owl.check.mega-reset | owl/state | — | silent |  |
+| owl.check.restart | owl/state | account | fires | delta=588 feathers=2.8043855178931773e+24 first=1 level=16 next=9 per=5 st3=1 |
+| owl.check.start | owl/state | — | silent |  |
+| owl.goal.drop-rate | owl/progress | account | value 15 | drop=294 nextDrop=17 |
+| owl.goal.megafeathers | owl/progress | account | value 40 | multi=147 |
 | pets.check.free-pull | pets/free-pull | account | fires | claimable=14979571 hoursClaimable=4 |
 | pets.check.mart-gems | pets/mart-gems | account | fires | shopDay=234 |
 | poppy.check.open | poppy/pending-fish | account | fires |  |

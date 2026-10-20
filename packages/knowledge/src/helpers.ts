@@ -58,6 +58,7 @@ export * from './bubba-detectors';
 export * from './gaps-detectors';
 export * from './purpose-detectors';
 export * from './rift-detectors';
+export * from './w1-detectors';
 export * from './w4-detectors';
 
 /** A value at a dot path ("account.lab.characters", "account.killroy.doneCode"); undefined when absent. */

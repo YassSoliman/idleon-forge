@@ -1,4 +1,4 @@
-# golden v1: multikill-pin · knowledge #a52cf9dd · parser 6c37e3d (game 2.3.540) · now 2026-08-26T17:27:35.771Z · return 8h · stage W4-late · stale: 4 of 1064
+# golden v1: multikill-pin · knowledge #dada5ab9 · parser 6c37e3d (game 2.3.540) · now 2026-08-26T17:27:35.771Z · return 8h · stage W4-late · stale: 4 of 1070
 
 ## Verdict changes
 
@@ -68,7 +68,7 @@ finding: Worship full on 10 · spend
 - Spend · Fill today's Post Office orders: Fill today's Post Office orders from storage [IdleOn Wiki: Post Office, orders · Calculated by IdleOn Toolbox · 2.3.540]
 - Extra · Collect your Forge bars: Collect 16 bars from the Forge [IdleOn Wiki: Smithing, The Forge · Calculated by IdleOn Toolbox · 2.3.540]
   · Most of them are Lustre Bar.
-show more (20)
+show more (22)
 If you have time
 - Run Killroy's Warrior room on your Royal Guardian Lv 1307 (YumYum Grotto) · about 2m of hands-on play
 - Run Killroy's Archer room on your Siege Breaker Lv 1291 (YumYum Grotto) · about 2m of hands-on play
@@ -91,7 +91,6 @@ Trophies and nametags
 Bribes
 Quests
 Statues
-The Owl
 Islands
 Atom Collider
 Equinox
@@ -139,7 +138,7 @@ W1 · Forge · Nothing to fix · Nothing to fix · 2 to do
 W1 · Bribes · Not covered yet · Not covered yet
 W1 · Statues · Not covered yet · Not covered yet
 W1 · Post Office · Nothing to fix · Nothing to fix · 2 to do
-W1 · The Owl · Not covered yet · Not covered yet
+W1 · The Owl · Nothing to fix · Nothing to fix · 2 to do
 W1 · Quests · Not covered yet · Not covered yet
 W1 · Boss keys · Nothing to fix · Nothing to fix
 W1 · Colosseum · Nothing to fix · Nothing to fix
@@ -680,6 +679,12 @@ Gifts: Slabcakes, Surprise Box
 | minigames.check.hoops-play | minigames/cooldown-play | account | fires |  |
 | minigames.check.hoops-spend | minigames/cooldown-spend | account | fires | points=12 |
 | minigames.check.spiketrap | minigames/spiketrap | account | pass |  |
+| owl.check.bonuses | owl/state | — | silent |  |
+| owl.check.mega-reset | owl/state | — | silent |  |
+| owl.check.restart | owl/state | account | fires | delta=588 feathers=2.294766810169595e+24 first=1 level=16 next=9 per=5 st3=1 |
+| owl.check.start | owl/state | — | silent |  |
+| owl.goal.drop-rate | owl/progress | account | value 15 | drop=294 nextDrop=17 |
+| owl.goal.megafeathers | owl/progress | account | value 40 | multi=147 |
 | pets.check.free-pull | pets/free-pull | account | pass |  |
 | pets.check.mart-gems | pets/mart-gems | account | fires | shopDay=189 |
 | poppy.check.open | poppy/pending-fish | account | fires |  |

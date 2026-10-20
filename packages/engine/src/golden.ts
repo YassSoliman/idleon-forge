@@ -38,6 +38,7 @@ import { createM20Modules } from './slots';
 import { createSpendModule } from './spend';
 import { createStarSignsModule } from './starsigns';
 import { createUnspentModule } from './unspent';
+import { createLadderGoalsModule } from './w1';
 import { createWalkthroughModule } from './walkthrough';
 import { createWorld4Module } from './world4/module';
 
@@ -122,6 +123,12 @@ export function goldenModules(input: GoldenInput): readonly EngineModule[] {
         const stage = detectStage(s, facts);
         return stage.id ? { id: stage.id } : null;
       },
+    }),
+    // M26 Wave 4: the World 1 core Systems' ladder Goals.
+    createLadderGoalsModule({
+      kb,
+      registry: input.registries.knowledge,
+      stage: (s) => detectStage(s, facts),
     }),
     createBuildsModule({ kb }),
     createCollectionsModule({ kb, registry: input.registries.engine }),
