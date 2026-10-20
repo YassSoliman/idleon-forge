@@ -1,4 +1,4 @@
-# golden v1: speedrun-rank1 · knowledge #3025eb3d · parser 6c37e3d (game 2.3.540) · now 2026-08-11T19:59:46.196Z · return 8h · stage W4-late · stale: 4 of 1051
+# golden v1: speedrun-rank1 · knowledge #21c8ade4 · parser 6c37e3d (game 2.3.540) · now 2026-08-11T19:59:46.196Z · return 8h · stage W4-late · stale: 4 of 1053
 
 ## Verdict changes
 
@@ -84,7 +84,6 @@ Breeding
 Cooking
 Laboratory
 Sigils
-The Tome
 
 ## Systems
 W0 · Classes and subclasses · Nothing to fix · Nothing to fix
@@ -158,7 +157,7 @@ W4 · Cooking · Not covered yet · Not covered yet
 W4 · Breeding · Not covered yet · Not covered yet
 W4 · Sigils · Not covered yet · Not covered yet
 W4 · The Rift · Nothing to fix · Nothing to fix · 1 to do
-W4 · The Tome · Not covered yet · Not covered yet
+W4 · The Tome · Nothing to fix · Nothing to fix
 W4 · Elite classes · Nothing to fix · Nothing to fix
 Worlds 5–7: not covered yet
 Needs you: Companions and pets (wasting), Minigames (wasting), Refinery (wasting), Trapping (wasting)
@@ -743,6 +742,8 @@ Gifts: Beeg Slice, Slabcakes
 | systems.yaml#weekly-battles | worlds/reached | account | reached yes |  |
 | systems.yaml#worship | worlds/reached | account | reached yes |  |
 | task-unlocks.check.spend | task-unlocks/unspent | — | silent |  |
+| tome.check.blue-pages | tome/blue-pages | — | silent |  |
+| tome.check.claim-nametags | tome/nametags | — | silent |  |
 | trapping.check.finishes-early | trapping/finishes-early | C1 | pass |  |
 | trapping.check.finishes-early | trapping/finishes-early | C10 | pass |  |
 | trapping.check.finishes-early | trapping/finishes-early | C2 | pass |  |

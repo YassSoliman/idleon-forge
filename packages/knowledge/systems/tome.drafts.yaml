@@ -3,42 +3,6 @@
 # Drafts: validated, never compiled until their wave promotes them (FR-1). Never edit by hand: fix the draft or the script and re-run.
 system: tome
 entries:
-  - id: tome.check.blue-pages
-    system: tome
-    type: check
-    title: Buy the Blue Tome Pages
-    subject: account
-    effect: next-action
-    category: compounding
-    effortSeconds: 120
-    text: Buy 2 Blue Tome Pages in the W4 town shop and drop them on the Tome
-    why: Blue pages are a one-time buy that adds Skill Efficiency from your Tome score above 4,000 PTS ({eff:pct} at your score now).
-    values:
-      early: Blue Tome Pages pay Skill Efficiency once your Tome passes 4,000 PTS ({left:int} to go); buy them when you can.
-    detector:
-      id: tome/blue-pages
-    doneWhen:
-      field: account.tome.pages.blue
-      change: changed
-    appliesTo:
-      stages:
-        - from: W4-entry
-          to: W4-late
-    confidence: M
-    status: draft
-    notes: "Dossier M7, Common mistakes. Formula and the accountOptions[196] flag are H (tier 1); the shop location and stack of 2 are wiki-level (M), hence M. kb-convert: category unlock -> compounding; doneWhen.change becomes-true -> changed"
-    sources:
-      - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-4/tome.ts#L230
-        title: "Toolbox getTomeBonus index 1: Skill Efficiency if accountOptions[196] === 1"
-        tier: 1
-        verified: 2026-10-19
-        gameVersion: 2.3.540
-      - url: https://idleon.wiki/wiki/Tome
-        title: "IdleOn Wiki: Tome"
-        tier: 2
-        claimDate: 2026-10-12
-        verified: 2026-10-19
-        gameVersion: 2.3.540
   - id: tome.check.red-pages
     system: tome
     type: check
@@ -64,40 +28,6 @@ entries:
     sources:
       - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-4/tome.ts#L232
         title: "Toolbox getTomeBonus index 2: Drop Rate if accountOptions[197] === 1"
-        tier: 1
-        verified: 2026-10-19
-        gameVersion: 2.3.540
-      - url: https://idleon.wiki/wiki/Tome
-        title: "IdleOn Wiki: Tome"
-        tier: 2
-        claimDate: 2026-10-12
-        verified: 2026-10-19
-        gameVersion: 2.3.540
-  - id: tome.check.claim-nametags
-    system: tome
-    type: check
-    title: Claim your Tome nametags
-    subject: account
-    effect: next-action
-    category: spendable
-    effortSeconds: 60
-    text: "Claim {available:int} Tome nametag{available:s} at the Tome (rank: {rank})"
-    why: Your Tome score is in the {rank} this month; each tier reached gives one nametag, and the claim count resets monthly.
-    detector:
-      id: tome/nametags
-    doneWhen:
-      field: account.tome.nametags.available
-      change: lower
-    appliesTo:
-      stages:
-        - from: W4-entry
-          to: W4-late
-    confidence: H
-    status: draft
-    notes: "Dossier M12 (tier 1, H): available = max(0, top+1 - claimedThisMonth), month = floor(GlobalTime/2,628,000) vs accountOptions[448]; gated by serverVars.TomeOn === 1. Ranks 60-95% (tops 7-11) give no nametag."
-    sources:
-      - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-4/tome.ts#L144
-        title: "Toolbox nametagClaim: TomeOn, claimed, month stamp, available"
         tier: 1
         verified: 2026-10-19
         gameVersion: 2.3.540

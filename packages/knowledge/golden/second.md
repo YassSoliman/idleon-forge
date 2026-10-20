@@ -1,4 +1,4 @@
-# golden v1: second · knowledge #3025eb3d · parser 6c37e3d (game 2.3.540) · now 2024-06-08T06:05:26.262Z · return 8h · stage W4-late · stale: 4 of 1051
+# golden v1: second · knowledge #21c8ade4 · parser 6c37e3d (game 2.3.540) · now 2024-06-08T06:05:26.262Z · return 8h · stage W4-late · stale: 4 of 1053
 
 ## Verdict changes
 
@@ -58,7 +58,7 @@ purpose: Death Note: Penguin kills ~38M → 100M · about 8h
   · Wizard Lv 501: Witch Hat from the Elemental Sorcerer Lv 525's bag
 - Extra · Gems unspent: 4,645 gems unspent [IdleOn Wiki: Gem Shop]
   sources disagree: Infinity Hammer first: the universal first buy. | Extra Card Slots and the Crystal 3D Printer first; the hammer is no longer necessary.
-show more (6)
+show more (7)
 
 ## Not covered yet
 Achievements
@@ -88,7 +88,6 @@ Breeding
 Cooking
 Laboratory
 Sigils
-The Tome
 
 ## Systems
 W0 · Classes and subclasses · Nothing to fix · Nothing to fix
@@ -162,7 +161,7 @@ W4 · Cooking · Not covered yet · Not covered yet
 W4 · Breeding · Not covered yet · Not covered yet
 W4 · Sigils · Not covered yet · Not covered yet
 W4 · The Rift · Nothing to fix · Nothing to fix
-W4 · The Tome · Not covered yet · Not covered yet
+W4 · The Tome · Nothing to fix · Nothing to fix · 1 to do
 W4 · Elite classes · Nothing to fix · Nothing to fix · 3 to do
 Worlds 5–7: not covered yet
 Needs you: Minigames (wasting)
@@ -702,6 +701,8 @@ Can't read Bubba from this save
 | systems.yaml#weekly-battles | worlds/reached | account | reached yes |  |
 | systems.yaml#worship | worlds/reached | account | reached yes |  |
 | task-unlocks.check.spend | task-unlocks/unspent | account | fires | points=644 |
+| tome.check.blue-pages | tome/blue-pages | — | silent |  |
+| tome.check.claim-nametags | tome/nametags | account | fires | available=4 |
 | trapping.check.finishes-early | trapping/finishes-early | C1 | fires | finishesIn=8071068 |
 | trapping.check.finishes-early | trapping/finishes-early | C10 | fires | finishesIn=8079068 |
 | trapping.check.finishes-early | trapping/finishes-early | C2 | fires | finishesIn=8079068 |

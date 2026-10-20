@@ -6,6 +6,8 @@
     "rift.check.afk-task",
     "rift.check.active-task",
     "rift.check.quota-done",
-    "elite-classes.check.eliteus"
+    "elite-classes.check.eliteus",
+    "tome.check.blue-pages",
+    "tome.check.claim-nametags"
   ]
 }

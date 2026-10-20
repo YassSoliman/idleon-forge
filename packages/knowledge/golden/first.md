@@ -1,4 +1,4 @@
-# golden v1: first · knowledge #3025eb3d · parser 6c37e3d (game 2.3.540) · now 2024-06-07T21:16:34.518Z · return 8h · stage W4-entry · stale: 4 of 1051
+# golden v1: first · knowledge #21c8ade4 · parser 6c37e3d (game 2.3.540) · now 2024-06-07T21:16:34.518Z · return 8h · stage W4-entry · stale: 4 of 1053
 
 ## Verdict changes
 
@@ -98,7 +98,6 @@ Breeding
 Cooking
 Laboratory
 Sigils
-The Tome
 
 ## Systems
 W0 · Classes and subclasses · Nothing to fix · Nothing to fix
@@ -172,7 +171,7 @@ W4 · Cooking · Not covered yet · Not covered yet
 W4 · Breeding · Not covered yet · Not covered yet
 W4 · Sigils · Not covered yet · Not covered yet
 W4 · The Rift · Locked · Opens once a character finishes the Rift Ripper quest in The Untraveled Octopath (World 4) · 1 to do
-W4 · The Tome · Not covered yet · Not covered yet
+W4 · The Tome · Nothing to fix · Nothing to fix
 W4 · Elite classes · Nothing to fix · Nothing to fix
 Needs you: Minigames (wasting), Colosseum (wasting), Refinery (wasting), Anvil (behind)
 Other gaps: Stamp cap raises that need farming or carry capacity, W4+ constellations and Infinite Stars
@@ -621,6 +620,8 @@ Can't read Bubba from this save
 | systems.yaml#weekly-battles | worlds/reached | account | reached yes |  |
 | systems.yaml#worship | worlds/reached | account | reached yes |  |
 | task-unlocks.check.spend | task-unlocks/unspent | account | fires | points=15 |
+| tome.check.blue-pages | tome/blue-pages | — | silent |  |
+| tome.check.claim-nametags | tome/nametags | — | silent |  |
 | trapping.check.finishes-early | trapping/finishes-early | C1 | fires | finishesIn=16381026 |
 | trapping.check.finishes-early | trapping/finishes-early | C2 | fires | finishesIn=16375026 |
 | trapping.check.finishes-early | trapping/finishes-early | C3 | fires | finishesIn=16375026 |
