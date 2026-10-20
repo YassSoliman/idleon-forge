@@ -265,18 +265,40 @@ function diff(head, dom) {
                 save: lv,
               },
             );
-          if (!st.done && st.current !== null && st.current !== lv)
+          // A later step of a talent the path already raised starts where that earlier step ends
+          // ("20 → 100" after "1 → 20"): the engine's `from`, not the save's level.
+          const from = ht?.path?.find((x) => x.label === st.label && x.goal === st.goal)?.from ?? null;
+          if (!st.done && st.current !== null && from !== null && st.current !== from)
+            add(
+              'P1',
+              `${where} · tab ${t.tab} · ${st.label}`,
+              'Build path start level differs from the engine',
+              {
+                shown: st.current,
+                engine: from,
+              },
+            );
+          else if (!st.done && st.current !== null && from === null && st.current !== lv)
             add('P1', `${where} · tab ${t.tab} · ${st.label}`, 'Build path level differs from the save', {
               shown: st.current,
               save: lv,
             });
         }
         // The marker's count is the engine's known count for that tab, and never below the save's floor.
+        // "Build complete at 1,001 · at least 1,935 points have no talent …" shows it as the build's
+        // cost plus the spare points, so the count there is the sum.
         const known = ht?.known;
+        const complete = /^Build complete at ([\d,]+)(?: · (?:at least )?([\d,]+) points? ha)?/.exec(
+          t.marker ?? '',
+        );
         const shown = /^([\d,]+) (?:points? waiting|unspent)|at least ([\d,]+)|^your ([\d,]+) /i.exec(
           t.marker ?? '',
         );
-        const shownN = shown ? num(shown[1] ?? shown[2] ?? shown[3]) : null;
+        const shownN = complete
+          ? num(complete[1]) + (complete[2] ? num(complete[2]) : 0)
+          : shown
+            ? num(shown[1] ?? shown[2] ?? shown[3])
+            : null;
         if (known && known.points !== null && shownN !== null && shownN !== known.points)
           add('P1', `${where} · tab ${t.tab}`, 'Build marker count differs from the engine’s count', {
             shown: t.marker,
