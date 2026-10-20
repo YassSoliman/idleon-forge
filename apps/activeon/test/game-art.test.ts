@@ -110,6 +110,16 @@ describe('game-art folder', () => {
     expect(Object.entries(SYSTEM_ART).filter(([, art]) => !has(art))).toEqual([]);
   });
 
+  it('every game System in the registry has its sprite (a new row never falls back to a placeholder)', () => {
+    const yaml = readFileSync(join(ROOT, 'packages/knowledge/systems.yaml'), 'utf8');
+    const rows = [...yaml.matchAll(/^ {2}- id: (\S+)\n((?: {4}.*\n)*)/gm)].map((m) => ({
+      id: m[1] ?? '',
+      kind: /^ {4}kind: (\S+)/m.exec(m[2] ?? '')?.[1] ?? 'game',
+    }));
+    expect(rows.length).toBeGreaterThanOrEqual(80);
+    expect(rows.filter((r) => r.kind === 'game' && !SYSTEM_ART[r.id]).map((r) => r.id)).toEqual([]);
+  });
+
   it('is reached only through the typed lookup (no hand-written /game-art/ paths in the app)', () => {
     const walk = (d: string): string[] =>
       readdirSync(d, { withFileTypes: true }).flatMap((e) =>
