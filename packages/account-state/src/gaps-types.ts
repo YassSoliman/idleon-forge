@@ -29,8 +29,61 @@ export interface SaltLickState {
   liquidRatePct: number;
 }
 
+/** M26 FR-25: an item in or for the Forge. */
+export interface ForgeItem {
+  rawName: string;
+  /** Toolbox's item name ("Copper_Ore"). */
+  name: string;
+  amount: number;
+}
+
+export interface ForgeOre extends ForgeItem {
+  /** Ore per bar (items.json `Amount`) and the bar's base smelt seconds (`Cooldown`). */
+  perBar: number;
+  baseSeconds: number;
+}
+
+export interface ForgeBarrel extends ForgeItem {
+  /** `SpeedForge` (+power % speed) or `DoubleBarsForge` (power % chance of an extra bar). */
+  effect: 'speed' | 'double';
+  power: number;
+}
+
+export interface ForgeSlot {
+  index: number;
+  /** Below the New Forge Slot level: the game lets you use it. */
+  unlocked: boolean;
+  /** A Brimstone slot (Gem Shop): x1.5 speed in Toolbox. */
+  brimstone: boolean;
+  ore: ForgeOre | null;
+  /** Holds at least one bar's worth of ore (a smaller leftover never smelts). */
+  smelting: boolean;
+  /** Toolbox `timeTillEmpty`, in seconds from the save; 0 when not smelting. */
+  emptyInSeconds: number;
+  /** Bars waiting in the slot's output. */
+  bar: ForgeItem | null;
+  barrel: ForgeBarrel | null;
+  /** Toolbox slot speed (bars per base cycle, Brimstone and speed barrel included). */
+  speed: number;
+}
+
+export interface ForgeState {
+  /** New Forge Slot level: slots 0 .. n-1 are usable. */
+  slotsUnlocked: number;
+  slots: ForgeSlot[];
+  /** The six upgrades in game order: New Forge Slot, Ore Capacity Boost, Forge Speed, Forge EXP Gain, Bar Bonanza, Puff Puff Go. */
+  upgrades: Array<{ name: string; level: number; maxLevel: number }>;
+  /** Ore one slot holds (Toolbox `oreCapacity.value`, rounded down). */
+  oreCapacity: number;
+  /** Ores and barrels held in the Storage Chest and every bag. */
+  oresHeld: ForgeOre[];
+  barrelsHeld: ForgeBarrel[];
+}
+
 /** Optional so hand-built states need not spell them out; the adapter sets each, to a value or null. */
 export interface GapsAccountFields {
   /** M26 FR-21b: the Salt Lick's upgrades and its liquid-rate term. */
   saltLick?: SaltLickState | null;
+  /** M26 FR-25: the Forge's slots, upgrades and what it can be fed. */
+  forge?: ForgeState | null;
 }
