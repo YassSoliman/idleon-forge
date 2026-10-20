@@ -1489,6 +1489,13 @@ says "walk into the portal" at confidence H, and quotas print from the generated
 Ripper's quest done on any character, or a level completed. The elite `riftGate` numbers use `Rift[0]` (Orb at 7, 17,
 28, 42; Wormhole at 8, 26, 43; Pirate Flag at 15, 21, 35, 64), shown one higher.
 
+**V8 and V44 settled 2026-10-19 (N.js and raw saves).** The Greenie Gang count is `QuestStatus_i.Eliteus1[0]`
+(quests.json `customArray` "Defeat_the_Greenie_Gang:" 10); `QuestComplete_i.Eliteus1 = 1` once it is done. Eliteus's
+class picker (`_event_CLASSADVANCE`) opens only for classes 8, 9, 20, 21, 32 and 33 once `Eliteus2` is accepted or
+done, and tests no level. A promoted character can keep `Eliteus2` at 0 (the W4 test account's Divine Knight does), so
+`eliteStep` reads `done` from the class (the elite or a class it promotes to), `pick` from `Eliteus1 = 1` on a
+subclass, else `gang` with the count. `elite-classes.check.eliteus` ships at H with both texts.
+
 In-game checks (owner, credential-bound, minutes each) are listed in MASTER.md section 7. The table's wave column
 follows the revised waves (section 3).
 

@@ -2400,6 +2400,11 @@ exports[`public save first.json > matches the recorded shape (review the diff af
       "classIndex": 10,
       "currentMap": "Spaceway_Raceway",
       "doorKillsLeft": "298 maps, 61 doors open",
+      "eliteStep": {
+        "elite": "Blood_Berserker",
+        "gangKills": null,
+        "step": "done",
+      },
       "foodStacks": [
         {
           "amount": 89,
@@ -2657,6 +2662,11 @@ exports[`public save first.json > matches the recorded shape (review the diff af
       "classIndex": 36,
       "currentMap": "Outer_World_Town",
       "doorKillsLeft": "298 maps, 69 doors open",
+      "eliteStep": {
+        "elite": "Bubonic_Conjuror",
+        "gangKills": null,
+        "step": "done",
+      },
       "foodStacks": [
         {
           "amount": 34,
@@ -2912,6 +2922,11 @@ exports[`public save first.json > matches the recorded shape (review the diff af
       "classIndex": 22,
       "currentMap": "Outer_World_Town",
       "doorKillsLeft": "298 maps, 72 doors open",
+      "eliteStep": {
+        "elite": "Siege_Breaker",
+        "gangKills": null,
+        "step": "done",
+      },
       "foodStacks": [
         {
           "amount": 1,
@@ -3169,6 +3184,11 @@ exports[`public save first.json > matches the recorded shape (review the diff af
       "classIndex": 12,
       "currentMap": "Spaceway_Raceway",
       "doorKillsLeft": "298 maps, 71 doors open",
+      "eliteStep": {
+        "elite": "Divine_Knight",
+        "gangKills": null,
+        "step": "done",
+      },
       "foodStacks": [
         {
           "amount": 1,
@@ -3423,6 +3443,11 @@ exports[`public save first.json > matches the recorded shape (review the diff af
       "classIndex": 34,
       "currentMap": "Outer_World_Town",
       "doorKillsLeft": "298 maps, 71 doors open",
+      "eliteStep": {
+        "elite": "Elemental_Sorcerer",
+        "gangKills": null,
+        "step": "done",
+      },
       "foodStacks": [
         {
           "amount": 9,
@@ -3678,6 +3703,11 @@ exports[`public save first.json > matches the recorded shape (review the diff af
       "classIndex": 25,
       "currentMap": "Outer_World_Town",
       "doorKillsLeft": "298 maps, 71 doors open",
+      "eliteStep": {
+        "elite": "Beast_Master",
+        "gangKills": null,
+        "step": "done",
+      },
       "foodStacks": [
         {
           "amount": 2,
@@ -3919,6 +3949,11 @@ exports[`public save first.json > matches the recorded shape (review the diff af
       "classIndex": 3,
       "currentMap": "YumYum_Grotto",
       "doorKillsLeft": "298 maps, 82 doors open",
+      "eliteStep": {
+        "elite": null,
+        "gangKills": null,
+        "step": "none",
+      },
       "foodStacks": [
         {
           "amount": 44,
@@ -6633,6 +6668,11 @@ exports[`public save fourth.json > matches the recorded shape (review the diff a
       "classIndex": 4,
       "currentMap": "Edge_of_the_Valley",
       "doorKillsLeft": "298 maps, 22 doors open",
+      "eliteStep": {
+        "elite": null,
+        "gangKills": null,
+        "step": "none",
+      },
       "foodStacks": [
         {
           "amount": 239129,
@@ -6890,6 +6930,11 @@ exports[`public save fourth.json > matches the recorded shape (review the diff a
       "classIndex": 1,
       "currentMap": "Blunder_Hills",
       "doorKillsLeft": "201 maps, 83 doors open",
+      "eliteStep": {
+        "elite": null,
+        "gangKills": null,
+        "step": "none",
+      },
       "foodStacks": [],
       "freeInventorySlots": 80,
       "gear": "- - - - - - - - - - - -",
@@ -9851,6 +9896,11 @@ exports[`public save fresh.json > matches the recorded shape (review the diff af
       "classIndex": 22,
       "currentMap": "Frostbite_Towndra",
       "doorKillsLeft": "298 maps, 28 doors open",
+      "eliteStep": {
+        "elite": "Siege_Breaker",
+        "gangKills": null,
+        "step": "done",
+      },
       "foodStacks": [
         {
           "amount": 4379,
@@ -10095,6 +10145,11 @@ exports[`public save fresh.json > matches the recorded shape (review the diff af
       "classIndex": 10,
       "currentMap": "Spirit_Village",
       "doorKillsLeft": "327 maps, 46 doors open",
+      "eliteStep": {
+        "elite": "Blood_Berserker",
+        "gangKills": null,
+        "step": "done",
+      },
       "foodStacks": [
         {
           "amount": 29793,
@@ -10344,6 +10399,11 @@ exports[`public save fresh.json > matches the recorded shape (review the diff af
       "classIndex": 1,
       "currentMap": "Blunder_Hills",
       "doorKillsLeft": "327 maps, 137 doors open",
+      "eliteStep": {
+        "elite": null,
+        "gangKills": null,
+        "step": "none",
+      },
       "foodStacks": [
         {
           "amount": 14941,
@@ -13503,6 +13563,11 @@ exports[`public save highend.json > matches the recorded shape (review the diff 
       "classIndex": 14,
       "currentMap": "Outer_World_Town",
       "doorKillsLeft": "327 maps, 16 doors open",
+      "eliteStep": {
+        "elite": "Blood_Berserker",
+        "gangKills": null,
+        "step": "done",
+      },
       "foodStacks": [
         {
           "amount": 23299909,
@@ -13782,6 +13847,11 @@ exports[`public save highend.json > matches the recorded shape (review the diff 
       "classIndex": 22,
       "currentMap": "Middle_of_Nowhere",
       "doorKillsLeft": "327 maps, 17 doors open",
+      "eliteStep": {
+        "elite": "Siege_Breaker",
+        "gangKills": null,
+        "step": "done",
+      },
       "foodStacks": [
         {
           "amount": 21959562,
@@ -14045,6 +14115,11 @@ exports[`public save highend.json > matches the recorded shape (review the diff 
       "classIndex": 34,
       "currentMap": "Middle_of_Nowhere",
       "doorKillsLeft": "327 maps, 17 doors open",
+      "eliteStep": {
+        "elite": "Elemental_Sorcerer",
+        "gangKills": null,
+        "step": "done",
+      },
       "foodStacks": [
         {
           "amount": 21959562,
@@ -14311,6 +14386,11 @@ exports[`public save highend.json > matches the recorded shape (review the diff 
       "classIndex": 12,
       "currentMap": "Shimmerfin_Grove",
       "doorKillsLeft": "327 maps, 17 doors open",
+      "eliteStep": {
+        "elite": "Divine_Knight",
+        "gangKills": null,
+        "step": "done",
+      },
       "foodStacks": [
         {
           "amount": 23087216,
@@ -14575,6 +14655,11 @@ exports[`public save highend.json > matches the recorded shape (review the diff 
       "classIndex": 40,
       "currentMap": "Deep_End_of_the_Koipond",
       "doorKillsLeft": "327 maps, 16 doors open",
+      "eliteStep": {
+        "elite": "Bubonic_Conjuror",
+        "gangKills": null,
+        "step": "done",
+      },
       "foodStacks": [
         {
           "amount": 21959562,
@@ -14852,6 +14937,11 @@ exports[`public save highend.json > matches the recorded shape (review the diff 
       "classIndex": 29,
       "currentMap": "Deep_End_of_the_Koipond",
       "doorKillsLeft": "327 maps, 16 doors open",
+      "eliteStep": {
+        "elite": "Beast_Master",
+        "gangKills": null,
+        "step": "done",
+      },
       "foodStacks": [
         {
           "amount": 21959562,
@@ -15139,6 +15229,11 @@ exports[`public save highend.json > matches the recorded shape (review the diff 
       "classIndex": 12,
       "currentMap": "Blunder_Hills",
       "doorKillsLeft": "327 maps, 21 doors open",
+      "eliteStep": {
+        "elite": "Divine_Knight",
+        "gangKills": null,
+        "step": "done",
+      },
       "foodStacks": [
         {
           "amount": 22286801,
@@ -15401,6 +15496,11 @@ exports[`public save highend.json > matches the recorded shape (review the diff 
       "classIndex": 4,
       "currentMap": "Coralcave_Perimeter",
       "doorKillsLeft": "327 maps, 16 doors open",
+      "eliteStep": {
+        "elite": null,
+        "gangKills": null,
+        "step": "none",
+      },
       "foodStacks": [
         {
           "amount": 23602360,
@@ -15660,6 +15760,11 @@ exports[`public save highend.json > matches the recorded shape (review the diff 
       "classIndex": 40,
       "currentMap": "Deep_End_of_the_Koipond",
       "doorKillsLeft": "327 maps, 17 doors open",
+      "eliteStep": {
+        "elite": "Bubonic_Conjuror",
+        "gangKills": null,
+        "step": "done",
+      },
       "foodStacks": [
         {
           "amount": 21883685,
@@ -15938,6 +16043,11 @@ exports[`public save highend.json > matches the recorded shape (review the diff 
       "classIndex": 29,
       "currentMap": "Deep_End_of_the_Koipond",
       "doorKillsLeft": "327 maps, 23 doors open",
+      "eliteStep": {
+        "elite": "Beast_Master",
+        "gangKills": null,
+        "step": "done",
+      },
       "foodStacks": [
         {
           "amount": 21959562,
@@ -16211,6 +16321,11 @@ exports[`public save highend.json > matches the recorded shape (review the diff 
       "classIndex": 1,
       "currentMap": "The_Hole",
       "doorKillsLeft": "327 maps, 22 doors open",
+      "eliteStep": {
+        "elite": null,
+        "gangKills": null,
+        "step": "none",
+      },
       "foodStacks": [
         {
           "amount": 21997501,
@@ -19546,6 +19661,11 @@ exports[`public save latest.json > matches the recorded shape (review the diff a
       "classIndex": 22,
       "currentMap": "Outer_World_Town",
       "doorKillsLeft": "327 maps, 27 doors open",
+      "eliteStep": {
+        "elite": "Siege_Breaker",
+        "gangKills": null,
+        "step": "done",
+      },
       "foodStacks": [
         {
           "amount": 4439,
@@ -19804,6 +19924,11 @@ exports[`public save latest.json > matches the recorded shape (review the diff a
       "classIndex": 14,
       "currentMap": "Shimmerfin_Grove",
       "doorKillsLeft": "327 maps, 22 doors open",
+      "eliteStep": {
+        "elite": "Blood_Berserker",
+        "gangKills": null,
+        "step": "done",
+      },
       "foodStacks": [
         {
           "amount": 29116534,
@@ -20074,6 +20199,11 @@ exports[`public save latest.json > matches the recorded shape (review the diff a
       "classIndex": 34,
       "currentMap": "Outer_World_Town",
       "doorKillsLeft": "327 maps, 28 doors open",
+      "eliteStep": {
+        "elite": "Elemental_Sorcerer",
+        "gangKills": null,
+        "step": "done",
+      },
       "foodStacks": [
         {
           "amount": 14941,
@@ -20322,6 +20452,11 @@ exports[`public save latest.json > matches the recorded shape (review the diff a
       "classIndex": 12,
       "currentMap": "Outer_World_Town",
       "doorKillsLeft": "327 maps, 19 doors open",
+      "eliteStep": {
+        "elite": "Divine_Knight",
+        "gangKills": null,
+        "step": "done",
+      },
       "foodStacks": [
         {
           "amount": 678,
@@ -20575,6 +20710,11 @@ exports[`public save latest.json > matches the recorded shape (review the diff a
       "classIndex": 40,
       "currentMap": "Outer_World_Town",
       "doorKillsLeft": "327 maps, 18 doors open",
+      "eliteStep": {
+        "elite": "Bubonic_Conjuror",
+        "gangKills": null,
+        "step": "done",
+      },
       "foodStacks": [
         {
           "amount": 49,
@@ -20837,6 +20977,11 @@ exports[`public save latest.json > matches the recorded shape (review the diff a
       "classIndex": 29,
       "currentMap": "Pirate_Upper_Deck",
       "doorKillsLeft": "327 maps, 22 doors open",
+      "eliteStep": {
+        "elite": "Beast_Master",
+        "gangKills": null,
+        "step": "done",
+      },
       "foodStacks": [
         {
           "amount": 20736847,
@@ -21104,6 +21249,11 @@ exports[`public save latest.json > matches the recorded shape (review the diff a
       "classIndex": 4,
       "currentMap": "Magma_Rivertown",
       "doorKillsLeft": "327 maps, 18 doors open",
+      "eliteStep": {
+        "elite": null,
+        "gangKills": null,
+        "step": "none",
+      },
       "foodStacks": [
         {
           "amount": 33425,
@@ -21359,6 +21509,11 @@ exports[`public save latest.json > matches the recorded shape (review the diff a
       "classIndex": 22,
       "currentMap": "Outer_World_Town",
       "doorKillsLeft": "327 maps, 39 doors open",
+      "eliteStep": {
+        "elite": "Siege_Breaker",
+        "gangKills": null,
+        "step": "done",
+      },
       "foodStacks": [
         {
           "amount": 2011125,
@@ -21604,6 +21759,11 @@ exports[`public save latest.json > matches the recorded shape (review the diff a
       "classIndex": 16,
       "currentMap": "Blunder_Hills",
       "doorKillsLeft": "327 maps, 16 doors open",
+      "eliteStep": {
+        "elite": "Divine_Knight",
+        "gangKills": null,
+        "step": "done",
+      },
       "foodStacks": [
         {
           "amount": 330413,
@@ -21879,6 +22039,11 @@ exports[`public save latest.json > matches the recorded shape (review the diff a
       "classIndex": 36,
       "currentMap": "Spore_Meadows",
       "doorKillsLeft": "327 maps, 32 doors open",
+      "eliteStep": {
+        "elite": "Bubonic_Conjuror",
+        "gangKills": null,
+        "step": "done",
+      },
       "foodStacks": [
         {
           "amount": 18939,
@@ -22136,6 +22301,11 @@ exports[`public save latest.json > matches the recorded shape (review the diff a
       "classIndex": 1,
       "currentMap": "Outer_World_Town",
       "doorKillsLeft": "327 maps, 88 doors open",
+      "eliteStep": {
+        "elite": null,
+        "gangKills": null,
+        "step": "none",
+      },
       "foodStacks": [],
       "freeInventorySlots": 34,
       "gear": "EquipmentHats123 EquipmentPunching12 EquipmentShirts41 EquipmentPendant23 EquipmentPants32 EquipmentRings18 EquipmentShoes41 EquipmentRings18 - - - -",
@@ -25454,6 +25624,11 @@ exports[`public save latest-2026-08.json > matches the recorded shape (review th
       "classIndex": 22,
       "currentMap": "Outer_World_Town",
       "doorKillsLeft": "327 maps, 27 doors open",
+      "eliteStep": {
+        "elite": "Siege_Breaker",
+        "gangKills": null,
+        "step": "done",
+      },
       "foodStacks": [
         {
           "amount": 4439,
@@ -25712,6 +25887,11 @@ exports[`public save latest-2026-08.json > matches the recorded shape (review th
       "classIndex": 14,
       "currentMap": "Blunder_Hills",
       "doorKillsLeft": "327 maps, 22 doors open",
+      "eliteStep": {
+        "elite": "Blood_Berserker",
+        "gangKills": null,
+        "step": "done",
+      },
       "foodStacks": [
         {
           "amount": 29116537,
@@ -25982,6 +26162,11 @@ exports[`public save latest-2026-08.json > matches the recorded shape (review th
       "classIndex": 34,
       "currentMap": "Outer_World_Town",
       "doorKillsLeft": "327 maps, 28 doors open",
+      "eliteStep": {
+        "elite": "Elemental_Sorcerer",
+        "gangKills": null,
+        "step": "done",
+      },
       "foodStacks": [
         {
           "amount": 14941,
@@ -26230,6 +26415,11 @@ exports[`public save latest-2026-08.json > matches the recorded shape (review th
       "classIndex": 12,
       "currentMap": "Outer_World_Town",
       "doorKillsLeft": "327 maps, 19 doors open",
+      "eliteStep": {
+        "elite": "Divine_Knight",
+        "gangKills": null,
+        "step": "done",
+      },
       "foodStacks": [
         {
           "amount": 678,
@@ -26483,6 +26673,11 @@ exports[`public save latest-2026-08.json > matches the recorded shape (review th
       "classIndex": 40,
       "currentMap": "Outer_World_Town",
       "doorKillsLeft": "327 maps, 18 doors open",
+      "eliteStep": {
+        "elite": "Bubonic_Conjuror",
+        "gangKills": null,
+        "step": "done",
+      },
       "foodStacks": [
         {
           "amount": 49,
@@ -26741,6 +26936,11 @@ exports[`public save latest-2026-08.json > matches the recorded shape (review th
       "classIndex": 29,
       "currentMap": "Frostbite_Towndra",
       "doorKillsLeft": "327 maps, 22 doors open",
+      "eliteStep": {
+        "elite": "Beast_Master",
+        "gangKills": null,
+        "step": "done",
+      },
       "foodStacks": [
         {
           "amount": 20745812,
@@ -27004,6 +27204,11 @@ exports[`public save latest-2026-08.json > matches the recorded shape (review th
       "classIndex": 4,
       "currentMap": "Outer_World_Town",
       "doorKillsLeft": "327 maps, 18 doors open",
+      "eliteStep": {
+        "elite": null,
+        "gangKills": null,
+        "step": "none",
+      },
       "foodStacks": [
         {
           "amount": 33425,
@@ -27259,6 +27464,11 @@ exports[`public save latest-2026-08.json > matches the recorded shape (review th
       "classIndex": 22,
       "currentMap": "Outer_World_Town",
       "doorKillsLeft": "327 maps, 39 doors open",
+      "eliteStep": {
+        "elite": "Siege_Breaker",
+        "gangKills": null,
+        "step": "done",
+      },
       "foodStacks": [
         {
           "amount": 2011125,
@@ -27504,6 +27714,11 @@ exports[`public save latest-2026-08.json > matches the recorded shape (review th
       "classIndex": 12,
       "currentMap": "Shimmerfin_Grove",
       "doorKillsLeft": "327 maps, 16 doors open",
+      "eliteStep": {
+        "elite": "Divine_Knight",
+        "gangKills": null,
+        "step": "done",
+      },
       "foodStacks": [
         {
           "amount": 330413,
@@ -27759,6 +27974,11 @@ exports[`public save latest-2026-08.json > matches the recorded shape (review th
       "classIndex": 36,
       "currentMap": "Spore_Meadows",
       "doorKillsLeft": "327 maps, 32 doors open",
+      "eliteStep": {
+        "elite": "Bubonic_Conjuror",
+        "gangKills": null,
+        "step": "done",
+      },
       "foodStacks": [
         {
           "amount": 18939,
@@ -28016,6 +28236,11 @@ exports[`public save latest-2026-08.json > matches the recorded shape (review th
       "classIndex": 1,
       "currentMap": "Outer_World_Town",
       "doorKillsLeft": "327 maps, 88 doors open",
+      "eliteStep": {
+        "elite": null,
+        "gangKills": null,
+        "step": "none",
+      },
       "foodStacks": [],
       "freeInventorySlots": 35,
       "gear": "EquipmentHats123 EquipmentPunching12 EquipmentShirts41 EquipmentPendant23 EquipmentPants32 EquipmentRings18 EquipmentShoes41 EquipmentRings18 - - - -",
@@ -31341,6 +31566,11 @@ exports[`public save multikill-pin.json > matches the recorded shape (review the
       "classIndex": 22,
       "currentMap": "Outer_World_Town",
       "doorKillsLeft": "327 maps, 27 doors open",
+      "eliteStep": {
+        "elite": "Siege_Breaker",
+        "gangKills": null,
+        "step": "done",
+      },
       "foodStacks": [
         {
           "amount": 4439,
@@ -31599,6 +31829,11 @@ exports[`public save multikill-pin.json > matches the recorded shape (review the
       "classIndex": 14,
       "currentMap": "Shimmerfin_Grove",
       "doorKillsLeft": "327 maps, 22 doors open",
+      "eliteStep": {
+        "elite": "Blood_Berserker",
+        "gangKills": null,
+        "step": "done",
+      },
       "foodStacks": [
         {
           "amount": 29116537,
@@ -31869,6 +32104,11 @@ exports[`public save multikill-pin.json > matches the recorded shape (review the
       "classIndex": 34,
       "currentMap": "Outer_World_Town",
       "doorKillsLeft": "327 maps, 28 doors open",
+      "eliteStep": {
+        "elite": "Elemental_Sorcerer",
+        "gangKills": null,
+        "step": "done",
+      },
       "foodStacks": [
         {
           "amount": 14941,
@@ -32117,6 +32357,11 @@ exports[`public save multikill-pin.json > matches the recorded shape (review the
       "classIndex": 12,
       "currentMap": "Outer_World_Town",
       "doorKillsLeft": "327 maps, 19 doors open",
+      "eliteStep": {
+        "elite": "Divine_Knight",
+        "gangKills": null,
+        "step": "done",
+      },
       "foodStacks": [
         {
           "amount": 678,
@@ -32370,6 +32615,11 @@ exports[`public save multikill-pin.json > matches the recorded shape (review the
       "classIndex": 40,
       "currentMap": "Outer_World_Town",
       "doorKillsLeft": "327 maps, 18 doors open",
+      "eliteStep": {
+        "elite": "Bubonic_Conjuror",
+        "gangKills": null,
+        "step": "done",
+      },
       "foodStacks": [
         {
           "amount": 49,
@@ -32628,6 +32878,11 @@ exports[`public save multikill-pin.json > matches the recorded shape (review the
       "classIndex": 29,
       "currentMap": "Frostbite_Towndra",
       "doorKillsLeft": "327 maps, 22 doors open",
+      "eliteStep": {
+        "elite": "Beast_Master",
+        "gangKills": null,
+        "step": "done",
+      },
       "foodStacks": [
         {
           "amount": 20745812,
@@ -32891,6 +33146,11 @@ exports[`public save multikill-pin.json > matches the recorded shape (review the
       "classIndex": 4,
       "currentMap": "YumYum_Islands",
       "doorKillsLeft": "327 maps, 18 doors open",
+      "eliteStep": {
+        "elite": null,
+        "gangKills": null,
+        "step": "none",
+      },
       "foodStacks": [
         {
           "amount": 33425,
@@ -33148,6 +33408,11 @@ exports[`public save multikill-pin.json > matches the recorded shape (review the
       "classIndex": 22,
       "currentMap": "Outer_World_Town",
       "doorKillsLeft": "327 maps, 39 doors open",
+      "eliteStep": {
+        "elite": "Siege_Breaker",
+        "gangKills": null,
+        "step": "done",
+      },
       "foodStacks": [
         {
           "amount": 2011125,
@@ -33397,6 +33662,11 @@ exports[`public save multikill-pin.json > matches the recorded shape (review the
       "classIndex": 16,
       "currentMap": "The_Royal_Castle",
       "doorKillsLeft": "327 maps, 16 doors open",
+      "eliteStep": {
+        "elite": "Divine_Knight",
+        "gangKills": null,
+        "step": "done",
+      },
       "foodStacks": [
         {
           "amount": 330413,
@@ -33671,6 +33941,11 @@ exports[`public save multikill-pin.json > matches the recorded shape (review the
       "classIndex": 36,
       "currentMap": "Spore_Meadows",
       "doorKillsLeft": "327 maps, 32 doors open",
+      "eliteStep": {
+        "elite": "Bubonic_Conjuror",
+        "gangKills": null,
+        "step": "done",
+      },
       "foodStacks": [
         {
           "amount": 18939,
@@ -33928,6 +34203,11 @@ exports[`public save multikill-pin.json > matches the recorded shape (review the
       "classIndex": 1,
       "currentMap": "Outer_World_Town",
       "doorKillsLeft": "327 maps, 88 doors open",
+      "eliteStep": {
+        "elite": null,
+        "gangKills": null,
+        "step": "none",
+      },
       "foodStacks": [],
       "freeInventorySlots": 33,
       "gear": "EquipmentHats123 EquipmentPunching12 EquipmentShirts41 EquipmentPendant23 EquipmentPants32 EquipmentRings18 EquipmentShoes41 EquipmentRings18 - - - -",
@@ -36979,6 +37259,11 @@ exports[`public save second.json > matches the recorded shape (review the diff a
       "classIndex": 25,
       "currentMap": "Signature_Slopes",
       "doorKillsLeft": "298 maps, 21 doors open",
+      "eliteStep": {
+        "elite": "Beast_Master",
+        "gangKills": null,
+        "step": "done",
+      },
       "foodStacks": [
         {
           "amount": 163165,
@@ -37247,6 +37532,11 @@ exports[`public save second.json > matches the recorded shape (review the diff a
       "classIndex": 12,
       "currentMap": "Signature_Slopes",
       "doorKillsLeft": "298 maps, 18 doors open",
+      "eliteStep": {
+        "elite": "Divine_Knight",
+        "gangKills": null,
+        "step": "done",
+      },
       "foodStacks": [
         {
           "amount": 1504,
@@ -37514,6 +37804,11 @@ exports[`public save second.json > matches the recorded shape (review the diff a
       "classIndex": 36,
       "currentMap": "Signature_Slopes",
       "doorKillsLeft": "298 maps, 22 doors open",
+      "eliteStep": {
+        "elite": "Bubonic_Conjuror",
+        "gangKills": null,
+        "step": "done",
+      },
       "foodStacks": [
         {
           "amount": 135918,
@@ -37779,6 +38074,11 @@ exports[`public save second.json > matches the recorded shape (review the diff a
       "classIndex": 10,
       "currentMap": "The_Rift",
       "doorKillsLeft": "298 maps, 21 doors open",
+      "eliteStep": {
+        "elite": "Blood_Berserker",
+        "gangKills": null,
+        "step": "done",
+      },
       "foodStacks": [
         {
           "amount": 479,
@@ -38048,6 +38348,11 @@ exports[`public save second.json > matches the recorded shape (review the diff a
       "classIndex": 32,
       "currentMap": "Signature_Slopes",
       "doorKillsLeft": "298 maps, 20 doors open",
+      "eliteStep": {
+        "elite": "Elemental_Sorcerer",
+        "gangKills": null,
+        "step": "pick",
+      },
       "foodStacks": [
         {
           "amount": 189,
@@ -38299,6 +38604,11 @@ exports[`public save second.json > matches the recorded shape (review the diff a
       "classIndex": 22,
       "currentMap": "Signature_Slopes",
       "doorKillsLeft": "298 maps, 23 doors open",
+      "eliteStep": {
+        "elite": "Siege_Breaker",
+        "gangKills": null,
+        "step": "done",
+      },
       "foodStacks": [
         {
           "amount": 911,
@@ -38565,6 +38875,11 @@ exports[`public save second.json > matches the recorded shape (review the diff a
       "classIndex": 4,
       "currentMap": "Dozey_Dogpark",
       "doorKillsLeft": "298 maps, 17 doors open",
+      "eliteStep": {
+        "elite": null,
+        "gangKills": null,
+        "step": "none",
+      },
       "foodStacks": [
         {
           "amount": 11297,
@@ -38828,6 +39143,11 @@ exports[`public save second.json > matches the recorded shape (review the diff a
       "classIndex": 34,
       "currentMap": "Signature_Slopes",
       "doorKillsLeft": "298 maps, 18 doors open",
+      "eliteStep": {
+        "elite": "Elemental_Sorcerer",
+        "gangKills": null,
+        "step": "done",
+      },
       "foodStacks": [
         {
           "amount": 232952,
@@ -39094,6 +39414,11 @@ exports[`public save second.json > matches the recorded shape (review the diff a
       "classIndex": 21,
       "currentMap": "Signature_Slopes",
       "doorKillsLeft": "298 maps, 20 doors open",
+      "eliteStep": {
+        "elite": "Beast_Master",
+        "gangKills": null,
+        "step": "pick",
+      },
       "foodStacks": [
         {
           "amount": 19173,
@@ -39347,6 +39672,11 @@ exports[`public save second.json > matches the recorded shape (review the diff a
       "classIndex": 8,
       "currentMap": "Signature_Slopes",
       "doorKillsLeft": "298 maps, 20 doors open",
+      "eliteStep": {
+        "elite": "Blood_Berserker",
+        "gangKills": null,
+        "step": "pick",
+      },
       "foodStacks": [
         {
           "amount": 2260,
@@ -42639,6 +42969,11 @@ exports[`public save speedrun-rank1.json > matches the recorded shape (review th
       "classIndex": 14,
       "currentMap": "Shimmerfin_Grove",
       "doorKillsLeft": "327 maps, 15 doors open",
+      "eliteStep": {
+        "elite": "Blood_Berserker",
+        "gangKills": null,
+        "step": "done",
+      },
       "foodStacks": [
         {
           "amount": 24109486,
@@ -42920,6 +43255,11 @@ exports[`public save speedrun-rank1.json > matches the recorded shape (review th
       "classIndex": 40,
       "currentMap": "Deep_End_of_the_Koipond",
       "doorKillsLeft": "327 maps, 16 doors open",
+      "eliteStep": {
+        "elite": "Bubonic_Conjuror",
+        "gangKills": null,
+        "step": "done",
+      },
       "foodStacks": [
         {
           "amount": 24455308,
@@ -43194,6 +43534,11 @@ exports[`public save speedrun-rank1.json > matches the recorded shape (review th
       "classIndex": 22,
       "currentMap": "Refraction_Bend",
       "doorKillsLeft": "327 maps, 19 doors open",
+      "eliteStep": {
+        "elite": "Siege_Breaker",
+        "gangKills": null,
+        "step": "done",
+      },
       "foodStacks": [
         {
           "amount": 20419395,
@@ -43459,6 +43804,11 @@ exports[`public save speedrun-rank1.json > matches the recorded shape (review th
       "classIndex": 12,
       "currentMap": "Deep_End_of_the_Koipond",
       "doorKillsLeft": "327 maps, 16 doors open",
+      "eliteStep": {
+        "elite": "Divine_Knight",
+        "gangKills": null,
+        "step": "done",
+      },
       "foodStacks": [
         {
           "amount": 24455308,
@@ -43725,6 +44075,11 @@ exports[`public save speedrun-rank1.json > matches the recorded shape (review th
       "classIndex": 34,
       "currentMap": "Outer_World_Town",
       "doorKillsLeft": "327 maps, 17 doors open",
+      "eliteStep": {
+        "elite": "Elemental_Sorcerer",
+        "gangKills": null,
+        "step": "done",
+      },
       "foodStacks": [
         {
           "amount": 22302394,
@@ -43978,6 +44333,11 @@ exports[`public save speedrun-rank1.json > matches the recorded shape (review th
       "classIndex": 29,
       "currentMap": "Deep_End_of_the_Koipond",
       "doorKillsLeft": "327 maps, 15 doors open",
+      "eliteStep": {
+        "elite": "Beast_Master",
+        "gangKills": null,
+        "step": "done",
+      },
       "foodStacks": [
         {
           "amount": 24455308,
@@ -44263,6 +44623,11 @@ exports[`public save speedrun-rank1.json > matches the recorded shape (review th
       "classIndex": 12,
       "currentMap": "Frostbite_Towndra",
       "doorKillsLeft": "327 maps, 15 doors open",
+      "eliteStep": {
+        "elite": "Divine_Knight",
+        "gangKills": null,
+        "step": "done",
+      },
       "foodStacks": [
         {
           "amount": 109941,
@@ -44524,6 +44889,11 @@ exports[`public save speedrun-rank1.json > matches the recorded shape (review th
       "classIndex": 4,
       "currentMap": "Plastic_Basin",
       "doorKillsLeft": "327 maps, 15 doors open",
+      "eliteStep": {
+        "elite": null,
+        "gangKills": null,
+        "step": "none",
+      },
       "foodStacks": [
         {
           "amount": 24137859,
@@ -44800,6 +45170,11 @@ exports[`public save speedrun-rank1.json > matches the recorded shape (review th
       "classIndex": 40,
       "currentMap": "Deep_End_of_the_Koipond",
       "doorKillsLeft": "327 maps, 15 doors open",
+      "eliteStep": {
+        "elite": "Bubonic_Conjuror",
+        "gangKills": null,
+        "step": "done",
+      },
       "foodStacks": [
         {
           "amount": 24455308,
@@ -45080,6 +45455,11 @@ exports[`public save speedrun-rank1.json > matches the recorded shape (review th
       "classIndex": 22,
       "currentMap": "The_Hole",
       "doorKillsLeft": "327 maps, 15 doors open",
+      "eliteStep": {
+        "elite": "Siege_Breaker",
+        "gangKills": null,
+        "step": "done",
+      },
       "foodStacks": [
         {
           "amount": 5467993,
@@ -45342,6 +45722,11 @@ exports[`public save speedrun-rank1.json > matches the recorded shape (review th
       "classIndex": 12,
       "currentMap": "Deep_End_of_the_Koipond",
       "doorKillsLeft": "327 maps, 72 doors open",
+      "eliteStep": {
+        "elite": "Divine_Knight",
+        "gangKills": null,
+        "step": "done",
+      },
       "foodStacks": [
         {
           "amount": 24102410,
@@ -48356,6 +48741,11 @@ exports[`public save third.json > matches the recorded shape (review the diff af
       "classIndex": 10,
       "currentMap": "Outer_World_Town",
       "doorKillsLeft": "298 maps, 14 doors open",
+      "eliteStep": {
+        "elite": "Blood_Berserker",
+        "gangKills": null,
+        "step": "done",
+      },
       "foodStacks": [
         {
           "amount": 25000,
@@ -48622,6 +49012,11 @@ exports[`public save third.json > matches the recorded shape (review the diff af
       "classIndex": 22,
       "currentMap": "Spore_Meadows",
       "doorKillsLeft": "298 maps, 15 doors open",
+      "eliteStep": {
+        "elite": "Siege_Breaker",
+        "gangKills": null,
+        "step": "done",
+      },
       "foodStacks": [
         {
           "amount": 243938,
@@ -48894,6 +49289,11 @@ exports[`public save third.json > matches the recorded shape (review the diff af
       "classIndex": 36,
       "currentMap": "Spore_Meadows",
       "doorKillsLeft": "298 maps, 16 doors open",
+      "eliteStep": {
+        "elite": "Bubonic_Conjuror",
+        "gangKills": null,
+        "step": "done",
+      },
       "foodStacks": [
         {
           "amount": 349338,
@@ -49157,6 +49557,11 @@ exports[`public save third.json > matches the recorded shape (review the diff af
       "classIndex": 12,
       "currentMap": "Spore_Meadows",
       "doorKillsLeft": "298 maps, 15 doors open",
+      "eliteStep": {
+        "elite": "Divine_Knight",
+        "gangKills": null,
+        "step": "done",
+      },
       "foodStacks": [
         {
           "amount": 27849,
@@ -49430,6 +49835,11 @@ exports[`public save third.json > matches the recorded shape (review the diff af
       "classIndex": 25,
       "currentMap": "Chieftain_Stairway",
       "doorKillsLeft": "298 maps, 15 doors open",
+      "eliteStep": {
+        "elite": "Beast_Master",
+        "gangKills": null,
+        "step": "done",
+      },
       "foodStacks": [
         {
           "amount": 155374,
@@ -49703,6 +50113,11 @@ exports[`public save third.json > matches the recorded shape (review the diff af
       "classIndex": 34,
       "currentMap": "Spore_Meadows",
       "doorKillsLeft": "298 maps, 18 doors open",
+      "eliteStep": {
+        "elite": "Elemental_Sorcerer",
+        "gangKills": null,
+        "step": "done",
+      },
       "foodStacks": [
         {
           "amount": 13,
@@ -49978,6 +50393,11 @@ exports[`public save third.json > matches the recorded shape (review the diff af
       "classIndex": 4,
       "currentMap": "Motherlode_Pit",
       "doorKillsLeft": "298 maps, 14 doors open",
+      "eliteStep": {
+        "elite": null,
+        "gangKills": null,
+        "step": "none",
+      },
       "foodStacks": [
         {
           "amount": 25000,
@@ -50244,6 +50664,11 @@ exports[`public save third.json > matches the recorded shape (review the diff af
       "classIndex": 12,
       "currentMap": "Spore_Meadows",
       "doorKillsLeft": "298 maps, 15 doors open",
+      "eliteStep": {
+        "elite": "Divine_Knight",
+        "gangKills": null,
+        "step": "done",
+      },
       "foodStacks": [
         {
           "amount": 342787,
@@ -50511,6 +50936,11 @@ exports[`public save third.json > matches the recorded shape (review the diff af
       "classIndex": 34,
       "currentMap": "Spore_Meadows",
       "doorKillsLeft": "298 maps, 14 doors open",
+      "eliteStep": {
+        "elite": "Elemental_Sorcerer",
+        "gangKills": null,
+        "step": "done",
+      },
       "foodStacks": [
         {
           "amount": 25000,
@@ -50776,6 +51206,11 @@ exports[`public save third.json > matches the recorded shape (review the diff af
       "classIndex": 22,
       "currentMap": "Spore_Meadows",
       "doorKillsLeft": "298 maps, 16 doors open",
+      "eliteStep": {
+        "elite": "Siege_Breaker",
+        "gangKills": null,
+        "step": "done",
+      },
       "foodStacks": [
         {
           "amount": 269958,
@@ -54187,6 +54622,11 @@ exports[`public save toolbox-raw.json > matches the recorded shape (review the d
       "classIndex": 22,
       "currentMap": "Outer_World_Town",
       "doorKillsLeft": "327 maps, 27 doors open",
+      "eliteStep": {
+        "elite": "Siege_Breaker",
+        "gangKills": null,
+        "step": "done",
+      },
       "foodStacks": [
         {
           "amount": 4439,
@@ -54445,6 +54885,11 @@ exports[`public save toolbox-raw.json > matches the recorded shape (review the d
       "classIndex": 14,
       "currentMap": "Shimmerfin_Grove",
       "doorKillsLeft": "327 maps, 22 doors open",
+      "eliteStep": {
+        "elite": "Blood_Berserker",
+        "gangKills": null,
+        "step": "done",
+      },
       "foodStacks": [
         {
           "amount": 29116537,
@@ -54715,6 +55160,11 @@ exports[`public save toolbox-raw.json > matches the recorded shape (review the d
       "classIndex": 34,
       "currentMap": "Outer_World_Town",
       "doorKillsLeft": "327 maps, 28 doors open",
+      "eliteStep": {
+        "elite": "Elemental_Sorcerer",
+        "gangKills": null,
+        "step": "done",
+      },
       "foodStacks": [
         {
           "amount": 14941,
@@ -54963,6 +55413,11 @@ exports[`public save toolbox-raw.json > matches the recorded shape (review the d
       "classIndex": 12,
       "currentMap": "Outer_World_Town",
       "doorKillsLeft": "327 maps, 19 doors open",
+      "eliteStep": {
+        "elite": "Divine_Knight",
+        "gangKills": null,
+        "step": "done",
+      },
       "foodStacks": [
         {
           "amount": 678,
@@ -55216,6 +55671,11 @@ exports[`public save toolbox-raw.json > matches the recorded shape (review the d
       "classIndex": 40,
       "currentMap": "Outer_World_Town",
       "doorKillsLeft": "327 maps, 18 doors open",
+      "eliteStep": {
+        "elite": "Bubonic_Conjuror",
+        "gangKills": null,
+        "step": "done",
+      },
       "foodStacks": [
         {
           "amount": 49,
@@ -55474,6 +55934,11 @@ exports[`public save toolbox-raw.json > matches the recorded shape (review the d
       "classIndex": 29,
       "currentMap": "Frostbite_Towndra",
       "doorKillsLeft": "327 maps, 22 doors open",
+      "eliteStep": {
+        "elite": "Beast_Master",
+        "gangKills": null,
+        "step": "done",
+      },
       "foodStacks": [
         {
           "amount": 20745812,
@@ -55737,6 +56202,11 @@ exports[`public save toolbox-raw.json > matches the recorded shape (review the d
       "classIndex": 4,
       "currentMap": "YumYum_Islands",
       "doorKillsLeft": "327 maps, 18 doors open",
+      "eliteStep": {
+        "elite": null,
+        "gangKills": null,
+        "step": "none",
+      },
       "foodStacks": [
         {
           "amount": 33425,
@@ -55994,6 +56464,11 @@ exports[`public save toolbox-raw.json > matches the recorded shape (review the d
       "classIndex": 22,
       "currentMap": "Outer_World_Town",
       "doorKillsLeft": "327 maps, 39 doors open",
+      "eliteStep": {
+        "elite": "Siege_Breaker",
+        "gangKills": null,
+        "step": "done",
+      },
       "foodStacks": [
         {
           "amount": 2011125,
@@ -56243,6 +56718,11 @@ exports[`public save toolbox-raw.json > matches the recorded shape (review the d
       "classIndex": 16,
       "currentMap": "The_Royal_Castle",
       "doorKillsLeft": "327 maps, 16 doors open",
+      "eliteStep": {
+        "elite": "Divine_Knight",
+        "gangKills": null,
+        "step": "done",
+      },
       "foodStacks": [
         {
           "amount": 330413,
@@ -56517,6 +56997,11 @@ exports[`public save toolbox-raw.json > matches the recorded shape (review the d
       "classIndex": 36,
       "currentMap": "Spore_Meadows",
       "doorKillsLeft": "327 maps, 32 doors open",
+      "eliteStep": {
+        "elite": "Bubonic_Conjuror",
+        "gangKills": null,
+        "step": "done",
+      },
       "foodStacks": [
         {
           "amount": 18939,
@@ -56774,6 +57259,11 @@ exports[`public save toolbox-raw.json > matches the recorded shape (review the d
       "classIndex": 1,
       "currentMap": "Outer_World_Town",
       "doorKillsLeft": "327 maps, 88 doors open",
+      "eliteStep": {
+        "elite": null,
+        "gangKills": null,
+        "step": "none",
+      },
       "foodStacks": [],
       "freeInventorySlots": 33,
       "gear": "EquipmentHats123 EquipmentPunching12 EquipmentShirts41 EquipmentPendant23 EquipmentPants32 EquipmentRings18 EquipmentShoes41 EquipmentRings18 - - - -",

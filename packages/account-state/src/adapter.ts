@@ -13,6 +13,7 @@ import { readAlchemyPlan } from './alchemy';
 import { readBubba } from './bubba';
 import { readCollections } from './collections';
 import { readDepth } from './depth';
+import { readElite } from './elite';
 import { FIELD_RAW_KEYS, type RawKind } from './fields';
 import { readGear } from './gear';
 import { metaPathAccountFields, metaPathCharacterFields } from './metapath-fields';
@@ -560,6 +561,8 @@ export function toAccountState(
     { account, characters, data, failedSections, calls: options.toolbox?.calls ?? null },
     c,
   );
+  // ---- M26 FR-17 the Eliteus step (elite.ts) ----
+  readElite({ data, states }, c);
   // ---- M26 FR-11 the Rift (rift.ts) ----
   let rift: AccountState['account']['rift'] = null;
   if (data.Rift !== undefined && data.Rift !== null) {

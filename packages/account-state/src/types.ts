@@ -11,6 +11,7 @@ import type { AlchemyAccountFields } from './alchemy-types';
 import type { BubbaAccountFields } from './bubba-types';
 import type { CollectionsAccountFields, CollectionsCharacterFields } from './collections-types';
 import type { DepthAccountFields } from './depth-types';
+import type { EliteCharacterFields } from './elite-types';
 import type { GearAccountFields, GearCharacterFields } from './gear-types';
 import type { ProductionCharacterFields } from './production-types';
 import type { PurposeAccountFields, PurposeCharacterFields } from './purpose-types';
@@ -73,6 +74,7 @@ export const SCHEMA_VERSION = 25;
 //  - M26 Wave 0: `account.equinoxUnlocked` (authored reader, FR-8).
 //  - M26 Wave C: `characters[].anvil` (the `ProductionCharacterFields` block: hammers in save order,
 //    stock of every product, capacity, speed terms).
+//  - M26 Wave 1: `characters[].eliteStep` (the `EliteCharacterFields` block, FR-17: the Eliteus step).
 //  - M26 Wave 1: `account.rift` (the `RiftAccountFields` block, FR-11: level, task, bonuses, Rift Ripper).
 
 /** The AFK types Toolbox's monster data uses, plus its two "no rate" values. */
@@ -107,6 +109,7 @@ export interface CharacterState
     PurposeCharacterFields,
     GearCharacterFields,
     ProductionCharacterFields,
+    EliteCharacterFields,
     RedesignCharacterFields {
   /** Slot in the save (0-based), stable across saves. Field paths use it: `characters[<index>].level`. */
   index: number;

@@ -84,6 +84,8 @@ export {
   DAILY_RESET_PERIOD_MS,
   nextDailyReset,
 } from './derived';
+export { ELITE_OF_SUBCLASS, ELITE_OR_LATER, eliteStepOf, GREENIE_GANG_KILLS } from './elite';
+export type { EliteCharacterFields, EliteStep, EliteStepKind } from './elite-types';
 export {
   declaredField,
   FIELD_RAW_KEYS,
