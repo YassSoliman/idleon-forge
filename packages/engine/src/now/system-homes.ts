@@ -59,6 +59,8 @@ export const SYSTEM_HOMES: Readonly<Record<string, SystemHome>> = {
   rift: { page: 'rift' },
   tome: { page: 'tome' },
   'elite-classes': { page: 'elite-classes' },
+  // M26 Wave 4: the World 1 core pages.
+  owl: { page: 'owl' },
   sigils: { page: 'sigils' },
   stats: { page: 'stats' },
   food: { page: 'food' },

@@ -18,6 +18,7 @@ import { parentsOf, walkthroughValues } from '../walkthrough/module';
 import type { PrinterSlotPlan } from '../walkthrough/types';
 import { printerPicture, stampsPicture, statuesPicture, vaultPicture } from './build';
 import { forgePicture, taskBoardPicture } from './gaps';
+import { owlPicture } from './w1';
 import { elitePicture, riftPicture, tomePicture } from './w4';
 import {
   buildSlotsPicture,
@@ -105,6 +106,8 @@ export function createPicturesModule(): EngineModule {
       // M26 Wave 2: the W2/W3 gaps' pages (gaps.ts).
       add(safe(() => forgePicture(state)));
       add(safe(() => taskBoardPicture(state)));
+      // M26 Wave 4: the World 1 core pages (w1.ts).
+      add(safe(() => owlPicture(state)));
       return out.length ? { slotPictures: out } : {};
     },
   };
