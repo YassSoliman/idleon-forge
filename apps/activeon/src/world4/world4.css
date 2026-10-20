@@ -240,6 +240,14 @@
   .w4-row {
     flex-wrap: wrap;
   }
+  /* The words take the room beside the number and icon (a zero basis), so a long line wraps inside
+     its column instead of dropping the whole block under the icon: every row lays out alike. */
+  .w4-row > .w4-row__main {
+    flex: 1 1 0;
+  }
+  .w4-row__end {
+    margin-left: auto;
+  }
   .w4-row__extra {
     flex-basis: 100%;
     order: 3;
