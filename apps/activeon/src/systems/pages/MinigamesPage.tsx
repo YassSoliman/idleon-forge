@@ -2,7 +2,8 @@
 // Copyright (C) 2026 IdleOn Forge contributors.
 // M24 (board after/sys/Minigames.dc.html): the Minigames page on the System template. Tabs: today (one
 // card per cooldown minigame: ready or when, points to spend) and where the points go (the Darts order
-// from minigames.check.darts-spend). Data: `account.minigames` (M6) and this System's Goals.
+// from minigames.check.darts-spend), and (M26 FR-55) the highscores with their Milestone ladders.
+// Data: `account.minigames` (M6) and this System's Goals.
 import { shortDuration } from '@idleon-forge/engine/now';
 import { MINIGAMES_PAGE_WORDS as W } from '@idleon-forge/engine/systems-ui';
 import { GameIcon } from '../../art/game/GameIcon';
@@ -10,6 +11,7 @@ import { MINIGAME_ART } from '../../art/game/systems-art';
 import { SimplePage, StepsSection } from '../frame/SimplePage';
 import { type FrameAnswer, type FrameTone, frameAnswer, Pip, SystemFrame } from '../frame/SystemFrame';
 import type { FullPageProps } from '../pages';
+import { MINIGAME_SCORE_WORDS, MinigameScores } from '../w1/minigame-scores';
 import './pages.css';
 
 export default function MinigamesPage({ s, page }: FullPageProps) {
@@ -114,6 +116,12 @@ export default function MinigamesPage({ s, page }: FullPageProps) {
               </div>
             </>
           ),
+        },
+        {
+          // M26 FR-55: the highscores and their Milestone ladders.
+          id: 'highscores',
+          label: MINIGAME_SCORE_WORDS.tab,
+          render: () => <MinigameScores mg={mg} goals={s.result.account.goals} />,
         },
         {
           id: 'points',

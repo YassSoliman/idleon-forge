@@ -54,6 +54,8 @@ export const SYSTEM_HOMES: Readonly<Record<string, SystemHome>> = {
   // M24: the pages registered in apps/activeon/src/systems/pages.ts before they had a home row here.
   anvil: { page: 'anvil' },
   minigames: { page: 'minigames' },
+  // M26 Wave 6: Poppy's own page (apps/activeon/src/systems/w1/poppy.tsx).
+  poppy: { page: 'poppy' },
   // M26 FR-0b: the Wave 0 registry rows (#179). Wave 1 fills the Rift, Tome and Elite classes pages;
   // the rest are the thin page until their wave (spec section 9; Sigils moves to an Alchemy tab in Wave 2).
   rift: { page: 'rift' },

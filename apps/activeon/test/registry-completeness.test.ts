@@ -46,7 +46,6 @@ const PENDING: Readonly<Record<string, number | null>> = {
   library: 5,
   quests: 6,
   colosseum: 6,
-  poppy: 6,
   'gem-shop': 7,
   pets: 7,
   guild: 7,

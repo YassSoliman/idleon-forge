@@ -1,0 +1,24 @@
+/* SPDX-License-Identifier: GPL-3.0-only */
+/* Copyright (C) 2026 IdleOn Forge contributors. */
+/* M26 Wave 6: the rest of World 1's pages (Poppy, Colosseum, Quests, ...), on top of the w23 kit's
+   classes. Colour means one thing: gold do it, mint done, grey later. */
+
+.w1-quiet {
+  opacity: 0.72;
+}
+.w1-fold > summary {
+  min-height: var(--tap-min);
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+.w1-mega.is-done {
+  background: var(--ok-soft);
+}
+.w1-mega.is-now {
+  background: var(--accent-soft);
+}
+.w1-mega.is-later,
+.w-tile2.is-later {
+  opacity: 0.72;
+}
