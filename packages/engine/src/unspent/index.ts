@@ -68,6 +68,8 @@ export const UNSPENT_SYSTEMS: readonly string[] = [
   'death-note',
   // M26 Wave 1: the World 4 core Systems' Checks run here too (one runner for one-card Checks).
   ...W4_CHECK_SYSTEMS,
+  // M26 Wave 2: the W2/W3 gaps' Checks.
+  'forge',
 ];
 
 /** M15 F2 (`construction`): M6 runs only this entry of the Construction System; the cog seat is M3's. */

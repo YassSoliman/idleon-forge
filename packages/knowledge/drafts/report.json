@@ -3,7 +3,7 @@
     "files": 66,
     "records": 497
   },
-  "drafts": 312,
+  "drafts": 309,
   "edits": 36,
   "facts": 12,
   "unconverted": [
@@ -887,7 +887,7 @@
     "event-shop": 1,
     "family": 1,
     "food": 2,
-    "forge": 8,
+    "forge": 5,
     "friend-bonuses": 2,
     "gear": 1,
     "guild": 1,
@@ -931,6 +931,9 @@
     "cooking.check.capped-meal",
     "cooking.check.idle-kitchen",
     "elite-classes.check.eliteus",
+    "forge.check.collect-bars",
+    "forge.check.fill-empty-slots",
+    "forge.check.runs-out-before-return",
     "lab.check.first-upload",
     "lab.check.jewel-unlit",
     "lab.check.not-connected",

@@ -1,4 +1,4 @@
-# golden v1: third · knowledge #04f5e113 · parser 6c37e3d (game 2.3.540) · now 2024-06-06T19:59:40.215Z · return 8h · stage W4-late · stale: 4 of 1060
+# golden v1: third · knowledge #f6946eff · parser 6c37e3d (game 2.3.540) · now 2024-06-06T19:59:40.215Z · return 8h · stage W4-late · stale: 4 of 1063
 
 ## Verdict changes
 
@@ -66,17 +66,9 @@ purpose: Godshard: stamp material for Forge Stamp
 - Extra · Play Spiketrap Surprise: Spiketrap starts at :00: up to 40 gems today [IdleOn Wiki: Secrets · Calculated by IdleOn Toolbox · 2.3.540]
 - Spend · Fill today's Post Office orders: Fill today's Post Office orders from storage [IdleOn Wiki: Post Office, orders · Calculated by IdleOn Toolbox · 2.3.540]
 - Spend · Play a round of Hoops: Play one round of Hoops [IdleOn Wiki: Minigames, Swishy Hoops · Calculated by IdleOn Toolbox · 2.3.540]
-- Spend · Spend anvil points: Unspent anvil points on 9 characters → Speed [IdleOn Wiki: Smithing, anvil points · Calculated by IdleOn Toolbox · 2.3.540]
-  · Blood Berserker Lv 521: 11 into Speed, 0 into Capacity
-  · Bubonic Conjuror Lv 568: 10 into Speed, 0 into Capacity
-  · Divine Knight Lv 655: 1 into Speed, 0 into Capacity
-  · Beast Master Lv 561: 27 into Speed, 0 into Capacity
-  · Elemental Sorcerer Lv 545: 12 into Speed, 0 into Capacity
-  · Voidwalker Lv 523: 1 into Speed, 0 into Capacity
-  · Divine Knight Lv 558: 13 into Speed, 0 into Capacity
-  · Elemental Sorcerer Lv 552: 11 into Speed, 0 into Capacity
-  · Siege Breaker Lv 522: 28 into Speed, 0 into Capacity
-show more (13)
+- Extra · Collect your Forge bars: Collect 20,645 bars from the Forge [IdleOn Wiki: Smithing, The Forge · Calculated by IdleOn Toolbox · 2.3.540]
+  · Most of them are Starfire Bar.
+show more (15)
 If you have time
 - Use today's 21 minigame plays · about 10m of hands-on play
 
@@ -94,7 +86,6 @@ Storage and inventory
 Town shops
 Trophies and nametags
 Bribes
-Forge
 Quests
 Statues
 The Owl
@@ -141,7 +132,7 @@ W0 · Drop rate · Not covered yet · Not covered yet
 W1 · Stamps · Nothing to fix · Nothing to fix · 2 to do
 W1 · Star Signs · Nothing to fix · Nothing to fix
 W1 · Anvil · Nothing to fix · Nothing to fix · 2 to do · 3 full · collect
-W1 · Forge · Not covered yet · Not covered yet
+W1 · Forge · Nothing to fix · Nothing to fix · 2 to do
 W1 · Bribes · Not covered yet · Not covered yet
 W1 · Statues · Not covered yet · Not covered yet
 W1 · Post Office · Wasting · 1 to fix before you leave · 1 to do
@@ -653,6 +644,9 @@ Can't read Bubba from this save
 | death-note.contribution.skull-mush-g | death-note/skull | C8 | advances no | building=51 feeders=942 rate=603292699 rule=1 saved=148485650144 target=Green_Mushroom |
 | death-note.contribution.skull-mush-g | death-note/skull | C9 | advances no | building=51 feeders=942 rate=603292699 rule=1 saved=148485650144 target=Green_Mushroom |
 | elite-classes.check.eliteus | elite-classes/eliteus | — | silent |  |
+| forge.check.collect-bars | forge/collect-bars | account | fires | bar=Starfire_Bar bars=20645 kinds=2 |
+| forge.check.fill-empty-slots | forge/idle-slots | — | silent |  |
+| forge.check.runs-out-before-return | forge/runs-out-before-return | account | fires | capacity=156908 emptyIn=5479452 fullRun=23744292 slots=14 |
 | gem-shop.check.printer-buy | gem-shop/unspent | — | silent |  |
 | gem-shop.check.printer-progress | gem-shop/unspent | — | silent |  |
 | gem-shop.check.unspent | gem-shop/unspent | account | fires | gems=4103 price=875 |
