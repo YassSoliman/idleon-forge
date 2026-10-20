@@ -211,6 +211,7 @@ describe('toAccountState', () => {
       saltLick: null,
       forge: null,
       taskBoard: null,
+      owl: null,
     });
     expect(state.characters.map(withoutUnspentCharacter)).toEqual([
       {

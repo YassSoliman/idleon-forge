@@ -14,6 +14,7 @@ import type { DepthAccountFields } from './depth-types';
 import type { EliteCharacterFields } from './elite-types';
 import type { GapsAccountFields } from './gaps-types';
 import type { GearAccountFields, GearCharacterFields } from './gear-types';
+import type { OwlAccountFields } from './owl-types';
 import type { ProductionCharacterFields } from './production-types';
 import type { PurposeAccountFields, PurposeCharacterFields } from './purpose-types';
 import type { RedesignAccountFields, RedesignCharacterFields } from './redesign-types';
@@ -78,6 +79,7 @@ export const SCHEMA_VERSION = 25;
 //    stock of every product, capacity, speed terms).
 //  - M26 Wave 1: `characters[].eliteStep` (the `EliteCharacterFields` block, FR-17: the Eliteus step).
 //  - M26 Wave 1: `account.tome` (the `TomeAccountFields` block, FR-16: PTS, 124 metrics by name, pages, rank).
+//  - M26 Wave 4: `account.owl` (the `OwlAccountFields` block, FR-51: feathers, upgrades, Megafeathers, bonuses).
 //  - M26 Wave 1: `account.rift` (the `RiftAccountFields` block, FR-11: level, task, bonuses, Rift Ripper).
 //  - M26 Wave 2: `account.saltLick` (the `GapsAccountFields` block, FR-21b) and `account.salts[].held` /
 //    `.inRefinery` (the salt held in the Storage Chest and in Refinery storage).
@@ -243,6 +245,7 @@ export interface AccountSummary
     RiftAccountFields,
     TomeAccountFields,
     GapsAccountFields,
+    OwlAccountFields,
     W23AccountFields {
   /** The world the account is working on (1-based): one past the highest finished world (Toolbox's rule). */
   currentWorld: number | null;
