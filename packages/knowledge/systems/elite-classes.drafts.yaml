@@ -3,50 +3,6 @@
 # Drafts: validated, never compiled until their wave promotes them (FR-1). Never edit by hand: fix the draft or the script and re-run.
 system: elite-classes
 entries:
-  - id: elite-classes.check.eliteus
-    system: elite-classes
-    type: check
-    title: Take your elite class
-    subject: character
-    effect: next-action
-    category: compounding
-    priority:
-      frame: by-urgency
-    effortSeconds: 900
-    detector:
-      id: elite-classes/eliteus
-    text: Defeat the Greenie Gang on Outskirts of Fallstar Isle to become a {elite:name}
-    why: Eliteus on World 4 map 4 makes your {class:name} a {elite:name} after 10 Greenie Gang kills. Your subclass has only that one elite. It adds a 4th talent tab and a family bonus.
-    values:
-      text-pick: Talk to Eliteus and become a {elite:name}
-      why-pick: You beat the Greenie Gang. Eliteus's second quest is just picking your elite, and your subclass has only one.
-      goal: Elite classes
-    doneWhen:
-      field: characters[].classIndex
-      change: higher
-    appliesTo:
-      stages:
-        - W4-entry
-    confidence: H
-    status: draft
-    notes: "Quest data H (C4); one elite per subclass H (C1). Says nothing about a level gate (C5 is L) or the Gang's strength (Q2). Coexists with metapath.goal.elite: the Goal carries the order, this Check the step; if both are shown on Now, merge them (dedupe by character)."
-    sources:
-      - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/quests.json
-        title: "Game data: Eliteus1 'The Greenie Gucci Gang' (defeat the Greenie Gang x10) and Eliteus2 (select an elite)"
-        tier: 1
-        verified: 2026-10-19
-        gameVersion: 2.3.540
-      - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/classPromotions.json
-        title: "Game data: class promotions (each subclass has one promotesTo)"
-        tier: 1
-        verified: 2026-10-19
-        gameVersion: 2.3.540
-      - url: https://idleon.wiki/wiki/Eliteus
-        title: "IdleOn Wiki: Eliteus (Outskirts of Fallstar Isle; Greenie Gang x10)"
-        tier: 2
-        verified: 2026-10-19
-        gameVersion: 2.3.540
-        claimDate: 2026-09-27
   - id: elite-classes.check.tab4-points
     system: elite-classes
     type: check

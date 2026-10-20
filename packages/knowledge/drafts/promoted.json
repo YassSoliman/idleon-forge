@@ -5,6 +5,7 @@
     "rift.check.class-gate",
     "rift.check.afk-task",
     "rift.check.active-task",
-    "rift.check.quota-done"
+    "rift.check.quota-done",
+    "elite-classes.check.eliteus"
   ]
 }

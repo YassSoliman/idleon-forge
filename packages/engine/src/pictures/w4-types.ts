@@ -72,4 +72,28 @@ export interface RiftPicture {
   quest: { rawName: string; name: string; have: number; need: number }[];
 }
 
-export type W4Picture = RiftPicture;
+/** One elite at Eliteus: who holds it, and who is on the way. */
+export interface EliteView {
+  /** Toolbox class name ("Divine_Knight") and its words. */
+  elite: string;
+  name: string;
+  /** The subclass it comes from ("Squire"). */
+  from: string;
+  /** Characters who hold it or a class it promotes to (save slots). */
+  holders: number[];
+  /** Characters on its subclass: the Gang (kills of 10) or the pick. */
+  onTheWay: { index: number; step: 'gang' | 'pick'; kills: number }[];
+  /** The Rift score levels it plays, in the game's numbers (`riftText`). */
+  riftGates: string[];
+}
+
+export interface ElitePicture {
+  systemId: 'elite-classes';
+  kind: 'elite';
+  elites: EliteView[];
+  /** Characters still to promote, and characters done, over the six lines. */
+  pending: number;
+  done: number;
+}
+
+export type W4Picture = RiftPicture | ElitePicture;

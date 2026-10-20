@@ -1,4 +1,4 @@
-# golden v1: fourth · knowledge #0ed77233 · parser 6c37e3d (game 2.3.540) · now 2024-05-17T07:51:22.362Z · return 8h · stage W4-late · stale: 4 of 1050
+# golden v1: fourth · knowledge #3025eb3d · parser 6c37e3d (game 2.3.540) · now 2024-05-17T07:51:22.362Z · return 8h · stage W4-late · stale: 4 of 1051
 
 ## Verdict changes
 
@@ -52,7 +52,6 @@ Salt Lick
 Shrines
 Breeding
 Cooking
-Elite classes
 Laboratory
 Sigils
 The Tome
@@ -130,7 +129,7 @@ W4 · Breeding · Not covered yet · Not covered yet
 W4 · Sigils · Not covered yet · Not covered yet
 W4 · The Rift · Nothing to fix · Nothing to fix · 1 to do
 W4 · The Tome · Not covered yet · Not covered yet
-W4 · Elite classes · Not covered yet · Not covered yet
+W4 · Elite classes · Nothing to fix · Nothing to fix
 Worlds 5–7: not covered yet
 Needs you: Minigames (wasting), Random Events (wasting)
 Other gaps: Talent builds past World 4, W4+ constellations and Infinite Stars
@@ -277,6 +276,7 @@ Can't read Bubba from this save
 | construction.check.build-next | construction/build-next | account | fires | building=3D_Printer fullIn=3312676000 held=77204 payTimed=1 salt=Redox_Salts thenNone=1 |
 | death-note.check.build | death-note/build | — | silent |  |
 | death-note.check.build-slot | death-note/build | — | silent |  |
+| elite-classes.check.eliteus | elite-classes/eliteus | — | silent |  |
 | gem-shop.check.printer-buy | gem-shop/unspent | — | silent |  |
 | gem-shop.check.printer-progress | gem-shop/unspent | — | silent |  |
 | gem-shop.check.unspent | gem-shop/unspent | account | fires | gems=999 price=875 |

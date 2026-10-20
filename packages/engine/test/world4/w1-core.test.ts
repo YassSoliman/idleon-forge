@@ -5,12 +5,13 @@
 // no World 4 finding on stage-w3-mid). The W4 test account is a local truth case, never here.
 import { readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
+import type { AccountState } from '@idleon-forge/account-state';
 import { listFixtures, stateOf } from '@idleon-forge/kb-tools/src/fixtures';
 import { goldenContext } from '@idleon-forge/kb-tools/src/golden';
 import { DEFAULT_EXPECTED_RETURN_MS } from '@idleon-forge/knowledge';
 import { describe, expect, it } from 'vitest';
 import { goldenResult } from '../../src/golden';
-import type { RiftPicture } from '../../src/pictures/w4-types';
+import type { ElitePicture, RiftPicture } from '../../src/pictures/w4-types';
 import type { EngineResult, Goal } from '../../src/result';
 
 const ctx = await goldenContext();
@@ -21,10 +22,10 @@ const stageFixture = (id: string) => {
   const now = (JSON.parse(readFileSync(file, 'utf8')) as { lastUpdated: number }).lastUpdated;
   return { id, kind: 'public' as const, file, now };
 };
-const run = (id: string): EngineResult => {
+const run = (id: string, edit: (s: AccountState) => AccountState = (s) => s): EngineResult => {
   const f = fixtures.find((x) => x.id === id) ?? stageFixture(id);
   return goldenResult({
-    state: stateOf(f),
+    state: edit(stateOf(f)),
     kb: ctx.kb,
     registries: ctx.registries,
     now: f.now,
@@ -66,6 +67,44 @@ describe('the Rift', () => {
     expect(goals(r).filter((x) => x.system === 'rift')).toEqual([]);
     expect(rift(r)?.current).toBeNull();
     expect(rift(r)?.bonuses.every((b) => b.unlocked)).toBe(true);
+  });
+});
+
+describe('Elite classes', () => {
+  // US-12: a Siege Breaker set back to Bowman, 3 Greenie Gang kills in.
+  const bowman = (s: AccountState): AccountState => ({
+    ...s,
+    characters: s.characters.map((c) =>
+      c.index === 2
+        ? {
+            ...c,
+            class: 'Bowman',
+            classIndex: 20,
+            eliteStep: { step: 'gang', elite: 'Siege_Breaker', gangKills: 3 },
+          }
+        : c,
+    ),
+  });
+  it('one card per character: the Eliteus step owns it, the Meta Path goal is its detail line', () => {
+    const r = run('first', bowman);
+    const c2 = r.characters.find((c) => c.index === 2)?.goals ?? [];
+    const g = c2.find((x) => x.id === 'elite-classes.check.eliteus');
+    expect(g?.nextAction.text).toBe('Beat the Greenie Gang at Eliteus for your Siege Breaker class');
+    expect(g?.nextAction.why).toContain('(3 done, 7 to go)');
+    expect(c2.some((x) => x.id === 'metapath.goal.elite')).toBe(false);
+    const pic = r.slotPictures?.find((p): p is ElitePicture => p.kind === 'elite');
+    expect(pic?.elites.find((e) => e.elite === 'Siege_Breaker')?.onTheWay).toEqual([
+      { index: 2, step: 'gang', kills: 3 },
+    ]);
+    expect(pic?.elites.find((e) => e.elite === 'Divine_Knight')?.riftGates).toEqual([
+      'Rift 8',
+      'Rift 18',
+      'Rift 29',
+      'Rift 43',
+    ]);
+  });
+  it('first.json as saved: every subclass is promoted, so no Eliteus card', () => {
+    expect(goals(run('first')).filter((g) => g.system === 'elite-classes')).toEqual([]);
   });
 });
 

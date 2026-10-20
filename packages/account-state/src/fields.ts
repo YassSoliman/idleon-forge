@@ -13,6 +13,7 @@ import {
   COLLECTIONS_FIELD_SOURCES,
 } from './collections-fields';
 import { DEPTH_FIELD_RAW_KEYS, DEPTH_FIELD_SECTIONS, DEPTH_FIELD_SOURCES } from './depth-fields';
+import { ELITE_FIELD_RAW_KEYS, ELITE_FIELD_SECTIONS, ELITE_FIELD_SOURCES } from './elite-fields';
 import { GEAR_FIELD_RAW_KEYS, GEAR_FIELD_SECTIONS, GEAR_FIELD_SOURCES } from './gear-fields';
 import {
   PRODUCTION_FIELD_RAW_KEYS,
@@ -119,6 +120,7 @@ export const FIELD_SOURCES: Record<string, string> = {
   ...BUBBA_FIELD_SOURCES,
   ...WORLD4_FIELD_SOURCES,
   ...RIFT_FIELD_SOURCES,
+  ...ELITE_FIELD_SOURCES,
   ...PRODUCTION_FIELD_SOURCES,
   ...W23_FIELD_SOURCES,
   ...TALENT_POINT_FIELD_SOURCES,
@@ -164,6 +166,7 @@ export const FIELD_RAW_KEYS: Record<string, RawKeySpec[]> = {
   ...BUBBA_FIELD_RAW_KEYS,
   ...WORLD4_FIELD_RAW_KEYS,
   ...RIFT_FIELD_RAW_KEYS,
+  ...ELITE_FIELD_RAW_KEYS,
   ...PRODUCTION_FIELD_RAW_KEYS,
   ...TALENT_POINT_FIELD_RAW_KEYS,
 };
@@ -250,6 +253,7 @@ export const FIELD_SECTIONS: Record<string, string[]> = {
   ...BUBBA_FIELD_SECTIONS,
   ...WORLD4_FIELD_SECTIONS,
   ...RIFT_FIELD_SECTIONS,
+  ...ELITE_FIELD_SECTIONS,
   ...PRODUCTION_FIELD_SECTIONS,
   ...W23_FIELD_SECTIONS,
   // M4 TR-2: the current-map rate is getMaxDamage, which reads the frontier's sections.

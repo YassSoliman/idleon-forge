@@ -1,4 +1,4 @@
-# golden v1: scrubbed-w2 · knowledge #0ed77233 · parser 6c37e3d (game 2.3.540) · now 2026-10-17T15:47:05.447Z · return 8h · stage W2-late · stale: 4 of 1050
+# golden v1: scrubbed-w2 · knowledge #3025eb3d · parser 6c37e3d (game 2.3.540) · now 2026-10-17T15:47:05.447Z · return 8h · stage W2-late · stale: 4 of 1051
 
 ## Verdict changes
 
@@ -428,6 +428,11 @@ step: Use your 11 vial attempts on the W2 town cauldron
 | death-note.contribution.skull-poop-small | death-note/skull | C1 | advances yes eta 923m | building=0 feeders=1 rate=1430 rule=0 saved=2995 target=Poop |
 | death-note.contribution.skull-slime-g | death-note/skull | C3 | advances yes eta 486m | building=0 feeders=4 rate=1285 rule=0 saved=14596 target=Slime |
 | death-note.contribution.skull-snail-z | death-note/skull | C5 | advances yes eta 711m | building=0 feeders=16 rate=874 rule=0 saved=14641 target=Snelbie |
+| elite-classes.check.eliteus | elite-classes/eliteus | C1 | fires | class=Barbarian elite=Blood_Berserker kills=0 left=10 pick=0 |
+| elite-classes.check.eliteus | elite-classes/eliteus | C2 | fires | class=Squire elite=Divine_Knight kills=0 left=10 pick=0 |
+| elite-classes.check.eliteus | elite-classes/eliteus | C3 | fires | class=Shaman elite=Bubonic_Conjuror kills=0 left=10 pick=0 |
+| elite-classes.check.eliteus | elite-classes/eliteus | C4 | fires | class=Bowman elite=Siege_Breaker kills=0 left=10 pick=0 |
+| elite-classes.check.eliteus | elite-classes/eliteus | C5 | fires | class=Wizard elite=Elemental_Sorcerer kills=0 left=10 pick=0 |
 | gem-shop.check.printer-buy | gem-shop/unspent | — | silent |  |
 | gem-shop.check.printer-progress | gem-shop/unspent | — | silent |  |
 | gem-shop.check.unspent | gem-shop/unspent | account | fires | gems=628 price=875 |

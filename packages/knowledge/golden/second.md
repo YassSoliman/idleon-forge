@@ -1,4 +1,4 @@
-# golden v1: second · knowledge #0ed77233 · parser 6c37e3d (game 2.3.540) · now 2024-06-08T06:05:26.262Z · return 8h · stage W4-late · stale: 4 of 1050
+# golden v1: second · knowledge #3025eb3d · parser 6c37e3d (game 2.3.540) · now 2024-06-08T06:05:26.262Z · return 8h · stage W4-late · stale: 4 of 1051
 
 ## Verdict changes
 
@@ -16,31 +16,31 @@ ready fold: 8 characters
 ### C4 · Blood Berserker 501 · Unknown
 2 · Fighting The Rift · The Rift · [Traps idle in 2h 15m] · Can't tell from the save
 
-### C3 · Bubonic Conjuror 567 · Ready
-3 · Fighting Penguin · Signature Slopes · [Traps idle in 2h 15m] · Equip 1 stored obol in a personal sparkle slot
-purpose: Death Note: Penguin kills ~38M → 100M · about 8h
-
-### C2 · Divine Knight 544 · Ready
-4 · Fighting Penguin · Signature Slopes · [Traps idle in 2h 15m]
-purpose: Death Note: Penguin kills ~38M → 100M · about 8h
-
-### C6 · Siege Breaker 530 · Ready
-5 · Fighting Penguin · Signature Slopes · [Traps idle in 2h 14m]
-purpose: Death Note: Penguin kills ~38M → 100M · about 8h
-
-### C1 · Beast Master 507 · Ready
-6 · Fighting Penguin · Signature Slopes · [Traps idle in 2h 15m]
-purpose: Death Note: Penguin kills ~38M → 100M · about 8h
-
 ### C9 · Hunter 503 · Ready
-7 · Fighting Penguin · Signature Slopes · [Traps idle in 2h 15m] [Anvil full in 5h 37m · collect]
+3 · Fighting Penguin · Signature Slopes · [Traps idle in 2h 15m] [Anvil full in 5h 37m · collect] · Talk to Eliteus and take your Beast Master class
 purpose: Death Note: Penguin kills ~38M → 100M · about 8h
 
 ### C5 · Wizard 501 · Ready
-8 · Fighting Penguin · Signature Slopes · [Traps idle in 2h 15m] [Anvil full in 2h 27m · collect]
+4 · Fighting Penguin · Signature Slopes · [Traps idle in 2h 15m] [Anvil full in 2h 27m · collect] · Talk to Eliteus and take your Elemental Sorcerer class
 purpose: Death Note: Penguin kills ~38M → 100M · about 8h
 
 ### C10 · Barbarian 501 · Ready
+5 · Fighting Penguin · Signature Slopes · [Traps idle in 2h 15m] · Talk to Eliteus and take your Blood Berserker class
+purpose: Death Note: Penguin kills ~38M → 100M · about 8h
+
+### C3 · Bubonic Conjuror 567 · Ready
+6 · Fighting Penguin · Signature Slopes · [Traps idle in 2h 15m] · Equip 1 stored obol in a personal sparkle slot
+purpose: Death Note: Penguin kills ~38M → 100M · about 8h
+
+### C2 · Divine Knight 544 · Ready
+7 · Fighting Penguin · Signature Slopes · [Traps idle in 2h 15m]
+purpose: Death Note: Penguin kills ~38M → 100M · about 8h
+
+### C6 · Siege Breaker 530 · Ready
+8 · Fighting Penguin · Signature Slopes · [Traps idle in 2h 14m]
+purpose: Death Note: Penguin kills ~38M → 100M · about 8h
+
+### C1 · Beast Master 507 · Ready
 9 · Fighting Penguin · Signature Slopes · [Traps idle in 2h 15m]
 purpose: Death Note: Penguin kills ~38M → 100M · about 8h
 
@@ -86,7 +86,6 @@ Salt Lick
 Shrines
 Breeding
 Cooking
-Elite classes
 Laboratory
 Sigils
 The Tome
@@ -164,7 +163,7 @@ W4 · Breeding · Not covered yet · Not covered yet
 W4 · Sigils · Not covered yet · Not covered yet
 W4 · The Rift · Nothing to fix · Nothing to fix
 W4 · The Tome · Not covered yet · Not covered yet
-W4 · Elite classes · Not covered yet · Not covered yet
+W4 · Elite classes · Nothing to fix · Nothing to fix · 3 to do
 Worlds 5–7: not covered yet
 Needs you: Minigames (wasting)
 Other gaps: Talent builds past World 4, W4+ constellations and Infinite Stars
@@ -184,18 +183,6 @@ C4 · Blood Berserker 501
 - Traps idle · in 2h 15m · 08:20 · before · pill · fix none
 - anvil full · later · in 24h 50m · 06:55 · after · info · fix none
 - worship charge caps · later · in 14d 14h · 20:15 · after · info · fix none
-C3 · Bubonic Conjuror 567
-- Traps idle · in 2h 15m · 08:20 · before · pill · fix none
-- worship charge caps · later · in 19d 5h · 12:03 · after · info · fix none
-C2 · Divine Knight 544
-- Traps idle · in 2h 15m · 08:20 · before · pill · fix none
-- worship charge caps · later · in 14d 15h · 21:18 · after · info · fix none
-C6 · Siege Breaker 530
-- Traps idle · in 2h 14m · 08:19 · before · pill · fix none
-- worship charge caps · later · in 14d 15h · 21:50 · after · info · fix none
-C1 · Beast Master 507
-- Traps idle · in 2h 15m · 08:19 · before · pill · fix none
-- worship charge caps · later · in 14d 14h · 20:41 · after · info · fix none
 C9 · Hunter 503
 - Traps idle · in 2h 15m · 08:20 · before · pill · fix none
 - Anvil full · collect · in 5h 37m · 11:41 · before · pill · fix none
@@ -208,6 +195,18 @@ C10 · Barbarian 501
 - Traps idle · in 2h 15m · 08:20 · before · pill · fix none
 - anvil full · later · in 19h 09m · 01:14 · after · info · fix none
 - worship charge caps · later · in 14d 8h · 14:26 · after · info · fix none
+C3 · Bubonic Conjuror 567
+- Traps idle · in 2h 15m · 08:20 · before · pill · fix none
+- worship charge caps · later · in 19d 5h · 12:03 · after · info · fix none
+C2 · Divine Knight 544
+- Traps idle · in 2h 15m · 08:20 · before · pill · fix none
+- worship charge caps · later · in 14d 15h · 21:18 · after · info · fix none
+C6 · Siege Breaker 530
+- Traps idle · in 2h 14m · 08:19 · before · pill · fix none
+- worship charge caps · later · in 14d 15h · 21:50 · after · info · fix none
+C1 · Beast Master 507
+- Traps idle · in 2h 15m · 08:19 · before · pill · fix none
+- worship charge caps · later · in 14d 14h · 20:41 · after · info · fix none
 C8 · Elemental Sorcerer 525
 - Traps idle · in 2h 15m · 08:20 · before · pill · fix none
 - worship charge caps · later · in 2d 9h · 15:48 · after · info · fix none
@@ -472,7 +471,7 @@ Can't read Bubba from this save
   - gate Efaunt (done): Glacier Quartz handed in; 0 keys waiting · 10 earned a day
 - World 3 · Frostbite Tundra [done] · 11 of 11 route doors open · 3 side maps not reached
   - gate Chizoar (done): Galaxial Amethyst handed in; 0 keys waiting · 10 earned a day
-  - Signature Slopes (cleared): C3 Bubonic Conjuror 567, C2 Divine Knight 544, C6 Siege Breaker 530, C1 Beast Master 507, C9 Hunter 503, C5 Wizard 501, C10 Barbarian 501, C8 Elemental Sorcerer 525
+  - Signature Slopes (cleared): C9 Hunter 503, C5 Wizard 501, C10 Barbarian 501, C3 Bubonic Conjuror 567, C2 Divine Knight 544, C6 Siege Breaker 530, C1 Beast Master 507, C8 Elemental Sorcerer 525
 - World 4 · Hyperion Nebula [done] · 3 of 3 route doors open
   - gate Massive Troll (done)
   - The Rift (reached): C4 Blood Berserker 501
@@ -605,6 +604,9 @@ Can't read Bubba from this save
 | death-note.contribution.skull-penguin | death-note/skull | C6 | advances yes eta 625m | building=51 feeders=951 rate=7322117 rule=1 saved=23691505 target=Penguin |
 | death-note.contribution.skull-penguin | death-note/skull | C8 | advances yes eta 625m | building=51 feeders=951 rate=7322117 rule=1 saved=23691505 target=Penguin |
 | death-note.contribution.skull-penguin | death-note/skull | C9 | advances yes eta 625m | building=51 feeders=951 rate=7322117 rule=1 saved=23691505 target=Penguin |
+| elite-classes.check.eliteus | elite-classes/eliteus | C10 | fires | class=Barbarian elite=Blood_Berserker kills=0 left=10 pick=1 |
+| elite-classes.check.eliteus | elite-classes/eliteus | C5 | fires | class=Wizard elite=Elemental_Sorcerer kills=0 left=10 pick=1 |
+| elite-classes.check.eliteus | elite-classes/eliteus | C9 | fires | class=Hunter elite=Beast_Master kills=0 left=10 pick=1 |
 | gem-shop.check.printer-buy | gem-shop/unspent | — | silent |  |
 | gem-shop.check.printer-progress | gem-shop/unspent | — | silent |  |
 | gem-shop.check.unspent | gem-shop/unspent | account | fires | gems=4645 price=875 |

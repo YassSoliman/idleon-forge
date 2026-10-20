@@ -236,6 +236,7 @@ describe('toAccountState', () => {
         gear: null,
         // M26 F-C: no AnvilPA key.
         anvil: null,
+        eliteStep: null,
         // M21 TR-3: no KillsLeft2Advance key.
         doorKillsLeft: null,
       },

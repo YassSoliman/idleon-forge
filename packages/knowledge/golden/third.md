@@ -1,4 +1,4 @@
-# golden v1: third · knowledge #0ed77233 · parser 6c37e3d (game 2.3.540) · now 2024-06-06T19:59:40.215Z · return 8h · stage W4-late · stale: 4 of 1050
+# golden v1: third · knowledge #3025eb3d · parser 6c37e3d (game 2.3.540) · now 2024-06-06T19:59:40.215Z · return 8h · stage W4-late · stale: 4 of 1051
 
 ## Verdict changes
 
@@ -106,7 +106,6 @@ Salt Lick
 Shrines
 Breeding
 Cooking
-Elite classes
 Laboratory
 Sigils
 The Tome
@@ -184,7 +183,7 @@ W4 · Breeding · Not covered yet · Not covered yet
 W4 · Sigils · Not covered yet · Not covered yet
 W4 · The Rift · Nothing to fix · Nothing to fix · 1 to do
 W4 · The Tome · Not covered yet · Not covered yet
-W4 · Elite classes · Not covered yet · Not covered yet
+W4 · Elite classes · Nothing to fix · Nothing to fix
 Worlds 5–7: not covered yet
 Needs you: Minigames (wasting), Post Office (wasting), Refinery (wasting)
 Other gaps: Talent builds past World 4, W4+ constellations and Infinite Stars
@@ -653,6 +652,7 @@ Can't read Bubba from this save
 | death-note.contribution.skull-mush-g | death-note/skull | C6 | advances no | building=51 feeders=942 rate=603292699 rule=1 saved=148485650144 target=Green_Mushroom |
 | death-note.contribution.skull-mush-g | death-note/skull | C8 | advances no | building=51 feeders=942 rate=603292699 rule=1 saved=148485650144 target=Green_Mushroom |
 | death-note.contribution.skull-mush-g | death-note/skull | C9 | advances no | building=51 feeders=942 rate=603292699 rule=1 saved=148485650144 target=Green_Mushroom |
+| elite-classes.check.eliteus | elite-classes/eliteus | — | silent |  |
 | gem-shop.check.printer-buy | gem-shop/unspent | — | silent |  |
 | gem-shop.check.printer-progress | gem-shop/unspent | — | silent |  |
 | gem-shop.check.unspent | gem-shop/unspent | account | fires | gems=4103 price=875 |

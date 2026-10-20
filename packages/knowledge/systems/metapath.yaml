@@ -766,9 +766,10 @@ entries:
     type: goal
     title: Get your elite class
     text: "Get your elite class at Eliteus"
-    why: "Elite classes unlock the W4 Roles; Divine Knight and Elemental Sorcerer push best."
+    why: "Each elite also starts a family bonus for every character. Divine Knight and Elemental Sorcerer open Rift levels 8 and 9, and push best."
+    claims: [{ system: elite-classes, key: promotion }]
     values:
-      next: "Become a {elite:name} at Eliteus"
+      next: "Take your {elite:name} class at Eliteus"
     sources:
       - url: https://github.com/YassSoliman/idleon-forge/blob/research/priority-verification/docs/research/2026-10-17-priority-verification.md
         title: Priority verification, PV 6.2 (elite order)
@@ -1506,7 +1507,7 @@ entries:
       - [{ include: metapath.priority.never-skip }]
       - [metapath.goal.push]
       - [{ include: metapath.priority.free-value-fills }]
-      - [metapath.goal.subclass, metapath.goal.elite, metapath.goal.swap-token]
+      - [metapath.goal.subclass, elite-classes.check.eliteus, metapath.goal.elite, metapath.goal.swap-token]
       # M26 Wave 1 (FR-11): the Rift, one card at a time: a met quota first (progress is lost past it).
       - [rift.check.quota-done, rift.check.class-gate, rift.check.unlock-quest, rift.check.afk-task, rift.check.active-task]
       - [alchemy-bubbles.goal.level-next, alchemy-vials.goal.level-next]

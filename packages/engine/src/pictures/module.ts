@@ -17,7 +17,7 @@ import { ENTRY, human, itemOf, say, type WalkthroughKnowledge } from '../walkthr
 import { parentsOf, walkthroughValues } from '../walkthrough/module';
 import type { PrinterSlotPlan } from '../walkthrough/types';
 import { printerPicture, stampsPicture, statuesPicture, vaultPicture } from './build';
-import { riftPicture } from './w4';
+import { elitePicture, riftPicture } from './w4';
 import {
   buildSlotsPicture,
   prayersPicture,
@@ -99,6 +99,7 @@ export function createPicturesModule(): EngineModule {
       add(safe(() => shrinesPicture(state, (i) => maps?.find((m) => m.index === i)?.name ?? null)));
       // M26 Wave 1: the World 4 core pages (w4.ts).
       add(safe(() => riftPicture(state)));
+      add(safe(() => elitePicture(state)));
       return out.length ? { slotPictures: out } : {};
     },
   };

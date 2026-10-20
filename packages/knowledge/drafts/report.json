@@ -3,7 +3,7 @@
     "files": 66,
     "records": 497
   },
-  "drafts": 322,
+  "drafts": 321,
   "edits": 36,
   "facts": 12,
   "unconverted": [
@@ -882,7 +882,7 @@
     "cooking": 9,
     "death-note": 7,
     "drop-rate": 4,
-    "elite-classes": 6,
+    "elite-classes": 5,
     "equinox": 1,
     "event-shop": 1,
     "family": 1,
@@ -926,6 +926,7 @@
     "worship": 12
   },
   "promoted": [
+    "elite-classes.check.eliteus",
     "rift.check.active-task",
     "rift.check.afk-task",
     "rift.check.class-gate",
