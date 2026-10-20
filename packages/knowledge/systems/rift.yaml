@@ -1,0 +1,113 @@
+# SPDX-License-Identifier: GPL-3.0-only
+# M26 FR-11 (Wave 1): The Rift. Promoted from systems/rift.drafts.yaml after V1 (2026-10-19): each level's
+# task and quota are Toolbox's riftInfo text, checked level by level against the game client's own
+# RiftStuff tables (packages/account-state/test/rift.test.ts); the level only advances through the portal
+# in The Rift, so a met quota is "done, walk in", not "claim it". Levels print through riftLabel() (FR-4).
+system: rift
+entries:
+  - id: rift.check.unlock-quest
+    system: rift
+    type: check
+    title: Open The Rift
+    subject: account
+    effect: next-action
+    category: compounding
+    priority: { frame: by-urgency }
+    effortSeconds: 120
+    detector: { id: rift/unlock-quest }
+    text: "Finish the Rift Ripper's quest 'Entering The Rift...' in World 4"
+    why: "Still to find: {batteries:int} Lost Batteries, {caps:int} Purple Mush Cap and {tails:int} Wurm Tail; 0 means you hold enough. The Rift is a ladder of challenge levels, and every 5th one unlocks a permanent account bonus."
+    doneWhen: { field: account.rift.unlocked, change: higher }
+    appliesTo: { stages: [{ from: W4-entry, to: W4-entry }] }
+    confidence: H
+    status: active
+    notes: "Dossier C2. Fires in World 4 while no character has Rift_Ripper1 done and no level is completed; the slots count the chest and every bag. Kept live while the Rift is locked (UNLOCK_RULES.rift.opens): it is the unlock step itself."
+    sources:
+      - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/quests.json", title: "IdleOn Toolbox game data: quest Rift_Ripper1, Entering The Rift (three items, consumed)", tier: 1, verified: 2026-10-19, gameVersion: 2.3.540 }
+      - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-4/rift.ts#L8-L27", title: "IdleOn Toolbox parsers/world-4/rift.ts: getRift, isRiftBonusUnlocked", tier: 1, verified: 2026-10-19, gameVersion: 2.3.540 }
+      - { url: "https://idleon.wiki/wiki/Rift", title: "IdleOn Wiki: Rift", tier: 2, claimDate: 2026-10-07, verified: 2026-10-19, gameVersion: 2.3.540 }
+  - id: rift.check.class-gate
+    system: rift
+    type: check
+    title: This Rift level needs an elite class
+    subject: account
+    effect: next-action
+    category: compounding
+    priority: { frame: by-urgency }
+    effortSeconds: 60
+    detector: { id: rift/class-gate }
+    text: "Take a {class:name} at Eliteus for Rift level {level:int}"
+    why: "That level is a {score} score of {quota:int} on a {class:name}, and nobody on the account is one. Score tasks only count on that class, so the Rift stops here until a character takes it."
+    appliesTo: { stages: [{ from: W4-entry, to: W4-entry }] }
+    confidence: H
+    status: active
+    notes: "Game client RiftStuff tasks 6-8 (Orb 180 Divine Knight, Pirate Flag 75 Siege Breaker, Wormhole 60 Elemental Sorcerer) at Rift[0] 7, 17, 28, 42 / 15, 21, 35, 64 / 8, 26, 43. A class an elite promotes to (Royal Guardian, Spiritual Monk) counts as it. The elite step itself is elite-classes.check.eliteus."
+    sources:
+      - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json", title: "IdleOn Toolbox game data: riftInfo (task text per level)", tier: 1, verified: 2026-10-19, gameVersion: 2.3.540 }
+      - { url: "https://legendsofidleon.com/ytGl5oc/N.js", title: "Game client: CustomLists.RiftStuff[4] (task per level) and [5] (quota per task)", tier: 1, verified: 2026-10-19, gameVersion: 2.3.540, excerptSha256: 8d7fd42f0abdbf1208dc2c10c9e22d90b2208ff404c6de5682c4038c89c35d4d, clientBuild: { sha256: 42da3130082762cfe4650212fccbf51d7982175ee91778ef3b202fcb33b8b204, lastModified: 2026-10-17 } }
+      - { url: "https://idleon.wiki/wiki/Rift", title: "IdleOn Wiki: Rift", tier: 2, claimDate: 2026-10-07, verified: 2026-10-19, gameVersion: 2.3.540 }
+  - id: rift.check.afk-task
+    system: rift
+    type: check
+    title: Put a fighter on The Rift
+    subject: account
+    effect: next-action
+    category: spendable
+    priority: { frame: by-urgency }
+    effortSeconds: 30
+    detector: { id: rift/task-kind, params: { kind: afk } }
+    text: "AFK a fighter on The Rift for level {level:int}"
+    why: "This level wants {quota:int} AFK kills and has {progress:int}. AFK-kill levels only fill while a character is AFK on The Rift's monster, and nobody is on it now."
+    doneWhen: { field: account.rift.progress, change: higher }
+    appliesTo: { stages: [{ from: W4-entry, to: W4-entry }] }
+    confidence: H
+    status: active
+    notes: "Game client: AFK gains add to tasks 1, 10, 11 (200k, 1M, 5M) through RiftTaskProgress; the AFK target is riftAll (Toolbox character.ts). Which fighter is the AFK module's call, not this one's."
+    sources:
+      - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json", title: "IdleOn Toolbox game data: riftInfo (task text per level)", tier: 1, verified: 2026-10-19, gameVersion: 2.3.540 }
+      - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/character.ts#L1780-L1850", title: "IdleOn Toolbox character.ts: riftAll AFK target, 45 s base respawn", tier: 1, verified: 2026-10-19, gameVersion: 2.3.540 }
+      - { url: "https://legendsofidleon.com/ytGl5oc/N.js", title: "Game client: RiftStuff Task and RiftCompleted (Rift[1] >= quota)", tier: 1, verified: 2026-10-19, gameVersion: 2.3.540, excerptSha256: d2a0f7df35f3f8859462478ec5e2be44ddc018f6656e46e99a0db964e91f9cc9, clientBuild: { sha256: 42da3130082762cfe4650212fccbf51d7982175ee91778ef3b202fcb33b8b204, lastModified: 2026-10-17 } }
+      - { url: "https://idleon.wiki/wiki/Rift", title: "IdleOn Wiki: Rift", tier: 2, claimDate: 2026-10-07, verified: 2026-10-19, gameVersion: 2.3.540 }
+  - id: rift.check.active-task
+    system: rift
+    type: check
+    title: This Rift level is played, not AFKed
+    subject: account
+    effect: next-action
+    category: nice
+    priority: { frame: by-urgency }
+    effortSeconds: 600
+    detector: { id: rift/task-kind, params: { kind: active } }
+    text: "Play Rift level {level:int}: {task:name}"
+    why: "Progress {progress:int} of {quota:int}. Timed, score and several-character tasks only move while you play them, so AFK kills on The Rift add nothing here (characters AFK there now: {afk:int})."
+    doneWhen: { field: account.rift.level, change: higher }
+    appliesTo: { stages: [{ from: W4-entry, to: W4-entry }] }
+    confidence: H
+    status: active
+    notes: "Game client RiftTaskProgress: kills in 5 minutes, Rift Tears and skull points come from played kills; score tasks keep the best; character tasks count each character once (Rift[2]). Silent on a score level with no such elite (rift.check.class-gate)."
+    sources:
+      - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json", title: "IdleOn Toolbox game data: riftInfo (task text per level)", tier: 1, verified: 2026-10-19, gameVersion: 2.3.540 }
+      - { url: "https://legendsofidleon.com/ytGl5oc/N.js", title: "Game client: CustomLists.RiftStuff[4] (task per level) and [5] (quota per task)", tier: 1, verified: 2026-10-19, gameVersion: 2.3.540, excerptSha256: 8d7fd42f0abdbf1208dc2c10c9e22d90b2208ff404c6de5682c4038c89c35d4d, clientBuild: { sha256: 42da3130082762cfe4650212fccbf51d7982175ee91778ef3b202fcb33b8b204, lastModified: 2026-10-17 } }
+      - { url: "https://idleon.wiki/wiki/Rift", title: "IdleOn Wiki: Rift", tier: 2, claimDate: 2026-10-07, verified: 2026-10-19, gameVersion: 2.3.540 }
+  - id: rift.check.quota-done
+    system: rift
+    type: check
+    title: Your Rift level is done
+    subject: account
+    effect: next-action
+    category: spendable
+    priority: { frame: by-urgency }
+    effortSeconds: 30
+    detector: { id: rift/quota-done }
+    text: "Walk into the portal in The Rift to open level {next:int}"
+    why: "Level {level:int} is done. The Rift only moves on when a character walks through the portal, and until then the task takes no more progress. Characters still AFK on The Rift: {afk:int}."
+    doneWhen: { field: account.rift.level, change: higher }
+    appliesTo: { stages: [{ from: W4-entry, to: W4-entry }] }
+    confidence: H
+    status: active
+    notes: "V1 settled 2026-10-19 in the game client: RiftTaskProgress adds nothing once RiftCompleted holds; the Rift portal, walked into, teleports to map 166 and sets Rift[0] + 1, Rift[1] = 0, Rift[2] = ''. Nothing else writes Rift[0] but the account reset."
+    sources:
+      - { url: "https://legendsofidleon.com/ytGl5oc/N.js", title: "Game client: the Rift portal sets Rift[0] + 1 and zeroes the progress", tier: 1, verified: 2026-10-19, gameVersion: 2.3.540, excerptSha256: 6deae8ccb136127f4bc0bfbc94276307b5372c029ea096710927a4b6268c5069, clientBuild: { sha256: 42da3130082762cfe4650212fccbf51d7982175ee91778ef3b202fcb33b8b204, lastModified: 2026-10-17 } }
+      - { url: "https://legendsofidleon.com/ytGl5oc/N.js", title: "Game client: RiftStuff Task and RiftCompleted (Rift[1] >= quota)", tier: 1, verified: 2026-10-19, gameVersion: 2.3.540, excerptSha256: d2a0f7df35f3f8859462478ec5e2be44ddc018f6656e46e99a0db964e91f9cc9, clientBuild: { sha256: 42da3130082762cfe4650212fccbf51d7982175ee91778ef3b202fcb33b8b204, lastModified: 2026-10-17 } }
+      - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json", title: "IdleOn Toolbox game data: riftInfo (task text per level)", tier: 1, verified: 2026-10-19, gameVersion: 2.3.540 }
+      - { url: "https://idleon.wiki/wiki/Rift", title: "IdleOn Wiki: Rift", tier: 2, claimDate: 2026-10-07, verified: 2026-10-19, gameVersion: 2.3.540 }

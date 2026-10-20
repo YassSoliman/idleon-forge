@@ -1477,6 +1477,18 @@ opens the extra Killroy room that records `KRbest`. So no damage or printer chan
 and the W4 synthesis line ("likely gated") is wrong. **V43 settled 2026-10-19:** see FR-2b (matched to 2.3.540 by
 content and date).
 
+**V1 settled 2026-10-19 (N.js, the build in `builds.json`, and Toolbox `riftInfo`).** Each level's task and quota are
+the text of Toolbox's `riftInfo` ("KILL_200000_MONSTERS_WHILE_AFK"); read level by level, they equal the client's
+`RiftStuff[4]` (task per `Rift[0]`) and `RiftStuff[5]` (quota per task) on all 70 rows
+(`packages/account-state/test/rift.test.ts`). Kinds, from the client's `RiftTaskProgress` callers: AFK gains add to
+tasks 1, 10, 11; scores keep the best (6-8, on the Divine Knight, Siege Breaker, Elemental Sorcerer); 'name' counts a
+character once (3-5, 14, 15); the rest are played kills, tears and skull points. `RiftCompleted` is `Rift[1] >= quota`,
+and progress stops there. **`Rift[0]` never advances by itself:** a character walks into the portal in The Rift
+("Rift_Completed._You_may_proceed..."), which sets `Rift[0] + 1` and zeroes `Rift[1]` and `Rift[2]`. So `quota-done`
+says "walk into the portal" at confidence H, and quotas print from the generated task text. The unlock is the Rift
+Ripper's quest done on any character, or a level completed. The elite `riftGate` numbers use `Rift[0]` (Orb at 7, 17,
+28, 42; Wormhole at 8, 26, 43; Pirate Flag at 15, 21, 35, 64), shown one higher.
+
 In-game checks (owner, credential-bound, minutes each) are listed in MASTER.md section 7. The table's wave column
 follows the revised waves (section 3).
 

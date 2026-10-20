@@ -21,6 +21,7 @@ import {
 } from './production-fields';
 import { PURPOSE_FIELD_RAW_KEYS, PURPOSE_FIELD_SECTIONS, PURPOSE_FIELD_SOURCES } from './purpose-fields';
 import { REDESIGN_FIELD_RAW_KEYS, REDESIGN_FIELD_SECTIONS, REDESIGN_FIELD_SOURCES } from './redesign-fields';
+import { RIFT_FIELD_RAW_KEYS, RIFT_FIELD_SECTIONS, RIFT_FIELD_SOURCES } from './rift-fields';
 import { SLOTS_FIELD_RAW_KEYS, SLOTS_FIELD_SECTIONS, SLOTS_FIELD_SOURCES } from './slots-fields';
 import { SPEND_FIELD_SECTIONS, SPEND_FIELD_SOURCES } from './spend-fields';
 import {
@@ -117,6 +118,7 @@ export const FIELD_SOURCES: Record<string, string> = {
   ...REDESIGN_FIELD_SOURCES,
   ...BUBBA_FIELD_SOURCES,
   ...WORLD4_FIELD_SOURCES,
+  ...RIFT_FIELD_SOURCES,
   ...PRODUCTION_FIELD_SOURCES,
   ...W23_FIELD_SOURCES,
   ...TALENT_POINT_FIELD_SOURCES,
@@ -161,6 +163,7 @@ export const FIELD_RAW_KEYS: Record<string, RawKeySpec[]> = {
   ...REDESIGN_FIELD_RAW_KEYS,
   ...BUBBA_FIELD_RAW_KEYS,
   ...WORLD4_FIELD_RAW_KEYS,
+  ...RIFT_FIELD_RAW_KEYS,
   ...PRODUCTION_FIELD_RAW_KEYS,
   ...TALENT_POINT_FIELD_RAW_KEYS,
 };
@@ -246,6 +249,7 @@ export const FIELD_SECTIONS: Record<string, string[]> = {
   ...REDESIGN_FIELD_SECTIONS,
   ...BUBBA_FIELD_SECTIONS,
   ...WORLD4_FIELD_SECTIONS,
+  ...RIFT_FIELD_SECTIONS,
   ...PRODUCTION_FIELD_SECTIONS,
   ...W23_FIELD_SECTIONS,
   // M4 TR-2: the current-map rate is getMaxDamage, which reads the frontier's sections.

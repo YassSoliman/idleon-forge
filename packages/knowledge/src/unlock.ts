@@ -19,6 +19,11 @@ interface UnlockRule {
   /** Account State paths the fact reads (provenance). */
   reads: readonly string[];
   fact: UnlockFact;
+  /**
+   * Entry ids that are the unlock step itself (the quest to open the System): they stay live while the
+   * System reads locked, or the guard would hide the one thing that opens it.
+   */
+  opens?: readonly string[];
 }
 
 const known = (s: AccountState, path: string) => isKnown(s, path);
@@ -69,23 +74,32 @@ const sigilsFact: UnlockFact = (s) => {
 const equinoxFact: UnlockFact = (s) =>
   known(s, 'account.equinoxUnlocked') ? (s.account.equinoxUnlocked ?? null) : null;
 
+/** M26 FR-11: the Rift Ripper's quest done on a character, or a Rift level completed (`account.rift`). */
+const riftFact: UnlockFact = (s) => {
+  const r = known(s, 'account.rift') ? s.account.rift : null;
+  return r ? r.unlocked : null;
+};
+
 /** No Account State field yet: the world fallback decides (named so the gap is visible). */
 const notYet: UnlockFact = () => null;
 
 /**
- * The Systems with an own unlock fact (spec FR-6). Rift (the Rift Ripper quest, Wave 1 `account.rift`)
- * and Islands (`islands/unlocked`) have no Account State field yet, so they fall back to their world
- * until their reader lands.
+ * The Systems with an own unlock fact (spec FR-6). Islands (`islands/unlocked`) has no Account State
+ * field yet, so it falls back to its world until its reader lands.
  */
 export const UNLOCK_RULES: Readonly<Record<string, UnlockRule>> = {
   lab: { world: 4, reads: ['account.lab'], fact: labFact },
   breeding: { world: 4, reads: ['account.breeding'], fact: breedingFact },
   cooking: { world: 4, reads: ['account.cooking'], fact: cookingFact },
   sigils: { world: 4, reads: ['account.lab'], fact: sigilsFact },
-  rift: { world: 4, reads: [], fact: notYet },
+  rift: { world: 4, reads: ['account.rift'], fact: riftFact, opens: ['rift.check.unlock-quest'] },
   equinox: { world: 3, reads: ['account.equinoxUnlocked'], fact: equinoxFact },
   islands: { world: 2, reads: [], fact: notYet },
 };
+
+/** Whether entry `id` is `system`'s unlock step, which the lock guard keeps (`UnlockRule.opens`). */
+export const opensSystem = (system: string, id: string): boolean =>
+  UNLOCK_RULES[system]?.opens?.includes(id) ?? false;
 
 /** Whether `system` has an own unlock rule (its Checks are silent while it says 'no'). */
 export const hasUnlockRule = (system: string): boolean => Object.hasOwn(UNLOCK_RULES, system);

@@ -1,4 +1,4 @@
-# golden v1: fourth · knowledge #65224129 · parser 6c37e3d (game 2.3.540) · now 2024-05-17T07:51:22.362Z · return 8h · stage W4-late · stale: 4 of 1045
+# golden v1: fourth · knowledge #0ed77233 · parser 6c37e3d (game 2.3.540) · now 2024-05-17T07:51:22.362Z · return 8h · stage W4-late · stale: 4 of 1050
 
 ## Verdict changes
 
@@ -22,7 +22,7 @@ fold: 1 we can't tell: see why
 - Spend · Fill today's Post Office orders: Fill today's Post Office orders from storage [IdleOn Wiki: Post Office, orders · Calculated by IdleOn Toolbox · 2.3.540]
 - Extra · Gems unspent: 999 gems unspent [IdleOn Wiki: Gem Shop]
   sources disagree: Infinity Hammer first: the universal first buy. | Extra Card Slots and the Crystal 3D Printer first; the hammer is no longer necessary.
-show more (12)
+show more (13)
 If you have time
 - Run the Weekly Battle with every character (Yum Yum Desert) · about 2m of hands-on play
 
@@ -55,7 +55,6 @@ Cooking
 Elite classes
 Laboratory
 Sigils
-The Rift
 The Tome
 
 ## Systems
@@ -129,7 +128,7 @@ W4 · Laboratory · Not covered yet · Not covered yet
 W4 · Cooking · Not covered yet · Not covered yet
 W4 · Breeding · Not covered yet · Not covered yet
 W4 · Sigils · Not covered yet · Not covered yet
-W4 · The Rift · Not covered yet · Not covered yet
+W4 · The Rift · Nothing to fix · Nothing to fix · 1 to do
 W4 · The Tome · Not covered yet · Not covered yet
 W4 · Elite classes · Not covered yet · Not covered yet
 Worlds 5–7: not covered yet
@@ -311,6 +310,11 @@ Can't read Bubba from this save
 | refinery.check.salt-fuel | refinery/salt-off | — | silent |  |
 | refinery.check.salt-off | refinery/salt-off | — | silent |  |
 | refinery.check.unlock-next | refinery/unlock-next | — | silent |  |
+| rift.check.active-task | rift/task-kind | account | fires | afk=0 level=3 progress=1 quota=3 task=DEFEAT_ALL_MOBS_BEFORE_THEY_RESPAWN_ON_3_CHARACTERS |
+| rift.check.afk-task | rift/task-kind | — | silent |  |
+| rift.check.class-gate | rift/class-gate | — | silent |  |
+| rift.check.quota-done | rift/quota-done | — | silent |  |
+| rift.check.unlock-quest | rift/unlock-quest | — | silent |  |
 | systems.yaml#alchemy | worlds/reached | account | reached yes |  |
 | systems.yaml#alchemy-bubbles | worlds/reached | account | reached yes |  |
 | systems.yaml#alchemy-p2w | worlds/reached | account | reached yes |  |

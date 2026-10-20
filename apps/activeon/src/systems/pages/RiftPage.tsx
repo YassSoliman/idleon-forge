@@ -1,10 +1,11 @@
 // SPDX-License-Identifier: GPL-3.0-only
 // Copyright (C) 2026 IdleOn Forge contributors.
-// M26 FR-0b: the The Rift page, registered in FULL_PAGES so the System has its home. Wave 1 (FR-11)
-// draws it on the System template; until then it is the thin page (frame/SimplePage.tsx).
-import { SimplePage } from '../frame/SimplePage';
+// M26 FR-11 (Wave 1): the Rift page on the System template: this level, coming up and the bonus ladder
+// (systems/w4/rift.tsx), the thin page when the save has no Rift record.
 import type { FullPageProps } from '../pages';
+import { riftSections } from '../w4/rift';
+import { FramedSections } from '../w23/framed';
 
-export default function RiftPage({ s, page }: FullPageProps) {
-  return <SimplePage s={s} page={page} />;
+export default function RiftPage(p: FullPageProps) {
+  return <FramedSections {...p} sections={riftSections(p)} />;
 }

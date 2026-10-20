@@ -133,6 +133,15 @@ export type {
 export { doorKillsOf } from './redesign';
 export { STAR_TOTAL_SECTIONS } from './redesign-fields';
 export type { RedesignAccountFields, RedesignCharacterFields, StatueState } from './redesign-types';
+export { RIFT_AFK_TARGET, RIFT_MAX_LEVEL, RIFT_SCORE_ELITES, riftLabel, riftTaskOf } from './rift';
+export type {
+  RiftAccountFields,
+  RiftBonus,
+  RiftQuestItem,
+  RiftState,
+  RiftTask,
+  RiftTaskKind,
+} from './rift-types';
 // M20 Skills, Parallel Slots and the Daily & Weekly Checklist (M20 TR-2)
 export {
   ballotText,

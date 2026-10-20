@@ -1,0 +1,2 @@
+tCurrentFrame(9)},this.actor);!c.isTransitioning()&&120>k._customBlock_DistanceEqn(v._customBlock_Player("actor")[0].getXCenter(),v._customBlock_Player("actor")[0].getY(),this.actor.getXCenter(),this.actor.getYCenter())&&(q._customBlock_Teleport(166),a.engine.getGameAttribute("Rift")[0]=Math.round(c.asNumber(n.__cast(a.engine.getGameAttribute("PixelHelperActor")[8].behaviors.getBehavior("ActorEvents_481"),
+ma)._GenINFO[89])+1),a.engine.getGameAttribute("Rift")[1]=0,a.engine.getGameAttribute("Rift")[2]="")}0==this._

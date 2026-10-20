@@ -1,4 +1,4 @@
-# golden v1: toolbox-raw · knowledge #65224129 · parser 6c37e3d (game 2.3.540) · now 2026-08-26T17:27:35.771Z · return 8h · stage W4-late · stale: 4 of 1045
+# golden v1: toolbox-raw · knowledge #0ed77233 · parser 6c37e3d (game 2.3.540) · now 2026-08-26T17:27:35.771Z · return 8h · stage W4-late · stale: 4 of 1050
 
 ## Verdict changes
 
@@ -78,7 +78,7 @@ finding: Worship full on 10 · spend
   · Royal Guardian 1307: 9,167 star points unspent on the other preset
   · Bubonic Conjuror 1268: 6,857 star points unspent on the other preset
   · Beginner 1224: 5,921 star points unspent on the other preset
-show more (15)
+show more (16)
 If you have time
 - Run Killroy's Warrior room on your Royal Guardian Lv 1307 (YumYum Grotto) · about 2m of hands-on play
 - Run Killroy's Archer room on your Siege Breaker Lv 1291 (YumYum Grotto) · about 2m of hands-on play
@@ -114,7 +114,6 @@ Cooking
 Elite classes
 Laboratory
 Sigils
-The Rift
 The Tome
 
 ## Systems
@@ -188,7 +187,7 @@ W4 · Laboratory · Not covered yet · Not covered yet
 W4 · Cooking · Not covered yet · Not covered yet
 W4 · Breeding · Not covered yet · Not covered yet
 W4 · Sigils · Not covered yet · Not covered yet
-W4 · The Rift · Not covered yet · Not covered yet
+W4 · The Rift · Nothing to fix · Nothing to fix · 1 to do
 W4 · The Tome · Not covered yet · Not covered yet
 W4 · Elite classes · Not covered yet · Not covered yet
 Worlds 5–7: not covered yet
@@ -710,6 +709,11 @@ Gifts: Slabcakes, Surprise Box
 | refinery.check.salt-fuel | refinery/salt-off | — | silent |  |
 | refinery.check.salt-off | refinery/salt-off | — | silent |  |
 | refinery.check.unlock-next | refinery/unlock-next | — | silent |  |
+| rift.check.active-task | rift/task-kind | account | fires | afk=0 level=60 progress=0 quota=11 task=DEFEAT_ANY_MONSTER_HERE_ON_11_CHARS |
+| rift.check.afk-task | rift/task-kind | — | silent |  |
+| rift.check.class-gate | rift/class-gate | — | silent |  |
+| rift.check.quota-done | rift/quota-done | — | silent |  |
+| rift.check.unlock-quest | rift/unlock-quest | — | silent |  |
 | roles.contribution.fishing | roles/skill | C7 | advances yes | rule=1 |
 | skills.contribution.door-fishing | skills/door | C7 | advances no | destination= rule=0 saved=122 |
 | skills.contribution.tool-fishing | skills/tool-chain | C7 | advances no | need=0 rule=0 saved=122 target=Medium_Fish tool=Lustre_Rod |

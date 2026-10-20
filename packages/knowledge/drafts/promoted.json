@@ -1,0 +1,10 @@
+{
+  "note": "M26 FR-1: draft ids promoted to live entries in systems/<system>.yaml by their wave's PR. kb convert-drafts skips them.",
+  "ids": [
+    "rift.check.unlock-quest",
+    "rift.check.class-gate",
+    "rift.check.afk-task",
+    "rift.check.active-task",
+    "rift.check.quota-done"
+  ]
+}

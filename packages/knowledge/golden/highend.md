@@ -1,4 +1,4 @@
-# golden v1: highend · knowledge #65224129 · parser 6c37e3d (game 2.3.540) · now 2026-08-10T21:25:42.904Z · return 8h · stage W4-late · stale: 4 of 1045
+# golden v1: highend · knowledge #0ed77233 · parser 6c37e3d (game 2.3.540) · now 2026-08-10T21:25:42.904Z · return 8h · stage W4-late · stale: 4 of 1050
 
 ## Verdict changes
 
@@ -102,7 +102,6 @@ Cooking
 Elite classes
 Laboratory
 Sigils
-The Rift
 The Tome
 
 ## Systems
@@ -176,7 +175,7 @@ W4 · Laboratory · Not covered yet · Not covered yet
 W4 · Cooking · Not covered yet · Not covered yet
 W4 · Breeding · Not covered yet · Not covered yet
 W4 · Sigils · Not covered yet · Not covered yet
-W4 · The Rift · Not covered yet · Not covered yet
+W4 · The Rift · Nothing to fix · Nothing to fix
 W4 · The Tome · Not covered yet · Not covered yet
 W4 · Elite classes · Not covered yet · Not covered yet
 Worlds 5–7: not covered yet
@@ -676,6 +675,11 @@ Gifts: Beeg Slice, Slabcakes
 | refinery.check.salt-fuel | refinery/salt-off | — | silent |  |
 | refinery.check.salt-off | refinery/salt-off | — | silent |  |
 | refinery.check.unlock-next | refinery/unlock-next | — | silent |  |
+| rift.check.active-task | rift/task-kind | — | silent |  |
+| rift.check.afk-task | rift/task-kind | — | silent |  |
+| rift.check.class-gate | rift/class-gate | — | silent |  |
+| rift.check.quota-done | rift/quota-done | — | silent |  |
+| rift.check.unlock-quest | rift/unlock-quest | — | silent |  |
 | systems.yaml#alchemy | worlds/reached | account | reached yes |  |
 | systems.yaml#alchemy-bubbles | worlds/reached | account | reached yes |  |
 | systems.yaml#alchemy-p2w | worlds/reached | account | reached yes |  |

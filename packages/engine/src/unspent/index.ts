@@ -37,6 +37,12 @@ import type {
   UnknownFinding,
 } from '../result';
 
+/**
+ * M26 Wave 1: World 4 core Systems whose Checks this module runs. They rank at their Stage list
+ * position (the W4 Priority List's tier for them), not at the free-value 3.
+ */
+export const W4_CHECK_SYSTEMS: readonly string[] = ['rift'];
+
 /** The Systems whose Check entries this module runs (M6 TR-1). */
 export const UNSPENT_SYSTEMS: readonly string[] = [
   'boss-keys',
@@ -53,6 +59,8 @@ export const UNSPENT_SYSTEMS: readonly string[] = [
   'poppy',
   'refinery',
   'death-note',
+  // M26 Wave 1: the World 4 core Systems' Checks run here too (one runner for one-card Checks).
+  ...W4_CHECK_SYSTEMS,
 ];
 
 /** M15 F2 (`construction`): M6 runs only this entry of the Construction System; the cog seat is M3's. */
@@ -60,6 +68,8 @@ export const UNSPENT_EXTRA_ENTRIES: readonly string[] = ['construction.check.bui
 
 /** M15 entries that rank at their Stage list position (M2 authors it; FR-13), not at the free-value 3. */
 const LISTED_ENTRIES: ReadonlySet<string> = new Set(['construction.check.build-next']);
+const listedEntry = (e: { id: string; system: string }) =>
+  LISTED_ENTRIES.has(e.id) || W4_CHECK_SYSTEMS.includes(e.system);
 
 /** M15 entries that never fire on an account past W4-entry (`coverage: 'beyond'`, P2). */
 const NOT_BEYOND: ReadonlySet<string> = new Set([
@@ -181,7 +191,7 @@ function goalOf(
     ...(details.length || note ? { details: [...details, ...note] } : {}),
   };
   const byUrgency = entry.priority?.frame === 'by-urgency';
-  const listed = LISTED_ENTRIES.has(entry.id);
+  const listed = listedEntry(entry);
   const urgency = byUrgency ? (f.urgency ?? 'banked') : listed ? 'banked' : null;
   return {
     goal,

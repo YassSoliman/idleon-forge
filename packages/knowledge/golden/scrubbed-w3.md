@@ -1,4 +1,4 @@
-# golden v1: scrubbed-w3 · knowledge #65224129 · parser 6c37e3d (game 2.3.540) · now 2026-10-17T16:12:33.140Z · return 8h · stage W3-early · stale: 4 of 1045
+# golden v1: scrubbed-w3 · knowledge #0ed77233 · parser 6c37e3d (game 2.3.540) · now 2026-10-17T16:12:33.140Z · return 8h · stage W3-early · stale: 4 of 1050
 
 ## Verdict changes
 
@@ -556,6 +556,11 @@ Locked: smoker (Opens at Smoker)
 | refinery.check.salt-fuel | refinery/salt-off | account | fires | material=Bullfrog_Horn more=1 offSalts=1 salt=Explosive_Salts |
 | refinery.check.salt-off | refinery/salt-off | — | silent |  |
 | refinery.check.unlock-next | refinery/unlock-next | — | silent |  |
+| rift.check.active-task | rift/task-kind | — | silent |  |
+| rift.check.afk-task | rift/task-kind | — | silent |  |
+| rift.check.class-gate | rift/class-gate | — | silent |  |
+| rift.check.quota-done | rift/quota-done | — | silent |  |
+| rift.check.unlock-quest | rift/unlock-quest | — | silent |  |
 | roles.contribution.fishing | roles/skill | C5 | advances yes | rule=1 |
 | roles.contribution.mining | roles/skill | C2 | advances yes | rule=1 |
 | skills.contribution.door-fishing | skills/door | C5 | advances yes | destination=Deepwater_Docks rule=1 saved=22 |

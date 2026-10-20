@@ -14,6 +14,8 @@
 //  - drafts/facts/<system>.facts.yaml: draft fact tables that pass `FactTable` (not loaded; a fact
 //    table ships only once a promoted entry reads it);
 //  - drafts/report.json: what was converted, what was not and why, duplicates and malformed ids.
+// A draft a wave has promoted is listed in drafts/promoted.json: the live entry in systems/<system>.yaml
+// replaces it, so the pass skips that record (and fails if the id is not live).
 // Every change the conversion makes to a draft is listed in that entry's `notes` ("kb-convert: ...").
 import { existsSync, mkdirSync, readdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
@@ -60,6 +62,16 @@ export interface ConvertReport {
   /** Records that are not KB entries: code-change notes for the engine, and draft-only types (`info`). */
   notKb: Array<{ file: string; id: string; why: string }>;
   bySystem: Record<string, number>;
+  /** Draft ids promoted to live entries (drafts/promoted.json), skipped by this pass. */
+  promoted: string[];
+}
+
+/** The promoted draft ids: each is a live entry now, written by hand in its promoting PR (FR-1). */
+export const PROMOTED_FILE = path.join(KNOWLEDGE, 'drafts', 'promoted.json');
+function readPromoted(): Set<string> {
+  if (!existsSync(PROMOTED_FILE)) return new Set();
+  const j = JSON.parse(readFileSync(PROMOTED_FILE, 'utf8')) as { ids?: unknown };
+  return new Set(Array.isArray(j.ids) ? j.ids.filter((x): x is string => typeof x === 'string') : []);
 }
 
 interface Converted {
@@ -346,7 +358,16 @@ export function convertDrafts(): Converted {
   const edits = new Map<string, Dict[]>();
   const facts = new Map<string, Dict[]>();
   const unconverted: ConvertReport['unconverted'] = [];
+  const promotedIds = readPromoted();
+  const promoted: string[] = [];
+  for (const id of promotedIds)
+    if (!live.has(id))
+      unconverted.push({ id, file: 'drafts/promoted.json', reasons: ['promoted, but not a live entry'] });
   for (const r of records) {
+    if (r.kind !== 'edit' && promotedIds.has(r.id)) {
+      if (live.has(r.id)) promoted.push(r.id);
+      continue;
+    }
     // Several edits may target one live entry; only a new entry or fact id must be unique.
     if (r.kind !== 'edit' && !live.has(r.id) && seen.has(r.id)) {
       duplicates.push(r.id);
@@ -439,6 +460,7 @@ export function convertDrafts(): Converted {
     duplicates,
     notKb,
     bySystem: Object.fromEntries([...drafts].map(([s, l]) => [s, l.length]).sort()),
+    promoted: promoted.sort(),
   };
   files.set(path.join(DRAFTS_OUT, 'report.json'), `${JSON.stringify(report, null, 2)}\n`);
   return { files, report };

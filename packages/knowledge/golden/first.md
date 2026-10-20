@@ -1,4 +1,4 @@
-# golden v1: first · knowledge #65224129 · parser 6c37e3d (game 2.3.540) · now 2024-06-07T21:16:34.518Z · return 8h · stage W4-entry · stale: 4 of 1045
+# golden v1: first · knowledge #0ed77233 · parser 6c37e3d (game 2.3.540) · now 2024-06-07T21:16:34.518Z · return 8h · stage W4-entry · stale: 4 of 1050
 
 ## Verdict changes
 
@@ -59,7 +59,7 @@ purpose: Death Note: Purp Mushroom kills ~47k → 100k · about 19h
   · Easiest rolls with what you hold: Sippy Cup (a roll of 97 or more, Sippy Straw), 40-40 Purity (a roll of 98 or more, Contact Lense)
   · Drop several stacks quickly: each counts as a roll
 - Spend · Fill today's Post Office orders: Fill today's Post Office orders from storage [IdleOn Wiki: Post Office, orders · Calculated by IdleOn Toolbox · 2.3.540]
-show more (21)
+show more (22)
 Spend coins: 34 buys now on 3 characters
   1. Buy the bribe Photoshopped Dmg Range on Bubonic Conjuror Lv 87: 100M coins · Lv 0 → 1 · withdraw 100M coins from storage on C2, then buy · total 100M coins on C2
   2. Buy the bribe Glitched Acc Formula on Bubonic Conjuror Lv 87: 300M coins · Lv 0 → 1 · withdraw 300M coins from storage on C2, then buy · total 400M coins on C2
@@ -99,7 +99,6 @@ Cooking
 Elite classes
 Laboratory
 Sigils
-The Rift
 The Tome
 
 ## Systems
@@ -173,7 +172,7 @@ W4 · Laboratory · Not covered yet · Not covered yet
 W4 · Cooking · Not covered yet · Not covered yet
 W4 · Breeding · Not covered yet · Not covered yet
 W4 · Sigils · Not covered yet · Not covered yet
-W4 · The Rift · Not covered yet · Not covered yet
+W4 · The Rift · Locked · Opens once a character finishes the Rift Ripper quest in The Untraveled Octopath (World 4) · 1 to do
 W4 · The Tome · Not covered yet · Not covered yet
 W4 · Elite classes · Not covered yet · Not covered yet
 Needs you: Minigames (wasting), Colosseum (wasting), Refinery (wasting), Anvil (behind)
@@ -574,6 +573,11 @@ Can't read Bubba from this save
 | refinery.check.salt-fuel | refinery/salt-off | — | silent |  |
 | refinery.check.salt-off | refinery/salt-off | account | fires | offSalts=2 salt=Explosive_Salts |
 | refinery.check.unlock-next | refinery/unlock-next | — | silent |  |
+| rift.check.active-task | rift/task-kind | — | silent |  |
+| rift.check.afk-task | rift/task-kind | — | silent |  |
+| rift.check.class-gate | rift/class-gate | — | silent |  |
+| rift.check.quota-done | rift/quota-done | — | silent |  |
+| rift.check.unlock-quest | rift/unlock-quest | account | fires | batteries=0 caps=0 short=1 tails=592 |
 | systems.yaml#alchemy | worlds/reached | account | reached yes |  |
 | systems.yaml#alchemy-bubbles | worlds/reached | account | reached yes |  |
 | systems.yaml#alchemy-p2w | worlds/reached | account | reached yes |  |
@@ -605,7 +609,7 @@ Can't read Bubba from this save
 | systems.yaml#printer | worlds/reached | account | reached yes |  |
 | systems.yaml#quests | worlds/reached | account | reached yes |  |
 | systems.yaml#refinery | worlds/reached | account | reached yes |  |
-| systems.yaml#rift | systems/unlocked | account | reached yes |  |
+| systems.yaml#rift | systems/unlocked | account | reached no |  |
 | systems.yaml#salt-lick | worlds/reached | account | reached yes |  |
 | systems.yaml#shrines | worlds/reached | account | reached yes |  |
 | systems.yaml#sigils | systems/unlocked | account | reached yes |  |

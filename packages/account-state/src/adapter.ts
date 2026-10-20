@@ -19,6 +19,7 @@ import { metaPathAccountFields, metaPathCharacterFields } from './metapath-field
 import { readProduction } from './production';
 import { readPurpose } from './purpose';
 import { readRedesign } from './redesign';
+import { readRift } from './rift';
 import { readSlotFields } from './slots';
 import { readSpendInputs } from './spend';
 import { readStarSigns } from './starsigns';
@@ -559,6 +560,17 @@ export function toAccountState(
     { account, characters, data, failedSections, calls: options.toolbox?.calls ?? null },
     c,
   );
+  // ---- M26 FR-11 the Rift (rift.ts) ----
+  let rift: AccountState['account']['rift'] = null;
+  if (data.Rift !== undefined && data.Rift !== null) {
+    if (['rift', 'quests'].some((s) => failedSections.includes(s))) c.unknown('account.rift');
+    else
+      try {
+        rift = readRift({ account, characters, data });
+      } catch {
+        c.unknown('account.rift');
+      }
+  }
   // ---- M24 the World 3 System pages: prayers and shrines (read-only facts) ----
   const w23 = readW23({ account, data, failedSections, calls: options.toolbox?.calls ?? null }, c);
   // ---- M7 Spend Plan (M7 TR-2) ----
@@ -623,6 +635,7 @@ export function toAccountState(
       ...w23,
       ...bubba,
       ...world4,
+      rift,
       // One salt list: M6's entries carry M2's rawName/unlocked plus the fuel state (M6 TR-3).
       salts: metaPath.salts === null ? null : (unspent.salts ?? metaPath.salts ?? null),
     },
