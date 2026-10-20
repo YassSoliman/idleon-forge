@@ -36,29 +36,52 @@ const KIND: Record<RiftTask['kind'], (t: RiftTask) => string> = {
  * game data). Eldritch Artifact (Sailing) and Sneak Mastery (Sneaking) are World 5+ and drawn "later".
  */
 export const RIFT_BONUS_WORDS: Readonly<
-  Record<string, { what: string; system: string | null; later?: true }>
+  Record<string, { what: string; system: string | null; page?: string; later?: true }>
 > = {
-  Trap_Box_Vacuum: { what: 'Traps collect themselves every 24 hours, into storage', system: 'trapping' },
-  Infinite_Stars: { what: 'Your first star signs always count, with no downsides', system: 'star-signs' },
-  Skill_Mastery: { what: "Each skill's level total across characters opens bonus tiers", system: 'skills' },
+  Trap_Box_Vacuum: {
+    what: 'Traps collect themselves every 24 hours, into storage',
+    system: 'trapping',
+    page: 'Trapping',
+  },
+  Infinite_Stars: {
+    what: 'Your first star signs always count, with no downsides',
+    system: 'star-signs',
+    page: 'Star Signs',
+  },
+  Skill_Mastery: {
+    what: "Each skill's level total across characters opens bonus tiers",
+    system: 'skills',
+    page: 'Skills',
+  },
   Eclipse_Skulls: {
     what: 'Monsters past 1 billion kills count as Eclipse skulls: +5% damage each',
     system: 'death-note',
+    page: 'Death Note',
   },
   Stamp_Mastery: {
     what: 'A daily chance at a Gilded Stamp: one upgrade at 5% of its cost',
     system: 'stamps',
+    page: 'Stamps',
   },
   Eldritch_Artifact: { what: 'Sailing can find the Eldritch artifact tier', system: null, later: true },
-  Vial_Mastery: { what: 'Each vial at level 13 adds 2% to every vial', system: 'alchemy-vials' },
+  Vial_Mastery: {
+    what: 'Each vial at level 13 adds 2% to every vial',
+    system: 'alchemy-vials',
+    page: 'Vials',
+  },
   Construct_Mastery: {
     what: 'Total building levels add refinery speed, damage and build speed',
     system: 'construction',
+    page: 'Construction',
   },
-  Ruby_Cards: { what: 'Cards go up to 5 stars', system: 'cards' },
-  Killroy_Prime: { what: "Killroy's best scores add damage to every character", system: 'killroy' },
+  Ruby_Cards: { what: 'Cards go up to 5 stars', system: 'cards', page: 'Cards' },
+  Killroy_Prime: {
+    what: "Killroy's best scores add damage to every character",
+    system: 'killroy',
+    page: 'Killroy',
+  },
   Sneak_Mastery: { what: 'Ninja Castle mastery runs', system: null, later: true },
-  Cooking_Mastery: { what: 'A Mastery shelf in the Meal Menu', system: 'cooking' },
+  Cooking_Mastery: { what: 'A Mastery shelf in the Meal Menu', system: 'cooking', page: 'Cooking' },
 };
 
 export function riftPicture(state: AccountState): RiftPicture | null {
@@ -94,6 +117,7 @@ export function riftPicture(state: AccountState): RiftPicture | null {
       next: b === next,
       what: w?.what ?? '',
       system: w?.system ?? null,
+      page: w?.page ?? null,
       later: !b.unlocked && w?.later === true,
     };
   });

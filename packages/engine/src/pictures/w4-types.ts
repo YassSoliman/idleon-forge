@@ -35,8 +35,9 @@ export interface RiftBonusView {
   next: boolean;
   /** What it does, in one line. */
   what: string;
-  /** The System page it feeds, or null. */
+  /** The System page it feeds, or null, and that page's name ("Trapping"). */
   system: string | null;
+  page: string | null;
   /** A World 5+ bonus: drawn grey, "later". */
   later: boolean;
 }

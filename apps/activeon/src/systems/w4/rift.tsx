@@ -7,7 +7,7 @@
 // and the bonus icons (`Rift_<n>`), our kit as the fallback.
 import type { RiftBonusView, RiftLevelView } from '@idleon-forge/engine/systems-ui';
 import { GameIcon } from '../../art/game/GameIcon';
-import { dataArt, itemArt } from '../../art/game/game-art';
+import { dataArt, etcArt, itemArt } from '../../art/game/game-art';
 import { formatRoute } from '../../shell/route';
 import type { Session } from '../../shell/session';
 import type { FullPageProps, SystemPageBodyProps } from '../pages';
@@ -155,7 +155,7 @@ function BonusTile({ s, b }: { s: Session; b: RiftBonusView }) {
     >
       <div className="w-row w-row--between">
         <span className="w-row">
-          <GameIcon art={dataArt(`Rift_${b.icon}`)} fallback="sys-rift" size={32} decorative />
+          <GameIcon art={etcArt(`Rift_${b.icon}`)} fallback="sys-rift" size={32} decorative />
           <span className="w-b w-sm">{b.name}</span>
         </span>
         <Tag tone={b.unlocked ? 'mint' : b.next ? 'gold' : undefined}>
@@ -165,7 +165,7 @@ function BonusTile({ s, b }: { s: Session; b: RiftBonusView }) {
       <span className="w-xs w-mut">{b.what}</span>
       {b.system ? (
         <SysLink s={s} system={b.system}>
-          {b.name}
+          {b.page ?? b.name}
         </SysLink>
       ) : null}
     </li>
