@@ -32,11 +32,11 @@ describe('highend.json: a pond well past its 12th Megafish', () => {
   });
   it('carries the 12 upgrades, 5 spirals, 8 Tar Pit upgrades and 7 bonuses in game order', () => {
     expect(p?.upgrades?.map((u) => u.name)).toEqual([
-      'tasty Fishbait',
+      'Tasty Fishbait',
       'Quick Reeling',
       'Shiny Lure',
       'Bonuses from Poppy',
-      'fishy discount',
+      'Fishy discount',
       'Juicy Worm',
       'Fisheroo Reset',
       'Fishing Buddy',
@@ -46,6 +46,8 @@ describe('highend.json: a pond well past its 12th Megafish', () => {
       'Greatest Catch',
     ]);
     expect(p?.spirals).toHaveLength(5);
+    // Toolbox's spiral texts, "Other_Reset_bonuses_are_87.16x_higher": the multiplier is read wherever it sits.
+    expect(p?.spirals?.[3]?.multi).toBeGreaterThan(1);
     expect(p?.tar?.upgrades).toHaveLength(8);
     expect(p?.bonuses?.map((b) => b.name)).toEqual([
       'Fishing Eff',

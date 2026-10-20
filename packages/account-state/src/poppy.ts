@@ -13,8 +13,11 @@ const finite = (v: unknown): number | null => {
 };
 const num = (v: unknown): number => finite(v) ?? 0;
 const list = (v: unknown): unknown[] => (Array.isArray(v) ? v : []);
+/** Toolbox's name with spaces and a capital first letter ("fishy_discount" -> "Fishy discount"). */
 const nameOf = (v: unknown, fallback: string) =>
-  (typeof v === 'string' && v !== '' ? v : fallback).replace(/_/g, ' ');
+  (typeof v === 'string' && v !== '' ? v : fallback)
+    .replace(/_/g, ' ')
+    .replace(/^[a-z]/, (c) => c.toUpperCase());
 
 /** The `accountOptions` indices Poppy reads, each named where kangaroo.ts reads it at the pin. */
 export const POPPY_OLA = {
@@ -26,9 +29,9 @@ export const POPPY_OLA = {
   SHINY: [281, 282, 283, 284, 285, 286] as const,
 } as const;
 
-/** "90.64x_bluefin_fish_caught" -> 90.64. */
+/** "90.64x_bluefin_fish_caught" -> 90.64, "Other_Reset_bonuses_are_87.16x_higher" -> 87.16. */
 const leadingNumber = (s: unknown): number => {
-  const m = typeof s === 'string' ? /^([\d.]+)/.exec(s) : null;
+  const m = typeof s === 'string' ? /([\d.]+)x/.exec(s) : null;
   return m ? num(m[1]) : 1;
 };
 
