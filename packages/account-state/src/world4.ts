@@ -271,7 +271,12 @@ function readBreeding(input: World4Inputs): BreedingState {
         name,
         battle: str(t.battleName) ?? '',
         enemyHp: list(t.enemies).reduce<number>((s, e) => s + (isDict(e) ? num(e.health) : 0), 0),
-        status: foragedByTeam || (foraging !== null && foraging !== 'Blank') ? 'foraging' : found ? 'won' : 'not-won',
+        status:
+          foragedByTeam || (foraging !== null && foraging !== 'Blank')
+            ? 'foraging'
+            : found
+              ? 'won'
+              : 'not-won',
       },
     ];
   });
