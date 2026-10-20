@@ -1,4 +1,4 @@
-# golden v1: second · knowledge #a52cf9dd · parser 6c37e3d (game 2.3.540) · now 2024-06-08T06:05:26.262Z · return 8h · stage W4-late · stale: 4 of 1064
+# golden v1: second · knowledge #dada5ab9 · parser 6c37e3d (game 2.3.540) · now 2024-06-08T06:05:26.262Z · return 8h · stage W4-late · stale: 4 of 1070
 
 ## Verdict changes
 
@@ -76,7 +76,6 @@ Trophies and nametags
 Bribes
 Quests
 Statues
-The Owl
 Islands
 Atom Collider
 Equinox
@@ -124,7 +123,7 @@ W1 · Forge · Nothing to fix · Nothing to fix · 1 to do
 W1 · Bribes · Not covered yet · Not covered yet
 W1 · Statues · Not covered yet · Not covered yet
 W1 · Post Office · Nothing to fix · Nothing to fix · 2 to do
-W1 · The Owl · Not covered yet · Not covered yet
+W1 · The Owl · Nothing to fix · Nothing to fix
 W1 · Quests · Not covered yet · Not covered yet
 W1 · Boss keys · Nothing to fix · Nothing to fix
 W1 · Colosseum · Nothing to fix · Nothing to fix
@@ -631,6 +630,12 @@ Can't read Bubba from this save
 | minigames.check.hoops-play | minigames/cooldown-play | account | fires |  |
 | minigames.check.hoops-spend | minigames/cooldown-spend | — | silent |  |
 | minigames.check.spiketrap | minigames/spiketrap | — | silent |  |
+| owl.check.bonuses | owl/state | — | silent |  |
+| owl.check.mega-reset | owl/state | — | silent |  |
+| owl.check.restart | owl/state | — | silent |  |
+| owl.check.start | owl/state | — | silent |  |
+| owl.goal.drop-rate | owl/progress | — | silent |  |
+| owl.goal.megafeathers | owl/progress | — | silent |  |
 | pets.check.free-pull | pets/free-pull | account | pass |  |
 | pets.check.mart-gems | pets/mart-gems | account | unknown (field-missing) |  |
 | poppy.check.open | poppy/pending-fish | — | silent |  |

@@ -1,4 +1,4 @@
-# golden v1: highend · knowledge #a52cf9dd · parser 6c37e3d (game 2.3.540) · now 2026-08-10T21:25:42.904Z · return 8h · stage W4-late · stale: 4 of 1064
+# golden v1: highend · knowledge #dada5ab9 · parser 6c37e3d (game 2.3.540) · now 2026-08-10T21:25:42.904Z · return 8h · stage W4-late · stale: 4 of 1070
 
 ## Verdict changes
 
@@ -88,7 +88,6 @@ Trophies and nametags
 Bribes
 Quests
 Statues
-The Owl
 Islands
 Atom Collider
 Equinox
@@ -136,7 +135,7 @@ W1 · Forge · Nothing to fix · Nothing to fix · 1 to do
 W1 · Bribes · Not covered yet · Not covered yet
 W1 · Statues · Not covered yet · Not covered yet
 W1 · Post Office · Wasting · 1 to fix before you leave · 1 to do
-W1 · The Owl · Not covered yet · Not covered yet
+W1 · The Owl · Nothing to fix · Nothing to fix
 W1 · Quests · Not covered yet · Not covered yet
 W1 · Boss keys · Nothing to fix · Nothing to fix
 W1 · Colosseum · Nothing to fix · Nothing to fix
@@ -656,6 +655,12 @@ Gifts: Beeg Slice, Slabcakes
 | minigames.check.hoops-play | minigames/cooldown-play | account | fires |  |
 | minigames.check.hoops-spend | minigames/cooldown-spend | account | fires | points=2220 |
 | minigames.check.spiketrap | minigames/spiketrap | account | pass |  |
+| owl.check.bonuses | owl/state | — | silent |  |
+| owl.check.mega-reset | owl/state | — | silent |  |
+| owl.check.restart | owl/state | — | silent |  |
+| owl.check.start | owl/state | — | silent |  |
+| owl.goal.drop-rate | owl/progress | account | value 41 | drop=4504.5 nextDrop=47 |
+| owl.goal.megafeathers | owl/progress | account | value 37 | multi=643.5 |
 | pets.check.free-pull | pets/free-pull | account | fires | claimable=1785803142903 hoursClaimable=496056 |
 | pets.check.mart-gems | pets/mart-gems | — | silent |  |
 | poppy.check.open | poppy/pending-fish | account | fires |  |
