@@ -106,6 +106,7 @@ export {
   killsLeftOn,
   killsLeftTable,
 } from './frontier';
+export type { GapsAccountFields, SaltLickState, SaltLickUpgrade } from './gaps-types';
 // M18 Gear & Tools (M18 TR-2)
 export { GEAR_TYPES, gearItem, type HeldGear, heldGear, type WornSlot, wornGear } from './gear';
 export {
@@ -144,6 +145,7 @@ export type {
   RiftTask,
   RiftTaskKind,
 } from './rift-types';
+export { SALT_LICK_LIQUID } from './salt';
 // M20 Skills, Parallel Slots and the Daily & Weekly Checklist (M20 TR-2)
 export {
   ballotText,

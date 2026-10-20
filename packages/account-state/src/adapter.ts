@@ -15,6 +15,7 @@ import { readCollections } from './collections';
 import { readDepth } from './depth';
 import { readElite } from './elite';
 import { FIELD_RAW_KEYS, type RawKind } from './fields';
+import { readGaps, withSaltHeld } from './gaps';
 import { readGear } from './gear';
 import { metaPathAccountFields, metaPathCharacterFields } from './metapath-fields';
 import { readProduction } from './production';
@@ -586,6 +587,9 @@ export function toAccountState(
         c.unknown('account.tome');
       }
   }
+  // ---- M26 Wave 2, the W2/W3 gaps (gaps.ts) ----
+  const gapsIn = { account, failedSections };
+  const gaps = readGaps(gapsIn, c);
   // ---- M24 the World 3 System pages: prayers and shrines (read-only facts) ----
   const w23 = readW23({ account, data, failedSections, calls: options.toolbox?.calls ?? null }, c);
   // ---- M7 Spend Plan (M7 TR-2) ----
@@ -652,8 +656,14 @@ export function toAccountState(
       ...world4,
       rift,
       tome,
-      // One salt list: M6's entries carry M2's rawName/unlocked plus the fuel state (M6 TR-3).
-      salts: metaPath.salts === null ? null : (unspent.salts ?? metaPath.salts ?? null),
+      ...gaps,
+      // One salt list: M6's entries carry M2's rawName/unlocked plus the fuel state (M6 TR-3), and
+      // M26 FR-21b what is held of each (gaps.ts).
+      salts: withSaltHeld(
+        metaPath.salts === null ? null : (unspent.salts ?? metaPath.salts ?? null),
+        gapsIn,
+        c,
+      ),
     },
     characters: states,
     lastPlayedCharacterIndex,

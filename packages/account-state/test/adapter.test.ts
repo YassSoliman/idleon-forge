@@ -208,6 +208,7 @@ describe('toAccountState', () => {
       breeding: null,
       rift: null,
       tome: null,
+      saltLick: null,
     });
     expect(state.characters.map(withoutUnspentCharacter)).toEqual([
       {

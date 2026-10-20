@@ -12,6 +12,7 @@ import type { BubbaAccountFields } from './bubba-types';
 import type { CollectionsAccountFields, CollectionsCharacterFields } from './collections-types';
 import type { DepthAccountFields } from './depth-types';
 import type { EliteCharacterFields } from './elite-types';
+import type { GapsAccountFields } from './gaps-types';
 import type { GearAccountFields, GearCharacterFields } from './gear-types';
 import type { ProductionCharacterFields } from './production-types';
 import type { PurposeAccountFields, PurposeCharacterFields } from './purpose-types';
@@ -78,6 +79,8 @@ export const SCHEMA_VERSION = 25;
 //  - M26 Wave 1: `characters[].eliteStep` (the `EliteCharacterFields` block, FR-17: the Eliteus step).
 //  - M26 Wave 1: `account.tome` (the `TomeAccountFields` block, FR-16: PTS, 124 metrics by name, pages, rank).
 //  - M26 Wave 1: `account.rift` (the `RiftAccountFields` block, FR-11: level, task, bonuses, Rift Ripper).
+//  - M26 Wave 2: `account.saltLick` (the `GapsAccountFields` block, FR-21b) and `account.salts[].held` /
+//    `.inRefinery` (the salt held in the Storage Chest and in Refinery storage).
 
 /** The AFK types Toolbox's monster data uses, plus its two "no rate" values. */
 export const KNOWN_AFK_TYPES = [
@@ -239,6 +242,7 @@ export interface AccountSummary
     World4AccountFields,
     RiftAccountFields,
     TomeAccountFields,
+    GapsAccountFields,
     W23AccountFields {
   /** The world the account is working on (1-based): one past the highest finished world (Toolbox's rule). */
   currentWorld: number | null;
