@@ -1,4 +1,4 @@
-# golden v1: fresh · knowledge #a52cf9dd · parser 6c37e3d (game 2.3.540) · now 2026-08-20T18:41:58.956Z · return 8h · stage W4-late · stale: 4 of 1064
+# golden v1: fresh · knowledge #639ff944 · parser 6c37e3d (game 2.3.540) · now 2026-08-20T18:41:58.956Z · return 8h · stage W4-late · stale: 4 of 1077
 
 ## Verdict changes
 
@@ -36,11 +36,11 @@ Unknown: can't tell from the save
   ○ To do: Bonus Ballot vote · Active now: Boosts Refinery Cycle Speed by +55% · new ballot Monday about 17:00 UTC, in 3d 22h
   ○ To do: Guild weekly tasks · your weekly reset in 3d 4h
 - Spend · Collect banked Colosseum tickets: Collect 9 Colosseum tickets [IdleOn Wiki: Typhoon · Calculated by IdleOn Toolbox · 2.3.540]
-- Extra · Play Spiketrap Surprise: Spiketrap starts at :00: up to 40 gems today [IdleOn Wiki: Secrets · Calculated by IdleOn Toolbox · 2.3.540]
+- Extra · Play Spiketrap Surprise: Spiketrap starts at :00: today's gems are unclaimed [IdleOn Wiki: Secrets · Calculated by IdleOn Toolbox · 2.3.540]
 - Extra · Today's Random Event: Random Event now on Jar Bridge (Snake Swarm): one a day [IdleOn Wiki: Random Events · Calculated by IdleOn Toolbox · 2.3.540]
 - Extra · Claim the free Pet Mart gems: Claim today's free Pet Mart gems [IdleOn Wiki: Daily Checklist · Calculated by IdleOn Toolbox · 2.3.540]
 - Spend · Use your vial attempts: Use your 18 vial attempts on the W2 town cauldron [IdleOn Wiki: Alchemy/Vials · Calculated by IdleOn Toolbox · 2.3.540]
-show more (23)
+show more (28)
 If you have time
 - Run Killroy's Archer room on your Siege Breaker Lv 478 (YumYum Grotto) · about 2m of hands-on play
 - Run Killroy's Warrior room on your Blood Berserker Lv 534 (YumYum Grotto) · about 2m of hands-on play
@@ -81,7 +81,7 @@ W0 · Gem Shop · Nothing to fix · Nothing to fix · 1 to do
 W0 · Merit Shop · Nothing to fix · Nothing to fix · 1 to do
 W0 · Tasks · Nothing to fix · Nothing to fix · 1 to do
 W0 · Companions and pets · Wasting · 1 to fix before you leave
-W0 · Minigames · Wasting · 1 to fix before you leave
+W0 · Minigames · Wasting · 1 to fix before you leave · 5 to do
 W0 · Cards · Nothing to fix · Nothing to fix
 W0 · Obols · Nothing to fix · Nothing to fix · 1 to do
 W0 · Portals and map doors · Nothing to fix · Nothing to fix
@@ -114,7 +114,7 @@ W1 · The Owl · Not covered yet · Not covered yet
 W1 · Quests · Not covered yet · Not covered yet
 W1 · Boss keys · Wasting · 1 to fix before you leave
 W1 · Colosseum · Wasting · 1 to fix before you leave
-W1 · Poppy · Nothing to fix · Nothing to fix
+W1 · Poppy · Locked · Needs the Secret Map from the Yum-Yum Grotto vendor, which leads to The Oasis and Poppy's Fish Pond
 W2 · Alchemy cauldrons and liquids · Can't tell · Can't tell from the save
 W2 · Alchemy bubbles · Can't tell · Can't tell from the save
 W2 · Alchemy vials · Wasting · 1 to fix before you leave
@@ -371,9 +371,17 @@ Locked: pats (Opens at Happi Boi), smoker (Opens at Smoker), charisma (Opens at 
 | minigames.check.hoops-play | minigames/cooldown-play | — | silent |  |
 | minigames.check.hoops-spend | minigames/cooldown-spend | — | silent |  |
 | minigames.check.spiketrap | minigames/spiketrap | account | fires | gems=40 minutes=18 startsIn=1081044 |
+| minigames.goal.darts-unlocks | minigames/unlock-ladder | account | value 0 |  |
+| minigames.goal.hoops-unlocks | minigames/unlock-ladder | account | value 0 |  |
+| minigames.goal.pen-pals | minigames/pen-pals | account | value 100 |  |
+| minigames.goal.spiketrap-round | minigames/spiketrap-round | account | value 0 |  |
+| minigames.goal.tome-highscore | minigames/tome-highscore | account | value 392 |  |
 | pets.check.free-pull | pets/free-pull | account | unknown (field-missing) |  |
 | pets.check.mart-gems | pets/mart-gems | account | fires | shopDay=183 |
+| poppy.check.fisheroo-reset | poppy/state | — | silent |  |
+| poppy.check.greatest-catch | poppy/state | — | silent |  |
 | poppy.check.open | poppy/pending-fish | — | silent |  |
+| poppy.goal.megafish | poppy/megafish | — | silent |  |
 | post-office.check.daily-orders | post-office/state | account | fires | companies=6 |
 | post-office.check.spend-boxes | post-office/state | C1 | fires | boxes=16630 |
 | post-office.check.spend-boxes | post-office/state | C2 | fires | boxes=16127 |
@@ -416,7 +424,7 @@ Locked: pats (Opens at Happi Boi), smoker (Opens at Smoker), charisma (Opens at 
 | systems.yaml#lab | systems/unlocked | account | reached yes |  |
 | systems.yaml#library | worlds/reached | account | reached yes |  |
 | systems.yaml#owl | worlds/reached | account | reached yes |  |
-| systems.yaml#poppy | worlds/reached | account | reached yes |  |
+| systems.yaml#poppy | systems/unlocked | account | reached no |  |
 | systems.yaml#post-office | post-office/unlocked | account | reached yes |  |
 | systems.yaml#prayers | worlds/reached | account | reached yes |  |
 | systems.yaml#printer | worlds/reached | account | reached yes |  |

@@ -1,4 +1,4 @@
-# golden v1: speedrun-rank1 · knowledge #a52cf9dd · parser 6c37e3d (game 2.3.540) · now 2026-08-11T19:59:46.196Z · return 8h · stage W4-late · stale: 4 of 1064
+# golden v1: speedrun-rank1 · knowledge #639ff944 · parser 6c37e3d (game 2.3.540) · now 2026-08-11T19:59:46.196Z · return 8h · stage W4-late · stale: 4 of 1077
 
 ## Verdict changes
 
@@ -47,10 +47,10 @@ finding: Worship full on 9 · spend
 [checklist] Today 4/12 · Week 2/4 · daily reset in 23h 05m
 - Spend · Claim the free pet pull: Claim your free pet pull at Doggy [IdleOn Wiki: Pets · Calculated by IdleOn Toolbox · 2.3.540]
 - Grow · Switch on a Refinery salt: Switch on Propagated Salt in the Refinery [IdleOn Wiki: Construction, Refinery · Calculated by IdleOn Toolbox · 2.3.540]
-- Extra · Play Spiketrap Surprise: Spiketrap starts at :00: up to 40 gems today [IdleOn Wiki: Secrets · Calculated by IdleOn Toolbox · 2.3.540]
+- Extra · Play Spiketrap Surprise: Spiketrap starts at :00: today's gems are unclaimed [IdleOn Wiki: Secrets · Calculated by IdleOn Toolbox · 2.3.540]
 - Spend · Play a round of Darts: Play one round of Darts [IdleOn Wiki: Minigames, Throwy Darts · Calculated by IdleOn Toolbox · 2.3.540]
 - Spend · Play a round of Hoops: Play one round of Hoops [IdleOn Wiki: Minigames, Swishy Hoops · Calculated by IdleOn Toolbox · 2.3.540]
-show more (16)
+show more (19)
 If you have time
 - Run Killroy's Archer room on your Wind Walker Lv 1775 (YumYum Grotto) · about 2m of hands-on play
 - Run Killroy's Archer room on your Wind Walker Lv 1775 (YumYum Grotto) · about 2m of hands-on play
@@ -91,7 +91,7 @@ W0 · Gem Shop · Nothing to fix · Nothing to fix
 W0 · Merit Shop · Nothing to fix · Nothing to fix
 W0 · Tasks · Nothing to fix · Nothing to fix
 W0 · Companions and pets · Wasting · 1 to fix before you leave
-W0 · Minigames · Wasting · 3 to fix before you leave · 2 to do
+W0 · Minigames · Wasting · 3 to fix before you leave · 4 to do
 W0 · Cards · Nothing to fix · Nothing to fix
 W0 · Obols · Nothing to fix · Nothing to fix
 W0 · Portals and map doors · Nothing to fix · Nothing to fix
@@ -124,7 +124,7 @@ W1 · The Owl · Not covered yet · Not covered yet
 W1 · Quests · Not covered yet · Not covered yet
 W1 · Boss keys · Nothing to fix · Nothing to fix
 W1 · Colosseum · Nothing to fix · Nothing to fix
-W1 · Poppy · Nothing to fix · Nothing to fix · 1 to do
+W1 · Poppy · Nothing to fix · Nothing to fix · 2 to do
 W2 · Alchemy cauldrons and liquids · Nothing to fix · Nothing to fix · 1 to do
 W2 · Alchemy bubbles · Nothing to fix · Nothing to fix · 1 to do
 W2 · Alchemy vials · Nothing to fix · Nothing to fix
@@ -674,9 +674,17 @@ Gifts: Beeg Slice, Slabcakes
 | minigames.check.hoops-play | minigames/cooldown-play | account | fires |  |
 | minigames.check.hoops-spend | minigames/cooldown-spend | account | fires | points=17 |
 | minigames.check.spiketrap | minigames/spiketrap | account | fires | gems=40 minutes=0 startsIn=13804 |
+| minigames.goal.darts-unlocks | minigames/unlock-ladder | account | value 665 |  |
+| minigames.goal.hoops-unlocks | minigames/unlock-ladder | account | value 112 |  |
+| minigames.goal.pen-pals | minigames/pen-pals | account | value 113 |  |
+| minigames.goal.spiketrap-round | minigames/spiketrap-round | account | value 24 |  |
+| minigames.goal.tome-highscore | minigames/tome-highscore | account | value 1010 |  |
 | pets.check.free-pull | pets/free-pull | account | fires | claimable=11758973230 hoursClaimable=3266 |
 | pets.check.mart-gems | pets/mart-gems | — | silent |  |
+| poppy.check.fisheroo-reset | poppy/state | account | fires | cost=7.598707190167686e+21 next=15 |
+| poppy.check.greatest-catch | poppy/state | — | silent |  |
 | poppy.check.open | poppy/pending-fish | account | fires |  |
+| poppy.goal.megafish | poppy/megafish | account | value 26 |  |
 | post-office.check.daily-orders | post-office/state | account | fires | companies=6 |
 | post-office.check.spend-boxes | post-office/state | C1 | fires | boxes=315050 |
 | post-office.check.spend-boxes | post-office/state | C10 | fires | boxes=315050 |
@@ -730,7 +738,7 @@ Gifts: Beeg Slice, Slabcakes
 | systems.yaml#lab | systems/unlocked | account | reached yes |  |
 | systems.yaml#library | worlds/reached | account | reached yes |  |
 | systems.yaml#owl | worlds/reached | account | reached yes |  |
-| systems.yaml#poppy | worlds/reached | account | reached yes |  |
+| systems.yaml#poppy | systems/unlocked | account | reached yes |  |
 | systems.yaml#post-office | post-office/unlocked | account | reached yes |  |
 | systems.yaml#prayers | worlds/reached | account | reached yes |  |
 | systems.yaml#printer | worlds/reached | account | reached yes |  |

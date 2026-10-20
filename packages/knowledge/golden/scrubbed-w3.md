@@ -1,4 +1,4 @@
-# golden v1: scrubbed-w3 · knowledge #a52cf9dd · parser 6c37e3d (game 2.3.540) · now 2026-10-17T16:12:33.140Z · return 8h · stage W3-early · stale: 4 of 1064
+# golden v1: scrubbed-w3 · knowledge #639ff944 · parser 6c37e3d (game 2.3.540) · now 2026-10-17T16:12:33.140Z · return 8h · stage W3-early · stale: 4 of 1077
 
 ## Verdict changes
 
@@ -56,7 +56,7 @@ purpose: Mining 29 → 40 opens Echoing Egress
 - Grow · Pay for the Death Note's first level: Refine 10 Explosive Salts for the Death Note's first level (have 0) [IdleOn Wiki: Construction · Calculated by IdleOn Toolbox · 2.3.540]
 - Extra · Claim the free Pet Mart gems: Claim today's free Pet Mart gems [IdleOn Wiki: Daily Checklist · Calculated by IdleOn Toolbox · 2.3.540]
 - Spend · Play a round of Darts: Play one round of Darts [IdleOn Wiki: Minigames, Throwy Darts · Calculated by IdleOn Toolbox · 2.3.540]
-show more (34)
+show more (40)
 Spend coins: 15 buys now on 4 characters
   1. Buy Duplicate Entries (Vault) on Bowman Lv 60 before redeeming tickets: 100M coins · Lv 0 → 1 · buy · total 100M coins on C3
   2. Raise the Lil' Mining Baggy Stamp cap, then buy Lv 10→20 on Bowman Lv 60: about 13k coins · buy · total 100M coins on C3
@@ -109,7 +109,7 @@ W0 · Gem Shop · Nothing to fix · Nothing to fix · 1 to do
 W0 · Merit Shop · Nothing to fix · Nothing to fix · 2 to do
 W0 · Tasks · Nothing to fix · Nothing to fix · 1 to do
 W0 · Companions and pets · Wasting · 1 to fix before you leave
-W0 · Minigames · Wasting · 2 to fix before you leave · 1 to do
+W0 · Minigames · Wasting · 2 to fix before you leave · 6 to do
 W0 · Cards · Behind · Behind for your Stage · 5 to do
 W0 · Obols · Behind · Behind for your Stage · 2 to do
 W0 · Portals and map doors · Nothing to fix · Nothing to fix
@@ -142,7 +142,7 @@ W1 · The Owl · Not covered yet · Not covered yet
 W1 · Quests · Not covered yet · Not covered yet
 W1 · Boss keys · Nothing to fix · Nothing to fix · 1 to do
 W1 · Colosseum · Wasting · 1 to fix before you leave
-W1 · Poppy · Nothing to fix · Nothing to fix · 1 to do
+W1 · Poppy · Nothing to fix · Nothing to fix · 2 to do
 W2 · Alchemy cauldrons and liquids · Nothing to fix · Nothing to fix
 W2 · Alchemy bubbles · Behind · Behind for your Stage · 4 to do
 W2 · Alchemy vials · Nothing to fix · Nothing to fix · 1 to do
@@ -555,9 +555,17 @@ Locked: smoker (Opens at Smoker)
 | minigames.check.hoops-play | minigames/cooldown-play | account | fires |  |
 | minigames.check.hoops-spend | minigames/cooldown-spend | — | silent |  |
 | minigames.check.spiketrap | minigames/spiketrap | account | pass |  |
+| minigames.goal.darts-unlocks | minigames/unlock-ladder | account | value 48 |  |
+| minigames.goal.hoops-unlocks | minigames/unlock-ladder | account | value 22 |  |
+| minigames.goal.pen-pals | minigames/pen-pals | account | value 96 |  |
+| minigames.goal.spiketrap-round | minigames/spiketrap-round | account | value 0 |  |
+| minigames.goal.tome-highscore | minigames/tome-highscore | account | value 238 |  |
 | pets.check.free-pull | pets/free-pull | account | pass |  |
 | pets.check.mart-gems | pets/mart-gems | account | fires | shopDay=241 |
+| poppy.check.fisheroo-reset | poppy/state | — | silent |  |
+| poppy.check.greatest-catch | poppy/state | — | silent |  |
 | poppy.check.open | poppy/pending-fish | account | fires |  |
+| poppy.goal.megafish | poppy/megafish | account | value 0 |  |
 | portals.contribution.push-map-104 | portals/push | C1 | advances yes eta 190m | door=0 map=The_Stache_Split rate=934 rule=1 saved=38 |
 | portals.contribution.push-map-109 | portals/push | C4 | advances yes eta 844m | door=0 map=Thermonuclear_Climb rate=1065 rule=1 saved=19 |
 | portals.contribution.push-map-58 | portals/push | C6 | advances yes eta 16m | door=0 map=Shifty_Sandbox rate=895 rule=1 saved=8 |
@@ -609,7 +617,7 @@ Locked: smoker (Opens at Smoker)
 | systems.yaml#lab | systems/unlocked | account | reached no |  |
 | systems.yaml#library | worlds/reached | account | reached yes |  |
 | systems.yaml#owl | worlds/reached | account | reached yes |  |
-| systems.yaml#poppy | worlds/reached | account | reached yes |  |
+| systems.yaml#poppy | systems/unlocked | account | reached yes |  |
 | systems.yaml#post-office | post-office/unlocked | account | reached no |  |
 | systems.yaml#prayers | worlds/reached | account | reached yes |  |
 | systems.yaml#printer | worlds/reached | account | reached yes |  |

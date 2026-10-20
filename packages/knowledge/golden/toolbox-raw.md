@@ -1,4 +1,4 @@
-# golden v1: toolbox-raw · knowledge #a52cf9dd · parser 6c37e3d (game 2.3.540) · now 2026-08-26T17:27:35.771Z · return 8h · stage W4-late · stale: 4 of 1064
+# golden v1: toolbox-raw · knowledge #639ff944 · parser 6c37e3d (game 2.3.540) · now 2026-08-26T17:27:35.771Z · return 8h · stage W4-late · stale: 4 of 1077
 
 ## Verdict changes
 
@@ -68,7 +68,7 @@ finding: Worship full on 10 · spend
 - Spend · Fill today's Post Office orders: Fill today's Post Office orders from storage [IdleOn Wiki: Post Office, orders · Calculated by IdleOn Toolbox · 2.3.540]
 - Extra · Collect your Forge bars: Collect 16 bars from the Forge [IdleOn Wiki: Smithing, The Forge · Calculated by IdleOn Toolbox · 2.3.540]
   · Most of them are Lustre Bar.
-show more (20)
+show more (26)
 If you have time
 - Run Killroy's Warrior room on your Royal Guardian Lv 1307 (YumYum Grotto) · about 2m of hands-on play
 - Run Killroy's Archer room on your Siege Breaker Lv 1291 (YumYum Grotto) · about 2m of hands-on play
@@ -110,7 +110,7 @@ W0 · Gem Shop · Nothing to fix · Nothing to fix · 1 to do
 W0 · Merit Shop · Nothing to fix · Nothing to fix
 W0 · Tasks · Nothing to fix · Nothing to fix
 W0 · Companions and pets · Nothing to fix · Nothing to fix · 1 to do
-W0 · Minigames · Wasting · 2 to fix before you leave · 1 to do
+W0 · Minigames · Wasting · 2 to fix before you leave · 6 to do
 W0 · Cards · Nothing to fix · Nothing to fix · 1 to do
 W0 · Obols · Nothing to fix · Nothing to fix · 1 to do
 W0 · Portals and map doors · Nothing to fix · Nothing to fix
@@ -143,7 +143,7 @@ W1 · The Owl · Not covered yet · Not covered yet
 W1 · Quests · Not covered yet · Not covered yet
 W1 · Boss keys · Nothing to fix · Nothing to fix
 W1 · Colosseum · Nothing to fix · Nothing to fix
-W1 · Poppy · Nothing to fix · Nothing to fix · 1 to do
+W1 · Poppy · Nothing to fix · Nothing to fix · 2 to do
 W2 · Alchemy cauldrons and liquids · Nothing to fix · Nothing to fix · 1 to do
 W2 · Alchemy bubbles · Nothing to fix · Nothing to fix · 1 to do
 W2 · Alchemy vials · Nothing to fix · Nothing to fix
@@ -680,9 +680,17 @@ Gifts: Slabcakes, Surprise Box
 | minigames.check.hoops-play | minigames/cooldown-play | account | fires |  |
 | minigames.check.hoops-spend | minigames/cooldown-spend | account | fires | points=12 |
 | minigames.check.spiketrap | minigames/spiketrap | account | pass |  |
+| minigames.goal.darts-unlocks | minigames/unlock-ladder | account | value 69 |  |
+| minigames.goal.hoops-unlocks | minigames/unlock-ladder | account | value 19 |  |
+| minigames.goal.pen-pals | minigames/pen-pals | account | value 100 |  |
+| minigames.goal.spiketrap-round | minigames/spiketrap-round | account | value 2 |  |
+| minigames.goal.tome-highscore | minigames/tome-highscore | account | value 392 |  |
 | pets.check.free-pull | pets/free-pull | account | pass |  |
 | pets.check.mart-gems | pets/mart-gems | account | fires | shopDay=189 |
+| poppy.check.fisheroo-reset | poppy/state | account | fires | cost=2544883392647.673 next=7 |
+| poppy.check.greatest-catch | poppy/state | — | silent |  |
 | poppy.check.open | poppy/pending-fish | account | fires |  |
+| poppy.goal.megafish | poppy/megafish | account | value 40 |  |
 | portals.contribution.push-map-1 | portals/push | C10 | advances no | door=0 map=Spore_Meadows rate=1886483522 rule=1 saved=360369690317 |
 | post-office.check.daily-orders | post-office/state | account | fires | companies=6 |
 | post-office.check.spend-boxes | post-office/state | C1 | fires | boxes=479189 |
@@ -738,7 +746,7 @@ Gifts: Slabcakes, Surprise Box
 | systems.yaml#lab | systems/unlocked | account | reached yes |  |
 | systems.yaml#library | worlds/reached | account | reached yes |  |
 | systems.yaml#owl | worlds/reached | account | reached yes |  |
-| systems.yaml#poppy | worlds/reached | account | reached yes |  |
+| systems.yaml#poppy | systems/unlocked | account | reached yes |  |
 | systems.yaml#post-office | post-office/unlocked | account | reached yes |  |
 | systems.yaml#prayers | worlds/reached | account | reached yes |  |
 | systems.yaml#printer | worlds/reached | account | reached yes |  |

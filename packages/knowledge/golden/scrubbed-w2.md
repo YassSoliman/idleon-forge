@@ -1,4 +1,4 @@
-# golden v1: scrubbed-w2 · knowledge #a52cf9dd · parser 6c37e3d (game 2.3.540) · now 2026-10-17T15:47:05.447Z · return 8h · stage W2-late · stale: 4 of 1064
+# golden v1: scrubbed-w2 · knowledge #639ff944 · parser 6c37e3d (game 2.3.540) · now 2026-10-17T15:47:05.447Z · return 8h · stage W2-late · stale: 4 of 1077
 
 ## Verdict changes
 
@@ -45,10 +45,10 @@ Fix before you leave
   ○ To do: Bonus Ballot vote · Active now: Boosts Equinox Bar Fill rate by 1.4x · new ballot Monday about 17:00 UTC, in 2d 1h
 - Spend · Claim the free pet pull: Claim your free pet pull at Doggy [IdleOn Wiki: Pets · Calculated by IdleOn Toolbox · 2.3.540]
 - Spend · Collect banked Colosseum tickets: Collect 5 Colosseum tickets [IdleOn Wiki: Typhoon · Calculated by IdleOn Toolbox · 2.3.540]
-- Extra · Play Spiketrap Surprise: Spiketrap starts at :00: up to 40 gems today [IdleOn Wiki: Secrets · Calculated by IdleOn Toolbox · 2.3.540]
+- Extra · Play Spiketrap Surprise: Spiketrap starts at :00: today's gems are unclaimed [IdleOn Wiki: Secrets · Calculated by IdleOn Toolbox · 2.3.540]
 - Spend · Play a round of Darts: Play one round of Darts [IdleOn Wiki: Minigames, Throwy Darts · Calculated by IdleOn Toolbox · 2.3.540]
 - Spend · Play a round of Hoops: Play one round of Hoops [IdleOn Wiki: Minigames, Swishy Hoops · Calculated by IdleOn Toolbox · 2.3.540]
-show more (26)
+show more (30)
 Spend coins: 14 buys now on 4 characters
   1. Raise and level 2 capped stamps on Barbarian Lv 60: about 1.3M coins · buy · total 1.3M coins on C1
      Hatchet Stamp, Shield Stamp · carry 3.3k Thread on Barbarian Lv 60; carry 1.8k Iron Ore on Barbarian Lv 60, free space first
@@ -95,7 +95,7 @@ W0 · Gem Shop · Nothing to fix · Nothing to fix · 1 to do
 W0 · Merit Shop · Nothing to fix · Nothing to fix · 1 to do
 W0 · Tasks · Nothing to fix · Nothing to fix · 1 to do
 W0 · Companions and pets · Wasting · 1 to fix before you leave · 1 to do
-W0 · Minigames · Wasting · 3 to fix before you leave · 2 to do
+W0 · Minigames · Wasting · 3 to fix before you leave · 5 to do
 W0 · Cards · Behind · Behind for your Stage · 4 to do
 W0 · Obols · Nothing to fix · Nothing to fix · 2 to do
 W0 · Portals and map doors · Nothing to fix · Nothing to fix
@@ -128,7 +128,7 @@ W1 · The Owl · Not covered yet · Not covered yet
 W1 · Quests · Not covered yet · Not covered yet
 W1 · Boss keys · Nothing to fix · Nothing to fix
 W1 · Colosseum · Wasting · 1 to fix before you leave
-W1 · Poppy · Nothing to fix · Nothing to fix · 1 to do
+W1 · Poppy · Nothing to fix · Nothing to fix · 2 to do
 W2 · Alchemy cauldrons and liquids · Nothing to fix · Nothing to fix · 1 to do
 W2 · Alchemy bubbles · Behind · Behind for your Stage · 3 to do
 W2 · Alchemy vials · Nothing to fix · Nothing to fix · 2 to do
@@ -461,9 +461,17 @@ step: Use your 11 vial attempts on the W2 town cauldron
 | minigames.check.hoops-play | minigames/cooldown-play | account | fires |  |
 | minigames.check.hoops-spend | minigames/cooldown-spend | account | fires | points=7 |
 | minigames.check.spiketrap | minigames/spiketrap | account | fires | gems=40 minutes=13 startsIn=774553 |
+| minigames.goal.darts-unlocks | minigames/unlock-ladder | account | value 0 |  |
+| minigames.goal.hoops-unlocks | minigames/unlock-ladder | account | value 0 |  |
+| minigames.goal.pen-pals | minigames/pen-pals | account | value 0 |  |
+| minigames.goal.spiketrap-round | minigames/spiketrap-round | account | value 0 |  |
+| minigames.goal.tome-highscore | minigames/tome-highscore | account | value 66 |  |
 | pets.check.free-pull | pets/free-pull | account | fires | claimable=53637745 hoursClaimable=15 |
 | pets.check.mart-gems | pets/mart-gems | account | fires | shopDay=241 |
+| poppy.check.fisheroo-reset | poppy/state | — | silent |  |
+| poppy.check.greatest-catch | poppy/state | — | silent |  |
 | poppy.check.open | poppy/pending-fish | account | fires |  |
+| poppy.goal.megafish | poppy/megafish | account | value 0 |  |
 | portals.contribution.push-map-1 | portals/push | C4 | advances no | door=0 map=Spore_Meadows rate=1431 rule=1 saved=32 |
 | portals.contribution.push-map-16 | portals/push | C3 | advances yes eta 137m | door=1 map=Jungle_Perimeter rate=1285 rule=1 saved=73 |
 | portals.contribution.push-map-65 | portals/push | C5 | advances no | door=0 map=Djonnuttown rate=874 rule=1 saved=76 |
@@ -511,7 +519,7 @@ step: Use your 11 vial attempts on the W2 town cauldron
 | systems.yaml#lab | systems/unlocked | account | reached no |  |
 | systems.yaml#library | worlds/reached | account | reached no |  |
 | systems.yaml#owl | worlds/reached | account | reached yes |  |
-| systems.yaml#poppy | worlds/reached | account | reached yes |  |
+| systems.yaml#poppy | systems/unlocked | account | reached yes |  |
 | systems.yaml#post-office | post-office/unlocked | account | reached no |  |
 | systems.yaml#prayers | worlds/reached | account | reached no |  |
 | systems.yaml#printer | worlds/reached | account | reached no |  |

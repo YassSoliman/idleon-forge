@@ -1,4 +1,4 @@
-# golden v1: fourth · knowledge #a52cf9dd · parser 6c37e3d (game 2.3.540) · now 2024-05-17T07:51:22.362Z · return 8h · stage W4-late · stale: 4 of 1064
+# golden v1: fourth · knowledge #639ff944 · parser 6c37e3d (game 2.3.540) · now 2024-05-17T07:51:22.362Z · return 8h · stage W4-late · stale: 4 of 1077
 
 ## Verdict changes
 
@@ -16,13 +16,13 @@ fold: 1 we can't tell: see why
 
 ### Account · nothing to fix
 [checklist] Today 2/11 · Week 0/3 · daily reset in 20h 04m
-- Extra · Play Spiketrap Surprise: Spiketrap starts at :00: up to 40 gems today [IdleOn Wiki: Secrets · Calculated by IdleOn Toolbox · 2.3.540]
+- Extra · Play Spiketrap Surprise: Spiketrap starts at :00: today's gems are unclaimed [IdleOn Wiki: Secrets · Calculated by IdleOn Toolbox · 2.3.540]
 - Extra · Today's Random Event: Random Event now on Wam Wonderland (Glacial Guild): one a day [IdleOn Wiki: Random Events · Calculated by IdleOn Toolbox · 2.3.540]
 - Spend · Play a round of Hoops: Play one round of Hoops [IdleOn Wiki: Minigames, Swishy Hoops · Calculated by IdleOn Toolbox · 2.3.540]
 - Spend · Fill today's Post Office orders: Fill today's Post Office orders from storage [IdleOn Wiki: Post Office, orders · Calculated by IdleOn Toolbox · 2.3.540]
 - Extra · Collect your Forge bars: Collect 16 bars from the Forge [IdleOn Wiki: Smithing, The Forge · Calculated by IdleOn Toolbox · 2.3.540]
   · Most of them are Godshard Bar.
-show more (17)
+show more (21)
 If you have time
 - Run the Weekly Battle with every character (Yum Yum Desert) · about 2m of hands-on play
 
@@ -61,7 +61,7 @@ W0 · Gem Shop · Nothing to fix · Nothing to fix · 1 to do
 W0 · Merit Shop · Nothing to fix · Nothing to fix · 4 to do
 W0 · Tasks · Nothing to fix · Nothing to fix · 1 to do
 W0 · Companions and pets · Can't tell · Can't tell from the save
-W0 · Minigames · Wasting · 2 to fix before you leave
+W0 · Minigames · Wasting · 2 to fix before you leave · 4 to do
 W0 · Cards · Nothing to fix · Nothing to fix
 W0 · Obols · Nothing to fix · Nothing to fix · 2 to do
 W0 · Portals and map doors · Nothing to fix · Nothing to fix
@@ -94,7 +94,7 @@ W1 · The Owl · Not covered yet · Not covered yet
 W1 · Quests · Not covered yet · Not covered yet
 W1 · Boss keys · Nothing to fix · Nothing to fix
 W1 · Colosseum · Nothing to fix · Nothing to fix
-W1 · Poppy · Nothing to fix · Nothing to fix
+W1 · Poppy · Locked · Needs the Secret Map from the Yum-Yum Grotto vendor, which leads to The Oasis and Poppy's Fish Pond
 W2 · Alchemy cauldrons and liquids · Can't tell · Can't tell from the save
 W2 · Alchemy bubbles · Nothing to fix · Nothing to fix
 W2 · Alchemy vials · Nothing to fix · Nothing to fix · 1 to do
@@ -301,9 +301,17 @@ Can't read Bubba from this save
 | minigames.check.hoops-play | minigames/cooldown-play | account | fires |  |
 | minigames.check.hoops-spend | minigames/cooldown-spend | — | silent |  |
 | minigames.check.spiketrap | minigames/spiketrap | account | fires | gems=40 minutes=9 startsIn=517638 |
+| minigames.goal.darts-unlocks | minigames/unlock-ladder | account | value 0 |  |
+| minigames.goal.hoops-unlocks | minigames/unlock-ladder | account | value 0 |  |
+| minigames.goal.pen-pals | minigames/pen-pals | account | value 151 |  |
+| minigames.goal.spiketrap-round | minigames/spiketrap-round | account | value 8 |  |
+| minigames.goal.tome-highscore | minigames/tome-highscore | account | value 3877 |  |
 | pets.check.free-pull | pets/free-pull | account | pass |  |
 | pets.check.mart-gems | pets/mart-gems | account | unknown (field-missing) |  |
+| poppy.check.fisheroo-reset | poppy/state | — | silent |  |
+| poppy.check.greatest-catch | poppy/state | — | silent |  |
 | poppy.check.open | poppy/pending-fish | — | silent |  |
+| poppy.goal.megafish | poppy/megafish | — | silent |  |
 | post-office.check.daily-orders | post-office/state | account | fires | companies=3 |
 | post-office.check.spend-boxes | post-office/state | C1 | fires | boxes=4116 |
 | post-office.check.spend-boxes | post-office/state | C2 | fires | boxes=29516 |
@@ -345,7 +353,7 @@ Can't read Bubba from this save
 | systems.yaml#lab | systems/unlocked | account | reached yes |  |
 | systems.yaml#library | worlds/reached | account | reached yes |  |
 | systems.yaml#owl | worlds/reached | account | reached yes |  |
-| systems.yaml#poppy | worlds/reached | account | reached yes |  |
+| systems.yaml#poppy | systems/unlocked | account | reached no |  |
 | systems.yaml#post-office | post-office/unlocked | account | reached yes |  |
 | systems.yaml#prayers | worlds/reached | account | reached yes |  |
 | systems.yaml#printer | worlds/reached | account | reached yes |  |

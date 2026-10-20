@@ -1,4 +1,4 @@
-# golden v1: highend · knowledge #a52cf9dd · parser 6c37e3d (game 2.3.540) · now 2026-08-10T21:25:42.904Z · return 8h · stage W4-late · stale: 4 of 1064
+# golden v1: highend · knowledge #639ff944 · parser 6c37e3d (game 2.3.540) · now 2026-08-10T21:25:42.904Z · return 8h · stage W4-late · stale: 4 of 1077
 
 ## Verdict changes
 
@@ -68,7 +68,7 @@ finding: Worship full on 7 · spend
 - Spend · Play a round of Darts: Play one round of Darts [IdleOn Wiki: Minigames, Throwy Darts · Calculated by IdleOn Toolbox · 2.3.540]
 - Spend · Play a round of Hoops: Play one round of Hoops [IdleOn Wiki: Minigames, Swishy Hoops · Calculated by IdleOn Toolbox · 2.3.540]
 - Grow · Fill your empty Forge slots: Fill 16 empty Forge slots with Prehistrium Ore [IdleOn Wiki: Smithing, The Forge · Calculated by IdleOn Toolbox · 2.3.540]
-show more (14)
+show more (15)
 If you have time
 - Use today's 20 minigame plays · about 10m of hands-on play
 
@@ -107,7 +107,7 @@ W0 · Gem Shop · Nothing to fix · Nothing to fix
 W0 · Merit Shop · Nothing to fix · Nothing to fix
 W0 · Tasks · Nothing to fix · Nothing to fix
 W0 · Companions and pets · Wasting · 1 to fix before you leave
-W0 · Minigames · Wasting · 2 to fix before you leave · 3 to do
+W0 · Minigames · Wasting · 2 to fix before you leave · 4 to do
 W0 · Cards · Nothing to fix · Nothing to fix
 W0 · Obols · Nothing to fix · Nothing to fix
 W0 · Portals and map doors · Nothing to fix · Nothing to fix
@@ -656,9 +656,17 @@ Gifts: Beeg Slice, Slabcakes
 | minigames.check.hoops-play | minigames/cooldown-play | account | fires |  |
 | minigames.check.hoops-spend | minigames/cooldown-spend | account | fires | points=2220 |
 | minigames.check.spiketrap | minigames/spiketrap | account | pass |  |
+| minigames.goal.darts-unlocks | minigames/unlock-ladder | account | value 2305 |  |
+| minigames.goal.hoops-unlocks | minigames/unlock-ladder | account | value 862 |  |
+| minigames.goal.pen-pals | minigames/pen-pals | account | value 183 |  |
+| minigames.goal.spiketrap-round | minigames/spiketrap-round | account | value 127 |  |
+| minigames.goal.tome-highscore | minigames/tome-highscore | account | value 913 |  |
 | pets.check.free-pull | pets/free-pull | account | fires | claimable=1785803142903 hoursClaimable=496056 |
 | pets.check.mart-gems | pets/mart-gems | — | silent |  |
+| poppy.check.fisheroo-reset | poppy/state | — | silent |  |
+| poppy.check.greatest-catch | poppy/state | — | silent |  |
 | poppy.check.open | poppy/pending-fish | account | fires |  |
+| poppy.goal.megafish | poppy/megafish | account | value 26 |  |
 | post-office.check.daily-orders | post-office/state | account | fires | companies=1 |
 | post-office.check.spend-boxes | post-office/state | C1 | fires | boxes=238852 |
 | post-office.check.spend-boxes | post-office/state | C10 | fires | boxes=238852 |
@@ -709,7 +717,7 @@ Gifts: Beeg Slice, Slabcakes
 | systems.yaml#lab | systems/unlocked | account | reached yes |  |
 | systems.yaml#library | worlds/reached | account | reached yes |  |
 | systems.yaml#owl | worlds/reached | account | reached yes |  |
-| systems.yaml#poppy | worlds/reached | account | reached yes |  |
+| systems.yaml#poppy | systems/unlocked | account | reached yes |  |
 | systems.yaml#post-office | post-office/unlocked | account | reached yes |  |
 | systems.yaml#prayers | worlds/reached | account | reached yes |  |
 | systems.yaml#printer | worlds/reached | account | reached yes |  |
