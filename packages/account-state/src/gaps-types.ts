@@ -80,10 +80,50 @@ export interface ForgeState {
   barrelsHeld: ForgeBarrel[];
 }
 
+/** M26 FR-26: one ranked task on a world's Task Board. */
+export interface TaskBoardTask {
+  /** 0..7 on its board. */
+  index: number;
+  /** tasks.json name ("Faceless_Deathmachine"). */
+  name: string;
+  stat: number;
+  /** Tiers claimed (`Tasks[1][w][i]`) and the most there are. */
+  level: number;
+  maxLevel: number;
+  /** The stat the next tier needs; null at max. */
+  next: number | null;
+  /** Tiers whose goal the stat has reached but that aren't claimed yet. */
+  ready: number;
+  /** What claiming every ready tier pays. */
+  merits: number;
+  points: number;
+  /** Claiming zeroes the progress (tasks.json filler2 flag), so progress past the goal is lost. */
+  resetsOnClaim: boolean;
+}
+
+export interface TaskBoardWorld {
+  world: 1 | 2 | 3 | 4;
+  /** The board is open: Grasslands Gary (W1), Desert_Davey2, Iceland_Irwin1, Nebula_Neddy1. */
+  open: boolean;
+  tasks: TaskBoardTask[];
+  /** The 9th task, the daily. */
+  daily: { name: string; done: boolean } | null;
+}
+
+export interface TaskBoardState {
+  worlds: TaskBoardWorld[];
+  /** Task Unlocks: unlock points owned and spent, and the task points toward the next one. */
+  unlockPoints: { owned: number; bought: number; progress: number; nextAt: number };
+  /** Each world's Merit Shop row text at its level ("All Blunder Hills Monsters respawn +20%"), by row. */
+  meritText: string[][];
+}
+
 /** Optional so hand-built states need not spell them out; the adapter sets each, to a value or null. */
 export interface GapsAccountFields {
   /** M26 FR-21b: the Salt Lick's upgrades and its liquid-rate term. */
   saltLick?: SaltLickState | null;
   /** M26 FR-25: the Forge's slots, upgrades and what it can be fed. */
   forge?: ForgeState | null;
+  /** M26 FR-26: the Task Board of Worlds 1-4. */
+  taskBoard?: TaskBoardState | null;
 }

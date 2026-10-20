@@ -1,4 +1,4 @@
-# golden v1: fresh · knowledge #f6946eff · parser 6c37e3d (game 2.3.540) · now 2026-08-20T18:41:58.956Z · return 8h · stage W4-late · stale: 4 of 1063
+# golden v1: fresh · knowledge #a52cf9dd · parser 6c37e3d (game 2.3.540) · now 2026-08-20T18:41:58.956Z · return 8h · stage W4-late · stale: 4 of 1064
 
 ## Verdict changes
 
@@ -40,7 +40,7 @@ Unknown: can't tell from the save
 - Extra · Today's Random Event: Random Event now on Jar Bridge (Snake Swarm): one a day [IdleOn Wiki: Random Events · Calculated by IdleOn Toolbox · 2.3.540]
 - Extra · Claim the free Pet Mart gems: Claim today's free Pet Mart gems [IdleOn Wiki: Daily Checklist · Calculated by IdleOn Toolbox · 2.3.540]
 - Spend · Use your vial attempts: Use your 18 vial attempts on the W2 town cauldron [IdleOn Wiki: Alchemy/Vials · Calculated by IdleOn Toolbox · 2.3.540]
-show more (22)
+show more (23)
 If you have time
 - Run Killroy's Archer room on your Siege Breaker Lv 478 (YumYum Grotto) · about 2m of hands-on play
 - Run Killroy's Warrior room on your Blood Berserker Lv 534 (YumYum Grotto) · about 2m of hands-on play
@@ -89,7 +89,7 @@ W0 · Skills, doors and tools · Nothing to fix · Nothing to fix
 W0 · Gear & Tools · Nothing to fix · Nothing to fix · 1 to do
 W0 · Random Events · Wasting · 1 to fix before you leave
 W0 · Pet Tournament · Nothing to fix · Nothing to fix
-W0 · Daily tasks · Nothing to fix · Nothing to fix
+W0 · Daily tasks · Nothing to fix · Nothing to fix · 1 to do
 W0 · Guild tasks · Nothing to fix · Nothing to fix
 W0 · Achievements · Not covered yet · Not covered yet
 W0 · Dungeons · Not covered yet · Not covered yet
@@ -433,6 +433,7 @@ Locked: pats (Opens at Happi Boi), smoker (Opens at Smoker), charisma (Opens at 
 | systems.yaml#trapping | worlds/reached | account | reached yes |  |
 | systems.yaml#weekly-battles | worlds/reached | account | reached yes |  |
 | systems.yaml#worship | worlds/reached | account | reached yes |  |
+| task-board.check.claim | task-board/claimable | account | fires | count=1 merits=2 one=1 points=25 reset=1 task=Maximum_Efficiency world=2 |
 | task-unlocks.check.spend | task-unlocks/unspent | account | fires | points=180 |
 | tome.check.blue-pages | tome/blue-pages | — | silent |  |
 | tome.check.claim-nametags | tome/nametags | — | silent |  |

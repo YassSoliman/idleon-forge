@@ -3,7 +3,7 @@
     "files": 66,
     "records": 497
   },
-  "drafts": 309,
+  "drafts": 308,
   "edits": 36,
   "facts": 12,
   "unconverted": [
@@ -916,7 +916,6 @@
     "statues": 3,
     "storage": 8,
     "talents": 13,
-    "task-board": 1,
     "tome": 1,
     "town-shops": 2,
     "trapping": 4,
@@ -942,6 +941,7 @@
     "rift.check.class-gate",
     "rift.check.quota-done",
     "rift.check.unlock-quest",
+    "task-board.check.claim",
     "tome.check.blue-pages",
     "tome.check.claim-nametags"
   ]

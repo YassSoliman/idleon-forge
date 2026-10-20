@@ -6,6 +6,7 @@
 import { readForge } from './forge';
 import type { GapsAccountFields } from './gaps-types';
 import { readSaltHeld, readSaltLick } from './salt';
+import { readTaskBoard } from './taskboard';
 import type { SaltState } from './unspent-types';
 
 type Dict = Record<string, unknown>;
@@ -46,6 +47,7 @@ export function readGaps(i: GapsInputs, c: Collector): Required<GapsAccountField
   return {
     saltLick: guarded(c, 'account.saltLick', ['saltLick'], failed, () => readSaltLick(account)),
     forge: guarded(c, 'account.forge', ['forge'], failed, () => readForge(account, i.characters)),
+    taskBoard: guarded(c, 'account.taskBoard', ['tasks'], failed, () => readTaskBoard(account, i.characters)),
   };
 }
 

@@ -1,4 +1,4 @@
-# golden v1: scrubbed-w3 · knowledge #f6946eff · parser 6c37e3d (game 2.3.540) · now 2026-10-17T16:12:33.140Z · return 8h · stage W3-early · stale: 4 of 1063
+# golden v1: scrubbed-w3 · knowledge #a52cf9dd · parser 6c37e3d (game 2.3.540) · now 2026-10-17T16:12:33.140Z · return 8h · stage W3-early · stale: 4 of 1064
 
 ## Verdict changes
 
@@ -56,7 +56,7 @@ purpose: Mining 29 → 40 opens Echoing Egress
 - Grow · Pay for the Death Note's first level: Refine 10 Explosive Salts for the Death Note's first level (have 0) [IdleOn Wiki: Construction · Calculated by IdleOn Toolbox · 2.3.540]
 - Extra · Claim the free Pet Mart gems: Claim today's free Pet Mart gems [IdleOn Wiki: Daily Checklist · Calculated by IdleOn Toolbox · 2.3.540]
 - Spend · Play a round of Darts: Play one round of Darts [IdleOn Wiki: Minigames, Throwy Darts · Calculated by IdleOn Toolbox · 2.3.540]
-show more (33)
+show more (34)
 Spend coins: 15 buys now on 4 characters
   1. Buy Duplicate Entries (Vault) on Bowman Lv 60 before redeeming tickets: 100M coins · Lv 0 → 1 · buy · total 100M coins on C3
   2. Raise the Lil' Mining Baggy Stamp cap, then buy Lv 10→20 on Bowman Lv 60: about 13k coins · buy · total 100M coins on C3
@@ -117,7 +117,7 @@ W0 · Skills, doors and tools · Nothing to fix · Nothing to fix
 W0 · Gear & Tools · Behind · Behind for your Stage · 6 to do
 W0 · Random Events · Nothing to fix · Nothing to fix
 W0 · Pet Tournament · Nothing to fix · Nothing to fix
-W0 · Daily tasks · Nothing to fix · Nothing to fix
+W0 · Daily tasks · Nothing to fix · Nothing to fix · 1 to do
 W0 · Guild tasks · Nothing to fix · Nothing to fix
 W0 · Achievements · Not covered yet · Not covered yet
 W0 · Dungeons · Not covered yet · Not covered yet
@@ -626,6 +626,7 @@ Locked: smoker (Opens at Smoker)
 | systems.yaml#trapping | worlds/reached | account | reached yes |  |
 | systems.yaml#weekly-battles | worlds/reached | account | reached yes |  |
 | systems.yaml#worship | worlds/reached | account | reached yes |  |
+| task-board.check.claim | task-board/claimable | account | fires | count=4 merits=5 one=0 points=68 reset=0 task=No_Time_to_Brews! world=2 |
 | task-unlocks.check.spend | task-unlocks/unspent | account | fires | points=10 |
 | tome.check.blue-pages | tome/blue-pages | — | silent |  |
 | tome.check.claim-nametags | tome/nametags | — | silent |  |

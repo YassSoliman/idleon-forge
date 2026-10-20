@@ -1,4 +1,4 @@
-# golden v1: third · knowledge #f6946eff · parser 6c37e3d (game 2.3.540) · now 2024-06-06T19:59:40.215Z · return 8h · stage W4-late · stale: 4 of 1063
+# golden v1: third · knowledge #a52cf9dd · parser 6c37e3d (game 2.3.540) · now 2024-06-06T19:59:40.215Z · return 8h · stage W4-late · stale: 4 of 1064
 
 ## Verdict changes
 
@@ -68,7 +68,7 @@ purpose: Godshard: stamp material for Forge Stamp
 - Spend · Play a round of Hoops: Play one round of Hoops [IdleOn Wiki: Minigames, Swishy Hoops · Calculated by IdleOn Toolbox · 2.3.540]
 - Extra · Collect your Forge bars: Collect 20,645 bars from the Forge [IdleOn Wiki: Smithing, The Forge · Calculated by IdleOn Toolbox · 2.3.540]
   · Most of them are Starfire Bar.
-show more (15)
+show more (16)
 If you have time
 - Use today's 21 minigame plays · about 10m of hands-on play
 
@@ -115,7 +115,7 @@ W0 · Skills, doors and tools · Nothing to fix · Nothing to fix
 W0 · Gear & Tools · Nothing to fix · Nothing to fix · 1 to do
 W0 · Random Events · Nothing to fix · Nothing to fix
 W0 · Pet Tournament · Nothing to fix · Nothing to fix
-W0 · Daily tasks · Nothing to fix · Nothing to fix
+W0 · Daily tasks · Nothing to fix · Nothing to fix · 1 to do
 W0 · Guild tasks · Nothing to fix · Nothing to fix
 W0 · Achievements · Not covered yet · Not covered yet
 W0 · Dungeons · Not covered yet · Not covered yet
@@ -749,6 +749,7 @@ Can't read Bubba from this save
 | systems.yaml#trapping | worlds/reached | account | reached yes |  |
 | systems.yaml#weekly-battles | worlds/reached | account | reached yes |  |
 | systems.yaml#worship | worlds/reached | account | reached yes |  |
+| task-board.check.claim | task-board/claimable | account | fires | count=1 merits=2 one=1 points=25 reset=1 task=Maximum_Efficiency world=2 |
 | task-unlocks.check.spend | task-unlocks/unspent | account | fires | points=294 |
 | tome.check.blue-pages | tome/blue-pages | — | silent |  |
 | tome.check.claim-nametags | tome/nametags | account | fires | available=7 |

@@ -34,3 +34,13 @@
   grid-column: 1 / -1;
   justify-content: center;
 }
+
+/* The Task Board: one tile per world board, two across from 1000 px. */
+.gp-boards {
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 420px), 1fr));
+}
+.gp-task__n {
+  flex: none;
+  min-width: 96px;
+  text-align: right;
+}

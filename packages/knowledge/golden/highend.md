@@ -1,4 +1,4 @@
-# golden v1: highend · knowledge #f6946eff · parser 6c37e3d (game 2.3.540) · now 2026-08-10T21:25:42.904Z · return 8h · stage W4-late · stale: 4 of 1063
+# golden v1: highend · knowledge #a52cf9dd · parser 6c37e3d (game 2.3.540) · now 2026-08-10T21:25:42.904Z · return 8h · stage W4-late · stale: 4 of 1064
 
 ## Verdict changes
 
@@ -726,6 +726,7 @@ Gifts: Beeg Slice, Slabcakes
 | systems.yaml#trapping | worlds/reached | account | reached yes |  |
 | systems.yaml#weekly-battles | worlds/reached | account | reached yes |  |
 | systems.yaml#worship | worlds/reached | account | reached yes |  |
+| task-board.check.claim | task-board/claimable | — | silent |  |
 | task-unlocks.check.spend | task-unlocks/unspent | — | silent |  |
 | tome.check.blue-pages | tome/blue-pages | — | silent |  |
 | tome.check.claim-nametags | tome/nametags | — | silent |  |

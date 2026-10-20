@@ -72,6 +72,9 @@ export const FULL_PAGES: Readonly<Record<string, ComponentType<FullPageProps>>> 
   'elite-classes': full(() => import('./pages/EliteClassesPage')),
   // M26 Wave 2: the W2/W3 gaps (systems/gaps/).
   forge: gapsPage('ForgePage'),
+  'task-board': gapsPage('TaskBoardPage'),
+  'merit-shop': gapsPage('TaskBoardPage'),
+  'task-unlocks': gapsPage('TaskBoardPage'),
   // M26 FR-0b: the other Wave 0 registry rows, the thin page itself until their wave (spec section 9).
   ...Object.fromEntries(
     [

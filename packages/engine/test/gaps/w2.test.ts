@@ -11,7 +11,7 @@ import { goldenContext } from '@idleon-forge/kb-tools/src/golden';
 import { COPPER, DEFAULT_EXPECTED_RETURN_MS, idleForge } from '@idleon-forge/knowledge';
 import { describe, expect, it } from 'vitest';
 import { goldenResult } from '../../src/golden';
-import type { ForgePicture } from '../../src/pictures/gaps-types';
+import type { ForgePicture, TaskBoardPicture } from '../../src/pictures/gaps-types';
 import type { EngineResult, Goal } from '../../src/result';
 
 const ctx = await goldenContext();
@@ -52,5 +52,37 @@ describe('the Forge (FR-25)', () => {
     );
     const p = picture(r, 'forge') as ForgePicture | undefined;
     expect(p).toMatchObject({ slotsUnlocked: 16, idle: 0, barsWaiting: 16, capacity: 20669 });
+  });
+});
+
+describe('the Task Board (FR-26)', () => {
+  it('US-21 fourth.json: one tier met on a reset-on-claim task, named first', () => {
+    const r = run('fourth');
+    const g = goals(r).find((x) => x.id === 'task-board.check.claim');
+    expect(g?.nextAction.text).toBe('Claim 1 task tier (2 merits, 25 task points)');
+    expect(g?.nextAction.why).toContain('Claim Maximum Efficiency on World 2 first');
+    const p = picture(r, 'task-board') as TaskBoardPicture | undefined;
+    expect(p?.ready).toBe(1);
+    expect(p?.worlds.map((w) => w.open)).toEqual([true, true, true, true]);
+    expect(p?.worlds[1]?.shop).toHaveLength(8);
+  });
+  it('a closed board holds nothing to claim, and says what opens it', () => {
+    const r = run('fourth', (s) =>
+      s.account.taskBoard
+        ? {
+            ...s,
+            account: {
+              ...s.account,
+              taskBoard: {
+                ...s.account.taskBoard,
+                worlds: s.account.taskBoard.worlds.map((w) => ({ ...w, open: w.world === 1 })),
+              },
+            },
+          }
+        : s,
+    );
+    expect(goals(r).some((x) => x.id === 'task-board.check.claim')).toBe(false);
+    const p = picture(r, 'task-board') as TaskBoardPicture | undefined;
+    expect(p?.worlds[1]?.opener).toBe("Finish Desert Davey's quest in World 2 town");
   });
 });

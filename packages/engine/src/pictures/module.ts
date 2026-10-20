@@ -17,7 +17,7 @@ import { ENTRY, human, itemOf, say, type WalkthroughKnowledge } from '../walkthr
 import { parentsOf, walkthroughValues } from '../walkthrough/module';
 import type { PrinterSlotPlan } from '../walkthrough/types';
 import { printerPicture, stampsPicture, statuesPicture, vaultPicture } from './build';
-import { forgePicture } from './gaps';
+import { forgePicture, taskBoardPicture } from './gaps';
 import { elitePicture, riftPicture, tomePicture } from './w4';
 import {
   buildSlotsPicture,
@@ -104,6 +104,7 @@ export function createPicturesModule(): EngineModule {
       add(safe(() => tomePicture(state)));
       // M26 Wave 2: the W2/W3 gaps' pages (gaps.ts).
       add(safe(() => forgePicture(state)));
+      add(safe(() => taskBoardPicture(state)));
       return out.length ? { slotPictures: out } : {};
     },
   };

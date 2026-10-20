@@ -1,4 +1,4 @@
-# golden v1: fourth · knowledge #f6946eff · parser 6c37e3d (game 2.3.540) · now 2024-05-17T07:51:22.362Z · return 8h · stage W4-late · stale: 4 of 1063
+# golden v1: fourth · knowledge #a52cf9dd · parser 6c37e3d (game 2.3.540) · now 2024-05-17T07:51:22.362Z · return 8h · stage W4-late · stale: 4 of 1064
 
 ## Verdict changes
 
@@ -22,7 +22,7 @@ fold: 1 we can't tell: see why
 - Spend · Fill today's Post Office orders: Fill today's Post Office orders from storage [IdleOn Wiki: Post Office, orders · Calculated by IdleOn Toolbox · 2.3.540]
 - Extra · Collect your Forge bars: Collect 16 bars from the Forge [IdleOn Wiki: Smithing, The Forge · Calculated by IdleOn Toolbox · 2.3.540]
   · Most of them are Godshard Bar.
-show more (16)
+show more (17)
 If you have time
 - Run the Weekly Battle with every character (Yum Yum Desert) · about 2m of hands-on play
 
@@ -69,7 +69,7 @@ W0 · Skills, doors and tools · Nothing to fix · Nothing to fix
 W0 · Gear & Tools · Nothing to fix · Nothing to fix
 W0 · Random Events · Wasting · 1 to fix before you leave
 W0 · Pet Tournament · Nothing to fix · Nothing to fix
-W0 · Daily tasks · Nothing to fix · Nothing to fix
+W0 · Daily tasks · Nothing to fix · Nothing to fix · 1 to do
 W0 · Guild tasks · Nothing to fix · Nothing to fix
 W0 · Achievements · Not covered yet · Not covered yet
 W0 · Dungeons · Not covered yet · Not covered yet
@@ -362,6 +362,7 @@ Can't read Bubba from this save
 | systems.yaml#trapping | worlds/reached | account | reached yes |  |
 | systems.yaml#weekly-battles | worlds/reached | account | reached yes |  |
 | systems.yaml#worship | worlds/reached | account | reached yes |  |
+| task-board.check.claim | task-board/claimable | account | fires | count=1 merits=2 one=1 points=25 reset=1 task=Maximum_Efficiency world=2 |
 | task-unlocks.check.spend | task-unlocks/unspent | account | fires | points=265 |
 | tome.check.blue-pages | tome/blue-pages | — | silent |  |
 | tome.check.claim-nametags | tome/nametags | — | silent |  |

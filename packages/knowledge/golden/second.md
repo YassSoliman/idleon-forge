@@ -1,4 +1,4 @@
-# golden v1: second · knowledge #f6946eff · parser 6c37e3d (game 2.3.540) · now 2024-06-08T06:05:26.262Z · return 8h · stage W4-late · stale: 4 of 1063
+# golden v1: second · knowledge #a52cf9dd · parser 6c37e3d (game 2.3.540) · now 2024-06-08T06:05:26.262Z · return 8h · stage W4-late · stale: 4 of 1064
 
 ## Verdict changes
 
@@ -58,7 +58,7 @@ purpose: Death Note: Penguin kills ~38M → 100M · about 8h
 - Grow · Equip gear you hold: Equip gear you already hold on 2 characters [IdleOn Wiki: Helmets (stats and level to equip) · Calculated by IdleOn Toolbox · 2.3.540]
   · Divine Knight Lv 544: Fuscismatia from storage
   · Wizard Lv 501: Witch Hat from the Elemental Sorcerer Lv 525's bag
-show more (8)
+show more (9)
 
 ## Not covered yet
 Achievements
@@ -103,7 +103,7 @@ W0 · Skills, doors and tools · Nothing to fix · Nothing to fix
 W0 · Gear & Tools · Nothing to fix · Nothing to fix · 1 to do
 W0 · Random Events · Nothing to fix · Nothing to fix
 W0 · Pet Tournament · Nothing to fix · Nothing to fix
-W0 · Daily tasks · Nothing to fix · Nothing to fix
+W0 · Daily tasks · Nothing to fix · Nothing to fix · 1 to do
 W0 · Guild tasks · Nothing to fix · Nothing to fix
 W0 · Achievements · Not covered yet · Not covered yet
 W0 · Dungeons · Not covered yet · Not covered yet
@@ -706,6 +706,7 @@ Can't read Bubba from this save
 | systems.yaml#trapping | worlds/reached | account | reached yes |  |
 | systems.yaml#weekly-battles | worlds/reached | account | reached yes |  |
 | systems.yaml#worship | worlds/reached | account | reached yes |  |
+| task-board.check.claim | task-board/claimable | account | fires | count=1 merits=2 one=1 points=25 reset=1 task=Maximum_Efficiency world=2 |
 | task-unlocks.check.spend | task-unlocks/unspent | account | fires | points=644 |
 | tome.check.blue-pages | tome/blue-pages | — | silent |  |
 | tome.check.claim-nametags | tome/nametags | account | fires | available=4 |
