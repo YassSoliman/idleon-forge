@@ -41,7 +41,7 @@ import type {
  * M26 Wave 1: World 4 core Systems whose Checks this module runs. They rank at their Stage list
  * position (the W4 Priority List's tier for them), not at the free-value 3.
  */
-export const W4_CHECK_SYSTEMS: readonly string[] = ['rift'];
+export const W4_CHECK_SYSTEMS: readonly string[] = ['rift', 'elite-classes'];
 
 /** The Systems whose Check entries this module runs (M6 TR-1). */
 export const UNSPENT_SYSTEMS: readonly string[] = [

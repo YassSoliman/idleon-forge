@@ -1,4 +1,4 @@
-# golden v1: speedrun-rank1 · knowledge #0ed77233 · parser 6c37e3d (game 2.3.540) · now 2026-08-11T19:59:46.196Z · return 8h · stage W4-late · stale: 4 of 1050
+# golden v1: speedrun-rank1 · knowledge #3025eb3d · parser 6c37e3d (game 2.3.540) · now 2026-08-11T19:59:46.196Z · return 8h · stage W4-late · stale: 4 of 1051
 
 ## Verdict changes
 
@@ -82,7 +82,6 @@ Salt Lick
 Shrines
 Breeding
 Cooking
-Elite classes
 Laboratory
 Sigils
 The Tome
@@ -160,7 +159,7 @@ W4 · Breeding · Not covered yet · Not covered yet
 W4 · Sigils · Not covered yet · Not covered yet
 W4 · The Rift · Nothing to fix · Nothing to fix · 1 to do
 W4 · The Tome · Not covered yet · Not covered yet
-W4 · Elite classes · Not covered yet · Not covered yet
+W4 · Elite classes · Nothing to fix · Nothing to fix
 Worlds 5–7: not covered yet
 Needs you: Companions and pets (wasting), Minigames (wasting), Refinery (wasting), Trapping (wasting)
 Other gaps: Talent builds past World 4, W4+ constellations and Infinite Stars
@@ -650,6 +649,7 @@ Gifts: Beeg Slice, Slabcakes
 | construction.check.build-next | construction/build-next | account | pass |  |
 | death-note.check.build | death-note/build | — | silent |  |
 | death-note.check.build-slot | death-note/build | — | silent |  |
+| elite-classes.check.eliteus | elite-classes/eliteus | — | silent |  |
 | gem-shop.check.printer-buy | gem-shop/unspent | — | silent |  |
 | gem-shop.check.printer-progress | gem-shop/unspent | — | silent |  |
 | gem-shop.check.unspent | gem-shop/unspent | — | silent |  |

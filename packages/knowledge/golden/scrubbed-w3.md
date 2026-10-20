@@ -1,4 +1,4 @@
-# golden v1: scrubbed-w3 · knowledge #0ed77233 · parser 6c37e3d (game 2.3.540) · now 2026-10-17T16:12:33.140Z · return 8h · stage W3-early · stale: 4 of 1050
+# golden v1: scrubbed-w3 · knowledge #3025eb3d · parser 6c37e3d (game 2.3.540) · now 2026-10-17T16:12:33.140Z · return 8h · stage W3-early · stale: 4 of 1051
 
 ## Verdict changes
 
@@ -521,6 +521,12 @@ Locked: smoker (Opens at Smoker)
 | death-note.contribution.skull-sandgiant | death-note/skull | C3 | advances yes eta 1664m | building=0 feeders=4 rate=449 rule=0 saved=12547 target=Sand_Giant |
 | death-note.contribution.skull-stache | death-note/skull | C1 | advances yes eta 1410m | building=0 feeders=1 rate=934 rule=0 saved=3046 target=Sir_Stache |
 | death-note.contribution.skull-thermostat | death-note/skull | C4 | advances yes eta 1407m | building=0 feeders=8 rate=1065 rule=0 saved=19 target=Thermister |
+| elite-classes.check.eliteus | elite-classes/eliteus | C1 | fires | class=Wizard elite=Elemental_Sorcerer kills=0 left=10 pick=0 |
+| elite-classes.check.eliteus | elite-classes/eliteus | C2 | fires | class=Squire elite=Divine_Knight kills=0 left=10 pick=0 |
+| elite-classes.check.eliteus | elite-classes/eliteus | C3 | fires | class=Bowman elite=Siege_Breaker kills=0 left=10 pick=0 |
+| elite-classes.check.eliteus | elite-classes/eliteus | C4 | fires | class=Squire elite=Divine_Knight kills=0 left=10 pick=0 |
+| elite-classes.check.eliteus | elite-classes/eliteus | C5 | fires | class=Barbarian elite=Blood_Berserker kills=0 left=10 pick=0 |
+| elite-classes.check.eliteus | elite-classes/eliteus | C6 | fires | class=Shaman elite=Bubonic_Conjuror kills=0 left=10 pick=0 |
 | gem-shop.check.printer-buy | gem-shop/unspent | — | silent |  |
 | gem-shop.check.printer-progress | gem-shop/unspent | account | fires | gems=365 price=875 |
 | gem-shop.check.unspent | gem-shop/unspent | — | silent |  |

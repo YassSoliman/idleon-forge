@@ -1,0 +1,33 @@
+# SPDX-License-Identifier: GPL-3.0-only
+# M26 FR-17 (Wave 1): Elite classes. Promoted from systems/elite-classes.drafts.yaml after V8 and V44
+# (2026-10-19, game client and raw saves): the Greenie Gang count is QuestStatus_i.Eliteus1[0] (done at 10),
+# and Eliteus's class picker opens for classes 8, 9, 20, 21, 32 and 33 with no level test.
+system: elite-classes
+entries:
+  - id: elite-classes.check.eliteus
+    system: elite-classes
+    type: check
+    title: Take your elite class
+    subject: character
+    effect: next-action
+    category: compounding
+    priority: { frame: by-urgency }
+    effortSeconds: 900
+    detector: { id: elite-classes/eliteus }
+    claims: [{ system: elite-classes, key: promotion }]
+    text: "Beat the Greenie Gang at Eliteus for your {elite:name} class"
+    groupText: "Take your elite classes at Eliteus"
+    why: "Eliteus, on Outskirts of Fallstar Isle in World 4, promotes your {class:name} after 10 Greenie Gang kills ({kills:int} done, {left:int} to go). No level is needed, and it adds a 4th talent tab."
+    values:
+      text-pick: "Talk to Eliteus and take your {elite:name} class"
+      why-pick: "You beat the Greenie Gang. Eliteus's second quest is only picking your elite, and your {class:name} has just one."
+    doneWhen: { field: "characters[].classIndex", change: higher }
+    appliesTo: { stages: [W4-entry] }
+    confidence: H
+    status: active
+    notes: "Quest data H (C4); one elite per subclass H (C1). V44 (game client _event_CLASSADVANCE): the picker opens for classes 8/9/20/21/32/33 once Eliteus2 is accepted or done, with no level test; V8: the Gang count is QuestStatus_i.Eliteus1[0], quests.json customArray 10. Owns the 'promotion' claim; metapath.goal.elite's why becomes a detail line under it (FR-5)."
+    sources:
+      - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/quests.json", title: "Game data: Eliteus1 'The Greenie Gucci Gang' (the Gang x10) and Eliteus2 (select an elite)", tier: 1, verified: 2026-10-19, gameVersion: 2.3.540 }
+      - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/classPromotions.json", title: "Game data: class promotions (each subclass has one promotesTo)", tier: 1, verified: 2026-10-19, gameVersion: 2.3.540 }
+      - { url: "https://legendsofidleon.com/ytGl5oc/N.js", title: "Game client: Eliteus's class picker (classes 8, 9, 20, 21, 32, 33; no level test)", tier: 1, verified: 2026-10-19, gameVersion: 2.3.540, excerptSha256: 79f1871730556e2d3889401f88a9de6ef4314f0f9c1fef681628f5d6b8dfa23e, clientBuild: { sha256: 42da3130082762cfe4650212fccbf51d7982175ee91778ef3b202fcb33b8b204, lastModified: 2026-10-17 } }
+      - { url: "https://idleon.wiki/wiki/Eliteus", title: "IdleOn Wiki: Eliteus (Outskirts of Fallstar Isle; Greenie Gang x10)", tier: 2, claimDate: 2026-09-27, verified: 2026-10-19, gameVersion: 2.3.540 }
