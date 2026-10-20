@@ -25,7 +25,7 @@ export interface AlchemyState {
   cauldrons: CauldronState[];
   /** Every bubble at level 1 or more: rawName (e.g. "aUpgradesO3") and game name ("WYOMING_BLOOD"), by rawName. */
   unlockedBubbles: Array<{ rawName: string; name: string }>;
-  /** `alchemy.p2w.vialsAttempts`. */
+  /** `alchemy.p2w.vialsAttempts`, `current` clamped to 0..max (saves can hold a negative remaining count). */
   vialAttempts: { current: number; max: number };
   /** A level-0 vial's ingredient is held in storage or an inventory (Toolbox's vialsAttempts alert rule). */
   vialAttemptsUsable: boolean;

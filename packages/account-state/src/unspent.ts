@@ -179,10 +179,14 @@ function readAlchemy(account: Dict, characters: unknown[]): AlchemyState | null 
     const req = list(v.itemReq)[0];
     return isDict(req) && typeof req.rawName === 'string' && (held.get(req.rawName) ?? 0) > 0;
   });
+  // Toolbox passes the save's remaining count (`CauldronP2W[5][0]`) through raw, and real saves carry
+  // values below zero (seen: -3 of 18) once the day's tries are spent past zero. Toolbox's own alert
+  // only fires on `current > 0`, so below zero means none left; clamp to 0..max so no screen says "-3".
+  const max = Math.max(0, num(va.max));
   return {
     cauldrons: cauldrons as AlchemyState['cauldrons'],
     unlockedBubbles,
-    vialAttempts: { current: num(va.current), max: num(va.max) },
+    vialAttempts: { current: Math.min(max, Math.max(0, num(va.current))), max },
     vialAttemptsUsable,
   };
 }
