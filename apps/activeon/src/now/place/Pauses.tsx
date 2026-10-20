@@ -16,6 +16,7 @@ import { TokenLine } from '../../design/atoms/TokenLine';
 import type { ClassFamily } from '../../design/who/WhoGlyph';
 import { formatRoute } from '../../shell/route';
 import type { LoginRow, NowSessionView } from '../session/types';
+import { Badged } from './Badged';
 import { cardState, type FullGroup, fullSet, type LossNow, PIP, roundNext } from './derive';
 import { Icon, systemSprite } from './icon';
 import { Go } from './LogOff';
@@ -23,6 +24,9 @@ import { rowTabChip } from './tab-chip';
 import { NOW_PLACE_WORDS as W } from './words';
 
 const familyOf = (view: NowView, i: number): ClassFamily => view.families?.[i] ?? 'beginner';
+/** M25: the game's class icon on the blob's corner (ClassBadge), as on the Characters list. */
+const classOf = (view: NowView, i: number): string | undefined =>
+  view.roster.find((r) => r.index === i)?.classLabel;
 const who = (view: NowView, i: number) => {
   const r = view.roster.find((x) => x.index === i);
   return r ? `${r.classLabel} ${r.level}` : '';
@@ -280,7 +284,9 @@ export function RoundsView(p: PauseViewProps) {
         className={p.framed === false ? 'np-next np-plain' : 'np-next a-frame a-frame--gold'}
         aria-labelledby="np-next-h"
       >
-        <Blob family={familyOf(view, next.index)} size={72} />
+        <Badged classLabel={classOf(view, next.index)} size={72}>
+          <Blob family={familyOf(view, next.index)} size={72} />
+        </Badged>
         <div className="np-next__t">
           <span className="a-cap np-t-gold">
             {first ? W.startRound(next.position, total) : W.nextRound(next.position, total)}
@@ -322,7 +328,9 @@ export function RoundsView(p: PauseViewProps) {
                   )}
                 >
                   <span className="np-stop__pic" aria-hidden="true">
-                    <Blob family={familyOf(view, r.index)} size={44} />
+                    <Badged classLabel={classOf(view, r.index)} size={44}>
+                      <Blob family={familyOf(view, r.index)} size={44} />
+                    </Badged>
                   </span>
                   <span className="np-stop__who">
                     <span className="np-stop__n num">{r.position}</span>

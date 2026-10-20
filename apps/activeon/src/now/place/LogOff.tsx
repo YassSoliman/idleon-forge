@@ -21,6 +21,7 @@ import type { ClassFamily } from '../../design/who/WhoGlyph';
 import { formatRoute } from '../../shell/route';
 import { capGlyph } from '../chrome/cap-glyph';
 import type { CounterView, NowSessionView } from '../session/types';
+import { Badged } from './Badged';
 import {
   awayParts,
   type CardState,
@@ -54,6 +55,9 @@ const capSystem = (what: string): string | null =>
 
 type Vars = CSSProperties & Record<`--${string}`, string | number>;
 const familyOf = (view: NowView, i: number): ClassFamily => view.families?.[i] ?? 'beginner';
+/** M25: the game's class icon on the blob's corner (ClassBadge), as on the Characters list. */
+const classOf = (view: NowView, i: number): string | undefined =>
+  view.roster.find((r) => r.index === i)?.classLabel;
 const whoLabel = (view: NowView, i: number) => {
   const r = view.roster.find((x) => x.index === i);
   return r ? `${r.classLabel} ${r.level}` : '';
@@ -455,7 +459,9 @@ export function CharacterCards({
                 label={`${r.position}. ${who}${r.map ? `, ${r.map}` : ''}, ${STATE_WORD[state]}${task ? `. ${task}` : ''}`}
               >
                 <span className="np-card__top">
-                  <Blob family={familyOf(view, r.index)} size={40} />
+                  <Badged classLabel={classOf(view, r.index)} size={40}>
+                    <Blob family={familyOf(view, r.index)} size={40} />
+                  </Badged>
                   <span className="np-card__who">
                     <span className="np-card__line">
                       <b>{who}</b>

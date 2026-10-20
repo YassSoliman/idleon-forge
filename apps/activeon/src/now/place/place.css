@@ -860,7 +860,8 @@
   .np-card__top {
     grid-template-columns: minmax(0, 1fr);
   }
-  .np-card__top .a-blob {
+  .np-card__top .a-blob,
+  .np-card__top .cb {
     display: none;
   }
   .np-card__task {
