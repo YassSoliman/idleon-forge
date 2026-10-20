@@ -1512,6 +1512,8 @@ entries:
       - [rift.check.quota-done, rift.check.class-gate, rift.check.unlock-quest, rift.check.afk-task, rift.check.active-task]
       # M26 Wave 1 (FR-13, FR-14): Breeding and Cooking, value lost first.
       - [breeding.check.full-nest, cooking.check.idle-kitchen, cooking.check.capped-meal, breeding.check.idle-territory]
+      # M26 Wave 1 (FR-12): the Lab.
+      - [lab.check.first-upload, lab.check.not-connected, lab.check.jewel-unlit]
       # M26 Wave 1 (FR-16): the Tome's two one-time steps.
       - [tome.check.claim-nametags, tome.check.blue-pages]
       - [alchemy-bubbles.goal.level-next, alchemy-vials.goal.level-next]

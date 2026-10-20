@@ -159,6 +159,30 @@ describe('Breeding and Cooking', () => {
   });
 });
 
+describe('the Laboratory', () => {
+  it('US-4 first.json with nobody in the Lab: upload two, toward Animal Farm 138 px out', () => {
+    const r = run('first', (s) => ({
+      ...s,
+      account: {
+        ...s.account,
+        lab: s.account.lab
+          ? {
+              ...s.account.lab,
+              characters: s.account.lab.characters.map((c) => ({ ...c, uploaded: false, connected: false })),
+              bonuses: s.account.lab.bonuses.map((b) => ({ ...b, lit: false })),
+            }
+          : null,
+      },
+    }));
+    const g = goals(r).find((x) => x.id === 'lab.check.first-upload');
+    expect(g?.nextAction.text).toBe("Set two spare characters' AFK target to the Laboratory");
+    expect(g?.nextAction.why).toContain('Animal Farm, the bonus nearest the prism: it is 138 px away');
+  });
+  it('first.json as saved: four connected, no Lab card', () => {
+    expect(goals(run('first')).filter((g) => g.system === 'lab')).toEqual([]);
+  });
+});
+
 describe('stage stories', () => {
   it('US-S1: stage-w1-early has no World 4 core finding', () => {
     expect(goals(run('stage-w1-early')).filter((g) => W4_CORE.has(g.system))).toEqual([]);

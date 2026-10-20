@@ -1,4 +1,4 @@
-# golden v1: scrubbed-w2 · knowledge #2c4fce1f · parser 6c37e3d (game 2.3.540) · now 2026-10-17T15:47:05.447Z · return 8h · stage W2-late · stale: 4 of 1057
+# golden v1: scrubbed-w2 · knowledge #04f5e113 · parser 6c37e3d (game 2.3.540) · now 2026-10-17T15:47:05.447Z · return 8h · stage W2-late · stale: 4 of 1060
 
 ## Verdict changes
 
@@ -440,6 +440,9 @@ step: Use your 11 vial attempts on the W2 town cauldron
 | gem-shop.check.printer-buy | gem-shop/unspent | — | silent |  |
 | gem-shop.check.printer-progress | gem-shop/unspent | — | silent |  |
 | gem-shop.check.unspent | gem-shop/unspent | account | fires | gems=628 price=875 |
+| lab.check.first-upload | lab/uploads | account | fires | distance=138 node=Animal_Farm |
+| lab.check.jewel-unlit | lab/jewel-unlit | — | silent |  |
+| lab.check.not-connected | lab/uploads | — | silent |  |
 | merit-shop.check.spend-w1 | merit-shop/unspent | account | fires | unspent=12 world=1 |
 | merit-shop.check.spend-w2 | merit-shop/unspent | — | silent |  |
 | merit-shop.check.spend-w2-afk-gains | merit-shop/unspent | — | silent |  |

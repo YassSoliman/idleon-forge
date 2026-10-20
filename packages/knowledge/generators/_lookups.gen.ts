@@ -53,6 +53,8 @@ export default defineGenerator({
     'website-data/shared-data.json#riftInfo',
     'website-data/shared-data.json#territory',
     'website-data/shared-data.json#cookingMenu',
+    'website-data/shared-data.json#labBonuses',
+    'website-data/shared-data.json#jewels',
     'website-data/cauldrons.json',
   ],
   run({ data }) {
@@ -109,6 +111,11 @@ export default defineGenerator({
       // M26 Wave 1: Breeding territory names and Cooking meal names, for their Check slots (FR-27).
       territories: sorted((data.territory as { territoryName?: string }[]).map((t) => t.territoryName ?? '')),
       meals: sorted((data.cookingMenu as { name?: string }[]).map((m) => m.name ?? '')),
+      // M26 Wave 1: Lab bonus nodes and jewels, for the Lab Check slots (FR-27).
+      labNodes: sorted([
+        ...(data.labBonuses as { name?: string }[]).map((b) => b.name ?? ''),
+        ...(data.jewels as { name?: string }[]).map((j) => j.name ?? ''),
+      ]),
       sentinels: ['Blank', 'LockedInvSpace', 'Null'],
     };
   },
