@@ -174,7 +174,7 @@ export {
   type WorshipTotem,
 } from './slots-types';
 // M7 Spend Plan (M7 TR-2)
-export { LADDER_CHECKPOINTS, SPEND_VAULT_ROWS } from './spend';
+export { compactEffects, LADDER_CHECKPOINTS, SPEND_VAULT_ROWS, vaultEffect, vaultEffectAt } from './spend';
 export type {
   AnvilCoinPoint,
   BribeState,

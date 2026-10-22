@@ -68,7 +68,57 @@ function wallets(input: SpendReadInput): Wallet[] {
   return out;
 }
 
-function vault(input: SpendReadInput): VaultState | null {
+/**
+ * A row's effect line from Toolbox's `description`: underscores as spaces, cut at its first line break or
+ * sentence end (the "Go craft a new weapon" tails and the running totals stay in the game).
+ */
+export function vaultEffect(description: string): string {
+  const text = description.replace(/_/g, ' ').split('\n')[0] ?? '';
+  const stop = text.search(/[.!]+(\s|$)/);
+  return (stop >= 0 ? text.slice(0, stop) : text).replace(/\s+/g, ' ').trim();
+}
+
+const NUMBER = /\d[\d,]*(?:\.\d+)?/g;
+
+/**
+ * One row's effect lines at every priced level, as a template and the numbers that change: `{}` stands
+ * for each number that isn't the same at every level. When the words themselves change, the template is
+ * `{}` and each level holds its whole line.
+ */
+export function compactEffects(lines: readonly string[]): { effect: string; effectAt: string[] } {
+  const first = lines[0] ?? '';
+  const skeleton = (t: string) => t.split(NUMBER);
+  const words = skeleton(first);
+  const nums = lines.map((t) => t.match(NUMBER) ?? []);
+  const same =
+    !first.includes('|') &&
+    lines.every((t) => {
+      const w = skeleton(t);
+      return w.length === words.length && w.every((x, i) => x === words[i]);
+    });
+  if (!same) return { effect: '{}', effectAt: [...lines] };
+  const n0 = nums[0] ?? [];
+  const varies = n0.map((x, i) => nums.some((n) => n[i] !== x));
+  let effect = words[0] ?? '';
+  n0.forEach((x, i) => {
+    effect += (varies[i] ? '{}' : x) + (words[i + 1] ?? '');
+  });
+  return { effect, effectAt: nums.map((n) => n.filter((_, i) => varies[i]).join('|')) };
+}
+
+/** A row's effect line after `k` more levels (0: now); null past the priced levels. */
+export function vaultEffectAt(
+  row: { effect: string; effectAt: readonly string[] },
+  k: number,
+): string | null {
+  const at = row.effectAt[k];
+  if (at === undefined) return null;
+  const values = at.split('|');
+  let i = 0;
+  return row.effect.replace(/\{\}/g, () => values[i++] ?? '');
+}
+
+function vault(input: SpendReadInput, budget: number): VaultState | null {
   const { parsed, data, toolbox } = input;
   const levels = arr(data.UpgVault);
   const uv = (parsed.account as Dict).upgradeVault;
@@ -76,6 +126,10 @@ function vault(input: SpendReadInput): VaultState | null {
     return null;
   const nums = levels.map((x) => finite(x) ?? 0);
   const runs = toolbox.withFrozenClock(input.asOf, () => toolbox.calls.vaultLadders(parsed, nums));
+  const pricing = toolbox.withFrozenClock(input.asOf, () =>
+    toolbox.calls.vaultPricing(parsed, nums, budget, SPEND_VAULT_ROWS),
+  );
+  const priced = new Map(pricing.rows.map((r) => [r.index, r]));
   const ups = uv.upgrades as Dict[];
   const total = finite(uv.totalUpgradeLevels) ?? nums.reduce((s, x) => s + x, 0);
   const rows: VaultRow[] = [];
@@ -103,6 +157,18 @@ function vault(input: SpendReadInput): VaultState | null {
         if (LADDER_CHECKPOINTS.includes(j + 1) || j + 1 === reach) ladder.push({ k: j + 1, coins: sum });
       }
     }
+    const p = priced.get(run.index);
+    // A price that isn't a finite positive number ends the row's priced levels.
+    const costs: number[] = [];
+    for (const c of p?.costs ?? []) {
+      if (!Number.isFinite(c) || c <= 0) break;
+      costs.push(c);
+    }
+    const effects = compactEffects(
+      (p?.effects ?? [typeof u.description === 'string' ? u.description : ''])
+        .slice(0, costs.length + 1)
+        .map(vaultEffect),
+    );
     rows.push({
       index: run.index,
       name: typeof u.name === 'string' ? u.name : `Row_${run.index}`,
@@ -112,10 +178,20 @@ function vault(input: SpendReadInput): VaultState | null {
       nextCost: finite(u.cost) ?? 0,
       costToMax: finite(u.costToMax) ?? 0,
       ladder,
+      unlockAt: finite(u.unlockLevel) ?? 0,
+      costs: level < maxLevel ? costs : [],
+      ...effects,
     });
   });
   const next = unlockAt.find((u) => u.at > total) ?? null;
-  return { totalLevels: total, nextUnlock: next, rows };
+  const d = pricing.discount;
+  const discount =
+    d && d.factors.every((f) => Number.isFinite(f) && f > 0 && f <= 1)
+      ? { level: d.level, factors: d.factors }
+      : null;
+    // Only the thresholds still ahead: what a plan's new levels can open.
+  const unlocks = unlockAt.filter((u) => u.at > total);
+  return { totalLevels: total, nextUnlock: next, rows, discount, opened: open, unlocks };
 }
 
 function stamps(input: SpendReadInput): StampState[] | null {
@@ -315,9 +391,13 @@ export function readSpendInputs(input: SpendReadInput): SpendInputs | null {
   if (!input.toolbox) return null;
   const statues = statueGold(input);
   const held = heldCounts(input);
+  const purses = wallets(input);
   return {
-    wallets: wallets(input),
-    vault: vault(input),
+    wallets: purses,
+    vault: vault(
+      input,
+      purses.reduce((s, w) => s + w.coins, 0),
+    ),
     stamps: stamps(input),
     bribes: bribes(input),
     statueGold: statues,

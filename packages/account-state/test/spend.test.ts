@@ -7,7 +7,15 @@ import { existsSync, readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { normalizeEnvelope, parseSave, toolboxCalls, withFrozenClock } from '@idleon-forge/toolbox-parsers';
 import { describe, expect, it } from 'vitest';
-import { type AccountState, isKnown, SPEND_VAULT_ROWS, toAccountState } from '../src';
+import {
+  type AccountState,
+  compactEffects,
+  isKnown,
+  SPEND_VAULT_ROWS,
+  toAccountState,
+  vaultEffect,
+  vaultEffectAt,
+} from '../src';
 import { editedSave, listJson, NOW, PRIVATE_DIR, PUBLIC_DIR, readSave } from './helpers';
 
 const SCRUBBED_DIR = fileURLToPath(new URL('../../../fixtures/scrubbed/', import.meta.url));
@@ -59,6 +67,63 @@ describe.each(saves)('%s', (_label, path) => {
     }
   });
 
+  it('prices every Vault level Toolbox prices, as deep as the coins reach (FR-58)', () => {
+    const vault = spend?.vault;
+    if (!vault) return;
+    const budget = (spend?.wallets ?? []).reduce((s, w) => s + w.coins, 0);
+    const best = Math.min(1, ...(vault.discount?.factors ?? []));
+    // biome-ignore lint/suspicious/noExplicitAny: Toolbox's parsed Vault is untyped.
+    const ups = (parsed.account as any).upgradeVault.upgrades as any[];
+    for (const row of vault.rows) {
+      const left = row.maxLevel - row.level;
+      expect(row.unlockAt).toBe(ups[row.index]?.unlockLevel);
+      expect(vaultEffectAt(row, 0)).toBe(vaultEffect(ups[row.index]?.description ?? ''));
+      if (left <= 0) {
+        expect(row.costs).toEqual([]);
+        continue;
+      }
+      // A locked row out of the coins' reach is left unpriced; every open row has its next level.
+      if (!row.costs.length) {
+        expect(row.buyable).toBe(false);
+        continue;
+      }
+      expect(row.costs[0]).toBe(row.nextCost);
+      expect(row.costs.length).toBeLessThanOrEqual(left);
+      expect([row.costs.length, row.costs.length + 1]).toContain(row.effectAt.length);
+      // The checkpoint ladder is the running sum of the same per-level costs.
+      let sum = 0;
+      row.costs.forEach((c, j) => {
+        sum += c;
+        const step = row.ladder.find((x) => x.k === j + 1);
+        if (step) expect(Math.abs(step.coins - sum) / sum).toBeLessThan(1e-12);
+      });
+      if (row.costs.length === left && row.costToMax < 1e15)
+        expect(Math.abs(sum - row.costToMax) / row.costToMax).toBeLessThan(1e-9);
+      // Short of the max, the priced levels already cost more than every coin the account holds.
+      if (row.costs.length < left) {
+        expect(sum * (row.index < 33 && row.index !== 13 ? best : 1)).toBeGreaterThan(budget);
+      }
+    }
+  });
+
+  it("scales rows 0-32 by Toolbox's own price at each Major Discount level (FR-58)", () => {
+    const vault = spend?.vault;
+    const d = vault?.discount;
+    if (!vault || !d) return;
+    const uv = (normalizeEnvelope(read(path)).data as Record<string, unknown>).UpgVault;
+    const raw = ((typeof uv === 'string' ? JSON.parse(uv) : uv) as number[]).map((x) => Number(x) || 0);
+    for (const m of [1, d.factors.length - 1]) {
+      if (m <= 0 || m >= d.factors.length) continue;
+      const levels = raw.map((x, i) => (i === 13 ? x + m : x));
+      const runs = withFrozenClock(NOW, () => toolboxCalls.vaultLadders(parsed, levels, 1));
+      for (const row of vault.rows) {
+        if (row.index >= 33 || row.index === 13 || !row.costs.length) continue;
+        const at = runs.find((r) => r.index === row.index)?.costs[0] ?? Number.NaN;
+        expect(Math.abs(at - (row.costs[0] as number) * (d.factors[m] as number)) / at).toBeLessThan(1e-12);
+      }
+    }
+  });
+
   it('prices stamp cap raises without the parse default Gilded Stamp (TR-4)', () => {
     const list = spend?.stamps ?? [];
     const gilded = (spend?.gildedStamps ?? 0) > 0;
@@ -93,6 +158,32 @@ describe.each(saves)('%s', (_label, path) => {
   it('never carries a character name', () => {
     const text = JSON.stringify(spend);
     for (const c of state.characters) if (c.name.length > 3) expect(text).not.toContain(`"${c.name}"`);
+  });
+});
+
+describe('Vault effect lines (FR-58)', () => {
+  it('keep the words once and only the numbers that change', () => {
+    const lines = ['+112 Talent Points', '+113 Talent Points', '+114 Talent Points'];
+    const c = compactEffects(lines);
+    expect(c).toEqual({ effect: '+{} Talent Points', effectAt: ['112', '113', '114'] });
+    lines.forEach((l, k) => expect(vaultEffectAt(c, k)).toBe(l));
+    expect(vaultEffectAt(c, 3)).toBeNull();
+  });
+  it('keep a number that never changes, and whole lines when the words change', () => {
+    const c = compactEffects(['Get 7 boxes, 2nd player', 'Get 8 boxes, 2nd player']);
+    expect(c.effect).toBe('Get {} boxes, 2nd player');
+    const w = compactEffects(['1x faster', 'Raises to 2']);
+    expect(w).toEqual({ effect: '{}', effectAt: ['1x faster', 'Raises to 2'] });
+    expect(vaultEffectAt(w, 1)).toBe('Raises to 2');
+  });
+  it('cut the line at its first sentence end', () => {
+    expect(vaultEffect('All_crafted_weapons_give_+55%_more_damage._Go_craft')).toBe(
+      'All crafted weapons give +55% more damage',
+    );
+    expect(vaultEffect('1.09x_higher_bonuses_with_the_Blue_Highlight!!!')).toBe(
+      '1.09x higher bonuses with the Blue Highlight',
+    );
+    expect(vaultEffect('+38%_Coins._Current_Kills:13,064\nTotal_Bonus:+153%')).toBe('+38% Coins');
   });
 });
 

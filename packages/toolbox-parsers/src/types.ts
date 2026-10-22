@@ -166,6 +166,14 @@ export interface ToolboxCalls {
   // ---- M7 Spend Plan (TR-1, TR-4) ----
   /** Per-level Vault costs from re-running `parseUpgradeVault` on cloned levels (raw `UpgVault`). */
   vaultLadders(parsed: ParsedSave, rawLevels: readonly number[], depth?: number): VaultCostRun[];
+  /** FR-58: every Vault row below `rows` priced level by level as deep as `budget` coins could reach (`vaultPricing`). */
+  vaultPricing(
+    parsed: ParsedSave,
+    rawLevels: readonly number[],
+    budget: number,
+    rows: number,
+    minDepth?: number,
+  ): VaultPricing;
   /** Every stamp re-evaluated by `updateStamps(account, characters, gilded, reducer, undefined, true)`. */
   stampEvaluations(parsed: ParsedSave, gilded: boolean, reducer?: number): StampEvaluation[];
   // ---- M14 Walkthroughs & Parallel Slot Plans (TR-2) ----
@@ -276,6 +284,21 @@ export interface AnvilSpeedTerms {
 export interface VaultCostRun {
   index: number;
   costs: number[];
+}
+
+/** FR-58 Vault plan: one row priced level by level (`costs[j]`, `effects[j]` are Toolbox's at level L + j). */
+export interface VaultPricedRow {
+  index: number;
+  costs: number[];
+  /** Toolbox `description` at L + j; one longer than `costs` when the last priced level's result is known. */
+  effects: string[];
+}
+
+/** FR-58: `vaultPricing`'s result. */
+export interface VaultPricing {
+  rows: VaultPricedRow[];
+  /** Rows 0-32 (but 13) cost `factors[m]` times their price once Major Discount has m more levels; null when maxed. */
+  discount: { level: number; factors: number[] } | null;
 }
 
 /** M7 TR-4: one stamp from the worker re-evaluation, the fields the Spend Plan reads. */
