@@ -44,6 +44,8 @@ export interface VaultPlanStep {
   /** The row's effect at `fromLevel` and at `toLevel` (Toolbox's description, at today's Mastery). */
   effectFrom: string | null;
   effectTo: string | null;
+  /** Both in one line, each changing number as "from → to" ("+14 → 20% Construction SPD"). */
+  effectChange: string | null;
   /** The row was locked when the plan started: the total Vault levels that open it. */
   opensAt: number | null;
 }
@@ -109,6 +111,28 @@ interface Live {
 const finite = (n: unknown): n is number => typeof n === 'number' && Number.isFinite(n);
 /** "Mining_Payday$" -> "Mining Payday": Toolbox marks a few row names with a "$" the game doesn't show. */
 export const vaultRowName = (raw: string) => humanize(raw).replace(/\$/g, '').trim();
+
+/** A row's effect from `k0` to `k1` more levels in one line: each number that changes as "a → b". */
+export function effectChange(
+  row: Pick<VaultRow, 'effect' | 'effectAt'>,
+  k0: number,
+  k1: number,
+): string | null {
+  const a = row.effectAt[k0];
+  const b = row.effectAt[k1];
+  if (a === undefined) return null;
+  if (b === undefined) return vaultEffectAt(row, k0);
+  if (row.effect === '{}') return a === b ? a : `${a} → ${b}`;
+  const from = a.split('|');
+  const to = b.split('|');
+  let i = 0;
+  return row.effect.replace(/\{\}/g, () => {
+    const x = from[i] ?? '';
+    const y = to[i] ?? '';
+    i++;
+    return x === y ? x : `${x} → ${y}`;
+  });
+}
 
 export function buildVaultPlan(input: VaultPlanInput): VaultPlan | null {
   const { state } = input;
@@ -240,6 +264,7 @@ export function buildVaultPlan(input: VaultPlanInput): VaultPlan | null {
         target,
         effectFrom: vaultEffectAt(l.row, k0),
         effectTo: vaultEffectAt(l.row, l.k),
+        effectChange: effectChange(l.row, k0, l.k),
         opensAt: startLocked.get(l.row.index) ?? null,
       });
       pocket.steps++;
@@ -304,6 +329,8 @@ export function buildVaultPlan(input: VaultPlanInput): VaultPlan | null {
       into.toLevel = s.toLevel;
       into.coins += s.coins;
       into.effectTo = s.effectTo;
+      const row = rows.get(s.index)?.row;
+      if (row) into.effectChange = effectChange(row, into.fromLevel - row.level, s.toLevel - row.level);
       continue;
     }
     if (s.phase === 'cheapest') firstChunk.set(key, s);
