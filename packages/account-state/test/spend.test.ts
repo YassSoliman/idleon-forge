@@ -166,7 +166,9 @@ describe('Vault effect lines (FR-58)', () => {
     const lines = ['+112 Talent Points', '+113 Talent Points', '+114 Talent Points'];
     const c = compactEffects(lines);
     expect(c).toEqual({ effect: '+{} Talent Points', effectAt: ['112', '113', '114'] });
-    lines.forEach((l, k) => expect(vaultEffectAt(c, k)).toBe(l));
+    lines.forEach((l, k) => {
+      expect(vaultEffectAt(c, k)).toBe(l);
+    });
     expect(vaultEffectAt(c, 3)).toBeNull();
   });
   it('keep a number that never changes, and whole lines when the words change', () => {

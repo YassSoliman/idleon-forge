@@ -189,7 +189,7 @@ function vault(input: SpendReadInput, budget: number): VaultState | null {
     d && d.factors.every((f) => Number.isFinite(f) && f > 0 && f <= 1)
       ? { level: d.level, factors: d.factors }
       : null;
-    // Only the thresholds still ahead: what a plan's new levels can open.
+  // Only the thresholds still ahead: what a plan's new levels can open.
   const unlocks = unlockAt.filter((u) => u.at > total);
   return { totalLevels: total, nextUnlock: next, rows, discount, opened: open, unlocks };
 }
