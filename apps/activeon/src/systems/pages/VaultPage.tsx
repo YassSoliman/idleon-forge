@@ -1,11 +1,13 @@
 // SPDX-License-Identifier: GPL-3.0-only
 // Copyright (C) 2026 IdleOn Forge contributors.
-// M24 (board after/sys/UpgradeVault.dc.html): the Upgrade Vault page on the System template. The answer
-// is M7's first Vault line (the picture's lit row); tabs: the tower (the next floors to open, "you are
-// here", the newest open floors and the lit row), the Spend Plan's Vault lines and every upgrade (M21's
-// picture). Data: area S's vault picture.
+// M24 (board after/sys/UpgradeVault.dc.html): the Upgrade Vault page on the System template. M26 FR-58:
+// the answer is the Vault plan (every coin on the Vault, row by row) and its tab opens first; without a
+// plan, M7's first Vault line (the picture's lit row). Other tabs: the tower (the next floors to open,
+// "you are here", the newest open floors and the lit row), the Spend Plan's Vault lines and every
+// upgrade (M21's picture). Data: area S's vault picture and M7's `vaultPlan`.
 import { formatCoins } from '@idleon-forge/engine/now';
 import {
+  VAULT_PLAN_WORDS as P,
   type VaultFloorRow,
   type VaultPicture,
   VAULT_PAGE_WORDS as W,
@@ -16,6 +18,7 @@ import { SimplePage, SpendSection, StepsSection } from '../frame/SimplePage';
 import { type FrameAnswer, frameAnswer, SystemFrame } from '../frame/SystemFrame';
 import { VaultBody } from '../NewPictures';
 import type { FullPageProps } from '../pages';
+import { bareCoins, VaultPlanTab } from './VaultPlan';
 import './pages.css';
 
 type Look = 'next' | 'later' | 'open' | 'buy';
@@ -55,20 +58,33 @@ export default function VaultPage({ s, page }: FullPageProps) {
     .sort((a, b) => b.unlockAt - a.unlockAt)
     .slice(0, 4);
   const gap = pic.nextUnlock ? W.gap(pic.nextUnlock.levels, pic.nextUnlock.name) : null;
+  const plan = s.result.account.spendPlan?.vaultPlan ?? null;
+  const planRows = plan ? new Set(plan.steps.map((x) => x.index)).size : 0;
+  const cheapestWaiting = plan?.waiting.find((w) => w.nextCoins !== null)?.nextCoins ?? null;
   const answer: FrameAnswer =
-    lit && lit.nextCoins !== null
+    plan && plan.steps.length > 0
       ? {
           tone: 'gold',
-          cap: 'Do this next',
-          hero: W.hero(lit.level, lit.name, formatCoins(lit.nextCoins)),
-          sub: W.sub(gap),
-          big: {
-            value: bare(formatCoins(lit.nextCoins)),
-            unit: W.coins,
-            note: W.levelOf(lit.level, lit.maxLevel),
-          },
+          cap: P.cap,
+          hero: P.hero(planRows, formatCoins(plan.spent)),
+          sub: P.sub(plan.levels.bought, formatCoins(plan.left)),
+          big: { value: bareCoins(plan.spent), unit: W.coins, note: P.bigNote(plan.levels.bought) },
         }
-      : frameAnswer(page);
+      : plan && cheapestWaiting !== null
+        ? { tone: 'mint', cap: P.cap, hero: P.heroNone, sub: P.subNone(formatCoins(cheapestWaiting)) }
+        : lit && lit.nextCoins !== null
+          ? {
+              tone: 'gold',
+              cap: 'Do this next',
+              hero: W.hero(lit.level, lit.name, formatCoins(lit.nextCoins)),
+              sub: W.sub(gap),
+              big: {
+                value: bare(formatCoins(lit.nextCoins)),
+                unit: W.coins,
+                note: W.levelOf(lit.level, lit.maxLevel),
+              },
+            }
+          : frameAnswer(page);
   const rows: { f: VaultFloorRow; look: Look; note: string; at: string }[] = [
     ...locked
       .slice(0, 2)
@@ -109,6 +125,16 @@ export default function VaultPage({ s, page }: FullPageProps) {
       page={page}
       answer={answer}
       tabs={[
+        ...(plan
+          ? [
+              {
+                id: 'plan',
+                label: P.tab,
+                badge: plan.steps.length || null,
+                render: () => <VaultPlanTab s={s} plan={plan} />,
+              },
+            ]
+          : []),
         {
           id: 'tower',
           label: W.tabs.tower,
@@ -165,7 +191,7 @@ export default function VaultPage({ s, page }: FullPageProps) {
           ),
         },
         {
-          id: 'plan',
+          id: 'spend',
           label: W.tabs.plan,
           badge: page.spendLines.length || null,
           render: () => <SpendSection s={s} page={page} />,

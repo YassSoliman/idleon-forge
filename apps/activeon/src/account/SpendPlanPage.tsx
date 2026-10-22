@@ -5,6 +5,7 @@
 // tiles with their steps, the rest as a list), and the side column: each character's pocket, the coins
 // in storage, the lines without a price, and what the plan leaves out. Each character pays from its own
 // pocket (M7 D1). It only lays out the Now view's Spend Plan and M7's plan; no advice of its own.
+
 import { useMemo, useState } from 'react';
 import { GameIcon } from '../art/game/GameIcon';
 import { dataArt } from '../art/game/game-art';
@@ -13,6 +14,7 @@ import { SourceLabel } from '../design/atoms';
 import { cx } from '../design/atoms/Button';
 import { WhoGlyph } from '../design/who/WhoGlyph';
 import { useNowActions } from '../now/context';
+import { formatRoute } from '../shell/route';
 import type { Session } from '../shell/session';
 import { Crumb } from './Crumb';
 import { type SpendPageLine, spendPage } from './spend-model';
@@ -27,7 +29,39 @@ function Who({ l, scale }: { l: SpendPageLine; scale: 1 | 2 }) {
   return <WhoGlyph family={l.family} classLabel={l.who} scale={scale} decorative />;
 }
 
-function TopLine({ l, first }: { l: SpendPageLine; first: boolean }) {
+/** M26 FR-58: a Vault line's way to the whole Vault plan on the Upgrade Vault page. */
+function VaultPlanLink({ s }: { s: Session }) {
+  const to = { place: 'system' as const, id: 'upgrade-vault', tab: 'plan' };
+  return (
+    <a
+      className="ac-vault-link"
+      href={formatRoute(to)}
+      onClick={(e) => {
+        e.preventDefault();
+        s.navigate(to, 'push');
+      }}
+    >
+      {W.fullVaultPlan} →
+    </a>
+  );
+}
+
+function Steps({ l }: { l: SpendPageLine }) {
+  return l.steps.length > 1 ? (
+    <ol className="ac-steps">
+      {l.steps.map((x, i) => (
+        <li key={x} className="ac-step">
+          <span className="ac-step__k num">{i + 1}</span>
+          <span>{x}</span>
+        </li>
+      ))}
+    </ol>
+  ) : l.steps.length === 1 ? (
+    <p className="ac-steps ac-sub">{l.steps[0]}</p>
+  ) : null;
+}
+
+function TopLine({ s, l, first }: { s: Session; l: SpendPageLine; first: boolean }) {
   const actions = useNowActions();
   return (
     <li className={cx('ac-sl', first && 'is-first')}>
@@ -61,23 +95,13 @@ function TopLine({ l, first }: { l: SpendPageLine; first: boolean }) {
           <span>{W.skip}</span>
         </button>
       </div>
-      {l.steps.length > 1 ? (
-        <ol className="ac-steps">
-          {l.steps.map((x, i) => (
-            <li key={x} className="ac-step">
-              <span className="ac-step__k num">{i + 1}</span>
-              <span>{x}</span>
-            </li>
-          ))}
-        </ol>
-      ) : l.steps.length === 1 ? (
-        <p className="ac-steps ac-sub">{l.steps[0]}</p>
-      ) : null}
+      <Steps l={l} />
+      {l.vaultLink ? <VaultPlanLink s={s} /> : null}
     </li>
   );
 }
 
-function RestLine({ l }: { l: SpendPageLine }) {
+function RestLine({ s, l }: { s: Session; l: SpendPageLine }) {
   const actions = useNowActions();
   return (
     <li className="ac-rl">
@@ -102,6 +126,12 @@ function RestLine({ l }: { l: SpendPageLine }) {
       >
         <span>{W.skip}</span>
       </button>
+      {l.vault && (l.steps.length > 0 || l.vaultLink) ? (
+        <div className="ac-rl__more">
+          <Steps l={l} />
+          {l.vaultLink ? <VaultPlanLink s={s} /> : null}
+        </div>
+      ) : null}
     </li>
   );
 }
@@ -161,7 +191,7 @@ export function SpendPlanPage({ s }: { s: Session }) {
               {page.top.length ? (
                 <ol className="ac-top">
                   {page.top.map((l, i) => (
-                    <TopLine key={l.key} l={l} first={i === 0} />
+                    <TopLine key={l.key} s={s} l={l} first={i === 0} />
                   ))}
                 </ol>
               ) : null}
@@ -172,7 +202,7 @@ export function SpendPlanPage({ s }: { s: Session }) {
                   </h4>
                   <ol className="ac-rest">
                     {rest.map((l) => (
-                      <RestLine key={l.key} l={l} />
+                      <RestLine key={l.key} s={s} l={l} />
                     ))}
                   </ol>
                   {page.rest.length > REST_SHOWN ? (

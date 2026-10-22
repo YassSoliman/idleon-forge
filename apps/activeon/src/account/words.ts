@@ -5,6 +5,8 @@
 import type { SpendSink } from '@idleon-forge/engine/result';
 
 export const SPEND_WORDS = {
+  /** M26 FR-58: a Vault line's link to the Upgrade Vault page's Vault plan. */
+  fullVaultPlan: 'See the full Vault plan',
   crumb: 'Spend Plan',
   back: 'Now',
   heroOne: 'buy your coins cover today',
