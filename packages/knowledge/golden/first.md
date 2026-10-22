@@ -304,7 +304,7 @@ Can't read Bubba from this save
   - Rage Basics: 114 points waiting · they end here
     - done: Brute Efficiency 126
     - done: Idle Skilling 127
-    - can add now: Fist of Rage 115 → 120 · +5
+    - can add now: Fist of Rage 115 → 116 · +1
   - Star talents: All spent: the totals show where new points go
     - done: Stonks! 30
     - done: Will of the Eldest 9 (useful up to 9 (best level 96))

@@ -233,8 +233,8 @@ Locked: pats (Opens at Happi Boi), smoker (Opens at Smoker), charisma (Opens at 
 - Skilling preset: Calm Basics [Start here] (at least 2,110 unspent) · Archer (at least 1,573 unspent) · Bowman (at least 724 unspent) · Siege Breaker (at least 1,447 unspent) · Star talents (1,534 unspent)
   - Calm Basics: As of your last save: at least 2,110 points waiting · they end here
     - can add now: Elusive Efficiency 0 → 131 · +131
-    - can add now: Quickness Boots 0 → 460 · +591
-    - can add now: Broken Time 0 → 182 · +773
+    - can add now: Quickness Boots 0 → 266 · +397
+    - can add now: Broken Time 0 → 182 · +579
   - Star talents: 1,534 unspent · they end here (Stonks! returns more as it levels)
     - can add now: Stonks! 0 → 30 · +30 (pays for itself: it returns star points as it levels)
     - can add now: Tick Tock = Will of the Eldest = Toilet Paper Postage +254 · +284 (split evenly: Tick Tock 0 → 104, Will of the Eldest 0 → 50, Toilet Paper Postage 0 → 100 · useful up to 53 (best level 534); its max for now)
