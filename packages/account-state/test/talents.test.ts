@@ -3,6 +3,7 @@
 // M9 TR-3, TR-4: both talent presets, the raw attack bars and the reset items.
 import { describe, expect, it } from 'vitest';
 import { attackBarOf, isKnown } from '../src';
+import { rebaseRaisedMaxes } from '../src/talents';
 import { accountStateOf, editedSave, PUBLIC_DIR, readSave } from './helpers';
 
 const save = readSave(PUBLIC_DIR, 'latest.json');
@@ -48,5 +49,36 @@ describe('account.resetItems', () => {
     const r = state.account.resetItems;
     expect(r).toEqual({ potions: expect.any(Number), fragments: expect.any(Number) });
     expect((r?.potions ?? -1) >= 0 && (r?.fragments ?? -1) >= 0).toBe(true);
+  });
+});
+
+describe("the other preset's raised caps", () => {
+  const tab = (talents: { id: number; base: number; max: number }[]) => [
+    { tab: 1 as const, tabName: '', talents },
+  ];
+
+  it('drops Fist of Rage to its own cap when only the active preset has Str Summore', () => {
+    // The save's one max map (SM_) carries the active preset's +32 from Str Summore (id 81).
+    const active = tab([
+      { id: 10, base: 0, max: 132 },
+      { id: 81, base: 32, max: 100 },
+    ]);
+    const other = tab([
+      { id: 10, base: 83, max: 132 },
+      { id: 81, base: 0, max: 100 },
+    ]);
+    const out = rebaseRaisedMaxes(active, other)[0]?.talents;
+    expect(out?.find((l) => l.id === 10)?.max).toBe(100);
+    expect(out?.find((l) => l.id === 81)?.max).toBe(100);
+  });
+
+  it('raises the cap when only the other preset has the raiser, and leaves equal presets alone', () => {
+    const active = tab([{ id: 11, base: 50, max: 100 }]);
+    const other = tab([
+      { id: 11, base: 0, max: 100 },
+      { id: 293, base: 20, max: 100 },
+    ]);
+    expect(rebaseRaisedMaxes(active, other)[0]?.talents[0]?.max).toBe(120);
+    expect(rebaseRaisedMaxes(other, other)).toBe(other);
   });
 });
