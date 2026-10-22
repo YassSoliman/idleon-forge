@@ -375,8 +375,8 @@ Locked: smoker (Opens at Smoker)
   - Rage Basics: 436 points waiting · they end here
     - can add now: Brute Efficiency 0 → 100 · +100
     - can add now: Idle Skilling 0 → 100 · +200
-    - can add now: Fist of Rage 0 → 102 · +302
-    - can add now: Health Booster 0 → 122 · +424
+    - can add now: Fist of Rage 0 → 100 · +300
+    - can add now: Health Booster 0 → 122 · +422
     - and 1 more
   - Star talents: 182 unspent · they end here
     - later: Stonks! 0 → 30 (find its book (Wellington's quest))
@@ -418,8 +418,8 @@ Locked: smoker (Opens at Smoker)
 - Skilling preset: Savvy Basics [Start here] (296 unspent) · Mage (245 unspent) · Shaman (75 unspent) · Star talents (40 unspent)
   - Savvy Basics: 296 points waiting · they end here
     - can add now: Smart Efficiency 0 → 100 · +100
-    - can add now: Book of the Wise 0 → 100 · +200
-    - part now: Active AFK'er 0 → 100 · +96 of 100 now · +300
+    - can add now: Book of the Wise 0 → 105 · +205
+    - part now: Active AFK'er 0 → 100 · +91 of 100 now · +305
   - Star talents: 40 unspent · they end here
     - later: Stonks! 0 → 30 (find its book (Wellington's quest))
     - can add now: Tick Tock = Will of the Eldest +36 · +36 (split evenly: Tick Tock 64 → 92, Will of the Eldest 0 → 8 · useful up to 8 (best level 85))

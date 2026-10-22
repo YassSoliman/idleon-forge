@@ -329,7 +329,7 @@ Gifts: Beeg Slice, Slabcakes
 - Skilling preset: Savvy Basics [Start here] (at least 281 unspent) · Mage (at least 224 unspent) · Shaman (at least 316 unspent) · Bubonic Conjuror (at least 528 unspent) · Arcane Cultist (at least 911 unspent) · Star talents (4,401 unspent)
   - Savvy Basics: As of your last save: at least 281 points waiting · they end here
     - can add now: Smart Efficiency 364 → 396 · +32
-    - can add now: Book of the Wise 2,106 → 2,174 · +100
+    - can add now: Book of the Wise 2,106 → 2,142 · +68
     - done: Active AFK'er 396
   - Star talents: 4,401 unspent · they end here (Stonks! returns more as it levels)
     - can add now: Stonks! 27 → 30 · +3 (pays for itself: it returns star points as it levels)

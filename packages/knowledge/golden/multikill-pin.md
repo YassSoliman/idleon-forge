@@ -339,8 +339,8 @@ Gifts: Slabcakes, Surprise Box
 - Skilling preset: Calm Basics [Start here] (at least 2,936 unspent) · Archer (at least 2,213 unspent) · Bowman (at least 2,085 unspent) · Siege Breaker (at least 3,403 unspent) · Star talents (6,481 unspent)
   - Calm Basics: As of your last save: at least 2,936 points waiting · they end here
     - can add now: Elusive Efficiency 0 → 131 · +131
-    - can add now: Quickness Boots 0 → 688 · +819
-    - can add now: Broken Time 0 → 182 · +1,001
+    - can add now: Quickness Boots 0 → 494 · +625
+    - can add now: Broken Time 0 → 182 · +807
   - Star talents: 6,481 unspent · they end here (Stonks! returns more as it levels)
     - can add now: Stonks! 0 → 30 · +30 (pays for itself: it returns star points as it levels)
     - can add now: Tick Tock = Will of the Eldest = Toilet Paper Postage +254 · +284 (split evenly: Tick Tock 0 → 104, Will of the Eldest 0 → 50, Toilet Paper Postage 0 → 100 · useful up to 130 (best level 1,307); its max for now)
@@ -381,7 +381,7 @@ Gifts: Slabcakes, Surprise Box
 - Skilling preset: Savvy Basics [Start here] (at least 3,294 unspent) · Mage (at least 1,881 unspent) · Wizard (at least 3,256 unspent) · Elemental Sorcerer (at least 3,671 unspent) · Star talents (6,354 unspent)
   - Savvy Basics: As of your last save: at least 3,294 points waiting · they end here
     - can add now: Smart Efficiency = Active AFK'er +296 · +296 (split evenly: Smart Efficiency 0 → 149, Active AFK'er 0 → 147)
-    - can add now: Mana Booster = Book of the Wise +1,193 · +1,489 (split evenly: Mana Booster 0 → 267, Book of the Wise 0 → 926)
+    - can add now: Mana Booster = Book of the Wise +926 · +1,222 (split evenly: Mana Booster 0 → 267, Book of the Wise 0 → 659)
   - Star talents: 6,354 unspent · they end here (Stonks! returns more as it levels)
     - can add now: Stonks! 0 → 30 · +30 (pays for itself: it returns star points as it levels)
     - can add now: Tick Tock = Will of the Eldest = Toilet Paper Postage +254 · +284 (split evenly: Tick Tock 0 → 104, Will of the Eldest 0 → 50, Toilet Paper Postage 0 → 100 · useful up to 130 (best level 1,307); its max for now)
@@ -401,8 +401,8 @@ Gifts: Slabcakes, Surprise Box
   - Rage Basics: As of your last save: at least 1,938 points waiting · they end here
     - can add now: Brute Efficiency 0 → 151 · +151
     - can add now: Idle Skilling 0 → 149 · +300
-    - can add now: Fist of Rage 0 → 618 · +918
-    - can add now: Health Booster 0 → 153 · +1,071
+    - can add now: Fist of Rage 0 → 464 · +764
+    - can add now: Health Booster 0 → 153 · +917
     - and 1 more
   - Star talents: 7,857 unspent · they end here (Stonks! returns more as it levels)
     - can add now: Stonks! 0 → 30 · +30 (pays for itself: it returns star points as it levels)
@@ -422,8 +422,8 @@ Gifts: Slabcakes, Surprise Box
 - Skilling preset: Savvy Basics [Start here] (at least 3,155 unspent) · Mage (at least 2,785 unspent) · Shaman (at least 3,222 unspent) · Bubonic Conjuror (at least 3,493 unspent) · Arcane Cultist (at least 3,791 unspent) · Star talents (7,559 unspent)
   - Savvy Basics: As of your last save: at least 3,155 points waiting · they end here
     - can add now: Smart Efficiency 0 → 142 · +142
-    - can add now: Book of the Wise 0 → 699 · +841
-    - can add now: Active AFK'er 0 → 139 · +980
+    - can add now: Book of the Wise 0 → 544 · +686
+    - can add now: Active AFK'er 0 → 139 · +825
   - Star talents: 7,559 unspent · they end here (Stonks! returns more as it levels)
     - can add now: Stonks! 0 → 30 · +30 (pays for itself: it returns star points as it levels)
     - can add now: Tick Tock = Will of the Eldest = Toilet Paper Postage +254 · +284 (split evenly: Tick Tock 0 → 104, Will of the Eldest 0 → 50, Toilet Paper Postage 0 → 100 · useful up to 130 (best level 1,307); its max for now)
@@ -490,8 +490,8 @@ Gifts: Slabcakes, Surprise Box
 - Skilling preset: Calm Basics [Start here] (at least 2,770 unspent) · Archer (at least 1,659 unspent) · Bowman (at least 1,322 unspent) · Siege Breaker (at least 2,399 unspent) · Star talents (6,267 unspent)
   - Calm Basics: As of your last save: at least 2,770 points waiting · they end here
     - can add now: Elusive Efficiency 0 → 155 · +155
-    - can add now: Quickness Boots 0 → 637 · +792
-    - can add now: Broken Time 0 → 148 · +940
+    - can add now: Quickness Boots 0 → 537 · +692
+    - can add now: Broken Time 0 → 148 · +840
   - Star talents: 6,267 unspent · they end here (Stonks! returns more as it levels)
     - can add now: Stonks! 0 → 30 · +30 (pays for itself: it returns star points as it levels)
     - can add now: Tick Tock = Will of the Eldest = Toilet Paper Postage +254 · +284 (split evenly: Tick Tock 0 → 104, Will of the Eldest 0 → 50, Toilet Paper Postage 0 → 100 · useful up to 130 (best level 1,307); its max for now)
@@ -511,8 +511,8 @@ Gifts: Slabcakes, Surprise Box
   - Rage Basics: As of your last save: at least 5,020 points waiting · they end here
     - can add now: Brute Efficiency 10 → 308 · +298
     - can add now: Idle Skilling 38 → 308 · +568
-    - can add now: Fist of Rage 0 → 1,133 · +1,701
-    - can add now: Health Booster 0 → 308 · +2,009
+    - can add now: Fist of Rage 0 → 1,070 · +1,638
+    - can add now: Health Booster 0 → 308 · +1,946
     - and 1 more
   - Star talents: 9,167 unspent · they end here (Stonks! returns more as it levels)
     - can add now: Stonks! 0 → 30 · +30 (pays for itself: it returns star points as it levels)
@@ -532,8 +532,8 @@ Gifts: Slabcakes, Surprise Box
 - Skilling preset: Savvy Basics [Start here] (at least 2,825 unspent) · Mage (at least 1,359 unspent) · Shaman (at least 1,690 unspent) · Bubonic Conjuror (at least 3,230 unspent) · Star talents (6,857 unspent)
   - Savvy Basics: As of your last save: at least 2,825 points waiting · they end here
     - can add now: Smart Efficiency 0 → 136 · +136
-    - can add now: Book of the Wise 0 → 637 · +773
-    - can add now: Active AFK'er 0 → 150 · +923
+    - can add now: Book of the Wise 0 → 477 · +613
+    - can add now: Active AFK'er 0 → 150 · +763
   - Star talents: 6,857 unspent · they end here (Stonks! returns more as it levels)
     - can add now: Stonks! 0 → 30 · +30 (pays for itself: it returns star points as it levels)
     - can add now: Tick Tock = Will of the Eldest = Toilet Paper Postage +254 · +284 (split evenly: Tick Tock 0 → 104, Will of the Eldest 0 → 50, Toilet Paper Postage 0 → 100 · useful up to 130 (best level 1,307); its max for now)

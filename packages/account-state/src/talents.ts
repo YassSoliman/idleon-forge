@@ -19,6 +19,19 @@ export const ATTACK_BAR_ROWS = 2;
 export const RESET_POTION = 'ResetCompleted';
 export const RESET_FRAGMENT = 'ResetFrag';
 
+/**
+ * Talents whose points raise another talent's max level by 1 each ([raiser, target]): Str Summore ->
+ * Fist of Rage, Agi Again -> Quickness Boots, Wis Wumbo -> Book of the Wise (Toolbox
+ * `website-data/talents.json`: "+{ Max Talent Level for '...'", x1 1, add). The save keeps one max-level
+ * map per character (`SM_<i>`), written for the active preset only, so the other preset's caps for
+ * these targets are re-derived from its own raiser points.
+ */
+export const MAX_RAISERS: readonly (readonly [number, number])[] = [
+  [81, 10],
+  [293, 11],
+  [488, 12],
+];
+
 const level = (t: Dict, key: 'baseLevel' | 'level'): TalentLevel | null => {
   const id = finite(t.skillIndex ?? t.talentId);
   if (id === null) return null;
@@ -118,7 +131,32 @@ export function readTalents({
         attackBar: attackBarOf(data[`AttackLoadoutpre_${index}`]),
       };
   }
+  if (other) other = { ...other, tabs: rebaseRaisedMaxes(active.tabs, other.tabs) };
   return { classIndex, selectedPreset: sel, active, other };
+}
+
+/** The other preset's tabs with each MAX_RAISERS target's cap moved by its raiser-point difference. */
+export function rebaseRaisedMaxes(
+  active: PresetTalents['tabs'],
+  other: PresetTalents['tabs'],
+): PresetTalents['tabs'] {
+  const points = (tabs: PresetTalents['tabs'], id: number): number => {
+    for (const t of tabs) for (const l of t.talents) if (l.id === id) return l.base;
+    return 0;
+  };
+  const shift = new Map<number, number>();
+  for (const [raiser, target] of MAX_RAISERS) {
+    const d = points(other, raiser) - points(active, raiser);
+    if (d !== 0) shift.set(target, d);
+  }
+  if (shift.size === 0) return other;
+  return other.map((t) => ({
+    ...t,
+    talents: t.talents.map((l) => {
+      const d = shift.get(l.id);
+      return d === undefined || l.max <= 0 ? l : { ...l, max: Math.max(l.base, l.max + d, 0) };
+    }),
+  }));
 }
 
 const countIn = (list: unknown, rawName: string): number => {

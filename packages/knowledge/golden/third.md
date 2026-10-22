@@ -476,7 +476,7 @@ Can't read Bubba from this save
   - Savvy Basics: As of your last save: at least 1,144 points waiting · they end here
     - done: Smart Efficiency 299
     - can add now: Active AFK'er 171 → 270 · +99
-    - can add now: Mana Booster = Book of the Wise +226 · +325 (split evenly: Mana Booster 185 → 270, Book of the Wise 1,055 → 1,196)
+    - can add now: Mana Booster = Book of the Wise +189 · +288 (split evenly: Mana Booster 185 → 270, Book of the Wise 1,055 → 1,159)
   - Star talents: 989 unspent · they end here
     - done: Stonks! 30
     - done: Tick Tock 203
@@ -495,7 +495,7 @@ Can't read Bubba from this save
 - Skilling preset: Calm Basics [Start here] (at least 1,570 unspent) · Archer (at least 1,190 unspent) · Bowman (at least 1,589 unspent) · Siege Breaker (at least 1,713 unspent) · Star talents (1,228 unspent)
   - Calm Basics: As of your last save: at least 1,570 points waiting · they end here
     - can add now: Elusive Efficiency 270 → 299 · +29
-    - can add now: Quickness Boots 974 → 1,192 · +247
+    - can add now: Quickness Boots 974 → 1,086 · +141
     - done: Broken Time 246
   - Star talents: 1,228 unspent · they end here
     - done: Stonks! 30
