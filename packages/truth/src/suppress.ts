@@ -136,6 +136,12 @@ export function suppress(
     } else if (scope.kind === 'character' && c !== null) {
       if (b) buildLines(b, ledger, v.rule, {});
       talentGoals(r, c, ledger, v.rule);
+    } else if (scope.kind === 'vault-plan') {
+      // The Vault plan is one answer: a contradiction anywhere in it holds the whole plan back.
+      if (r.account.spendPlan?.vaultPlan) {
+        r.account.spendPlan.vaultPlan = null;
+        ledger.add('vault-plan', 'vault-plan', c, v.rule);
+      }
     } else if (scope.kind === 'spend-line' || scope.kind === 'coins') {
       for (const line of r.account.spendPlan?.lines ?? []) {
         const hit =

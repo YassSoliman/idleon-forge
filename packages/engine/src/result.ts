@@ -70,6 +70,13 @@ export type {
   SpendStatus,
   SpendStep,
 } from './spend/types';
+export type {
+  VaultPlan,
+  VaultPlanPhase,
+  VaultPlanPocket,
+  VaultPlanRow,
+  VaultPlanStep,
+} from './spend/vault-plan';
 export type { CharacterSigns, NextConstellation, StarSignsView } from './starsigns/types';
 export type * from './world4/types';
 

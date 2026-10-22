@@ -45,6 +45,7 @@ describe('registry', () => {
       'next-not-at-target',
       'no-points-vs-unspent',
       'affordable-within-wallet',
+      'vault-plan-within-wallet',
     ]);
   });
 });
@@ -351,5 +352,58 @@ describe('checkTruth', () => {
     });
     expect(out.report.error).toBe('Error: bad');
     expect(out.result).toBe(result);
+  });
+});
+
+describe('vault-plan-within-wallet', () => {
+  const step = (index: number, fromLevel: number, coins: number) => ({
+    index,
+    name: `Row ${index}`,
+    fromLevel,
+    toLevel: fromLevel + 1,
+    maxLevel: 100,
+    coins,
+    payer: 0,
+    phase: 'cheapest' as const,
+    target: null,
+    effectFrom: null,
+    effectTo: null,
+    opensAt: null,
+  });
+  const withVaultPlan = (spent: number, fromBank: number, steps: ReturnType<typeof step>[]): EngineResult =>
+    resultOf([], {
+      account: {
+        goals: [],
+        spendPlan: {
+          lines: [],
+          wallets: [],
+          vaultPlan: {
+            steps,
+            pockets: [{ holder: 0, coins: 500, fromBank, spent, left: 0, steps: steps.length }],
+          },
+        },
+      },
+    } as unknown as Partial<EngineResult>);
+  const env = envelopeOf([{ index: 0, live: FULL, money: 500 }], { UpgVault: JSON.stringify([3, 7]) });
+  const run = (result: EngineResult) =>
+    checkTruth({ envelope: env, state: stateOf([{ index: 0, live: FULL }]), result });
+
+  it('stays quiet when each pocket pays only what it carries, from the saved levels', () => {
+    const out = run(withVaultPlan(1400, 900, [step(0, 3, 700), step(1, 7, 700)]));
+    expect(out.report.violations.filter((v) => v.rule === 'vault-plan-within-wallet')).toEqual([]);
+    expect(out.result?.account.spendPlan?.vaultPlan).not.toBeNull();
+  });
+
+  it('holds the whole plan back when a pocket overspends', () => {
+    const out = run(withVaultPlan(900, 0, [step(0, 3, 900)]));
+    const v = out.report.violations.filter((x) => x.rule === 'vault-plan-within-wallet');
+    expect(v.map((x) => x.severity)).toEqual(['P1']);
+    expect(out.result?.account.spendPlan?.vaultPlan).toBeNull();
+  });
+
+  it('fires when a row starts at a level the save does not hold', () => {
+    const out = run(withVaultPlan(100, 0, [step(1, 6, 100)]));
+    const v = out.report.violations.filter((x) => x.rule === 'vault-plan-within-wallet');
+    expect(v.map((x) => x.evidence)).toEqual([{ row: 1, plan: 6, raw: 7 }]);
   });
 });

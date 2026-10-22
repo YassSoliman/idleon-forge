@@ -54,6 +54,8 @@ export interface RawFacts {
   characters: RawCharacter[];
   /** `MoneyBANK`. */
   bankCoins: number | null;
+  /** `UpgVault`: each Upgrade Vault row's level, by row index; null when unreadable. */
+  vaultLevels: number[] | null;
   /** Chest item counts by raw item name (`ChestOrder` + `ChestQuantity`). */
   chest: Record<string, number>;
   /** Raw keys that were missing or unreadable, e.g. `SLpre_3`. */
@@ -85,7 +87,7 @@ export interface FactRow {
 
 /** What a violation casts doubt on; the suppression step maps it to advice items. */
 export interface ViolationScope {
-  kind: 'talents' | 'character' | 'coins' | 'items' | 'spend-line';
+  kind: 'talents' | 'character' | 'coins' | 'items' | 'spend-line' | 'vault-plan';
   /** CharacterState.index; null for account-wide facts (the bank, the chest). */
   character: number | null;
   slot?: PresetSlot;

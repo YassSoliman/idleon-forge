@@ -54,9 +54,9 @@ Spend coins: 14 buys now on 4 characters
      Hatchet Stamp, Shield Stamp · carry 3.3k Thread on Barbarian Lv 60; carry 1.8k Iron Ore on Barbarian Lv 60, free space first
   2. Level Bullseye Stamp 0→5 on Barbarian Lv 60: 98k coins · buy · total 1.4M coins on C1
   3. Buy 3 Vault upgrades on Barbarian Lv 60: 43M coins · buy · total 45M coins on C1
-     Bubble Money, Vault Mastery, Major Discount
+     Bubble Money 7→10: 8.3M; Vault Mastery 9→14: 5.7M; Major Discount 44→46: 29M
   4. Buy 2 Vault upgrades on Barbarian Lv 60: 6.9M coins · buy · total 52M coins on C1
-     Sleepy Time, Drops for Days
+     Sleepy Time 18→20: 3M; Drops for Days 29→50: 3.9M
   5. Turn the Kachow statue Gold · Lv 0 → 1 · cost not checked
      totals below assume you skip the unchecked items
   show more (14)

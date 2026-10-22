@@ -3,6 +3,7 @@
 // M7 Spend Plan engine output (docs/specs/M7-spend-plan.md TR-3). M10 imports `SpendPlan` from here
 // (`../result.ts` re-exports it). Plain data only: it crosses the worker boundary by structuredClone.
 // Characters are indices; no name ever enters a SpendPlan (TR-9).
+import type { VaultPlan } from './vault-plan';
 
 export type SpendSink = 'vault' | 'stamp' | 'bribe' | 'statue-gold' | 'p2w' | 'anvil';
 export type SpendStatus = 'buy' | 'move-coins' | 'save-for' | 'hold' | 'unpriced';
@@ -84,4 +85,6 @@ export interface SpendPlan {
   unavailable: SpendSink[];
   /** Section 7: not-ready stamp raises and the Guilding Tools gap. */
   handoffs: SpendHandoff[];
+  /** M26 FR-58: every coin on the Upgrade Vault, row by row (the Vault page's answer); null without a Vault. */
+  vaultPlan: VaultPlan | null;
 }

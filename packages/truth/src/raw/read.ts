@@ -169,5 +169,7 @@ export function readRawFacts(envelope: EnvelopeLike | null | undefined): RawFact
   }
   const chest = counts(data.ChestOrder, data.ChestQuantity);
   if (!chest) unreadable.push('ChestOrder');
-  return { characters, bankCoins: num(data.MoneyBANK), chest: chest ?? {}, unreadable };
+  const vaultLevels = data.UpgVault === undefined ? null : numList(data.UpgVault);
+  if (data.UpgVault !== undefined && !vaultLevels) unreadable.push('UpgVault');
+  return { characters, bankCoins: num(data.MoneyBANK), vaultLevels, chest: chest ?? {}, unreadable };
 }
