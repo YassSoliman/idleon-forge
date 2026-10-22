@@ -472,6 +472,49 @@ export const VAULT_PAGE_WORDS = {
   cheapest: 'Cheapest levels first: every level counts toward the next floor, whichever upgrade it is.',
 } as const;
 
+/** M26 FR-58: the Vault plan, the Upgrade Vault page's answer and main tab. */
+export const VAULT_PLAN_WORDS = {
+  tab: 'Vault plan',
+  spendTab: 'Spend Plan',
+  cap: 'Your Vault plan',
+  hero: (rows: number, coins: string) =>
+    `Spend ${coins} on ${rows} Vault ${rows === 1 ? 'upgrade' : 'upgrades'}, in this order`,
+  heroNone: 'No Vault level fits in any pocket right now',
+  sub: (levels: number, left: string) =>
+    `+${levels.toLocaleString('en-US')} Vault levels; ${left} left over.`,
+  subNone: (coins: string) => `The cheapest next level costs ${coins}.`,
+  bigNote: (levels: number) => `${levels.toLocaleString('en-US')} Vault levels`,
+  intro:
+    'Every coin your characters carry, spent on the Vault: the Spend Plan’s Vault targets first, then the cheapest levels. Log in on each character in turn: the Vault takes coins from the one you are playing.',
+  stepsTitle: 'What to buy, in order',
+  stepCount: (n: number) => `${n} ${n === 1 ? 'step' : 'steps'}`,
+  pocket: (who: string) => `On ${who}`,
+  pocketCoins: (spent: string, coins: string) => `spends ${spent} of ${coins}`,
+  withdraw: (coins: string) => `withdraw ${coins} from storage first`,
+  levels: (from: number, to: number, max: number) => `Lv ${from} → ${to} of ${max}`,
+  maxedTo: (from: number, to: number) => `Lv ${from} → ${to}, maxed`,
+  target: (lv: number) => `Spend Plan target: Lv ${lv}`,
+  cheapestLevels: 'cheapest levels',
+  opensAt: (at: string) => `opens at ${at} Vault levels`,
+  after: (after: string, bought: number) =>
+    `After the plan: ${after} Vault levels (+${bought.toLocaleString('en-US')}).`,
+  opened: (names: string) => `Opens on the way: ${names}.`,
+  nextUnlock: (levels: number, name: string, at: string) =>
+    `Next unlock: ${name} at ${at} Vault levels, ${levels.toLocaleString('en-US')} more.`,
+  allOpen: 'Every Vault row is open.',
+  leftTitle: 'Left over',
+  left: (coins: string) => `${coins} coins stay in your pockets.`,
+  spendNote:
+    'The Spend Plan also weighs stamps, bribes and Pay 2 Win; this plan spends every coin on the Vault.',
+  waitingTitle: 'Not in this plan',
+  waitingHint: 'the next level costs more than any pocket has left',
+  next: (coins: string) => `next level ${coins}`,
+  rowLevel: (lv: number, max: number) => `Lv ${lv} of ${max}`,
+  notPriced: 'out of reach for now',
+  maxedTitle: (n: number) => `Maxed (${n})`,
+  none: 'Nothing to buy: every open Vault row is maxed.',
+} as const;
+
 /** M24: the Talent presets page (board after/sys/TalentPresets.dc.html). */
 export const PRESETS_PAGE_WORDS = {
   tabs: { waiting: 'Points waiting', star: 'Star points', on: 'Which preset is on' },

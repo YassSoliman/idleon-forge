@@ -30,8 +30,12 @@ export interface SpendPageLine {
   art: GameArt | null;
   n: number;
   text: string;
-  /** Up to three short steps ("Carry 12.5k Thread"), from the line's detail. */
+  /** Up to three short steps ("Carry 12.5k Thread"), from the line's detail; every row for a Vault line. */
   steps: string[];
+  /** M26 FR-58: a Vault line (its rows are listed in full). */
+  vault: boolean;
+  /** M26 FR-58: the first Vault line carries the link to the whole Vault plan. */
+  vaultLink: boolean;
   /** "Barbarian 74"; null when nobody pays yet (unpriced, save-for without a payer). */
   who: string | null;
   payer: number | null;
@@ -128,12 +132,17 @@ export function spendPage(result: EngineResult, view: SpendPlanView | null): Spe
       (l?.steps ?? []).map((s) => stampArtOfRef(s.ref)).find(Boolean) ??
       itemArt((l?.steps ?? []).find((s) => s.material)?.material?.item) ??
       sinkArt((l?.steps ?? [])[0]?.sink);
+    // A Vault line lists every row it buys (FR-58), never the first three.
+    const vault = (l?.steps ?? []).length > 0 && (l?.steps ?? []).every((x) => x.sink === 'vault');
+    const all = v.detail ? steps(v.detail) : [];
     return {
       key: v.key,
       art: art ?? null,
       n: n + 1,
       text: stepText(v.text, char(payer)),
-      steps: v.detail ? steps(v.detail).slice(0, 3) : [],
+      steps: vault ? all : all.slice(0, 3),
+      vault,
+      vaultLink: false,
       who: whoOf(payer),
       payer,
       family: familyOf(payer),
@@ -144,6 +153,9 @@ export function spendPage(result: EngineResult, view: SpendPlanView | null): Spe
       view: v,
     };
   });
+
+  const firstVault = lines.find((l) => l.vault);
+  if (firstVault) firstVault.vaultLink = true;
 
   const buyLines = view.lines
     .map((v) => byId.get(v.id))
