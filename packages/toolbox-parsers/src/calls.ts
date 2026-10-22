@@ -30,7 +30,7 @@ import { frontierRates, onMap } from './frontier-rates';
 import { itemDisplayName } from './item-names';
 import { killroyWeeks, randomEventSchedule } from './resets';
 import { shopStockAll } from './shop-stock';
-import { stampEvaluations, vaultLadders } from './spend';
+import { stampEvaluations, vaultLadders, vaultPricing } from './spend';
 import { presetSubject, talentPointTerms } from './talent-points';
 import { shrineBonuses } from './w23';
 
@@ -59,6 +59,8 @@ export const toolboxCalls = {
   shopStockAll,
   // M7 Spend Plan (TR-4): Vault cost ladders and the stamp re-evaluation. Anvil coin points use getPlayerAnvil.
   vaultLadders,
+  /** FR-58: every Vault row priced level by level, for the Vault plan. */
+  vaultPricing,
   stampEvaluations,
   // M14 Walkthroughs & Parallel Slot Plans (TR-2).
   /** A skill's efficiency as the character is equipped (`playerInfo`: getMaxDamage's result). */

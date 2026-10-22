@@ -27,6 +27,8 @@ export type {
   ToolboxCalls,
   UpstreamPin,
   VaultCostRun,
+  VaultPricedRow,
+  VaultPricing,
   VerifiedBuilds,
 } from './types';
 

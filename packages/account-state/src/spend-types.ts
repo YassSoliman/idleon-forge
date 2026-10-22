@@ -33,6 +33,22 @@ export interface VaultRow {
    * L .. L+k-1 from the worker re-parses. `ladder[0] = { k: 1, coins: nextCost }`. Empty when maxed or locked.
    */
   ladder: { k: number; coins: number }[];
+  /** The total Vault levels that open this row (Toolbox `unlockLevel`). */
+  unlockAt: number;
+  /**
+   * FR-58 Vault plan: Toolbox's `cost` of each next level, `costs[j]` at level L + j (`costs[0]` is
+   * `nextCost`), as deep as the account's coins could reach. Rows 0-32 but Major Discount (13) are
+   * priced at today's Major Discount; `VaultState.discount` scales them. A locked row is priced only when
+   * the coins could open it. Empty when maxed (or locked out of reach).
+   */
+  costs: number[];
+  /**
+   * The row's effect line: Toolbox's `description` with spaces, up to its first sentence end, at today's
+   * Vault Mastery, with `{}` for each number that changes with the level (read it with `vaultEffectAt`).
+   */
+  effect: string;
+  /** The `{}` numbers at L + j, joined by "|": `effectAt[0]` is now, `effectAt[k]` after k more levels. */
+  effectAt: string[];
 }
 
 export interface VaultState {
@@ -41,6 +57,15 @@ export interface VaultState {
   nextUnlock: { index: number; at: number; name: string } | null;
   /** Rows 0-61 (W1-W4, M7 scope). */
   rows: VaultRow[];
+  /**
+   * FR-58: rows 0-32 but 13 cost `factors[m]` times their `costs` once Major Discount (row 13) has m more
+   * levels than `level` (a ratio of two Toolbox prices); null when Major Discount is maxed or unread.
+   */
+  discount: { level: number; factors: number[] } | null;
+  /** How many unlock thresholds the total meets: rows 0 .. opened-1 are open (the game's count rule). */
+  opened: number;
+  /** The rows (of all 90) whose unlock threshold is still above the total, by index: what a plan can open. */
+  unlocks: { index: number; at: number; name: string }[];
 }
 
 /** One way to price a stamp cap raise (TR-4): its material cost and Toolbox's checks at that price. */
