@@ -111,13 +111,16 @@ function base(item: ResolvedSpendItem, sink: SpendSink, claim: string, name: str
 // ---------- spend/vault-candidates ----------
 
 const vaultRef = (i: number) => `upgrade-vault.acquisition.row-${i}`;
-const rowOf = (ref: string): number | null => {
+export const rowOf = (ref: string): number | null => {
   const m = /^upgrade-vault\.acquisition\.row-(\d+)$/.exec(ref);
   return m ? Number(m[1]) : null;
 };
 
 /** The target level a Spend item asks of a row; null when already met. */
-function vaultTarget(item: ResolvedSpendItem, row: VaultRow): number | null {
+export function vaultTarget(
+  item: ResolvedSpendItem,
+  row: Pick<VaultRow, 'level' | 'maxLevel'>,
+): number | null {
   const t = item.spend.target;
   const max = row.maxLevel;
   let to: number;

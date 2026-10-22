@@ -9,6 +9,7 @@ import type { Rule } from './rule';
 import { sameFactEverywhere } from './same-fact-everywhere';
 import { starTotalFloor } from './star-total-floor';
 import { talentTotalVsAnswerKey } from './talent-total-vs-answer-key';
+import { vaultPlanWithinWallet } from './vault-plan-within-wallet';
 
 export const RULES: readonly Rule[] = [
   rawMatchesState,
@@ -18,6 +19,7 @@ export const RULES: readonly Rule[] = [
   nextNotAtTarget,
   noPointsVsUnspent,
   affordableWithinWallet,
+  vaultPlanWithinWallet,
 ];
 
 export type { Rule, RuleInput } from './rule';

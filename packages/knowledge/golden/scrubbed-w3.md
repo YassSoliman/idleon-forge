@@ -64,7 +64,7 @@ Spend coins: 15 buys now on 4 characters
   3. Raise and level 8 capped stamps on Bowman Lv 60: about 96M coins · buy · total 196M coins on C3
      Sword Stamp, Mana Stamp, Hatchet Stamp and 5 more · carry 1k Spore Cap on Wizard Lv 73; carry 36 Copper Ore on Wizard Lv 73; carry 281 Thread on Wizard Lv 73; carry 1.1k Goldfish on Squire Lv 85; carry 5.8k Iron Ore on Wizard Lv 73; carry 9.2k Thread on Wizard Lv 73; carry 677 Spore Cap on Wizard Lv 73; carry 5.5k Sentient Cereal on Squire Lv 85
   4. Buy 2 Vault upgrades on Wizard Lv 73: 1.3B coins · buy · total 1.3B coins on C1
-     Vault Mastery, Major Discount
+     Vault Mastery 21→24: 629M; Major Discount 54→57: 628M
   5. Turn the Beholder statue Gold · Lv 0 → 1 · cost not checked
      totals below assume you skip the unchecked items
   show more (15)

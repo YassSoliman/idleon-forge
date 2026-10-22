@@ -21,6 +21,7 @@ import {
 } from './candidates';
 import { type ResolvedSpendItem, resolveSpendList, type SpendKnowledge } from './knowledge';
 import type { SpendHandoff, SpendLine, SpendPlan, SpendSink, SpendStatus, SpendStep } from './types';
+import { buildVaultPlan } from './vault-plan';
 
 /** FR-15. */
 export const VISIBLE_LINES = 5;
@@ -224,6 +225,7 @@ export function buildSpendPlan(input: SpendPlanInput): SpendPlan | null {
     empty,
     unavailable,
     handoffs,
+    vaultPlan: buildVaultPlan({ state, items, gate: input.gate }),
   };
 }
 
@@ -333,9 +335,25 @@ function lineOf(
   // A held batch names no material step: nothing is to be carried yet.
   const held = first.status === 'hold' ? [] : steps;
   // A step stays short (Design Lab copy rule): the grouped names and the carry steps go in `detail`.
-  const names = g.allocations.length > 1 ? listNames(g.allocations.map((a) => a.candidate.name)) : null;
+  // A grouped Vault line names every row with its levels and coins (FR-58), never "and 2 more".
+  const vaultRows = (rounded: boolean) =>
+    g.allocations
+      .map((a) => {
+        const f = a.fill.steps[0];
+        const t = a.fill.steps.at(-1);
+        const coins = a.fill.coins;
+        return `${a.candidate.name} ${f?.fromLevel ?? 0}→${t?.toLevel ?? 0}: ${compact(rounded ? twoSf(coins) : coins)}`;
+      })
+      .join('; ');
+  const namesOf = (rounded: boolean) =>
+    g.allocations.length < 2
+      ? null
+      : c.sink === 'vault'
+        ? vaultRows(rounded)
+        : listNames(g.allocations.map((a) => a.candidate.name));
   const detailOf = (rounded: boolean) => {
     const carries = materialsOf(held, ctx, who, freeUp, rounded);
+    const names = namesOf(rounded);
     const parts = [...(names ? [names] : []), ...(carries.length ? [carries.join('; ')] : [])];
     return parts.length ? parts.join(' · ') : null;
   };

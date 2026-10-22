@@ -6,7 +6,14 @@ import { same } from '../facts';
 import type { Violation } from '../types';
 import { type Rule, scopeOfFact } from './rule';
 
-const SEVERITY = { talents: 'P1', character: 'P1', coins: 'P2', items: 'P3', 'spend-line': 'P1' } as const;
+const SEVERITY = {
+  talents: 'P1',
+  character: 'P1',
+  coins: 'P2',
+  items: 'P3',
+  'spend-line': 'P1',
+  'vault-plan': 'P1',
+} as const;
 
 export const rawMatchesState: Rule = {
   id: 'raw-matches-state',

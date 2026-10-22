@@ -27,3 +27,12 @@ export { type ResolvedSpendItem, resolveSpendList, type SpendKnowledge, spendLis
 export { createSpendModule, notCoveredOf, type SpendModuleDeps } from './module';
 export { buildSpendPlan, CHECK, MAX_LINES, type SpendPlanInput, twoSf, VISIBLE_LINES } from './plan';
 export type * from './types';
+export {
+  buildVaultPlan,
+  type VaultPlan,
+  type VaultPlanInput,
+  type VaultPlanPhase,
+  type VaultPlanPocket,
+  type VaultPlanRow,
+  type VaultPlanStep,
+} from './vault-plan';
