@@ -1,4 +1,4 @@
-// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1.
+// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 01c6e0adcb10378d3de3b48ea61b9de48d3a007f.
 // Copyright (C) Morta1 and IdleOn Toolbox contributors. GPL-3.0-only; see vendor/LICENSE.
 // Copied unmodified by IdleOn Forge's scripts/sync.sh; UI-coupled imports are redirected to shims/ at build time.
 import { holeFountUpg } from '@website-data';
@@ -279,6 +279,9 @@ const formatFountainDescription = (
   return desc;
 };
 
+// The waters by tier, as the Fountain page names them
+export const FOUNTAIN_WATER_NAMES = ['Blue', 'Yellow', 'Green'];
+
 export const getTheFountain = (holesObject: any, accountData: any) => {
   const watersOwned = Math.min(2, Math.min(1, holesObject?.fountainUpgradeLevels?.[0]?.[0] ?? 0)
     + Math.min(1, holesObject?.fountainUpgradeLevels?.[1]?.[0] ?? 0)
@@ -347,7 +350,7 @@ export const getTheFountain = (holesObject: any, accountData: any) => {
       opensAll: upgrade.unlocks.length > 0
         && upgrade.unlocks.every((child: number) => upgrade.level >= levelled[child].prereqRequiredLevel)
     }));
-    const dynamicName = t === 0 ? 'Blue' : t === 1 ? 'Yellow' : 'Green';
+    const dynamicName = FOUNTAIN_WATER_NAMES[Math.min(t, FOUNTAIN_WATER_NAMES.length - 1)];
     // A tier is "implemented" only when its upgrades have real positions and named entries.
     // Future-content tiers (e.g. Green water at v2.3.504) ship placeholders like name="Name" and position="X".
     const placeholderCount = tierUpgrades.filter((u) =>

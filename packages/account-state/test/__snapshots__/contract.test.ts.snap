@@ -712,7 +712,7 @@ exports[`public save first.json > matches the recorded shape (review the diff af
     ],
     "frontier": null,
     "gameVersion": {
-      "parserTarget": "2.3.540",
+      "parserTarget": "2.3.550",
       "saveVersion": 17.05,
       "serverBuild": 80,
     },
@@ -6031,7 +6031,7 @@ exports[`public save first.json > matches the recorded shape (review the diff af
     "failedSections": [],
     "failedSideReads": [],
     "parserPin": {
-      "gameVersion": "2.3.540",
+      "gameVersion": "2.3.550",
     },
     "skippedCharacters": [],
     "source": "paste",
@@ -6858,7 +6858,7 @@ exports[`public save fourth.json > matches the recorded shape (review the diff a
     ],
     "frontier": null,
     "gameVersion": {
-      "parserTarget": "2.3.540",
+      "parserTarget": "2.3.550",
       "saveVersion": 17.05,
       "serverBuild": 79,
     },
@@ -10819,7 +10819,7 @@ exports[`public save fourth.json > matches the recorded shape (review the diff a
     "failedSections": [],
     "failedSideReads": [],
     "parserPin": {
-      "gameVersion": "2.3.540",
+      "gameVersion": "2.3.550",
     },
     "skippedCharacters": [
       2,
@@ -11939,7 +11939,7 @@ exports[`public save fresh.json > matches the recorded shape (review the diff af
     ],
     "frontier": null,
     "gameVersion": {
-      "parserTarget": "2.3.540",
+      "parserTarget": "2.3.550",
       "saveVersion": 32.05,
       "serverBuild": 136,
     },
@@ -16190,7 +16190,7 @@ exports[`public save fresh.json > matches the recorded shape (review the diff af
     "failedSections": [],
     "failedSideReads": [],
     "parserPin": {
-      "gameVersion": "2.3.540",
+      "gameVersion": "2.3.550",
     },
     "skippedCharacters": [
       3,
@@ -17443,7 +17443,7 @@ exports[`public save highend.json > matches the recorded shape (review the diff 
     "forgeOutput": [],
     "frontier": null,
     "gameVersion": {
-      "parserTarget": "2.3.540",
+      "parserTarget": "2.3.550",
       "saveVersion": 32.05,
       "serverBuild": 136,
     },
@@ -24008,7 +24008,7 @@ exports[`public save highend.json > matches the recorded shape (review the diff 
     "failedSections": [],
     "failedSideReads": [],
     "parserPin": {
-      "gameVersion": "2.3.540",
+      "gameVersion": "2.3.550",
     },
     "skippedCharacters": [],
     "source": "paste",
@@ -25252,7 +25252,7 @@ exports[`public save latest.json > matches the recorded shape (review the diff a
     "forgeOutput": [],
     "frontier": null,
     "gameVersion": {
-      "parserTarget": "2.3.540",
+      "parserTarget": "2.3.550",
       "saveVersion": 33.05,
       "serverBuild": 141,
     },
@@ -31839,7 +31839,7 @@ exports[`public save latest.json > matches the recorded shape (review the diff a
     "failedSections": [],
     "failedSideReads": [],
     "parserPin": {
-      "gameVersion": "2.3.540",
+      "gameVersion": "2.3.550",
     },
     "skippedCharacters": [],
     "source": "paste",
@@ -33104,7 +33104,7 @@ exports[`public save latest-2026-08.json > matches the recorded shape (review th
     ],
     "frontier": null,
     "gameVersion": {
-      "parserTarget": "2.3.540",
+      "parserTarget": "2.3.550",
       "saveVersion": 32.05,
       "serverBuild": 136,
     },
@@ -39652,7 +39652,7 @@ exports[`public save latest-2026-08.json > matches the recorded shape (review th
     "failedSections": [],
     "failedSideReads": [],
     "parserPin": {
-      "gameVersion": "2.3.540",
+      "gameVersion": "2.3.550",
     },
     "skippedCharacters": [],
     "source": "paste",
@@ -40917,7 +40917,7 @@ exports[`public save multikill-pin.json > matches the recorded shape (review the
     ],
     "frontier": null,
     "gameVersion": {
-      "parserTarget": "2.3.540",
+      "parserTarget": "2.3.550",
       "saveVersion": 33.05,
       "serverBuild": 137,
     },
@@ -47497,7 +47497,7 @@ exports[`public save multikill-pin.json > matches the recorded shape (review the
     "failedSections": [],
     "failedSideReads": [],
     "parserPin": {
-      "gameVersion": "2.3.540",
+      "gameVersion": "2.3.550",
     },
     "skippedCharacters": [],
     "source": "paste",
@@ -48578,7 +48578,7 @@ exports[`public save second.json > matches the recorded shape (review the diff a
     ],
     "frontier": null,
     "gameVersion": {
-      "parserTarget": "2.3.540",
+      "parserTarget": "2.3.550",
       "saveVersion": 17.05,
       "serverBuild": 80,
     },
@@ -54912,7 +54912,7 @@ exports[`public save second.json > matches the recorded shape (review the diff a
     "failedSections": [],
     "failedSideReads": [],
     "parserPin": {
-      "gameVersion": "2.3.540",
+      "gameVersion": "2.3.550",
     },
     "skippedCharacters": [],
     "source": "paste",
@@ -56162,7 +56162,7 @@ exports[`public save speedrun-rank1.json > matches the recorded shape (review th
     "forgeOutput": [],
     "frontier": null,
     "gameVersion": {
-      "parserTarget": "2.3.540",
+      "parserTarget": "2.3.550",
       "saveVersion": 32.05,
       "serverBuild": 136,
     },
@@ -62844,7 +62844,7 @@ exports[`public save speedrun-rank1.json > matches the recorded shape (review th
     "failedSections": [],
     "failedSideReads": [],
     "parserPin": {
-      "gameVersion": "2.3.540",
+      "gameVersion": "2.3.550",
     },
     "skippedCharacters": [],
     "source": "paste",
@@ -63857,7 +63857,7 @@ exports[`public save third.json > matches the recorded shape (review the diff af
     ],
     "frontier": null,
     "gameVersion": {
-      "parserTarget": "2.3.540",
+      "parserTarget": "2.3.550",
       "saveVersion": 17.05,
       "serverBuild": 80,
     },
@@ -70220,7 +70220,7 @@ exports[`public save third.json > matches the recorded shape (review the diff af
     "failedSections": [],
     "failedSideReads": [],
     "parserPin": {
-      "gameVersion": "2.3.540",
+      "gameVersion": "2.3.550",
     },
     "skippedCharacters": [],
     "source": "paste",
@@ -71485,7 +71485,7 @@ exports[`public save toolbox-raw.json > matches the recorded shape (review the d
     ],
     "frontier": null,
     "gameVersion": {
-      "parserTarget": "2.3.540",
+      "parserTarget": "2.3.550",
       "saveVersion": 33.05,
       "serverBuild": 137,
     },
@@ -78065,7 +78065,7 @@ exports[`public save toolbox-raw.json > matches the recorded shape (review the d
     "failedSections": [],
     "failedSideReads": [],
     "parserPin": {
-      "gameVersion": "2.3.540",
+      "gameVersion": "2.3.550",
     },
     "skippedCharacters": [],
     "source": "paste",

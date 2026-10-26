@@ -1,6 +1,6 @@
 repo=https://github.com/YassSoliman/IdleonToolbox
-commit=6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1
-commitDate=2026-10-17
-toolboxVersion=3.3.96
-gameVersion=2.3.540
-dataDigest=32c7a6c041b2bd9f0f5acffb4e363ac890c1201a1f8b11c734b0f06b51d3f44b
+commit=01c6e0adcb10378d3de3b48ea61b9de48d3a007f
+commitDate=2026-10-25
+toolboxVersion=3.3.101
+gameVersion=2.3.550
+dataDigest=a1cdea82a05e3983ea5cd058ae46b6c3e60d59429e80a2e51a7df20c5660234d

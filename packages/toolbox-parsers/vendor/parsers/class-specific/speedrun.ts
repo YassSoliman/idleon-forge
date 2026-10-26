@@ -1,4 +1,4 @@
-// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1.
+// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 01c6e0adcb10378d3de3b48ea61b9de48d3a007f.
 // Copyright (C) Morta1 and IdleOn Toolbox contributors. GPL-3.0-only; see vendor/LICENSE.
 // Copied unmodified by IdleOn Forge's scripts/sync.sh; UI-coupled imports are redirected to shims/ at build time.
 import { mapEnemiesArray, mapMonsterCounts, mapNames, mapPortalDestinations, mapPortals, monsters } from '@website-data';
@@ -7,7 +7,7 @@ import { getMaxDamage } from '@parsers/damage';
 import { getVialsBonusByStat } from '@parsers/world-2/alchemy';
 import { getUpgradeVaultBonus } from '@parsers/misc/upgradeVault';
 import type { Account, Character, IdleonData } from '@parsers/types';
-import { createBreakdown, flat, formatBreakdownValue, info, NUMBERED_GROUP, productGroup, sumGroup } from '@parsers/breakdown';
+import { createBreakdown, flat, multiplier, NUMBERED_GROUP, productGroup, sumGroup } from '@parsers/breakdown';
 import type { StatBreakdown } from '@parsers/breakdown';
 import { getMultiCharDoorLock } from '@parsers/portals';
 import type { MultiCharDoorLock } from '@parsers/portals';
@@ -75,6 +75,9 @@ export interface SpeedrunPlan {
 const isSpeedrunUnlocked = (character: Character) =>
   ((character?.flatTalents as any)?.find(({ name }: any) => name === 'VOID_TRIAL_RERUN')?.level ?? 0) > 0;
 
+// The Speedrun page header: the account portal highscore
+export const getSpeedrunHighscore = (account: Account): number => Number((account?.accountOptions as any)?.[SPEEDRUN_HIGHSCORE_INDEX]) || 0;
+
 /**
  * Headline numbers for the speedrun panel.
  *
@@ -84,7 +87,7 @@ const isSpeedrunUnlocked = (character: Character) =>
  * run, and the payout scales linearly with how many you reach.
  */
 export const getSpeedrunStats = (account: Account, characters: Character[], character: Character): SpeedrunStats => {
-  const highscore = Number((account?.accountOptions as any)?.[SPEEDRUN_HIGHSCORE_INDEX]) || 0;
+  const highscore = getSpeedrunHighscore(account);
 
   const runUnlocked = isSpeedrunUnlocked(character);
   // AddBuffType(45, round(1 + GetTalentNumber(1, 45))) - x is bigBase 150/1.5.
@@ -147,15 +150,13 @@ export const getPortalProgressBreakdown = (account: Account, killPerKill: number
     vaultBonus,
     vialBonus,
     perKill,
-    // The two portal-only bonuses carry no unit so they stay listed while still at 0: they are
-    // the ones players miss
     breakdown: createBreakdown('Portal progress per kill', perKill, [
       sumGroup('Kills credited', [
         flat('Kill per kill', killPerKill),
-        info('Seawater vial', vialKills, { formatted: formatBreakdownValue(vialKills, 'flat') })
+        flat('Seawater vial', vialKills)
       ], { unit: 'flat' }),
       productGroup(NUMBERED_GROUP, [
-        info('Active Murdering (vault 43)', vaultMulti, { formatted: formatBreakdownValue(vaultMulti, 'multiplier') })
+        multiplier('Active Murdering (vault 43)', vaultMulti)
       ])
     ])
   };

@@ -1,8 +1,18 @@
-// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1.
+// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 01c6e0adcb10378d3de3b48ea61b9de48d3a007f.
 // Copyright (C) Morta1 and IdleOn Toolbox contributors. GPL-3.0-only; see vendor/LICENSE.
 // Copied unmodified by IdleOn Forge's scripts/sync.sh; UI-coupled imports are redirected to shims/ at build time.
 import { commaNotation, notateNumber, number2letter, tryToParse } from "@utility/helpers";
-import { createBreakdown, flatLines } from '@parsers/breakdown';
+import {
+  additiveGroup,
+  createBreakdown,
+  evaluateBreakdownNode,
+  flat,
+  flatLines,
+  multiplier,
+  NUMBERED_GROUP,
+  percent,
+  sumGroup
+} from '@parsers/breakdown';
 import {
   classes,
   gameTables,
@@ -49,7 +59,7 @@ const FLOOR_DIFFICULTY_SCALE_INDEX = 11;
 // Floor f's loot list is NinjaInfo[12 + f] (0-based floor, GenerateItem).
 const FIRST_DROP_LIST_INDEX = 12;
 // Gemstone counters are capped at 10M gems.
-const GEMSTONE_MAX_VALUE = 1e7;
+export const GEMSTONE_MAX_VALUE = 1e7;
 // Pristine charms live in their own list rather than in `ninjaEquipment`, but inventory slots
 // reference them by raw name like any other item.
 const pristineCharmItems: Record<string, any> = rawPristineCharms.reduce((result, charm) => ({
@@ -162,6 +172,10 @@ const parseSneaking = (rawSneaking: any, rawSpelunking: any, serverVars: any, ch
     // Menagerie[6]: an Omnijade placed on the upgrade (the panel then draws the level in gold, Omnijade levels included)
     const omnijadePlaced = !isSpecialUpgrade && (Number(account?.menagerieSave?.[6]?.[index]) || 0) >= 1;
     const prerequisiteIndex = isSpecialUpgrade || index === root ? null : prerequisiteOf(index);
+    // An upgrade that is its own prerequisite (Centurion Lineage) stays locked until a Ninja Mastery tier rewrites it
+    const unlockMastery = prerequisiteIndex === index
+      ? (gameTables.sneakingMasteryPrereqs ?? []).find(({ upgrade }: any) => upgrade === index)?.mastery ?? null
+      : null;
 
     // Special upgrades unlock in order with Spelunking progress
     const isUnlocked = isSpecialUpgrade
@@ -178,6 +192,7 @@ const parseSneaking = (rawSneaking: any, rawSpelunking: any, serverVars: any, ch
       isUnlocked,
       isSpecialUpgrade,
       prerequisiteIndex,
+      unlockMastery,
       unlockOrder: isSpecialUpgrade ? index - 17 + 1 : null,
       position: {
         locked: { x: upgrade.x0, y: upgrade.x1 },
@@ -531,33 +546,43 @@ const getNinjaStealthParts = (account: any, characters: any[], playerIndex: numb
   const landRank = getLandRank(account?.farming?.ranks, 4, characters, activeCharacter) ?? 0;
   const holesObject = account?.hole?.holesObject;
 
-  const multi = (1 + landRank * farmingLevel / 100)
-    * (1 + getNinjaCharmBonus(account, playerIndex, 7) / 100)
-    * (1 + getCompassBonus(account, 45) / 100)
-    * (1 + getGambitBonus(account, 11) / 100)
-    * (1 + getNinjaCharmBonus(account, playerIndex, 4) / 100)
-    * (1 + getNinjaCharmBonus(account, playerIndex, 17) / 100)
-    * (1 + getInventoryNinjaItem(account, 'Gold_Beads') / 100)
-    * (1 + (tomeBubble + getStarSignBonus(activeCharacter, account, 'Ninja_Twin')) / 100)
-    * (1 + getStatueBonus(account, 26, activeCharacter?.flatTalents) / 100)
-    * (1 + 4 * getCardLevel(account?.cards, 'Crystal5') / 100)
-    * (1 + 5 * getAchievementStatus(account?.achievements, 368) / 100)
-    * (1 + (account?.sneaking?.gemStones?.[0]?.bonus ?? 0) / 100)
-    * (1 + getVoteBonus(account, 25) / 100)
-    * (1 + getLampBonus({ holesObject, t: 2, i: 1, account }) / 100)
-    * Math.max(1, getSchematicBonus({ holesObject, t: 54, i: 0 }) ?? 0);
+  // Same factors as the game, each named after its source for the stealth breakdown
+  const baseSources = [
+    sumGroup('Base stealth', [
+      flat('Base', 10),
+      flat('Way of Stealth', wayOfStealth * sneakingLevel)
+    ]),
+    multiplier('Land rank', 1 + landRank * farmingLevel / 100),
+    multiplier('Charm (Scroll of Power)', 1 + getNinjaCharmBonus(account, playerIndex, 7) / 100),
+    multiplier('Compass', 1 + getCompassBonus(account, 45) / 100),
+    multiplier('Gambit', 1 + getGambitBonus(account, 11) / 100),
+    multiplier('Charm (Silk Veil)', 1 + getNinjaCharmBonus(account, playerIndex, 4) / 100),
+    multiplier('Charm (Rosaries)', 1 + getNinjaCharmBonus(account, playerIndex, 17) / 100),
+    multiplier('Gold Beads', 1 + getInventoryNinjaItem(account, 'Gold_Beads') / 100),
+    additiveGroup(NUMBERED_GROUP, [
+      percent('Tome bubble (Stealth Chapter)', tomeBubble),
+      percent('Star sign (Ninja Twin)', getStarSignBonus(activeCharacter, account, 'Ninja_Twin'))
+    ]),
+    multiplier('Stealth Statue', 1 + getStatueBonus(account, 26, activeCharacter?.flatTalents) / 100),
+    multiplier('Card (Crystal Candalight)', 1 + 4 * getCardLevel(account?.cards, 'Crystal5') / 100),
+    multiplier('Achievement (Untying Extraordinaire)', 1 + 5 * getAchievementStatus(account?.achievements, 368) / 100),
+    multiplier('Gemstone', 1 + (account?.sneaking?.gemStones?.[0]?.bonus ?? 0) / 100),
+    multiplier('Vote', 1 + getVoteBonus(account, 25) / 100),
+    multiplier('Lamp', 1 + getLampBonus({ holesObject, t: 2, i: 1, account }) / 100),
+    multiplier('Schematic', Math.max(1, getSchematicBonus({ holesObject, t: 54, i: 0 }) ?? 0)),
+    multiplier('Fractal Island', 1 + 2 * fractalStealth * sneakingLevel / 100),
+    multiplier('Emperor', 1 + getEmperorBonus(account, 0) / 100),
+    multiplier('Sushi', 1 + getSushiBonus(account, 32) / 100),
+    multiplier('Jelly', 1 + getJellyBonus(account, 16) / 100),
+    multiplier('Shhhhhhhhhhh', 1 + shhhh / 100),
+    multiplier('Companion (Smoke Devil)', 1 + 39 * (isCompanionBonusActive(account, 163) ? 1 : 0))
+  ];
 
-  const baseStealth = (10 + wayOfStealth * sneakingLevel)
-    * multi
-    * (1 + 2 * fractalStealth * sneakingLevel / 100)
-    * (1 + getEmperorBonus(account, 0) / 100)
-    * (1 + getSushiBonus(account, 32) / 100)
-    * (1 + getJellyBonus(account, 16) / 100)
-    * (1 + shhhh / 100)
-    * (1 + 39 * (isCompanionBonusActive(account, 163) ? 1 : 0));
+  const baseStealth = baseSources.reduce((product: number, node) => product * evaluateBreakdownNode(node), 1);
 
   return {
     baseStealth,
+    baseSources,
     // Smoke_Bomb + Lotus_Flower: given to every OTHER ninja on the same floor
     floorMateBonus: getNinjaCharmBonus(account, playerIndex, 8) + getNinjaCharmBonus(account, playerIndex, 16)
   };
@@ -566,6 +591,15 @@ const getNinjaStealthParts = (account: any, characters: any[], playerIndex: numb
 export const getNinjaStealth = (ninja: any, flowers: number, flowerBonus: number, floorMates: any[]) => {
   const mateMulti = 1 + floorMates.reduce((sum, mate) => sum + (mate?.floorMateBonus ?? 0), 0) / 100;
   return ninja?.baseStealth * mateMulti * (1 + flowers * flowerBonus / 100);
+};
+
+const getNinjaStealthBreakdown = (ninja: any, flowers: number, flowerBonus: number, floorMates: any[]) => {
+  const mateBonus = floorMates.reduce((sum, mate) => sum + (mate?.floorMateBonus ?? 0), 0);
+  return createBreakdown('Stealth', notateNumber(getNinjaStealth(ninja, flowers, flowerBonus, floorMates), 'Big'), [
+    ...(ninja?.baseSources ?? []),
+    multiplier('Floor mates (Smoke Bomb, Lotus Flower)', 1 + mateBonus / 100),
+    multiplier('Funeral Flowers', 1 + flowers * flowerBonus / 100)
+  ]);
 };
 
 // Funeral Flower stacks needed for `ninja` to reach `target` detection; 0 if already there, Infinity if unreachable.
@@ -590,10 +624,12 @@ export const getSneakingDetection = (idleonData: any, account: any, characters: 
     ...getNinjaStealthParts(account, characters, playerIndex, activeCharacter)
   })).map((ninja: any, _: number, all: any[]) => {
     const floorMates = all.filter((mate) => mate.playerIndex !== ninja.playerIndex && mate.floor === ninja.floor);
-    const stealth = getNinjaStealth(ninja, flowerStacks?.[ninja.floor] ?? 0, flowerBonus, floorMates);
+    const flowers = flowerStacks?.[ninja.floor] ?? 0;
+    const stealth = getNinjaStealth(ninja, flowers, flowerBonus, floorMates);
     return {
       ...ninja,
       stealth,
+      stealthBreakdown: getNinjaStealthBreakdown(ninja, flowers, flowerBonus, floorMates),
       detection: getDetectionChance(stealth, getFloorDifficulty(ninja.floor, mastery))
     };
   });

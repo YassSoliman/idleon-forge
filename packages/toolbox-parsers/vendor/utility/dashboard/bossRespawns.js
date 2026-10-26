@@ -1,4 +1,4 @@
-// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1.
+// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 01c6e0adcb10378d3de3b48ea61b9de48d3a007f.
 // Copyright (C) Morta1 and IdleOn Toolbox contributors. GPL-3.0-only; see vendor/LICENSE.
 // Copied unmodified by IdleOn Forge's scripts/sync.sh; UI-coupled imports are redirected to shims/ at build time.
 // Dr Defecaus and Baba Yaga respawn tracking for the dashboard Bosses card.
@@ -22,16 +22,20 @@ export const getResetWindowStart = (nextResetAt, clock) => {
   return lastReset + Math.floor((clock - lastReset) / DAY_MS) * DAY_MS;
 };
 
-// ShopRestock drifts by a few seconds between saves, so two window starts within an hour
-// are the same reset.
-const isSameReset = (a, b) => a != null && b != null && Math.abs(a - b) < 36e5;
+// ShopRestock drifts by a few seconds between saves, so a shift under an hour is the same reset.
+const DRIFT_MS = 36e5;
 
-export const syncDefecaus = (stored, { resetStart, kills }) => {
-  if (resetStart == null) return stored;
-  if (!stored || !isSameReset(stored.resetStart, resetStart)) {
-    return { resetStart, baseline: kills, dismissed: false };
+// Only a next reset that moved later means one went by. Silver watches pull ShopRestock (and so
+// the next reset) earlier without resetting anything, so that shift keeps the kill state.
+export const syncDefecaus = (stored, { nextReset, kills }) => {
+  if (nextReset == null) return stored;
+  // Records from before nextReset was stored only have the window start.
+  const prev = stored?.nextReset ?? (stored?.resetStart != null ? stored.resetStart + DAY_MS : null);
+  if (prev == null || nextReset - prev > DRIFT_MS) {
+    return { nextReset, baseline: kills, dismissed: false };
   }
-  return stored;
+  if (stored.nextReset != null && Math.abs(nextReset - prev) < DRIFT_MS) return stored;
+  return { nextReset, baseline: stored.baseline, dismissed: stored.dismissed };
 };
 
 // 'up' | 'killed' (kill count went up since the reset) | 'dismissed' (manual)

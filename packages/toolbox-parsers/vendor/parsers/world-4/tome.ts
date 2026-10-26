@@ -1,4 +1,4 @@
-// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1.
+// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 01c6e0adcb10378d3de3b48ea61b9de48d3a007f.
 // Copyright (C) Morta1 and IdleOn Toolbox contributors. GPL-3.0-only; see vendor/LICENSE.
 // Copied unmodified by IdleOn Forge's scripts/sync.sh; UI-coupled imports are redirected to shims/ at build time.
 import type { IdleonData, Account } from '../types';
@@ -56,6 +56,8 @@ export const getTome = (idleonData: IdleonData, account: Account, characters: an
     return {
       ...bonus,
       tomeLvReq,
+      // catalog position; `index` is the display rank the list is re-sorted by below
+      tomeIndex: index,
       index: realIndex,
       quantity: tomeQuantities?.[index] || 0,
       points,

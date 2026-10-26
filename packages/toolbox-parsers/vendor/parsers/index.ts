@@ -1,4 +1,4 @@
-// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1.
+// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 01c6e0adcb10378d3de3b48ea61b9de48d3a007f.
 // Copyright (C) Morta1 and IdleOn Toolbox contributors. GPL-3.0-only; see vendor/LICENSE.
 // Copied unmodified by IdleOn Forge's scripts/sync.sh; UI-coupled imports are redirected to shims/ at build time.
 import {
@@ -7,6 +7,7 @@ import {
   getPlayerConstructionExpPerHour,
   getPlayerConstructionSpeed,
   getPlayerCrystalChance,
+  getSkillExpMulti,
   initializeCharacter
 } from './character';
 import { getCards } from './cards';
@@ -70,7 +71,7 @@ import { getEquinox, getLockedEquinox } from './world-3/equinox';
 import { getTotalizerBonuses, getTotems } from './world-3/worship';
 import { getSneaking, getSneakingDetection } from '@parsers/world-6/sneaking';
 import { getFarming, updateFarming } from '@parsers/world-6/farming';
-import { getEssenceGain, getSummoning } from '@parsers/world-6/summoning';
+import { getEssenceGain, getFamiliarExp, getSummoning } from '@parsers/world-6/summoning';
 import { getTome } from '@parsers/world-4/tome';
 import { getOwl } from '@parsers/world-1/owl';
 import { getKangaroo } from '@parsers/world-2/kangaroo';
@@ -374,7 +375,7 @@ const serializeData = (idleonData: IdleonData, serverVars: ServerVars, staticDat
   accountData.coralReef = safeSection<any>('coralReef', {}, () => getCoralReef(idleonData, accountData, charactersData));
   accountData.clamWork = safeSection<any>('clamWork', {}, () => getClamWork(idleonData, accountData));
   accountData.minehead = safeSection<any>('minehead', {}, () => getMinehead(idleonData, accountData, serverVars));
-  accountData.tournament = safeSection<any>('tournament', {}, () => getTournament(idleonData, accountData, staticData.tournamentServerData));
+  accountData.tournament = safeSection<any>('tournament', {}, () => getTournament(idleonData, accountData, staticData.tournamentServerData, serverVars));
   accountData.research = safeSection<any>('research', {}, () => getResearch(idleonData, accountData, charactersData, serverVars));
   accountData.button = safeSection<any>('button', {}, () => getButton(accountData, charactersData));
   accountData.sushiStation = safeSection<any>('sushiStation', {}, () => getSushiStation(idleonData, accountData));
@@ -386,6 +387,8 @@ const serializeData = (idleonData: IdleonData, serverVars: ServerVars, staticDat
   // After vials, stamps, statues, the vault and the tome: every essence multiplier is final by now
   if (accountData.summoning) {
     (accountData.summoning as any).essenceGain = safeSection<any>('summoning.essenceGain', [], () => getEssenceGain(accountData, charactersData));
+    (accountData.summoning as any).familiarExp = safeSection<any>('summoning.familiarExp', null, () =>
+      getFamiliarExp(accountData, getSkillExpMulti('summoning', charactersData?.[0], charactersData, accountData)));
   }
   // Last: stealth reads emperor, sushi, jelly, tome and caverns, all parsed above.
   accountData.sneaking.detection = safeSection<any>('sneakingDetection', null, () => getSneakingDetection(idleonData, accountData, charactersData));

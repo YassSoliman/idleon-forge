@@ -1,4 +1,4 @@
-// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1.
+// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 01c6e0adcb10378d3de3b48ea61b9de48d3a007f.
 // Copyright (C) Morta1 and IdleOn Toolbox contributors. GPL-3.0-only; see vendor/LICENSE.
 // Copied unmodified by IdleOn Forge's scripts/sync.sh; UI-coupled imports are redirected to shims/ at build time.
 import { tryToParse, notateNumber, commaNotation, lavaLog, lavaLog2 } from '@utility/helpers';
@@ -64,6 +64,12 @@ export const getCoralKidSingularity = (idleonData: any, account: any) => {
     totalValue: Math.min(1e9, baseValue * killMulti * timeMulti)
   };
 };
+
+// The catalog text of a Coral Kid upgrade, before the live values fill its placeholders
+export const getCoralKidBaseDescription = (index: number): string => generalSpelunky?.[25]?.[index] ?? '';
+
+// Reef upgrade image letters: Reef<letter>1.png, by upgrade index
+export const REEF_IMAGE_LETTERS = ['z', 'A', 'B', 'C', 'D', 'E'];
 
 export const getCoralReef = (idleonData: any, account: any, charactersData: any) => {
   const rawSpelunking = tryToParse(idleonData?.Spelunk) || {};

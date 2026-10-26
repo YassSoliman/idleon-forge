@@ -1,4 +1,4 @@
-// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1.
+// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 01c6e0adcb10378d3de3b48ea61b9de48d3a007f.
 // Copyright (C) Morta1 and IdleOn Toolbox contributors. GPL-3.0-only; see vendor/LICENSE.
 // Copied unmodified by IdleOn Forge's scripts/sync.sh; UI-coupled imports are redirected to shims/ at build time.
 import { arenaBonuses, monsters, petGenes, petStats, petUpgrades, randomList, territory } from '@website-data';
@@ -200,6 +200,7 @@ const parseBreeding = (breedingRaw: any, territoryRaw: any, petsRaw: any, petsSt
     maxCrucibleLevel: account?.accountOptions?.[628] ?? 0,
     maxShinyLevel,
     shinyOverLevels,
+    shinyOverLevelMulti: getShinyOverLevelMulti(shinyOverLevels),
     timeToNextEgg: (account?.accountOptions?.[87] ?? 0) * 1000,
     petUpgrades: petUpgradesList,
     arenaBonuses,
@@ -221,6 +222,8 @@ const getShinyLevel = (shinyPetsLevels: any, worldIndex: any, petIndex: any, max
 }
 
 export const BASE_MAX_SHINY_LEVEL = 20;
+// Each shiny level past 20 is +10%, applied to both shiny level up rate and pet damage (PetBonusDMG)
+const getShinyOverLevelMulti = (shinyOverLevels: number) => 1 + 10 * shinyOverLevels / 100;
 // Menagerie unlock 11 raises the shiny cap by 10
 export const getMaxShinyLevel = (account: any) => BASE_MAX_SHINY_LEVEL + 10 * (isMenagerieUnlockOwned(account, 11) ? 1 : 0);
 export const MAX_BREEDABILITY_LEVEL = 9;
@@ -335,6 +338,15 @@ export const getTimeToLevel = (pet: any, multi: any, copies: any, targetLevel: a
 
   return ((goal - currentProgress) / multi / (copies || 1)) * 8.64e+7;
 }
+
+// MonsterKill: with WHALE_WALLOP learned and enhanced (ENHANCEMENT_ECLIPSE 150+), each kill has a 50%
+// chance of AFKcode("Pets", 3), which feeds shiny, breedability and trekking
+// alike. Kill rates aren't predicted: active respawn skills (Divine Intervention, Raise Dead) and map
+// layout swing them far past the AFK kill formula.
+export const PET_SECONDS_PER_KILL = 0.5 * 3;
+export const isKillPetTimeUnlocked = (characters: any) =>
+  getHighestTalentAcrossCharacters(characters, 'ENHANCEMENT_ECLIPSE') >= 150
+  && !!characters?.some((character: any) => character?.flatTalents?.some(({ name, level }: any) => name === 'WHALE_WALLOP' && level > 0));
 
 export const calcUpgradeBonus = (upgrade: any, upgradeIndex: any, account: any) => {
   const level = upgrade?.level ?? 0;
@@ -458,14 +470,14 @@ export const calcShinyLvMulti = (account: any, characters: any) => {
   const lampBonus = getLampBonus({ holesObject: account?.hole?.holesObject, t: 0, i: 1, account });
   const breedingBonus = calcUpgradeBonus(account?.breeding?.petUpgrades?.[12], 12, account);
   const cropDepotShinyBonus = account?.farming?.cropDepot?.shiny?.value ?? 0;
-  const shinyOverLevelBonus = 10 * (account?.breeding?.shinyOverLevels ?? 0);
+  const shinyOverLevelMulti = getShinyOverLevelMulti(account?.breeding?.shinyOverLevels ?? 0);
 
   const value = (1 + (emeraldUlthuriteBonus
       + (fasterShinyLevelBonus
         + (cropDepotShinyBonus
           + starSign + breedingBonus))) / 100)
     * (1 + summoningBonus / 100)
-    * (1 + shinyOverLevelBonus / 100)
+    * shinyOverLevelMulti
     * (1 + lampBonus / 100);
 
   return {
@@ -479,7 +491,7 @@ export const calcShinyLvMulti = (account: any, characters: any) => {
         percent('Breeding bonus', breedingBonus)
       ]),
       multiplier('Summoning bonus', 1 + summoningBonus / 100),
-      multiplier('Shiny levels past 20', 1 + shinyOverLevelBonus / 100),
+      multiplier('Shiny levels past 20', shinyOverLevelMulti),
       multiplier('Lamp bonus', 1 + lampBonus / 100)
     ])
   };

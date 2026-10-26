@@ -1,8 +1,8 @@
-// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1.
+// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 01c6e0adcb10378d3de3b48ea61b9de48d3a007f.
 // Copyright (C) Morta1 and IdleOn Toolbox contributors. GPL-3.0-only; see vendor/LICENSE.
 // Copied unmodified by IdleOn Forge's scripts/sync.sh; UI-coupled imports are redirected to shims/ at build time.
 import type { IdleonData, Account } from '../types';
-import { tryToParse, notateNumber, commaNotation } from '@utility/helpers';
+import { tryToParse, notateNumber, commaOrBig } from '@utility/helpers';
 import { generalSpelunky, gameTables } from '@website-data';
 import { getOptimizedGenericUpgrades } from '@parsers/genericUpgradeOptimizer';
 import { getScurgeExp, getScurgeLevel, getScurgeUpgradeLevel, isMenagerieUnlockOwned } from '@parsers/world-7/menagerie';
@@ -53,6 +53,34 @@ export const CLAM_WORK_UPGRADE_CATEGORIES = {
 };
 
 export const pearlNames = { 0: 'Pearls' };
+
+// GRAVESTART speeds up levelling rather than EXP per kill, and SWARMING scales with other players
+// on the map, which the save does not hold, so neither fits a category.
+export const SCURGE_UPGRADE_CATEGORIES = {
+  scurgeExp: {
+    name: 'Scurge EXP',
+    stats: ['scurgeExp'],
+    upgradeIndices: [0, 4]
+  },
+  // SELF_AFFLICTION divides damage by 100 per level, so it is opt-in
+  scurgeExpAffliction: {
+    name: 'Scurge EXP + Self Affliction',
+    stats: ['scurgeExp'],
+    upgradeIndices: [0, 2, 4]
+  },
+  pearlGain: {
+    name: 'Pearl Gain',
+    stats: ['pearlGain'],
+    upgradeIndices: [1, 8]
+  },
+  costReduction: {
+    name: 'Pearl Cost Reduction',
+    stats: ['costReduction'],
+    upgradeIndices: [3, 5]
+  }
+};
+
+export const scurgePointNames = { 0: 'Points' };
 
 export const getClamWork = (idleonData: IdleonData, account: Account) => {
   const spelunkingRaw = tryToParse((idleonData as any)?.Spelunk);
@@ -151,6 +179,7 @@ const getScurge = (account: Account, scurgeState: ScurgeState, descriptions: str
   const level = scurgeState.level;
   const expGain = getScurgeExpGain(scurgeState);
   const startingExp = getScurgeStartingExp(scurgeState);
+  const pointsLeft = getScurgePointsLeft(scurgeState);
   const upgrades = scurgeUpgradeNames.map((name: string, index: number) => {
     const bonus = getScurgeBonus(scurgeState, index);
     const levelReq = SCURGE_UPGRADE_LEVEL_REQ[index] ?? 0;
@@ -175,7 +204,9 @@ const getScurge = (account: Account, scurgeState: ScurgeState, descriptions: str
     expReq: (50 + 15 * level) * Math.pow(1.08, level),
     expGain,
     startingExp,
-    pointsLeft: getScurgePointsLeft(scurgeState),
+    pointsLeft,
+    // the optimizer's resource shape
+    points: [{ name: 'Points', value: Math.max(0, pointsLeft) }],
     upgrades
   };
 };
@@ -298,6 +329,55 @@ export const getOptimizedClamWorkUpgrades = (character: any, account: any, categ
   });
 }
 
+// Average divisor COST_DISSOLVING and CROSS_CULTING put on the pearl upgrade costs, one slot each
+// (geometric mean, so it reads as "% cheaper per upgrade" whatever the pearl levels are).
+const getScurgeCostReduction = (scurgeState: ScurgeState): number => {
+  const product = Array.from({ length: CLAM_UPGRADE_COUNT }, (_, index) =>
+    (1 + getScurgeBonus(scurgeState, 3) / 100)
+    * (1 + ((scurgeState.levels?.[index] ?? 0) * getScurgeBonus(scurgeState, 5)) / 100))
+    .reduce((total, divisor) => total * divisor, 1);
+  return Math.pow(product, 1 / CLAM_UPGRADE_COUNT);
+}
+
+export const getOptimizedScurgeUpgrades = (character: any, account: any, category: string = 'scurgeExp', maxUpgrades: number = 100, options: any = {}) => {
+  const workerClass = getWorkerClass(account);
+  const multiKill = options?.multiKill ?? DEFAULT_CLAM_MULTIKILL;
+  const clamLevels = getClamLevels(account);
+  const scurgeLevel = getScurgeLevel(account);
+  const stateOf = (upgrades: any): ScurgeState => ({
+    levels: upgrades.map((upgrade: any) => upgrade?.level ?? 0),
+    level: scurgeLevel
+  });
+
+  return getOptimizedGenericUpgrades({
+    character,
+    account,
+    category,
+    maxUpgrades,
+    categoryInfo: (SCURGE_UPGRADE_CATEGORIES as Record<string, any>)[category],
+    // The whole page sits behind Menagerie unlock 4, on top of each upgrade's Scurge LV requirement
+    getUpgrades: (acc: any) => (acc?.clamWork?.scurge?.upgrades || []).map((upgrade: any) => ({
+      ...upgrade,
+      unlocked: !!acc?.clamWork?.scurge?.unlocked && upgrade.unlocked
+    })),
+    getResources: (acc: any) => acc?.clamWork?.scurge?.points || [],
+    getCurrentStats: (upgrades: any) => {
+      const scurgeState = stateOf(upgrades);
+      return {
+        scurgeExp: getScurgeExpGain(scurgeState),
+        pearlGain: getClamPearlGain(clamLevels, workerClass, multiKill, scurgeState),
+        costReduction: getScurgeCostReduction(scurgeState)
+      };
+    },
+    getUpgradeCost: (upgrade: any) => SCURGE_UPGRADE_COST[upgrade.index] ?? 1,
+    updateResourcesAfterUpgrade: (resources: any, upgrade: any, resourceNames: any, cost: any) => {
+      if (resources[0]) resources[0].value -= cost;
+    },
+    resourceNames: scurgePointNames,
+    extraArgs: options
+  });
+}
+
 interface ClamWorkDescriptionData {
   bonus: number;
   mobs: number;
@@ -353,7 +433,7 @@ const formatScurgeDescription = (description: string, index: number,
   if (!description) return description;
   let text = description.replace(/\}/g, String(notateNumber(1 + bonus / 100, 'MultiplierInfo')).replace(/#/g, ''));
   if (index === 0) {
-    text = text.replace('$', 1e6 > expGain ? commaNotation(expGain) : String(notateNumber(expGain, 'Big')));
+    text = text.replace('$', String(commaOrBig(expGain)));
   } else if (index === 2) {
     text = text.replace('$', String(notateNumber(Math.pow(100, scurgeState.levels?.[2] ?? 0), 'Big')));
   } else if (index === 3) {

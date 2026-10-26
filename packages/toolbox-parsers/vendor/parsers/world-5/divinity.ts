@@ -1,4 +1,4 @@
-// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1.
+// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 01c6e0adcb10378d3de3b48ea61b9de48d3a007f.
 // Copyright (C) Morta1 and IdleOn Toolbox contributors. GPL-3.0-only; see vendor/LICENSE.
 // Copied unmodified by IdleOn Forge's scripts/sync.sh; UI-coupled imports are redirected to shims/ at build time.
 import { isCompanionBonusActive } from '@parsers/misc';
@@ -410,3 +410,10 @@ const getLinkedGodSlot = (character: any, account: any, godIndex: number) => {
   if (secondSlot == null || Number((gods as any)?.[secondSlot]?.godIndex) !== godIndex) return -1;
   return (Number(account?.divinity?.unlockedDeities) || 0) > secondSlot ? secondSlot : -1;
 }
+
+// The Divinity page header: every god's blessing level summed
+export const getTotalBlessingLevels = (deities: any[] | undefined) => deities?.reduce((sum, { level }) => sum + (level || 0), 0) ?? 0;
+
+// Total Divinity LV across all players, the gate on Coral Kid upgrades
+export const getTotalDivinityLevel = (characters: any[] | undefined) =>
+  characters?.reduce((sum, character) => sum + (character?.skillsInfo?.divinity?.level ?? 0), 0) ?? 0;

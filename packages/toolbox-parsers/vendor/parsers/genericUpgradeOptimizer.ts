@@ -1,4 +1,4 @@
-// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1.
+// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 01c6e0adcb10378d3de3b48ea61b9de48d3a007f.
 // Copyright (C) Morta1 and IdleOn Toolbox contributors. GPL-3.0-only; see vendor/LICENSE.
 // Copied unmodified by IdleOn Forge's scripts/sync.sh; UI-coupled imports are redirected to shims/ at build time.
 // Generic Upgrade Optimizer
@@ -363,9 +363,9 @@ export function getOptimizedGenericUpgrades({
     });
 
     for (const upgrade of availableUpgrades) {
-      // Deep clone upgrades for simulation
-      const tempUpgrades = JSON.parse(JSON.stringify(simulatedUpgrades));
-      // Apply upgrade by creating a new object
+      // A shallow copy is enough: the bought upgrade is replaced, never mutated. A deep clone per
+      // candidate per step made large Max Upgrades values freeze the page.
+      const tempUpgrades = [...simulatedUpgrades];
       const idx = tempUpgrades.findIndex((u: any) => u.index === upgrade.index);
       tempUpgrades[idx] = { ...tempUpgrades[idx], level: tempUpgrades[idx].level + 1 };
 

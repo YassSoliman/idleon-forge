@@ -1,4 +1,4 @@
-// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1.
+// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 01c6e0adcb10378d3de3b48ea61b9de48d3a007f.
 // Copyright (C) Morta1 and IdleOn Toolbox contributors. GPL-3.0-only; see vendor/LICENSE.
 // Copied unmodified by IdleOn Forge's scripts/sync.sh; UI-coupled imports are redirected to shims/ at build time.
 // Alert data keys that differ from the option controlling them. resolveSettingsTarget reads the
@@ -115,7 +115,7 @@ export const alertMeta = {
       },
       familyObols: { label: 'Empty family obol slots', group: 'Account' },
       freeCompanion: { label: 'Free companion to claim', group: 'Events', page: { pathname: '/account/prem-currency/pets', label: 'Pets' } },
-      petMartGems: { label: 'Free Pet Mart gems', group: 'Events', page: { pathname: '/account/misc/tournament', query: { t: 'Pet Mart' }, label: 'Pet Mart' } },
+      petMartGems: { label: 'Free Pet Mart gems', group: 'Events', page: { pathname: '/account/prem-currency/pets', query: { t: 'Pet Mart' }, label: 'Pet Mart' } },
       tournamentRegister: {
         label: 'Not registered for the Pet Tournament',
         help: 'Alerts when you have not registered for the current Pet Tournament.',
@@ -523,6 +523,15 @@ export const alertMeta = {
         label: 'Shovel not clicked',
         help: 'Alerts when this many hours have passed since you clicked the shovel.',
         unit: 'h'
+      },
+      bogLog: {
+        label: 'Bog Log ready',
+        help: 'Alerts when the Bog Log minigame is ready to play.'
+      },
+      snail: {
+        label: 'Snail success chance',
+        help: 'Alerts when the snail upgrade success chance reaches this percent. Skipped at max level.',
+        unit: '%'
       }
     }
   },
@@ -682,7 +691,15 @@ export const alertMeta = {
         label: 'Familiar upgrade below level',
         help: 'Alerts while the familiar upgrade is below this level and not maxed.'
       },
-      battleAttempts: { label: 'Battle attempts left', page: { query: { t: 'Battles' }, label: 'Battles' } }
+      battleAttempts: { label: 'Battle attempts left', page: { query: { t: 'Battles' }, label: 'Battles' } },
+      familiarExp: {
+        label: 'Unclaimed familiar EXP',
+        help: 'Alerts once this many hours of familiar EXP are waiting. Claim it by standing in the Summoning area with the Summoning skill selected.'
+      },
+      familiarLevelUp: {
+        label: 'Familiar EXP gives a level',
+        help: 'Alerts once claiming the familiar EXP would give at least one character a Summoning level.'
+      }
     }
   },
   'account.World 6.etc': {
@@ -693,7 +710,7 @@ export const alertMeta = {
     options: {
       emperor: {
         label: 'Emperor attempts stacked',
-        help: 'Alerts at this number, or at your attempt cap if it is lower.',
+        help: 'Alerts at this number, or earlier if your next daily refill would be lost. The game skips the whole refill when it would pass the cap, so the cap shown in game is never reached.',
         unit: 'attempts'
       }
     }
@@ -760,7 +777,12 @@ export const alertMeta = {
       },
       idleGuards: {
         label: 'Guards with unneeded range',
-        help: 'Alerts when an outpost has Guards whose range it does not need, so they could be Traders or Surveyors. Also lists Guards that only reach an empty resource: swapping them drops that connection, so rewire it after the daily reset.',
+        help: 'Alerts when an outpost has Guards whose range it does not need, so they could be Traders or Surveyors.',
+        group: 'Units'
+      },
+      parkedGuards: {
+        label: 'Guards on empty resources',
+        help: 'Alerts when an outpost has Guards that only reach an empty resource, so they could be Traders or Surveyors until the daily reset. Swapping them drops that connection, so it has to be rewired after every reset.',
         group: 'Units'
       },
       sharedNodes: {
@@ -918,14 +940,66 @@ export const alertMeta = {
         page: { query: { t: 'Unlocks' }, label: 'Unlocks' }
       },
       affordableBoosts: {
-        label: 'Boosts you can afford',
+        label: 'Any boost you can afford',
         help: 'Lumi builds up every hour and boosts never max, so this one is off by default: some boost is almost always affordable.',
+        group: 'Boosts',
         page: { query: { t: 'Boosts' }, label: 'Boosts' }
+      },
+      lumiBoost: {
+        label: 'Lumi/hr boost affordable',
+        help: 'The boost that raises Lumi/hr for each Menagerie Rank.',
+        group: 'Boosts',
+        page: { query: { t: 'Boosts' }, label: 'Boosts' }
+      },
+      missionBoost: {
+        label: 'Mission boost affordable',
+        help: 'The boost that adds more Menagerie missions.',
+        group: 'Boosts',
+        page: { query: { t: 'Boosts' }, label: 'Boosts' }
+      },
+      pinkJelly: {
+        label: 'Pink jelly upgrades affordable',
+        help: 'Alerts when a Pink jelly upgrade costs at most this percent of your coins.',
+        group: 'Jellies',
+        page: { query: { t: 'Jellies' }, label: 'Jellies' }
+      },
+      blueJelly: {
+        label: 'Ladles to give the Blue jelly',
+        help: 'Alerts when you own at least this many ladles. Ladles the Blue jelly uses still count toward Cooking Mastery.',
+        group: 'Jellies',
+        page: { query: { t: 'Jellies' }, label: 'Jellies' }
+      },
+      redJelly: {
+        label: 'Red jelly reading ready',
+        help: 'Alerts when you have tracked pages and the reading multi reaches this value. Best: read daily (1x) or wait for 12x to 18x. 2x to 9x gives fewer page levels.',
+        group: 'Jellies',
+        page: { query: { t: 'Jellies' }, label: 'Jellies' }
+      },
+      silverJelly: {
+        label: 'Silver jelly upgrades affordable',
+        help: 'Alerts when your Obol Fragments cover a Silver jelly upgrade that is not maxed. Each upgrade can be turned off on its own.',
+        group: 'Jellies',
+        page: { query: { t: 'Jellies' }, label: 'Jellies' }
+      },
+      yellowJelly: {
+        label: 'Yellow jelly purchase ready',
+        help: 'Alerts when the build progress from your 8th build slot covers the next construction purchase.',
+        group: 'Jellies',
+        page: { query: { t: 'Jellies' }, label: 'Jellies' }
       },
       unusedDoublers: {
         label: 'Doublers left to place',
-        help: 'Minehead, Sushi Station and Jelly Operator doublers, Black Stars, Organic Labels and Omnijade you own but have not placed.',
-        page: { query: { t: 'Boosts' }, label: 'Boosts' }
+        help: 'Doublers, Black Stars, Organic Labels and Omnijade you own but have not placed. Each one can be turned off on its own.',
+        group: 'Doublers',
+        page: { query: { t: 'Boosts' }, label: 'Boosts' },
+        itemIcons: {
+          blackStars: 'etc/BlackStar',
+          organicLabels: 'etc/OrganicLabel',
+          minehead: 'etc/MineheadDoubler',
+          sushi: 'etc/SushiDoubler',
+          jellyOperator: 'data/MenaIconP12',
+          omnijade: 'etc/Omnijade'
+        }
       }
     }
   },
@@ -989,6 +1063,10 @@ export const alertMeta = {
       unendingEnergy: {
         label: 'Unending Energy past 10 hours',
         help: 'Alerts when a character with the Unending Energy prayer has been AFK for more than 10 hours.'
+      },
+      ruckSack: {
+        label: 'Ruck Sack while AFK',
+        help: 'Alerts when an AFK character has the Ruck Sack prayer equipped (its curse lowers AFK gains).'
       },
       chargeOverdue: { label: 'Worship charge full', help: 'Alerts within 5% of max charge.' }
     }
@@ -1149,6 +1227,7 @@ export const alertMeta = {
   'timers.General.weekly': { label: 'Weekly reset', icon: 'etc/Weekly', options: {} },
   'timers.General.serverWeekly': { label: 'Server weekly reset', icon: 'etc/Server', options: {} },
   'timers.General.companions': { label: 'Next free companion', icon: 'afk_targets/Dog', page: { pathname: '/account/prem-currency/pets', label: 'Pets' }, options: {} },
+  'timers.General.crystalIsland': { label: 'Crystal Island best visit', help: 'Counts down to 13 unclaimed days, the most giant crystal mobs (27). Turns green for the last day before it caps at 14 (15 mobs).', icon: 'afk_targets/Crystal_Carrot', page: { pathname: '/account/world-2/islands', label: 'Islands' }, options: {} },
   'timers.General.syphonCharge': { label: 'Charge Syphon overflow', icon: 'data/UISkillIcon475', page: { pathname: '/account/world-3/worship', label: 'Worship' }, options: {} },
   'timers.General.closestFullWorship': { label: 'Closest full worship', icon: 'data/WorshipSkull3', page: { pathname: '/account/world-3/worship', label: 'Worship' }, options: {} },
   'timers.General.dungeonHappyHour': { label: 'Dungeon happy hour', icon: 'etc/Happy_Hour', page: { pathname: '/account/misc/dungeons', label: 'Dungeons' }, options: {} },
@@ -1157,7 +1236,25 @@ export const alertMeta = {
 
   // Timers: Other
   'timers.Etc.library': { label: 'Library books', icon: 'data/Libz', options: {} },
-  'timers.Etc.minibosses': { label: 'Boss and miniboss respawns', icon: 'monsters/poopBig/static', page: { pathname: '/account/world-3/death-note', label: 'Death note' }, options: {} },
+  'timers.Etc.minibosses': {
+    label: 'Boss and miniboss respawns',
+    icon: 'monsters/poopBig/static',
+    page: { pathname: '/account/world-3/death-note', label: 'Death note' },
+    options: {
+      bosses: {
+        label: 'Bosses to show',
+        help: 'Only the ticked bosses appear in the Bosses timer.',
+        itemIcons: {
+          drDefecaus: 'monsters/poopBig/static',
+          babaYaga: 'monsters/babayaga/static',
+          dilapidatedSlush: 'etc/mini3b',
+          mutatedMush: 'etc/mini4b',
+          domeoMagmus: 'etc/mini5a',
+          dementedSpiritlord: 'etc/mini6a'
+        }
+      }
+    }
+  },
   'timers.Etc.bonusTimeLeft': { label: 'Vote bonus week', icon: 'etc/VoteBallot', page: { pathname: '/account/world-2/vote-ballot', query: { t: 'Bonus' }, label: 'Vote ballot' }, options: {} },
   'timers.Etc.meritocracyTimeLeft': { label: 'Meritocracy vote week', icon: 'etc/VoteBallot', page: { pathname: '/account/world-2/vote-ballot', query: { t: 'Meritocracy' }, label: 'Meritocracy' }, options: {} },
 

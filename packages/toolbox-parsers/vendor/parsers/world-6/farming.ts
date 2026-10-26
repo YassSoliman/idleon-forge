@@ -1,4 +1,4 @@
-// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1.
+// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 01c6e0adcb10378d3de3b48ea61b9de48d3a007f.
 // Copyright (C) Morta1 and IdleOn Toolbox contributors. GPL-3.0-only; see vendor/LICENSE.
 // Copied unmodified by IdleOn Forge's scripts/sync.sh; UI-coupled imports are redirected to shims/ at build time.
 import { notateNumber, tryToParse } from '@utility/helpers';
@@ -39,6 +39,9 @@ import { getLegendTalentBonus } from '@parsers/world-7/legendTalents';
 import { getTomeBubbleMulti } from '@parsers/world-4/tome';
 import LavaRand from '../../utility/lavaRand';
 import { NUMBERED_GROUP, additiveGroup, createBreakdown, evaluateBreakdownNode, flat, listGroup, multiplier, percent, productGroup } from '@parsers/breakdown';
+
+export const DAY_MARKET_SIZE = 8;
+export const sumMarketLevels = (upgrades: any) => upgrades?.reduce((sum: number, { level }: any) => sum + (level || 0), 0) ?? 0;
 
 /** Level needed to reach the given percent of cap for exotic capped formula: value = baseValue * level / (1000 + level). */
 export const findExoticCappedThresholdLevel = (percent: any, _unused1?: any) => {

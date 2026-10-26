@@ -16,7 +16,7 @@
         ]
       },
       "generatedBy": {
-        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "commit": "01c6e0adcb10378d3de3b48ea61b9de48d3a007f",
         "generator": "portals",
         "inputs": [
           "website-data/shared-data.json#mapNames",
@@ -43,11 +43,11 @@
       "scope": "character",
       "sources": [
         {
-          "gameVersion": "2.3.540",
+          "gameVersion": "2.3.550",
           "tier": 1,
           "title": "IdleOn Toolbox game data: mapPortals and mapPortalDestinations",
-          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
-          "verified": "2026-10-17"
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/01c6e0adcb10378d3de3b48ea61b9de48d3a007f/data/website-data/shared-data.json",
+          "verified": "2026-10-25"
         }
       ],
       "status": "active",
@@ -78,7 +78,7 @@
         ]
       },
       "generatedBy": {
-        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "commit": "01c6e0adcb10378d3de3b48ea61b9de48d3a007f",
         "generator": "portals",
         "inputs": [
           "website-data/shared-data.json#mapNames",
@@ -105,11 +105,11 @@
       "scope": "character",
       "sources": [
         {
-          "gameVersion": "2.3.540",
+          "gameVersion": "2.3.550",
           "tier": 1,
           "title": "IdleOn Toolbox game data: mapPortals and mapPortalDestinations",
-          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
-          "verified": "2026-10-17"
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/01c6e0adcb10378d3de3b48ea61b9de48d3a007f/data/website-data/shared-data.json",
+          "verified": "2026-10-25"
         }
       ],
       "status": "active",
@@ -140,7 +140,7 @@
         ]
       },
       "generatedBy": {
-        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "commit": "01c6e0adcb10378d3de3b48ea61b9de48d3a007f",
         "generator": "portals",
         "inputs": [
           "website-data/shared-data.json#mapNames",
@@ -167,11 +167,11 @@
       "scope": "character",
       "sources": [
         {
-          "gameVersion": "2.3.540",
+          "gameVersion": "2.3.550",
           "tier": 1,
           "title": "IdleOn Toolbox game data: mapPortals and mapPortalDestinations",
-          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
-          "verified": "2026-10-17"
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/01c6e0adcb10378d3de3b48ea61b9de48d3a007f/data/website-data/shared-data.json",
+          "verified": "2026-10-25"
         }
       ],
       "status": "active",
@@ -207,7 +207,7 @@
         ]
       },
       "generatedBy": {
-        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "commit": "01c6e0adcb10378d3de3b48ea61b9de48d3a007f",
         "generator": "portals",
         "inputs": [
           "website-data/shared-data.json#mapNames",
@@ -238,11 +238,11 @@
       "scope": "character",
       "sources": [
         {
-          "gameVersion": "2.3.540",
+          "gameVersion": "2.3.550",
           "tier": 1,
           "title": "IdleOn Toolbox game data: mapPortals and mapPortalDestinations",
-          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
-          "verified": "2026-10-17"
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/01c6e0adcb10378d3de3b48ea61b9de48d3a007f/data/website-data/shared-data.json",
+          "verified": "2026-10-25"
         }
       ],
       "status": "active",
@@ -273,7 +273,7 @@
         ]
       },
       "generatedBy": {
-        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "commit": "01c6e0adcb10378d3de3b48ea61b9de48d3a007f",
         "generator": "portals",
         "inputs": [
           "website-data/shared-data.json#mapNames",
@@ -300,11 +300,11 @@
       "scope": "character",
       "sources": [
         {
-          "gameVersion": "2.3.540",
+          "gameVersion": "2.3.550",
           "tier": 1,
           "title": "IdleOn Toolbox game data: mapPortals and mapPortalDestinations",
-          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
-          "verified": "2026-10-17"
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/01c6e0adcb10378d3de3b48ea61b9de48d3a007f/data/website-data/shared-data.json",
+          "verified": "2026-10-25"
         }
       ],
       "status": "active",
@@ -335,7 +335,7 @@
         ]
       },
       "generatedBy": {
-        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "commit": "01c6e0adcb10378d3de3b48ea61b9de48d3a007f",
         "generator": "portals",
         "inputs": [
           "website-data/shared-data.json#mapNames",
@@ -362,11 +362,11 @@
       "scope": "character",
       "sources": [
         {
-          "gameVersion": "2.3.540",
+          "gameVersion": "2.3.550",
           "tier": 1,
           "title": "IdleOn Toolbox game data: mapPortals and mapPortalDestinations",
-          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
-          "verified": "2026-10-17"
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/01c6e0adcb10378d3de3b48ea61b9de48d3a007f/data/website-data/shared-data.json",
+          "verified": "2026-10-25"
         }
       ],
       "status": "active",
@@ -397,7 +397,7 @@
         ]
       },
       "generatedBy": {
-        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "commit": "01c6e0adcb10378d3de3b48ea61b9de48d3a007f",
         "generator": "portals",
         "inputs": [
           "website-data/shared-data.json#mapNames",
@@ -424,11 +424,11 @@
       "scope": "character",
       "sources": [
         {
-          "gameVersion": "2.3.540",
+          "gameVersion": "2.3.550",
           "tier": 1,
           "title": "IdleOn Toolbox game data: mapPortals and mapPortalDestinations",
-          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
-          "verified": "2026-10-17"
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/01c6e0adcb10378d3de3b48ea61b9de48d3a007f/data/website-data/shared-data.json",
+          "verified": "2026-10-25"
         }
       ],
       "status": "active",
@@ -459,7 +459,7 @@
         ]
       },
       "generatedBy": {
-        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "commit": "01c6e0adcb10378d3de3b48ea61b9de48d3a007f",
         "generator": "portals",
         "inputs": [
           "website-data/shared-data.json#mapNames",
@@ -486,11 +486,11 @@
       "scope": "character",
       "sources": [
         {
-          "gameVersion": "2.3.540",
+          "gameVersion": "2.3.550",
           "tier": 1,
           "title": "IdleOn Toolbox game data: mapPortals and mapPortalDestinations",
-          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
-          "verified": "2026-10-17"
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/01c6e0adcb10378d3de3b48ea61b9de48d3a007f/data/website-data/shared-data.json",
+          "verified": "2026-10-25"
         }
       ],
       "status": "active",
@@ -521,7 +521,7 @@
         ]
       },
       "generatedBy": {
-        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "commit": "01c6e0adcb10378d3de3b48ea61b9de48d3a007f",
         "generator": "portals",
         "inputs": [
           "website-data/shared-data.json#mapNames",
@@ -548,11 +548,11 @@
       "scope": "character",
       "sources": [
         {
-          "gameVersion": "2.3.540",
+          "gameVersion": "2.3.550",
           "tier": 1,
           "title": "IdleOn Toolbox game data: mapPortals and mapPortalDestinations",
-          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
-          "verified": "2026-10-17"
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/01c6e0adcb10378d3de3b48ea61b9de48d3a007f/data/website-data/shared-data.json",
+          "verified": "2026-10-25"
         }
       ],
       "status": "active",
@@ -583,7 +583,7 @@
         ]
       },
       "generatedBy": {
-        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "commit": "01c6e0adcb10378d3de3b48ea61b9de48d3a007f",
         "generator": "portals",
         "inputs": [
           "website-data/shared-data.json#mapNames",
@@ -610,11 +610,11 @@
       "scope": "character",
       "sources": [
         {
-          "gameVersion": "2.3.540",
+          "gameVersion": "2.3.550",
           "tier": 1,
           "title": "IdleOn Toolbox game data: mapPortals and mapPortalDestinations",
-          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
-          "verified": "2026-10-17"
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/01c6e0adcb10378d3de3b48ea61b9de48d3a007f/data/website-data/shared-data.json",
+          "verified": "2026-10-25"
         }
       ],
       "status": "active",
@@ -645,7 +645,7 @@
         ]
       },
       "generatedBy": {
-        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "commit": "01c6e0adcb10378d3de3b48ea61b9de48d3a007f",
         "generator": "portals",
         "inputs": [
           "website-data/shared-data.json#mapNames",
@@ -672,11 +672,11 @@
       "scope": "character",
       "sources": [
         {
-          "gameVersion": "2.3.540",
+          "gameVersion": "2.3.550",
           "tier": 1,
           "title": "IdleOn Toolbox game data: mapPortals and mapPortalDestinations",
-          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
-          "verified": "2026-10-17"
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/01c6e0adcb10378d3de3b48ea61b9de48d3a007f/data/website-data/shared-data.json",
+          "verified": "2026-10-25"
         }
       ],
       "status": "active",
@@ -707,7 +707,7 @@
         ]
       },
       "generatedBy": {
-        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "commit": "01c6e0adcb10378d3de3b48ea61b9de48d3a007f",
         "generator": "portals",
         "inputs": [
           "website-data/shared-data.json#mapNames",
@@ -734,11 +734,11 @@
       "scope": "character",
       "sources": [
         {
-          "gameVersion": "2.3.540",
+          "gameVersion": "2.3.550",
           "tier": 1,
           "title": "IdleOn Toolbox game data: mapPortals and mapPortalDestinations",
-          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
-          "verified": "2026-10-17"
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/01c6e0adcb10378d3de3b48ea61b9de48d3a007f/data/website-data/shared-data.json",
+          "verified": "2026-10-25"
         }
       ],
       "status": "active",
@@ -769,7 +769,7 @@
         ]
       },
       "generatedBy": {
-        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "commit": "01c6e0adcb10378d3de3b48ea61b9de48d3a007f",
         "generator": "portals",
         "inputs": [
           "website-data/shared-data.json#mapNames",
@@ -796,11 +796,11 @@
       "scope": "character",
       "sources": [
         {
-          "gameVersion": "2.3.540",
+          "gameVersion": "2.3.550",
           "tier": 1,
           "title": "IdleOn Toolbox game data: mapPortals and mapPortalDestinations",
-          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
-          "verified": "2026-10-17"
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/01c6e0adcb10378d3de3b48ea61b9de48d3a007f/data/website-data/shared-data.json",
+          "verified": "2026-10-25"
         }
       ],
       "status": "active",
@@ -831,7 +831,7 @@
         ]
       },
       "generatedBy": {
-        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "commit": "01c6e0adcb10378d3de3b48ea61b9de48d3a007f",
         "generator": "portals",
         "inputs": [
           "website-data/shared-data.json#mapNames",
@@ -858,11 +858,11 @@
       "scope": "character",
       "sources": [
         {
-          "gameVersion": "2.3.540",
+          "gameVersion": "2.3.550",
           "tier": 1,
           "title": "IdleOn Toolbox game data: mapPortals and mapPortalDestinations",
-          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
-          "verified": "2026-10-17"
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/01c6e0adcb10378d3de3b48ea61b9de48d3a007f/data/website-data/shared-data.json",
+          "verified": "2026-10-25"
         }
       ],
       "status": "active",
@@ -898,7 +898,7 @@
         ]
       },
       "generatedBy": {
-        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "commit": "01c6e0adcb10378d3de3b48ea61b9de48d3a007f",
         "generator": "portals",
         "inputs": [
           "website-data/shared-data.json#mapNames",
@@ -929,11 +929,11 @@
       "scope": "character",
       "sources": [
         {
-          "gameVersion": "2.3.540",
+          "gameVersion": "2.3.550",
           "tier": 1,
           "title": "IdleOn Toolbox game data: mapPortals and mapPortalDestinations",
-          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
-          "verified": "2026-10-17"
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/01c6e0adcb10378d3de3b48ea61b9de48d3a007f/data/website-data/shared-data.json",
+          "verified": "2026-10-25"
         }
       ],
       "status": "active",
@@ -969,7 +969,7 @@
         ]
       },
       "generatedBy": {
-        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "commit": "01c6e0adcb10378d3de3b48ea61b9de48d3a007f",
         "generator": "portals",
         "inputs": [
           "website-data/shared-data.json#mapNames",
@@ -1000,11 +1000,11 @@
       "scope": "character",
       "sources": [
         {
-          "gameVersion": "2.3.540",
+          "gameVersion": "2.3.550",
           "tier": 1,
           "title": "IdleOn Toolbox game data: mapPortals and mapPortalDestinations",
-          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
-          "verified": "2026-10-17"
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/01c6e0adcb10378d3de3b48ea61b9de48d3a007f/data/website-data/shared-data.json",
+          "verified": "2026-10-25"
         }
       ],
       "status": "active",
@@ -1035,7 +1035,7 @@
         ]
       },
       "generatedBy": {
-        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "commit": "01c6e0adcb10378d3de3b48ea61b9de48d3a007f",
         "generator": "portals",
         "inputs": [
           "website-data/shared-data.json#mapNames",
@@ -1062,11 +1062,11 @@
       "scope": "character",
       "sources": [
         {
-          "gameVersion": "2.3.540",
+          "gameVersion": "2.3.550",
           "tier": 1,
           "title": "IdleOn Toolbox game data: mapPortals and mapPortalDestinations",
-          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
-          "verified": "2026-10-17"
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/01c6e0adcb10378d3de3b48ea61b9de48d3a007f/data/website-data/shared-data.json",
+          "verified": "2026-10-25"
         }
       ],
       "status": "active",
@@ -1097,7 +1097,7 @@
         ]
       },
       "generatedBy": {
-        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "commit": "01c6e0adcb10378d3de3b48ea61b9de48d3a007f",
         "generator": "portals",
         "inputs": [
           "website-data/shared-data.json#mapNames",
@@ -1124,11 +1124,11 @@
       "scope": "character",
       "sources": [
         {
-          "gameVersion": "2.3.540",
+          "gameVersion": "2.3.550",
           "tier": 1,
           "title": "IdleOn Toolbox game data: mapPortals and mapPortalDestinations",
-          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
-          "verified": "2026-10-17"
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/01c6e0adcb10378d3de3b48ea61b9de48d3a007f/data/website-data/shared-data.json",
+          "verified": "2026-10-25"
         }
       ],
       "status": "active",
@@ -1159,7 +1159,7 @@
         ]
       },
       "generatedBy": {
-        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "commit": "01c6e0adcb10378d3de3b48ea61b9de48d3a007f",
         "generator": "portals",
         "inputs": [
           "website-data/shared-data.json#mapNames",
@@ -1186,11 +1186,11 @@
       "scope": "character",
       "sources": [
         {
-          "gameVersion": "2.3.540",
+          "gameVersion": "2.3.550",
           "tier": 1,
           "title": "IdleOn Toolbox game data: mapPortals and mapPortalDestinations",
-          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
-          "verified": "2026-10-17"
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/01c6e0adcb10378d3de3b48ea61b9de48d3a007f/data/website-data/shared-data.json",
+          "verified": "2026-10-25"
         }
       ],
       "status": "active",
@@ -1221,7 +1221,7 @@
         ]
       },
       "generatedBy": {
-        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "commit": "01c6e0adcb10378d3de3b48ea61b9de48d3a007f",
         "generator": "portals",
         "inputs": [
           "website-data/shared-data.json#mapNames",
@@ -1248,11 +1248,11 @@
       "scope": "character",
       "sources": [
         {
-          "gameVersion": "2.3.540",
+          "gameVersion": "2.3.550",
           "tier": 1,
           "title": "IdleOn Toolbox game data: mapPortals and mapPortalDestinations",
-          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
-          "verified": "2026-10-17"
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/01c6e0adcb10378d3de3b48ea61b9de48d3a007f/data/website-data/shared-data.json",
+          "verified": "2026-10-25"
         }
       ],
       "status": "active",
@@ -1283,7 +1283,7 @@
         ]
       },
       "generatedBy": {
-        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "commit": "01c6e0adcb10378d3de3b48ea61b9de48d3a007f",
         "generator": "portals",
         "inputs": [
           "website-data/shared-data.json#mapNames",
@@ -1310,11 +1310,11 @@
       "scope": "character",
       "sources": [
         {
-          "gameVersion": "2.3.540",
+          "gameVersion": "2.3.550",
           "tier": 1,
           "title": "IdleOn Toolbox game data: mapPortals and mapPortalDestinations",
-          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
-          "verified": "2026-10-17"
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/01c6e0adcb10378d3de3b48ea61b9de48d3a007f/data/website-data/shared-data.json",
+          "verified": "2026-10-25"
         }
       ],
       "status": "active",
@@ -1345,7 +1345,7 @@
         ]
       },
       "generatedBy": {
-        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "commit": "01c6e0adcb10378d3de3b48ea61b9de48d3a007f",
         "generator": "portals",
         "inputs": [
           "website-data/shared-data.json#mapNames",
@@ -1372,11 +1372,11 @@
       "scope": "character",
       "sources": [
         {
-          "gameVersion": "2.3.540",
+          "gameVersion": "2.3.550",
           "tier": 1,
           "title": "IdleOn Toolbox game data: mapPortals and mapPortalDestinations",
-          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
-          "verified": "2026-10-17"
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/01c6e0adcb10378d3de3b48ea61b9de48d3a007f/data/website-data/shared-data.json",
+          "verified": "2026-10-25"
         }
       ],
       "status": "active",
@@ -1407,7 +1407,7 @@
         ]
       },
       "generatedBy": {
-        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "commit": "01c6e0adcb10378d3de3b48ea61b9de48d3a007f",
         "generator": "portals",
         "inputs": [
           "website-data/shared-data.json#mapNames",
@@ -1434,11 +1434,11 @@
       "scope": "character",
       "sources": [
         {
-          "gameVersion": "2.3.540",
+          "gameVersion": "2.3.550",
           "tier": 1,
           "title": "IdleOn Toolbox game data: mapPortals and mapPortalDestinations",
-          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
-          "verified": "2026-10-17"
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/01c6e0adcb10378d3de3b48ea61b9de48d3a007f/data/website-data/shared-data.json",
+          "verified": "2026-10-25"
         }
       ],
       "status": "active",
@@ -1469,7 +1469,7 @@
         ]
       },
       "generatedBy": {
-        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "commit": "01c6e0adcb10378d3de3b48ea61b9de48d3a007f",
         "generator": "portals",
         "inputs": [
           "website-data/shared-data.json#mapNames",
@@ -1496,11 +1496,11 @@
       "scope": "character",
       "sources": [
         {
-          "gameVersion": "2.3.540",
+          "gameVersion": "2.3.550",
           "tier": 1,
           "title": "IdleOn Toolbox game data: mapPortals and mapPortalDestinations",
-          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
-          "verified": "2026-10-17"
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/01c6e0adcb10378d3de3b48ea61b9de48d3a007f/data/website-data/shared-data.json",
+          "verified": "2026-10-25"
         }
       ],
       "status": "active",
@@ -1531,7 +1531,7 @@
         ]
       },
       "generatedBy": {
-        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "commit": "01c6e0adcb10378d3de3b48ea61b9de48d3a007f",
         "generator": "portals",
         "inputs": [
           "website-data/shared-data.json#mapNames",
@@ -1558,11 +1558,11 @@
       "scope": "character",
       "sources": [
         {
-          "gameVersion": "2.3.540",
+          "gameVersion": "2.3.550",
           "tier": 1,
           "title": "IdleOn Toolbox game data: mapPortals and mapPortalDestinations",
-          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
-          "verified": "2026-10-17"
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/01c6e0adcb10378d3de3b48ea61b9de48d3a007f/data/website-data/shared-data.json",
+          "verified": "2026-10-25"
         }
       ],
       "status": "active",
@@ -1593,7 +1593,7 @@
         ]
       },
       "generatedBy": {
-        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "commit": "01c6e0adcb10378d3de3b48ea61b9de48d3a007f",
         "generator": "portals",
         "inputs": [
           "website-data/shared-data.json#mapNames",
@@ -1620,11 +1620,11 @@
       "scope": "character",
       "sources": [
         {
-          "gameVersion": "2.3.540",
+          "gameVersion": "2.3.550",
           "tier": 1,
           "title": "IdleOn Toolbox game data: mapPortals and mapPortalDestinations",
-          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
-          "verified": "2026-10-17"
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/01c6e0adcb10378d3de3b48ea61b9de48d3a007f/data/website-data/shared-data.json",
+          "verified": "2026-10-25"
         }
       ],
       "status": "active",
@@ -1660,7 +1660,7 @@
         ]
       },
       "generatedBy": {
-        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "commit": "01c6e0adcb10378d3de3b48ea61b9de48d3a007f",
         "generator": "portals",
         "inputs": [
           "website-data/shared-data.json#mapNames",
@@ -1691,11 +1691,11 @@
       "scope": "character",
       "sources": [
         {
-          "gameVersion": "2.3.540",
+          "gameVersion": "2.3.550",
           "tier": 1,
           "title": "IdleOn Toolbox game data: mapPortals and mapPortalDestinations",
-          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
-          "verified": "2026-10-17"
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/01c6e0adcb10378d3de3b48ea61b9de48d3a007f/data/website-data/shared-data.json",
+          "verified": "2026-10-25"
         }
       ],
       "status": "active",
@@ -1726,7 +1726,7 @@
         ]
       },
       "generatedBy": {
-        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "commit": "01c6e0adcb10378d3de3b48ea61b9de48d3a007f",
         "generator": "portals",
         "inputs": [
           "website-data/shared-data.json#mapNames",
@@ -1753,11 +1753,11 @@
       "scope": "character",
       "sources": [
         {
-          "gameVersion": "2.3.540",
+          "gameVersion": "2.3.550",
           "tier": 1,
           "title": "IdleOn Toolbox game data: mapPortals and mapPortalDestinations",
-          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
-          "verified": "2026-10-17"
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/01c6e0adcb10378d3de3b48ea61b9de48d3a007f/data/website-data/shared-data.json",
+          "verified": "2026-10-25"
         }
       ],
       "status": "active",
@@ -1788,7 +1788,7 @@
         ]
       },
       "generatedBy": {
-        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "commit": "01c6e0adcb10378d3de3b48ea61b9de48d3a007f",
         "generator": "portals",
         "inputs": [
           "website-data/shared-data.json#mapNames",
@@ -1815,11 +1815,11 @@
       "scope": "character",
       "sources": [
         {
-          "gameVersion": "2.3.540",
+          "gameVersion": "2.3.550",
           "tier": 1,
           "title": "IdleOn Toolbox game data: mapPortals and mapPortalDestinations",
-          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
-          "verified": "2026-10-17"
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/01c6e0adcb10378d3de3b48ea61b9de48d3a007f/data/website-data/shared-data.json",
+          "verified": "2026-10-25"
         }
       ],
       "status": "active",
@@ -1850,7 +1850,7 @@
         ]
       },
       "generatedBy": {
-        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "commit": "01c6e0adcb10378d3de3b48ea61b9de48d3a007f",
         "generator": "portals",
         "inputs": [
           "website-data/shared-data.json#mapNames",
@@ -1877,11 +1877,11 @@
       "scope": "character",
       "sources": [
         {
-          "gameVersion": "2.3.540",
+          "gameVersion": "2.3.550",
           "tier": 1,
           "title": "IdleOn Toolbox game data: mapPortals and mapPortalDestinations",
-          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
-          "verified": "2026-10-17"
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/01c6e0adcb10378d3de3b48ea61b9de48d3a007f/data/website-data/shared-data.json",
+          "verified": "2026-10-25"
         }
       ],
       "status": "active",
@@ -1912,7 +1912,7 @@
         ]
       },
       "generatedBy": {
-        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "commit": "01c6e0adcb10378d3de3b48ea61b9de48d3a007f",
         "generator": "portals",
         "inputs": [
           "website-data/shared-data.json#mapNames",
@@ -1939,11 +1939,11 @@
       "scope": "character",
       "sources": [
         {
-          "gameVersion": "2.3.540",
+          "gameVersion": "2.3.550",
           "tier": 1,
           "title": "IdleOn Toolbox game data: mapPortals and mapPortalDestinations",
-          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
-          "verified": "2026-10-17"
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/01c6e0adcb10378d3de3b48ea61b9de48d3a007f/data/website-data/shared-data.json",
+          "verified": "2026-10-25"
         }
       ],
       "status": "active",
@@ -1974,7 +1974,7 @@
         ]
       },
       "generatedBy": {
-        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "commit": "01c6e0adcb10378d3de3b48ea61b9de48d3a007f",
         "generator": "portals",
         "inputs": [
           "website-data/shared-data.json#mapNames",
@@ -2001,11 +2001,11 @@
       "scope": "character",
       "sources": [
         {
-          "gameVersion": "2.3.540",
+          "gameVersion": "2.3.550",
           "tier": 1,
           "title": "IdleOn Toolbox game data: mapPortals and mapPortalDestinations",
-          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
-          "verified": "2026-10-17"
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/01c6e0adcb10378d3de3b48ea61b9de48d3a007f/data/website-data/shared-data.json",
+          "verified": "2026-10-25"
         }
       ],
       "status": "active",
@@ -2036,7 +2036,7 @@
         ]
       },
       "generatedBy": {
-        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "commit": "01c6e0adcb10378d3de3b48ea61b9de48d3a007f",
         "generator": "portals",
         "inputs": [
           "website-data/shared-data.json#mapNames",
@@ -2063,11 +2063,11 @@
       "scope": "character",
       "sources": [
         {
-          "gameVersion": "2.3.540",
+          "gameVersion": "2.3.550",
           "tier": 1,
           "title": "IdleOn Toolbox game data: mapPortals and mapPortalDestinations",
-          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
-          "verified": "2026-10-17"
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/01c6e0adcb10378d3de3b48ea61b9de48d3a007f/data/website-data/shared-data.json",
+          "verified": "2026-10-25"
         }
       ],
       "status": "active",
@@ -2103,7 +2103,7 @@
         ]
       },
       "generatedBy": {
-        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "commit": "01c6e0adcb10378d3de3b48ea61b9de48d3a007f",
         "generator": "portals",
         "inputs": [
           "website-data/shared-data.json#mapNames",
@@ -2130,11 +2130,11 @@
       "scope": "character",
       "sources": [
         {
-          "gameVersion": "2.3.540",
+          "gameVersion": "2.3.550",
           "tier": 1,
           "title": "IdleOn Toolbox game data: mapPortals and mapPortalDestinations",
-          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
-          "verified": "2026-10-17"
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/01c6e0adcb10378d3de3b48ea61b9de48d3a007f/data/website-data/shared-data.json",
+          "verified": "2026-10-25"
         }
       ],
       "status": "active",
@@ -2170,7 +2170,7 @@
         ]
       },
       "generatedBy": {
-        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "commit": "01c6e0adcb10378d3de3b48ea61b9de48d3a007f",
         "generator": "portals",
         "inputs": [
           "website-data/shared-data.json#mapNames",
@@ -2201,11 +2201,11 @@
       "scope": "character",
       "sources": [
         {
-          "gameVersion": "2.3.540",
+          "gameVersion": "2.3.550",
           "tier": 1,
           "title": "IdleOn Toolbox game data: mapPortals and mapPortalDestinations",
-          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
-          "verified": "2026-10-17"
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/01c6e0adcb10378d3de3b48ea61b9de48d3a007f/data/website-data/shared-data.json",
+          "verified": "2026-10-25"
         }
       ],
       "status": "active",
@@ -2236,7 +2236,7 @@
         ]
       },
       "generatedBy": {
-        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "commit": "01c6e0adcb10378d3de3b48ea61b9de48d3a007f",
         "generator": "portals",
         "inputs": [
           "website-data/shared-data.json#mapNames",
@@ -2263,11 +2263,11 @@
       "scope": "character",
       "sources": [
         {
-          "gameVersion": "2.3.540",
+          "gameVersion": "2.3.550",
           "tier": 1,
           "title": "IdleOn Toolbox game data: mapPortals and mapPortalDestinations",
-          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
-          "verified": "2026-10-17"
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/01c6e0adcb10378d3de3b48ea61b9de48d3a007f/data/website-data/shared-data.json",
+          "verified": "2026-10-25"
         }
       ],
       "status": "active",
@@ -2303,7 +2303,7 @@
         ]
       },
       "generatedBy": {
-        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "commit": "01c6e0adcb10378d3de3b48ea61b9de48d3a007f",
         "generator": "portals",
         "inputs": [
           "website-data/shared-data.json#mapNames",
@@ -2334,11 +2334,11 @@
       "scope": "character",
       "sources": [
         {
-          "gameVersion": "2.3.540",
+          "gameVersion": "2.3.550",
           "tier": 1,
           "title": "IdleOn Toolbox game data: mapPortals and mapPortalDestinations",
-          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
-          "verified": "2026-10-17"
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/01c6e0adcb10378d3de3b48ea61b9de48d3a007f/data/website-data/shared-data.json",
+          "verified": "2026-10-25"
         }
       ],
       "status": "active",
@@ -2369,7 +2369,7 @@
         ]
       },
       "generatedBy": {
-        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "commit": "01c6e0adcb10378d3de3b48ea61b9de48d3a007f",
         "generator": "portals",
         "inputs": [
           "website-data/shared-data.json#mapNames",
@@ -2396,11 +2396,11 @@
       "scope": "character",
       "sources": [
         {
-          "gameVersion": "2.3.540",
+          "gameVersion": "2.3.550",
           "tier": 1,
           "title": "IdleOn Toolbox game data: mapPortals and mapPortalDestinations",
-          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
-          "verified": "2026-10-17"
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/01c6e0adcb10378d3de3b48ea61b9de48d3a007f/data/website-data/shared-data.json",
+          "verified": "2026-10-25"
         }
       ],
       "status": "active",
@@ -2436,7 +2436,7 @@
         ]
       },
       "generatedBy": {
-        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "commit": "01c6e0adcb10378d3de3b48ea61b9de48d3a007f",
         "generator": "portals",
         "inputs": [
           "website-data/shared-data.json#mapNames",
@@ -2467,11 +2467,11 @@
       "scope": "character",
       "sources": [
         {
-          "gameVersion": "2.3.540",
+          "gameVersion": "2.3.550",
           "tier": 1,
           "title": "IdleOn Toolbox game data: mapPortals and mapPortalDestinations",
-          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
-          "verified": "2026-10-17"
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/01c6e0adcb10378d3de3b48ea61b9de48d3a007f/data/website-data/shared-data.json",
+          "verified": "2026-10-25"
         }
       ],
       "status": "active",
@@ -2502,7 +2502,7 @@
         ]
       },
       "generatedBy": {
-        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "commit": "01c6e0adcb10378d3de3b48ea61b9de48d3a007f",
         "generator": "portals",
         "inputs": [
           "website-data/shared-data.json#mapNames",
@@ -2529,11 +2529,11 @@
       "scope": "character",
       "sources": [
         {
-          "gameVersion": "2.3.540",
+          "gameVersion": "2.3.550",
           "tier": 1,
           "title": "IdleOn Toolbox game data: mapPortals and mapPortalDestinations",
-          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
-          "verified": "2026-10-17"
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/01c6e0adcb10378d3de3b48ea61b9de48d3a007f/data/website-data/shared-data.json",
+          "verified": "2026-10-25"
         }
       ],
       "status": "active",
@@ -2564,7 +2564,7 @@
         ]
       },
       "generatedBy": {
-        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "commit": "01c6e0adcb10378d3de3b48ea61b9de48d3a007f",
         "generator": "portals",
         "inputs": [
           "website-data/shared-data.json#mapNames",
@@ -2591,11 +2591,11 @@
       "scope": "character",
       "sources": [
         {
-          "gameVersion": "2.3.540",
+          "gameVersion": "2.3.550",
           "tier": 1,
           "title": "IdleOn Toolbox game data: mapPortals and mapPortalDestinations",
-          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
-          "verified": "2026-10-17"
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/01c6e0adcb10378d3de3b48ea61b9de48d3a007f/data/website-data/shared-data.json",
+          "verified": "2026-10-25"
         }
       ],
       "status": "active",
@@ -2626,7 +2626,7 @@
         ]
       },
       "generatedBy": {
-        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "commit": "01c6e0adcb10378d3de3b48ea61b9de48d3a007f",
         "generator": "portals",
         "inputs": [
           "website-data/shared-data.json#mapNames",
@@ -2653,11 +2653,11 @@
       "scope": "character",
       "sources": [
         {
-          "gameVersion": "2.3.540",
+          "gameVersion": "2.3.550",
           "tier": 1,
           "title": "IdleOn Toolbox game data: mapPortals and mapPortalDestinations",
-          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
-          "verified": "2026-10-17"
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/01c6e0adcb10378d3de3b48ea61b9de48d3a007f/data/website-data/shared-data.json",
+          "verified": "2026-10-25"
         }
       ],
       "status": "active",
@@ -2688,7 +2688,7 @@
         ]
       },
       "generatedBy": {
-        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "commit": "01c6e0adcb10378d3de3b48ea61b9de48d3a007f",
         "generator": "portals",
         "inputs": [
           "website-data/shared-data.json#mapNames",
@@ -2715,11 +2715,11 @@
       "scope": "character",
       "sources": [
         {
-          "gameVersion": "2.3.540",
+          "gameVersion": "2.3.550",
           "tier": 1,
           "title": "IdleOn Toolbox game data: mapPortals and mapPortalDestinations",
-          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
-          "verified": "2026-10-17"
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/01c6e0adcb10378d3de3b48ea61b9de48d3a007f/data/website-data/shared-data.json",
+          "verified": "2026-10-25"
         }
       ],
       "status": "active",
@@ -2755,7 +2755,7 @@
         ]
       },
       "generatedBy": {
-        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "commit": "01c6e0adcb10378d3de3b48ea61b9de48d3a007f",
         "generator": "portals",
         "inputs": [
           "website-data/shared-data.json#mapNames",
@@ -2782,11 +2782,11 @@
       "scope": "character",
       "sources": [
         {
-          "gameVersion": "2.3.540",
+          "gameVersion": "2.3.550",
           "tier": 1,
           "title": "IdleOn Toolbox game data: mapPortals and mapPortalDestinations",
-          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
-          "verified": "2026-10-17"
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/01c6e0adcb10378d3de3b48ea61b9de48d3a007f/data/website-data/shared-data.json",
+          "verified": "2026-10-25"
         }
       ],
       "status": "active",
@@ -2817,7 +2817,7 @@
         ]
       },
       "generatedBy": {
-        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "commit": "01c6e0adcb10378d3de3b48ea61b9de48d3a007f",
         "generator": "portals",
         "inputs": [
           "website-data/shared-data.json#mapNames",
@@ -2844,11 +2844,11 @@
       "scope": "character",
       "sources": [
         {
-          "gameVersion": "2.3.540",
+          "gameVersion": "2.3.550",
           "tier": 1,
           "title": "IdleOn Toolbox game data: mapPortals and mapPortalDestinations",
-          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
-          "verified": "2026-10-17"
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/01c6e0adcb10378d3de3b48ea61b9de48d3a007f/data/website-data/shared-data.json",
+          "verified": "2026-10-25"
         }
       ],
       "status": "active",
@@ -2879,7 +2879,7 @@
         ]
       },
       "generatedBy": {
-        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "commit": "01c6e0adcb10378d3de3b48ea61b9de48d3a007f",
         "generator": "portals",
         "inputs": [
           "website-data/shared-data.json#mapNames",
@@ -2906,11 +2906,11 @@
       "scope": "character",
       "sources": [
         {
-          "gameVersion": "2.3.540",
+          "gameVersion": "2.3.550",
           "tier": 1,
           "title": "IdleOn Toolbox game data: mapPortals and mapPortalDestinations",
-          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
-          "verified": "2026-10-17"
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/01c6e0adcb10378d3de3b48ea61b9de48d3a007f/data/website-data/shared-data.json",
+          "verified": "2026-10-25"
         }
       ],
       "status": "active",
@@ -2946,7 +2946,7 @@
         ]
       },
       "generatedBy": {
-        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "commit": "01c6e0adcb10378d3de3b48ea61b9de48d3a007f",
         "generator": "portals",
         "inputs": [
           "website-data/shared-data.json#mapNames",
@@ -2973,11 +2973,11 @@
       "scope": "character",
       "sources": [
         {
-          "gameVersion": "2.3.540",
+          "gameVersion": "2.3.550",
           "tier": 1,
           "title": "IdleOn Toolbox game data: mapPortals and mapPortalDestinations",
-          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
-          "verified": "2026-10-17"
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/01c6e0adcb10378d3de3b48ea61b9de48d3a007f/data/website-data/shared-data.json",
+          "verified": "2026-10-25"
         }
       ],
       "status": "active",
@@ -3008,7 +3008,7 @@
         ]
       },
       "generatedBy": {
-        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "commit": "01c6e0adcb10378d3de3b48ea61b9de48d3a007f",
         "generator": "portals",
         "inputs": [
           "website-data/shared-data.json#mapNames",
@@ -3035,11 +3035,11 @@
       "scope": "character",
       "sources": [
         {
-          "gameVersion": "2.3.540",
+          "gameVersion": "2.3.550",
           "tier": 1,
           "title": "IdleOn Toolbox game data: mapPortals and mapPortalDestinations",
-          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
-          "verified": "2026-10-17"
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/01c6e0adcb10378d3de3b48ea61b9de48d3a007f/data/website-data/shared-data.json",
+          "verified": "2026-10-25"
         }
       ],
       "status": "active",
@@ -3070,7 +3070,7 @@
         ]
       },
       "generatedBy": {
-        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "commit": "01c6e0adcb10378d3de3b48ea61b9de48d3a007f",
         "generator": "portals",
         "inputs": [
           "website-data/shared-data.json#mapNames",
@@ -3097,11 +3097,11 @@
       "scope": "character",
       "sources": [
         {
-          "gameVersion": "2.3.540",
+          "gameVersion": "2.3.550",
           "tier": 1,
           "title": "IdleOn Toolbox game data: mapPortals and mapPortalDestinations",
-          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
-          "verified": "2026-10-17"
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/01c6e0adcb10378d3de3b48ea61b9de48d3a007f/data/website-data/shared-data.json",
+          "verified": "2026-10-25"
         }
       ],
       "status": "active",
