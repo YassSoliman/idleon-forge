@@ -1,4 +1,4 @@
-// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1.
+// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 01c6e0adcb10378d3de3b48ea61b9de48d3a007f.
 // Copyright (C) Morta1 and IdleOn Toolbox contributors. GPL-3.0-only; see vendor/LICENSE.
 // Copied unmodified by IdleOn Forge's scripts/sync.sh; UI-coupled imports are redirected to shims/ at build time.
 import { commaNotation, lavaLog, lavaLog2, notateNumber, tryToParse } from '@utility/helpers';
@@ -138,6 +138,10 @@ export const getTesseract = (idleonData: any, characters: any[], account: any, _
     mapBonusRaw
   }
 }
+
+// OptionsListAccount[388-393] = tachyons held per type, [394] = lifetime tachyons (leaderboard sums all 7)
+export const getTotalTachyonsCollected = (account: any) => (account?.accountOptions?.slice(388, 395) ?? [])
+  .reduce((sum: number, value: any) => sum + (typeof value === 'number' ? value : 0), 0);
 
 export const getTesseractBonus = (account: any, index: any) => {
   return account?.tesseract?.upgrades?.[index]?.bonus || 0;
@@ -565,7 +569,7 @@ export const getPrismaFragChance = (character: any, account: any, upgrades: any)
     * Math.max(1, primoPrisma * Math.pow(1.5, Math.floor((character?.mapIndex ?? 0) / 50)))
 }
 
-const MAX_PRISMA_MULTI = 4;
+const MAX_PRISMA_MULTI = 5;
 
 // game: "PrismaBonusMult"
 export const getPrismaMulti = (account: any) => {

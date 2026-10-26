@@ -1,8 +1,24 @@
-// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1.
+// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 01c6e0adcb10378d3de3b48ea61b9de48d3a007f.
 // Copyright (C) Morta1 and IdleOn Toolbox contributors. GPL-3.0-only; see vendor/LICENSE.
 // Copied unmodified by IdleOn Forge's scripts/sync.sh; UI-coupled imports are redirected to shims/ at build time.
 import type { IdleonData, Account } from '../types';
 import { tournyStuff, companions as companionsData } from '@website-data';
+import LavaRand from '../../utility/lavaRand';
+
+// The game only offers the daily Pet Mart gems while the GemPM_x server var is at least 0.1.
+const MIN_PET_MART_GEMS_SERVER_VAR = 0.1;
+
+// The Pet Mart's free daily gems. Claimable once per shop day: OptLacc[516] holds the last shop day
+// claimed, and claiming sets it to getShopDay() (the _TOURNAMENT doc's global.S). The amount is the
+// game's "GemRewardfromPetMart": Rand seeded with the shop day, so every player gets the same roll,
+// scaled by GemPM_x. LavaRand matched the live game's roll on 32 seeds and this formula on 6 days.
+export const getPetMartGems = (shopDay: number, lastClaimedShopDay: number, multiplier: number) => {
+  const offered = multiplier >= MIN_PET_MART_GEMS_SERVER_VAR && shopDay >= 1;
+  if (!offered) return { offered, claimable: false, amount: 0 };
+  const roll = new LavaRand(Math.round(shopDay)).rand();
+  const amount = Math.round(Math.min(500, Math.min(150, Math.max(10, 10 + Math.floor(130 * Math.pow(roll, 10)) + 10 * roll)) * multiplier));
+  return { offered, claimable: lastClaimedShopDay < shopDay, amount };
+};
 
 // Each battle entry is "aXb+" (opponent dies) or "aXb-" (player dies)
 // a/b are position indices into the playerPets/opponentPets arrays
@@ -47,7 +63,7 @@ const getRoundName = (roundIndex: number): string => {
 export const getCurrentTournamentDay = (accountOptions: any, serverGlobal: any): number =>
   Math.max(Number(accountOptions?.[496]) || 0, Number(serverGlobal?.T) || 0);
 
-export const getTournament = (idleonData: IdleonData, account: Account, serverTournament: any) => {
+export const getTournament = (idleonData: IdleonData, account: Account, serverTournament: any, serverVars?: any) => {
   const accountOptions = (account as any)?.accountOptions;
 
   // Division tier from OptLacc[495]; user.r is the player's rank WITHIN the division (not the tier)
@@ -138,8 +154,10 @@ export const getTournament = (idleonData: IdleonData, account: Account, serverTo
       };
     })
     .filter(Boolean);
+  const shopDay = global?.S ?? 0;
   const petMart = {
-    shopDay: global?.S ?? 0,
+    shopDay,
+    gems: getPetMartGems(shopDay, Number(accountOptions?.[516]) || 0, Number(serverVars?.GemPM_x) || 0),
     petCrystals: (account as any)?.companions?.petCrystals ?? 0,
     offers: readOffers(global?.I, global?.B, global?.A),
     plusOffers: readOffers(global?.LI, global?.LB, global?.LA)

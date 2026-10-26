@@ -1,4 +1,4 @@
-// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1.
+// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 01c6e0adcb10378d3de3b48ea61b9de48d3a007f.
 // Copyright (C) Morta1 and IdleOn Toolbox contributors. GPL-3.0-only; see vendor/LICENSE.
 // Copied unmodified by IdleOn Forge's scripts/sync.sh; UI-coupled imports are redirected to shims/ at build time.
 import { tryToParse } from '@utility/helpers';
@@ -98,6 +98,18 @@ export const getTasks = (idleonData: IdleonData): {
 const parseTasks = (tasksRaw: any): any => {
   return tasksRaw;
 }
+
+// Slots the game ships filled with a stand-in for content it hasn't released yet ("To be revealed
+// in World 7 Part 3!"). They are neither doable nor countable, so they stay out of the totals too.
+export const isPlaceholderTask = ({ name }: any): boolean => name === 'Undisclosed_Task';
+
+// The Tasks page header for one world: its first 9 slots (8 tasks and the daily one), placeholders left out
+export const getWorldTaskLevels = (tasksDescriptions: any, world: number) => {
+  const worldTasks = tasksDescriptions?.[world]?.slice(0, 9) ?? [];
+  const totalLevels = worldTasks.reduce((sum: number, task: any) => isPlaceholderTask(task) ? sum : sum + task.level, 0);
+  const maxLevels = worldTasks.reduce((sum: number, task: any) => isPlaceholderTask(task) ? sum : sum + task.maxLevel, 0);
+  return { worldTasks, totalLevels, maxLevels };
+};
 
 export const calcTotalTasks = (tasks: any): number => {
   return tasks?.[1]?.reduce((sum: number, worldTasks: number[]) => {

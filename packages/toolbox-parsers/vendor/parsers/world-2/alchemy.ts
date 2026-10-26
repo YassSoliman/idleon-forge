@@ -1,7 +1,7 @@
-// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1.
+// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 01c6e0adcb10378d3de3b48ea61b9de48d3a007f.
 // Copyright (C) Morta1 and IdleOn Toolbox contributors. GPL-3.0-only; see vendor/LICENSE.
 // Copied unmodified by IdleOn Forge's scripts/sync.sh; UI-coupled imports are redirected to shims/ at build time.
-import { cleanUnderscore, createArrayOfArrays, growth, notateNumber, round, tryToParse } from '@utility/helpers';
+import { cleanUnderscore, commaOrBig, createArrayOfArrays, growth, notateNumber, round, tryToParse } from '@utility/helpers';
 import { cauldrons, gameTables, p2w, sigils, vials } from '@website-data';
 import { liveEntries } from '@parsers/catalog';
 import { isArtifactAcquired } from '@parsers/world-5/sailing';
@@ -919,9 +919,11 @@ export const getSigilSpeed = (account: any) => {
     multiplier('Legend talent', 1 + legend / 100)
   ];
   const value = evaluateBreakdownNode(productGroup('Sigil speed', tree));
+  const display = `${commaOrBig(value)}x`;
   return {
     value,
-    breakdown: createBreakdown('Sigil Speed', `${notateNumber(value, 'MultiplierInfo')}x`, tree)
+    display,
+    breakdown: createBreakdown('Sigil Speed', display, tree)
   };
 };
 
@@ -1245,4 +1247,44 @@ export const findAddDecayThresholdLevel = (func: any, x1: any, x2: any, prismaMu
   if (remainder >= linearPart) return Infinity;
 
   return 50000 + (150000 * remainder) / (linearPart - remainder);
+};
+
+// Mirrors the bubbles page: prisma bubbles scale both the bonus and its cap by the prisma multi.
+const getBubblePrismaMulti = (account: any, bubble: any) =>
+  isPrismaBubble(account, bubble?.bubbleIndex) ? (getPrismaMulti(account)?.value ?? 1) : 1;
+
+export const getBubbleEffectPercent = (account: any, bubble: any, level: number = bubble?.level): number | null => {
+  const { func, x1, x2 } = bubble ?? {};
+  const rawMax = getMaxBonus(func, x1);
+  if (rawMax === null) return null;
+  const prismaMulti = getBubblePrismaMulti(account, bubble);
+  const maxBonus = rawMax * prismaMulti;
+  if (func.toLowerCase() === 'adddecay' && maxBonus) {
+    return round(growth(func, level, x1, x2, false) * prismaMulti) / maxBonus * 100;
+  }
+  return level / (level + x2) * 100;
+};
+
+export const getBubbleLevelForPercent = (account: any, bubble: any, percent: number): number | null => {
+  const { func, x1, x2 } = bubble ?? {};
+  const rawMax = getMaxBonus(func, x1);
+  if (rawMax === null) return null;
+  if (func.toLowerCase() !== 'adddecay') {
+    const level = Math.ceil(percent / (100 - percent) * x2);
+    return Number.isFinite(level) ? level : null;
+  }
+  const prismaMulti = getBubblePrismaMulti(account, bubble);
+  const exact = findAddDecayThresholdLevel(func, x1, x2, prismaMulti, percent, rawMax * prismaMulti);
+  if (!Number.isFinite(exact)) return null;
+  // The shown bonus is rounded to 2 decimals, so the exact root can land a few levels short or long: search the rounded curve.
+  const reaches = (level: number) => (getBubbleEffectPercent(account, bubble, level) as number) >= percent;
+  let hi = Math.ceil(exact);
+  while (!reaches(hi)) hi *= 2;
+  let lo = 0;
+  while (lo < hi) {
+    const mid = Math.floor((lo + hi) / 2);
+    if (reaches(mid)) hi = mid;
+    else lo = mid + 1;
+  }
+  return lo;
 };

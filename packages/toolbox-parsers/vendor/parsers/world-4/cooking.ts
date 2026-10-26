@@ -1,4 +1,4 @@
-// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1.
+// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 01c6e0adcb10378d3de3b48ea61b9de48d3a007f.
 // Copyright (C) Morta1 and IdleOn Toolbox contributors. GPL-3.0-only; see vendor/LICENSE.
 // Copied unmodified by IdleOn Forge's scripts/sync.sh; UI-coupled imports are redirected to shims/ at build time.
 import { atomsInfo, cookingMenu, monsters, randomList, randomList2, bonuses, spiceNames, gameTables } from '@website-data';
@@ -100,12 +100,13 @@ const getSpices = (mealsRaw: any, territoryRaw: any, account: any) => {
     ]
   }, []);
 
-  const available = mealsRaw?.[3]?.filter((spiceAmount: any) => spiceAmount > 0).map((amount: any, index: any) => ({
+  // Map before filtering: a spent spice (0) mid-array must not shift later spices' indices
+  const available = mealsRaw?.[3]?.map((amount: any, index: any) => ({
     amount,
     toClaim: toClaim?.[index]?.amount,
     rawName: `CookingSpice${index}`,
     name: spicesNames[index]
-  }));
+  })).filter(({ amount }: any) => amount > 0);
 
   const numberOfClaims = account?.accountOptions?.[100];
   return {
@@ -964,6 +965,7 @@ export const parseKitchens = (cookingRaw: any, atomsRaw: any, characters: any, a
     }));
 
     return {
+      kitchenIndex,
       status,
       meal: {
         ...(cookingMenu?.[foodIndex] || {}),

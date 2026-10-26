@@ -1,8 +1,8 @@
-// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1.
+// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 01c6e0adcb10378d3de3b48ea61b9de48d3a007f.
 // Copyright (C) Morta1 and IdleOn Toolbox contributors. GPL-3.0-only; see vendor/LICENSE.
 // Copied unmodified by IdleOn Forge's scripts/sync.sh; UI-coupled imports are redirected to shims/ at build time.
 import { kFormatter, lavaLog, notateNumber, tryToParse } from '@utility/helpers';
-import { artifacts, captainsBonuses, islands } from '@website-data';
+import { artifacts, captainsBonuses, gameTables, islands } from '@website-data';
 import {
   getEventShopBonus,
   getHighestLevelCharacter,
@@ -47,7 +47,7 @@ import { getUpgradeVaultBonus } from '@parsers/misc/upgradeVault';
 import { getIsland } from '@parsers/world-2/islands';
 import { getStarSignBonus } from '@parsers/starSigns';
 import { getFountainBonusTotal } from '@parsers/world-5/caverns/the-fountain';
-import { NUMBERED_GROUP, additiveGroup, createBreakdown, multiplier, percent, productGroup } from '@parsers/breakdown';
+import { NUMBERED_GROUP, additiveGroup, createBreakdown, divideGroup, flat, multiplier, percent, productGroup } from '@parsers/breakdown';
 import { getMenagerieBoost, getNightmarinerBonus, isMenagerieUnlockOwned } from '@parsers/world-7/menagerie';
 
 export const getSailing = (idleonData: any, artifactsList: any, charactersData: any, account: any, serverVars: any, charactersLevels: any) => {
@@ -73,7 +73,7 @@ export const getLockedSailing = (artifactsList: any) => ({
   rareTreasureChance: 0,
   timeToFullChests: undefined,
   minimumTravelTime: 0,
-  minimumTravelTimeBreakdown: []
+  minimumTravelTimeBreakdown: null
 });
 
 const parseSailing = (artifactsList: any, sailingRaw: any, captainsRaw: any, boatsRaw: any, chestsRaw: any, charactersData: any, account: any, serverVars: any, charactersLevels: any) => {
@@ -88,7 +88,7 @@ const parseSailing = (artifactsList: any, sailingRaw: any, captainsRaw: any, boa
   const chests = getChests(chestsRaw, artifactsList, serverVars, account);
   const rareTreasureChance = getRareTreasureChance();
   const lootPileList = getLootPile(lootPile);
-  const captainsAndBoats = getCaptainsAndBoats(sailingRaw, captainsRaw, boatsRaw, account, charactersData, charactersLevels, artifactsList, lootPileList);
+  const captainsAndBoats = getCaptainsAndBoats(sailingRaw, captainsRaw, boatsRaw, account, charactersData, charactersLevels, artifactsList, lootPileList, serverVars);
   const boatsRoundtrips = captainsAndBoats?.boats?.map(({ maxTime }: any) => maxTime).filter((time: any) => Number.isFinite(time));
   const timeToFullChests = calculateMaxCapacityTime(boatsRoundtrips, maxChests - (chests?.length || 0));
   const trades = getFutureTrades(captainsAndBoats, sailingRaw?.[0], lootPileList, artifactsList, account);
@@ -273,6 +273,7 @@ const getArtifactChance = (chest: any, artifactsList: any, serverVars: any, acco
 
   return {
     artifactChance: artifactChance > 0.01 ? Math.round(100 * artifactChance) / 100 : 0.01,
+    rawArtifactChance: artifactChance,
     ...(activeTiers.ancient && { ancientChance: toTierChance(chance, tierThresholds.ancient) }),
     ...(activeTiers.eldritch && { eldritchChance: toTierChance(chance, tierThresholds.eldritch) }),
     ...(activeTiers.sovereign && { sovereignChance: toTierChance(chance, tierThresholds.sovereign) }),
@@ -371,7 +372,7 @@ const getRareTreasureChance = () => {
   return Math.min(0.05, 0.1);
 }
 
-const getCaptainsAndBoats = (sailingRaw: any, captainsRaw: any, boatsRaw: any, account: any, characters: any, charactersLevels: any, artifactsList: any, lootPileList: any) => {
+const getCaptainsAndBoats = (sailingRaw: any, captainsRaw: any, boatsRaw: any, account: any, characters: any, charactersLevels: any, artifactsList: any, lootPileList: any, serverVars?: any) => {
   const captainsUnlocked = sailingRaw?.[2]?.[0] || 0;
   const boatsUnlocked = sailingRaw?.[2]?.[1] || 0;
   // FamBonusQTYs[44]: buffed by the account's best THE_FAMILY_GUY, whoever is played
@@ -389,7 +390,7 @@ const getCaptainsAndBoats = (sailingRaw: any, captainsRaw: any, boatsRaw: any, a
   const allBoats = boatsRaw?.slice(0, boatsUnlocked + 1);
   const tierSixCaptains = getTierSixCaptainCount(captainsRaw);
   const lootMulti = getLootMulti(account, characters, artifactsList, tierSixCaptains);
-  const boats = allBoats?.map((boat: any, index: any) => getBoat(boat, index, lootPileList, captains, artifactsList, characters, account, baseSpeed, minimumTravelTime, tierSixCaptains, lootMulti.value));
+  const boats = allBoats?.map((boat: any, index: any) => getBoat(boat, index, lootPileList, captains, artifactsList, characters, account, baseSpeed, minimumTravelTime, tierSixCaptains, lootMulti.value, sailingRaw?.[0], serverVars));
   const captainsOnBoats = boats?.reduce((res: any, { captainMappedIndex }: any, index: any) => ({
     ...res,
     [captainMappedIndex]: index
@@ -401,11 +402,18 @@ const getCaptainsAndBoats = (sailingRaw: any, captainsRaw: any, boatsRaw: any, a
     shopCaptains,
     captainsOnBoats,
     minimumTravelTime,
-    minimumTravelTimeBreakdown: [
-      { name: 'Base', value: 120 },
-      { name: 'Family Bonus', value: amplifiedFamilyBonus },
-      { name: 'Shiny Bonus', value: shinyBonus }
-    ]
+    // game: Sailing("Minimumtraveltime"), max(15, 120 / (1 + (family + shiny + legend) / 100) - 4 * gem shop 8)
+    minimumTravelTimeBreakdown: createBreakdown('Minimum Travel Time', `${minimumTravelTime} min`, [
+      divideGroup(NUMBERED_GROUP, [
+        flat('Base', 120),
+        additiveGroup(NUMBERED_GROUP, [
+          percent('Family Bonus', amplifiedFamilyBonus),
+          percent('Shiny Pet', shinyBonus),
+          percent('Legend Talent', legendTalentBonus)
+        ])
+      ], { unit: 'flat' }),
+      flat('Gem Shop', -4 * gemShopBonus)
+    ], { combine: 'sum', round: 'round', min: 15 })
   }
 }
 
@@ -421,8 +429,8 @@ const getDaveyJonesBonus = (account: any, lootLevel = 0, speedLevel = 0) => {
 const getTierSixCaptainCount = (captainsRaw: any) =>
   (captainsRaw ?? []).slice(0, 30).filter((captain: any) => Number(captain?.[0]) === 6).length;
 
-const getBoat = (boat: any, boatIndex: any, lootPile: any, captains: any, artifactsList: any, characters: any, account: any, baseSpeed: any, minimumTravelTime = 120, tierSixCaptains = 0, lootMulti?: number) => {
-  const [captainIndex, islandIndex, , lootLevel, distanceTraveled, speedLevel] = boat;
+const getBoat = (boat: any, boatIndex: any, lootPile: any, captains: any, artifactsList: any, characters: any, account: any, baseSpeed: any, minimumTravelTime = 120, tierSixCaptains = 0, lootMulti?: number, cloudsProgress?: any, serverVars?: any) => {
+  const [captainIndex, islandIndex, tripType, lootLevel, distanceTraveled, speedLevel] = boat;
   const captain = captains?.[captainIndex];
   const island = islands?.[islandIndex];
   const boatObj: any = {
@@ -445,7 +453,57 @@ const getBoat = (boat: any, boatIndex: any, lootPile: any, captains: any, artifa
   boatObj.speed = getBoatSpeedValue(captain, island, speedLevel, baseSpeed * daveyJones, minimumTravelTime)
   boatObj.maxTime = island ? (island.distance / boatObj.speed?.value) * 3600 * 1000 : undefined;
   boatObj.timeLeft = island ? ((island.distance - distanceTraveled) / boatObj.speed?.value) * 3600 * 1000 : undefined;
+  // game: Boats[i][2] == 1 is a cloud discovery trip, it brings no chest
+  boatObj.cloud = tripType === 1 ? getCloudDiscovery(boatObj, captain, cloudsProgress?.[islandIndex]) : null;
+  boatObj.chestOdds = island && tripType !== 1 ? getChestOdds(boatObj, captain, artifactsList, serverVars, account) : null;
   return boatObj
+}
+
+// game: AddChest, one roll per chest: randomFloat / rareScale against these, highest tier first
+const CHEST_TIER_THRESHOLDS = [0.2, 0.04, 0.006, 23e-5, 1e-8];
+const getChestTierMultipliers = (tier: number) => tier === 5
+  ? { treasure: 20, artifact: 30 }
+  : { treasure: Math.pow(1.85, tier), artifact: Math.pow(1.4, tier) };
+
+const getChestOdds = (boat: any, captain: any, artifactsList: any, serverVars: any, account: any) => {
+  const rareChestBonus = getCaptainBonus(4, captain, captain?.firstBonusIndex, captain?.firstBonusValue)
+    + getCaptainBonus(4, captain, captain?.secondBonusIndex, captain?.secondBonusValue);
+  const rareScale = 1 + (rareChestBonus + getArtifactFormBonus(artifactsList, 'Arrowhead')) / 200;
+  const atLeast = [1, ...CHEST_TIER_THRESHOLDS.map((threshold) => Math.min(1, threshold * rareScale)), 0];
+  const baseTreasure = boat?.loot?.value ?? 0;
+  const baseArtifactChance = Math.max(1, boat?.artifactChance?.rawValue ?? 1);
+  const tiers = CHEST_TIER_THRESHOLDS.map((_, index) => index).concat(5).map((tier) => {
+    const multis = getChestTierMultipliers(tier);
+    const treasure = baseTreasure * multis.treasure;
+    const artifact = getArtifactChance([treasure, boat?.islandIndex, baseArtifactChance * multis.artifact], artifactsList, serverVars, account);
+    return {
+      tier,
+      rawName: `SailChest${tier}`,
+      chance: Math.max(0, atLeast[tier] - atLeast[tier + 1]),
+      treasure,
+      artifactChance: 'rawArtifactChance' in artifact ? artifact.rawArtifactChance : 0
+    };
+  });
+  const expected = (key: 'treasure' | 'artifactChance') => tiers.reduce((sum, tier) => sum + tier.chance * tier[key], 0);
+  return {
+    tiers,
+    rareScale,
+    expectedTreasure: expected('treasure'),
+    expectedArtifactChance: expected('artifactChance'),
+    noArtifactsLeft: tiers.every(({ artifactChance }) => artifactChance === 0)
+  };
+}
+
+// game: each arrival adds CloudDiscoverBonus * IslandDistance to Sailing[0][island]; it clears at IslandInfo[5]
+const getCloudDiscovery = (boat: any, captain: any, progress: any) => {
+  const island = boat?.island;
+  if (!island || progress == null || progress < 0) return null;
+  const discoverBonus = getCaptainBonus(2, captain, captain?.firstBonusIndex, captain?.firstBonusValue)
+    + getCaptainBonus(2, captain, captain?.secondBonusIndex, captain?.secondBonusValue);
+  const perTrip = (1 + discoverBonus / 100) * island.distance;
+  const tripsLeft = perTrip > 0 ? Math.max(0, Math.ceil((island.unlockReq - progress) / perTrip)) : 0;
+  const timeLeft = tripsLeft > 0 ? (boat?.timeLeft ?? 0) + (tripsLeft - 1) * (boat?.maxTime ?? 0) : 0;
+  return { progress, required: island.unlockReq, perTrip, tripsLeft, timeLeft };
 }
 
 const getBaseSpeed = (account: any, characters: any, artifactsList: any) => {
@@ -493,6 +551,8 @@ const getCaptain = (captain: any, index: any, isShop: any) => {
     firstBonusIndex,
     secondBonusIndex,
     firstBonusDescription: captainsBonuses?.[firstBonusIndex]?.bonus,
+    firstBonusName: captainsBonuses?.[firstBonusIndex]?.bonus?.replace('+{%_', ''),
+    secondBonusName: captainsBonuses?.[secondBonusIndex]?.bonus?.replace('+{%_', ''),
     secondBonusDescription: captainsBonuses?.[secondBonusIndex]?.bonus,
     firstBonusValue,
     secondBonusValue,
@@ -504,7 +564,9 @@ const getCaptain = (captain: any, index: any, isShop: any) => {
   captainObj.secondBonus = secondBonus;
   captainObj.firstBonusDescription = captainObj?.firstBonusDescription?.replace('{', String(firstBonus));
   captainObj.secondBonusDescription = captainObj?.secondBonusDescription?.replace('{', String(secondBonus));
-  captainObj.expReq = notateNumber(getCaptainExpReq(captainObj), 'Big');
+  captainObj.expValue = exp ?? 0;
+  captainObj.expReqValue = getCaptainExpReq(captainObj);
+  captainObj.expReq = notateNumber(captainObj.expReqValue, 'Big');
   if (isShop) {
     const baseCost = 2 * firstBonusIndex + (2 * secondBonusIndex) + firstBonusValue + secondBonusValue;
     captainObj.cost = Math.pow(8, 1 + captainType) * (1 + Math.pow(baseCost, 2) / 100);
@@ -952,17 +1014,10 @@ const getArtifact = (artifact: any, acquired: any, lootPile: any, index: any, ch
     });
   }
   else if (artifact?.name === 'Deathskull') {
-    if (index === 33) {
-      const descriptions = [
-        'Gives_+1_Gallery_Slots_for_Trophies_in_World_7!',
-        'Gives_+1_Gallery_Slots_for_Trophies_in_World_7!',
-        'Gives_+2_Gallery_Slots_for_Trophies!',
-        'Gives_+2_Gallery_Slots_and_makes_1_of_them_Featured_grade!',
-        'Gives_+2_Gallery_Slots_and_makes_both_of_them_Featured_grade!',
-        'Gives_+2_Gallery_Slots_and_makes_1_of_them_Featured_grade_and_1_of_them_Masterpiece!',
-        'Gives_+2_Gallery_Slots_and_makes_1_of_them_Featured_grade_and_1_of_them_World_Class!',
-        'Gives_+3_Gallery_Slots_and_makes_1_of_them_Featured_grade_and_2_of_them_World_Class!'
-      ];
+    // The game fills Deathskull's `$` with one line per form (gameTables.artifactFormText)
+    const formText = gameTables.artifactFormText;
+    if (index === formText.artifact) {
+      const descriptions: string[] = formText.forms;
       const descriptionIndex = Math.round(acquired);
       if (descriptionIndex >= 0 && descriptionIndex < descriptions.length) {
         fixedDescription = fixedDescription.replace('$', descriptions[descriptionIndex]);

@@ -1,7 +1,7 @@
-// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1.
+// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 01c6e0adcb10378d3de3b48ea61b9de48d3a007f.
 // Copyright (C) Morta1 and IdleOn Toolbox contributors. GPL-3.0-only; see vendor/LICENSE.
 // Copied unmodified by IdleOn Forge's scripts/sync.sh; UI-coupled imports are redirected to shims/ at build time.
-import { commaNotation, lavaLog, notateNumber, numberWithCommas, tryToParse } from '@utility/helpers';
+import { commaOrBig, lavaLog, notateNumber, numberWithCommas, tryToParse } from '@utility/helpers';
 import { cosmoUpgrades, gods, holesBuildings, holesInfo, lampWishes } from '@website-data';
 import { getSchematicBonus, getTheWell } from '@parsers/world-5/caverns/the-well';
 import { getMotherlode } from '@parsers/world-5/caverns/motherlode';
@@ -189,8 +189,8 @@ const parseHole = (holeRaw: any, jarsRaw: any, accountData: any) => {
     return {
       index,
       name: (Object.keys(VILLAGERS)?.[index]?.toLowerCase() as any)?.camelToTitleCase(),
-      exp: exp < 1e6 ? commaNotation(exp) : notateNumber(exp, 'Big'),
-      expReq: expReq < 1e6 ? commaNotation(expReq) : notateNumber(expReq, 'Big'),
+      exp: commaOrBig(exp),
+      expReq: commaOrBig(expReq),
       readyToLevel: exp >= expReq,
       level,
       opalInvested,

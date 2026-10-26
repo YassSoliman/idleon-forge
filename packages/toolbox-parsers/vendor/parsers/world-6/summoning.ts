@@ -1,4 +1,4 @@
-// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1.
+// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 01c6e0adcb10378d3de3b48ea61b9de48d3a007f.
 // Copyright (C) Morta1 and IdleOn Toolbox contributors. GPL-3.0-only; see vendor/LICENSE.
 // Copied unmodified by IdleOn Forge's scripts/sync.sh; UI-coupled imports are redirected to shims/ at build time.
 import { createRange, groupByKey, notateNumber, prefix, tryToParse } from '@utility/helpers';
@@ -51,6 +51,9 @@ export const summonEssenceColor = {
   6: 'cyan',
   7: 'teal'
 }
+// The colour names the summoning pages print, by colour index
+export const SUMMONING_COLOURS: Record<string, string> = Object.fromEntries(Object.entries(summonEssenceColor)
+  .map(([index, colour]) => [index, colour.charAt(0).toUpperCase() + colour.slice(1)]));
 const stoneNames = {
   0: 'aether',
   1: 'grover',
@@ -83,6 +86,12 @@ const parseSummoning = (rawSummon: any, killRoyKills: any, account: any, seriali
     acc.multiplier *= index + 3;
     return acc;
   }, { familiarsOwned: 0, multiplier: 1 });
+  // game: SummonStuff "i", each familiar of tier t pays 10 * prod(4 + k, k < t) EXP per hour (gem familiars pay none)
+  const { familiarsExpPerHour } = (rawSummon?.[4] ?? []).reduce((acc: any, count: any, tier: any) => {
+    acc.familiarsExpPerHour += acc.multiplier * (Number(count) || 0);
+    acc.multiplier *= tier + 4;
+    return acc;
+  }, { familiarsExpPerHour: 0, multiplier: 10 });
   const careerWins: Record<number, number> = { 0: 0, 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0, 7: 0 };
   whiteBattleOrder.forEach((enemyId, index) => {
     const monsterData = getSummoningBattle(enemyId);
@@ -241,6 +250,7 @@ const parseSummoning = (rawSummon: any, killRoyKills: any, account: any, seriali
     essences,
     totalUpgradesLevels,
     familiarsOwned,
+    familiarsExpPerHour,
     allBattles,
     armyHealth,
     armyDamage,
@@ -658,4 +668,64 @@ export const getEssenceGain = (account: any, characters: any[] = []): EssenceGai
     const value = evaluateBreakdown(createBreakdown(statName, 0, tree));
     return { index, colour, unlocked, value, breakdown: createBreakdown(statName, value, tree) };
   });
+};
+
+// Summon[3][1] banks seconds (offline too); the claim needs a full hour and the Summoning skill
+// selected on the summoning node. Per-character EXP terms read the logged-in character.
+export const FAMILIAR_EXP_MIN_CLAIM_SECONDS = 3600;
+
+export interface FamiliarExp {
+  savedSeconds: number;
+  expPerHour: number;
+  expMulti: number;
+  expMultiBreakdown: StatBreakdown | null;
+}
+
+export const getFamiliarExp = (account: any, expMulti: { value: number, breakdown: StatBreakdown } | undefined): FamiliarExp => {
+  const familiarsExpPerHour = account?.summoning?.familiarsExpPerHour ?? 0;
+  const multi = expMulti?.value ?? 1;
+  return {
+    savedSeconds: Number(account?.summoning?.summoningStuff?.[1]) || 0,
+    expPerHour: familiarsExpPerHour * multi,
+    expMulti: multi,
+    expMultiBreakdown: expMulti?.breakdown ?? null
+  };
+};
+
+// game: IncreaseExpREQ, the Summoning arm (ExpReq0[18]), gameTables.summoningExpReq
+export const getSummoningExpReq = (level: number) => {
+  const { base, power, linear, growth, growthCap, growthScale, growthOffset, offset } = gameTables.summoningExpReq;
+  return (base + Math.pow(level, power) + linear * level)
+    * Math.pow(growth - Math.min(growthCap, growthScale * level / (level + growthOffset)), level) - offset;
+};
+
+export interface FamiliarLevelGain {
+  name: string;
+  level: number;
+  newLevel: number;
+}
+
+// The claim hands the same EXP to every character, each levelling from its own Summoning level and EXP.
+export const getFamiliarLevelGains = (characters: any[] | undefined, exp: number): FamiliarLevelGain[] =>
+  (characters ?? []).map((character) => {
+    const { level = 0, exp: currentExp = 0 } = character?.skillsInfo?.summoning || {};
+    let remaining = (currentExp || 0) + exp;
+    let newLevel = level;
+    let req = getSummoningExpReq(newLevel);
+    while (req > 0 && remaining >= req && newLevel - level < 1000) {
+      remaining -= req;
+      newLevel++;
+      req = getSummoningExpReq(newLevel);
+    }
+    return { name: character?.name, level, newLevel };
+  });
+
+export const getPendingFamiliarExp = (familiarExp: FamiliarExp | undefined, lastUpdated?: number, now = Date.now()) => {
+  const sinceSave = lastUpdated ? Math.max(0, (now - lastUpdated) / 1000) : 0;
+  const seconds = (familiarExp?.savedSeconds ?? 0) + sinceSave;
+  return {
+    seconds,
+    exp: seconds / 3600 * (familiarExp?.expPerHour ?? 0),
+    claimable: seconds >= FAMILIAR_EXP_MIN_CLAIM_SECONDS
+  };
 };

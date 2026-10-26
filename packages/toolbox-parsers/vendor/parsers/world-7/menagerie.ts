@@ -1,9 +1,9 @@
-// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1.
+// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 01c6e0adcb10378d3de3b48ea61b9de48d3a007f.
 // Copyright (C) Morta1 and IdleOn Toolbox contributors. GPL-3.0-only; see vendor/LICENSE.
 // Copied unmodified by IdleOn Forge's scripts/sync.sh; UI-coupled imports are redirected to shims/ at build time.
 import { commaNotation, lavaLog, notateNumber, tryToParse } from '@utility/helpers';
-import { gameTables, research as researchData, spelunkingChapters } from '@website-data';
-import { isBundlePurchased, isCompanionBonusActive } from '@parsers/misc';
+import { gameTables, legendTalents as legendTalentsData, research as researchData, spelunkingChapters } from '@website-data';
+import { getCompanionBonus, getEventShopBonus, isBundlePurchased, isCompanionBonusActive } from '@parsers/misc';
 import { getResearchGridBonus } from '@parsers/world-7/research';
 import { getJadeEmporiumBonus } from '@parsers/world-6/sneaking';
 import { getArcadeBonus } from '@parsers/world-2/arcade';
@@ -53,6 +53,11 @@ const unlockTooltips: string[] = (researchData as any)?.[62] ?? [];
 // The unlock name marks a tooltip with this glyph
 const TOOLTIP_MARK = '膛';
 const SIDE_JELLY_UNLOCKS = [3, 5, 7, 10, 12, 23];
+const NIGHTMARINER_UNLOCK = 13;
+// Companions: Maccie (Lumi gain), Ancientfish (one more of each doubler), Pipsqueak (Omnijade)
+const MACCIE = 116;
+const ANCIENTFISH = 149;
+const PIPSQUEAK = 173;
 // Names from each jellyfish's own panel, kept with the rest of their panel text
 const SIDE_JELLY_NAMES = JELLY_NAMES;
 // game: "MenagerieStuff:ConstBuildBONUSES" ["25", "15", "10", "3"][t]
@@ -61,6 +66,23 @@ const CONST_BUILD_BONUS_PER_LEVEL: number[] = gameTables.menagerieConstBuildBonu
 // the game notates as bits (NotateNumber(10^req, "Bits"))
 const LOG_MISSIONS = [20, 24];
 const BITS_MISSION = 24;
+
+// game: "Thingies:LegendTalent_MaxLV" a flat +bonus to these legend talents once the unlock is owned
+export const MENAGERIE_LEGEND_TALENT_GROUPS: { indices: Set<number>; unlockIndex: number; bonus: number }[] =
+  ((gameTables as any).legendTalentMaxLevelGroups ?? [])
+    .filter(({ menagerieUnlock }: any) => menagerieUnlock != null)
+    .map(({ talents, menagerieUnlock, bonus }: any) => ({
+      indices: new Set<number>(talents),
+      unlockIndex: menagerieUnlock,
+      bonus: Number(bonus) || 0
+    }));
+
+const getLegendTalentsTooltip = (unlockIndex: number): string => MENAGERIE_LEGEND_TALENT_GROUPS
+  .filter((group) => group.unlockIndex === unlockIndex)
+  .map(({ indices, bonus }) => `+${bonus} max level to: ${[...indices]
+    .map((index) => formatText((legendTalentsData as any)?.[index]?.name))
+    .join(', ')}`)
+  .join('\n');
 
 const num = (value: any) => Number(value) || 0;
 const parseRaw = (value: any) => tryToParse(value) || value;
@@ -90,6 +112,16 @@ export const getDoublerMulti = (idleonData: any, spelunkRow: number, upgradeInde
   return Array.isArray(doubled) && doubled.some((id: any) => Number(id) === Math.round(upgradeIndex)) ? 2 : 1;
 };
 
+const DOUBLER_ELIGIBLE_IDS: Record<keyof typeof DOUBLER_SPELUNK_ROW, number[]> = {
+  minehead: mineheadDoublerIds,
+  sushi: sushiDoublerIds,
+  jellyOperator: jellyDoublerIds
+};
+
+// the game only lets a doubler sit on the upgrade ids listed in research[59 | 60 | 61]
+export const isDoublerEligible = (kind: keyof typeof DOUBLER_SPELUNK_ROW, upgradeIndex: number): boolean =>
+  DOUBLER_ELIGIBLE_IDS[kind].includes(Math.round(upgradeIndex));
+
 // game: GA.Menagerie[5][i] (Scurge upgrade levels, Clam Work page 2)
 export const getScurgeUpgradeLevel = (account: any, index: number): number =>
   num(getSave(account)?.[SCURGE_UPGRADES]?.[index]);
@@ -102,6 +134,13 @@ export const getScurgeExp = (account: any): number => getScalar(account, 7);
 export const isMenagerieUnlockOwned = (account: any, index: number): boolean =>
   num(getSave(account)?.[UNLOCKS]?.[index]) >= 1;
 
+// The Menagerie unlock that opens the Crucible, the Breeding Arena hard mode with its own bonuses
+export const CRUCIBLE_MENAGERIE_UNLOCK = 8;
+
+// The Arena tab's "Crucible max level": none until the Menagerie unlock is owned
+export const getCrucibleMaxLevel = (account: any): number =>
+  isMenagerieUnlockOwned(account, CRUCIBLE_MENAGERIE_UNLOCK) ? account?.breeding?.maxCrucibleLevel ?? 0 : 0;
+
 // Stored on account in getStaticData (account.menagerieNightmarinerLevels), so sailing can read it in pass 1.
 // game: "MenagerieStuff:NightmarinerTotLV"
 export const getNightmarinerTotalLevels = (idleonData: any): number => rawArray(idleonData?.Boats).slice(0, 20)
@@ -109,8 +148,9 @@ export const getNightmarinerTotalLevels = (idleonData: any): number => rawArray(
 
 // The game returns 0 for every handler while the save has no Menagerie; the multipliers below stay at
 // their neutral value instead, so a pre-Menagerie save is not zeroed out.
-// game: "MenagerieStuff:NightmarinerBon"
+// game: "MenagerieStuff:NightmarinerBon" - 1 until Menagerie unlock 13 is owned (2.3.550)
 export const getNightmarinerBonus = (account: any, type: number): number => {
+  if (!isMenagerieUnlockOwned(account, NIGHTMARINER_UNLOCK)) return 1;
   const total = num(account?.menagerieNightmarinerLevels);
   return Math.max(1, 1 + total / (total + 1e4) * (type === 0 ? 1999 : 499));
 };
@@ -173,13 +213,10 @@ export const getShellExpReq = (rank: number): number => Math.round(Math.min(15, 
   + Math.min(1, Math.floor(rank / 8))
   + Math.min(2, Math.floor(rank / 22))));
 
-// game: "MenagerieStuff:CostExponent"
-const getCostExponent = (index: number) => {
-  if ([8, 10, 12].includes(index)) return 35;
-  if ([17, 5, 2].includes(index)) return 22.8;
-  if (index === 6) return 3.5;
-  if ([0, 1, 7].includes(index)) return 2.1;
-  return 1.3;
+// game: "MenagerieStuff:CostExponent" (gameTables.menagerieCostExponent: the first group holding the row wins)
+const getCostExponent = (index: number): number => {
+  const { groups, otherwise } = gameTables.menagerieCostExponent;
+  return groups.find(({ indices }: { indices: number[] }) => indices.includes(index))?.exponent ?? otherwise;
 };
 
 // game: "MenagerieStuff:Cost"
@@ -189,13 +226,21 @@ export const getMenagerieCost = (account: any, type: number, index: number): num
     return Math.floor((missionBaseReq?.[index] ?? 0) + (missionReqIncrement?.[index] ?? 0) * claims);
   }
   if (type === 1) return (10 + Math.pow(index, 2)) * Math.pow(Math.max(1.6, 2.5 + (index / 4) * -0.15), index);
-  if (type === 2) {
-    const level = num(getSave(account)?.[BOOSTS]?.[index]);
-    return 3 * level + Math.pow(level, 1.5)
-      + (5 + Math.pow(index, 1.5)) * Math.pow(Math.max(1.45, 2.25 + (index / 4) * -0.15), index)
-      * Math.pow(getCostExponent(index), level);
-  }
+  if (type === 2) return getBoostCostAtLevel(index, num(getSave(account)?.[BOOSTS]?.[index]));
   return 999;
+};
+
+const getBoostCostAtLevel = (index: number, level: number): number => 3 * level + Math.pow(level, 1.5)
+  + (5 + Math.pow(index, 1.5)) * Math.pow(Math.max(1.45, 2.25 + (index / 4) * -0.15), index)
+  * Math.pow(getCostExponent(index), level);
+
+// Total Lumi to buy a boost from its current level up to targetLevel
+export const getMenagerieBoostTotalCost = (account: any, index: number, targetLevel: number): number => {
+  let total = 0;
+  for (let level = num(getSave(account)?.[BOOSTS]?.[index]); level < targetLevel; level++) {
+    total += getBoostCostAtLevel(index, level);
+  }
+  return total;
 };
 
 // game: "MenagerieStuff:LumiGainRate"
@@ -220,7 +265,9 @@ export const getLumiGainRate = (account: any) => {
     { name: 'Dancing Coral', value: num(getDancingCoralBonus(account, 6)) },
     { name: 'Spiked Drink vial', value: num(getVialsBonusByStat(account?.alchemy?.vials, '7lumiadd')) },
     { name: 'Research grid', value: getResearchGridBonus(account, 164, 0) },
-    { name: 'Magni Pufferfin card', value: Math.min(5 * getCardLevel(account?.cards, 'w7b10'), 50) }
+    { name: 'Magni Pufferfin card', value: Math.min(5 * getCardLevel(account?.cards, 'w7b10'), 50) },
+    { name: 'Event Shop', value: 50 * getEventShopBonus(account, 62) },
+    { name: 'Maccie companion', value: getCompanionBonus(account, MACCIE) }
   ];
   const additiveTotal = additive.reduce((sum, { value }) => sum + value, 0);
   const multipliers = [
@@ -329,6 +376,10 @@ const formatMissionText = (index: number, cost: number) => {
   return text.replace('$', () => String(notateNumber(Math.pow(10, cost), notation)));
 };
 
+// The catalog text of an unlock / boost, before the live values fill its placeholders
+export const getMenagerieUnlockText = (index: number): string => formatText(unlockNames[index]);
+export const getMenagerieBoostText = (index: number): string => formatText(boostDescriptions[index]);
+
 const formatBoostDescription = (index: number, value: number) => formatText(boostDescriptions?.[index])
   .replace('{', commaNotation(value))
   .replace('}', String(notateNumber(1 + value / 100, 'MultiplierInfo')).replace('#', ''));
@@ -354,13 +405,22 @@ export const getMenagerie = (idleonData: any, account: any, dropRate: number = 1
   const missions = missionTexts.map((_, index) => {
     const cost = getMenagerieCost(account, 0, index);
     const current = progress?.[index] ?? null;
+    const claims = num(save?.[MISSION_CLAIMS]?.[index]);
+    const increment = missionReqIncrement?.[index] ?? 0;
+    // Claiming adds 1 shell and raises the requirement by the increment without spending progress,
+    // so every requirement step the progress already covers is one more claim
+    const claimable = current === null || current < cost ? 0 : increment > 0
+      ? Math.max(0, Math.floor((current - (missionBaseReq?.[index] ?? 0)) / increment) + 1 - claims)
+      : 1;
     return {
       index,
       name: formatText(missionShortNames?.[index]),
       description: formatMissionText(index, cost),
-      claims: num(save?.[MISSION_CLAIMS]?.[index]),
+      claims,
       progress: current,
       requirement: cost,
+      increment,
+      claimable,
       isLogScale: LOG_MISSIONS.includes(index),
       isBits: index === BITS_MISSION,
       // game: "MenagerieStuff:CanClaim" type 0
@@ -373,7 +433,9 @@ export const getMenagerie = (idleonData: any, account: any, dropRate: number = 1
   const unlocks = unlockNames.map((name, index) => {
     const cost = getMenagerieCost(account, 1, index);
     const owned = isMenagerieUnlockOwned(account, index);
-    const tooltip = String(name ?? '').includes(TOOLTIP_MARK) ? formatText(unlockTooltips?.[index]) : '';
+    const tooltip = String(name ?? '').includes(TOOLTIP_MARK)
+      ? formatText(unlockTooltips?.[index])
+      : getLegendTalentsTooltip(index);
     return {
       index,
       // game: "1 in $" fills max(1, 1 / (Drop_Rarity * OmegaArcBallChance))
@@ -447,7 +509,8 @@ export const getMenagerie = (idleonData: any, account: any, dropRate: number = 1
       // game: "MenagerieStuff:ConstBuildREQ"
       requirement: 1e5 * Math.pow(Math.max(3.2, 8 - 0.15 * constTotal), constTotal),
       progress: getScalar(account, 15),
-      bonuses: constLevels.map((_, index) => getMenagerieConstBuildBonus(account, index))
+      bonuses: constLevels.map((_, index) => getMenagerieConstBuildBonus(account, index)),
+      perLevel: constLevels.map((_, index) => CONST_BUILD_BONUS_PER_LEVEL?.[index] ?? 0)
     },
     // game: ActorEvents_672 Click, jelly 6 claims the Top 0.01% Tome nametag once 12 Top 0.1% nametags are turned in (Spelunk[17][28])
     green: {
@@ -457,12 +520,15 @@ export const getMenagerie = (idleonData: any, account: any, dropRate: number = 1
   };
 
   const banL = bundle(account, 'ban_l');
-  const blackStarsOwned = Math.round(getMenagerieBoost(account, 2) + 4 * bundle(account, 'ban_m'));
-  const organicLabelsOwned = Math.round(getMenagerieBoost(account, 6));
-  const mineheadOwned = Math.round(getMenagerieBoost(account, 8) + 3 * banL);
-  const sushiOwned = Math.round(getMenagerieBoost(account, 10) + 3 * banL);
-  const jellyOwned = Math.round(getMenagerieBoost(account, 12) + 3 * banL);
-  const omnijadeOwned = Math.round(num(account?.sneaking?.upgrades?.[31]?.value));
+  const ancientfish = getCompanionBonus(account, ANCIENTFISH);
+  const pipsqueak = getCompanionBonus(account, PIPSQUEAK);
+  const blackStarsOwned = Math.round(getMenagerieBoost(account, 2) + 4 * bundle(account, 'ban_m') + getEventShopBonus(account, 60));
+  const organicLabelsOwned = Math.round(getMenagerieBoost(account, 6) + 5 * getEventShopBonus(account, 61));
+  // game: "MenagerieStuff:MineheadDoublersOwned" / "SushiDoublersOwned" / "JellyOpDoublersOwned"
+  const mineheadOwned = Math.round(getMenagerieBoost(account, 8) + 3 * banL + ancientfish);
+  const sushiOwned = Math.round(getMenagerieBoost(account, 10) + 3 * banL + ancientfish);
+  const jellyOwned = Math.round(getMenagerieBoost(account, 12) + 3 * banL + ancientfish);
+  const omnijadeOwned = Math.round(num(account?.sneaking?.upgrades?.[31]?.value) + pipsqueak);
   const doublers = {
     minehead: { owned: mineheadOwned, left: countDoublersLeft(mineheadOwned, spelunk?.[51]), eligible: mineheadDoublerIds },
     sushi: { owned: sushiOwned, left: countDoublersLeft(sushiOwned, spelunk?.[52]), eligible: sushiDoublerIds },
@@ -475,7 +541,9 @@ export const getMenagerie = (idleonData: any, account: any, dropRate: number = 1
     omnijade: {
       owned: omnijadeOwned,
       left: Math.round(Array.from({ length: 17 }, (_, index) => Math.min(1, num(save?.[OMNIJADE]?.[index])))
-        .reduce((left, used) => left - used, omnijadeOwned))
+        .reduce((left, used) => left - used, omnijadeOwned)),
+      // game: "MenagerieStuff:OmniJadeDailyLVs" - levels each placed Omnijade adds per day
+      dailyLevels: Math.max(1, Math.min(5, Math.round(1 + Math.ceil(pipsqueak / 2))))
     }
   };
 

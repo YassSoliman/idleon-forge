@@ -1,4 +1,4 @@
-// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1.
+// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 01c6e0adcb10378d3de3b48ea61b9de48d3a007f.
 // Copyright (C) Morta1 and IdleOn Toolbox contributors. GPL-3.0-only; see vendor/LICENSE.
 // Copied unmodified by IdleOn Forge's scripts/sync.sh; UI-coupled imports are redirected to shims/ at build time.
 import { getRawShopItems } from '@parsers/shops';
@@ -414,7 +414,14 @@ export const baseTrackers = {
             props: { label: 'Hours threshold', value: 1, minValue: 1 },
             checked: true
           },
-          { name: 'shovel', type: 'input', props: { label: 'Hours threshold', value: 1, minValue: 1 }, checked: true }
+          { name: 'shovel', type: 'input', props: { label: 'Hours threshold', value: 1, minValue: 1 }, checked: true },
+          { name: 'bogLog', checked: true },
+          {
+            name: 'snail',
+            type: 'input',
+            props: { label: 'Success chance threshold', value: 90, minValue: 1, maxValue: 100 },
+            checked: true
+          }
         ]
       },
       sailing: {
@@ -554,7 +561,14 @@ export const baseTrackers = {
             type: 'input',
             props: { label: 'Threshold', value: 10, minValue: 0, helperText: '' }
           },
-          { name: 'battleAttempts', checked: true }
+          { name: 'battleAttempts', checked: true },
+          {
+            name: 'familiarExp',
+            checked: true,
+            type: 'input',
+            props: { label: 'Hours', value: 24, minValue: 1, helperText: '' }
+          },
+          { name: 'familiarLevelUp', checked: false }
         ]
       },
       etc: {
@@ -563,9 +577,9 @@ export const baseTrackers = {
           {
             name: 'emperor',
             type: 'input',
-            props: { label: 'Attempts', value: 20 },
+            props: { label: 'Attempts', value: 19 },
             checked: true,
-            helperText: 'Alerts at this number, or at your attempt cap if it\'s lower'
+            helperText: 'Alerts at this number, or earlier if your next daily refill would be lost'
           }
         ]
       }
@@ -631,7 +645,12 @@ export const baseTrackers = {
           {
             name: 'idleGuards',
             checked: true,
-            helperText: 'Alert when an outpost has Guards whose range it does not need. Guards only add range, so they could be Traders or Surveyors and earn rank EXP instead. Also lists Guards that only reach an empty resource: swapping them drops that connection, so rewire it after the daily reset'
+            helperText: 'Alert when an outpost has Guards whose range it does not need. Guards only add range, so they could be Traders or Surveyors and earn rank EXP instead'
+          },
+          {
+            name: 'parkedGuards',
+            checked: false,
+            helperText: 'Alert when an outpost has Guards that only reach an empty resource, so they could be Traders or Surveyors until the daily reset. Swapping them drops that connection, so it has to be rewired after every reset'
           },
           {
             name: 'sharedNodes',
@@ -780,15 +799,57 @@ export const baseTrackers = {
         options: [
           { name: 'claimableMissions', checked: true, helperText: 'Alert when a Menagerie mission is ready to claim' },
           { name: 'affordableUnlocks', checked: true, helperText: 'Alert when you can afford a Menagerie unlock' },
+          { name: 'lumiBoost', checked: true, helperText: 'Alert when you can afford the Lumi/hr boost' },
+          { name: 'missionBoost', checked: true, helperText: 'Alert when you can afford the extra missions boost' },
           {
             name: 'affordableBoosts',
             checked: false,
             helperText: 'Alert when you can afford a Menagerie boost level'
           },
           {
-            name: 'unusedDoublers',
+            name: 'pinkJelly',
+            type: 'input',
             checked: true,
-            helperText: 'Alert when you have doublers, Black Stars, Organic Labels or Omnijade left to place'
+            helperText: 'Alert when you can afford a Pink jelly upgrade with your coins',
+            props: { label: 'Max coin spend', value: 25, minValue: 1, maxValue: 100, endAdornment: '%', helperText: '' }
+          },
+          {
+            name: 'blueJelly',
+            type: 'input',
+            checked: true,
+            helperText: 'Alert when you have at least this many ladles to give the Blue jelly',
+            props: { label: 'Min ladles', value: 1, minValue: 1, helperText: '' }
+          },
+          {
+            name: 'redJelly',
+            type: 'input',
+            checked: true,
+            helperText: 'Alert when the Red jelly reading multi reaches this value',
+            props: { label: 'Reading multi', value: 1, minValue: 1, endAdornment: 'x', helperText: '' }
+          },
+          {
+            name: 'silverJelly',
+            type: 'array',
+            checked: true,
+            helperText: 'Alert when you can afford a Silver jelly upgrade with Obol Fragments',
+            props: { value: { 'Obol MISC multi': true, 'Fragments per auto trash': true } }
+          },
+          { name: 'yellowJelly', checked: true, helperText: 'Alert when a Yellow jelly construction purchase is ready' },
+          {
+            name: 'unusedDoublers',
+            type: 'array',
+            checked: true,
+            helperText: 'Alert when you have doublers, Black Stars, Organic Labels or Omnijade left to place',
+            props: {
+              value: {
+                blackStars: true,
+                organicLabels: true,
+                minehead: true,
+                sushi: true,
+                jellyOperator: true,
+                omnijade: true
+              }
+            }
           }
         ]
       },
@@ -831,7 +892,10 @@ export const baseTrackers = {
     },
     worship: {
       checked: true,
-      options: [{ name: 'unendingEnergy', checked: true }, { name: 'chargeOverdue', checked: true }]
+      options: [{ name: 'unendingEnergy', checked: true }, { name: 'ruckSack', checked: true }, {
+        name: 'chargeOverdue',
+        checked: true
+      }]
     },
     traps: {
       checked: true,
@@ -956,6 +1020,7 @@ export const baseTrackers = {
       weekly: { checked: true, options: [] },
       serverWeekly: { checked: true, options: [] },
       companions: { checked: true, options: [] },
+      crystalIsland: { checked: false, options: [] },
       syphonCharge: { checked: true, options: [] },
       closestFullWorship: { checked: true, options: [] },
       dungeonHappyHour: { checked: true, options: [] },
@@ -964,7 +1029,25 @@ export const baseTrackers = {
     },
     Etc: {
       library: { checked: true, options: [] },
-      minibosses: { checked: true, options: [] },
+      minibosses: {
+        checked: true,
+        options: [{
+          name: 'bosses',
+          type: 'array',
+          props: {
+            value: {
+              drDefecaus: true,
+              babaYaga: true,
+              dilapidatedSlush: true,
+              mutatedMush: true,
+              domeoMagmus: true,
+              dementedSpiritlord: true
+            }
+          },
+          checked: true,
+          helperText: 'Only the selected bosses are shown'
+        }]
+      },
       bonusTimeLeft: { checked: true, options: [] },
       meritocracyTimeLeft: { checked: true, options: [] }
     },

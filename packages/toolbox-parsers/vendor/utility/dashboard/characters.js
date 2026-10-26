@@ -1,4 +1,4 @@
-// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1.
+// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 01c6e0adcb10378d3de3b48ea61b9de48d3a007f.
 // Copyright (C) Morta1 and IdleOn Toolbox contributors. GPL-3.0-only; see vendor/LICENSE.
 // Copied unmodified by IdleOn Forge's scripts/sync.sh; UI-coupled imports are redirected to shims/ at build time.
 import { differenceInHours, differenceInMinutes, isPast } from 'date-fns';
@@ -61,14 +61,15 @@ export const anvilAlerts = (account, characters, character, lastUpdated, options
 export const worshipAlerts = (account, characters, character, lastUpdated, options) => {
   const alerts = {};
   if (!account?.finishedWorlds?.World2) return alerts;
-  if (options?.worship?.unendingEnergy?.checked) {
-    const timePassed = new Date().getTime() + (character?.afkTime - lastUpdated);
-    const minutes = differenceInMinutes(new Date(), new Date(timePassed));
-    if (minutes >= 5) {
-      const hasUnendingEnergy = character?.activePrayers?.find(({ name }) => name === 'Unending_Energy');
-      const hours = differenceInHours(new Date(), new Date(timePassed));
-      alerts.unendingEnergy = hasUnendingEnergy && hours > 10;
-    }
+  const timePassed = new Date().getTime() + (character?.afkTime - lastUpdated);
+  const isAfk = differenceInMinutes(new Date(), new Date(timePassed)) >= 5;
+  if (options?.worship?.unendingEnergy?.checked && isAfk) {
+    const hasUnendingEnergy = character?.activePrayers?.find(({ name }) => name === 'Unending_Energy');
+    const hours = differenceInHours(new Date(), new Date(timePassed));
+    alerts.unendingEnergy = hasUnendingEnergy && hours > 10;
+  }
+  if (options?.worship?.ruckSack?.checked && isAfk) {
+    alerts.ruckSack = character?.activePrayers?.some(({ name }) => name === 'Ruck_Sack');
   }
   if (options?.worship?.chargeOverdue?.checked) {
     const fivePercent = 5 * character?.worship?.maxCharge / 100;
@@ -359,7 +360,9 @@ export const cardsAlert = (account, characters, character, lastUpdated, options)
         text: `${character.name} is fighting but has skilling card set (${cardSetEffect})`
       };
     }
+    // No card set touches divinity gains (EXP uses AllSkillxpMULTI, efficiency is a flat 100)
     else if (character.afkType !== 'FIGHTING' && character.afkType !== 'Nothing' && character.afkType !== 'Paying_Respect'
+      && character.afkType !== 'DIVINITY'
       && (equippedCardSet?.rawName === 'CardSet4'
         || equippedCardSet?.rawName === 'CardSet6'
         || equippedCardSet?.rawName === 'CardSet8'

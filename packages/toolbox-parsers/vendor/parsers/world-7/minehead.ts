@@ -1,4 +1,4 @@
-// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1.
+// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 01c6e0adcb10378d3de3b48ea61b9de48d3a007f.
 // Copyright (C) Morta1 and IdleOn Toolbox contributors. GPL-3.0-only; see vendor/LICENSE.
 // Copied unmodified by IdleOn Forge's scripts/sync.sh; UI-coupled imports are redirected to shims/ at build time.
 import { tryToParse, commaNotation, notateNumber } from '@utility/helpers';
@@ -16,15 +16,19 @@ import { isJadeBonusUnlocked } from '@parsers/world-6/sneaking';
 import { getOutpostRogBonus } from '@parsers/class-specific/royalGuardian';
 import { getArcadeBonus } from '@parsers/world-2/arcade';
 import { getLegendTalentBonus } from '@parsers/world-7/legendTalents';
-import { DOUBLER_SPELUNK_ROW, getDoublerMulti } from '@parsers/world-7/menagerie';
+import { DOUBLER_SPELUNK_ROW, getDoublerMulti, isDoublerEligible } from '@parsers/world-7/menagerie';
 import { EQUINOX_CLOUD, getCloudBonus } from '@parsers/world-3/equinox';
 import { NUMBERED_GROUP, additiveGroup, createBreakdown, flat, multiplier, percent, productGroup } from '@parsers/breakdown';
+
+// The player's lives before Minehead upgrade 6
+export const MINEHEAD_BASE_LIVES = 3;
 
 // The three mine currency gain upgrades (Miney Farmey I/II, Miney Damagey Synergy). The dashboard
 // alert filter and its `MineUpg{n}` config keys derive from this list; the currency formula below
 // spells the indices out because 28 scales with log10(bestHit) while 5 and 22 do not.
 export const MINE_CURRENCY_UPGRADE_INDICES = [5, 22, 28];
 const MINEHEAD_CURRENCY_ARCADE_BONUS = 62;
+const BLUECROWN_ODDS_CAP = 0.1;
 
 const getRawMinehead = (idleonData: any) => {
   const raw = tryToParse(idleonData?.Research) || idleonData?.Research;
@@ -93,12 +97,14 @@ export const getMinehead = (idleonData: any, account: any, serverVars: any) => {
 
   // Note: `levelReq` in website-data is the per-level effect value (misleadingly named).
   // game: "Minehead:UpgradeQTY" (2x when a Menagerie doubler sits on it, Spelunk[51])
-  const getUpgradeQTY = (idx: any) => {
+  // assumeDoubledIdx previews an upgrade as if a doubler sat on it
+  const getUpgradeQTY = (idx: any, assumeDoubledIdx?: number) => {
     const upgrade = mineheadUpgrades?.[idx];
     if (!upgrade) return 0;
     const bonusPerLevel = Number(upgrade.levelReq) || 0;
     const level = Number(upgradeLevels[idx]) || 0;
-    return getDoublerMulti(idleonData, DOUBLER_SPELUNK_ROW.minehead, idx) * bonusPerLevel * level;
+    const doublerMulti = idx === assumeDoubledIdx ? 2 : getDoublerMulti(idleonData, DOUBLER_SPELUNK_ROW.minehead, idx);
+    return doublerMulti * bonusPerLevel * level;
   };
 
   // --- Opponent bonus reward helper ---
@@ -163,7 +169,7 @@ export const getMinehead = (idleonData: any, account: any, serverVars: any) => {
   const dailyTriesMax = Math.round(3 + grid147Level);
 
   // Max HP for player: 3 + upgradeQTY(6)
-  const maxHP_You = Math.round(3 + getUpgradeQTY(6));
+  const maxHP_You = Math.round(MINEHEAD_BASE_LIVES + getUpgradeQTY(6));
 
   // Base DMG:
   //   (1 + QTY(0) + QTY(7) + QTY(25) + dancingCoral(5)) * (1 + (QTY(4)+QTY(21)+QTY(27)) / 100)
@@ -270,11 +276,15 @@ export const getMinehead = (idleonData: any, account: any, serverVars: any) => {
   ]);
 
   // Bluecrown multiplier - used in description for upgrade 14
-  const getBluecrownMulti = () => 1.5 + getUpgradeQTY(14) / 100;
+  const getBluecrownMulti = (qty = getUpgradeQTY) => 1.5 + qty(14) / 100;
+
+  // game: "BluecrownOdds" - capped at 10%, so Crown Craze (15) stops helping past QTY 50
+  const getBluecrownOdds = (qty = getUpgradeQTY) =>
+    qty(14) === 0 ? 0 : Math.min(BLUECROWN_ODDS_CAP, (1 / 15) * (1 + qty(15) / 100));
 
   // Jackpot odds - used in description for upgrade 23
-  const getJackpotOdds = () =>
-    getUpgradeQTY(23) === 0 ? 0 : 0.01 * (1 + getUpgradeQTY(23) / 100);
+  const getJackpotOdds = (qty = getUpgradeQTY) =>
+    qty(23) === 0 ? 0 : 0.01 * (1 + qty(23) / 100);
 
   // --- Upgrades ---
   const upgrades = (mineheadUpgrades ?? []).map((upgrade, idx) => {
@@ -297,10 +307,29 @@ export const getMinehead = (idleonData: any, account: any, serverVars: any) => {
       level,
       getUpgradeQTY,
       getBluecrownMulti,
+      getBluecrownOdds,
       getJackpotOdds,
       gridSizes,
       bestHit
     );
+
+    const doublerEligible = isDoublerEligible('minehead', idx);
+    let doubledDescription = null;
+    if (doublerEligible && !doubled && upgradeQTY > 0) {
+      const doubledQTY = (id: any) => getUpgradeQTY(id, idx);
+      doubledDescription = formatUpgradeDescription(
+        upgrade.description ?? '',
+        idx,
+        doubledQTY(idx),
+        level,
+        doubledQTY,
+        () => getBluecrownMulti(doubledQTY),
+        () => getBluecrownOdds(doubledQTY),
+        () => getJackpotOdds(doubledQTY),
+        gridSizes,
+        bestHit
+      );
+    }
 
     return {
       index: idx,
@@ -312,6 +341,8 @@ export const getMinehead = (idleonData: any, account: any, serverVars: any) => {
       isLocked,
       bonusPerLevel,
       doubled,
+      doublerEligible,
+      doubledDescription,
       upgradeQTY,
       cost,
       canAfford,
@@ -410,6 +441,7 @@ export const getMinehead = (idleonData: any, account: any, serverVars: any) => {
     baseDMG,
     currencyGain,
     currencyGainBreakdown,
+    bluecrownOdds: getBluecrownOdds(),
     upgrades,
     opponents,
     glimbo,
@@ -462,6 +494,7 @@ function formatUpgradeDescription(
   level: any,
   getUpgradeQTY: any,
   getBluecrownMulti: any,
+  getBluecrownOdds: any,
   getJackpotOdds: any,
   gridSizes: any,
   bestHit: any
@@ -479,6 +512,15 @@ function formatUpgradeDescription(
   const dollarValue = getDollarValue(idx, getUpgradeQTY, getBluecrownMulti, getJackpotOdds, gridSizes, bestHit, level);
   if (dollarValue !== null) {
     desc = desc.split('$').join(String(dollarValue));
+  }
+
+  if (idx === 15) {
+    const odds = getBluecrownOdds();
+    if (odds > 0) {
+      desc += odds >= BLUECROWN_ODDS_CAP
+        ? ` (Blue Crown chance capped at ${BLUECROWN_ODDS_CAP * 100}%, more levels do nothing)`
+        : ` (current Blue Crown chance: ${Math.round(odds * 10000) / 100}%, max ${BLUECROWN_ODDS_CAP * 100}%)`;
+    }
   }
 
   // Strip @ markers (in-game annotation/reference notation)
@@ -569,6 +611,9 @@ function getDollarValue(idx: any, getUpgradeQTY: any, getBluecrownMulti: any, ge
 // ---------------------------------------------------------------------------
 // Exported helpers used by research.js to replace its internal stubs
 // ---------------------------------------------------------------------------
+
+// researchData[10]: the sprite id of each opponent slot (MineH<id>.png)
+export const getMineheadOpponentSpriteId = (index: number): number | string => (researchData as any)?.[10]?.[index] ?? index;
 
 /**
  * Returns the opponent-defeat bonus for a given minehead index.

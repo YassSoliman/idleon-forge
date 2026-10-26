@@ -1,0 +1,36 @@
+// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 01c6e0adcb10378d3de3b48ea61b9de48d3a007f.
+// Copyright (C) Morta1 and IdleOn Toolbox contributors. GPL-3.0-only; see vendor/LICENSE.
+// Copied unmodified by IdleOn Forge's scripts/sync.sh; UI-coupled imports are redirected to shims/ at build time.
+import { CAULDRON_INFO, getBubbleEffectPercent } from '@parsers/world-2/alchemy';
+import { cleanUnderscore, pascalCase } from '@utility/helpers';
+import { GOAL_ROUTES } from '../routes';
+
+// The game ships its unreleased cauldron slots as bubbles named just "BUBBLE" with no bonus
+const isPlaceholder = (row) => row.bubbleName === 'BUBBLE';
+
+export default {
+  system: 'bubble',
+  label: 'Bubbles',
+  entryLabel: 'bubble',
+  scope: 'account',
+  route: GOAL_ROUTES.bubble,
+  groups: {
+    label: 'Cauldron',
+    of: (row) => row.cauldron,
+    names: Object.fromEntries(CAULDRON_INFO.map(({ name, displayName }) => [name, displayName]))
+  },
+  list: ({ account }) => (account?.alchemy?.bubblesFlat ?? []).filter((row) => !isPlaceholder(row)),
+  key: (row) => row.bubbleIndex,
+  // title case, as the Bubbles page names them
+  name: (row) => cleanUnderscore(pascalCase(row.bubbleName)),
+  icon: (row) => `data/${row.rawName}`,
+  metrics: {
+    level: {
+      label: 'Level',
+      noun: 'level',
+      value: (row) => row.level,
+      percentOfMax: (row, { account }) => getBubbleEffectPercent(account, row),
+      steps: [100, 1000]
+    }
+  }
+};

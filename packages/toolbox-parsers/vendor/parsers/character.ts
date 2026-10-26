@@ -1,4 +1,4 @@
-// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1.
+// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 01c6e0adcb10378d3de3b48ea61b9de48d3a007f.
 // Copyright (C) Morta1 and IdleOn Toolbox contributors. GPL-3.0-only; see vendor/LICENSE.
 // Copied unmodified by IdleOn Forge's scripts/sync.sh; UI-coupled imports are redirected to shims/ at build time.
 import {
@@ -51,7 +51,7 @@ import {
   getEquippedCardsData,
   getPlayerCards
 } from './cards';
-import { getStampBonus, getStampsBonusByEffect } from './world-1/stamps';
+import { getStampBonus, getStampsBonusByEffect, getStampsBonusByStat } from './world-1/stamps';
 import { getPlayerPostOffice, getPostOfficeBonus, getPostOfficeBoxLevel } from './world-3/postoffice';
 import {
   getActiveBubbleBonus,
@@ -114,7 +114,7 @@ import { getZenithBonus } from '@parsers/world-1/statues';
 import { getDancingCoralBonus, getCoralKidUpgBonus } from '@parsers/world-7/coralReef';
 import { getMeritocracyBonus } from '@parsers/world-2/voteBallot';
 import { getSuperTalentLeftToSpend } from '@parsers/world-7/legendTalents';
-import { getAdviceFishBonus, getFriendBonus } from '@parsers/misc';
+import { getAdviceFishBonus, getFriendBonus, getKillRoyShopBonus } from '@parsers/misc';
 import {
   additiveGroup,
   createBreakdown,
@@ -132,7 +132,7 @@ import {
 import type { BreakdownNode, BreakdownOptions } from '@parsers/breakdown';
 import { getTesseractMapBonus } from '@parsers/class-specific/tesseract';
 import { getMaxDamage } from '@parsers/damage';
-import { getSpelunkingBonus } from '@parsers/world-7/spelunking';
+import { getChapterBonus, getSpelunkingBonus } from '@parsers/world-7/spelunking';
 import { getResearchGridBonus } from '@parsers/world-7/research';
 import { getMineheadBonusQTY } from '@parsers/world-7/minehead';
 import { getSushiBonus } from '@parsers/world-7/sushiStation';
@@ -144,6 +144,9 @@ import { getFountainBonusTotal } from '@parsers/world-5/caverns/the-fountain';
 import { ARMORY_TALENT_REATTAINMENT, getArmoryUpgradeBonus, getRoyalStatueBonus } from '@parsers/class-specific/royalGuardian';
 import { tryToParse, createIndexedArray, createArrayOfArrays, cashFormatter } from '@utility/helpers';
 import type { IdleonData, Account } from './types';
+
+// The character Bags card leaves this inventory bag out
+export const HIDDEN_INVENTORY_BAG = 'Inventory_Bag_I';
 
 export const getCharacters = (idleonData: IdleonData, charsNames?: any) => {
   // Callers without a names list (the legacy profile format) fell back to a fixed nine slots,
@@ -1634,6 +1637,61 @@ const getSkillExpMultiParts = (skillName: string, character: any, characters: an
       ]
     }
   }
+  else if (skillName === 'spelunking') {
+    const gambitBonus = getGambitBonus(account, 14);
+    const skillMasteryBonus = isMasteryBonusUnlocked(account?.rift, account?.totalSkillsLevels?.spelunking?.rank, 0);
+    const exoticBonus = getExoticMarketBonus(account, 47);
+    const cardBonus = getCardBonusByEffect(account?.cards, 'Spelunking_EXP');
+    const chapterBonus = getChapterBonus(account, 1, 1) + getChapterBonus(account, 6, 0) + getChapterBonus(account, 3, 1);
+    const arcadeBonus = getArcadeBonus(account?.arcade?.shop, 'Spelunk_XP_multi')?.bonus;
+    const trackometerBonus = getSpelunkingBonus(account, 59);
+    const killroyBonus = Math.max(1, getKillRoyShopBonus(account, 5));
+    const grandioseExpBonus = getSpelunkingBonus(account, 45);
+    const goldenFoodBonus = getGoldenFoodBonus('Golden_Saltwater_Taffy', character, account, characters);
+    const mealBonus = getMealsBonusByEffectOrStat(account, null, 'SplkExp');
+    const stampBonus = getStampsBonusByStat(account, 'spelunkxp', character);
+    const statueBonus = getStatueBonus(account, 30, character?.flatTalents);
+    // game: getbonus2(2, 236) - the talent's second value, a multiplier
+    const talentMulti = Math.max(1, getHighestTalentAcrossCharacters(characters, 'SPELUNKING_SPECIALTY', loggedInCharacter, true));
+    const prehistoricSetBonus = Math.min(1, getArmorSetBonus(account, 'PREHISTORIC_SET') / 100);
+
+    // game: "SpelunkingExpMulti" - the Gambit bonus is added to the product, not multiplied in
+    const tree = [
+      flat('Gambit', gambitBonus / 100),
+      productGroup(NUMBERED_GROUP, [
+        additiveGroup(NUMBERED_GROUP, [
+          percent('Skill mastery', 25 * skillMasteryBonus),
+          percent('Exotic Market', exoticBonus),
+          percent('Card', cardBonus),
+          percent('Chapter bonuses', chapterBonus)
+        ]),
+        additiveGroup(NUMBERED_GROUP, [
+          percent('Arcade', arcadeBonus),
+          percent('Stamina Trackometer', trackometerBonus)
+        ]),
+        multiplier('Killroy', killroyBonus),
+        getAllSkillExpMultiplierBreakdown(account),
+        additiveGroup(NUMBERED_GROUP, [
+          percent('Grandiose EXP', grandioseExpBonus),
+          percent('Golden food', goldenFoodBonus),
+          percent('Meal', mealBonus),
+          percent('Stamp', stampBonus),
+          percent('Statue', statueBonus)
+        ]),
+        multiplier('All skill EXP (1/10th)', 1 + (allSkillExp?.value ?? 0) / 10 / 100),
+        multiplier('Spelunking Specialty talent', talentMulti),
+        multiplier('Prehistoric Set', 1 + prehistoricSetBonus)
+      ])
+    ];
+    const value = Math.max(1, gambitBonus / 100 + evaluateBreakdownNode(tree[1]));
+    return { value, tree, options: { combine: 'sum', min: 1 } };
+  }
+  else if (skillName === 'research') {
+    // Account wide: the research parser builds it once for every character
+    const { researchEXPmulti, researchEXPmultiBreakdown } = account?.research ?? {};
+    if (!researchEXPmultiBreakdown) return undefined;
+    return { value: researchEXPmulti, tree: researchEXPmultiBreakdown.tree };
+  }
 }
 
 // game: SkillStats("AllSkillxpMULTI"), which multiplies the EXP of every skill but smithing, alchemy
@@ -2028,7 +2086,8 @@ export const getClassExpMulti = (character: any, account: any, characters: any) 
   const babyTrollMulti = 1 + (Math.min(0.5, comp128) + 0.25 * babyTrollLvl2);
   const santaSnakeMulti = Math.max(1, Math.min(1.01, 1 + comp50 / 2500));
   // game: "Breeding:PetArenaCrucBonus" (15) and "MenagerieStuff:BoostQTY" (23), between Mr Pig and Crystal Glunko
-  const crucibleClassExp = 20 * getPetArenaCrucBonus(account, 15);
+  // 2.3.550 cut it from 20 to 0.2: a 1.2x multiplier, not 21x
+  const crucibleClassExp = 0.2 * getPetArenaCrucBonus(account, 15);
   const menagerieClassExp = getMenagerieBoost(account, 23);
 
   expGainLUK5 *= Math.max(1,

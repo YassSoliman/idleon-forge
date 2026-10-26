@@ -1,4 +1,4 @@
-// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1.
+// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 01c6e0adcb10378d3de3b48ea61b9de48d3a007f.
 // Copyright (C) Morta1 and IdleOn Toolbox contributors. GPL-3.0-only; see vendor/LICENSE.
 // Copied unmodified by IdleOn Forge's scripts/sync.sh; UI-coupled imports are redirected to shims/ at build time.
 import { equinoxChallenges, equinoxUpgrades } from '@website-data';
@@ -277,6 +277,8 @@ export const EQUINOX_CLOUD = {
 // only their on-screen grid positions), and every caller applies its own multiplier, e.g. 5 * cb / 100.
 // game: "CloudBonus"
 export const getCloudBonus = (challenges: any, index: number) => challenges?.[index]?.current === -1 ? 1 : 0;
+
+export const getTotalUpgradeLevels = (upgrades: any) => upgrades?.reduce((sum: number, { lvl }: any) => sum + (lvl || 0), 0) ?? 0;
 
 export const getEquinoxBonus = (upgrades: any, name: any) => {
   return (upgrades || [])?.filter((upgrade: any) => upgrade.name === name)?.[0]?.bonus || 0;

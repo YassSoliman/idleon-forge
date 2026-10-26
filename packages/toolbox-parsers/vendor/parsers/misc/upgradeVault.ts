@@ -1,8 +1,8 @@
-// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1.
+// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 01c6e0adcb10378d3de3b48ea61b9de48d3a007f.
 // Copyright (C) Morta1 and IdleOn Toolbox contributors. GPL-3.0-only; see vendor/LICENSE.
 // Copied unmodified by IdleOn Forge's scripts/sync.sh; UI-coupled imports are redirected to shims/ at build time.
 import { commaNotation, notateNumber, tryToParse, lavaLog } from '@utility/helpers';
-import { upgradeVault } from '@website-data';
+import { research as researchData, upgradeVault } from '@website-data';
 import { liveEntries } from '@parsers/catalog';
 import { isBundlePurchased, getEventShopBonus, isCompanionBonusActive } from '@parsers/misc';
 import { getResearchGridBonus } from '@parsers/world-7/research';
@@ -33,6 +33,7 @@ export const parseUpgradeVault = (upgradeVaultRaw: any, accountData: any, charac
   let upgrades = liveEntries<any>(upgradeVault).map(({ entry: upgrade, index }) => {
     return {
       ...upgrade,
+      index,
       level: upgradeVaultRaw?.[index] ?? 0,
       maxLevel: getVaultUpgMaxLevel(index, upgrade?.maxLevel, accountData),
       unlocked: totalUpgradeLevels >= upgrade?.unlockLevel
@@ -157,8 +158,14 @@ const getVaultDollarValue = (index: number, bonus: number, ctx: any): string | n
 }
 
 
+// game: "Summoning:VaultUpgMaxLV_most" - +25 max levels from event shop 65 on the upgrades listed in Research[63]
+const EVENT_SHOP_MAX_LEVEL_UPGRADES = new Set(((researchData as any)?.[63] ?? []).map(Number));
+const getEventShopMaxLevelBonus = (index: number, accountData: any) =>
+  EVENT_SHOP_MAX_LEVEL_UPGRADES.has(index) ? 25 * getEventShopBonus(accountData, 65) : 0;
+
+// game: "Summoning:VaultUpgMaxLV"
 const getVaultUpgMaxLevel = (index: any, baseMaxLevel: any, accountData: any) => {
-  const base = Number(baseMaxLevel) || 0;
+  const base = (Number(baseMaxLevel) || 0) + getEventShopMaxLevelBonus(Number(index), accountData);
   const bundlePurchased = isBundlePurchased(accountData, 'bon_u') ? 1 : 0;
   const bundleBonus = Math.max(0, Math.min(10, 10 * bundlePurchased));
 
@@ -173,7 +180,8 @@ const getVaultUpgMaxLevel = (index: any, baseMaxLevel: any, accountData: any) =>
     return base + bundleBonus + trades;
   }
 
-  if (base >= 2) {
+  // The bundle test reads the table's own max level, before the event shop levels
+  if (Number(baseMaxLevel) >= 2) {
     return base + bundleBonus;
   }
   return base;

@@ -1,4 +1,4 @@
-// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1.
+// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 01c6e0adcb10378d3de3b48ea61b9de48d3a007f.
 // Copyright (C) Morta1 and IdleOn Toolbox contributors. GPL-3.0-only; see vendor/LICENSE.
 // Copied unmodified by IdleOn Forge's scripts/sync.sh; UI-coupled imports are redirected to shims/ at build time.
 import { commaNotation, lavaLog, notateNumber, tryToParse } from '@utility/helpers';
@@ -51,6 +51,8 @@ const ROYAL_STATUE_FIRST_ODDS: number[] = gameTables.royalStatueFirstOdds;
 
 // game: "RoyalG:SF_maxLV" Math.round(3 + Math.min(1, MenagerieStuff("UnlockOwned", 17, 0)))
 const getStatueFlairMaxLevel = (account: any): number => Math.round(3 + Math.min(1, isMenagerieUnlockOwned(account, 17) ? 1 : 0));
+// The highest SF_maxLV can reach (the Menagerie unlock owned), so the marble totals can price it before it is bought.
+export const STATUE_FLAIR_LEVEL_CAP = 4;
 
 // game: "ResNodes_LVUPbon" - a flat 25% collection rate per node level. CollectAll applies it per
 // node, on top of the outpost's own OutpostResourceRate.
@@ -227,9 +229,11 @@ export interface StatueFlairMarbleTotal {
   costItem: string;
   name: string;
   owned: number;
+  // Statues still below their current max level.
   statuesLeft: number;
   // Cumulative: tiers[t] is the marble to bring every statue of this marble up to level t + 1 from
   // where it is now, so the last tier is everything left and a tier all statues passed is 0.
+  // Runs to STATUE_FLAIR_LEVEL_CAP even while the max is lower, so a locked level is priced too.
   tiers: number[];
 }
 
@@ -449,6 +453,9 @@ const toNum = (value: any): number => {
   const parsed = typeof value === 'number' ? value : parseFloat(value);
   return Number.isFinite(parsed) ? parsed : 0;
 };
+
+// game: TomeQTY[118] sums Math.max(0, RoyalG[0][t]) over every saved statue level
+export const getTotalStatueLevels = (statueLevels: any) => (statueLevels ?? []).reduce((sum: number, level: any) => sum + Math.max(0, Number(level) || 0), 0);
 
 // game: "OutpostEXPformula" - i is the bar type, t the rank being tested.
 export const getOutpostExpFormula = (rank: number, type: number): number => {
@@ -1467,6 +1474,7 @@ export const getRoyalGuardian = (idleonData: IdleonData, account: Account, chara
     statueFlair: {
       unlocked: flairUnlocked,
       maxLevel: statueFlairMaxLevel,
+      levelCap: STATUE_FLAIR_LEVEL_CAP,
       statues: statueFlair,
       marbleTotals: statueFlairMarbleTotals
     },
@@ -1702,10 +1710,11 @@ export const isOutpostMapPurified = (account: Account, mapIndex: number): boolea
 const getStatueFlairCost = (index: number, level: number): number => 10 * (index + 1) * Math.pow(5, level);
 
 // Sums SF_costo per marble type over the statues still below each flair level.
-export const getStatueFlairMarbleTotals = (statues: StatueFlair[], getOwned: (costItem: string) => number = () => 0): StatueFlairMarbleTotal[] => {
+export const getStatueFlairMarbleTotals = (statues: StatueFlair[], getOwned: (costItem: string) => number = () => 0,
+                                           levelCap: number = STATUE_FLAIR_LEVEL_CAP): StatueFlairMarbleTotal[] => {
   const byShard = new Map<number, StatueFlairMarbleTotal>();
   for (const { index, level, maxLevel, shardIndex, costItem } of statues ?? []) {
-    if (level >= maxLevel) continue;
+    if (level >= levelCap) continue;
     const row = byShard.get(shardIndex) ?? {
       shardIndex,
       costItem,
@@ -1713,11 +1722,11 @@ export const getStatueFlairMarbleTotals = (statues: StatueFlair[], getOwned: (co
       // game: "SF_weOwn" reads _ItemsAndStorageOWNED, the same chest + inventory balance as Orblets.
       owned: getOwned(costItem),
       statuesLeft: 0,
-      tiers: Array(maxLevel).fill(0)
+      tiers: Array(levelCap).fill(0)
     };
-    row.statuesLeft++;
+    if (level < maxLevel) row.statuesLeft++;
     let cumulative = 0;
-    for (let tier = level; tier < maxLevel; tier++) {
+    for (let tier = level; tier < levelCap; tier++) {
       cumulative += getStatueFlairCost(index, tier);
       row.tiers[tier] += cumulative;
     }

@@ -1,3 +1,15 @@
 {
-  "holds": []
+  "holds": [
+    {
+      "generator": "gem-shop",
+      "ids": [
+        "gem-shop.fact.items"
+      ],
+      "issue": "",
+      "lastCommit": "01c6e0adcb10378d3de3b48ea61b9de48d3a007f",
+      "reason": "gem-shop: slug collision on gem-q19",
+      "since": "01c6e0adcb10378d3de3b48ea61b9de48d3a007f",
+      "syncs": 0
+    }
+  ]
 }

@@ -1,0 +1,6 @@
+This sync failed a check. Merge gate stays red while this file exists.
+Fix the cause on chore/parser-sync and delete this file in the same commit.
+- mirror out of date (job 0 failed)
+- test exited 1
+- snapshots exited 1
+- tripwire exited 1
