@@ -1,10 +1,11 @@
-// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1.
+// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 80e811ff34cf1d14fcd72e32a977d7113221e7da.
 // Copyright (C) Morta1 and IdleOn Toolbox contributors. GPL-3.0-only; see vendor/LICENSE.
 // Copied unmodified by IdleOn Forge's scripts/sync.sh; UI-coupled imports are redirected to shims/ at build time.
 import { commaNotation, lavaLog, notateNumber } from '@utility/helpers';
 import { items, randomList2 } from '@website-data';
 import { getSchematicBonus } from '@parsers/world-5/caverns/the-well';
 import { getStudyBonus } from '@parsers/world-5/hole';
+import { OPT } from '@parsers/accountOptions';
 
 // Cavern 18 — Crystal Glunko Cove. Mirrors N.js customBlock_Holes2 Cglunko_* handlers.
 // Cove upgrade level t (0..23) lives in OptionsListAccount[630 + t]; gooey shapes (the cove currency)
@@ -26,7 +27,7 @@ const getCglunkoUpgCost = (holesObject: any, account: any, t: number): number =>
   const costBase = Number(randomList2?.[14]?.[t] ?? 0);
   let cost = (Math.pow(costBase, level) + level) * (1 / (1 + getCglunkoBonus(account, 7) / 100));
   if (t % 2 === 1) cost *= 5;
-  if (Math.round(account?.accountOptions?.[604] ?? 0) < getStudyBonus(holesObject, 17, 0)) cost *= 0.85;
+  if (Math.round(account?.accountOptions?.[OPT.cglunkoUpgradesBoughtToday] ?? 0) < getStudyBonus(holesObject, 17, 0)) cost *= 0.85;
   return cost < 1e6 ? Math.floor(Math.max(1, cost)) : cost;
 };
 

@@ -1,4 +1,4 @@
-// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1.
+// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 80e811ff34cf1d14fcd72e32a977d7113221e7da.
 // Copyright (C) Morta1 and IdleOn Toolbox contributors. GPL-3.0-only; see vendor/LICENSE.
 // Copied unmodified by IdleOn Forge's scripts/sync.sh; UI-coupled imports are redirected to shims/ at build time.
 import type { IdleonData, Account, ServerVars } from '../types';
@@ -12,6 +12,7 @@ import { isKingDootActive } from '@parsers/world-5/divinity';
 import { getBestActiveCharacter } from '@parsers/talents';
 import { additiveGroup, createBreakdown, multiplier, percent } from '@parsers/breakdown';
 import type { StatBreakdown } from '@parsers/breakdown';
+import { OPT } from '@parsers/accountOptions';
 
 export const getArcade = (idleonData: IdleonData, account: Account, serverVars: ServerVars, characters?: any[]) => {
   const arcadeRaw = tryToParse((idleonData as any)?.ArcadeUpg) || (idleonData as any)?.ArcadeUpg;
@@ -78,11 +79,11 @@ export const getGoldBallMulti = (account: Account, serverVars: ServerVars, chara
 }
 
 const parseArcade = (arcadeRaw: any, account: Account, serverVars: ServerVars, characters?: any[]) => {
-  const balls = (account as any)?.accountOptions?.[74];
-  const goldBalls = (account as any)?.accountOptions?.[75];
-  const royalBalls = (account as any)?.accountOptions?.[324];
+  const balls = (account as any)?.accountOptions?.[OPT.arcadeBalls];
+  const goldBalls = (account as any)?.accountOptions?.[OPT.arcadeGoldBalls];
+  const royalBalls = (account as any)?.accountOptions?.[OPT.arcadeCosmicBalls];
   // 2.3.540 Omega balls (Menagerie unlock 6), spent on the Lv 101 -> 102 Omega upgrade
-  const omegaBalls = (account as any)?.accountOptions?.[625] ?? 0;
+  const omegaBalls = (account as any)?.accountOptions?.[OPT.omegaArcadeBalls] ?? 0;
 
   const arcadeShopList = arcadeShop?.map((upgrade: any, index: number) => {
     const { x1, x2, func } = upgrade;

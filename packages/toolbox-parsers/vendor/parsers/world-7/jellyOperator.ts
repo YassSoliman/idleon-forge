@@ -1,7 +1,7 @@
-// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1.
+// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 80e811ff34cf1d14fcd72e32a977d7113221e7da.
 // Copyright (C) Morta1 and IdleOn Toolbox contributors. GPL-3.0-only; see vendor/LICENSE.
 // Copied unmodified by IdleOn Forge's scripts/sync.sh; UI-coupled imports are redirected to shims/ at build time.
-import { tryToParse, commaNotation, notateNumber, lavaLog, lavaLog2 } from '@utility/helpers';
+import { commaNotation, notateNumber, lavaLog, lavaLog2 } from '@utility/helpers';
 import { sumSaveArray } from '@parsers/world-7/saveTotals';
 import { research as researchData, jellyUpgrades as jellyUpgradesData, gameTables } from '@website-data';
 import { getArcadeBonus } from '@parsers/world-2/arcade';
@@ -9,12 +9,13 @@ import { getAtomBonus } from '@parsers/world-3/atomCollider';
 import { getResearchGridBonus } from '@parsers/world-7/research';
 import { getPaletteBonus } from '@parsers/world-5/gaming';
 import { getSushiBonus } from '@parsers/world-7/sushiStation';
-import { isBundlePurchased } from '@parsers/misc';
+import { getEventShopBonus, isBundlePurchased } from '@parsers/misc';
 import { isArtifactAcquired } from '@parsers/world-5/sailing';
 import { getOptimizedGenericUpgrades } from '@parsers/genericUpgradeOptimizer';
 import { getLegendTalentBonus } from '@parsers/world-7/legendTalents';
-import { DOUBLER_SPELUNK_ROW, getDoublerMulti } from '@parsers/world-7/menagerie';
+import { DOUBLER_SPELUNK_ROW, getDoublerMulti, isDoublerEligible } from '@parsers/world-7/menagerie';
 import { createBreakdown, multiplier } from '@parsers/breakdown';
+import { saveField } from '@parsers/saveField';
 
 // Jelly Operator (2.3.531) lives in the Research save: [7] holds the scalar state, [16] the cell
 // levels, [17] the upgrade levels and [18] the purchased slot groups.
@@ -78,7 +79,7 @@ const getBounds = (points: { col: number, row: number }[]) => {
 };
 
 const getRawResearch = (idleonData: any) => {
-  const raw = tryToParse(idleonData?.Research) || idleonData?.Research;
+  const raw = saveField(idleonData, 'Research') || idleonData?.Research;
   return Array.isArray(raw) ? raw : [];
 };
 
@@ -112,7 +113,7 @@ const SPELUNK_LEGEND_TALENTS = 18;
 
 const readJellySave = (idleonData: any): JellySave => {
   const raw = getRawResearch(idleonData);
-  const spelunk = tryToParse(idleonData?.Spelunk) || idleonData?.Spelunk;
+  const spelunk = saveField(idleonData, 'Spelunk') || idleonData?.Spelunk;
   // resolved once here, so the optimizer's simulated saves keep the doublers
   const doubledUpgrades = ((jellyUpgradesData as any[]) ?? []).map((_: any, id: number) => id)
     .filter((id: number) => getDoublerMulti(idleonData, DOUBLER_SPELUNK_ROW.jellyOperator, id) > 1);
@@ -134,7 +135,20 @@ const getUpgradeQTY = (levels: number[], doubledUpgrades: number[] | undefined, 
   * (Number((jellyUpgradesData as any)?.[id]?.[3]) || 0)
   * (Number(levels?.[id]) || 0);
 
-export const getJellyOperator = (idleonData: any, account: any) => computeJellyOperator(readJellySave(idleonData), account);
+export const getJellyOperator = (idleonData: any, account: any) => {
+  const save = readJellySave(idleonData);
+  const jelly = computeJellyOperator(save, account);
+  // "$" values read composites (bloodcell multi, EXP multi), so the doubled text re-runs the whole operator
+  // with a doubler on that upgrade. Kept out of computeJellyOperator so the optimizer loop never pays for it.
+  const upgrades = jelly.upgrades.map((upgrade) => {
+    const doublerEligible = isDoublerEligible('jellyOperator', upgrade.id);
+    if (!doublerEligible || upgrade.doubled || upgrade.bonus <= 0) return { ...upgrade, doublerEligible, doubledDescription: null };
+    const doubledJelly = computeJellyOperator({ ...save, doubledUpgrades: [...save.doubledUpgrades, upgrade.id] }, account);
+    const doubledDescription = doubledJelly.upgrades.find(({ id }) => id === upgrade.id)?.description ?? null;
+    return { ...upgrade, doublerEligible, doubledDescription };
+  });
+  return { ...jelly, upgrades };
+};
 
 // Everything below reads only the save slice, so the upgrade optimizer can re-run it with
 // simulated upgrade levels.
@@ -161,7 +175,8 @@ export const computeJellyOperator = (save: JellySave, account: any) => {
   const feverType = Number(misc?.[13]) || 0;
   const feverBonus = (type: number, speed = false) => {
     if (feverType !== type || upgradeQTY(16) < 1) return 0;
-    if (type >= 1 && type <= 3) return 100;
+    if (type === 2) return 300;
+    if (type === 1 || type === 3) return 100;
     if (type === 4) return speed ? 25 : 50;
     return type === 5 ? 40 : 0;
   };
@@ -183,6 +198,7 @@ export const computeJellyOperator = (save: JellySave, account: any) => {
     { name: 'Obstruction Bonus', value: 1 + jellyBonus(24) / 100 },
     { name: 'DPS Record', value: dpsMulti },
     { name: 'Blood Tribunal', value: (1 + upgradeQTY(26) / 100) * (1 + upgradeQTY(27) / 100) },
+    { name: 'Event Shop', value: 1 + getEventShopBonus(account, 56) },
     { name: 'Sulfur Atom', value: 1 + atomBonus / 100 }
   ];
   const bloodcellMulti = bloodcellMultiSources.reduce((product, { value }) => product * value, 1);
@@ -217,7 +233,8 @@ export const computeJellyOperator = (save: JellySave, account: any) => {
   purchasedSlotGroups.forEach((groupIndex) => groupSlots(groupIndex).forEach((slot) => openSlots.add(slot)));
   const slotsOwned = openSlots.size;
   const slotPurchasesLeft = Math.max(0, Math.round(upgradeQTY(9) + upgradeQTY(8) + jellyBonus(44) + hasBundle
-    + Math.min(3, Math.ceil((legendTalent41Level ?? 0) / 2)) - purchasedSlotGroups.length));
+    + Math.min(3, Math.ceil((legendTalent41Level ?? 0) / 2)) + 3 * getEventShopBonus(account, 57)
+    - purchasedSlotGroups.length));
 
   // game: "JellyOperation:UpgCost" / "JellyOperation:CanWeBuyUpg" - costs and unlocks follow the display position, not the id.
   const upgradeCost = (position: number, id: number) => {
@@ -345,7 +362,7 @@ export const computeJellyOperator = (save: JellySave, account: any) => {
       hp: getBossHP(index),
       // game: "BossTime" / "BossAtkCD"
       time: 30 + 5 * Math.floor(index / 12),
-      attackCooldown: Math.max(10, 120 - 20 * Math.floor(index / 6))
+      attackCooldown: Math.max(10, 120 - (index / 6) * 20)
     };
   });
 
@@ -419,6 +436,9 @@ export const computeJellyOperator = (save: JellySave, account: any) => {
     boardDps,
     layout,
     obstructionsDefeated,
+    // game: Research[7][9] = min(defeated + 1, Research[45].length - 1), so the last obstruction is never passed;
+    // the ones whose reward still reads "Nothing yet" are real fights and count
+    maxObstructionsDefeated: Math.max(0, obstructionNames.length - 1),
     operationsLeft,
     dailyOperations,
     bloodcells,

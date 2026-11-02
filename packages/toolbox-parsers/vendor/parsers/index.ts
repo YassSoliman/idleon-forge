@@ -1,4 +1,4 @@
-// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1.
+// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 80e811ff34cf1d14fcd72e32a977d7113221e7da.
 // Copyright (C) Morta1 and IdleOn Toolbox contributors. GPL-3.0-only; see vendor/LICENSE.
 // Copied unmodified by IdleOn Forge's scripts/sync.sh; UI-coupled imports are redirected to shims/ at build time.
 import {
@@ -7,6 +7,7 @@ import {
   getPlayerConstructionExpPerHour,
   getPlayerConstructionSpeed,
   getPlayerCrystalChance,
+  getSkillExpMulti,
   initializeCharacter
 } from './character';
 import { getCards } from './cards';
@@ -70,7 +71,7 @@ import { getEquinox, getLockedEquinox } from './world-3/equinox';
 import { getTotalizerBonuses, getTotems } from './world-3/worship';
 import { getSneaking, getSneakingDetection } from '@parsers/world-6/sneaking';
 import { getFarming, updateFarming } from '@parsers/world-6/farming';
-import { getEssenceGain, getSummoning } from '@parsers/world-6/summoning';
+import { getEssenceGain, getFamiliarExp, getSummoning } from '@parsers/world-6/summoning';
 import { getTome } from '@parsers/world-4/tome';
 import { getOwl } from '@parsers/world-1/owl';
 import { getKangaroo } from '@parsers/world-2/kangaroo';
@@ -99,25 +100,44 @@ import { getAdviceFish } from '@parsers/misc';
 import { getBubba } from '@parsers/clickers/bubba';
 import { getHatRack } from '@parsers/world-3/hatRack';
 import { getFriendBonusStats } from '@parsers/misc';
-import { safeSection } from '@parsers/safeSection';
+import { safeSection, trackSectionFailures } from '@parsers/safeSection';
 import type { IdleonData, Account, CompanionData, GuildData, ServerVars, TournamentData } from './types';
+import { resetSaveFields, saveField } from '@parsers/saveField';
 
 export interface ParseOptions {
   // Companion indices the user asked to be treated as owned (pets page "what if" simulation).
   simulatedCompanions?: number[];
+  // Tests only: pass-convergence.test.js checks that one extra pass changes nothing.
+  passes?: number;
 }
+
+const DEFAULT_PASSES = 3;
 
 export const parseData = (idleonData: IdleonData, charNames: string[], companion: CompanionData, guildData: GuildData | null, serverVars: ServerVars, accountCreateTime: number, tournament: TournamentData | null, options?: ParseOptions) => {
   try {
+    resetSaveFields(idleonData);
+    const staticFailures = new Set<string>();
+    trackSectionFailures(staticFailures);
     const staticData = getStaticData(idleonData, charNames, companion, guildData, serverVars, accountCreateTime, tournament, options);
 
-    // Multiple passes needed to resolve cross-dependencies between parsers
+    // Multiple passes needed to resolve cross-dependencies between parsers. Pass 3 is load-bearing:
+    // on endgame saves it still moves ~1,000 values (2026-10-27), and pass-convergence.test.js
+    // fails the day a 4th pass is needed.
     let processedData: any = null;
-    for (let pass = 0; pass < 3; pass++) {
+    // Only the last pass counts: a section can throw on a dependency an earlier pass had not filled yet.
+    let passFailures = new Set<string>();
+    const passes = options?.passes ?? DEFAULT_PASSES;
+    for (let pass = 0; pass < passes; pass++) {
+      passFailures = new Set<string>();
+      trackSectionFailures(passFailures);
       processedData = serializeData(idleonData, serverVars, staticData, processedData);
     }
 
     const { accountData, charactersData } = processedData;
+    const failedSections = [...new Set([...staticFailures, ...passFailures])];
+    if (failedSections.length) {
+      accountData.failedSections = failedSections;
+    }
     return { account: accountData, characters: charactersData };
   } catch (err) {
     console.error('Error while parsing data', err);
@@ -128,7 +148,11 @@ export const parseData = (idleonData: IdleonData, charNames: string[], companion
         value: 1
       });
     }
-    return { account: {}, characters: [] };
+    // Tells utility/parseSave a worker parse failed: window.gtag above doesn't exist in a worker.
+    // '*' marks every section failed, so pages say the save couldn't be read rather than that it is empty.
+    return { account: { failedSections: ['*'] }, characters: [], parseFailed: true };
+  } finally {
+    trackSectionFailures(null);
   }
 };
 
@@ -176,7 +200,7 @@ const getStaticData = (idleonData: IdleonData, charNames: string[], companion: C
     towers: safeSection<any>('towers', {}, () => getTowers(idleonData)),
     achievements: safeSection<any>('achievements', [], () => getAchievements(idleonData)),
     rift: safeSection<any>('rift', {}, () => getRift(idleonData)),
-    weeklyBossesRaw: tryToParse(idleonData?.WeeklyBoss),
+    weeklyBossesRaw: saveField(idleonData, 'WeeklyBoss'),
     constellations,
     rawConstellationsDone,
     shopStock: safeSection<any>('shopStock', [], () => getShops(idleonData)),
@@ -374,7 +398,7 @@ const serializeData = (idleonData: IdleonData, serverVars: ServerVars, staticDat
   accountData.coralReef = safeSection<any>('coralReef', {}, () => getCoralReef(idleonData, accountData, charactersData));
   accountData.clamWork = safeSection<any>('clamWork', {}, () => getClamWork(idleonData, accountData));
   accountData.minehead = safeSection<any>('minehead', {}, () => getMinehead(idleonData, accountData, serverVars));
-  accountData.tournament = safeSection<any>('tournament', {}, () => getTournament(idleonData, accountData, staticData.tournamentServerData));
+  accountData.tournament = safeSection<any>('tournament', {}, () => getTournament(idleonData, accountData, staticData.tournamentServerData, serverVars));
   accountData.research = safeSection<any>('research', {}, () => getResearch(idleonData, accountData, charactersData, serverVars));
   accountData.button = safeSection<any>('button', {}, () => getButton(accountData, charactersData));
   accountData.sushiStation = safeSection<any>('sushiStation', {}, () => getSushiStation(idleonData, accountData));
@@ -386,6 +410,8 @@ const serializeData = (idleonData: IdleonData, serverVars: ServerVars, staticDat
   // After vials, stamps, statues, the vault and the tome: every essence multiplier is final by now
   if (accountData.summoning) {
     (accountData.summoning as any).essenceGain = safeSection<any>('summoning.essenceGain', [], () => getEssenceGain(accountData, charactersData));
+    (accountData.summoning as any).familiarExp = safeSection<any>('summoning.familiarExp', null, () =>
+      getFamiliarExp(accountData, getSkillExpMulti('summoning', charactersData?.[0], charactersData, accountData)));
   }
   // Last: stealth reads emperor, sushi, jelly, tome and caverns, all parsed above.
   accountData.sneaking.detection = safeSection<any>('sneakingDetection', null, () => getSneakingDetection(idleonData, accountData, charactersData));

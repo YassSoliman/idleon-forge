@@ -1,4 +1,4 @@
-// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1.
+// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 80e811ff34cf1d14fcd72e32a977d7113221e7da.
 // Copyright (C) Morta1 and IdleOn Toolbox contributors. GPL-3.0-only; see vendor/LICENSE.
 // Copied unmodified by IdleOn Forge's scripts/sync.sh; UI-coupled imports are redirected to shims/ at build time.
 import { holesInfo, superbitsUpgrades } from '@website-data';
@@ -6,7 +6,7 @@ import { getPaletteBonus, isSuperbitUnlocked } from '@parsers/world-5/gaming';
 import { getExoticMarketBonus } from '@parsers/world-6/farming';
 import { getSchematicBonus } from '@parsers/world-5/caverns/the-well';
 import { getFountainBonusTotal } from '@parsers/world-5/caverns/the-fountain';
-import { cleanUnderscore, createRange, lavaLog, notateNumber, numberWithCommas } from '@utility/helpers';
+import { cleanUnderscore, commaNotation, createRange, lavaLog, notateNumber, numberWithCommas } from '@utility/helpers';
 import { getCosmoBonus, getMeasurementBonus, getStudyBonus } from '@parsers/world-5/hole';
 import { getBellBonus } from '@parsers/world-5/caverns/the-bell';
 import { getStampsBonusByEffect } from '@parsers/world-1/stamps';
@@ -16,6 +16,9 @@ import { getLegendTalentBonus } from '@parsers/world-7/legendTalents';
 import { getCglunkoBonus } from '@parsers/world-5/caverns/crystal-glunko-cove';
 import { NUMBERED_GROUP, additiveGroup, createBreakdown, flat, listGroup, multiplier, percent, productGroup, sumGroup } from '@parsers/breakdown';
 
+
+// The Jars header shows the jars found out of this many
+export const MAX_JARS = 120;
 
 const jarNames = [
   'Simple Jar',
@@ -74,6 +77,10 @@ export const getTheJars = (holesObject: any, jarsRaw: any, accountData: any) => 
   })
   rupies = [...rupies, ...whiteDarkRupies];
 
+  // game: $ (only the first collectible has one) is JarRupieValue, Small under 1e3, with commas under 1e9, Big past that
+  const rupieValueText = String(rupieValue.value < 1e3
+    ? notateNumber(rupieValue.value, 'Small')
+    : rupieValue.value < 1e9 ? commaNotation(rupieValue.value) : notateNumber(rupieValue.value, 'Big'));
   const collectibles = Array.from({ length: 40 }, (_, index) => holesObject?.jarStuff?.[index]).map((level: any, index: any) => {
     const [name, bonusModifier, , description] = holesInfo?.[67]?.[index]?.split('|') ?? [];
     const bonus = getJarBonus({ holesObject, i: index, account: accountData });
@@ -82,7 +89,9 @@ export const getTheJars = (holesObject: any, jarsRaw: any, accountData: any) => 
       bonus,
       name: (cleanUnderscore(name) as any).toLowerCase().capitalizeAllWords(),
       bonusModifier,
-      description: description.replace('{', String(bonus)).replace('}', String(1 + bonus / 100)),
+      // @ is the game's line break
+      description: description.replace('{', String(bonus)).replace('}', String(1 + bonus / 100))
+        .replace('$', rupieValueText).replace(/@/g, '\n'),
       doubled: holesObject?.extraCalculations?.[62] === index
     }
   });
@@ -104,6 +113,7 @@ export const getTheJars = (holesObject: any, jarsRaw: any, accountData: any) => 
     jarInventory,
     totalJarQuantity: jarInventory.reduce((sum, { quantity }) => sum + quantity, 0),
     totalEnhancingLevels,
+    totalJarsDestroyed: jars.reduce((sum, { destroyed }) => sum + destroyed, 0),
     collectibles
   }
 }

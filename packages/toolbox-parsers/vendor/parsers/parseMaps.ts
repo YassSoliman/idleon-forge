@@ -1,4 +1,4 @@
-// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1.
+// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 80e811ff34cf1d14fcd72e32a977d7113221e7da.
 // Copyright (C) Morta1 and IdleOn Toolbox contributors. GPL-3.0-only; see vendor/LICENSE.
 // Copied unmodified by IdleOn Forge's scripts/sync.sh; UI-coupled imports are redirected to shims/ at build time.
 export const starSignsIndicesMap = {
@@ -221,9 +221,9 @@ export const unrealisticGreenstackItems = ([
   // Event only / no source in the current build
   'Quest39', 'Quest75', 'Quest85', 'Quest88', 'Quest91', 'Quest92', 'Quest109', 'Quest113', 'Quest111', 'Quest114', 'Quest119', 'Quest120',
   'Quest93', 'Quest98', 'Quest100', 'Quest107', 'Quest97', 'Quest102', 'Quest76', 'GemP36', 'StoneT1e', 'StoneHelm1b', 'StoneW3b',
-  'FoodG15', 'Timecandy10', 'Line6', 'ItemsCoupon1', 'ItemsCoupon2', 'BallJoePickle', 'CaveGoldPiece',
+  'FoodG15', 'Timecandy10', 'Line6', 'ItemsCoupon1', 'ItemsCoupon2', 'BallJoePickle', 'CaveGoldPiece', 'FoodPotMana2',
   // Repeatable in theory, zero stackers across all profiles
-  'Crystal1', 'Crystal2', 'Crystal3', 'Crystal4', 'Crystal5', 'Mayo', 'Trash', 'Trash2', 'Trash3', 'KeyFrag',
+  'Crystal1', 'Crystal2', 'Crystal3', 'Crystal4', 'Crystal5', 'Crystal6', 'Mayo', 'Trash', 'Trash2', 'Trash3', 'KeyFrag',
   'RGshard0', 'RGshard1', 'RGshard2', 'RGshard3', 'RGshard4', 'RGshard5', 'RGenh', 'RGenhB',
   'StoneTempestB0', 'StoneTempestB1', 'StoneTempestB2', 'StoneTempestR0', 'StoneTempestR1', 'StoneTempestR2',
   // Player reports: shop stock of 500-1000/day, gem shop only, event boxes, or crafted from rare one-off parts.

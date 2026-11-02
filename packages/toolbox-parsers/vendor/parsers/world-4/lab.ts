@@ -1,4 +1,4 @@
-// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1.
+// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 80e811ff34cf1d14fcd72e32a977d7113221e7da.
 // Copyright (C) Morta1 and IdleOn Toolbox contributors. GPL-3.0-only; see vendor/LICENSE.
 // Copied unmodified by IdleOn Forge's scripts/sync.sh; UI-coupled imports are redirected to shims/ at build time.
 import { growth, tryToParse } from '@utility/helpers';
@@ -16,6 +16,7 @@ import { efficiencyGroupNames, getAllBaseSkillEffBreakdown, getAllEffBreakdown }
 import { NUMBERED_GROUP, additiveGroup, evaluateBreakdownNode, flat, multiplier, percent, productGroup, sumGroup } from '@parsers/breakdown';
 import { getPostOfficeBonus } from '@parsers/world-3/postoffice';
 import { GOD_INDEX, isMajorDivinityActive } from '@parsers/world-5/divinity';
+import { OPT } from '@parsers/accountOptions';
 
 // Game: MainframeBonus(n) adds MainframeBonus(100 + jewel) to these connected bonuses
 // (Animal Farm, No Bubble Left Behind, Fungi Finger, Banking Fury, Slab Sovereignty, Depot Studies)
@@ -43,7 +44,7 @@ const parseLab = (labRaw: any, charactersData: any, account: any, updatedCharact
       currentRotation: []
     };
   }
-  const arenaWave = account?.accountOptions?.[89];
+  const arenaWave = account?.accountOptions?.[OPT.highestArenaWave];
   const waveReqs = randomList?.[53];
   const [cords] = labRaw;
   const chipRepo = labRaw[15];

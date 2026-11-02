@@ -1,9 +1,9 @@
-// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1.
+// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 80e811ff34cf1d14fcd72e32a977d7113221e7da.
 // Copyright (C) Morta1 and IdleOn Toolbox contributors. GPL-3.0-only; see vendor/LICENSE.
 // Copied unmodified by IdleOn Forge's scripts/sync.sh; UI-coupled imports are redirected to shims/ at build time.
 import { commaNotation, lavaLog, lavaLog2, notateNumber, tryToParse } from '@utility/helpers';
 import { bubbaUpgrades, generalSpelunky } from '@website-data';
-import { isCompanionBonusActive } from '@parsers/misc';
+import { getEventShopBonus, isCompanionBonusActive } from '@parsers/misc';
 import { getUpgradeVaultBonus } from '@parsers/misc/upgradeVault';
 import { getSushiBonus } from '@parsers/world-7/sushiStation';
 import { getJellyBonus } from '@parsers/world-7/jellyOperator';
@@ -11,6 +11,7 @@ import { getFountainBonusTotal } from '@parsers/world-5/caverns/the-fountain';
 import { getMineheadBonusQTY } from '@parsers/world-7/minehead';
 import { getClickerCheapener } from '@parsers/world-7/menagerie';
 import { getPetArenaCrucBonus } from '@parsers/world-4/breeding';
+import { OPT } from '@parsers/accountOptions';
 
 const BUBBA_CHEAPENER_BOOST = 20;
 
@@ -156,6 +157,7 @@ const getUpgradeCost = (rawBubba: any, account: any, upgradeIndex: any) => {
   const costReductionCharisma = 1 / (1 + getCharismaBonus(rawBubba, 1) / 100);
   // game: MenagerieStuff("BubbaCheapener", t, 0)
   const menagerieCheapener = getClickerCheapener(account, BUBBA_CHEAPENER_BOOST, upgradeIndex);
+  const costReductionEventShop = 1 / (1 + getEventShopBonus(account, 58));
 
   // Base cost calculation
   const baseCost = Math.pow(upgradeIndex + 1, 2) * level
@@ -164,6 +166,7 @@ const getUpgradeCost = (rawBubba: any, account: any, upgradeIndex: any) => {
   return costReductionMinehead
     * costReduction4
     * costReduction18
+    * costReductionEventShop
     * menagerieCheapener
     * costReduction26
     * costReductionCharisma
@@ -229,6 +232,10 @@ const getGiftPassiveBonus = (rawBubba: any, giftIndex: any, checkAll = false) =>
   const totUpgBonus17 = getTotUpgBonus(rawBubba, 17);
   return giftValue * Math.min(5, 1 + totUpgBonus17 / 100);
 };
+
+// game: "Dice_MaxSides"
+const getDiceMaxSides = (rawBubba: any) =>
+  Math.round(Math.min(20, 6 + getTotUpgBonus(rawBubba, 16) + 5 * getMegafleshOwned(rawBubba, 4)));
 
 // game: "Dice_Multi"
 const getDiceMulti = (rawBubba: any) => {
@@ -380,6 +387,10 @@ const formatUpgradeDescription = (rawBubba: any, upgradeIndex: any) => {
       // DailyPet_HappinessFromUpg value
       dollarValue = Math.round(100 * getDailyPetHappinessFromUpg(rawBubba)) / 100;
     }
+    else if (upgradeIndex === 16) {
+      // More Sides: the game's panel never fills this "$", but the text means the max dice roll
+      dollarValue = getDiceMaxSides(rawBubba);
+    }
     description = description.replace('$', '' + dollarValue);
   }
 
@@ -408,7 +419,7 @@ const getMeatsliceRate = (rawBubba: any, account: any) => {
   const percentageBonus = (getTotUpgBonus(rawBubba, 2)
     + getTotUpgBonus(rawBubba, 11)
     + getTotUpgBonus(rawBubba, 19)
-    + getTotUpgBonus(rawBubba, 24) * lavaLog(account?.accountOptions?.[267] || 1)) / 100;
+    + getTotUpgBonus(rawBubba, 24) * lavaLog(account?.accountOptions?.[OPT.kangarooFish] || 1)) / 100;
 
   const happinessBonus = getHappinessBonus(rawBubba);
   const diceMulti = getDiceMulti(rawBubba);
@@ -422,6 +433,7 @@ const getMeatsliceRate = (rawBubba: any, account: any) => {
   return baseRate
     * (1 + percentageBonus)
     * happinessBonus
+    * (1 + 2 * getEventShopBonus(account, 58))
     * diceMulti
     * smokeMeatMulti
     * (1 + charismaBonus)

@@ -1,7 +1,8 @@
-// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1.
+// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 80e811ff34cf1d14fcd72e32a977d7113221e7da.
 // Copyright (C) Morta1 and IdleOn Toolbox contributors. GPL-3.0-only; see vendor/LICENSE.
 // Copied unmodified by IdleOn Forge's scripts/sync.sh; UI-coupled imports are redirected to shims/ at build time.
 import type { IdleonData, Account } from './types';
+import { notateNumber } from '@utility/helpers';
 
 const colosseumIndexMapping: Record<number, string> = { 0: 'dewdrop', 1: 'sandstone', 2: 'chillsnap', 3: 'astro', 4: 'molten', 5: 'whimsical' };
 const minigameIndexMapping: Record<number, string> = { 0: 'chopping', 1: 'fishing', 2: 'catching', 3: 'mining' };
@@ -86,7 +87,8 @@ export const getDartsData = (account: Account): { totalPoints: number; upgrades:
   const points = [435, 436, 437, 438].map((index) => (account?.accountOptions as any)?.[index] ?? 0);
   const totalPoints = points.reduce((res: number, point: number) => res + point, 0);
   const upgrades = upgradeTexts.map((text, index) => ({
-    description: text.replace('{', points[index]),
+    // game: } is NotateNumber(1 + points / 100, "MultiplierInfo")
+    description: text.replace('{', points[index]).replace('}', String(notateNumber(1 + points[index] / 100, 'MultiplierInfo'))),
     pointsToUnlock: upgradeReqs[index],
     level: points[index],
     unlocked: points[index] > 0,

@@ -1,4 +1,4 @@
-// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1.
+// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 80e811ff34cf1d14fcd72e32a977d7113221e7da.
 // Copyright (C) Morta1 and IdleOn Toolbox contributors. GPL-3.0-only; see vendor/LICENSE.
 // Copied unmodified by IdleOn Forge's scripts/sync.sh; UI-coupled imports are redirected to shims/ at build time.
 import { differenceInHours, differenceInMinutes, isPast } from 'date-fns';
@@ -16,6 +16,7 @@ import {
 } from '../../parsers/talents';
 import { getAllTools } from '../../parsers/items';
 import { cleanUnderscore } from '@utility/helpers';
+import { OPT } from '@parsers/accountOptions';
 
 export const anvilAlerts = (account, characters, character, lastUpdated, options) => {
   const alerts = {};
@@ -61,14 +62,15 @@ export const anvilAlerts = (account, characters, character, lastUpdated, options
 export const worshipAlerts = (account, characters, character, lastUpdated, options) => {
   const alerts = {};
   if (!account?.finishedWorlds?.World2) return alerts;
-  if (options?.worship?.unendingEnergy?.checked) {
-    const timePassed = new Date().getTime() + (character?.afkTime - lastUpdated);
-    const minutes = differenceInMinutes(new Date(), new Date(timePassed));
-    if (minutes >= 5) {
-      const hasUnendingEnergy = character?.activePrayers?.find(({ name }) => name === 'Unending_Energy');
-      const hours = differenceInHours(new Date(), new Date(timePassed));
-      alerts.unendingEnergy = hasUnendingEnergy && hours > 10;
-    }
+  const timePassed = new Date().getTime() + (character?.afkTime - lastUpdated);
+  const isAfk = differenceInMinutes(new Date(), new Date(timePassed)) >= 5;
+  if (options?.worship?.unendingEnergy?.checked && isAfk) {
+    const hasUnendingEnergy = character?.activePrayers?.find(({ name }) => name === 'Unending_Energy');
+    const hours = differenceInHours(new Date(), new Date(timePassed));
+    alerts.unendingEnergy = hasUnendingEnergy && hours > 10;
+  }
+  if (options?.worship?.ruckSack?.checked && isAfk) {
+    alerts.ruckSack = character?.activePrayers?.some(({ name }) => name === 'Ruck_Sack');
   }
   if (options?.worship?.chargeOverdue?.checked) {
     const fivePercent = 5 * character?.worship?.maxCharge / 100;
@@ -113,7 +115,7 @@ export const questsAlerts = (account, characters, character, lastUpdated, option
 export const alchemyAlerts = (account, characters, character, lastUpdated, options) => {
   const alerts = {};
   if (options?.alchemy?.missingBubbles?.checked) {
-    const arenaWave = account?.accountOptions?.[89];
+    const arenaWave = account?.accountOptions?.[OPT.highestArenaWave];
     const waveReqs = randomList?.[53];
     const arenaBonusUnlock = isArenaBonusActive(arenaWave, waveReqs, 11);
     const maxEquippedBubbles = arenaBonusUnlock ? 3 : 2;
@@ -182,11 +184,13 @@ export const talentsAlerts = (account, characters, character, lastUpdated, optio
       alerts.superTalentLeftToSpend = superTalentLeftToSpend;
     }
   }
+  const ignored = options?.talents?.ignoredTalents?.checked ? options.talents.ignoredTalents.props?.value : null;
+  const notIgnored = ({ name }) => !ignored?.[name];
   if (options?.talents?.unmaxedTalents?.checked) {
-    alerts.unmaxedTalents = getUnmaxedTalents(character);
+    alerts.unmaxedTalents = getUnmaxedTalents(character).filter(notIgnored);
   }
   if (options?.talents?.libraryUpgradableTalents?.checked) {
-    alerts.libraryUpgradableTalents = getLibraryUpgradableTalents(character);
+    alerts.libraryUpgradableTalents = getLibraryUpgradableTalents(character).filter(notIgnored);
   }
   return alerts;
 }
@@ -196,10 +200,16 @@ export const talentsAlerts = (account, characters, character, lastUpdated, optio
 const getRealTalents = (character) => character?.flatTalents?.filter(({ skillIndex, name, maxLevel }) =>
   name && maxLevel > 0 && Number.isFinite(Number(skillIndex))) || [];
 
-// Talents with points left to spend - the white tier of the Talents page level color legend.
-const getUnmaxedTalents = (character) => getRealTalents(character)
-  .filter(({ baseLevel, maxLevel }) => baseLevel < maxLevel)
-  .map(({ name, skillIndex, baseLevel, maxLevel }) => ({ name, skillIndex, level: baseLevel, target: maxLevel }));
+// Talents below their cap on a tab that still has talent points to spend - the white tier of the
+// Talents page level color legend.
+const getUnmaxedTalents = (character) => {
+  const spendableTalents = new Set(Object.values(character?.talents || {})
+    .filter((_, tab) => !character?.talentPointsLeft || character.talentPointsLeft[tab] > 0)
+    .flatMap(({ orderedTalents }) => orderedTalents?.map(({ skillIndex }) => skillIndex) || []));
+  return getRealTalents(character)
+    .filter(({ skillIndex, baseLevel, maxLevel }) => baseLevel < maxLevel && spendableTalents.has(skillIndex))
+    .map(({ name, skillIndex, baseLevel, maxLevel }) => ({ name, skillIndex, level: baseLevel, target: maxLevel }));
+}
 
 // Talents already at their cap that a Talent Book Library book could raise further - the blue tier
 // of the level color legend.
@@ -359,7 +369,9 @@ export const cardsAlert = (account, characters, character, lastUpdated, options)
         text: `${character.name} is fighting but has skilling card set (${cardSetEffect})`
       };
     }
+    // No card set touches divinity gains (EXP uses AllSkillxpMULTI, efficiency is a flat 100)
     else if (character.afkType !== 'FIGHTING' && character.afkType !== 'Nothing' && character.afkType !== 'Paying_Respect'
+      && character.afkType !== 'DIVINITY'
       && (equippedCardSet?.rawName === 'CardSet4'
         || equippedCardSet?.rawName === 'CardSet6'
         || equippedCardSet?.rawName === 'CardSet8'

@@ -1,4 +1,4 @@
-// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1.
+// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 80e811ff34cf1d14fcd72e32a977d7113221e7da.
 // Copyright (C) Morta1 and IdleOn Toolbox contributors. GPL-3.0-only; see vendor/LICENSE.
 // Copied unmodified by IdleOn Forge's scripts/sync.sh; UI-coupled imports are redirected to shims/ at build time.
 import { arenaBonuses, monsters, petGenes, petStats, petUpgrades, randomList, territory } from '@website-data';
@@ -19,13 +19,15 @@ import { getSushiBonus } from '@parsers/world-7/sushiStation';
 import { getMineheadBonusQTY } from '@parsers/world-7/minehead';
 import { NUMBERED_GROUP, additiveGroup, createBreakdown, multiplier, percent } from '@parsers/breakdown';
 import { isMenagerieUnlockOwned } from '@parsers/world-7/menagerie';
+import { OPT } from '@parsers/accountOptions';
+import { saveField } from '@parsers/saveField';
 
 // Crucible (hard arena) waves cleared, OptionsListAccount[628], against the randomList[115] wave list:
 // the count of waves reached in order, only once the Menagerie unlock 8 is owned.
 // game: "TalentCalc:arenaCruc"
 export const getArenaCrucibleCount = (account: any): number => {
   if (!isMenagerieUnlockOwned(account, 8)) return 0;
-  const bestWave = Number(account?.accountOptions?.[628]) || 0;
+  const bestWave = Number(account?.accountOptions?.[OPT.crucibleBestWave]) || 0;
   const waves: any[] = (randomList as any)?.[115] ?? [];
   const index = waves.findIndex((wave) => bestWave < Number(wave));
   return index === -1 ? waves.length : index;
@@ -35,11 +37,11 @@ export const getArenaCrucibleCount = (account: any): number => {
 export const getPetArenaCrucBonus = (account: any, index: number): number => getArenaCrucibleCount(account) > index ? 1 : 0;
 
 export const getBreeding = (idleonData: any, account: any, processedData: any) => {
-  const breedingRaw = tryToParse(idleonData?.Breeding) || idleonData?.Breeding;
+  const breedingRaw = saveField(idleonData, 'Breeding') || idleonData?.Breeding;
   const petsRaw = tryToParse(idleonData?.Pets) || idleonData?.Pets;
   const petsStoredRaw = tryToParse(idleonData?.PetsStored) || idleonData?.PetsStored;
-  const territoryRaw = tryToParse(idleonData?.Territory) || idleonData?.Territory;
-  const cookingRaw = tryToParse(idleonData?.Cooking) || idleonData?.Cooking;
+  const territoryRaw = saveField(idleonData, 'Territory') || idleonData?.Territory;
+  const cookingRaw = saveField(idleonData, 'Cooking') || idleonData?.Cooking;
   return parseBreeding(breedingRaw, territoryRaw, petsRaw, petsStoredRaw, cookingRaw, account, processedData);
 }
 
@@ -195,12 +197,13 @@ const parseBreeding = (breedingRaw: any, territoryRaw: any, petsRaw: any, petsSt
     speciesUnlocks,
     fencePets,
     fencePetsObject,
-    maxArenaLevel: account?.accountOptions?.[89],
+    maxArenaLevel: account?.accountOptions?.[OPT.highestArenaWave],
     // Crucible (hard arena) best wave, OptionsListAccount[628]
-    maxCrucibleLevel: account?.accountOptions?.[628] ?? 0,
+    maxCrucibleLevel: account?.accountOptions?.[OPT.crucibleBestWave] ?? 0,
     maxShinyLevel,
     shinyOverLevels,
-    timeToNextEgg: (account?.accountOptions?.[87] ?? 0) * 1000,
+    shinyOverLevelMulti: getShinyOverLevelMulti(shinyOverLevels),
+    timeToNextEgg: (account?.accountOptions?.[OPT.breedingEggTimer] ?? 0) * 1000,
     petUpgrades: petUpgradesList,
     arenaBonuses,
     unlockedBreedingMulti,
@@ -221,6 +224,8 @@ const getShinyLevel = (shinyPetsLevels: any, worldIndex: any, petIndex: any, max
 }
 
 export const BASE_MAX_SHINY_LEVEL = 20;
+// Each shiny level past 20 is +10%, applied to both shiny level up rate and pet damage (PetBonusDMG)
+const getShinyOverLevelMulti = (shinyOverLevels: number) => 1 + 10 * shinyOverLevels / 100;
 // Menagerie unlock 11 raises the shiny cap by 10
 export const getMaxShinyLevel = (account: any) => BASE_MAX_SHINY_LEVEL + 10 * (isMenagerieUnlockOwned(account, 11) ? 1 : 0);
 export const MAX_BREEDABILITY_LEVEL = 9;
@@ -232,7 +237,7 @@ const getLevelGoal = (level: number, isShiny: boolean) => isShiny
   : Math.pow(Math.pow(Math.E, Math.pow(level, 1.25)), 1 / 0.725) - 1;
 
 export const addBreedingChance = (idleonData: any, account: any) => {
-  const breedingRaw = tryToParse(idleonData?.Breeding) || idleonData?.Breeding;
+  const breedingRaw = saveField(idleonData, 'Breeding') || idleonData?.Breeding;
   let totalBreedabilityLv = 0;
   const pets = account?.breeding?.pets?.map((petList: any, worldIndex: any) => {
     return petList?.map((pet: any, petIndex: any) => {
@@ -335,6 +340,15 @@ export const getTimeToLevel = (pet: any, multi: any, copies: any, targetLevel: a
 
   return ((goal - currentProgress) / multi / (copies || 1)) * 8.64e+7;
 }
+
+// MonsterKill: with WHALE_WALLOP learned and enhanced (ENHANCEMENT_ECLIPSE 150+), each kill has a 50%
+// chance of AFKcode("Pets", 3), which feeds shiny, breedability and trekking
+// alike. Kill rates aren't predicted: active respawn skills (Divine Intervention, Raise Dead) and map
+// layout swing them far past the AFK kill formula.
+export const PET_SECONDS_PER_KILL = 0.5 * 3;
+export const isKillPetTimeUnlocked = (characters: any) =>
+  getHighestTalentAcrossCharacters(characters, 'ENHANCEMENT_ECLIPSE') >= 150
+  && !!characters?.some((character: any) => character?.flatTalents?.some(({ name, level }: any) => name === 'WHALE_WALLOP' && level > 0));
 
 export const calcUpgradeBonus = (upgrade: any, upgradeIndex: any, account: any) => {
   const level = upgrade?.level ?? 0;
@@ -458,14 +472,14 @@ export const calcShinyLvMulti = (account: any, characters: any) => {
   const lampBonus = getLampBonus({ holesObject: account?.hole?.holesObject, t: 0, i: 1, account });
   const breedingBonus = calcUpgradeBonus(account?.breeding?.petUpgrades?.[12], 12, account);
   const cropDepotShinyBonus = account?.farming?.cropDepot?.shiny?.value ?? 0;
-  const shinyOverLevelBonus = 10 * (account?.breeding?.shinyOverLevels ?? 0);
+  const shinyOverLevelMulti = getShinyOverLevelMulti(account?.breeding?.shinyOverLevels ?? 0);
 
   const value = (1 + (emeraldUlthuriteBonus
       + (fasterShinyLevelBonus
         + (cropDepotShinyBonus
           + starSign + breedingBonus))) / 100)
     * (1 + summoningBonus / 100)
-    * (1 + shinyOverLevelBonus / 100)
+    * shinyOverLevelMulti
     * (1 + lampBonus / 100);
 
   return {
@@ -479,7 +493,7 @@ export const calcShinyLvMulti = (account: any, characters: any) => {
         percent('Breeding bonus', breedingBonus)
       ]),
       multiplier('Summoning bonus', 1 + summoningBonus / 100),
-      multiplier('Shiny levels past 20', 1 + shinyOverLevelBonus / 100),
+      multiplier('Shiny levels past 20', shinyOverLevelMulti),
       multiplier('Lamp bonus', 1 + lampBonus / 100)
     ])
   };
