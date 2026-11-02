@@ -1,4 +1,4 @@
-// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1.
+// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 80e811ff34cf1d14fcd72e32a977d7113221e7da.
 // Copyright (C) Morta1 and IdleOn Toolbox contributors. GPL-3.0-only; see vendor/LICENSE.
 // Copied unmodified by IdleOn Forge's scripts/sync.sh; UI-coupled imports are redirected to shims/ at build time.
 import { isCompanionBonusActive } from '@parsers/misc';
@@ -10,11 +10,13 @@ import { getMineheadBonusQTY } from '@parsers/world-7/minehead';
 import { getJellyBonus } from '@parsers/world-7/jellyOperator';
 import { getUpgradeVaultBonus } from '@parsers/misc/upgradeVault';
 import { cosmoUpgrades, gods } from '@website-data';
-import { growth, tryToParse } from '@utility/helpers';
+import { growth } from '@utility/helpers';
 import { getBestActiveCharacter } from '@parsers/talents';
+import { saveField } from '@parsers/saveField';
+import { OPT } from '@parsers/accountOptions';
 
 export const getDivinity = (idleonData: any, serializedCharactersData: any, accountData: any) => {
-  const divinityRaw = tryToParse(idleonData?.Divinity) || idleonData?.Divinity;
+  const divinityRaw = saveField(idleonData, 'Divinity') || idleonData?.Divinity;
   return { ...parseDivinity(divinityRaw || [], serializedCharactersData, accountData), unlocked: !!divinityRaw };
 }
 
@@ -290,7 +292,7 @@ const isPocketDivinityOwned = (account: any, godIndex: number) => {
 // has been chosen yet.
 // game: "W7divChosen"
 export const getW7ChosenGodIndex = (account: any) => {
-  const chosen = Number(account?.accountOptions?.[425]) || 0;
+  const chosen = Number(account?.accountOptions?.[OPT.w7DivinityChosenGod]) || 0;
   if (chosen <= 0) return -1;
   return Number((gods as any)?.[Math.max(0, chosen - 1)]?.godIndex);
 }
@@ -370,7 +372,7 @@ export const getAccountMinorDivinityBonus = (account: any, characters: any, godI
   const toEveryone = (godIndex === GOD_INDEX.Harriep || godIndex === GOD_INDEX.Goharut)
     && (isKingDootActive(loggedInCharacter, account)
       || isPocketDivinityOwned(account, godIndex)
-      || Number(account?.accountOptions?.[425]) === godIndex + 1);
+      || Number(account?.accountOptions?.[OPT.w7DivinityChosenGod]) === godIndex + 1);
   return (characters ?? []).reduce((sum: number, character: any) => {
     const linkedSlot = account?.divinity?.linkedDeities?.[character?.playerId];
     const slot = toEveryone
@@ -410,3 +412,10 @@ const getLinkedGodSlot = (character: any, account: any, godIndex: number) => {
   if (secondSlot == null || Number((gods as any)?.[secondSlot]?.godIndex) !== godIndex) return -1;
   return (Number(account?.divinity?.unlockedDeities) || 0) > secondSlot ? secondSlot : -1;
 }
+
+// The Divinity page header: every god's blessing level summed
+export const getTotalBlessingLevels = (deities: any[] | undefined) => deities?.reduce((sum, { level }) => sum + (level || 0), 0) ?? 0;
+
+// Total Divinity LV across all players, the gate on Coral Kid upgrades
+export const getTotalDivinityLevel = (characters: any[] | undefined) =>
+  characters?.reduce((sum, character) => sum + (character?.skillsInfo?.divinity?.level ?? 0), 0) ?? 0;

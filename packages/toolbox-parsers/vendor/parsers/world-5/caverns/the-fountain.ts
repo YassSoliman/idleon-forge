@@ -1,4 +1,4 @@
-// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1.
+// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 80e811ff34cf1d14fcd72e32a977d7113221e7da.
 // Copyright (C) Morta1 and IdleOn Toolbox contributors. GPL-3.0-only; see vendor/LICENSE.
 // Copied unmodified by IdleOn Forge's scripts/sync.sh; UI-coupled imports are redirected to shims/ at build time.
 import { holeFountUpg } from '@website-data';
@@ -9,6 +9,7 @@ import { getSchematicBonus } from '@parsers/world-5/caverns/the-well';
 import { getLampBonus } from '@parsers/world-5/caverns/the-lamp';
 import { getBellBonus } from '@parsers/world-5/caverns/the-bell';
 import { getCosmoBonus, getMeasurementBonus, getStudyBonus } from '@parsers/world-5/hole';
+import { OPT } from '@parsers/accountOptions';
 
 // Each tier represents a water color. The first upgrade in each tier ("X_Water") is the gate
 // that unlocks the NEXT color: tier 0/0 ("Yellow_Water") unlocks Yellow, tier 1/0 ("Green_Water")
@@ -88,7 +89,7 @@ const getFountRoyalChance = (holesObject: any) => {
 // accountOptions[601] = current duck stack count; each stack makes the next 5x rarer (0.2^n).
 // game: "Fount_DuckChance"
 const getFountDuckChance = (holesObject: any, accountData: any) => {
-  const stacks = accountData?.accountOptions?.[601] ?? 0;
+  const stacks = accountData?.accountOptions?.[OPT.fountainDuckStacks] ?? 0;
   return (1 / 3)
     * (1 + (getFountainBonusTotal(holesObject, 2, 12) + getFountainBonusTotal(holesObject, 2, 10)) / 100)
     * Math.pow(0.2, stacks);
@@ -124,7 +125,7 @@ const getFountLuckyCoinValuePer = (holesObject: any) => 25 + getFountainBonusTot
 
 // game: "Fount_DuckMulti"
 const getFountDuckMulti = (holesObject: any, accountData: any) => {
-  return Math.pow(1 + getFountainBonusTotal(holesObject, 2, 11) / 100, accountData?.accountOptions?.[601] ?? 0);
+  return Math.pow(1 + getFountainBonusTotal(holesObject, 2, 11) / 100, accountData?.accountOptions?.[OPT.fountainDuckStacks] ?? 0);
 };
 
 // Well sediment slot whose POW 10 boosts each water's currencies: Mythril, Sharp Notes, Red Rupies
@@ -279,6 +280,9 @@ const formatFountainDescription = (
   return desc;
 };
 
+// The waters by tier, as the Fountain page names them
+export const FOUNTAIN_WATER_NAMES = ['Blue', 'Yellow', 'Green'];
+
 export const getTheFountain = (holesObject: any, accountData: any) => {
   const watersOwned = Math.min(2, Math.min(1, holesObject?.fountainUpgradeLevels?.[0]?.[0] ?? 0)
     + Math.min(1, holesObject?.fountainUpgradeLevels?.[1]?.[0] ?? 0)
@@ -347,7 +351,7 @@ export const getTheFountain = (holesObject: any, accountData: any) => {
       opensAll: upgrade.unlocks.length > 0
         && upgrade.unlocks.every((child: number) => upgrade.level >= levelled[child].prereqRequiredLevel)
     }));
-    const dynamicName = t === 0 ? 'Blue' : t === 1 ? 'Yellow' : 'Green';
+    const dynamicName = FOUNTAIN_WATER_NAMES[Math.min(t, FOUNTAIN_WATER_NAMES.length - 1)];
     // A tier is "implemented" only when its upgrades have real positions and named entries.
     // Future-content tiers (e.g. Green water at v2.3.504) ship placeholders like name="Name" and position="X".
     const placeholderCount = tierUpgrades.filter((u) =>

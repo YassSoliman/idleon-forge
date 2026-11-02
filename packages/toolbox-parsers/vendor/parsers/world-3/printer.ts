@@ -1,4 +1,4 @@
-// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1.
+// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 80e811ff34cf1d14fcd72e32a977d7113221e7da.
 // Copyright (C) Morta1 and IdleOn Toolbox contributors. GPL-3.0-only; see vendor/LICENSE.
 // Copied unmodified by IdleOn Forge's scripts/sync.sh; UI-coupled imports are redirected to shims/ at build time.
 import { lavaLog, notateNumber, tryToParse } from '@utility/helpers';
@@ -14,6 +14,7 @@ import { getLegendTalentBonus } from '@parsers/world-7/legendTalents';
 import { items, refinery } from '@website-data';
 import type { IdleonData, Account } from '../types';
 import { NUMBERED_GROUP, additiveGroup, createBreakdown, evaluateBreakdownNode, flat, listGroup, multiplier, percent, productGroup } from '@parsers/breakdown';
+import { OPT } from '@parsers/accountOptions';
 
 // The sample multipliers stacked on top of the printer multi
 const WIRED_IN_PRINTER_MULTI = 2;
@@ -92,8 +93,8 @@ const parsePrinter = (rawPrinter: any[], rawExtraPrinter: any[], charactersData:
 
 export const getPrinterMulti = (accountData: Account, charactersData: any[]) => {
   const goldRelicBonus = getArtifactFormBonus(accountData?.sailing?.artifacts, 'Gold_Relic');
-  const daysSinceLastSample = accountData?.accountOptions?.[125] ?? 0;
-  const orbOfRemembranceKills = accountData?.accountOptions?.[138] ?? 0;
+  const daysSinceLastSample = accountData?.accountOptions?.[OPT.daysSinceLastSample] ?? 0;
+  const orbOfRemembranceKills = accountData?.accountOptions?.[OPT.orbKills] ?? 0;
   // getbonus2(1, 178, -1): every Divine Knight's base level plus the ACTIVE character's added levels
   const highestKingOfRemembrance = getHighestTalentAcrossCharacters(charactersData, 'KING_OF_THE_REMEMBERED',
     getBestActiveCharacter(charactersData)) ?? 0;
@@ -104,11 +105,11 @@ export const getPrinterMulti = (accountData: Account, charactersData: any[]) => 
   // this._DNprint = .1 + m._customBlock_WorkbenchStuff("ExtraPrinting", this._DRI, 0)
   const charmBonus = getCharmBonus(accountData, 'Lolly_Flower');
   const voteBonus = (1 + getVoteBonus(accountData, 11) / 100);
-  const companionBonus = 1 + Number(accountData?.accountOptions?.[354] ?? 0) * isCompanionBonusActive(accountData, 17) / 100;
-  const compassBonus = 1 + (Number(accountData?.accountOptions?.[364] ?? 0) * getCompassBonus(accountData, 43)) / 100;
+  const companionBonus = 1 + Number(accountData?.accountOptions?.[OPT.printerCompanionDays] ?? 0) * isCompanionBonusActive(accountData, 17) / 100;
+  const compassBonus = 1 + (Number(accountData?.accountOptions?.[OPT.printerCompassDays] ?? 0) * getCompassBonus(accountData, 43)) / 100;
   // Legend talent "Yet Another Printer Multi" (index 17): +x% printer output per day for 20 days, resets on sample.
   // The printer screen lists it, but AdditionExtraPrinting (what the printing uses) never multiplies it in.
-  const legendTalentDays = Number(accountData?.accountOptions?.[479]) || 0;
+  const legendTalentDays = Number(accountData?.accountOptions?.[OPT.printerLegendTalentDays]) || 0;
   const legendTalentBonus = getLegendTalentBonus(accountData, 17) ?? 0;
   const yetAnotherPrinterMulti = 1 + (legendTalentDays * legendTalentBonus) / 100;
   const multipliers = productGroup('Printer multi', [
@@ -120,11 +121,11 @@ export const getPrinterMulti = (accountData: Account, charactersData: any[]) => 
       percent('Lolly Flower (Charm)', charmBonus)
     ]),
     multiplier('Vote', voteBonus),
-    multiplier('Winter event', 1 + (2 * Number(accountData?.accountOptions?.[323] ?? 0) * getEventShopBonus(accountData, 4)) / 100),
+    multiplier('Winter event', 1 + (2 * Number(accountData?.accountOptions?.[OPT.printerEventShopDays] ?? 0) * getEventShopBonus(accountData, 4)) / 100),
     multiplier('Companion', companionBonus),
     multiplier('Compass', compassBonus),
     listGroup('Not applied by the game', [
-      multiplier('Yet Another Printer Multi (Legend talent)', yetAnotherPrinterMulti, { note: 'Shown on the printer screen only' })
+      multiplier('Yet Another Printer Multi (Legend talent)', yetAnotherPrinterMulti, { note: 'Game bug: shown on the printer screen, never applied to printing' })
     ])
   ]);
   const extraPrinting = evaluateBreakdownNode(multipliers);
@@ -150,14 +151,14 @@ export const getPrinterMulti = (accountData: Account, charactersData: any[]) => 
 * (1 + (highestKingOfRemembrance * lavaLog(orbOfRemembranceKills)) / 100)
 * (1 + (skillMasteryBonus + charmBonus) / 100)
 * voteBonus
-* (1 + (2 * accountData?.accountOptions?.[323] * getEventShopBonus(accountData, 4)) / 100)
+* (1 + (2 * accountData?.accountOptions?.[OPT.printerEventShopDays] * getEventShopBonus(accountData, 4)) / 100)
 * companionBonus
 * compassBonus`
   }
 }
 export const calcTotals = (account: Account, showAlertWhenFull: any) => {
   const { printer, storage } = account || {};
-  const atomThreshold = getAtomColliderThreshold(Number(account?.accountOptions?.[133]));
+  const atomThreshold = getAtomColliderThreshold(Number(account?.accountOptions?.[OPT.atomColliderThresholdSetting]));
   let totals = printer?.reduce((res: any, character: any) => {
     character.forEach(({ boostedValue, item, active }: any) => {
       if (item !== 'Blank' && active) {

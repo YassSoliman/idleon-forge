@@ -1,7 +1,7 @@
-// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1.
+// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 80e811ff34cf1d14fcd72e32a977d7113221e7da.
 // Copyright (C) Morta1 and IdleOn Toolbox contributors. GPL-3.0-only; see vendor/LICENSE.
 // Copied unmodified by IdleOn Forge's scripts/sync.sh; UI-coupled imports are redirected to shims/ at build time.
-import { commaNotation, lavaLog, notateNumber, numberWithCommas, tryToParse } from '@utility/helpers';
+import { commaOrBig, lavaLog, notateNumber, numberWithCommas, tryToParse } from '@utility/helpers';
 import { cosmoUpgrades, gods, holesBuildings, holesInfo, lampWishes } from '@website-data';
 import { getSchematicBonus, getTheWell } from '@parsers/world-5/caverns/the-well';
 import { getMotherlode } from '@parsers/world-5/caverns/motherlode';
@@ -37,6 +37,7 @@ import { getExoticMarketBonus } from '@parsers/world-6/farming';
 import { isSuperbitUnlocked } from '@parsers/world-5/gaming';
 import { getUpgradeVaultBonus } from '@parsers/misc/upgradeVault';
 import { NUMBERED_GROUP, additiveGroup, createBreakdown, flat, multiplier, percent, productGroup } from '@parsers/breakdown';
+import { zeroIndexArray } from '@parsers/zeroIndexArray';
 
 // game: Holes("SchematicsAvailable") caps the Engineer's schematics at 105 and at the list's length.
 export const TOTAL_SCHEMATICS = Math.min(105, holesBuildings?.length ?? 0);
@@ -53,18 +54,6 @@ const VILLAGERS = {
   MEASURE: 3,
   STUDIES: 4
 }
-
-const zeroIndexProxy = (arr: any): any => {
-  const target = Array.isArray(arr) ? arr : [];
-  return new Proxy(target, {
-    get(t, prop, receiver) {
-      if (typeof prop === 'string' && /^\d+$/.test(prop) && !(prop in t)) {
-        return 0;
-      }
-      return Reflect.get(t, prop, receiver);
-    }
-  });
-};
 
 export const getHole = (idleonData: any, accountData: any) => {
   const holeRaw = tryToParse(idleonData?.Holes) || idleonData?.Holes;
@@ -112,39 +101,39 @@ const parseHole = (holeRaw: any, jarsRaw: any, accountData: any) => {
   ] = holeRaw || [];
   const holesObject = {
     charactersCavernLocation,
-    villagersLevels: zeroIndexProxy(villagersLevels),
-    villagersExp: zeroIndexProxy(villagersExp),
-    opalsInvested: zeroIndexProxy(opalsInvested),
-    holeMajiks: zeroIndexProxy(holeMajiks),
-    villageMajiks: zeroIndexProxy(villageMajiks),
-    idleonMajiks: zeroIndexProxy(idleonMajiks),
-    opalsPerCavern: zeroIndexProxy(opalsPerCavern),
-    sedimentMulti: zeroIndexProxy(sedimentMulti),
-    wellSediment: zeroIndexProxy(wellSediment),
-    wellBuckets: zeroIndexProxy(wellBuckets),
-    extraCalculations: zeroIndexProxy(extraCalculations),
-    dawgDenAmplifierLevels: zeroIndexProxy(dawgDenAmplifierLevels),
-    engineerSchematics: zeroIndexProxy(engineerSchematics),
-    braveryMonument: zeroIndexProxy(braveryMonument),
-    braveryBonuses: zeroIndexProxy(braveryBonuses),
-    bellImprovementMethods: zeroIndexProxy(bellImprovementMethods),
-    bellRingLevels: zeroIndexProxy(bellRingLevels),
-    bellRelated: zeroIndexProxy(bellRelated),
-    harpRelated: zeroIndexProxy(harpRelated),
-    harpStringNotes: zeroIndexProxy(harpStringNotes),
-    wishesUsed: zeroIndexProxy(wishesUsed),
-    measurementBuffLevels: zeroIndexProxy(measurementBuffLevels),
-    parallelVillagersGemShop: zeroIndexProxy(parallelVillagersGemShop),
-    jarStuff: zeroIndexProxy(jarStuff),
-    jarProgress: zeroIndexProxy(jarProgress),
-    studyStuff: zeroIndexProxy(studyStuff),
-    studyProgress: zeroIndexProxy(studyProgress),
-    gambitStuff: zeroIndexProxy(gambitStuff),
+    villagersLevels: zeroIndexArray(villagersLevels),
+    villagersExp: zeroIndexArray(villagersExp),
+    opalsInvested: zeroIndexArray(opalsInvested),
+    holeMajiks: zeroIndexArray(holeMajiks),
+    villageMajiks: zeroIndexArray(villageMajiks),
+    idleonMajiks: zeroIndexArray(idleonMajiks),
+    opalsPerCavern: zeroIndexArray(opalsPerCavern),
+    sedimentMulti: zeroIndexArray(sedimentMulti),
+    wellSediment: zeroIndexArray(wellSediment),
+    wellBuckets: zeroIndexArray(wellBuckets),
+    extraCalculations: zeroIndexArray(extraCalculations),
+    dawgDenAmplifierLevels: zeroIndexArray(dawgDenAmplifierLevels),
+    engineerSchematics: zeroIndexArray(engineerSchematics),
+    braveryMonument: zeroIndexArray(braveryMonument),
+    braveryBonuses: zeroIndexArray(braveryBonuses),
+    bellImprovementMethods: zeroIndexArray(bellImprovementMethods),
+    bellRingLevels: zeroIndexArray(bellRingLevels),
+    bellRelated: zeroIndexArray(bellRelated),
+    harpRelated: zeroIndexArray(harpRelated),
+    harpStringNotes: zeroIndexArray(harpStringNotes),
+    wishesUsed: zeroIndexArray(wishesUsed),
+    measurementBuffLevels: zeroIndexArray(measurementBuffLevels),
+    parallelVillagersGemShop: zeroIndexArray(parallelVillagersGemShop),
+    jarStuff: zeroIndexArray(jarStuff),
+    jarProgress: zeroIndexArray(jarProgress),
+    studyStuff: zeroIndexArray(studyStuff),
+    studyProgress: zeroIndexArray(studyProgress),
+    gambitStuff: zeroIndexArray(gambitStuff),
     fountainCoinSpaces,
     fountainSpaceFilled,
     fountainUpgradeLevels,
     fountainMarbleizeLevels,
-    fountainBarProgress: zeroIndexProxy(fountainBarProgress),
+    fountainBarProgress: zeroIndexArray(fountainBarProgress),
     fountainCoinFlags
   }
   const lampWishesList = lampWishes.map((wish, index) => {
@@ -189,8 +178,8 @@ const parseHole = (holeRaw: any, jarsRaw: any, accountData: any) => {
     return {
       index,
       name: (Object.keys(VILLAGERS)?.[index]?.toLowerCase() as any)?.camelToTitleCase(),
-      exp: exp < 1e6 ? commaNotation(exp) : notateNumber(exp, 'Big'),
-      expReq: expReq < 1e6 ? commaNotation(expReq) : notateNumber(expReq, 'Big'),
+      exp: commaOrBig(exp),
+      expReq: commaOrBig(expReq),
       readyToLevel: exp >= expReq,
       level,
       opalInvested,

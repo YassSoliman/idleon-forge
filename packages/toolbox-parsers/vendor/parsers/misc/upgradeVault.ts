@@ -1,14 +1,15 @@
-// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1.
+// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 80e811ff34cf1d14fcd72e32a977d7113221e7da.
 // Copyright (C) Morta1 and IdleOn Toolbox contributors. GPL-3.0-only; see vendor/LICENSE.
 // Copied unmodified by IdleOn Forge's scripts/sync.sh; UI-coupled imports are redirected to shims/ at build time.
 import { commaNotation, notateNumber, tryToParse, lavaLog } from '@utility/helpers';
-import { upgradeVault } from '@website-data';
+import { research as researchData, upgradeVault } from '@website-data';
 import { liveEntries } from '@parsers/catalog';
 import { isBundlePurchased, getEventShopBonus, isCompanionBonusActive } from '@parsers/misc';
 import { getResearchGridBonus } from '@parsers/world-7/research';
 import { getSushiBonus } from '@parsers/world-7/sushiStation';
 import { createBreakdown, multiplier } from '@parsers/breakdown';
 import { getMonsterLadderTarget } from '@parsers/class-specific/grimoire';
+import { OPT } from '@parsers/accountOptions';
 
 // Knockout! (15) names its current target from the monster ladder progress in this OptionsListAccount slot
 const KNOCKOUT_INDEX = 15;
@@ -25,14 +26,15 @@ export const parseUpgradeVault = (upgradeVaultRaw: any, accountData: any, charac
   const descriptionContext = {
     vaultKills: vaultTotalKills,
     cardsCollected: Object.values(accountData?.cards || {}).filter((card: any) => card?.amount > 0).length,
-    oresMined: accountData?.accountOptions?.[340] ?? 0,
-    fishCaught: accountData?.accountOptions?.[345] ?? 0,
-    bugsCaught: accountData?.accountOptions?.[346] ?? 0,
+    oresMined: accountData?.accountOptions?.[OPT.vaultOresMined] ?? 0,
+    fishCaught: accountData?.accountOptions?.[OPT.vaultFishCaught] ?? 0,
+    bugsCaught: accountData?.accountOptions?.[OPT.vaultBugsCaught] ?? 0,
     knockoutProgress: accountData?.accountOptions?.[KNOCKOUT_PROGRESS_OPTION] ?? 0
   };
   let upgrades = liveEntries<any>(upgradeVault).map(({ entry: upgrade, index }) => {
     return {
       ...upgrade,
+      index,
       level: upgradeVaultRaw?.[index] ?? 0,
       maxLevel: getVaultUpgMaxLevel(index, upgrade?.maxLevel, accountData),
       unlocked: totalUpgradeLevels >= upgrade?.unlockLevel
@@ -69,7 +71,7 @@ export const parseUpgradeVault = (upgradeVaultRaw: any, accountData: any, charac
 // multiplier applied to every upgrade in getUpgradeCost (darts x companion99 x sushi).
 // The idx<33-only vault-13 factor is deliberately excluded so this matches the game text.
 export const getVaultCostReduction = (accountData: any) => {
-  const dartsBonusReduction = 1 / (1 + (accountData?.accountOptions?.[437] || 0) / 100);
+  const dartsBonusReduction = 1 / (1 + (accountData?.accountOptions?.[OPT.dartsVaultCostReduction] || 0) / 100);
   const companionBonus99 = isCompanionBonusActive(accountData, 99) ? accountData?.companions?.list?.at(99)?.bonus : 0;
   const companionMulti = Math.max(0.1, 1 - companionBonus99 / 100);
   const sushiDiscount = Math.max(0.1, 1 - Math.max(getSushiBonus(accountData, 38), getSushiBonus(accountData, 47)) / 100);
@@ -157,8 +159,14 @@ const getVaultDollarValue = (index: number, bonus: number, ctx: any): string | n
 }
 
 
+// game: "Summoning:VaultUpgMaxLV_most" - +25 max levels from event shop 65 on the upgrades listed in Research[63]
+const EVENT_SHOP_MAX_LEVEL_UPGRADES = new Set(((researchData as any)?.[63] ?? []).map(Number));
+const getEventShopMaxLevelBonus = (index: number, accountData: any) =>
+  EVENT_SHOP_MAX_LEVEL_UPGRADES.has(index) ? 25 * getEventShopBonus(accountData, 65) : 0;
+
+// game: "Summoning:VaultUpgMaxLV"
 const getVaultUpgMaxLevel = (index: any, baseMaxLevel: any, accountData: any) => {
-  const base = Number(baseMaxLevel) || 0;
+  const base = (Number(baseMaxLevel) || 0) + getEventShopMaxLevelBonus(Number(index), accountData);
   const bundlePurchased = isBundlePurchased(accountData, 'bon_u') ? 1 : 0;
   const bundleBonus = Math.max(0, Math.min(10, 10 * bundlePurchased));
 
@@ -173,7 +181,8 @@ const getVaultUpgMaxLevel = (index: any, baseMaxLevel: any, accountData: any) =>
     return base + bundleBonus + trades;
   }
 
-  if (base >= 2) {
+  // The bundle test reads the table's own max level, before the event shop levels
+  if (Number(baseMaxLevel) >= 2) {
     return base + bundleBonus;
   }
   return base;
@@ -193,7 +202,7 @@ const getCostToMax = (upgrades: any, index: any, accountData: any) => {
 const getUpgradeCost = (upgrades: any, index: any, accountData: any) => {
   const { level, x1, x2 } = upgrades?.[index];
   const baseCost = level + (x1 + level) * Math.pow(x2, level);
-  const dartsBonusReduction = 1 / (1 + (accountData?.accountOptions?.[437] || 0) / 100);
+  const dartsBonusReduction = 1 / (1 + (accountData?.accountOptions?.[OPT.dartsVaultCostReduction] || 0) / 100);
   const companionBonus99 = isCompanionBonusActive(accountData, 99) ? accountData?.companions?.list?.at(99)?.bonus : 0;
   const companionMulti = Math.max(0.1, 1 - companionBonus99 / 100);
   const sushiDiscount = Math.max(0.1, 1 - Math.max(getSushiBonus(accountData, 38), getSushiBonus(accountData, 47)) / 100);

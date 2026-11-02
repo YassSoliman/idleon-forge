@@ -1,4 +1,4 @@
-// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1.
+// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 80e811ff34cf1d14fcd72e32a977d7113221e7da.
 // Copyright (C) Morta1 and IdleOn Toolbox contributors. GPL-3.0-only; see vendor/LICENSE.
 // Copied unmodified by IdleOn Forge's scripts/sync.sh; UI-coupled imports are redirected to shims/ at build time.
 import { items, traps as trapsInfo, trappingInfo } from '@website-data';
@@ -18,6 +18,7 @@ import { getArmorSetBonus } from '@parsers/world-3/armorSmithy';
 import { getPaletteBonus } from '@parsers/world-5/gaming';
 import { getMenagerieBoost } from '@parsers/world-7/menagerie';
 import { NUMBERED_GROUP, additiveGroup, createBreakdown, info, listGroup, multiplier, percent, productGroup, sumGroup } from '@parsers/breakdown';
+import { OPT } from '@parsers/accountOptions';
 
 export const getTraps = (rawCharactersData: any) => {
   return parseTraps(rawCharactersData);
@@ -128,7 +129,7 @@ const calcCrittersBonusInfo = ({ currentCharacterIndex, account, characters, isE
     : {
       vials: getVialsBonusByStat(account?.alchemy?.vials, 'TrapOvision'),
       compass: getCompassBonus(account, 42),
-      atom: getAtomBonus(account, 'Magnesium_-_Trap_Compounder') * account?.accountOptions?.[363],
+      atom: getAtomBonus(account, 'Magnesium_-_Trap_Compounder') * account?.accountOptions?.[OPT.trapCompounderDays],
       dementiaSet: getArmorSetBonus(account, 'DEMENTIA_SET'),
       palette: getPaletteBonus(account, 12)
     };

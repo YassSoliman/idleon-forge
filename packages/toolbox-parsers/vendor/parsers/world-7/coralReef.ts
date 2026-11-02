@@ -1,7 +1,7 @@
-// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1.
+// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 80e811ff34cf1d14fcd72e32a977d7113221e7da.
 // Copyright (C) Morta1 and IdleOn Toolbox contributors. GPL-3.0-only; see vendor/LICENSE.
 // Copied unmodified by IdleOn Forge's scripts/sync.sh; UI-coupled imports are redirected to shims/ at build time.
-import { tryToParse, notateNumber, commaNotation, lavaLog, lavaLog2 } from '@utility/helpers';
+import { notateNumber, commaNotation, lavaLog, lavaLog2 } from '@utility/helpers';
 import { generalSpelunky, coralReef, gameTables } from '@website-data';
 import {
   isCompanionBonusActive,
@@ -22,6 +22,8 @@ import { getStatueBonus } from '@parsers/world-1/statues';
 import { sumSaveArray } from '@parsers/world-7/saveTotals';
 import { isMenagerieUnlockOwned } from '@parsers/world-7/menagerie';
 import { NUMBERED_GROUP, additiveGroup, createBreakdown, flat, multiplier, percent, productGroup } from '@parsers/breakdown';
+import { saveField } from '@parsers/saveField';
+import { OPT } from '@parsers/accountOptions';
 // getDancingCoralBonus is implemented locally since it's not exported from spelunking.js
 
 // Coral Kid has two pages of 6 upgrades: page 1 levels sit at OLA[427..432] and cost Divinity PTS,
@@ -47,10 +49,10 @@ export const getCoralKidUpgLevel = (account: any, index: number): number => {
 // a multi from kills (OLA[623]) and one from AFK hours (OLA[624]).
 // game: MenagerieStuff "CK_BaseValue", "CK_KillMulti", "CK_TimeMulti" and "CK_TotalValue"
 export const getCoralKidSingularity = (idleonData: any, account: any) => {
-  const divinity = tryToParse(idleonData?.Divinity) || idleonData?.Divinity;
+  const divinity = saveField(idleonData, 'Divinity') || idleonData?.Divinity;
   const points = Number(divinity?.[24]) || 0;
-  const kills = Number(account?.accountOptions?.[623]) || 0;
-  const hours = Number(account?.accountOptions?.[624]) || 0;
+  const kills = Number(account?.accountOptions?.[OPT.coralReefKills]) || 0;
+  const hours = Number(account?.accountOptions?.[OPT.coralReefHours]) || 0;
   const baseValue = (lavaLog(points) + Math.max(0, 5 * (lavaLog(points) - 12))) * (1 + getCoralKidUpgBonus(account, 7) / 100);
   const killMulti = 1 + (5 * Math.max(0, lavaLog2(kills) - 16) + Math.max(0, 25 * Math.floor(lavaLog(kills) - 5))) / 100;
   const timeMulti = 0.1 + (5 * Math.min(120, hours) + 5 * Math.pow(Math.max(0, hours - 120), 0.5)) / 100;
@@ -65,9 +67,15 @@ export const getCoralKidSingularity = (idleonData: any, account: any) => {
   };
 };
 
+// The catalog text of a Coral Kid upgrade, before the live values fill its placeholders
+export const getCoralKidBaseDescription = (index: number): string => generalSpelunky?.[25]?.[index] ?? '';
+
+// Reef upgrade image letters: Reef<letter>1.png, by upgrade index
+export const REEF_IMAGE_LETTERS = ['z', 'A', 'B', 'C', 'D', 'E'];
+
 export const getCoralReef = (idleonData: any, account: any, charactersData: any) => {
-  const rawSpelunking = tryToParse(idleonData?.Spelunk) || {};
-  const rawTowerInfo = idleonData?.TowerInfo || tryToParse(idleonData?.Tower);
+  const rawSpelunking = saveField(idleonData, 'Spelunk') || {};
+  const rawTowerInfo = idleonData?.TowerInfo || saveField(idleonData, 'Tower');
   const coralReefLevels = rawSpelunking?.[13] || [];
   const rawDancingCoral = rawTowerInfo?.slice(18) || [];
 

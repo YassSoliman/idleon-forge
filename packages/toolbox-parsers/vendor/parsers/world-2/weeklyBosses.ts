@@ -1,4 +1,4 @@
-// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1.
+// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 80e811ff34cf1d14fcd72e32a977d7113221e7da.
 // Copyright (C) Morta1 and IdleOn Toolbox contributors. GPL-3.0-only; see vendor/LICENSE.
 // Copied unmodified by IdleOn Forge's scripts/sync.sh; UI-coupled imports are redirected to shims/ at build time.
 import type { Account } from '../types';
@@ -10,13 +10,14 @@ import { getAllCap } from '../misc';
 import { getStampsBonusByEffect } from '../world-1/stamps';
 import { getStarSignBonus } from '../starSigns';
 import { getTalentBonus } from '../talents';
+import { OPT } from '@parsers/accountOptions';
 
 const getBossId = (seed: number): number => {
   return Math.max(0, Math.min(weeklyBosses?.length - 1, Math.floor((seed / 1e3) * weeklyBosses?.length)))
 }
 
 const getBossMaxHp = (account: Account, bossId: number): number => {
-  return weeklyBosses[bossId].x4 * Math.pow(weeklyBosses[bossId].x5, (account as any)?.accountOptions?.[187]);
+  return weeklyBosses[bossId].x4 * Math.pow(weeklyBosses[bossId].x5, (account as any)?.accountOptions?.[OPT.weeklyBossSkullTier]);
 }
 
 const getTasksIds = (bossId: number, seed: number): any[] => {

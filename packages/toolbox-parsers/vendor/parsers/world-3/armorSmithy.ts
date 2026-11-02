@@ -1,4 +1,4 @@
-// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1.
+// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 80e811ff34cf1d14fcd72e32a977d7113221e7da.
 // Copyright (C) Morta1 and IdleOn Toolbox contributors. GPL-3.0-only; see vendor/LICENSE.
 // Copied unmodified by IdleOn Forge's scripts/sync.sh; UI-coupled imports are redirected to shims/ at build time.
 import { equipmentSets, randomList } from '@website-data';
@@ -6,6 +6,7 @@ import { notateNumber } from '@utility/helpers';
 import { isBundlePurchased } from '@parsers/misc';
 import { getBestActiveCharacter } from '@parsers/talents';
 import type { IdleonData, Account, ServerVars } from '../types';
+import { OPT } from '@parsers/accountOptions';
 
 // The smithy's list order (RANDOlist[113]); any set it does not list goes last
 const SMITHY_SET_ORDER: string[] = randomList?.[113] ?? [];
@@ -29,9 +30,9 @@ export const getSetPartsOn = (set: any, character: any) => {
 export const getSetPartsReq = (set: any) => set.armors.length + set.requiredTools + set.requiredWeapon;
 
 export const getArmorSmithy = (idleonData: IdleonData, serverVars: ServerVars, account: Account, characters?: any[]) => {
-  const smithyUnlocked = account?.accountOptions?.[380];
-  const [, ...unlockedSets] = (account?.accountOptions?.[379] ?? '').toString().split(',');
-  const days = account?.accountOptions?.[381] ?? 0;
+  const smithyUnlocked = account?.accountOptions?.[OPT.armorSmithyUnlocked];
+  const [, ...unlockedSets] = (account?.accountOptions?.[OPT.armorSmithyUnlockedSets] ?? '').toString().split(',');
+  const days = account?.accountOptions?.[OPT.armorSmithyDaysWaited] ?? 0;
   const loggedInCharacter = getBestActiveCharacter(characters);
   const sets = [...equipmentSets]
     .sort((a, b) => smithyOrder(a.setName) - smithyOrder(b.setName))

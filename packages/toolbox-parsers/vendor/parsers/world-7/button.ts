@@ -1,4 +1,4 @@
-// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1.
+// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 80e811ff34cf1d14fcd72e32a977d7113221e7da.
 // Copyright (C) Morta1 and IdleOn Toolbox contributors. GPL-3.0-only; see vendor/LICENSE.
 // Copied unmodified by IdleOn Forge's scripts/sync.sh; UI-coupled imports are redirected to shims/ at build time.
 import {
@@ -11,6 +11,7 @@ import { getResearchGridBonus } from '@parsers/world-7/research';
 import { isCompanionBonusActive, getGoldenFoodMulti, getLoggedInSkillLevel } from '@parsers/misc';
 import { getClassExpMulti, getDropRate } from '@parsers/character';
 import { getMaxDamage } from '@parsers/damage';
+import { OPT } from '@parsers/accountOptions';
 
 /**
  * Parses a raw bonus name like "}x_Res._XP" or "+{%_Class_XP" into
@@ -34,8 +35,8 @@ export const getButton = (account: any, characters: any = []) => {
   const rawBonusNames: string[] = (bonusNamesData as any) ?? [];
   const parsedBonuses = rawBonusNames.map(parseBonusName);
 
-  const totalPresses = Number(accountOptions?.[594]) || 0;
-  const instaSkipsLeft = Number(accountOptions?.[595]) || 0;
+  const totalPresses = Number(accountOptions?.[OPT.buttonPresses]) || 0;
+  const instaSkipsLeft = Number(accountOptions?.[OPT.buttonInstaSkipsLeft]) || 0;
   // Grid 126 mode 1 = level (integer insta skip count per week)
   const instaSkipsPerWeek = getResearchGridBonus(account, 126, 1);
 

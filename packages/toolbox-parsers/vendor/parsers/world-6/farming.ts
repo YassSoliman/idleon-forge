@@ -1,4 +1,4 @@
-// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1.
+// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 80e811ff34cf1d14fcd72e32a977d7113221e7da.
 // Copyright (C) Morta1 and IdleOn Toolbox contributors. GPL-3.0-only; see vendor/LICENSE.
 // Copied unmodified by IdleOn Forge's scripts/sync.sh; UI-coupled imports are redirected to shims/ at build time.
 import { notateNumber, tryToParse } from '@utility/helpers';
@@ -39,6 +39,11 @@ import { getLegendTalentBonus } from '@parsers/world-7/legendTalents';
 import { getTomeBubbleMulti } from '@parsers/world-4/tome';
 import LavaRand from '../../utility/lavaRand';
 import { NUMBERED_GROUP, additiveGroup, createBreakdown, evaluateBreakdownNode, flat, listGroup, multiplier, percent, productGroup } from '@parsers/breakdown';
+import { saveField } from '@parsers/saveField';
+import { OPT } from '@parsers/accountOptions';
+
+export const DAY_MARKET_SIZE = 8;
+export const sumMarketLevels = (upgrades: any) => upgrades?.reduce((sum: number, { level }: any) => sum + (level || 0), 0) ?? 0;
 
 /** Level needed to reach the given percent of cap for exotic capped formula: value = baseValue * level / (1000 + level). */
 export const findExoticCappedThresholdLevel = (percent: any, _unused1?: any) => {
@@ -51,7 +56,7 @@ export const getFarming = (idleonData: any, accountData: any, charactersData: an
   const rawFarmingPlot = tryToParse(idleonData?.FarmPlot);
   const rawFarmingCrop = tryToParse(idleonData?.FarmCrop);
   const rawFarmingRanks = tryToParse(idleonData?.FarmRank);
-  const rawSpelunk = tryToParse(idleonData?.Spelunk) || idleonData?.Spelunk;
+  const rawSpelunk = saveField(idleonData, 'Spelunk') || idleonData?.Spelunk;
   // Spelunk[50]: the exotic upgrade indices that carry a Menagerie organic label
   const organicLabels = Array.isArray(rawSpelunk?.[50]) ? rawSpelunk[50].map(Number) : [];
   return parseFarming(rawFarmingUpgrades, rawFarmingPlot, rawFarmingCrop, rawFarmingRanks, accountData, charactersData, organicLabels);
@@ -282,7 +287,7 @@ const parseFarming = (rawFarmingUpgrades: any, rawFarmingPlot: any, rawFarmingCr
       + getSushiBonus(account, 33) + 3 * getCloudBonus(account?.equinox?.challenges, EQUINOX_CLOUD.EXOTIC_MARKET_PURCHASES)
       + getJellyBonus(account, 34))),
     pctExoticPurchasesFree: Math.min(80, 30 * getEventShopBonus(account, 43)) + Math.min(25, 25 * getMineheadBonusQTY(account, 8)),
-    exoticMarketUpgradesPurchased: account?.accountOptions?.[416]
+    exoticMarketUpgradesPurchased: account?.accountOptions?.[OPT.exoticMarketPurchases]
   };
 }
 
@@ -496,7 +501,7 @@ const getStickerOddsMulti = (characters: any, account: any) => {
   // Gelatinous Cuboid (109): bonus 9 (19 upgraded) -> 10x (20x) sticker odds
   const cuboidCompanion = isCompanionBonusActive(account, 109) ? (account?.companions?.list?.at(109)?.bonus ?? 0) : 0;
   // W4 Golden Tome (opt[607]) multiplies sticker odds: 2^min(12,lvl) then +1500 per level past 11
-  const goldenTome = Number(account?.accountOptions?.[607]) || 0;
+  const goldenTome = Number(account?.accountOptions?.[OPT.goldenTomeStacks]) || 0;
   const goldenTomeMulti = Math.max(1, Math.pow(2, Math.min(12, goldenTome)) + 1500 * Math.max(0, goldenTome - 11));
   return goldenTomeMulti
     * (1 + grid67bonus / 100)
@@ -694,7 +699,7 @@ const getLandRankExpBreakdown = (account: any, characters: any) => {
       percent('Stableroot III (Exotic)', exotic11),
       multiplier('Vigouroot I (Exotic)', 1 + exotic12 / 100),
       multiplier('Vigouroot II (Exotic)', 1 + exotic13 / 100)
-    ], { note: 'Shown on the farming screen only' })
+    ], { note: 'Game bug: listed on the farming screen, but never added to Land Rank EXP' })
   ]);
 };
 
