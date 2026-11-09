@@ -1,8 +1,15 @@
-// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1.
+// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 13f73ae61cc77989be4fd044ca6c2e923de87bb0.
 // Copyright (C) Morta1 and IdleOn Toolbox contributors. GPL-3.0-only; see vendor/LICENSE.
 // Copied unmodified by IdleOn Forge's scripts/sync.sh; UI-coupled imports are redirected to shims/ at build time.
 // Generic Upgrade Optimizer
 // Consolidates the simulation logic for Compass, Grimoire, and Tesseract optimizers
+
+// Every optimizer simulates on each render, so an uncapped custom max froze the page (20,000 took 58 s), and being
+// stored, froze it again on every later visit.
+export const MAX_CUSTOM_UPGRADES = 500;
+// A stored custom max as an optimizer runs it: whole, from 0 up to the cap, whatever an older visit saved.
+export const clampCustomMax = (value: unknown): number =>
+  Math.min(MAX_CUSTOM_UPGRADES, Math.max(0, parseInt(String(value || 0), 10) || 0));
 
 // How much of an upgrade's resource is held. null when the shape gives no single answer.
 function getHeldAmount(upgrade: any, resources: any, resourceNames: any, resourceType: any): number | null {
@@ -363,9 +370,9 @@ export function getOptimizedGenericUpgrades({
     });
 
     for (const upgrade of availableUpgrades) {
-      // Deep clone upgrades for simulation
-      const tempUpgrades = JSON.parse(JSON.stringify(simulatedUpgrades));
-      // Apply upgrade by creating a new object
+      // A shallow copy is enough: the bought upgrade is replaced, never mutated. A deep clone per
+      // candidate per step made large Max Upgrades values freeze the page.
+      const tempUpgrades = [...simulatedUpgrades];
       const idx = tempUpgrades.findIndex((u: any) => u.index === upgrade.index);
       tempUpgrades[idx] = { ...tempUpgrades[idx], level: tempUpgrades[idx].level + 1 };
 
@@ -459,6 +466,9 @@ export function getOptimizedGenericUpgrades({
           hoardingPercentChange: grossPercentChange - statChange.percentChange
         };
       });
+      const readyInHours = extraArgs.resourcePerHour ? hoursUntilReady(bestUpgrade, cost) : null;
+      if (sharedFarmingTime && readyInHours !== null) farmedHours = readyInHours;
+
       const totalHoardingChange = statChangesWithHoarding.reduce((sum: number, change: any) => sum + change.hoardingPercentChange, 0);
 
       results.push({
@@ -469,6 +479,7 @@ export function getOptimizedGenericUpgrades({
         totalStatChange: bestTotalChange,
         totalHoardingChange,
         cost,
+        readyInHours,
         hadReduction: reductionsRemaining > 0
       });
       reductionsRemaining = Math.max(0, reductionsRemaining - 1);

@@ -1,7 +1,7 @@
-// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1.
+// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 13f73ae61cc77989be4fd044ca6c2e923de87bb0.
 // Copyright (C) Morta1 and IdleOn Toolbox contributors. GPL-3.0-only; see vendor/LICENSE.
 // Copied unmodified by IdleOn Forge's scripts/sync.sh; UI-coupled imports are redirected to shims/ at build time.
-import { commaNotation, notateNumber } from '@utility/helpers';
+import { gameFill } from '@utility/helpers';
 import { getSchematicBonus } from '@parsers/world-5/caverns/the-well';
 import { holesInfo } from '@website-data';
 
@@ -16,14 +16,14 @@ export const getTheDen = (holesObject: any) => {
       ampDescription,
       level: holesObject?.dawgDenAmplifierLevels?.[index],
       // The game prints the last amplifier with 'Small' notation, its value stays under 1 for many charges
-      bonus: notateNumber(getAmpDebuff(holesObject, index), index === LAST_AMPLIFIER ? 'Small' : 'Big')
+      bonus: gameFill(getAmpDebuff(holesObject, index), index === LAST_AMPLIFIER ? 'Small' : 'Big')
     }
   });
   const ampMulti = getAmpStoneMulti(holesObject);
   const ownedAmps = getAmpStonesOwned(holesObject);
 
   return {
-    bestScore: commaNotation(bestScore),
+    bestScore,
     nextOpalAt,
     ampMulti,
     amplifiers,

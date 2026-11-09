@@ -1,4 +1,4 @@
-// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1.
+// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 13f73ae61cc77989be4fd044ca6c2e923de87bb0.
 // Copyright (C) Morta1 and IdleOn Toolbox contributors. GPL-3.0-only; see vendor/LICENSE.
 // Copied unmodified by IdleOn Forge's scripts/sync.sh; UI-coupled imports are redirected to shims/ at build time.
 import { prefix } from '@utility/helpers';
@@ -45,8 +45,14 @@ export const npcImageFrom = (manifest, name, variant = 'static') => {
 export const monsterImage = (nameOrRaw, variant = 'static') =>
   monsterImageFrom(spriteManifest, nameOrRaw, variant);
 
+// The same sprite as a path under public/, for GameIcon and IconTile, which add the site prefix themselves
+export const monsterSprite = (nameOrRaw, variant = 'static') => monsterImage(nameOrRaw, variant).slice(prefix.length);
+
 export const npcImage = (name, variant = 'static') =>
   npcImageFrom(spriteManifest, name, variant);
+
+// The same NPC sprite as a path under public/, for GameIcon, which adds the site prefix itself
+export const npcSprite = (name, variant = 'static') => npcImage(name, variant).slice(prefix.length);
 
 // Moved from helpers.js; now returns a complete src (callers no longer add prefix/.png).
 export const getActivityIcon = (character) => {

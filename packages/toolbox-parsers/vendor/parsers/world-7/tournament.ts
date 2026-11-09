@@ -1,8 +1,25 @@
-// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1.
+// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 13f73ae61cc77989be4fd044ca6c2e923de87bb0.
 // Copyright (C) Morta1 and IdleOn Toolbox contributors. GPL-3.0-only; see vendor/LICENSE.
 // Copied unmodified by IdleOn Forge's scripts/sync.sh; UI-coupled imports are redirected to shims/ at build time.
 import type { IdleonData, Account } from '../types';
 import { tournyStuff, companions as companionsData } from '@website-data';
+import LavaRand from '../../utility/lavaRand';
+import { OPT } from '@parsers/accountOptions';
+
+// The game only offers the daily Pet Mart gems while the GemPM_x server var is at least 0.1.
+const MIN_PET_MART_GEMS_SERVER_VAR = 0.1;
+
+// The Pet Mart's free daily gems. Claimable once per shop day: OptLacc[516] holds the last shop day
+// claimed, and claiming sets it to getShopDay() (the _TOURNAMENT doc's global.S). The amount is the
+// game's "GemRewardfromPetMart": Rand seeded with the shop day, so every player gets the same roll,
+// scaled by GemPM_x. LavaRand matched the live game's roll on 32 seeds and this formula on 6 days.
+export const getPetMartGems = (shopDay: number, lastClaimedShopDay: number, multiplier: number) => {
+  const offered = multiplier >= MIN_PET_MART_GEMS_SERVER_VAR && shopDay >= 1;
+  if (!offered) return { offered, claimable: false, amount: 0 };
+  const roll = new LavaRand(Math.round(shopDay)).rand();
+  const amount = Math.round(Math.min(500, Math.min(150, Math.max(10, 10 + Math.floor(130 * Math.pow(roll, 10)) + 10 * roll)) * multiplier));
+  return { offered, claimable: lastClaimedShopDay < shopDay, amount };
+};
 
 // Each battle entry is "aXb+" (opponent dies) or "aXb-" (player dies)
 // a/b are position indices into the playerPets/opponentPets arrays
@@ -45,17 +62,33 @@ const getRoundName = (roundIndex: number): string => {
 // game: getTournamentDay(). The save's copy (OptionsListAccount[496]) only refreshes when the
 // tournament UI opens, and the global doc's T can lag a snapshot behind, so the newer one wins.
 export const getCurrentTournamentDay = (accountOptions: any, serverGlobal: any): number =>
-  Math.max(Number(accountOptions?.[496]) || 0, Number(serverGlobal?.T) || 0);
+  Math.max(Number(accountOptions?.[OPT.tournamentDay]) || 0, Number(serverGlobal?.T) || 0);
 
-export const getTournament = (idleonData: IdleonData, account: Account, serverTournament: any) => {
+// Whether the account still has to register for the current Pet Tournament (PvP) and Raid (PvE), for the Dashboard's alerts
+// and the Tournament page's notice. accountOptions[511] / [611] hold the day registered through (registering sets it to
+// day + 1), so registered ⟺ through > day. tournamentDay is the newer of the save's copy and the global doc's T. The
+// save's own current-raid-day mirror (613) only updates when the player opens the tournament UI, so it goes stale: the
+// global doc's RD is refetched on every snapshot. RC is the raid's registration-closed flag, nothing to register for while
+// it's set. An account with no pet has no team to enter.
+export const getRegistrationNeeds = (account: any): { tournament: boolean; raid: boolean } => {
+  if (!account?.companions?.list?.some((companion: any) => companion?.copies > 0)) return { tournament: false, raid: false };
+  const tournamentDay = account?.tournament?.tournamentDay ?? 0;
+  const raidDay = account?.tournament?.global?.RD ?? 0;
+  return {
+    tournament: tournamentDay >= 1 && (account?.accountOptions?.[OPT.tournamentRegisteredThrough] ?? 0) <= tournamentDay,
+    raid: raidDay >= 1 && account?.tournament?.global?.RC !== true && (account?.accountOptions?.[OPT.raidRegisteredThrough] ?? 0) <= raidDay
+  };
+};
+
+export const getTournament = (idleonData: IdleonData, account: Account, serverTournament: any, serverVars?: any) => {
   const accountOptions = (account as any)?.accountOptions;
 
   // Division tier from OptLacc[495]; user.r is the player's rank WITHIN the division (not the tier)
-  const divisionIndex = accountOptions?.[495] ?? 0;
+  const divisionIndex = accountOptions?.[OPT.tournamentDivision] ?? 0;
   const playerRank = serverTournament?.user?.r ?? null;
-  const matchDay = serverTournament?.user?.l ?? accountOptions?.[493] ?? 0;
+  const matchDay = serverTournament?.user?.l ?? accountOptions?.[OPT.tournamentLastMatchDay] ?? 0;
   const tournamentDay = getCurrentTournamentDay(accountOptions, serverTournament?.global);
-  const registrationCount = accountOptions?.[498] ?? 0;
+  const registrationCount = accountOptions?.[OPT.tournamentRegistrations] ?? 0;
 
   // Parse match history from _T_RES_UID data
   // Qualifying vs bracket is determined by the lives field format (matching game code N.js:119781):
@@ -138,8 +171,10 @@ export const getTournament = (idleonData: IdleonData, account: Account, serverTo
       };
     })
     .filter(Boolean);
+  const shopDay = global?.S ?? 0;
   const petMart = {
-    shopDay: global?.S ?? 0,
+    shopDay,
+    gems: getPetMartGems(shopDay, Number(accountOptions?.[OPT.petMartGemsClaimedDay]) || 0, Number(serverVars?.GemPM_x) || 0),
     petCrystals: (account as any)?.companions?.petCrystals ?? 0,
     offers: readOffers(global?.I, global?.B, global?.A),
     plusOffers: readOffers(global?.LI, global?.LB, global?.LA)

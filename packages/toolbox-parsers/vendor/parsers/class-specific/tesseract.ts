@@ -1,7 +1,7 @@
-// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1.
+// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 13f73ae61cc77989be4fd044ca6c2e923de87bb0.
 // Copyright (C) Morta1 and IdleOn Toolbox contributors. GPL-3.0-only; see vendor/LICENSE.
 // Copied unmodified by IdleOn Forge's scripts/sync.sh; UI-coupled imports are redirected to shims/ at build time.
-import { commaNotation, lavaLog, lavaLog2, notateNumber, tryToParse } from '@utility/helpers';
+import { commaNotation, gameFill, lavaLog, lavaLog2, notateNumber, tryToParse } from '@utility/helpers';
 import { getFilteredPortals, getMultiCharDoorLock } from '@parsers/portals';
 import { liveEntries } from '@parsers/catalog';
 import { mapEnemiesArray, mapPortals, monsterCoinQuantity, monsters, tesseract, items, gameTables } from '@website-data';
@@ -23,6 +23,7 @@ import { isCompanionBonusActive } from '@parsers/misc';
 import { getSushiBonus } from '@parsers/world-7/sushiStation';
 import { getJellyBonus } from '@parsers/world-7/jellyOperator';
 import { additiveGroup, createBreakdown, multiplier, NUMBERED_GROUP, percent } from '@parsers/breakdown';
+import { OPT } from '@parsers/accountOptions';
 
 export const tachyonNames = {
   0: 'Purple',
@@ -112,9 +113,9 @@ export const getTesseract = (idleonData: any, characters: any[], account: any, _
 
   const crystalChargeReq = getCrystalChargeReq(characters, upgrades)
   // game: ArcaneType("WepDropChance" / "RingDropChance"), each slowed by +1% per OptionsListAccount[396 / 397]
-  const weaponDropChance = 1 / (300 * (1 + (account?.accountOptions?.[396] ?? 0) / 100));
+  const weaponDropChance = 1 / (300 * (1 + (account?.accountOptions?.[OPT.arcanistWeaponDropsToday] ?? 0) / 100));
   const weaponQuality = calcTesseractBonus(upgrades, 5, 0);
-  const ringDropChance = 1 / (500 * (1 + (account?.accountOptions?.[397] ?? 0) / 100));
+  const ringDropChance = 1 / (500 * (1 + (account?.accountOptions?.[OPT.arcanistRingDropsToday] ?? 0) / 100));
   const ringQuality = calcTesseractBonus(upgrades, 23, 0);
 
   const unlockedPortals = (portalsRaw || []).reduce((result: any, mapRaw: any) => {
@@ -138,6 +139,10 @@ export const getTesseract = (idleonData: any, characters: any[], account: any, _
     mapBonusRaw
   }
 }
+
+// OptionsListAccount[388-393] = tachyons held per type, [394] = lifetime tachyons (leaderboard sums all 7)
+export const getTotalTachyonsCollected = (account: any) => (account?.accountOptions?.slice(388, 395) ?? [])
+  .reduce((sum: number, value: any) => sum + (typeof value === 'number' ? value : 0), 0);
 
 export const getTesseractBonus = (account: any, index: any) => {
   return account?.tesseract?.upgrades?.[index]?.bonus || 0;
@@ -243,7 +248,7 @@ export const getTesseractMapBonus = (account: any, characters: any, character: a
   return bonus! > 0 ? bonus : 0;
 }
 export const getMaps = (account: any, characters: any, character: any) => {
-  const { unlockedPortals, upgrades, mapBonusRaw } = account?.tesseract;
+  const { unlockedPortals, upgrades, mapBonusRaw } = account?.tesseract ?? {};
   const highestOverwhelmingEnergy = getHighestTalentAcrossCharacters(characters, 'OVERWHELMING_ENERGY', character);
 
   const maxMapBonus = 100 * (highestOverwhelmingEnergy - 1) + Math.min(10, calcTesseractBonus(upgrades, 58, 0))
@@ -283,7 +288,7 @@ const getMapMultiBonus = (mapBonuses: any, maxMapBonus: any) => {
   const multiBonuses = [];
 
   for (let index = 0; index < 3; index++) {
-    const rawKills = parseInt(mapBonuses?.[index], 10);
+    const rawKills = parseInt(mapBonuses?.[index], 10) || 0;
     const arcaneValue = getMapMulti(rawKills);
     const clampedValue = Math.min(maxMapBonus, arcaneValue);
 
@@ -398,8 +403,8 @@ export const getExtraTachyon = (character: any, account: any) => {
   const bundleBonus = isBundlePurchased(account, 'bun_x') ? 1.2 : 1; // ExtraTachyonMulti
 
   const upgrade17 = calcTesseractBonus(upgrades, 17, 0);
-  const upgrade34 = calcTesseractBonus(upgrades, 34, 0) * lavaLog(account?.accountOptions?.[390] ?? 0);
-  const upgrade56 = calcTesseractBonus(upgrades, 56, 0) * lavaLog(account?.accountOptions?.[393] ?? 0);
+  const upgrade34 = calcTesseractBonus(upgrades, 34, 0) * lavaLog(account?.accountOptions?.[OPT.greenTachyons] ?? 0);
+  const upgrade56 = calcTesseractBonus(upgrades, 56, 0) * lavaLog(account?.accountOptions?.[OPT.goldTachyons] ?? 0);
 
   const additive = upgrade17 + tesseract + upgrade34 + upgrade56
     + equipBonus + mainframeBonus + arcadeBonus + paletteBonus + exoticBonus;
@@ -476,7 +481,7 @@ export const getArcanistStats = (upgrades: any, totalUpgradeLevels: any, charact
     * Math.pow(1.04, Math.max(0, equipmentWeaponPower))
     * (1 + arcanistForm / 100)
     * (1 + (calcTesseractBonus(upgrades, 12, 0)
-      * lavaLog(account?.accountOptions?.[388] ?? 0)
+      * lavaLog(account?.accountOptions?.[OPT.purpleTachyons] ?? 0)
       + (calcTesseractBonus(upgrades, 4, 0) + (calcTesseractBonus(upgrades, 24, 0)
         + (calcTesseractBonus(upgrades, 31, 0)
           + (calcTesseractBonus(upgrades, 42, 0) + calcTesseractBonus(upgrades, 53, 0)))))) / 100)
@@ -491,7 +496,7 @@ export const getArcanistStats = (upgrades: any, totalUpgradeLevels: any, charact
       + (calcTesseractBonus(upgrades, 44, 0)
         + calcTesseractBonus(upgrades, 55, 0))) / 100)
     * (1 + (calcTesseractBonus(upgrades, 41, 0)
-      * lavaLog(account?.accountOptions?.[391] ?? 0)) / 100);
+      * lavaLog(account?.accountOptions?.[OPT.redTachyons] ?? 0)) / 100);
 
   const accuracy = (2 + (calcTesseractBonus(upgrades, 1, 0)
     + (calcTesseractBonus(upgrades, 9, 0)
@@ -504,7 +509,7 @@ export const getArcanistStats = (upgrades: any, totalUpgradeLevels: any, charact
       + (calcTesseractBonus(upgrades, 44, 0) +
         calcTesseractBonus(upgrades, 55, 0))) / 100)
     * (1 + (calcTesseractBonus(upgrades, 27, 0) *
-      lavaLog(account?.accountOptions?.[389] ?? 0)) / 100)
+      lavaLog(account?.accountOptions?.[OPT.brownTachyons] ?? 0)) / 100)
     * (1 + equipBonus / 100);
   const mastery = 0.25;
   const laboratoryLevel = character?.skillsInfo?.laboratory?.level ?? 0;
@@ -526,23 +531,40 @@ export const getArcanistStats = (upgrades: any, totalUpgradeLevels: any, charact
   }
 }
 
-const getDescription = (description: any, bonus: any) => {
-  if (bonus < 1e9) {
-    description = description.replace('{', commaNotation(bonus));
-    if (bonus < 1e3) {
-      const multiplier = 1 + bonus / 100;
-      description = description.replace('}', notateNumber(multiplier, 'MultiplierInfo'));
-    }
-    else {
-      const multiplier = Math.floor(1 + bonus / 100);
-      description = description.replace('}', commaNotation(multiplier));
-    }
+// game: { CommaNotation under 1e9, NotateNumber Big past it; } the CommaNotation of its floor from 1M up
+export const formatTesseractBonus = (bonus: number) => gameFill(bonus, bonus < 1e9 ? 'Comma' : 'Big');
+export const formatTesseractMulti = (bonus: number) => {
+  const multiplier = 1 + bonus / 100;
+  if (multiplier < 1e6) return gameFill(multiplier, 'MultiplierInfo');
+  return bonus < 1e9 ? commaNotation(Math.floor(multiplier)) : String(notateNumber(multiplier, 'Big'));
+};
+
+export const getDescription = (description: any, bonus: any) => description
+  .replace('{', formatTesseractBonus(bonus))
+  .replace('}', formatTesseractMulti(bonus));
+
+// game: the arcane panel's own "$" fills (the MenuType2 arcane draw). prismaChance and the Tenteyecle talent are the
+// picked Arcane Cultist's: the game reads the active character, so with none they have no number
+export const getArcaneDollar = (upgrade: any, { prismaChance, crystalChargeReq, bonusOf, character }: any) => {
+  const round2 = (value: number) => `${Math.round(100 * value) / 100}`;
+  switch (upgrade?.index) {
+    case 3:
+      if (prismaChance == null) return undefined;
+      return gameFill(prismaChance > 0 ? 1 / prismaChance : 1e4, 'Big', { whole: true });
+    case 7:
+      return character ? `${Math.round(Math.min(bonusOf(7), getTalentBonus(character?.flatTalents, 'TENTEYECLE')))}` : undefined;
+    case 13:
+      return crystalChargeReq == null ? undefined : gameFill(crystalChargeReq, 'Round', { whole: true });
+    case 40:
+      return round2(1.1 + bonusOf(40) / 100);
+    case 45:
+      return round2(2 + bonusOf(45) / 100);
+    case 58:
+      return round2(bonusOf(58));
+    default:
+      return undefined;
   }
-  else {
-    description = description.replace('{', notateNumber(bonus));
-  }
-  return description;
-}
+};
 
 const getCrystalChargeReq = (characters: any, upgrades: any) => {
   // game: GetTalentNumber(2, 599), BACKUP_ENERGY's y bonus (the "- charge" half), of the Arcane
@@ -559,13 +581,13 @@ const getCrystalChargeReq = (characters: any, upgrades: any) => {
 // It lives on an actor and never reaches the save, so it is 0 for any loaded account.
 export const getPrismaFragChance = (character: any, account: any, upgrades: any) => {
   const primoPrisma = getTalentBonus(character?.flatTalents, 'PRIMO_PRISMA');
-  return (1 / (1e3 * Math.pow(1.27, account?.accountOptions?.[395] ?? 0)))
+  return (1 / (1e3 * Math.pow(1.27, account?.accountOptions?.[OPT.prismaFound] ?? 0)))
     * Math.max(1, (character?.dropRate?.dropRate - 1)
       * (calcTesseractBonus(upgrades, 51, 0) / 100))
     * Math.max(1, primoPrisma * Math.pow(1.5, Math.floor((character?.mapIndex ?? 0) / 50)))
 }
 
-const MAX_PRISMA_MULTI = 4;
+const MAX_PRISMA_MULTI = 5;
 
 // game: "PrismaBonusMult"
 export const getPrismaMulti = (account: any) => {
@@ -611,7 +633,7 @@ export const getPrismaMulti = (account: any) => {
 const getUpgradeCost = ({ index, x1, x2, level, account, upgrades, forceLegendTalent }: any) => {
   return 3 * getMasterclassCostReduction(account, forceLegendTalent)
     * (1 / (1 + (calcTesseractBonus(upgrades, 49, 0)
-      * lavaLog(account?.accountOptions?.[392] ?? 0)) / 100))
+      * lavaLog(account?.accountOptions?.[OPT.silverTachyons] ?? 0)) / 100))
     * Math.pow(1.04, index) * (level + (x1 + level) * Math.pow(x2 + 0.01, level))
 }
 
@@ -640,6 +662,7 @@ const getTesseractBonusAtLevel = (upgrades: any, index: any, levelOverride: any)
 
 export const calcTesseractBonus = (upgrades: any, index: any, anotherIndex: any): any => {
   const upgrade = upgrades?.[index];
+  if (!upgrade && 999 !== anotherIndex) return 0;
   return 3 === index || 7 === index || 8 === index || 10 === index ||
     13 === index || 16 === index || 20 === index ||
     25 === index || 26 === index || 28 === index ||

@@ -1,12 +1,36 @@
-// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1.
+// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 13f73ae61cc77989be4fd044ca6c2e923de87bb0.
 // Copyright (C) Morta1 and IdleOn Toolbox contributors. GPL-3.0-only; see vendor/LICENSE.
 // Copied unmodified by IdleOn Forge's scripts/sync.sh; UI-coupled imports are redirected to shims/ at build time.
+// While parseData runs, the names of sections that threw, so a page can say its data failed to read
+// instead of rendering the fallback as if the save were empty.
+let failedSections: Set<string> | null = null;
+
+export const trackSectionFailures = (into: Set<string> | null) => {
+  failedSections = into;
+};
+
+// Tests and the kit only (parse option failSections): these sections throw for real, so what reads them downstream shows too.
+let forced: Set<string> | null = null;
+
+export const forceSectionFailures = (names?: string[]) => {
+  forced = names?.length ? new Set(names) : null;
+};
+
+// The last pass's readers meet a section that kept failing as its catalog at zero, not {}: parseData fills this before that pass.
+let catalogs: Record<string, any> | null = null;
+
+export const setSectionCatalogs = (sections: Record<string, any> | null) => {
+  catalogs = sections;
+};
+
 export const safeSection = <T>(name: string, fallback: T, fn: () => T): T => {
   try {
+    if (forced?.has(name)) throw new Error(`forced: ${name}`);
     const result = fn();
     return result === undefined || result === null ? fallback : result;
   } catch (err) {
     console.error(`[parsers] section "${name}" failed, using fallback:`, err);
-    return fallback;
+    failedSections?.add(name);
+    return catalogs && name in catalogs ? catalogs[name] : fallback;
   }
 };

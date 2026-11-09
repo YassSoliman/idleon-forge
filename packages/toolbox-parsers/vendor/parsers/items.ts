@@ -1,10 +1,11 @@
-// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1.
+// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 13f73ae61cc77989be4fd044ca6c2e923de87bb0.
 // Copyright (C) Morta1 and IdleOn Toolbox contributors. GPL-3.0-only; see vendor/LICENSE.
 // Copied unmodified by IdleOn Forge's scripts/sync.sh; UI-coupled imports are redirected to shims/ at build time.
 import { bonuses, items, itemsArray } from '@website-data';
-import { cleanUnderscore } from '@utility/helpers';
+import { cleanUnderscore, titleCaseName } from '@utility/helpers';
 import { getGalleryBonus, isGalleryActive } from './world-7/gallery';
 import { getHatRackBonus, isHatRackActive } from './world-3/hatRack';
+import { CAPE_SLOT, getCapeVineBonus, isCapeVineActive } from './world-4/capeVine';
 import { getResearchGridBonus } from './world-7/research';
 
 
@@ -88,6 +89,8 @@ export const getStatsFromGear = (character: any, bonusIndex: any, account: any, 
     const type = item?.Type;
     return (galleryActive && GALLERY_ITEM_TYPES.includes(type)) || (hatRackActive && type === 'PREMIUM_HELMET');
   };
+  // Once the Cape Vine is on, the worn cape gives nothing: its bonus comes from getCapeVineBonus
+  const capeVineActive = isCapeVineActive(character, account);
 
   // Well_Dressed research (grid 172): first MISC bonus on attire/clothing (slot 15) gives }x more bonus
   const wellDressedBonus = getResearchGridBonus(account, 172, 0);
@@ -95,8 +98,8 @@ export const getStatsFromGear = (character: any, bonusIndex: any, account: any, 
 
   // Calculate from equipment
   const equipmentTotal = equipment?.reduce((total: number, item: any, index: number) => {
-    if (isGalleryOrHatRackItem(item)) {
-      return total; // Skip - bonus comes from gallery/hatRack
+    if (isGalleryOrHatRackItem(item) || (capeVineActive && index === CAPE_SLOT)) {
+      return total; // Skip - bonus comes from gallery/hatRack/capeVine
     }
     const statValue = getStatFromEquipment(item, bonusName);
     // The Silkrode chips double the slot's UQ/etc bonus only - TotalStats applies them inside the
@@ -118,27 +121,30 @@ export const getStatsFromGear = (character: any, bonusIndex: any, account: any, 
   // Get gallery and hatRack bonuses for tracked item types
   const galleryBonus = galleryActive ? getGalleryBonus(account, bonusName, character) || 0 : 0;
   const hatRackBonus = hatRackActive ? getHatRackBonus(account, bonusName) || 0 : 0;
+  const capeVineBonus = capeVineActive ? getCapeVineBonus(account, bonusName) || 0 : 0;
 
   const gearTotal = equipmentTotal + toolsTotal;
-  const value = gearTotal + galleryBonus + hatRackBonus;
+  const value = gearTotal + galleryBonus + hatRackBonus + capeVineBonus;
 
   return {
     value,
     breakdown: [
       { name: '' },
-      { title: (cleanUnderscore(bonusName)?.toLowerCase() as any)?.capitalizeAllWords() },
+      { title: titleCaseName(cleanUnderscore(bonusName)) },
       { name: '' },
       { name: 'Equipment', value: gearTotal },
       { name: 'Gallery', value: galleryBonus },
       { name: 'Hat Rack', value: hatRackBonus },
+      { name: 'Cape Vine', value: capeVineBonus },
       { name: '' }
     ],
     newBreakdown: {
-      name: (cleanUnderscore(bonusName)?.toLowerCase() as any)?.capitalizeAllWords(),
+      name: titleCaseName(cleanUnderscore(bonusName)),
       sources: [
         { name: 'Equipment', value: gearTotal },
         { name: 'Gallery', value: galleryBonus },
         { name: 'Hat Rack', value: hatRackBonus },
+        { name: 'Cape Vine', value: capeVineBonus },
       ]
     }
   };

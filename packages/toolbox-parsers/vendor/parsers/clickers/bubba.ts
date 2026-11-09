@@ -1,9 +1,9 @@
-// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1.
+// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 13f73ae61cc77989be4fd044ca6c2e923de87bb0.
 // Copyright (C) Morta1 and IdleOn Toolbox contributors. GPL-3.0-only; see vendor/LICENSE.
 // Copied unmodified by IdleOn Forge's scripts/sync.sh; UI-coupled imports are redirected to shims/ at build time.
-import { commaNotation, lavaLog, lavaLog2, notateNumber, tryToParse } from '@utility/helpers';
+import { gameFill, lavaLog, lavaLog2, tryToParse } from '@utility/helpers';
 import { bubbaUpgrades, generalSpelunky } from '@website-data';
-import { isCompanionBonusActive } from '@parsers/misc';
+import { getEventShopBonus, isCompanionBonusActive } from '@parsers/misc';
 import { getUpgradeVaultBonus } from '@parsers/misc/upgradeVault';
 import { getSushiBonus } from '@parsers/world-7/sushiStation';
 import { getJellyBonus } from '@parsers/world-7/jellyOperator';
@@ -11,6 +11,7 @@ import { getFountainBonusTotal } from '@parsers/world-5/caverns/the-fountain';
 import { getMineheadBonusQTY } from '@parsers/world-7/minehead';
 import { getClickerCheapener } from '@parsers/world-7/menagerie';
 import { getPetArenaCrucBonus } from '@parsers/world-4/breeding';
+import { OPT } from '@parsers/accountOptions';
 
 const BUBBA_CHEAPENER_BOOST = 20;
 
@@ -73,9 +74,7 @@ const parseBubba = (rawBubba: any, account: any) => {
     };
     if (index === 0) {
       const value = 1 + (getMegafleshOwned(rawBubba, 0) * getTotalQTYofLVs(rawBubba)) / 100;
-      const formatted = value < 100
-        ? String(notateNumber(value, 'MultiplierInfo')).replace('#', '')
-        : commaNotation(value);
+      const formatted = gameFill(value, value < 100 ? 'MultiplierInfo' : 'Comma');
       return { ...base, totalBonus: formatted };
     }
     if (index === 11) {
@@ -85,7 +84,7 @@ const parseBubba = (rawBubba: any, account: any) => {
       return {
         ...base,
         amount,
-        totalBonus: String(notateNumber(value, 'MultiplierInfo')).replace('#', '')
+        totalBonus: gameFill(value, 'MultiplierInfo')
       };
     }
     return base;
@@ -156,6 +155,7 @@ const getUpgradeCost = (rawBubba: any, account: any, upgradeIndex: any) => {
   const costReductionCharisma = 1 / (1 + getCharismaBonus(rawBubba, 1) / 100);
   // game: MenagerieStuff("BubbaCheapener", t, 0)
   const menagerieCheapener = getClickerCheapener(account, BUBBA_CHEAPENER_BOOST, upgradeIndex);
+  const costReductionEventShop = 1 / (1 + getEventShopBonus(account, 58));
 
   // Base cost calculation
   const baseCost = Math.pow(upgradeIndex + 1, 2) * level
@@ -164,6 +164,7 @@ const getUpgradeCost = (rawBubba: any, account: any, upgradeIndex: any) => {
   return costReductionMinehead
     * costReduction4
     * costReduction18
+    * costReductionEventShop
     * menagerieCheapener
     * costReduction26
     * costReductionCharisma
@@ -229,6 +230,10 @@ const getGiftPassiveBonus = (rawBubba: any, giftIndex: any, checkAll = false) =>
   const totUpgBonus17 = getTotUpgBonus(rawBubba, 17);
   return giftValue * Math.min(5, 1 + totUpgBonus17 / 100);
 };
+
+// game: "Dice_MaxSides"
+const getDiceMaxSides = (rawBubba: any) =>
+  Math.round(Math.min(20, 6 + getTotUpgBonus(rawBubba, 16) + 5 * getMegafleshOwned(rawBubba, 4)));
 
 // game: "Dice_Multi"
 const getDiceMulti = (rawBubba: any) => {
@@ -323,18 +328,6 @@ const getDailyPetHappinessFromUpg = (rawBubba: any) => {
   return (Math.min(1, totUpgBonus5) + (totUpgBonus5 / (totUpgBonus5 + 200)) * 2) * multiplier;
 };
 
-// Helper function to format timer display (seconds to HH:MM:SS)
-const formatTimerDisplay = (seconds: any) => {
-  const hours = Math.floor(seconds / 3600);
-  const minutes = Math.floor((seconds % 3600) / 60);
-  const secs = Math.floor(seconds % 60);
-
-  if (hours > 0) {
-    return `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
-  }
-  return `${String(minutes).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
-};
-
 // The game renders @ as a line break
 const replaceLineBreaks = (description: any) => String(description ?? '').replace(/_*@_*/g, '\n');
 
@@ -350,19 +343,13 @@ const formatUpgradeDescription = (rawBubba: any, upgradeIndex: any) => {
 
   // Replace { with bonus value
   if (description.includes('{')) {
-    const bonusValue = bonus < 1e6
-      ? commaNotation(bonus)
-      : notateNumber(bonus, 'Big');
-    description = description.replace('{', '' + bonusValue);
+    description = description.replace('{', gameFill(bonus, bonus < 1e6 ? 'Comma' : 'Big'));
   }
 
   // Replace } with multiplier (1 + bonus / 100)
   if (description.includes('}')) {
     const multiplier = 1 + bonus / 100;
-    let multiplierStr = '' + notateNumber(multiplier, 'MultiplierInfo');
-    // Remove # if present
-    multiplierStr = multiplierStr.replace(/#/g, '');
-    description = description.replace('}', multiplierStr);
+    description = description.replace('}', gameFill(multiplier, 'MultiplierInfo'));
   }
 
   // Replace $ with special values
@@ -380,26 +367,16 @@ const formatUpgradeDescription = (rawBubba: any, upgradeIndex: any) => {
       // DailyPet_HappinessFromUpg value
       dollarValue = Math.round(100 * getDailyPetHappinessFromUpg(rawBubba)) / 100;
     }
+    else if (upgradeIndex === 16) {
+      // More Sides: the game's panel never fills this "$", but the text means the max dice roll
+      dollarValue = getDiceMaxSides(rawBubba);
+    }
     description = description.replace('$', '' + dollarValue);
   }
 
-  // Replace ~ with timer values
-  if (description.includes('~')) {
-    let timerValue = '';
-    if (upgradeIndex === 1 || upgradeIndex === 12) {
-      // Timer for 3600 - Bubba[0][13]
-      const timeRemaining = Math.max(0, 3600 - (rawBubba?.[0]?.[13] || 0));
-      timerValue = formatTimerDisplay(timeRemaining);
-    }
-    else if (upgradeIndex === 15) {
-      // Timer for Bubba[0][14]
-      const timeValue = rawBubba?.[0]?.[14] || 0;
-      timerValue = formatTimerDisplay(timeValue);
-    }
-    description = description.replace('~', timerValue);
-  }
-
-  return replaceLineBreaks(description);
+  // The game's ~ is a clock it runs live ("Your next pats come in ~"): frozen at the save's time it reads wrong, so its
+  // line goes
+  return replaceLineBreaks(description.split('@').filter((line: string) => !line.includes('~')).join('@'));
 };
 
 // game: "MeatsliceRate"
@@ -408,7 +385,7 @@ const getMeatsliceRate = (rawBubba: any, account: any) => {
   const percentageBonus = (getTotUpgBonus(rawBubba, 2)
     + getTotUpgBonus(rawBubba, 11)
     + getTotUpgBonus(rawBubba, 19)
-    + getTotUpgBonus(rawBubba, 24) * lavaLog(account?.accountOptions?.[267] || 1)) / 100;
+    + getTotUpgBonus(rawBubba, 24) * lavaLog(account?.accountOptions?.[OPT.kangarooFish] || 1)) / 100;
 
   const happinessBonus = getHappinessBonus(rawBubba);
   const diceMulti = getDiceMulti(rawBubba);
@@ -422,6 +399,7 @@ const getMeatsliceRate = (rawBubba: any, account: any) => {
   return baseRate
     * (1 + percentageBonus)
     * happinessBonus
+    * (1 + 2 * getEventShopBonus(account, 58))
     * diceMulti
     * smokeMeatMulti
     * (1 + charismaBonus)

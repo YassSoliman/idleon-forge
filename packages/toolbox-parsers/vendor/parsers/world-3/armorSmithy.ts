@@ -1,11 +1,12 @@
-// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1.
+// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 13f73ae61cc77989be4fd044ca6c2e923de87bb0.
 // Copyright (C) Morta1 and IdleOn Toolbox contributors. GPL-3.0-only; see vendor/LICENSE.
 // Copied unmodified by IdleOn Forge's scripts/sync.sh; UI-coupled imports are redirected to shims/ at build time.
 import { equipmentSets, randomList } from '@website-data';
-import { notateNumber } from '@utility/helpers';
+import { gameFill } from '@utility/helpers';
 import { isBundlePurchased } from '@parsers/misc';
 import { getBestActiveCharacter } from '@parsers/talents';
 import type { IdleonData, Account, ServerVars } from '../types';
+import { OPT } from '@parsers/accountOptions';
 
 // The smithy's list order (RANDOlist[113]); any set it does not list goes last
 const SMITHY_SET_ORDER: string[] = randomList?.[113] ?? [];
@@ -29,16 +30,16 @@ export const getSetPartsOn = (set: any, character: any) => {
 export const getSetPartsReq = (set: any) => set.armors.length + set.requiredTools + set.requiredWeapon;
 
 export const getArmorSmithy = (idleonData: IdleonData, serverVars: ServerVars, account: Account, characters?: any[]) => {
-  const smithyUnlocked = account?.accountOptions?.[380];
-  const [, ...unlockedSets] = (account?.accountOptions?.[379] ?? '').toString().split(',');
-  const days = account?.accountOptions?.[381] ?? 0;
+  const smithyUnlocked = account?.accountOptions?.[OPT.armorSmithyUnlocked];
+  const [, ...unlockedSets] = (account?.accountOptions?.[OPT.armorSmithyUnlockedSets] ?? '').toString().split(',');
+  const days = account?.accountOptions?.[OPT.armorSmithyDaysWaited] ?? 0;
   const loggedInCharacter = getBestActiveCharacter(characters);
   const sets = [...equipmentSets]
     .sort((a, b) => smithyOrder(a.setName) - smithyOrder(b.setName))
     .map((set) => {
       const description = set.description.replace('|', '_')
         .replace('{', String(set.bonusValue))
-        .replace('}', String(notateNumber(1 + set.bonusValue / 100, 'MultiplierInfo')))
+        .replace('}', gameFill(1 + set.bonusValue / 100, 'MultiplierInfo'))
       const unlocked = unlockedSets.includes(set?.setName);
       // game: GetSetBonus(set, "Bonus") also counts a set the logged-in character wears in full,
       // whether or not it was ever handed in to the smithy

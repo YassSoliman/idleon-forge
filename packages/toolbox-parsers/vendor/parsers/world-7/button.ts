@@ -1,4 +1,4 @@
-// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1.
+// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 13f73ae61cc77989be4fd044ca6c2e923de87bb0.
 // Copyright (C) Morta1 and IdleOn Toolbox contributors. GPL-3.0-only; see vendor/LICENSE.
 // Copied unmodified by IdleOn Forge's scripts/sync.sh; UI-coupled imports are redirected to shims/ at build time.
 import {
@@ -11,6 +11,8 @@ import { getResearchGridBonus } from '@parsers/world-7/research';
 import { isCompanionBonusActive, getGoldenFoodMulti, getLoggedInSkillLevel } from '@parsers/misc';
 import { getClassExpMulti, getDropRate } from '@parsers/character';
 import { getMaxDamage } from '@parsers/damage';
+import { OPT } from '@parsers/accountOptions';
+import { gameFill } from '@utility/helpers';
 
 /**
  * Parses a raw bonus name like "}x_Res._XP" or "+{%_Class_XP" into
@@ -34,8 +36,8 @@ export const getButton = (account: any, characters: any = []) => {
   const rawBonusNames: string[] = (bonusNamesData as any) ?? [];
   const parsedBonuses = rawBonusNames.map(parseBonusName);
 
-  const totalPresses = Number(accountOptions?.[594]) || 0;
-  const instaSkipsLeft = Number(accountOptions?.[595]) || 0;
+  const totalPresses = Number(accountOptions?.[OPT.buttonPresses]) || 0;
+  const instaSkipsLeft = Number(accountOptions?.[OPT.buttonInstaSkipsLeft]) || 0;
   // Grid 126 mode 1 = level (integer insta skip count per week)
   const instaSkipsPerWeek = getResearchGridBonus(account, 126, 1);
 
@@ -68,9 +70,6 @@ export const getButton = (account: any, characters: any = []) => {
     name,
     value: bonusValues[index] ?? 0,
     displayFormat,
-    displayValue: displayFormat === 'multi'
-      ? `${Math.round(100 * (1 + (bonusValues[index] ?? 0) / 100)) / 100}x`
-      : `+${Math.round(100 * (bonusValues[index] ?? 0)) / 100}%`,
     bonusPerPress: bonusPerPress[index] ?? 0,
     level: boostCounts[index] ?? 0
   }));
@@ -114,7 +113,7 @@ export const getButton = (account: any, characters: any = []) => {
   }).filter(Boolean);
 
   // Rotation state: which bonus category is currently being filled and progress within it
-  const activeBonusIndex = Math.floor(totalPresses / 5) % 9;
+  const activeBonusIndex = Math.floor(totalPresses / 5) % categoryCount;
   const pressesIntoCurrentBonus = totalPresses % 5;
 
   return {
@@ -169,7 +168,7 @@ function getTaskProgress(taskIndex: number, account: any, characters: any = []):
   const opts = account?.accountOptions ?? [];
 
   switch (taskIndex) {
-    // 0-3: TotalStats (STR/AGI/WIS/LUK) — per-character live calc, skip for now
+    // 0-3: TotalStats (STR/AGI/WIS/LUK): per-character live calc, skip for now
     case 0: case 1: case 2: case 3: return 0;
 
     // 4-7: Class-specific resources (Grimoire/Compass/Tesseract)
@@ -187,8 +186,8 @@ function getTaskProgress(taskIndex: number, account: any, characters: any = []):
     case 13: return account?.statues?.[15]?.level ?? 0;  // BOX
     case 14: return account?.statues?.[16]?.level ?? 0;  // TWOSOUL
 
-    // 15: Class EXP multi — computed by getClassExpMulti(), not stored on character
-    // 16: Drop Rate multi — computed by getDropRate(), not stored on character
+    // 15: Class EXP multi: computed by getClassExpMulti(), not stored on character
+    // 16: Drop Rate multi: computed by getDropRate(), not stored on character
     case 15: case 16: return 0;
 
     // 17: Crystallin Stamp level
@@ -223,7 +222,7 @@ function getTaskProgress(taskIndex: number, account: any, characters: any = []):
     // 26: Foraging Speed (Desert Oasis)
     case 26: return account?.breeding?.territories?.[5]?.forageSpeed ?? 0;
 
-    // 27: Ribbon tier on Yumi Peachring — stored in grimoire (Ribbon array)
+    // 27: Ribbon tier on Yumi Peachring: stored in grimoire (Ribbon array)
     case 27: return Number(account?.grimoire?.ribbons?.[92]) || 0;
 
     // 28: Sausy Sausage meal level
@@ -275,13 +274,13 @@ function getTaskProgress(taskIndex: number, account: any, characters: any = []):
     // 46: Jade
     case 46: return account?.sneaking?.jadeCoins ?? 0;
 
-    // 47: Golden Food Bonus % — DNSM.GfoodBonusMULTI, not parsed
+    // 47: Golden Food Bonus %: DNSM.GfoodBonusMULTI, not parsed
     case 47: return 0;
 
     // 48: Total crops found
     case 48: return account?.farming?.cropsFound ?? 0;
 
-    // 49: Max crystal damage — computed by getMaxDamage(), not stored
+    // 49: Max crystal damage: computed by getMaxDamage(), not stored
     case 49: return 0;
 
     // 50: Total Spelunking POW
@@ -323,13 +322,10 @@ function formatTaskDescription(rawDescription: string, requirement: number): str
   return desc.trim();
 }
 
-/**
- * Formats large numbers with commas for display in task descriptions.
- */
+// game: CommaNotation under 1M, Big from there (the Button panel), so the sentence rounds as the page's progress does
 function formatLargeNumber(value: number): string {
   if (!Number.isFinite(value)) return '∞';
-  if (value >= 1e15) return value.toExponential(2);
-  return Math.floor(value).toLocaleString('en-US');
+  return gameFill(value, value < 1e6 ? 'Comma' : 'Big', { whole: true });
 }
 
 /**

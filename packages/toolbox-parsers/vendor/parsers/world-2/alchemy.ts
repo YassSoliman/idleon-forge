@@ -1,7 +1,7 @@
-// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1.
+// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 13f73ae61cc77989be4fd044ca6c2e923de87bb0.
 // Copyright (C) Morta1 and IdleOn Toolbox contributors. GPL-3.0-only; see vendor/LICENSE.
 // Copied unmodified by IdleOn Forge's scripts/sync.sh; UI-coupled imports are redirected to shims/ at build time.
-import { cleanUnderscore, createArrayOfArrays, growth, notateNumber, round, tryToParse } from '@utility/helpers';
+import { cleanUnderscore, commaOrBig, createArrayOfArrays, growth, notateNumber, round, tryToParse } from '@utility/helpers';
 import { cauldrons, gameTables, p2w, sigils, vials } from '@website-data';
 import { liveEntries } from '@parsers/catalog';
 import { isArtifactAcquired } from '@parsers/world-5/sailing';
@@ -48,6 +48,8 @@ import {
   productGroup,
   sumGroup
 } from '@parsers/breakdown';
+import { saveField } from '@parsers/saveField';
+import { OPT } from '@parsers/accountOptions';
 
 export const MAX_VIAL_LEVEL = 13;
 // One row per cauldron / liquid, in save order: the slug the catalog and the rest of the app key by,
@@ -104,8 +106,8 @@ export const parseAlchemy = (idleonData: any, alchemyRaw: any, cauldronJobs1Raw:
   const vials = getVials(alchemyRaw?.[4]);
 
   const totalBubbleLevelsTill100 = alchemyRaw?.slice(0, 4)?.flat()?.reduce((sum: any, level: any) => sum + Math.min(100, level), 0);
-  const prismaFragments = account?.accountOptions?.[383];
-  const prismaBubbles = account?.accountOptions?.[384];
+  const prismaFragments = account?.accountOptions?.[OPT.prismaFragments];
+  const prismaBubbles = account?.accountOptions?.[OPT.prismaBubbles];
   return {
     p2w,
     bubbles,
@@ -161,7 +163,7 @@ export const getLiquidCauldrons = (account: any) => {
     if (bleachLiquidCauldron > index) {
       bleachLiquidBonus = .5 + saltLickBonus / 100;
     }
-    if (account?.accountOptions?.[123] > index) {
+    if (account?.accountOptions?.[OPT.dragonicCauldrons] > index) {
       if (bleachLiquidBonus === 0) {
         bleachLiquidBonus = 1;
       }
@@ -179,7 +181,7 @@ export const getLiquidCauldrons = (account: any) => {
     // game: 5 * RiftStuff("RiftSkillBonus,4", 1), alchemy's second mastery tier (+5% all liquid cap at 200)
     const skillMasteryBonus = isMasteryBonusUnlocked(account?.rift, account?.totalSkillsLevels?.alchemy?.rank, 1);
     const viaductOfGods = getLabBonus(account?.lab?.labBonuses, 6);
-    const p2wBonus = account?.alchemy?.p2w?.liquids?.[index]?.capacity?.level ?? 0;
+    const p2wBonus = account?.alchemy?.p2w?.liquids?.[index]?.capacity?.savedLevel ?? 0;
     const stampBonus = getStampsBonusByEffect(account, 'Cap_for_all_Liquids_in_Alchemy');
     const arcadeBonus = getArcadeBonus(account?.arcade?.shop, 'Cap_for_all_Liquids')?.bonus
 
@@ -189,7 +191,7 @@ export const getLiquidCauldrons = (account: any) => {
     const maxLiquid = Math.ceil((1 + secondMath) * thirdMath);
 
     return {
-      isDragonic: account?.accountOptions?.[123] > index,
+      isDragonic: account?.accountOptions?.[OPT.dragonicCauldrons] > index,
       maxLiquid,
       maxLiquidBreakdown: createBreakdown(`${LIQUID_INFO[index]?.displayName} capacity`, maxLiquid, [
         sumGroup('Base capacity', [
@@ -238,10 +240,11 @@ const getCauldronBrewBonus = (index: any, cauldronVal: any) => {
 }
 
 const getPay2Win = (idleonData: any, alchemyActivity: any, serializedCharactersData: any) => {
-  const liquidMapping = { 0: 4, 1: 5, 2: 6 };
+  // game: CauldronJobs[0][liquid + 4], the job a character brews a liquid at (ResearchSpeed)
+  const liquidMapping = { 0: 4, 1: 5, 2: 6, 3: 7 };
   const playersInLiquids = alchemyActivity.filter(({ activity }: any, index: any) => activity < 100 && activity >= 4 && activity !== -1 && index < serializedCharactersData?.length);
   const p2w: any = {};
-  const [cauldrons = [], liquids = [], vials, player, , remainingAttempts = []] = tryToParse(idleonData?.CauldronP2W) || idleonData?.CauldronP2W || [];
+  const [cauldrons = [], liquids = [], vials, player, , remainingAttempts = []] = saveField(idleonData, 'CauldronP2W') || idleonData?.CauldronP2W || [];
   p2w.cauldrons = CAULDRON_INFO.map((cauldron: any, index: any) => {
     const [speed = 0, newBubble = 0, boostReq = 0] = cauldrons.slice(index * 3, index * 3 + 3);
     return {
@@ -267,16 +270,8 @@ const getPay2Win = (idleonData: any, alchemyActivity: any, serializedCharactersD
     const [regen = 0, capacity = 0] = liquids.slice(index * 2, index * 2 + 2);
     return {
       name: liquid.name,
-      regen: {
-        cost: getP2wCauldronCost('liquid', 0, regen),
-        costToMax: getCostToMax('liquid', 0, regen, CAULDRONS_MAX_LEVELS.liquidsRegen),
-        level: regen
-      },
-      capacity: {
-        cost: getP2wCauldronCost('liquid', 1, capacity),
-        costToMax: getCostToMax('liquid', 1, capacity, CAULDRONS_MAX_LEVELS.liquidsCapacity),
-        level: capacity
-      },
+      regen: getLiquidUpgrade(0, regen, CAULDRONS_MAX_LEVELS.liquidsRegen),
+      capacity: getLiquidUpgrade(1, capacity, CAULDRONS_MAX_LEVELS.liquidsCapacity),
       players: playersInLiquids?.filter(({ activity }: any) => activity === (liquidMapping as Record<string, any>)?.[index])
     };
   });
@@ -302,6 +297,17 @@ export const getPlayerP2wUpgrades = (level: any, p2wIndex: any, bonusIndex: any)
   const [x1, x2, func] = p2w[p2wIndex][bonusIndex];
   return growth(func, level, x1, x2);
 }
+
+// -1 is the save's mark for a liquid not found yet: it reads level 0 and has no price, while the game's cap still adds
+// the -1 (cauldronp2wbonuses), so the capacity keeps it as savedLevel
+const getLiquidUpgrade = (index: number, level: number, maxLevel: number) => (level < 0
+  ? { cost: null, costToMax: null, level: 0, savedLevel: level }
+  : {
+    cost: getP2wCauldronCost('liquid', index, level),
+    costToMax: getCostToMax('liquid', index, level, maxLevel),
+    level,
+    savedLevel: level
+  });
 
 const getCostToMax = (type: any, index: any, level: any, maxLevel: any) => {
   let total = 0;
@@ -329,23 +335,11 @@ const getP2wCauldronCost = (type: any, index: any, level: any) => {
 }
 
 const getBubbles = (bubblesRaw: any) => {
+  // The panel's "$" that is words. The five that are numbers keep theirs for getBubbleDollarFills: they read a character.
   const etc = {
-    0: {
-      5: '', // max hp
-      7: 'Pickaxes_and_Fishing_Rods'
-    },
-    1: {
-      5: '', // movement speed
-      6: 'Catching_Nets_and_Traps'
-    },
-    2: {
-      5: '', // max MP
-      6: 'Hatchets_and_Worship_Skulls'
-    },
-    3: {
-      7: '', // max liquid
-      25: '' // CORPIUS_MAPPER
-    }
+    0: { 7: 'Pickaxes_and_Fishing_Rods.' },
+    1: { 6: 'Catching_Nets_and_Traps.' },
+    2: { 6: 'Hatchets_and_Worship_Skulls.' }
   };
   return CAULDRON_INFO.reduce((res: any, { name: category }, cauldronIndex) => {
     const catalogEntries = (cauldrons as Record<string, any>)[category];
@@ -357,7 +351,7 @@ const getBubbles = (bubblesRaw: any) => {
         index: bubbleIndex,
         rawName: `aUpgrades${cauldronsTextMapping[cauldronIndex]}${bubbleIndex}`,
         ...bubbleDetails,
-        desc: bubbleDetails?.desc?.replace('$', (etc as Record<string, any>)?.[cauldronIndex]?.[bubbleIndex])
+        desc: bubbleDetails?.desc?.replace('$', (etc as Record<string, any>)?.[cauldronIndex]?.[bubbleIndex] ?? '$')
       };
     });
     return { ...res, [category]: bubbleList };
@@ -383,7 +377,7 @@ export const getActiveBubbleBonus = (equippedBubbles: any, bubbleName: any, acco
   if (hasCompanionBonus) {
     return getBubbleBonus(account, bubbleName, false)
   }
-  const bubble = equippedBubbles?.find(({ bubbleName: bName }: any) => bubbleName === bName);
+  const bubble = equippedBubbles?.find((equipped: any) => equipped?.bubbleName === bubbleName);
   if (!bubble && !hasCompanionBonus) return 0;
   // The DNSM writer prices every bubble through CauldronStats("BubbleBonus"), which multiplies
   // Math.max(1, PrismaBonusMult) into prisma'd bubbles - equipped ACTIVE bubbles included.
@@ -415,6 +409,12 @@ const isClassMultiplied = (bubble: any) => {
     && !CLASS_MULTI_EXCLUDED_STAT_TAGS.some((tag) => stat.includes(tag));
 };
 
+// game: TalentCalc(-2) writes AlchBubbles only for a bubble with 0 < level: one not found yet gives nothing, though some
+// curves start above 0 (bigBase at x1, decayMulti at 1)
+export const getBubbleCurve = ({ func, level, x1, x2 }: any): number => (level > 0
+  ? growth(func, level, x1, x2, false) ?? 0
+  : 0);
+
 // game: "BubbleBonus" plus the TalentCalc(-2) multipliers. shouldMultiply = the character is of the
 // cauldron's class; the class bubble only lands on the bubbles that qualify for it.
 // cauldron: look the bubble up in that cauldron only, for names several cauldrons share (ESSENCE_BOOST)
@@ -425,14 +425,11 @@ export const getBubbleBonus = (account: any, bubbleName: any, shouldRound?: any,
   );
   if (targetBubble === -1) return 0;
 
-  // Calculate base bubble value (unrounded - the game never rounds intermediate growth values)
-  const baseBubbleValue = growth(
-    targetBubble?.func,
-    targetBubble?.level,
-    targetBubble?.x1,
-    targetBubble?.x2,
-    false
-  ) ?? 0;
+  // Calculate base bubble value (unrounded - the game never rounds intermediate growth values). The game reads a multi
+  // through Math.max(1, AlchBubbles.x), so one not found yet stays the 1 its callers multiply by
+  const baseBubbleValue = targetBubble?.func === 'decayMulti'
+    ? growth(targetBubble?.func, targetBubble?.level, targetBubble?.x1, targetBubble?.x2, false)
+    : getBubbleCurve(targetBubble ?? {});
 
   // Apply prisma multiplier to base bubble
   const basePrismaMultiplier = isPrismaBubble(account, targetBubble?.bubbleIndex)
@@ -506,7 +503,7 @@ export const getVialsBonusByEffect = (vials: any, effectName: any, statName?: an
     if (effectName && !desc.includes(effectName)) return sum;
     if (statName && !stat.includes(statName)) return sum;
     return sum + (growth(func, level, x1, x2, false) ?? 0) * multiplier;
-  }, 0);
+  }, 0) ?? 0;
 };
 
 export const getVialsBonusByStat = (vials: any, statName: any) => {
@@ -514,7 +511,7 @@ export const getVialsBonusByStat = (vials: any, statName: any) => {
     const { func, level, x1, x2, multiplier = 1, stat } = vial;
     if (statName !== stat) return sum;
     return sum + (growth(func, level, x1, x2, false) ?? 0) * multiplier;
-  }, 0);
+  }, 0) ?? 0;
 };
 
 export const applyVialsMulti = (vials: any, multiplier: any) => {
@@ -651,7 +648,7 @@ const getBestBubbleBreakthrough = (characters: any) => {
 // OptionsListAccount[32] holds one 0/1 digit per cauldron
 const IVORY_CAULDRON_MULTI = 1.5;
 const isIvoryCauldron = (account: any, cauldronIndex: number) =>
-  `${account?.accountOptions?.[32] ?? ''}`.charAt(cauldronIndex) === '1';
+  `${account?.accountOptions?.[OPT.ivoryCauldrons] ?? ''}`.charAt(cauldronIndex) === '1';
 
 export const applyNewBubbleChances = (account: any, characters: any) => {
   const bubbleBreakthrough = getBestBubbleBreakthrough(characters);
@@ -837,7 +834,7 @@ const getCauldronStats = (idleonData: any) => {
 };
 
 export const getSigils = (idleonData: any, alchemyActivity: any, serializedCharactersData: any) => {
-  const sigilsRaw = tryToParse(idleonData?.CauldronP2W) || idleonData?.CauldronP2W;
+  const sigilsRaw = saveField(idleonData, 'CauldronP2W') || idleonData?.CauldronP2W;
   return parseSigils(sigilsRaw, alchemyActivity, serializedCharactersData);
 };
 
@@ -919,9 +916,11 @@ export const getSigilSpeed = (account: any) => {
     multiplier('Legend talent', 1 + legend / 100)
   ];
   const value = evaluateBreakdownNode(productGroup('Sigil speed', tree));
+  const display = `${commaOrBig(value)}x`;
   return {
     value,
-    breakdown: createBreakdown('Sigil Speed', `${notateNumber(value, 'MultiplierInfo')}x`, tree)
+    display,
+    breakdown: createBreakdown('Sigil Speed', display, tree)
   };
 };
 
@@ -1019,12 +1018,15 @@ export const calcSigilsLevels = (sigils: any) => {
   return Object.values(sigils)?.reduce((res: any, { unlocked }: any) => res + (unlocked + 1), 0);
 };
 
+// game: the daily walk's 15% roll reaches index 30 only with 0.5 < Atoms[2] (Lithium), and takes a bubble from Lv 2
+const LITHIUM_ATOM_INDEX = 2;
 const getNblbBubbles = (acc: any, maxBubbleIndex: any, numberOfBubbles: any) => {
+  if (!(acc?.atoms?.atoms?.[LITHIUM_ATOM_INDEX]?.level > 0)) return [];
   const bubblesArrays = Object.values(acc?.alchemy?.bubbles || {})
     .map((array: any) => array.filter(({
       level,
       index
-    }: any) => level >= 5 && index < maxBubbleIndex).sort((a: any, b: any) => a.level - b.level).filter(({ level }: any) => level < 1e4));
+    }: any) => level >= 2 && index < maxBubbleIndex).sort((a: any, b: any) => a.level - b.level).filter(({ level }: any) => level < 1e4));
   const bubblePerCauldron = Math.ceil(Math.min(10, numberOfBubbles) / 4);
   const lowestBubbles = [];
   for (let j = 0; j < bubblesArrays.length; j++) {
@@ -1084,7 +1086,7 @@ export const getUpgradeableBubbles = (acc: any, characters: any) => {
       info('No Bubble Left Behind (Lab)', 0, { formatted: 'Not active' })
     ], { combine: 'sum' })
   };
-  const allBubbles = Object.values(acc?.alchemy?.bubbles).flatMap((bubbles: any, index: any) => {
+  const allBubbles = Object.values(acc?.alchemy?.bubbles ?? {}).flatMap((bubbles: any, index: any) => {
     return bubbles.map((bubble: any, bubbleIndex: any) => {
       return { ...bubble, tab: index, flatIndex: 1e3 * index + bubbleIndex }
     });
@@ -1101,7 +1103,7 @@ export const getUpgradeableBubbles = (acc: any, characters: any) => {
   const amberiteArtifact = isArtifactAcquired(acc?.sailing?.artifacts, 'Amberite');
   const multi = amberiteArtifact?.acquired || 1;
   const artifactBonus = amberiteArtifact ? amberiteArtifact?.baseBonus * multi : 0;
-  const moreBubblesFromMerit = acc?.tasks?.[2]?.[3]?.[6]
+  const moreBubblesFromMerit = acc?.tasks?.[2]?.[3]?.[6] ?? 0
   const meritBonus = moreBubblesFromMerit > 0 ? moreBubblesFromMerit : 0;
 
   const upgradeableBubblesAmount = Math.min(MAX_UPGRADEABLE_BUBBLES, Math.max(MIN_UPGRADEABLE_BUBBLES,
@@ -1138,7 +1140,7 @@ export const getUpgradeableBubbles = (acc: any, characters: any) => {
 export const getGrindTimeBubbleDaily = (account: any) => {
   const grindTimeBubble = account?.coralReef?.grindTimeDaily;
   const bubbles = account?.alchemy?.bubblesFlat;
-  const bubble = bubbles.find(({ bubbleName }: any) => bubbleName === 'GRIND_TIME');
+  const bubble = bubbles?.find(({ bubbleName }: any) => bubbleName === 'GRIND_TIME');
 
   return {
     ...bubble,
@@ -1245,4 +1247,44 @@ export const findAddDecayThresholdLevel = (func: any, x1: any, x2: any, prismaMu
   if (remainder >= linearPart) return Infinity;
 
   return 50000 + (150000 * remainder) / (linearPart - remainder);
+};
+
+// Mirrors the bubbles page: prisma bubbles scale both the bonus and its cap by the prisma multi.
+const getBubblePrismaMulti = (account: any, bubble: any) =>
+  isPrismaBubble(account, bubble?.bubbleIndex) ? (getPrismaMulti(account)?.value ?? 1) : 1;
+
+export const getBubbleEffectPercent = (account: any, bubble: any, level: number = bubble?.level): number | null => {
+  const { func, x1, x2 } = bubble ?? {};
+  const rawMax = getMaxBonus(func, x1);
+  if (rawMax === null) return null;
+  const prismaMulti = getBubblePrismaMulti(account, bubble);
+  const maxBonus = rawMax * prismaMulti;
+  if (func.toLowerCase() === 'adddecay' && maxBonus) {
+    return round(growth(func, level, x1, x2, false) * prismaMulti) / maxBonus * 100;
+  }
+  return level / (level + x2) * 100;
+};
+
+export const getBubbleLevelForPercent = (account: any, bubble: any, percent: number): number | null => {
+  const { func, x1, x2 } = bubble ?? {};
+  const rawMax = getMaxBonus(func, x1);
+  if (rawMax === null) return null;
+  if (func.toLowerCase() !== 'adddecay') {
+    const level = Math.ceil(percent / (100 - percent) * x2);
+    return Number.isFinite(level) ? level : null;
+  }
+  const prismaMulti = getBubblePrismaMulti(account, bubble);
+  const exact = findAddDecayThresholdLevel(func, x1, x2, prismaMulti, percent, rawMax * prismaMulti);
+  if (!Number.isFinite(exact)) return null;
+  // The shown bonus is rounded to 2 decimals, so the exact root can land a few levels short or long: search the rounded curve.
+  const reaches = (level: number) => (getBubbleEffectPercent(account, bubble, level) as number) >= percent;
+  let hi = Math.ceil(exact);
+  while (!reaches(hi)) hi *= 2;
+  let lo = 0;
+  while (lo < hi) {
+    const mid = Math.floor((lo + hi) / 2);
+    if (reaches(mid)) hi = mid;
+    else lo = mid + 1;
+  }
+  return lo;
 };

@@ -1,8 +1,8 @@
-// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1.
+// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 13f73ae61cc77989be4fd044ca6c2e923de87bb0.
 // Copyright (C) Morta1 and IdleOn Toolbox contributors. GPL-3.0-only; see vendor/LICENSE.
 // Copied unmodified by IdleOn Forge's scripts/sync.sh; UI-coupled imports are redirected to shims/ at build time.
 import type { IdleonData, Account, ServerVars } from '../types';
-import { growth, notateNumber, tryToParse } from '@utility/helpers';
+import { gameFill, growth, notateNumber, tryToParse } from '@utility/helpers';
 import { arcadeShop } from '@website-data';
 import { isCompanionBonusActive } from '@parsers/misc';
 import { getPaletteBonus } from '@parsers/world-5/gaming';
@@ -12,6 +12,7 @@ import { isKingDootActive } from '@parsers/world-5/divinity';
 import { getBestActiveCharacter } from '@parsers/talents';
 import { additiveGroup, createBreakdown, multiplier, percent } from '@parsers/breakdown';
 import type { StatBreakdown } from '@parsers/breakdown';
+import { OPT } from '@parsers/accountOptions';
 
 export const getArcade = (idleonData: IdleonData, account: Account, serverVars: ServerVars, characters?: any[]) => {
   const arcadeRaw = tryToParse((idleonData as any)?.ArcadeUpg) || (idleonData as any)?.ArcadeUpg;
@@ -35,8 +36,8 @@ export const isArcadePlaceholder = (upgrade: any) => /who_knows/i.test(upgrade?.
 // game: the ArcadeShopInfo text, "{" -> NotateNumber(bonus, "Smaller") and "}" -> NotateNumber(1 + bonus/100,
 // "MultiplierInfo") with "#" stripped (the "}x_" entries are multipliers)
 export const formatArcadeEffect = (effect: string = '', bonus: number = 0) => effect
-  .replace('{', String(notateNumber(bonus, 'Smaller')))
-  .replace('}', String(notateNumber(1 + bonus / 100, 'MultiplierInfo')).replace('#', ''));
+  .replace('{', gameFill(bonus, 'Smaller'))
+  .replace('}', gameFill(1 + bonus / 100, 'MultiplierInfo'));
 
 const GOLDEN_YELLOW_PALETTE = 15;
 const GOLD_BALL_ARCADE_BONUS = 39;
@@ -78,11 +79,11 @@ export const getGoldBallMulti = (account: Account, serverVars: ServerVars, chara
 }
 
 const parseArcade = (arcadeRaw: any, account: Account, serverVars: ServerVars, characters?: any[]) => {
-  const balls = (account as any)?.accountOptions?.[74];
-  const goldBalls = (account as any)?.accountOptions?.[75];
-  const royalBalls = (account as any)?.accountOptions?.[324];
+  const balls = (account as any)?.accountOptions?.[OPT.arcadeBalls] ?? 0;
+  const goldBalls = (account as any)?.accountOptions?.[OPT.arcadeGoldBalls] ?? 0;
+  const royalBalls = (account as any)?.accountOptions?.[OPT.arcadeCosmicBalls] ?? 0;
   // 2.3.540 Omega balls (Menagerie unlock 6), spent on the Lv 101 -> 102 Omega upgrade
-  const omegaBalls = (account as any)?.accountOptions?.[625] ?? 0;
+  const omegaBalls = (account as any)?.accountOptions?.[OPT.omegaArcadeBalls] ?? 0;
 
   const arcadeShopList = arcadeShop?.map((upgrade: any, index: number) => {
     const { x1, x2, func } = upgrade;

@@ -1,4 +1,4 @@
-// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1.
+// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 13f73ae61cc77989be4fd044ca6c2e923de87bb0.
 // Copyright (C) Morta1 and IdleOn Toolbox contributors. GPL-3.0-only; see vendor/LICENSE.
 // Copied unmodified by IdleOn Forge's scripts/sync.sh; UI-coupled imports are redirected to shims/ at build time.
 import { notateNumber, number2letter, tryToParse } from '@utility/helpers';
@@ -24,6 +24,7 @@ import { getMineheadBonusQTY } from '@parsers/world-7/minehead';
 import { getJewelBonus } from '@parsers/world-4/lab';
 import { getOutpostRogBonus } from '@parsers/class-specific/royalGuardian';
 import type { IdleonData, Account } from '../types';
+import { saveField } from '@parsers/saveField';
 
 // The board maths lives in its own module so the optimizer can run in a Web Worker without pulling
 // website-data in. Re-exported here because everything already imports it from this file.
@@ -390,8 +391,8 @@ const buildExtraColumn = (flagsUnlockedRaw: any[], flagsPlacedRaw: any[], cogsMa
 
 
 export const getTowers = (idleonData: IdleonData) => {
-  const towersRaw = idleonData?.TowerInfo || tryToParse(idleonData?.Tower);
-  const totemInfo = tryToParse(idleonData?.TotemInfo) || idleonData?.TotemInfo;
+  const towersRaw = idleonData?.TowerInfo || saveField(idleonData, 'Tower');
+  const totemInfo = saveField(idleonData, 'TotemInfo') || idleonData?.TotemInfo;
   return parseTowers(towersRaw, totemInfo);
 }
 

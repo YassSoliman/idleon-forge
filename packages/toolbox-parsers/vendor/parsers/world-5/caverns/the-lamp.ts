@@ -1,10 +1,10 @@
-// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1.
+// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 13f73ae61cc77989be4fd044ca6c2e923de87bb0.
 // Copyright (C) Morta1 and IdleOn Toolbox contributors. GPL-3.0-only; see vendor/LICENSE.
 // Copied unmodified by IdleOn Forge's scripts/sync.sh; UI-coupled imports are redirected to shims/ at build time.
 import { lampWishes } from '@website-data';
 import { getCosmoBonus, getMeasurementBonus, getStudyBonus } from '@parsers/world-5/hole';
 import { getBellBonus } from '@parsers/world-5/caverns/the-bell';
-import { notateNumber } from '@utility/helpers';
+import { gameFill } from '@utility/helpers';
 import { getMonumentBonus } from '@parsers/world-5/caverns/bravery';
 import { getZenithBonus } from '@parsers/world-1/statues';
 
@@ -30,8 +30,8 @@ export const getLamp = (holesObject: any, accountData: any, unlockedCaverns: any
       desc = desc.replace('{', bonus(0)).replace('}', bonus(1)).replace('~', bonus(2))
     }
     const resourceBonus = getLampBonus({ holesObject, t: 99, i: 0, account: accountData });
-    desc = desc.replace('#', String(notateNumber(1 + resourceBonus / 100, 'MultiplierInfo')))
-      .replace('$', String(notateNumber(1 + resourceBonus / 400, 'MultiplierInfo')));
+    desc = desc.replace('#', gameFill(1 + resourceBonus / 100, 'MultiplierInfo'))
+      .replace('$', gameFill(1 + resourceBonus / 400, 'MultiplierInfo'));
     return { ...wish, cost, futureCosts, description: desc };
   });
   const currentWishes = holesObject?.extraCalculations?.[25];
@@ -76,7 +76,7 @@ export const getLampBonus = ({ holesObject, t, i, account }: any) => {
   const zenithBonus = 1 + getZenithBonus(account, 2) / 100;
   const raw = '25,10,8;15,40,10;20,35,12;5,1,1;2,2,2';
   return 99 === t
-    ? 25 * holesObject?.wishesUsed?.[7] * zenithBonus
+    ? 25 * (holesObject?.wishesUsed?.[7] ?? 0) * zenithBonus
     : (Number(raw.split(';')[t].split(',')[i])
-      * holesObject?.wishesUsed?.[Math.min(11, Math.round(4 + 2 * t))]) * zenithBonus;
+      * (holesObject?.wishesUsed?.[Math.min(11, Math.round(4 + 2 * t))] ?? 0)) * zenithBonus;
 }

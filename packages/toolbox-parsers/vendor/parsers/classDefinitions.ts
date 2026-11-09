@@ -1,9 +1,9 @@
-// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1.
+// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 13f73ae61cc77989be4fd044ca6c2e923de87bb0.
 // Copyright (C) Morta1 and IdleOn Toolbox contributors. GPL-3.0-only; see vendor/LICENSE.
 // Copied unmodified by IdleOn Forge's scripts/sync.sh; UI-coupled imports are redirected to shims/ at build time.
 // Class identity: the class name constants, the talent-page ordering per class, and the base-class
 // lookup. Extracted from talents.ts because these are plain values with no dependencies, while
-// talents.ts imports 18 other parser modules — and through class-specific/{grimoire,tesseract} that
+// talents.ts imports 18 other parser modules, and through class-specific/{grimoire,tesseract} that
 // reached monsterDrops. Anything importing just these constants from talents.ts pulled the whole
 // parser graph and its data with it, which put megabytes onto the 137 public /tools/builds/* pages
 // that only need the tab order.

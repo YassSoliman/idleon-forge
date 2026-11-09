@@ -1,4 +1,4 @@
-// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1.
+// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 13f73ae61cc77989be4fd044ca6c2e923de87bb0.
 // Copyright (C) Morta1 and IdleOn Toolbox contributors. GPL-3.0-only; see vendor/LICENSE.
 // Copied unmodified by IdleOn Forge's scripts/sync.sh; UI-coupled imports are redirected to shims/ at build time.
 // Routes audited to render without a parsed account. An anonymous visitor's empty account costs
@@ -9,11 +9,16 @@
 const STATIC_ROUTES = new Set([
   '/',
   '/404',
+  '/account/class-specific/royal-guardian',
   '/guilds',
+  '/guilds/detail',
+  '/guilds/ecosystem',
   '/leaderboards',
   '/patch-notes',
   '/privacy-policy',
   '/statistics',
+  '/tools',
+  '/tools/active-exp-calculator',
   '/tools/builds',
   '/tools/builds/[slug]',
   '/wiki',
@@ -25,3 +30,7 @@ const STATIC_ROUTES = new Set([
 
 // `pathname` is the Next route pattern (router.pathname), not the URL.
 export const routeNeedsAccount = (pathname) => !STATIC_ROUTES.has(pathname);
+
+// Routes that still pay for an empty account though no number on them reads it, so the guest's band
+// has nothing true to say there.
+export const NO_GUEST_NUMBERS = new Set(['/settings']);

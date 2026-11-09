@@ -1,4 +1,4 @@
-// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1.
+// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 13f73ae61cc77989be4fd044ca6c2e923de87bb0.
 // Copyright (C) Morta1 and IdleOn Toolbox contributors. GPL-3.0-only; see vendor/LICENSE.
 // Copied unmodified by IdleOn Forge's scripts/sync.sh; UI-coupled imports are redirected to shims/ at build time.
 // Build time only, like static-graph.mjs: getStaticPaths and getStaticProps import it dynamically.
@@ -25,7 +25,18 @@ const checkRoutes = (graph) => {
 
 const rowCounts = (graph) => listingCounts(Object.values(graph.nodes));
 
-const pageNodes = (graph) => Object.values(graph.nodes).filter((node) => node.navigable !== false && node.slug);
+// FAST_BUILD=1 is for the checks between a plan's gates: it exports two entity pages per kind, plus the ones e2e names,
+// instead of all ~8,000. Every listing and system page stays. Gates and deploys build every page.
+const FAST_BUILD_KEEP = new Set(['item/copper-bar', 'monster/amarok', 'owl/feather-generation', 'vial/copper-corona']);
+const FAST_BUILD_PER_KIND = 2;
+
+const pageNodes = (graph) => {
+  const nodes = Object.values(graph.nodes).filter((node) => node.navigable !== false && node.slug);
+  if (process.env.FAST_BUILD !== '1') return nodes;
+  const kept = {};
+  return nodes.filter(({ kind, slug }) => FAST_BUILD_KEEP.has(`${kind}/${slug}`)
+    || (kept[kind] = (kept[kind] ?? 0) + 1) <= FAST_BUILD_PER_KIND);
+};
 
 // /wiki: the home's index, counted at build time so the export links every system and listing. The rail folds its
 // groups shut, so these tiles are how a crawler reaches the categories.

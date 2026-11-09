@@ -1,7 +1,7 @@
-// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1.
+// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 13f73ae61cc77989be4fd044ca6c2e923de87bb0.
 // Copyright (C) Morta1 and IdleOn Toolbox contributors. GPL-3.0-only; see vendor/LICENSE.
 // Copied unmodified by IdleOn Forge's scripts/sync.sh; UI-coupled imports are redirected to shims/ at build time.
-import { notateNumber } from '@utility/helpers';
+import { gameFill } from '@utility/helpers';
 
 // Breakdown trees read by components/common/Breakdown/Breakdown.tsx. Kept free of game data so the
 // component can import it.
@@ -132,7 +132,7 @@ const SMALL_AMOUNT_DIGITS = 3;
 
 const formatAmount = (value: number) => {
   if (value > 0 && value < SMALL_AMOUNT) return String(Number(value.toPrecision(SMALL_AMOUNT_DIGITS)));
-  return value < 1e3 ? String(parseFloat(value.toFixed(2))) : String(notateNumber(value));
+  return gameFill(value, 'Big');
 }
 
 export const formatBreakdownValue = (value: number, unit?: BreakdownUnit) => {

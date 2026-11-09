@@ -1,7 +1,7 @@
-// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1.
+// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 13f73ae61cc77989be4fd044ca6c2e923de87bb0.
 // Copyright (C) Morta1 and IdleOn Toolbox contributors. GPL-3.0-only; see vendor/LICENSE.
 // Copied unmodified by IdleOn Forge's scripts/sync.sh; UI-coupled imports are redirected to shims/ at build time.
-import { fillArrayToLength, lavaLog, notateNumber } from '@utility/helpers';
+import { fillArrayToLength, lavaLog } from '@utility/helpers';
 import { holesInfo } from '@website-data';
 import { getMonumentBonus } from '@parsers/world-5/caverns/bravery';
 import { getLampBonus } from '@parsers/world-5/caverns/the-lamp';
@@ -59,7 +59,7 @@ export const getTheWell = (holesObject: any, accountData: any) => {
     totalFillRate,
     goldenBucketsOwned,
     goldenBucketMulti,
-    opalCost: notateNumber(opalCost, 'TinyE'),
+    opalCost,
     expandWhenFull
   }
 }
@@ -100,6 +100,7 @@ export const getSchematicBonus = ({ holesObject, t, i }: any): any => {
     engineerSchematics,
     studyStuff
   } = holesObject || {};
+  if (!engineerSchematics) return 0;
   if (0 === engineerSchematics?.[t]) return 0;
   if (14 === t) {
     let result = 0;

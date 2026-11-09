@@ -1,4 +1,4 @@
-// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1.
+// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 13f73ae61cc77989be4fd044ca6c2e923de87bb0.
 // Copyright (C) Morta1 and IdleOn Toolbox contributors. GPL-3.0-only; see vendor/LICENSE.
 // Copied unmodified by IdleOn Forge's scripts/sync.sh; UI-coupled imports are redirected to shims/ at build time.
 import { getActiveBubbleBonus, getBubbleBonus, getVialsBonusByStat } from '@parsers/world-2/alchemy';
@@ -40,7 +40,7 @@ import { getShinyBonus } from '@parsers/world-4/breeding';
 import { getObolsBonus } from '@parsers/obols';
 import { isArtifactAcquired } from '@parsers/world-5/sailing';
 import { getAtomBonus } from '@parsers/world-3/atomCollider';
-import { cleanUnderscore, lavaLog, notateNumber } from '@utility/helpers';
+import { cleanUnderscore, lavaLog, notateNumber, titleCaseName } from '@utility/helpers';
 import {
   additiveGroup,
   createBreakdown,
@@ -83,6 +83,7 @@ import { getTrappingStuff } from '@parsers/character';
 import { getSchematicBonus } from '@parsers/world-5/caverns/the-well';
 import { getWinnerBonus } from '@parsers/world-6/summoning';
 import { getCharacterFamilyBonus } from './family';
+import { OPT } from '@parsers/accountOptions';
 
 export const allProwess = (character: any, account: any) => {
   const mainStat = mainStatMap?.[character?.class];
@@ -158,7 +159,7 @@ export const getAllEffBreakdown = (character: any, characters: any, account: any
   const multitoolBonus = getTalentBonus(character?.flatStarTalents, 'ANCIENT_MULTITOOL');
   const paletteBonus = getPaletteBonus(account, 10) ?? 0;
   const friendBonus = getFriendBonus(account, 2) ?? 0;
-  const option422 = Number(account?.accountOptions?.[422]) || 0;
+  const option422 = Number(account?.accountOptions?.[OPT.hoopsSkillEfficiencyBonus]) || 0;
   const masteryBonus = getSkillMasteryBonusByIndex(account?.totalSkillsLevels, account?.rift, 2)
   const schematicBonus = getSchematicBonus({ holesObject: account?.hole?.holesObject, t: 49, i: 15 });
   const chaoticTrollBonus = getEquippedCardBonus(character?.cards, 'Boss4B' as any);
@@ -194,7 +195,7 @@ export const getAllEffBreakdown = (character: any, characters: any, account: any
       percent('Skill mastery', masteryBonus),
       percent('Schematic', schematicBonus),
       percent('Account bonus', option422),
-      percent('Island shimmer', (account?.accountOptions?.[180] ?? 0) * account?.islands?.allShimmerBonus)
+      percent('Island shimmer', (account?.accountOptions?.[OPT.shimmerSkillEffLevel] ?? 0) * account?.islands?.allShimmerBonus)
     ]),
     additiveGroup(NUMBERED_GROUP, [
       percent('Chaotic Troll card', chaoticTrollBonus),
@@ -213,7 +214,7 @@ export const getAllEffBreakdown = (character: any, characters: any, account: any
 export const getAllEff = (character: any, characters: any, account: any) =>
   evaluateBreakdownNode(getAllEffBreakdown(character, characters, account));
 
-const bubbleLabel = (bubbleName: string) => `${(cleanUnderscore(bubbleName)?.toLowerCase() as any)?.capitalizeAllWords()} bubble`;
+const bubbleLabel = (bubbleName: string) => `${titleCaseName(cleanUnderscore(bubbleName))} bubble`;
 
 interface SkillPowerOptions {
   tool: number;

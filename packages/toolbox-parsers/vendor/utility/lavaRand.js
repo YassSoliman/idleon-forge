@@ -1,25 +1,25 @@
-// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1.
+// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 13f73ae61cc77989be4fd044ca6c2e923de87bb0.
 // Copyright (C) Morta1 and IdleOn Toolbox contributors. GPL-3.0-only; see vendor/LICENSE.
 // Copied unmodified by IdleOn Forge's scripts/sync.sh; UI-coupled imports are redirected to shims/ at build time.
 let Bf = {}
 Bf._mul = Math.imul;
 const A = {}
-var cc = function(e) {
+var bc = function(e) {
   this.init(e);
 };
-((A.Rand = cc),
-  (cc.__name__ = "Rand"),
-  (cc.hash = function(e, t) {
+((A.Rand = bc),
+  (bc.__name__ = "Rand"),
+  (bc.hash = function(e, t) {
     return (null == t && (t = 5381), (e = Bf._mul(e, -862048943)), (t ^= e = Bf._mul((e << 15) | (e >>> 17), 461845907)), (t = (Bf._mul((t << 13) | (t >>> 19), 5) + -430675100) | 0), (t = Bf._mul(t ^ (t >> 16), -2048144789)), (t = Bf._mul(t ^ (t >> 13), -1028477387)) ^ (t >> 16));
   }),
-  (cc.inlineHash = function(e, t) {
+  (bc.inlineHash = function(e, t) {
     return ((e = Bf._mul(e, -862048943)), (t ^= e = Bf._mul((e << 15) | (e >>> 17), 461845907)), (t = (Bf._mul((t << 13) | (t >>> 19), 5) + -430675100) | 0), (t = Bf._mul(t ^ (t >> 16), -2048144789)), (t = Bf._mul(t ^ (t >> 13), -1028477387)) ^ (t >> 16));
   }),
-  (cc.prototype = {
+  (bc.prototype = {
     seed: null,
     seed2: null,
     init: function(e) {
-      ((this.seed = e), (this.seed2 = cc.hash(e)), 0 == this.seed && (this.seed = 1), 0 == this.seed2 && (this.seed2 = 1));
+      ((this.seed = e), (this.seed2 = bc.hash(e)), 0 == this.seed && (this.seed = 1), 0 == this.seed2 && (this.seed2 = 1));
     },
     random: function(e) {
       return ((this.seed = 36969 * (65535 & this.seed) + (this.seed >> 16)), (this.seed2 = 18e3 * (65535 & this.seed2) + (this.seed2 >> 16)), (1073741823 & (((this.seed << 16) + this.seed2) | 0)) % e);
@@ -46,6 +46,6 @@ var cc = function(e) {
     uint: function() {
       return ((this.seed = 36969 * (65535 & this.seed) + (this.seed >> 16)), (this.seed2 = 18e3 * (65535 & this.seed2) + (this.seed2 >> 16)), 1073741823 & (((this.seed << 16) + this.seed2) | 0));
     },
-    __class__: cc
+    __class__: bc
   }));
-export default cc;
+export default bc;

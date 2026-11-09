@@ -1,7 +1,7 @@
-// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1.
+// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 13f73ae61cc77989be4fd044ca6c2e923de87bb0.
 // Copyright (C) Morta1 and IdleOn Toolbox contributors. GPL-3.0-only; see vendor/LICENSE.
 // Copied unmodified by IdleOn Forge's scripts/sync.sh; UI-coupled imports are redirected to shims/ at build time.
-import { lavaLog2, notateNumber, numberWithCommas } from '@utility/helpers';
+import { gameFill, lavaLog2, numberWithCommas } from '@utility/helpers';
 import { getStudyBonus } from '@parsers/world-5/hole';
 import { getSchematicBonus } from '@parsers/world-5/caverns/the-well';
 import { getBellBonus } from '@parsers/world-5/caverns/the-bell';
@@ -17,7 +17,7 @@ export const getTheTemple = (holesObject: any) => {
   const bonuses = bonusNames.map((data, index) => {
     const rawBonus = getTorchBonus(holesObject, index);
     const bonus = index === 0 ? Math.round(100 * rawBonus) / 100 : index === 1
-      ? notateNumber(100 * Math.min(1, rawBonus), 'Small')
+      ? gameFill(100 * Math.min(1, rawBonus), 'Small')
       : Math.round(rawBonus);
     return {
       ...data,

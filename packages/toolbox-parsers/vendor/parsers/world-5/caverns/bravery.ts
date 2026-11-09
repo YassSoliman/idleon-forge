@@ -1,10 +1,10 @@
-// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1.
+// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 13f73ae61cc77989be4fd044ca6c2e923de87bb0.
 // Copyright (C) Morta1 and IdleOn Toolbox contributors. GPL-3.0-only; see vendor/LICENSE.
 // Copied unmodified by IdleOn Forge's scripts/sync.sh; UI-coupled imports are redirected to shims/ at build time.
 import { holesInfo } from '@website-data';
 import { getCosmoBonus, getMeasurementBonus, getStudyBonus } from '@parsers/world-5/hole';
 import { getSchematicBonus } from '@parsers/world-5/caverns/the-well';
-import { fillArrayToLength, MAX_CHARACTERS, notateNumber } from '@utility/helpers';
+import { fillArrayToLength, gameFill, MAX_CHARACTERS, notateNumber } from '@utility/helpers';
 import { getWinnerBonus } from '@parsers/world-6/summoning';
 import { getJarBonus } from '@parsers/world-5/caverns/the-jars';
 import { getArcadeBonus } from '@parsers/world-2/arcade';
@@ -64,7 +64,7 @@ export const getBravery = (holesObject: any, accountData: any) => {
       const capMultiplier = index === 9 ? selfMultiplier : multiplier;
       const effectiveCap = isSoftCap ? scalingValue * capMultiplier : null;
       return {
-        description: description.replace(/_/g, ' ').replace(/\|/g, ' ').replace('{', Math.round(bonus)).replace('}', notateNumber(1 + bonus / 100, 'MultiplierInfo')),
+        description: description.replace(/_/g, ' ').replace(/\|/g, ' ').replace('{', Math.round(bonus)).replace('}', gameFill(1 + bonus / 100, 'MultiplierInfo')),
         level,
         bonus,
         scalingValue,
@@ -225,7 +225,7 @@ export const applyMonumentFountain = (base: number, holesObject: any, t: any) =>
 
 // 'MonumentROGbonuses' == e
 export const getMonumentBonus = ({ holesObject, t, i }: any): number => {
-  // Monument-multi upgrade itself (i = 9) only gets the fountain factor — adding
+  // Monument-multi upgrade itself (i = 9) only gets the fountain factor: adding
   // cosmo or its own i=9 contribution would be self-referential.
   const finalResult = i === 9
     ? applyMonumentFountain(1, holesObject, t)

@@ -1,4 +1,4 @@
-// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1.
+// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 13f73ae61cc77989be4fd044ca6c2e923de87bb0.
 // Copyright (C) Morta1 and IdleOn Toolbox contributors. GPL-3.0-only; see vendor/LICENSE.
 // Copied unmodified by IdleOn Forge's scripts/sync.sh; UI-coupled imports are redirected to shims/ at build time.
 // A kind's listing: its rows and the columns a reader compares them by. Data-free and importable
@@ -26,12 +26,14 @@ const EFFECT_NOTE = 'At the first level.';
 // These kinds keep their numbers in `stats` and top-level fields that no rule can tell from the indexes
 // beside them (order, companionIndex), so they name their columns. The labels are the entity page's own,
 // so one value reads the same in both places. `facet` names the band column where "Category" would mislead.
+// `|| null` is safe on every column but Attack: the graph holds no 0 in those fields (a 0 there means none, and
+// the builder drops it); a monster's 0 attack is real and prints 0.
 export const KIND_COLUMNS = {
   item: {
     facet: 'Type',
     columns: [
       { key: 'level', label: 'Level', format: 'amount', value: (node) => node.stats?.lvReqToEquip || null },
-      { key: 'sell-price', label: 'Sell Price', format: 'coins', value: (node) => node.sellPrice || null }
+      { key: 'sell-price', label: 'Sell price', format: 'coins', value: (node) => node.sellPrice || null }
     ]
   },
   monster: {
@@ -39,7 +41,7 @@ export const KIND_COLUMNS = {
     columns: [
       { key: 'health', label: 'Health', format: 'notate', value: (node) => node.stats?.health || null },
       { key: 'experience', label: 'Experience', format: 'notate', value: (node) => node.stats?.experience || null },
-      { key: 'attack', label: 'Attack', format: 'notate', value: (node) => node.stats?.attack || null },
+      { key: 'attack', label: 'Attack', format: 'notate', value: (node) => node.stats?.attack ?? null },
       { key: 'def-for-0', label: 'Def for 0', format: 'notate', value: (node) => node.stats?.defence || null }
     ]
   },

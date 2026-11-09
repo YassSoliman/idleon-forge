@@ -1,4 +1,4 @@
-// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1.
+// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 13f73ae61cc77989be4fd044ca6c2e923de87bb0.
 // Copyright (C) Morta1 and IdleOn Toolbox contributors. GPL-3.0-only; see vendor/LICENSE.
 // Copied unmodified by IdleOn Forge's scripts/sync.sh; UI-coupled imports are redirected to shims/ at build time.
 import { items as itemData } from '@website-data';
@@ -92,6 +92,10 @@ export const buildQuickEdit = (config, model, configType, target, { items = [], 
   const shown = kind === 'tracker'
     ? tracker.options.find(({ name }) => name === tracker.inline) ?? null
     : option;
+  // A timer that reads a number another tracker holds: its quick edit holds that number too
+  const numberFrom = alertMeta[path]?.numberFrom;
+  const readsNumber = numberFrom && (!numberFrom.forItems || items.some(({ key }) => numberFrom.forItems.includes(key)));
+  const numberTracker = readsNumber ? allTrackers(model).find((candidate) => candidate.path === numberFrom.tracker) ?? null : null;
 
   return {
     kind,
@@ -103,6 +107,9 @@ export const buildQuickEdit = (config, model, configType, target, { items = [], 
     items: kind === 'pickerItems' ? watched : [],
     worlds: kind === 'perWorld' ? rows : [],
     everyCharacter: configType === 'characters',
+    linkedNumber: numberTracker
+      ? { tracker: numberTracker, option: numberTracker.options.find(({ name }) => name === numberFrom.option), help: numberFrom.help }
+      : null,
     // A timer's switch is its only control, except an input option keeps its own checkbox.
     trackerSwitch: kind === 'tracker' || (configType === 'timers' && option?.type !== 'input'),
     page: alertPage(config, configType, target),

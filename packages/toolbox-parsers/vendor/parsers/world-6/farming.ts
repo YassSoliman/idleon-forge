@@ -1,4 +1,4 @@
-// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1.
+// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 13f73ae61cc77989be4fd044ca6c2e923de87bb0.
 // Copyright (C) Morta1 and IdleOn Toolbox contributors. GPL-3.0-only; see vendor/LICENSE.
 // Copied unmodified by IdleOn Forge's scripts/sync.sh; UI-coupled imports are redirected to shims/ at build time.
 import { notateNumber, tryToParse } from '@utility/helpers';
@@ -38,7 +38,12 @@ import { getCardBonusByEffect } from '@parsers/cards';
 import { getLegendTalentBonus } from '@parsers/world-7/legendTalents';
 import { getTomeBubbleMulti } from '@parsers/world-4/tome';
 import LavaRand from '../../utility/lavaRand';
-import { NUMBERED_GROUP, additiveGroup, createBreakdown, evaluateBreakdownNode, flat, listGroup, multiplier, percent, productGroup } from '@parsers/breakdown';
+import { NUMBERED_GROUP, additiveGroup, createBreakdown, evaluateBreakdownNode, flat, multiplier, percent, productGroup } from '@parsers/breakdown';
+import { saveField } from '@parsers/saveField';
+import { OPT } from '@parsers/accountOptions';
+
+export const DAY_MARKET_SIZE = 8;
+export const sumMarketLevels = (upgrades: any) => upgrades?.reduce((sum: number, { level }: any) => sum + (level || 0), 0) ?? 0;
 
 /** Level needed to reach the given percent of cap for exotic capped formula: value = baseValue * level / (1000 + level). */
 export const findExoticCappedThresholdLevel = (percent: any, _unused1?: any) => {
@@ -51,7 +56,7 @@ export const getFarming = (idleonData: any, accountData: any, charactersData: an
   const rawFarmingPlot = tryToParse(idleonData?.FarmPlot);
   const rawFarmingCrop = tryToParse(idleonData?.FarmCrop);
   const rawFarmingRanks = tryToParse(idleonData?.FarmRank);
-  const rawSpelunk = tryToParse(idleonData?.Spelunk) || idleonData?.Spelunk;
+  const rawSpelunk = saveField(idleonData, 'Spelunk') || idleonData?.Spelunk;
   // Spelunk[50]: the exotic upgrade indices that carry a Menagerie organic label
   const organicLabels = Array.isArray(rawSpelunk?.[50]) ? rawSpelunk[50].map(Number) : [];
   return parseFarming(rawFarmingUpgrades, rawFarmingPlot, rawFarmingCrop, rawFarmingRanks, accountData, charactersData, organicLabels);
@@ -282,7 +287,7 @@ const parseFarming = (rawFarmingUpgrades: any, rawFarmingPlot: any, rawFarmingCr
       + getSushiBonus(account, 33) + 3 * getCloudBonus(account?.equinox?.challenges, EQUINOX_CLOUD.EXOTIC_MARKET_PURCHASES)
       + getJellyBonus(account, 34))),
     pctExoticPurchasesFree: Math.min(80, 30 * getEventShopBonus(account, 43)) + Math.min(25, 25 * getMineheadBonusQTY(account, 8)),
-    exoticMarketUpgradesPurchased: account?.accountOptions?.[416]
+    exoticMarketUpgradesPurchased: account?.accountOptions?.[OPT.exoticMarketPurchases]
   };
 }
 
@@ -496,7 +501,7 @@ const getStickerOddsMulti = (characters: any, account: any) => {
   // Gelatinous Cuboid (109): bonus 9 (19 upgraded) -> 10x (20x) sticker odds
   const cuboidCompanion = isCompanionBonusActive(account, 109) ? (account?.companions?.list?.at(109)?.bonus ?? 0) : 0;
   // W4 Golden Tome (opt[607]) multiplies sticker odds: 2^min(12,lvl) then +1500 per level past 11
-  const goldenTome = Number(account?.accountOptions?.[607]) || 0;
+  const goldenTome = Number(account?.accountOptions?.[OPT.goldenTomeStacks]) || 0;
   const goldenTomeMulti = Math.max(1, Math.pow(2, Math.min(12, goldenTome)) + 1500 * Math.max(0, goldenTome - 11));
   return goldenTomeMulti
     * (1 + grid67bonus / 100)
@@ -653,9 +658,8 @@ const getScoredPlotPrevRanks = (plots: any[] = []) => {
     .map(({ prevRank }: any) => prevRank);
 };
 
-// The game's collect adds rank EXP from the market and the Soil Exp land ranks only. The talent
-// and the Stableroot / Vigouroot exotics feed the farming screen's Land Rank EXP stat, which
-// nothing else reads.
+// The game's collect: market, the Soil Exp land ranks and max(1, LandRankEXPmulti), which since 2.3.561
+// is PlotRankGain (before it returned 1). PlotRankGain adds the market a second time.
 const getLandRankExpBreakdown = (account: any, characters: any) => {
   const talentBonus = getHighestTalentAcrossCharacters(characters, 'AGRICULTURAL_\'PRECIATION', getBestActiveCharacter(characters)) ?? 0;
   const marketBonus = getMarketBonus(account?.farming?.market, 'RANK_BOOST');
@@ -672,9 +676,25 @@ const getLandRankExpBreakdown = (account: any, characters: any) => {
   const avgPrevRank = prevRanks.reduce((sum: number, rank: number) => sum + rank, 0) / (prevRanks.length || 1);
   const soilExpBoostMulti = 1 + (soilExpBoost * avgPrevRank) / 100;
 
+  // game: "FarmingStuffs:PlotRankGain"
+  const plotRankGain = productGroup('Land Rank EXP multi', [
+    multiplier('Menagerie Boost', 1 + getMenagerieBoost(account, 19) / 100),
+    multiplier('Talent (Ag. Appreciation)', 1 + talentBonus / 100),
+    additiveGroup(NUMBERED_GROUP, [
+      percent('Rank Boost (Market)', marketBonus),
+      percent('Stableroot I (Exotic)', exotic9),
+      percent('Stableroot II (Exotic)', exotic10),
+      percent('Stableroot III (Exotic)', exotic11)
+    ]),
+    multiplier('Vigouroot I (Exotic)', 1 + exotic12 / 100),
+    multiplier('Vigouroot II (Exotic)', 1 + exotic13 / 100)
+  ]);
+  const landRankExpMulti = Math.max(1, evaluateBreakdownNode(plotRankGain));
+
   const value = (1 + marketBonus / 100)
     * soilExpBoostMulti
-    * (1 + (soilExpSuperboost + soilExpMegaboost) / 100);
+    * (1 + (soilExpSuperboost + soilExpMegaboost) / 100)
+    * landRankExpMulti;
 
   return createBreakdown('Land Rank EXP', value, [
     multiplier('Rank Boost (Market)', 1 + marketBonus / 100),
@@ -685,16 +705,7 @@ const getLandRankExpBreakdown = (account: any, characters: any) => {
       percent('Soil Exp Superboost (Land Rank)', soilExpSuperboost),
       percent('Soil Exp Megaboost (Land Rank)', soilExpMegaboost)
     ]),
-    // game: "FarmingStuffs:PlotRankGain" (the collect multiplies by LandRankEXPmulti, which is 1)
-    listGroup('Not applied by the game', [
-      multiplier('Menagerie Boost', 1 + getMenagerieBoost(account, 19) / 100),
-      multiplier('Talent (Ag. Appreciation)', 1 + talentBonus / 100),
-      percent('Stableroot I (Exotic)', exotic9),
-      percent('Stableroot II (Exotic)', exotic10),
-      percent('Stableroot III (Exotic)', exotic11),
-      multiplier('Vigouroot I (Exotic)', 1 + exotic12 / 100),
-      multiplier('Vigouroot II (Exotic)', 1 + exotic13 / 100)
-    ], { note: 'Shown on the farming screen only' })
+    plotRankGain
   ]);
 };
 
@@ -1210,7 +1221,7 @@ const CROP_EVO_CHANCE_STEP = 0.1;
 // game: TalentCalc counts, across every character, the 13 World 6 maps (251-263) with no kills left
 const WORLD_6_FIRST_MAP = 251;
 const WORLD_6_MAP_COUNT = 13;
-const getClearedWorld6Maps = (characters: any[] = []) => characters.reduce((sum, { kills }: any) => {
+export const getClearedWorld6Maps = (characters: any[] = []) => characters.reduce((sum, { kills }: any) => {
   for (let map = WORLD_6_FIRST_MAP; map < WORLD_6_FIRST_MAP + WORLD_6_MAP_COUNT; map++) {
     // kills holds kills done, so "less than 1 kill left" is kills > requirement - 1
     if ((kills?.[map] ?? 0) > parseFloat(mapPortals?.[map]?.[0] as any) - 1) sum++;

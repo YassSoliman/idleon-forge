@@ -1,4 +1,4 @@
-// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1.
+// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 13f73ae61cc77989be4fd044ca6c2e923de87bb0.
 // Copyright (C) Morta1 and IdleOn Toolbox contributors. GPL-3.0-only; see vendor/LICENSE.
 // Copied unmodified by IdleOn Forge's scripts/sync.sh; UI-coupled imports are redirected to shims/ at build time.
 // Sorting a listing and keeping the sort in the URL. Data-free, so the page and the tests share it.
@@ -11,6 +11,10 @@ const collator = new Intl.Collator('en', { numeric: true, sensitivity: 'base' })
 
 // Every row has a name, so a listing with no sortable data column still sorts by it.
 export const NAME_COLUMN = { key: 'name', label: 'Name', type: 'name', sortable: true };
+
+// The column types that right-align and sort highest first.
+const NUMERIC_TYPES = new Set(['number', 'cost', 'max']);
+export const isNumericColumn = (column) => NUMERIC_TYPES.has(column.type);
 
 // The pathname is listingHref(kind), which already carries these; repeating them would write ?kind= into the URL.
 const ROUTE_PARAMS = ['kind', 'slug'];
@@ -71,10 +75,4 @@ export const sortQuery = (query, sort) => {
   const kept = Object.fromEntries(Object.entries(query).filter(([param]) => !ROUTE_PARAMS.includes(param) && !SORT_PARAMS.includes(param)));
   if (!sort) return kept;
   return { ...kept, sort: sort.key, ...(sort.order === 'desc' ? { order: 'desc' } : {}) };
-};
-
-// A header click: unsorted, then ascending, then descending, then back to the default order.
-export const nextSort = (current, key) => {
-  if (current?.key !== key) return { key, order: 'asc' };
-  return current.order === 'asc' ? { key, order: 'desc' } : null;
 };

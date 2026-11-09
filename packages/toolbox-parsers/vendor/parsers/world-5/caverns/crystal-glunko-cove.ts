@@ -1,12 +1,13 @@
-// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1.
+// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 13f73ae61cc77989be4fd044ca6c2e923de87bb0.
 // Copyright (C) Morta1 and IdleOn Toolbox contributors. GPL-3.0-only; see vendor/LICENSE.
 // Copied unmodified by IdleOn Forge's scripts/sync.sh; UI-coupled imports are redirected to shims/ at build time.
-import { commaNotation, lavaLog, notateNumber } from '@utility/helpers';
+import { gameFill, lavaLog } from '@utility/helpers';
 import { items, randomList2 } from '@website-data';
 import { getSchematicBonus } from '@parsers/world-5/caverns/the-well';
 import { getStudyBonus } from '@parsers/world-5/hole';
+import { OPT } from '@parsers/accountOptions';
 
-// Cavern 18 — Crystal Glunko Cove. Mirrors N.js customBlock_Holes2 Cglunko_* handlers.
+// Cavern 18: Crystal Glunko Cove. Mirrors N.js customBlock_Holes2 Cglunko_* handlers.
 // Cove upgrade level t (0..23) lives in OptionsListAccount[630 + t]; gooey shapes (the cove currency)
 // in OptionsListAccount[654 + shapeId] (0..11). randomList2 holds the cove definitions:
 //   [11] names, [12] descriptions, [13] bonus-per-level, [14] cost base.
@@ -26,7 +27,7 @@ const getCglunkoUpgCost = (holesObject: any, account: any, t: number): number =>
   const costBase = Number(randomList2?.[14]?.[t] ?? 0);
   let cost = (Math.pow(costBase, level) + level) * (1 / (1 + getCglunkoBonus(account, 7) / 100));
   if (t % 2 === 1) cost *= 5;
-  if (Math.round(account?.accountOptions?.[604] ?? 0) < getStudyBonus(holesObject, 17, 0)) cost *= 0.85;
+  if (Math.round(account?.accountOptions?.[OPT.cglunkoUpgradesBoughtToday] ?? 0) < getStudyBonus(holesObject, 17, 0)) cost *= 0.85;
   return cost < 1e6 ? Math.floor(Math.max(1, cost)) : cost;
 };
 
@@ -71,8 +72,8 @@ const getCglunkoDoublePickup = (holesObject: any): number =>
 
 const formatCoveDescription = (raw: string, bonus: number): string => {
   let desc = (raw || '').replace(/_/g, ' ');
-  desc = desc.replaceAll('{', String(commaNotation(bonus)));
-  desc = desc.replaceAll('}', String(notateNumber(1 + bonus / 100, 'MultiplierInfo')).replace('#', ''));
+  desc = desc.replaceAll('{', gameFill(bonus, 'Comma'));
+  desc = desc.replaceAll('}', gameFill(1 + bonus / 100, 'MultiplierInfo'));
   // '$' is the cost cut a 1 / (1 + bonus) divisor gives, floored to 2 decimals
   desc = desc.replaceAll('$', String(Math.floor(1e4 * (1 - 1 / (1 + bonus / 100))) / 100));
   return desc;

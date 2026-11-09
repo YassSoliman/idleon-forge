@@ -1,7 +1,7 @@
-// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1.
+// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 13f73ae61cc77989be4fd044ca6c2e923de87bb0.
 // Copyright (C) Morta1 and IdleOn Toolbox contributors. GPL-3.0-only; see vendor/LICENSE.
 // Copied unmodified by IdleOn Forge's scripts/sync.sh; UI-coupled imports are redirected to shims/ at build time.
-import { commaNotation, lavaLog, notateNumber, tryToParse } from '@utility/helpers';
+import { commaNotation, gameFill, lavaLog, tryToParse } from '@utility/helpers';
 import {
   armoryUpgrades as armoryUpgradesCatalog,
   items,
@@ -51,6 +51,8 @@ const ROYAL_STATUE_FIRST_ODDS: number[] = gameTables.royalStatueFirstOdds;
 
 // game: "RoyalG:SF_maxLV" Math.round(3 + Math.min(1, MenagerieStuff("UnlockOwned", 17, 0)))
 const getStatueFlairMaxLevel = (account: any): number => Math.round(3 + Math.min(1, isMenagerieUnlockOwned(account, 17) ? 1 : 0));
+// The highest SF_maxLV can reach (the Menagerie unlock owned), so the marble totals can price it before it is bought.
+export const STATUE_FLAIR_LEVEL_CAP = 4;
 
 // game: "ResNodes_LVUPbon" - a flat 25% collection rate per node level. CollectAll applies it per
 // node, on top of the outpost's own OutpostResourceRate.
@@ -88,6 +90,12 @@ export const OUTPOST_RANK_NAMES = ['Trade', 'Intel', 'Command', 'Military', 'Pur
 export const ROYAL_UNIT_NAMES = ['Worker', 'Trader', 'Guard', 'Surveyor'];
 const UNIT_CHAR_OFFSET = 2;
 const UNIT_SLOTS_MAX = 9;
+
+// game: "OutpostUnitSlots" - Expanded Barracks adds a unit slot per level up to 7 slots (Lv 6 since 2.3.561)
+const getOutpostUnitSlots = (expandedBarracks: number) => Math.min(UNIT_SLOTS_MAX, Math.min(7, 1 + expandedBarracks));
+// The Expanded Barracks factor of "OutpostResourceRate": +10% per level past the last unit slot, capped at 5x
+const getBarracksResourceMulti = (expandedBarracks: number) =>
+  Math.min(5, 1 + (10 * Math.max(0, Math.round(expandedBarracks - 6))) / 100);
 
 // game: the "Upgrade Outpost" panel draws these three in this order, priced by "OutpostCost".
 export const OUTPOST_UPGRADE_NAMES = ['Expanded Barracks', 'Advanced Logistics', 'Greater Education'];
@@ -227,9 +235,11 @@ export interface StatueFlairMarbleTotal {
   costItem: string;
   name: string;
   owned: number;
+  // Statues still below their current max level.
   statuesLeft: number;
   // Cumulative: tiers[t] is the marble to bring every statue of this marble up to level t + 1 from
   // where it is now, so the last tier is everything left and a tier all statues passed is 0.
+  // Runs to STATUE_FLAIR_LEVEL_CAP even while the max is lower, so a locked level is priced too.
   tiers: number[];
 }
 
@@ -450,6 +460,9 @@ const toNum = (value: any): number => {
   return Number.isFinite(parsed) ? parsed : 0;
 };
 
+// game: TomeQTY[118] sums Math.max(0, RoyalG[0][t]) over every saved statue level
+export const getTotalStatueLevels = (statueLevels: any) => (statueLevels ?? []).reduce((sum: number, level: any) => sum + Math.max(0, Number(level) || 0), 0);
+
 // game: "OutpostEXPformula" - i is the bar type, t the rank being tested.
 export const getOutpostExpFormula = (rank: number, type: number): number => {
   if (type === 4) return 1e5 * Math.pow(10, rank);
@@ -489,27 +502,27 @@ export const getOutpostKillsReq = (mapIndex: number): number => {
 const getResourceNodeMax = (nodeIndex: number, baseMaxQuantity: number, nodeLevel: number): number =>
   5 * baseMaxQuantity * Math.pow(1.5, nodeLevel) * Math.pow(5, Math.floor(nodeIndex / RESOURCE_NODES_PER_WORLD));
 
+const GLORIFICATION_INDEX = 4;
+const GLORIFICATION_LINE = '10%_chance_to_Glorify_the_current_Outpost';
+
 // split/join, not regex .replace(): the replacement string can itself legitimately contain "$"
 // (see below), and String.replace treats "$" specially in its REPLACEMENT argument ($&, $1...),
 // which would corrupt exactly that value. Same fix already used in world-7/research.ts.
 const replaceToken = (str: string, placeholder: string, value: string): string => str.split(placeholder).join(value);
 
-// Strips the game's own "roughly equal" marker that NotateNumber('MultiplierInfo') sometimes
-// embeds (game: y.replace(str, "#", "")); this port never emits '#', so this is a defensive no-op.
-const stripApprox = (str: string): string => replaceToken(str, '#', '');
-
-const applyBonusTokens = (description: string, bonus: number, dollarValue?: string | null): string => {
+const applyBonusTokens = (description: string, bonus: number, dollarValue?: string | null, multiplierInfo?: boolean): string => {
   if (typeof description !== 'string') return '';
   let result = description;
   if (bonus >= 1e9) {
-    result = replaceToken(result, '{', String(notateNumber(bonus, 'Big')));
-    result = replaceToken(result, '}', String(notateNumber(1 + bonus / 100, 'Big')));
+    result = replaceToken(result, '{', gameFill(bonus, 'Big'));
+    result = replaceToken(result, '}', gameFill(1 + bonus / 100, multiplierInfo ? 'MultiplierInfo' : 'Big'));
   } else {
-    const multiplier = bonus < 1e3
-      ? notateNumber(1 + bonus / 100, 'MultiplierInfo')
+    // The game floors } from a bonus of 1e3 up; below 1M it shows its decimals by the site's rule
+    const multiplier = 1 + bonus / 100 < 1e6 || multiplierInfo
+      ? gameFill(1 + bonus / 100, 'MultiplierInfo')
       : commaNotation(Math.floor(1 + bonus / 100));
-    result = replaceToken(result, '{', String(commaNotation(bonus)));
-    result = replaceToken(result, '}', String(multiplier));
+    result = replaceToken(result, '{', gameFill(bonus, 'Comma'));
+    result = replaceToken(result, '}', multiplier);
   }
   // Unlike { and }, "$" is not a generic "second bonus" token here (contrast world-7/research.ts):
   // the game's own armory tooltip renderer (MenuType2 == 106 draw loop) hand-picks a different
@@ -519,7 +532,8 @@ const applyBonusTokens = (description: string, bonus: number, dollarValue?: stri
   if (dollarValue != null) {
     result = replaceToken(result, '$', dollarValue);
   }
-  return result;
+  // "@" is the game's line break.
+  return replaceToken(result, '@', '\n');
 };
 
 // What the kingdom banks per hour, per resource index: RG income is passive, so the armory Upgrade
@@ -702,11 +716,11 @@ export const getRoyalGuardian = (idleonData: IdleonData, account: Account, chara
       bonusPerLevel: toNum(entry?.bonusPerLevel),
       cost: rawCost < 1e6 ? Math.floor(rawCost) : rawCost,
       maxed: maxLevel > 0 && level >= maxLevel,
-      // game: for GLORIFICATION (index 4) this "$" is overwritten with one of three strings that
-      // describe the CURRENT map's own outpost (no outpost / not glorified / glorified) - there is
-      // no account-wide value to substitute, so it is deliberately left unresolved (see task D9
-      // report). Every other orblet description's placeholders are the shared {/} bonus pair only.
-      description: applyBonusTokens(entry?.description, bonus)
+      // game: for GLORIFICATION (index 4) this "$" is overwritten with one of three strings about the CURRENT map's own
+      // outpost (no outpost / not glorified / glorified): the line that says what the upgrade does stands for them. Every
+      // other orblet description's placeholders are the shared {/} bonus pair only, so only this sentence leaves its bonus out.
+      description: applyBonusTokens(entry?.description, bonus, index === GLORIFICATION_INDEX ? GLORIFICATION_LINE : null),
+      bonusInSentence: index !== GLORIFICATION_INDEX
     };
   });
   const orbletBonus = (index: number): number => orbletUpgrades.find((u) => u.index === index)?.bonus ?? 0;
@@ -832,45 +846,45 @@ export const getRoyalGuardian = (idleonData: IdleonData, account: Account, chara
         return String(Math.round(100 * (1 + purifyMulti / 100)) / 100);
       }
       case 17: // Peacetime_Milita - exactly half the Military Rank unit's own EXP rate
-        return String(notateNumber(getBarExpRateBase(3) / 2, 'Small'));
+        return gameFill(getBarExpRateBase(3) / 2, 'Small');
       case 41: // Royal_Marble - game: commaNotation(1 / MarbleDrop(0, 0)), so the world 1 chance
-        return commaNotation(1 / marbleDropChance[0]);
+        return gameFill(1 / marbleDropChance[0], 'Comma', { whole: true });
       case 18: // Global_Decree_-_RG
-        return commaNotation(totalStatz[0] * armoryBonus(18));
+        return gameFill(totalStatz[0] * armoryBonus(18), 'Comma');
       case 19: // Wonderful_Workers - game: "UnitSpecEffect"(0)
-        return commaNotation(50 + armoryBonus(19));
+        return gameFill(50 + armoryBonus(19), 'Comma');
       case 21: // Great_Guards - game: "UnitSpecEffect"(2)
-        return commaNotation(25 + armoryBonus(21));
+        return gameFill(25 + armoryBonus(21), 'Comma');
       case 20: case 22: case 24: case 25: case 26: {
         const rankType = RANK_TYPE_ARMORY_ID.indexOf(index);
-        return stripApprox(String(notateNumber(getBarExpRateBase(rankType), 'MultiplierInfo')));
+        return gameFill(getBarExpRateBase(rankType), 'MultiplierInfo');
       }
       case 23: // Mighty_Militia
-        return commaNotation(militiaClearRate);
+        return gameFill(militiaClearRate, 'Comma');
       case 37: // Parchment_of_Enchantment
-        return commaNotation(1 / parchmentDropChance);
+        return gameFill(1 / parchmentDropChance, 'Comma', { whole: true });
       case 39: // Parchment_Doubleprint - game: ParchmentDouble = ArmoryUpgBonus(39)/100, the *100 here cancels that
-        return String(notateNumber(armoryBonus(39), 'Small'));
+        return gameFill(armoryBonus(39), 'Small');
       case 40: // Parchment_Recycling - game: ParchmentRecycle = min(0.75, ArmoryUpgBonus(40)/100), *100 cancels
-        return String(notateNumber(Math.min(75, armoryBonus(40)), 'Small'));
+        return gameFill(Math.min(75, armoryBonus(40)), 'Small');
       case 42: { // Support_Camps - SupportEXP and SupportCollection share one formula
-        const supportMulti = stripApprox(String(notateNumber(1 + supportBonus / 100, 'MultiplierInfo')));
+        const supportMulti = gameFill(1 + supportBonus / 100, 'MultiplierInfo');
         return `${supportMulti}x_EXP_&_${supportMulti}x_Collection_Rate!`;
       }
       case 44: // Savage_Strongholds - game: "SavageCollection"
-        return stripApprox(String(notateNumber(5 * (1 + armoryBonus(69) / 100), 'MultiplierInfo')));
+        return gameFill(5 * (1 + armoryBonus(69) / 100), 'MultiplierInfo');
       case 50:
-        return commaNotation(totalStatz[1] * armoryBonus(50));
+        return gameFill(totalStatz[1] * armoryBonus(50), 'Comma');
       case 51:
-        return commaNotation(totalStatz[2] * armoryBonus(51));
+        return gameFill(totalStatz[2] * armoryBonus(51), 'Comma');
       case 53: // Tip-Top_'sources - game: CommaNotation(TotalStatz(3) * ArmoryUpgBonus(53))
-        return commaNotation(totalStatz[3] * armoryBonus(53));
+        return gameFill(totalStatz[3] * armoryBonus(53), 'Comma');
       case 52: // Experiential_Triumph
-        return commaNotation(Math.floor(Math.max(0, rgClassLevel - 1000) / 100) * armoryBonus(52));
+        return gameFill(Math.floor(Math.max(0, rgClassLevel - 1000) / 100) * armoryBonus(52), 'Comma');
       case 60: case 61: case 62: case 63: case 64: case 65: case 66: case 67:
         return militiaClearRate > 1e7
-          ? String(notateNumber(militiaClearRate, 'Big'))
-          : commaNotation(militiaClearRate);
+          ? gameFill(militiaClearRate, 'Big')
+          : gameFill(militiaClearRate, 'Comma');
       case 68: { // Kingdom_Sovereignty - next recruit, keyed off the upgrade's OWN level (one per recruit)
         const level = toNum(armoryLevels?.[68]);
         const { role: roleByLevel, world: worldByLevel } = gameTables.royalRecruitOrder;
@@ -885,7 +899,7 @@ export const getRoyalGuardian = (idleonData: IdleonData, account: Account, chara
       case 79: { // Compounding_Outposting - the same OutpostROGbon this parser already exposes as
         // outpostStats.rogBonuses, just formatted inline for the tooltip.
         const selected = rogBonuses[selectedRogIndex];
-        const multiplierText = stripApprox(String(notateNumber(selected?.value ?? 1, 'MultiplierInfo')));
+        const multiplierText = gameFill(selected?.value ?? 1, 'MultiplierInfo');
         return `${multiplierText}x ${selected?.name ?? ''}`;
       }
       default:
@@ -940,7 +954,8 @@ export const getRoyalGuardian = (idleonData: IdleonData, account: Account, chara
     return {
       index,
       rawName,
-      description: applyBonusTokens(rawName, bonus),
+      // game: the statue panel's } is always MultiplierInfo
+      description: applyBonusTokens(rawName, bonus, null, true),
       level,
       bonus,
       baseBonus,
@@ -1156,7 +1171,7 @@ export const getRoyalGuardian = (idleonData: IdleonData, account: Account, chara
     const packed = `${mapRaw?.[11] ?? ''}`;
     const units = Array.from({ length: UNIT_SLOTS_MAX },
       (_, slot) => Math.round(toNum(packed.charAt(slot)) - UNIT_CHAR_OFFSET));
-    const slotCount = Math.min(6, 1 + expandedBarracks); // game: "OutpostUnitSlots"
+    const slotCount = getOutpostUnitSlots(expandedBarracks);
     const unitSlots = units.slice(0, slotCount);
     const unitCounts = ROYAL_UNIT_NAMES.map((_, type) =>
       units.filter((unit) => unit === type).length + passiveUnits[type]);
@@ -1176,14 +1191,14 @@ export const getRoyalGuardian = (idleonData: IdleonData, account: Account, chara
     const ptsLeft = Math.round(ptsTotal - ptsSpent);
 
     // game: "OutpostResourceRate" - the per-outpost half. OutpostLV_Bonuses(1,0) is a flat 5% per
-    // Advanced Logistics level; the Expanded Barracks multiplier only starts at level 6, caps at 5x.
+    // Advanced Logistics level; the Expanded Barracks multiplier only starts at level 7, caps at 5x.
     const resourceRate = globalResourceRate
       * (1 + ((200 + armoryBonus(1)) * (outpost.purified ? 1 : 0)) / 100)
       * (1 + (supportBonus * supports) / 100)
       * (1 + (5 * advancedLogistics) / 100)
       * (1 + (ranks[2] * armoryBonus(73)) / 100)
       * (1 + (unitSpecEffect[0] * unitCounts[0]) / 100)
-      * Math.min(5, 1 + (10 * Math.max(0, Math.round(expandedBarracks - 5))) / 100);
+      * getBarracksResourceMulti(expandedBarracks);
 
     // game: "OutpostRange" - OutpostLV_Bonuses(1,1) is 250 against a soft L/(L+100) curve.
     const rangeUncapped = 80
@@ -1242,11 +1257,11 @@ export const getRoyalGuardian = (idleonData: IdleonData, account: Account, chara
     const upgrades = OUTPOST_UPGRADE_NAMES.map((name, index) => {
       const level = levels[index];
       const cost = OUTPOST_UPGRADE_COSTS[index];
-      const barracksMulti = Math.min(5, 1 + (10 * Math.max(0, Math.round(level - 5))) / 100);
+      const barracksMulti = getBarracksResourceMulti(level);
       const effects = [
         [
           { value: `${Math.round(100 * barracksMulti) / 100}x`, label: 'Resource Collection Rate' },
-          { value: `${Math.min(6, 1 + level)}`, label: 'unit slots' }
+          { value: `${getOutpostUnitSlots(level)}`, label: 'unit slots' }
         ],
         [
           { value: `+${Math.round(5 * level)}%`, label: 'Resource Collection Rate' },
@@ -1467,6 +1482,7 @@ export const getRoyalGuardian = (idleonData: IdleonData, account: Account, chara
     statueFlair: {
       unlocked: flairUnlocked,
       maxLevel: statueFlairMaxLevel,
+      levelCap: STATUE_FLAIR_LEVEL_CAP,
       statues: statueFlair,
       marbleTotals: statueFlairMarbleTotals
     },
@@ -1702,10 +1718,11 @@ export const isOutpostMapPurified = (account: Account, mapIndex: number): boolea
 const getStatueFlairCost = (index: number, level: number): number => 10 * (index + 1) * Math.pow(5, level);
 
 // Sums SF_costo per marble type over the statues still below each flair level.
-export const getStatueFlairMarbleTotals = (statues: StatueFlair[], getOwned: (costItem: string) => number = () => 0): StatueFlairMarbleTotal[] => {
+export const getStatueFlairMarbleTotals = (statues: StatueFlair[], getOwned: (costItem: string) => number = () => 0,
+                                           levelCap: number = STATUE_FLAIR_LEVEL_CAP): StatueFlairMarbleTotal[] => {
   const byShard = new Map<number, StatueFlairMarbleTotal>();
   for (const { index, level, maxLevel, shardIndex, costItem } of statues ?? []) {
-    if (level >= maxLevel) continue;
+    if (level >= levelCap) continue;
     const row = byShard.get(shardIndex) ?? {
       shardIndex,
       costItem,
@@ -1713,11 +1730,11 @@ export const getStatueFlairMarbleTotals = (statues: StatueFlair[], getOwned: (co
       // game: "SF_weOwn" reads _ItemsAndStorageOWNED, the same chest + inventory balance as Orblets.
       owned: getOwned(costItem),
       statuesLeft: 0,
-      tiers: Array(maxLevel).fill(0)
+      tiers: Array(levelCap).fill(0)
     };
-    row.statuesLeft++;
+    if (level < maxLevel) row.statuesLeft++;
     let cumulative = 0;
-    for (let tier = level; tier < maxLevel; tier++) {
+    for (let tier = level; tier < levelCap; tier++) {
       cumulative += getStatueFlairCost(index, tier);
       row.tiers[tier] += cumulative;
     }
