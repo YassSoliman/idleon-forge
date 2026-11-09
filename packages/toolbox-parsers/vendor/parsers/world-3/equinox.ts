@@ -1,4 +1,4 @@
-// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1.
+// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 13f73ae61cc77989be4fd044ca6c2e923de87bb0.
 // Copyright (C) Morta1 and IdleOn Toolbox contributors. GPL-3.0-only; see vendor/LICENSE.
 // Copied unmodified by IdleOn Forge's scripts/sync.sh; UI-coupled imports are redirected to shims/ at build time.
 import { equinoxChallenges, equinoxUpgrades } from '@website-data';
@@ -17,6 +17,8 @@ import { getResearchGridBonus } from '@parsers/world-7/research';
 import { getArmoryUpgradeBonus } from '@parsers/class-specific/royalGuardian';
 import { getLegendTalentBonus } from '@parsers/world-7/legendTalents';
 import { NUMBERED_GROUP, additiveGroup, createBreakdown, flat, multiplier, percent, productGroup } from '@parsers/breakdown';
+import { saveField } from '@parsers/saveField';
+import { OPT } from '@parsers/accountOptions';
 
 const DREAM_UPGRADES_OFFSET = 2;
 // Bar fill per hour before multipliers; the bundle raises it
@@ -31,13 +33,14 @@ export const getLockedEquinox = () => ({
   chargeRequired: 0,
   chargeRate: 0,
   timeToFull: undefined,
-  challenges: equinoxChallenges.map(({ label, goal, reward }) => ({
-    label, goal, reward, current: 0, active: false, locked: false
+  // As a save with no Research reads them (the parsed shape's researchG8Level gate)
+  challenges: equinoxChallenges.map(({ label, goal, reward }, index) => ({
+    label, goal, reward, current: 0, active: false, locked: index >= 36
   })),
   upgrades: equinoxUpgrades.map(({ name, description, maxLevel }, index) => ({
     name,
     bonus: 0,
-    desc: description?.replace('{}', '0').replace('{', '').replace('}', '0').split('_@_'),
+    desc: description?.replace(/\}/g, '0').replace(/\{/g, '+').split('_@_'),
     lvl: 0,
     maxLvl: maxLevel,
     unlocked: index === 0
@@ -49,7 +52,7 @@ export const getLockedEquinox = () => ({
 });
 
 export const getEquinox = (idleonData: any, account: any) => {
-  const weeklyBoss = tryToParse(idleonData?.WeeklyBoss) || idleonData?.WeeklyBoss;
+  const weeklyBoss = saveField(idleonData, 'WeeklyBoss') || idleonData?.WeeklyBoss;
   const dream = tryToParse(idleonData?.Dream) || idleonData?.Dream;
   return {
     ...parseEquinox(weeklyBoss || {}, dream || emptyDream(), account),
@@ -186,7 +189,7 @@ const parseEquinoxUpgrades = (challenges: any, dream: any, account: any) => {
   const nbChallengeUnlocked = UPGRADE_UNLOCK_CLOUDS.reduce((sum, index) => sum + getCloudBonus(challenges, index), 0);
   return equinoxUpgrades.map(({ name, description, maxLevel, bonus }, index) => {
     const realBonus = name === 'Hmm...' ? 0 : name === 'Food_Lust'
-      ? Math.min(parseInt(dream[index]), account?.accountOptions?.[193] ?? 0)
+      ? Math.min(parseInt(dream[index]), account?.accountOptions?.[OPT.foodLustStacks] ?? 0)
       : (bonus ?? 0) * dream[index] || 0;
     const winBonus = getWinnerBonus(account, '+{ Equinox Max LV');
     const cloudBonusMap = {
@@ -249,7 +252,7 @@ const parseEquinoxUpgrades = (challenges: any, dream: any, account: any) => {
       name: name,
       bonus: realBonus,
       // game: every "}" becomes LV * DreamUpg[i][3] (Voter_Rights' "Total Bonus: {}%" included); "{" is the + glyph
-      desc: description?.replace(/\}/g, String((bonus ?? 0) * dream[index] || 0)).replace(/\{/g, '').split('_@_'),
+      desc: description?.replace(/\}/g, String((bonus ?? 0) * dream[index] || 0)).replace(/\{/g, '+').split('_@_'),
       lvl: dream[index] || 0,
       maxLvl: totalValue,
       unlocked: index <= nbChallengeUnlocked
@@ -277,6 +280,8 @@ export const EQUINOX_CLOUD = {
 // only their on-screen grid positions), and every caller applies its own multiplier, e.g. 5 * cb / 100.
 // game: "CloudBonus"
 export const getCloudBonus = (challenges: any, index: number) => challenges?.[index]?.current === -1 ? 1 : 0;
+
+export const getTotalUpgradeLevels = (upgrades: any) => upgrades?.reduce((sum: number, { lvl }: any) => sum + (lvl || 0), 0) ?? 0;
 
 export const getEquinoxBonus = (upgrades: any, name: any) => {
   return (upgrades || [])?.filter((upgrade: any) => upgrade.name === name)?.[0]?.bonus || 0;

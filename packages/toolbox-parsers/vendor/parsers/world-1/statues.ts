@@ -1,7 +1,7 @@
-// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1.
+// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 13f73ae61cc77989be4fd044ca6c2e923de87bb0.
 // Copyright (C) Morta1 and IdleOn Toolbox contributors. GPL-3.0-only; see vendor/LICENSE.
 // Copied unmodified by IdleOn Forge's scripts/sync.sh; UI-coupled imports are redirected to shims/ at build time.
-import { tryToParse, commaNotation, notateNumber } from '@utility/helpers';
+import { tryToParse, gameFill } from '@utility/helpers';
 import { statues as statuesList, zenithMarket } from '@website-data';
 import { getTalentBonus, getBestActiveCharacter, getHighestTalentAcrossCharacters } from '@parsers/talents';
 import { isArtifactAcquired } from '@parsers/world-5/sailing';
@@ -9,10 +9,12 @@ import { getUpgradeVaultBonus } from '@parsers/misc/upgradeVault';
 import { getEventShopBonus } from '@parsers/misc';
 import { getMeritocracyBonus } from '@parsers/world-2/voteBallot';
 import type { IdleonData, Account } from '../types';
+import { saveField } from '@parsers/saveField';
+import { OPT } from '@parsers/accountOptions';
 
 export const getStatues = (idleonData: IdleonData, charactersData: any[], accountData: Account) => {
   const statuesRaw = tryToParse(idleonData?.StuG) || (idleonData as any)?.StatueG;
-  const rawSpelunking = tryToParse(idleonData?.Spelunk) || [];
+  const rawSpelunking = saveField(idleonData, 'Spelunk') || [];
   return parseStatues(statuesRaw, charactersData, rawSpelunking, accountData);
 };
 
@@ -49,7 +51,7 @@ export const parseStatues = (statuesRaw: any, charactersData: any[], rawSpelunki
     .filter(({ name }: any = {}) => name);
 
   const market = getZenithMarket(rawSpelunking);
-  const clusters = accountData?.accountOptions?.[486];
+  const clusters = accountData?.accountOptions?.[OPT.zenithClusters];
 
   return {
     statues,
@@ -75,8 +77,8 @@ const getZenithMarket = (rawSpelunking: any) => {
     const rawCost = level + (bonusObj?.x1 || 0) * Math.pow(bonusObj?.x2 || 1, level);
     const cost = rawCost < 1e6 ? Math.floor(rawCost) : rawCost;
     const description = bonusObj?.description
-      ?.replace(/\{/g, commaNotation(bonus))
-      ?.replace(/\}/g, notateNumber(1 + bonus / 100, 'MultiplierInfo'));
+      ?.replace(/\{/g, gameFill(bonus, 'Comma'))
+      ?.replace(/\}/g, gameFill(1 + bonus / 100, 'MultiplierInfo'));
 
     // Calculate cost to max
     const maxLevel = bonusObj?.x3 || 0;

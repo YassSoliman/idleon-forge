@@ -1,9 +1,9 @@
-// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1.
+// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 13f73ae61cc77989be4fd044ca6c2e923de87bb0.
 // Copyright (C) Morta1 and IdleOn Toolbox contributors. GPL-3.0-only; see vendor/LICENSE.
 // Copied unmodified by IdleOn Forge's scripts/sync.sh; UI-coupled imports are redirected to shims/ at build time.
 // Routing helpers for the class pages served by /tools/builds/[slug].
 //
-// Dependency-free ESM on purpose — utility/generate-sitemap.mjs imports this
+// Dependency-free ESM on purpose: utility/generate-sitemap.mjs imports this
 // and is a plain Node script that cannot resolve Next aliases or TypeScript.
 //
 // BUILD_FAMILIES mirrors FAMILY_ORDER in utility/builds/classes.js. It is
@@ -27,8 +27,8 @@ export const slugToClassKey = (slug) => titleCaseParts(slug).join('_');
 
 export const isFamilySlug = (slug) => FAMILY_SLUGS.includes(slug);
 
-// A subclass slug becomes a getStaticPaths param — a filesystem path segment
-// under output: 'export' — and is later interpolated unescaped into
+// A subclass slug becomes a getStaticPaths param, a filesystem path segment
+// under output: 'export', and is later interpolated unescaped into
 // sitemap.xml <loc> entries. `subclass` comes straight from the API, so
 // anything containing '/', '..', '&', '<' etc. must be rejected before it
 // reaches either the filesystem or the XML, rather than merely lowercased.

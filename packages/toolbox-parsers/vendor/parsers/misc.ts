@@ -1,14 +1,16 @@
-// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1.
+// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 13f73ae61cc77989be4fd044ca6c2e923de87bb0.
 // Copyright (C) Morta1 and IdleOn Toolbox contributors. GPL-3.0-only; see vendor/LICENSE.
 // Copied unmodified by IdleOn Forge's scripts/sync.sh; UI-coupled imports are redirected to shims/ at build time.
-import { createRange, lavaLog, notateNumber, number2letter, tryToParse } from '@utility/helpers';
-import { filteredGemShopItems, filteredLootyItems, keysMap, unrealisticGreenstackItems } from './parseMaps';
+import { createRange, formatDuration, lavaLog, notateNumber, number2letter, tryToParse } from '@utility/helpers';
+import { filteredGemShopItems, filteredLootyItems, keysMap, skillIndexMap, unrealisticGreenstackItems } from './parseMaps';
 import {
   bonuses,
   bundles as bundlesData,
   cards as cardsData,
+  companionGroups,
   companions,
   deathNote,
+  eventShopRotations,
   generalSpelunky,
   items,
   killRoySkullShop,
@@ -18,7 +20,8 @@ import {
   ninjaExtraInfo,
   randomList,
   rawMapNames,
-  slab
+  slab,
+  slabItemNames
 } from '@website-data';
 import { checkCharClass, CLASSES, getTalentBonus, mainStatMap, talentPagesMap, getHighestTalentAcrossCharacters, getBestActiveCharacter, getLastBloodBerserkerLine } from './talents';
 import { getMealsBonusByEffectOrStat } from './world-4/cooking';
@@ -56,6 +59,8 @@ import { isArtifactAcquired } from '@parsers/world-5/sailing';
 import { getSaltLickBonus } from '@parsers/world-3/saltLick';
 import { additiveGroup, createBreakdown, flat, gearGroup, multiplier, NUMBERED_GROUP, percent, productGroup, sumGroup } from '@parsers/breakdown';
 import { getCharacterFamilyBonus } from './family';
+import { OPT } from '@parsers/accountOptions';
+import { saveField } from '@parsers/saveField';
 
 export const getRawRefinerySalts = () => {
   return Object.keys(items).filter(key => /^Refinery\d+$/.test(key)).reduce((res, key) => ({ ...res, [key]: true }), {});
@@ -149,14 +154,15 @@ export const getFriendBonusStats = (account: any = {}) => {
       2
       + (hasSpearfish ? companionList?.[44]?.bonus ?? 0 : 0)
       + 2 * (hasMrPig ? companionList?.[30]?.bonus ?? 0 : 0)
-      + (getEventShopBonus(account, 22) ? 1 : 0)
+      + getEventShopBonus(account, 22)
+      + getEventShopBonus(account, 67)
     )
   );
 
   // Pet Mart+: Spearfish (44) upgraded adds a flat +25% Friend Bonuses factor (CompLV2 flag, not scaled).
   const spearfishLvl2Bonus = isCompanionLvl2Active(account, 44) ? 25 : 0;
   const extraMultiplier = 1 + (100 * (hasMrPig ? companionList?.[30]?.bonus ?? 0 : 0) + spearfishLvl2Bonus) / 100;
-  const rawFriendBonuses = account?.accountOptions?.[476];
+  const rawFriendBonuses = account?.accountOptions?.[OPT.friendBonuses];
   const bonuses = FRIEND_BONUS_NAMES.map((name, statIndex) => ({
     statIndex,
     name,
@@ -227,7 +233,7 @@ export const getFriendBonus = (account: any, index: any) => {
 }
 
 export const getAdviceFish = (idleonData: any) => {
-  const rawSpelunking = tryToParse(idleonData?.Spelunk) || [];
+  const rawSpelunking = saveField(idleonData, 'Spelunk') || [];
   const adviceUpgrades = generalSpelunky?.[18] || [];
   const upgrades = adviceUpgrades.map((upgrade: any, index: any) => {
     const [name, description, x2, x3, filler] = upgrade.split(',');
@@ -257,7 +263,7 @@ export const getGuaranteedCrystalMobs = (account: any) => {
   const meritocracyBonus = getMeritocracyBonus(account, 15);
   const legendPTSBonus = getLegendTalentBonus(account, 37);
   const sigilBonus = getSigilBonus(account?.alchemy?.p2w?.sigils, 'SHINY_BEACON');
-  const taskBonus = account?.tasks?.[2]?.[3]?.[0];
+  const taskBonus = account?.tasks?.[2]?.[3]?.[0] ?? 0;
   const achievementBonus = getAchievementStatus(account?.achievements, 285);
 
   return Math.ceil((1 + meritocracyBonus / 100)
@@ -267,7 +273,7 @@ export const getGuaranteedCrystalMobs = (account: any) => {
 
 // Daily Shopping Spree (legend talent 23): true while today's discounted purchases aren't used up.
 export const hasMasterclassDailyDiscount = (account: any): boolean =>
-  account?.accountOptions?.[480] < getLegendTalentBonus(account, 23);
+  account?.accountOptions?.[OPT.masterclassDiscountsUsedToday] < getLegendTalentBonus(account, 23);
 
 // game: "AllMasterclassCostReduxPrefix" - the pre-2.3.525 whole formula, now just the first factor.
 const getAllMasterclassCostReduxPrefix = (account: any, forceLegendTalent: any) => {
@@ -297,7 +303,7 @@ export const getAllMasterclassCostRedux = (account: any, forceLegendTalent: any)
 const getFirst3MasterclassCostRedux = (account: any) => {
   const selectedRogIndex = account?.royalGuardian?.raw?.[3]?.[2] ?? 0;
   const armoryBonus79 = getArmoryUpgradeBonus(account, 79);
-  return (1 / (1 + (account?.accountOptions?.[499] ?? 0) / 100))
+  return (1 / (1 + (account?.accountOptions?.[OPT.researchMasterclassCostReduction] ?? 0) / 100))
     * (1 / (1 + (selectedRogIndex * armoryBonus79) / 100));
 }
 
@@ -332,7 +338,7 @@ export const getBookLvRange = (account: any) => {
 }
 
 export const getLibraryBookTimes = (idleonData: any, characters: any, account: any) => {
-  const { bookCount, libTime, breakdown } = calcBookCount(account, characters, idleonData);
+  const { bookCount, libTime, breakdown, baseFactor } = calcBookCount(account, characters, idleonData);
   let breakpoints = [16, 18, 20].map((maxCount) => {
     return {
       breakpoint: maxCount,
@@ -349,23 +355,40 @@ export const getLibraryBookTimes = (idleonData: any, characters: any, account: a
     bookCount,
     next: getTimeToNextBooks(bookCount, account, characters, idleonData)?.value - libTime,
     breakdown,
-    breakpoints
+    breakpoints,
+    baseFactor
   }
 }
 
+const MAX_BOOKS_AHEAD = 10000;
+
+// When the library reaches a book count, on the clock: from the save's own time, less what it had built toward its books then,
+// every book's wait at today's speed. The sum calcTimeToXBooks does from the parse's moment, so it holds however old the save is.
+export const getBooksReachedAt = (account: any, target: number) => {
+  const start = account?.accountOptions?.[OPT.libraryBooks] ?? 0;
+  if (!(target - start <= MAX_BOOKS_AHEAD)) return Infinity;
+  let seconds = -(account?.timeAway?.BookLib ?? 0);
+  for (let count = start; count < target; count++) {
+    seconds += bookWait(account?.libraryTimes?.baseFactor, count);
+  }
+  return ((account?.timeAway?.GlobalTime ?? 0) + seconds) * 1000;
+}
+
 const calcBookCount = (account: any, characters: any, idleonData: any) => {
-  const baseBookCount = account?.accountOptions?.[55] ?? 0;
+  const baseBookCount = account?.accountOptions?.[OPT.libraryBooks] ?? 0;
   const timeAway = account?.timeAway;
   let libTime = timeAway?.BookLib ?? 0;
   let afk = timeAway ? (new Date).getTime() / 1e3 - timeAway.GlobalTime : 0;
   let bookCount = baseBookCount;
-  if (afk > 300) libTime += afk;
-  const { breakdown } = getTimeToNextBooks(bookCount, account, characters, idleonData);
+  // AwayTimers only pays out 0 < away < 1e8 (N.js:80445).
+  if (afk > 300 && afk < 1e8) libTime += afk;
   while (libTime > getTimeToNextBooks(bookCount, account, characters, idleonData)?.value) {
     libTime -= getTimeToNextBooks(bookCount, account, characters, idleonData)?.value;
     bookCount += 1;
   }
-  return { bookCount, libTime, breakdown };
+  // At the books the wait has added: each one makes the next slower
+  const { breakdown, baseFactor } = getTimeToNextBooks(bookCount, account, characters, idleonData);
+  return { bookCount, libTime, breakdown, baseFactor };
 }
 
 const calcTimeToXBooks = (bookCount: any, maxCount: any, account: any, characters: any, idleonData: any) => {
@@ -377,11 +400,13 @@ const calcTimeToXBooks = (bookCount: any, maxCount: any, account: any, character
 }
 
 const LIBRARY_BASE_CHECKOUT_HOURS = 4;
+// One book's wait in seconds: the base time over the speed, longer with each book already out.
+const bookWait = (baseFactor: any, bookCount: any) => Math.round(baseFactor * (1 + 10 * Math.pow(bookCount, 1.4) / 100));
 
 //  "BookReqTime"
 // game: "BookReqTime"
 export const getTimeToNextBooks = (bookCount: any, account: any, characters: any, idleonData: any) => {
-  const towersLevels = tryToParse(idleonData?.Tower) || idleonData?.Tower;
+  const towersLevels = saveField(idleonData, 'Tower') || idleonData?.Tower;
   const mealBonus = getMealsBonusByEffectOrStat(account, null, 'Lib');
   const bubbleBonus = getBubbleBonus(account, 'IGNORE_OVERDUES', false);
   const vialBonus = getVialsBonusByEffect(account?.alchemy?.vials, 'Talent_Book_Library');
@@ -404,8 +429,7 @@ export const getTimeToNextBooks = (bookCount: any, account: any, characters: any
           + superbitBonus))) / 100);
   const baseFactor = LIBRARY_BASE_CHECKOUT_HOURS * (3600 / bonusMultiplier);
   const bookCountFactor = 1 + 10 * Math.pow(bookCount, 1.4) / 100;
-  const unrounded = baseFactor * bookCountFactor;
-  const math = Math.round(unrounded)
+  const math = bookWait(baseFactor, bookCount);
 
   // The base time over the speed, times the book count factor, rounded
   const breakdown = createBreakdown('Library Checkout Time', math, [
@@ -413,7 +437,7 @@ export const getTimeToNextBooks = (bookCount: any, account: any, characters: any
       flat('Base time', LIBRARY_BASE_CHECKOUT_HOURS * 3600, { formatted: `${LIBRARY_BASE_CHECKOUT_HOURS}h` }),
       additiveGroup('Books checked out', [percent('Book count', 10 * Math.pow(bookCount, 1.4))],
         { note: 'Each book makes the next one slower' })
-    ], { unit: 'flat' }),
+    ], { unit: 'flat', formatted: formatDuration(LIBRARY_BASE_CHECKOUT_HOURS * 3600 * bookCountFactor) }),
     productGroup('Checkout speed', [
       multiplier('Meal Bonus', 1 + mealBonus / 100),
       multiplier('Atom Bonus', 1 + libraryBooker / 100),
@@ -465,24 +489,19 @@ export const isGreenstackable = (item: any): boolean =>
 export const isMissingGreenstack = (slabItem: any): boolean =>
   !!slabItem?.greenstackable && !slabItem?.greenStacked && !slabItem?.unobtainable && !slabItem?.unrealisticGreenstack;
 
+// Slab's greenstack total: the game counts every registered greenstack, so an unrealistic or unobtainable item the
+// account did stack counts; the rest stay out so 100% remains reachable.
+export const isCountedGreenstack = (slabItem: any): boolean =>
+  !!slabItem?.greenstackable && (!!slabItem?.greenStacked || (!slabItem?.unobtainable && !slabItem?.unrealisticGreenstack));
+
 export const getSlab = (idleonData: any) => {
   const lootyRaw = idleonData?.Cards?.[1] || tryToParse(idleonData?.Cards1);
   const greenStacks = tryToParse(idleonData?.GreenStacks) || idleonData?.GreenStacks || [];
   const greenStacksSet = new Set(greenStacks);
   const allItems = structuredClone((items)); // Deep clone
-  const forcedNames = {
-    'Motherlode': 'Motherlode_x1',
-    'Island0': 'Island0_x1',
-    'Dust0': 'Dust0_x1',
-    'Dust1': 'Dust1_x1',
-    'Dust2': 'Dust2_x1',
-    'Dust3': 'Dust3_x1',
-    'Dust4': 'Dust4_x1',
-    'Dust5': 'Dust5_x1'
-  }
   const slabItems = slab?.map((name) => ({
-    name: allItems?.[name]?.displayName,
-    rawName: (forcedNames as Record<string, any>)?.[name] || name,
+    name: allItems?.[name]?.displayName ?? slabItemNames?.[name as keyof typeof slabItemNames],
+    rawName: name,
     itemRawName: name,
     obtained: lootyRaw?.includes(name),
     greenStacked: greenStacksSet.has(name),
@@ -492,10 +511,7 @@ export const getSlab = (idleonData: any) => {
     unrealisticGreenstack: unrealisticGreenstackItems?.[name]
   }));
   const missingItems = slabItems?.filter(({ obtained, unobtainable }) => !obtained && !unobtainable)?.length;
-  // The game counts every registered greenstack, so an unrealistic or unobtainable item the account
-  // did stack counts toward both sides; the rest stay out so 100% remains reachable.
-  const greenstackableItems = slabItems?.filter(({ greenstackable, greenStacked, unobtainable, unrealisticGreenstack }) =>
-    greenstackable && (greenStacked || (!unobtainable && !unrealisticGreenstack)));
+  const greenstackableItems = slabItems?.filter(isCountedGreenstack);
   const greenstackableCount = greenstackableItems?.length ?? 0;
   const greenstackableStackedCount = greenstackableItems?.filter(({ greenStacked }) => greenStacked)?.length ?? 0;
 
@@ -535,7 +551,7 @@ export const getCurrencies = (account: any, idleonData: any, processedData: any)
     'Spooky_Time_Candy': { min: 1 / 3, max: 12 },
     'Cosmic_Time_Candy': { min: 5, max: 500 }
   };
-  const allItems = [...account?.storage?.list,
+  const allItems = [...(account?.storage?.list ?? []),
   ...(processedData?.charactersData || [])?.map(({ inventory }: any) => inventory)?.flat()];
   const allCandies = allItems?.filter(({ Type } = {}) => Type === 'TIME_CANDY');
   const guaranteedCandies = allCandies?.reduce((sum: any, { displayName, amount }: any) => {
@@ -564,7 +580,7 @@ export const getCurrencies = (account: any, idleonData: any, processedData: any)
     DeliveryBoxComplete: idleonData?.CYDeliveryBoxComplete ?? 0,
     DeliveryBoxStreak: idleonData?.CYDeliveryBoxStreak ?? 0,
     DeliveryBoxMisc: idleonData?.CYDeliveryBoxMisc ?? 0,
-    minigamePlays: account?.accountOptions?.[33] ?? 0
+    minigamePlays: account?.accountOptions?.[OPT.minigamePlays] ?? 0
   };
 };
 
@@ -606,7 +622,7 @@ export const enhanceKeysObject = (keysAll: any, characters: any, account: any) =
     2: { name: 'Bellows', dialogThreshold: 8.5, daysSinceIndex: 80 },
     3: {}
   }
-  return keysAll.map((key: any, keyIndex: any) => {
+  return keysAll?.map((key: any, keyIndex: any) => {
     const amountPerDay = getAmountPerDay((npcs as Record<string, any>)?.[keyIndex], characters);
     const daysSincePickup = account?.accountOptions?.[(npcs as Record<string, any>)?.[keyIndex]?.daysSinceIndex];
     const totalAmount = Math.min(daysSincePickup ?? 0, 3) * amountPerDay;
@@ -802,18 +818,16 @@ export const calculateLeaderboard = (characters: any) => {
 };
 
 export const calculateTotalSkillsLevel = (characters: any) => {
+  // The catalog at 0, so no save still reads every skill
+  const catalog = Object.fromEntries(Object.entries(skillIndexMap).map(([index, { name, icon }]) =>
+    [name, { level: 0, index: Number(index) - 1, icon }]));
   const allSkills = characters?.reduce((res: any, { skillsInfo }: any) => {
     if (!skillsInfo) return res;
     for (const [skillName, skillData] of Object.entries(skillsInfo) as [string, any][]) {
-      if (res?.[skillName]) {
-        res[skillName] = { ...res[skillName], level: res[skillName].level + (skillData?.level ?? 0) }
-      }
-      else {
-        res[skillName] = { level: skillData?.level, index: skillData?.index - 1, icon: skillData?.icon };
-      }
+      res[skillName] = { ...res[skillName], level: (res[skillName]?.level ?? 0) + (skillData?.level ?? 0) };
     }
     return res;
-  }, {})
+  }, catalog) ?? catalog;
   return Object.entries(allSkills)?.reduce((res: any, [skillName, skillVal]: [string, any]) => {
     const { level } = skillVal;
     const rank = getSkillRank(level);
@@ -826,6 +840,11 @@ export const calculateTotalSkillsLevel = (characters: any) => {
     };
   }, allSkills);
 }
+
+// The rift Skill Mastery tab: total skill level thresholds, one bonus each (the ranks getSkillRank counts)
+export const SKILL_MASTERY_THRESHOLDS = [150, 200, 300, 400, 500, 750, 1000];
+// character is not a skill
+export const SKILLS_WITHOUT_MASTERY = ['character'];
 
 export const getSkillRankColor = (level: any) => {
   return level < 300 ? 'white' : level >= 300 && level < 400 ? '#ffc277' : level >= 400 && level < 600
@@ -851,7 +870,7 @@ export const getSkillCardBonus = (character: any, account: any, skillName: strin
     : getCardBonusByEffect(character?.cards?.equippedCards, effectName);
 
 const getSkillRankByIndex = (skills: any, index: any) => {
-  for (const [, skillData] of Object.entries(skills) as [string, any][]) {
+  for (const [, skillData] of Object.entries(skills ?? {}) as [string, any][]) {
     if (skillData?.level > 0 && skillData?.index === index) {
       return skillData?.rank;
     }
@@ -896,7 +915,7 @@ export const getExpReq = (skillIndex: any, t: any) => {
 }
 
 export const getGiantMobChance = (character: any, account: any) => {
-  const giantsAlreadySpawned = account?.accountOptions?.[57];
+  const giantsAlreadySpawned = account?.accountOptions?.[OPT.giantMobsSpawned];
   // const tachionOfTitansPrayer = getPrayerBonusAndCurse(character?.activePrayers, 'Tachion_of_the_Titans')?.bonus > 5;
   const glitterbugPrayer = getPrayerBonusAndCurse(character?.activePrayers, 'Glitterbug', account)?.curse;
   const crescentShrineBonus = getShrineBonus(account?.shrines, 6, character?.mapIndex, account?.cards, account?.sailing?.artifacts);
@@ -1032,6 +1051,16 @@ export const getGoldenFoodMulti = (character: any, account: any, characters: any
 // current rank. Rank 3 is maxed, so there's no fourth entry.
 export const BEANSTALK_BREAKPOINTS = [10000, 100000, 1e6];
 
+// The Beanstalk's golden foods (ninjaExtraInfo[29] mixes in numbers) with their rank from the save, in save order
+export const getBeanstalkFoods = (beanstalkData: any) => ninjaExtraInfo[29].filter((str: any) => isNaN(str))
+  .map((gFood: string, index: number) => ({
+    ...((items as any)?.[gFood] || {}),
+    rawName: gFood,
+    active: beanstalkData?.[index] > 0,
+    rank: beanstalkData?.[index],
+    index
+  }));
+
 const goldenFoodEffects: Record<string, string> = (() => {
   const map: Record<string, string> = {};
   for (const item of Object.values(items as Record<string, any>)) {
@@ -1077,11 +1106,13 @@ export const getGoldenFoodMultiplier = (foodName: any, character: any, account: 
 
 export const getRandomEvents = (account: any) => {
   if (!account) return [];
-  const { serverVars, timeAway } = account || {};
+  const randEventHour = account?.serverVars?.RandEvntHr;
+  // The schedule is the server's, not the save's: a save older than 100 hours still reads the hours ahead
+  if (!Number.isFinite(randEventHour)) return [];
   const eventList = []
-  const seed = Math.round(Math.floor(timeAway?.GlobalTime / 3600));
+  const seed = Math.floor(new Date().getTime() / 3600000);
   for (let i = 0; i < 100; i++) {
-    const actualSeed = seed + i + serverVars?.RandEvntHr;
+    const actualSeed = seed + i + randEventHour;
     const eventRng = new LavaRand(actualSeed);
     const eventRandom = eventRng.rand();
     const eventType = getEventType(eventRandom);
@@ -1183,8 +1214,8 @@ export const getAllCap = (character: any, account: any, forceMaxCapacity: any) =
 const D_TYPE_CAPACITY = 999999999;
 // game: "MaxCapacity"
 export const getItemCapacity = (type = '', character: any, account?: any, forceMaxCapacity?: any) => {
-  const gemshop = account?.gemShopPurchases?.find((value: any, index: any) => index === 58);
-  const hasNanoChip = account?.lab?.playersChips.flat().concat(account?.lab?.chips).find(({ name }: any) => name === 'Silkrode_Nanochip');
+  const gemshop = account?.gemShopPurchases?.find((value: any, index: any) => index === 58) ?? 0;
+  const hasNanoChip = (account?.lab?.playersChips ?? []).flat().concat(account?.lab?.chips ?? []).find(({ name }: any) => name === 'Silkrode_Nanochip');
   const starSignBonus = getStarSignBonus(character, account, 'Carry_Cap', forceMaxCapacity && hasNanoChip, forceMaxCapacity);
   const minCapStamps = getStampsBonusByEffect(account, 'Carrying_Capacity_for_Mining_Items', character);
   const chopCapStamps = getStampsBonusByEffect(account, 'Carrying_Capacity_for_Choppin\'_Items', character);
@@ -1426,9 +1457,9 @@ export const getCompanions = (companionObject: any = {}, accountOptions: any = [
   // Two separate token grants, each a 0/1 flag: opt[605] and opt[615] (the Quest119 drop).
   // Game: Math.round(Math.min(1, opt[605]) + Math.min(1, opt[615])), so the max owned is 2.
   // game: "Stuff2:PetBonusTokensOwned"
-  const tokensOwned = Math.min(1, Number(accountOptions?.[605]) || 0)
-    + Math.min(1, Number(accountOptions?.[615]) || 0);
-  const rawTokensValue = accountOptions?.[606] ?? '';
+  const tokensOwned = Math.min(1, Number(accountOptions?.[OPT.petBonusToken1Owned]) || 0)
+    + Math.min(1, Number(accountOptions?.[OPT.petBonusToken2Owned]) || 0);
+  const rawTokensValue = accountOptions?.[OPT.petBonusTokenCompanions] ?? '';
   // Since 2.3.540 the game wipes opt[606] every 5 seconds when it lists more companions than tokens owned
   // (String(opt[606]).split(",").length > 0.5 + tokensOwned), so such a list grants nothing.
   // game: "Design_23_23_EveryScene:Every5secs"
@@ -1497,9 +1528,32 @@ export const getCompanions = (companionObject: any = {}, accountOptions: any = [
   };
 }
 
+export const isUnreleasedCompanion = (companion: any): boolean => companion?.effect === 'Not_officially_in_the_game_and_may_never_be';
+
+// The Pets page sets: the game's groups, plus the pets it has not put in a group yet but already priced for
+// Pet Mart+ (the 9999-priced filler entries read null and stay out). The game also leaves some live pets out of
+// every set (Glowfish): a real effect, rather than the placeholder text, is what tells them apart from the
+// unreleased ones. Takes the list with each pet's catalog position as index.
+export const getCompanionSets = (indexedCompanions: any[]) => {
+  const groupedIndices = new Set((companionGroups || []).flatMap((group: any) => group.indices));
+  const ungrouped = indexedCompanions.filter((comp) => !groupedIndices.has(comp.index) && comp.upgradeCost > 0);
+  const unreleasedIndices = ungrouped.filter(isUnreleasedCompanion).map((comp) => comp.index);
+  const otherIndices = ungrouped.filter((comp) => !isUnreleasedCompanion(comp)).map((comp) => comp.index);
+  const groups = [
+    ...(companionGroups || []),
+    ...(otherIndices.length > 0 ? [{ name: 'Not in a set', indices: otherIndices }] : [])
+  ];
+  return { groups, unreleasedIndices };
+};
+
 export const isCompanionBonusActive = (account: any, index: any) => {
   return account?.companions?.list?.at(index)?.acquired;
 }
+
+// game: _customBlock_Companions(index) - the owned companion's bonus (its upgraded one once upgraded), else 0.
+// Companions(0) also needs the logged-in character's divinity: use isKingDootActive for it.
+export const getCompanionBonus = (account: any, index: number): number =>
+  isCompanionBonusActive(account, index) ? Number(account?.companions?.list?.at(index)?.bonus) || 0 : 0;
 
 // Pet Mart+ flag (game: _customBlock_CompLV2): true only when the companion is
 // both acquired and upgraded to level >= 1. Formulas multiply this flag by their own constant.
@@ -1534,10 +1588,10 @@ const getDaysTillNext = (name: any, daysSinceLastKill: any, currentCount: any) =
 }
 
 export const getMiniBossesData = (account: any) => {
-  const daysSinceSlush = account?.accountOptions?.[96] ?? 0;
-  const daysSinceMush = account?.accountOptions?.[98] ?? 0;
-  const daysSinceMagmus = account?.accountOptions?.[225] ?? 0;
-  const daysSinceSpiritlord = account?.accountOptions?.[226] ?? 0;
+  const daysSinceSlush = account?.accountOptions?.[OPT.daysSinceSlush] ?? 0;
+  const daysSinceMush = account?.accountOptions?.[OPT.daysSinceMush] ?? 0;
+  const daysSinceMagmus = account?.accountOptions?.[OPT.daysSinceMagmus] ?? 0;
+  const daysSinceSpiritlord = account?.accountOptions?.[OPT.daysSinceSpiritlord] ?? 0;
 
   const max = [10, 8, 6, 6];
   const quantity = [
@@ -1583,42 +1637,42 @@ export const getMiniBossesData = (account: any) => {
 }
 
 export const getKillRoy = (idleonData: any, charactersData: any, accountData: any, serverVars: any) => {
-  const skulls = accountData?.accountOptions?.[105] ?? 0;
-  const killRoyKills = tryToParse(idleonData?.KRbest);
+  const skulls = accountData?.accountOptions?.[OPT.killroySkulls] ?? 0;
+  const killRoyKills = saveField(idleonData, 'KRbest');
   // game: RiftStuff("KillroyDMG") sums KRbest over the Death Note mobs only; KRbest also holds the
   // summoning trial keys (SummzTrz0-6), which never count
   const totalKills = deathNote.reduce((sum: number, { rawName }: any) => sum + (Number(killRoyKills?.[rawName]) || 0), 0);
   const totalDamageMulti = 1 + Math.floor(Math.pow(totalKills as number, 0.4)) / 100;
-  const unlockedThirdKillRoy = accountData?.accountOptions?.[227] === 1;
+  const unlockedThirdKillRoy = accountData?.accountOptions?.[OPT.killroyThirdFightUnlocked] === 1;
   const rooms = unlockedThirdKillRoy ? 3 : 2;
   const killRoyClasses = getKillRoyClasses(rooms, accountData, serverVars);
   const upgrades = [
     {
-      level: accountData?.accountOptions?.[106],
+      level: accountData?.accountOptions?.[OPT.killroyTimerLevel] ?? 0,
       description: 'Increases your maximum time in room. Base time is 100 seconds.',
       upgrade: '+1 Second Timer'
     },
     {
-      level: accountData?.accountOptions?.[107],
+      level: accountData?.accountOptions?.[OPT.killroyTalentDropsLevel] ?? 0,
       description: 'Increases chance for Talent Point drop, depends on how many Talent Point drops already got',
       upgrade: '+ Talent Drops'
     },
     {
-      level: accountData?.accountOptions?.[108],
+      level: accountData?.accountOptions?.[OPT.killroyBonusSkullsLevel] ?? 0,
       description: 'Increases chance of dropping skulls by mobs',
       upgrade: '+1% Bonus Skulls'
     },
     {
-      level: accountData?.accountOptions?.[109],
+      level: accountData?.accountOptions?.[OPT.killroyRespawnLevel] ?? 0,
       description: 'Faster Respawn'
     },
     {
-      level: accountData?.accountOptions?.[110],
+      level: accountData?.accountOptions?.[OPT.killroyDungeonDropsLevel] ?? 0,
       description: 'Mobs can drop Dungeon Credits now',
       upgrade: 'Dungeon Drops'
     },
     {
-      level: accountData?.accountOptions?.[111],
+      level: accountData?.accountOptions?.[OPT.killroyPearlDropsLevel] ?? 0,
       description: 'Mobs can drop Pearls now',
       upgrade: 'Pearl Drops'
     }
@@ -1667,34 +1721,24 @@ export const getKillRoy = (idleonData: any, charactersData: any, accountData: an
     9: { decay: 200, cap: 3, format: 'mult' }
   };
 
-  const formatBonus = (value: number, format: 'mult' | 'addMult' | 'pct') => {
-    if (format === 'mult') return `${Math.floor(value * 100) / 100}x`;
-    if (format === 'addMult') return `+${(value / 100).toFixed(2)}x`;
-    return `+${Math.floor(value * 100) / 100}%`;
-  };
-
   // The curve is asymptotic, so the cap is never actually reached.
   // Inverting L/(decay+L) = percent gives the level needed for a given % of the cap.
-  // Game's skull shop description rounds shops 11-14 down and 16-19 up.
+  // Game's skull shop description rounds shops 11-14 down and 16-19 up, and the Gallery floors its whole percent.
   const roundUpDescription = new Set([6, 7, 8, 9]);
   const formatDescriptionBonus = (value: number, i: number) => {
     const round = roundUpDescription.has(i) ? Math.ceil : Math.floor;
     return String(round(value * 100) / 100);
   };
+  const formatBonus = (value: number, format: 'mult' | 'addMult' | 'pct', i: number) => {
+    if (format === 'addMult') return `+${Math.floor(value) / 100}x`;
+    return format === 'mult' ? `${formatDescriptionBonus(value, i)}x` : `+${formatDescriptionBonus(value, i)}%`;
+  };
 
-  // The game feeds these "x" bonuses in as percentages: 1.42x applies as x1.0142 / +1.42%.
-  const formatAppliedMulti = (value: number) => `x${Math.round((1 + value / 100) * 10000) / 10000}`;
-  const formatAppliedPct = (value: number) => `+${Math.round(value * 100) / 100}%`;
+  // game: AllMasterclassDropz and both World 7 skills read Math.max(1, KillroyBonuses(n)) as a multiplier
   const getAppliedBonuses = (i: number, bonus: number, cap: number) => {
-    if (i === 6) {
-      return [{ name: 'Masterclass drops', value: formatAppliedMulti(bonus), max: formatAppliedMulti(cap) }];
-    }
-    if (i === 7) {
-      return [
-        { name: 'Research EXP', value: formatAppliedMulti(bonus), max: formatAppliedMulti(cap) },
-        { name: 'Spelunking EXP', value: formatAppliedPct(bonus), max: formatAppliedPct(cap) }
-      ];
-    }
+    const applied = { value: Math.max(1, bonus), max: cap };
+    if (i === 6) return [{ name: 'Masterclass drops', ...applied }];
+    if (i === 7) return [{ name: 'Research EXP', ...applied }, { name: 'Spelunking EXP', ...applied }];
     return null;
   };
 
@@ -1709,8 +1753,8 @@ export const getKillRoy = (idleonData: any, charactersData: any, accountData: an
     const level = levelOption !== null ? (accountData?.accountOptions?.[levelOption] ?? 0) : 0;
     const bonus = bonusIndex !== undefined ? getKillRoyShopBonus(accountData, bonusIndex) : 1;
     const progress = capInfo ? (level / (level + capInfo.decay)) * 100 : null;
-    const bonusDisplay = capInfo ? formatBonus(bonus, capInfo.format) : null;
-    const capDisplay = capInfo ? formatBonus(capInfo.cap, capInfo.format) : null;
+    const bonusDisplay = capInfo ? formatBonus(bonus, capInfo.format, i) : null;
+    const capDisplay = capInfo ? formatBonus(capInfo.cap, capInfo.format, i) : null;
 
     // 'mult' bonuses start at 1x, the additive ones at 0.
     const bonusBase = capInfo?.format === 'mult' ? 1 : 0;
@@ -1719,7 +1763,8 @@ export const getKillRoy = (idleonData: any, charactersData: any, accountData: an
       return {
         percent,
         level: breakpointLevel,
-        bonusDisplay: formatBonus(bonusBase + (capInfo.cap - bonusBase) * (percent / 100), capInfo.format)
+        // Rounded first: a share of the cap's float error would tip the shop's round up to the next hundredth
+        bonusDisplay: formatBonus(Math.round((bonusBase + (capInfo.cap - bonusBase) * (percent / 100)) * 1e6) / 1e6, capInfo.format, i)
       };
     }) : null;
     const nextBreakpoint = breakpoints?.find((breakpoint) => breakpoint.level > level) ?? null;
@@ -1775,7 +1820,8 @@ export const getKillroyBonus = (account: any, index: any) => {
 export const getAllMasterclassDropz = (character: any, account: any) => {
   // game KillroyBonuses(4) takes a BONUS index; getKillroyBonus takes a permanent upgrade slot
   // (slot 4 is Jade Gain, the Masterclass drops upgrade is slot 6 = bonus 4)
-  const killroy = getKillRoyShopBonus(account, 4);
+  // KillroyBonuses(4) is already a multiplier (1 + ...)
+  const killroy = Math.max(1, getKillRoyShopBonus(account, 4));
   const spelunkShop = getSpelunkingBonus(account, 49) ?? 0; // Turquoise Hardhat
   const vial = getVialsBonusByStat(account?.alchemy?.vials, '7masta') ?? 0;
   const button = getButtonBonus(account, 4) ?? 0;
@@ -1787,7 +1833,7 @@ export const getAllMasterclassDropz = (character: any, account: any) => {
   // card's `effect` tag can't be trusted for this.
   const ratCard = Math.min(getCardLevel(account?.cards, 'fm_rat'), 25);
 
-  const value = (1 + killroy / 100)
+  const value = killroy
     * (1 + spelunkShop / 100)
     * (1 + vial / 100)
     * (1 + button / 100)
@@ -1797,7 +1843,7 @@ export const getAllMasterclassDropz = (character: any, account: any) => {
     * (1 + ratCard / 100);
 
   const breakdown = productGroup('All Masterclass drops', [
-    multiplier('Killroy', 1 + killroy / 100),
+    multiplier('Killroy', killroy),
     multiplier('Spelunking Shop (Turquoise Hardhat)', 1 + spelunkShop / 100),
     multiplier('Vial', 1 + vial / 100),
     multiplier('Button', 1 + button / 100),
@@ -1811,14 +1857,14 @@ export const getAllMasterclassDropz = (character: any, account: any) => {
 }
 
 export const getKillRoyShopBonus = (account: any, index: any) => {
-  const opt228 = account?.accountOptions?.[228] ?? 0;
-  const opt229 = account?.accountOptions?.[229] ?? 0;
-  const opt230 = account?.accountOptions?.[230] ?? 0;
-  const opt467 = account?.accountOptions?.[467] ?? 0;
-  const opt468 = account?.accountOptions?.[468] ?? 0;
-  const opt469 = account?.accountOptions?.[469] ?? 0;
-  const opt470 = account?.accountOptions?.[470] ?? 0;
-  const opt471 = account?.accountOptions?.[471] ?? 0;
+  const opt228 = account?.accountOptions?.[OPT.killroyArtifactFindLevel] ?? 0;
+  const opt229 = account?.accountOptions?.[OPT.killroyCropEvoLevel] ?? 0;
+  const opt230 = account?.accountOptions?.[OPT.killroyJadeLevel] ?? 0;
+  const opt467 = account?.accountOptions?.[OPT.killroyShopLevel3] ?? 0;
+  const opt468 = account?.accountOptions?.[OPT.killroyShopLevel4] ?? 0;
+  const opt469 = account?.accountOptions?.[OPT.killroyShopLevel5] ?? 0;
+  const opt470 = account?.accountOptions?.[OPT.killroyShopLevel6] ?? 0;
+  const opt471 = account?.accountOptions?.[OPT.killroyShopLevel7] ?? 0;
   return 0 === index
     ? 1 + opt228 / (300 + opt228)
     : 1 === index
@@ -1851,7 +1897,9 @@ export const calcTotalQuestCompleted = (characters: any) => {
 }
 
 export const getKillroySchedule = (account: any, characters: any, serverVars: any) => {
-  const unlockedThirdKillRoy = account?.accountOptions?.[227] === 1;
+  // The weeks are seeded from the save's clock: with none, every week would draw the same rooms with no date
+  if (!Number.isFinite(account?.timeAway?.GlobalTime)) return [];
+  const unlockedThirdKillRoy = account?.accountOptions?.[OPT.killroyThirdFightUnlocked] === 1;
   const rooms = unlockedThirdKillRoy ? 3 : 2;
   const schedule = [];
   for (let i = 0; i < 20; i++) {
@@ -1864,7 +1912,7 @@ export const getKillroySchedule = (account: any, characters: any, serverVars: an
 export const getKillRoyClasses = (rooms: any, account: any, serverVars: any, ignoreSkipConditions = false, iteration = 0, characters?: any) => {
   const classes = [];
   const monstersList = [];
-  const done = account?.accountOptions?.[113];
+  const done = account?.accountOptions?.[OPT.killroyDone];
   const skipConditions = {
     1: [0],
     21: [0, 1],
@@ -1872,7 +1920,7 @@ export const getKillRoyClasses = (rooms: any, account: any, serverVars: any, ign
   };
   // Game: 0 >= KillsLeft2Advance[200][0], ie. Magma Rivertown (the World 5 town) has been reached.
   const unlockedMap = characters?.some((character: any) => hasClearedMap(character, 200));
-  const baseSeed = Math.floor((account?.timeAway?.GlobalTime + Math.round((account?.timeAway?.ShopRestock + 86400 * account?.accountOptions?.[39]))) / 604800);
+  const baseSeed = Math.floor((account?.timeAway?.GlobalTime + Math.round((account?.timeAway?.ShopRestock + 86400 * account?.accountOptions?.[OPT.daysUntilWeeklyReset]))) / 604800);
   for (let i = 0; i < rooms; i++) {
     if (!ignoreSkipConditions && (skipConditions as Record<string, any>)[done] && (skipConditions as Record<string, any>)[done].includes(i)) {
       continue;
@@ -1934,8 +1982,99 @@ export const getKillRoyClasses = (rooms: any, account: any, serverVars: any, ign
   });
 }
 
+// The event shop catalog: ninjaExtraInfo[39] pairs each bonus text ("Name@Description") with its price
+export const getEventShopItems = (): { text: string; price: string }[] => ninjaExtraInfo?.[39]?.toChunks(2)
+  .map(([text, price]: any) => ({ text, price })) ?? [];
+
+// The General page "Totals" lifetime counters: the task board keeps them in Tasks[0][group][index]
+export const LIFETIME_STATS = [
+  { key: 'highestDamage', name: 'Highest Damage', icon: 'StampA8', group: 1, index: 0 },
+  { key: 'poOrders', name: 'PO Orders', icon: 'DeliveryBox', group: 1, index: 5 },
+  { key: 'monstersKilled', name: 'Monsters Killed', icon: 'UISkillIcon110', group: 0, index: 0 },
+  { key: 'refinedSalts', name: 'Refined Salts', icon: 'TaskSc6', group: 2, index: 0 },
+  { key: 'matsPrinted', name: 'Mats Printed', icon: 'PrintSlot', group: 2, index: 3 },
+  { key: 'trashedCogs', name: 'Trashed Cogs', icon: 'Cog3B4', group: 2, index: 1 },
+  { key: 'plantsPicked', name: 'Plants Picked', icon: 'GamingPlant1', group: 4, index: 3 }
+];
+export const getLifetimeStat = (account: any, { group, index }: { group: number; index: number }): number =>
+  account?.tasks?.[0]?.[group]?.[index] ?? 0;
+
 // a.engine.getGameAttribute("OptionsListAccount")[310] - event currency
 export const getEventShopBonus = (account: any, bonusId: any): number => {
-  if (!account?.accountOptions?.[311]) return 0;
-  return -1 !== (account?.accountOptions?.[311]).indexOf(number2letter[bonusId]) ? 1 : 0;
+  if (!account?.accountOptions?.[OPT.eventShopOwned]) return 0;
+  return -1 !== (account?.accountOptions?.[OPT.eventShopOwned]).indexOf(number2letter[bonusId]) ? 1 : 0;
+}
+
+export const EVENT_SHOP_TIERS = ['Regular', 'Blackmarket', 'Forbidden Aisle'];
+
+export interface EventShopBonus {
+  index: number;
+  name: string;
+  description: string;
+  price: number;
+  owned: boolean;
+  // The last rotation that sold it (off rotation only): its event, the dates it was on sale and its tier there
+  lastSold?: { event: string | null; from: string | null; to: string | null; tier: string } | null;
+}
+
+export interface EventShopTier {
+  name: string;
+  bonuses: EventShopBonus[];
+  owned: number;
+  starsLeft: number;
+  // The tier before it while some of its bonuses are not owned: the shop opens a tier once all of the previous one is
+  lockedBy: { name: string; owned: number; total: number } | null;
+}
+
+// The day before `date` ('YYYY-MM-DD'), the last day a rotation that stays open was on sale
+const dayBefore = (date: string): string => {
+  const [y, m, d] = date.split('-').map(Number);
+  const prev = new Date(Date.UTC(y, m - 1, d - 1));
+  return prev.toISOString().slice(0, 10);
+};
+
+// The Event Shop as the game sells it: the current rotation by tier, and every other bonus with the rotation that
+// last sold it. Rotations come oldest first, four bonuses per tier.
+export const getEventShopRotation = (account: any): {
+  tiers: EventShopTier[];
+  starsToFinish: number;
+  offRotation: EventShopBonus[];
+} => {
+  const bonusOf = (index: number, text: string, price: string): EventShopBonus => {
+    const [name, description] = text.split('@');
+    return { index, name, description, price: Number(price), owned: !!getEventShopBonus(account, index) };
+  };
+  const catalog = getEventShopItems().map(({ text, price }, index) => bonusOf(index, text, price));
+  const rotations: { event: string | null; start: string | null; staysOpen: boolean; ids: number[] }[] = eventShopRotations ?? [];
+  const current = rotations.at(-1)?.ids ?? [];
+
+  let previous: EventShopTier | null = null;
+  const tiers = EVENT_SHOP_TIERS.map((name, tier) => {
+    const bonuses = current.slice(4 * tier, 4 * tier + 4).map((index) => catalog[index]).filter(Boolean);
+    const owned = bonuses.filter((bonus) => bonus.owned).length;
+    const lockedBy: EventShopTier['lockedBy'] = previous && (previous.lockedBy || previous.owned < previous.bonuses.length)
+      ? { name: previous.name, owned: previous.owned, total: previous.bonuses.length }
+      : null;
+    const starsLeft = bonuses.filter((bonus) => !bonus.owned).reduce((sum, bonus) => sum + bonus.price, 0);
+    previous = { name, bonuses, owned, starsLeft, lockedBy };
+    return previous;
+  }).filter((tier) => tier.bonuses.length > 0);
+
+  const lastSold = new Map<number, EventShopBonus['lastSold']>();
+  rotations.slice(0, -1).forEach(({ event, start, staysOpen, ids }, at) => {
+    const next = rotations[at + 1]?.start;
+    ids.forEach((index, slot) => lastSold.set(index, {
+      event,
+      from: start,
+      to: staysOpen && next ? dayBefore(next) : null,
+      tier: EVENT_SHOP_TIERS[Math.floor(slot / 4)]
+    }));
+  });
+  const recency = (bonus: EventShopBonus) => bonus.lastSold?.from ?? '';
+  const offRotation = catalog
+    .filter((bonus) => !current.includes(bonus.index))
+    .map((bonus) => ({ ...bonus, lastSold: lastSold.get(bonus.index) ?? null }))
+    .sort((a, b) => Number(a.owned) - Number(b.owned) || recency(b).localeCompare(recency(a)) || a.index - b.index);
+
+  return { tiers, starsToFinish: tiers.reduce((sum, tier) => sum + tier.starsLeft, 0), offRotation };
 }

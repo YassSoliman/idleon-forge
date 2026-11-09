@@ -1,7 +1,7 @@
-// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1.
+// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 13f73ae61cc77989be4fd044ca6c2e923de87bb0.
 // Copyright (C) Morta1 and IdleOn Toolbox contributors. GPL-3.0-only; see vendor/LICENSE.
 // Copied unmodified by IdleOn Forge's scripts/sync.sh; UI-coupled imports are redirected to shims/ at build time.
-import { lavaLog2, notateNumber } from '@utility/helpers';
+import { gameFill, lavaLog2 } from '@utility/helpers';
 import { getSchematicBonus } from '@parsers/world-5/caverns/the-well';
 import {
   applyMonumentFountain,
@@ -43,7 +43,7 @@ export const getJustice = (holesObject: any, accountData: any) => {
         description: description.replace(/_/g, ' ')
           .replace(/\|/g, ' ')
           .replace('{', Math.round(bonus))
-          .replace('}', notateNumber(1 + bonus / 100, 'MultiplierInfo')),
+          .replace('}', gameFill(1 + bonus / 100, 'MultiplierInfo')),
         level,
         bonus,
         scalingValue,

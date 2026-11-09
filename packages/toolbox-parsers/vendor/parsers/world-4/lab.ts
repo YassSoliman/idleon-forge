@@ -1,7 +1,7 @@
-// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1.
+// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 13f73ae61cc77989be4fd044ca6c2e923de87bb0.
 // Copyright (C) Morta1 and IdleOn Toolbox contributors. GPL-3.0-only; see vendor/LICENSE.
 // Copied unmodified by IdleOn Forge's scripts/sync.sh; UI-coupled imports are redirected to shims/ at build time.
-import { growth, tryToParse } from '@utility/helpers';
+import { gameFill, growth, tryToParse } from '@utility/helpers';
 import { chips, classes, jewels, labBonuses, merits, randomList, talents } from '@website-data';
 import { liveEntries } from '@parsers/catalog';
 import { getMealsBonusByEffectOrStat } from '@parsers/world-4/cooking';
@@ -16,6 +16,7 @@ import { efficiencyGroupNames, getAllBaseSkillEffBreakdown, getAllEffBreakdown }
 import { NUMBERED_GROUP, additiveGroup, evaluateBreakdownNode, flat, multiplier, percent, productGroup, sumGroup } from '@parsers/breakdown';
 import { getPostOfficeBonus } from '@parsers/world-3/postoffice';
 import { GOD_INDEX, isMajorDivinityActive } from '@parsers/world-5/divinity';
+import { OPT } from '@parsers/accountOptions';
 
 // Game: MainframeBonus(n) adds MainframeBonus(100 + jewel) to these connected bonuses
 // (Animal Farm, No Bubble Left Behind, Fungi Finger, Banking Fury, Slab Sovereignty, Depot Studies)
@@ -36,14 +37,14 @@ const parseLab = (labRaw: any, charactersData: any, account: any, updatedCharact
       playersCords: [],
       playersChips: [],
       connectedPlayers: [],
-      jewels: liveEntries<any>(jewels as any[]).map(({ entry }) => ({ ...entry, acquired: false, active: false })),
+      jewels: liveEntries<any>(jewels as any[]).map(({ entry, index }) => ({ ...entry, acquired: false, active: false, rawName: `ConsoleJwl${index}` })),
       chips: liveEntries<any>(chips as any[]).map(({ entry }) => ({ ...entry, repoAmount: 0, amount: 0, totalAmount: 0 })),
       labBonuses: liveEntries<any>(labBonuses as any[]).map(({ entry }) => ({ ...entry, active: false })),
       totalRawChips: 0,
       currentRotation: []
     };
   }
-  const arenaWave = account?.accountOptions?.[89];
+  const arenaWave = account?.accountOptions?.[OPT.highestArenaWave];
   const waveReqs = randomList?.[53];
   const [cords] = labRaw;
   const chipRepo = labRaw[15];
@@ -214,7 +215,7 @@ const parseLab = (labRaw: any, charactersData: any, account: any, updatedCharact
       bonusOn: updatedBonus,
       jewelBoost,
       description: MULTIPLIER_TEXT_LAB_BONUSES.includes(index)
-        ? bonus?.description?.replace(baseMulti, (1 + updatedBonus / 100).toFixed(2))
+        ? bonus?.description?.replace(baseMulti, gameFill(1 + updatedBonus / 100, 'MultiplierInfo'))
         : bonus?.description
     };
   })

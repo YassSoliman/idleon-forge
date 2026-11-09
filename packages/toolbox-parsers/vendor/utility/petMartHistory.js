@@ -1,0 +1,80 @@
+// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 13f73ae61cc77989be4fd044ca6c2e923de87bb0.
+// Copyright (C) Morta1 and IdleOn Toolbox contributors. GPL-3.0-only; see vendor/LICENSE.
+// Copied unmodified by IdleOn Forge's scripts/sync.sh; UI-coupled imports are redirected to shims/ at build time.
+import { getNextPetMartRestock } from './helpers';
+
+const DAY_MS = 24 * 60 * 60 * 1000;
+
+// The UTC date of the 20:00 UTC restock that opened the rotation live at `now`: the worker files
+// each rotation under the same date, so the two always agree.
+export const getPetMartRotationDate = (now) => new Date(getNextPetMartRestock(now) - DAY_MS).toISOString().slice(0, 10);
+
+const byNewest = (a, b) => (b.date === a.date ? (b.shopDay ?? 0) - (a.shopDay ?? 0) : b.date < a.date ? -1 : 1);
+
+// The worker's recorded days plus today's stock from the account. The account's copy of the
+// rotation can be ahead of the worker (its cron runs hourly), so it is added when it is newer than
+// every shop day the worker logged. Only then is it today's: a demo or an old profile carries a
+// rotation from weeks ago, and dating that "today" would bury the real day.
+export const mergePetMartHistory = (days, petMart, now) => {
+  const merged = Array.isArray(days) ? [...days] : [];
+  const shopDay = petMart?.shopDay;
+  const hasStock = petMart?.offers?.length || petMart?.plusOffers?.length;
+  const lastLogged = Math.max(-Infinity, ...merged.map((day) => day.shopDay ?? -Infinity));
+  if (shopDay >= 1 && hasStock && Number.isFinite(lastLogged) && shopDay > lastLogged) {
+    const toOffer = (offer) => ({ index: offer.companionIndex, list: offer.listPrice, price: offer.price });
+    merged.push({
+      date: getPetMartRotationDate(now),
+      shopDay,
+      source: 'live',
+      base: (petMart.offers ?? []).map(toOffer),
+      plus: (petMart.plusOffers ?? []).map(toOffer)
+    });
+  }
+  return merged.sort(byNewest);
+};
+
+// The rotation open at `now`: the save's own copy while the save is newer than the restock that opened it, else the day
+// the worker logged under that restock's date; null when neither has it (an older save before the hourly log runs)
+export const getPetMartToday = (days, petMart, lastUpdated, now) => {
+  const openedAt = getNextPetMartRestock(now) - DAY_MS;
+  if (petMart?.shopDay >= 1 && lastUpdated >= openedAt && (petMart?.offers?.length || petMart?.plusOffers?.length)) {
+    const toOffer = (offer) => ({ index: offer.companionIndex, list: offer.listPrice, price: offer.price });
+    return {
+      date: getPetMartRotationDate(now), shopDay: petMart.shopDay, source: 'save',
+      base: (petMart.offers ?? []).map(toOffer), plus: (petMart.plusOffers ?? []).map(toOffer)
+    };
+  }
+  return (Array.isArray(days) ? days : []).find((day) => day.date === getPetMartRotationDate(now)) ?? null;
+};
+
+// Companion index -> the last date it was on one counter ('plus' or 'base').
+export const getPetMartLastSeen = (history, counter) => {
+  const lastSeen = new Map();
+  for (const day of history ?? []) {
+    for (const offer of day[counter] ?? []) {
+      if (!lastSeen.has(offer.index) || day.date > lastSeen.get(offer.index)) lastSeen.set(offer.index, day.date);
+    }
+  }
+  return lastSeen;
+};
+
+// Every pet the log holds, on either counter, by companion index.
+export const getPetMartLoggedPets = (history) => [...new Set((history ?? []).flatMap((day) => [...(day.plus ?? []), ...(day.base ?? [])].map(({ index }) => index)))];
+
+// One pet on one counter: its newest offer, its cheapest (the newest of a tie) and how many days it was there. null when it
+// never was.
+export const getPetMartSightings = (history, index, counter) => {
+  const offers = (history ?? []).flatMap((day) => (day[counter] ?? []).filter((offer) => offer.index === index).map((offer) => ({ ...offer, date: day.date })));
+  if (!offers.length) return null;
+  return {
+    last: offers.reduce((newest, offer) => (offer.date > newest.date ? offer : newest)),
+    lowest: offers.reduce((low, offer) => (offer.price < low.price || (offer.price === low.price && offer.date > low.date) ? offer : low)),
+    days: new Set(offers.map(({ date }) => date)).size
+  };
+};
+
+// Sort key for "Last in the Pet Mart": ascending puts never-seen pets first and today's offers last.
+export const lastInPetMartKey = (lastSeen, inToday) => {
+  if (inToday) return '9999-12-31';
+  return lastSeen ?? '';
+};

@@ -1,4 +1,4 @@
-// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1.
+// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 13f73ae61cc77989be4fd044ca6c2e923de87bb0.
 // Copyright (C) Morta1 and IdleOn Toolbox contributors. GPL-3.0-only; see vendor/LICENSE.
 // Copied unmodified by IdleOn Forge's scripts/sync.sh; UI-coupled imports are redirected to shims/ at build time.
 import {
@@ -33,6 +33,7 @@ import {
   getSkillMasteryBonusByIndex,
   isArenaBonusActive,
   isBundlePurchased,
+  getCompanionBonus,
   isCompanionBonusActive,
   isCompanionLvl2Active,
   isMasteryBonusUnlocked,
@@ -51,7 +52,7 @@ import {
   getEquippedCardsData,
   getPlayerCards
 } from './cards';
-import { getStampBonus, getStampsBonusByEffect } from './world-1/stamps';
+import { getStampBonus, getStampsBonusByEffect, getStampsBonusByStat } from './world-1/stamps';
 import { getPlayerPostOffice, getPostOfficeBonus, getPostOfficeBoxLevel } from './world-3/postoffice';
 import {
   getActiveBubbleBonus,
@@ -103,6 +104,7 @@ import { getMeasurementBonus } from '@parsers/world-5/hole';
 import { getMonumentBonus } from '@parsers/world-5/caverns/bravery';
 import { getPaletteBonus, isSuperbitUnlocked } from '@parsers/world-5/gaming';
 import { getCompassBonus } from '@parsers/class-specific/compass';
+import { getTesseractBonus } from '@parsers/class-specific/tesseract';
 import { getArmorSetBonus } from '@parsers/world-3/armorSmithy';
 import { getEmperorBonus } from '@parsers/world-6/emperor';
 import { getBribeBonus } from '@parsers/world-1/bribes';
@@ -114,7 +116,7 @@ import { getZenithBonus } from '@parsers/world-1/statues';
 import { getDancingCoralBonus, getCoralKidUpgBonus } from '@parsers/world-7/coralReef';
 import { getMeritocracyBonus } from '@parsers/world-2/voteBallot';
 import { getSuperTalentLeftToSpend } from '@parsers/world-7/legendTalents';
-import { getAdviceFishBonus, getFriendBonus } from '@parsers/misc';
+import { getAdviceFishBonus, getFriendBonus, getKillRoyShopBonus } from '@parsers/misc';
 import {
   additiveGroup,
   createBreakdown,
@@ -132,7 +134,7 @@ import {
 import type { BreakdownNode, BreakdownOptions } from '@parsers/breakdown';
 import { getTesseractMapBonus } from '@parsers/class-specific/tesseract';
 import { getMaxDamage } from '@parsers/damage';
-import { getSpelunkingBonus } from '@parsers/world-7/spelunking';
+import { getChapterBonus, getSpelunkingBonus } from '@parsers/world-7/spelunking';
 import { getResearchGridBonus } from '@parsers/world-7/research';
 import { getMineheadBonusQTY } from '@parsers/world-7/minehead';
 import { getSushiBonus } from '@parsers/world-7/sushiStation';
@@ -141,9 +143,14 @@ import { getMenagerieBoost } from '@parsers/world-7/menagerie';
 import { getButtonBonus } from '@parsers/world-7/button';
 import { getGuaranteedCrystalMobs } from '@parsers/misc';
 import { getFountainBonusTotal } from '@parsers/world-5/caverns/the-fountain';
-import { ARMORY_TALENT_REATTAINMENT, getArmoryUpgradeBonus, getRoyalStatueBonus } from '@parsers/class-specific/royalGuardian';
-import { tryToParse, createIndexedArray, createArrayOfArrays, cashFormatter } from '@utility/helpers';
+import { ARMORY_TALENT_REATTAINMENT, getArmoryUpgradeBonus, getOrbletMarketBonus, getRoyalStatueBonus } from '@parsers/class-specific/royalGuardian';
+import { tryToParse, createIndexedArray, createArrayOfArrays, gameFill } from '@utility/helpers';
 import type { IdleonData, Account } from './types';
+import { OPT } from '@parsers/accountOptions';
+import { saveField } from '@parsers/saveField';
+
+// The character Bags card leaves this inventory bag out
+export const HIDDEN_INVENTORY_BAG = 'Inventory_Bag_I';
 
 export const getCharacters = (idleonData: IdleonData, charsNames?: any) => {
   // Callers without a names list (the legacy profile format) fell back to a fixed nine slots,
@@ -315,6 +322,8 @@ export const initializeCharacter = (char: any, charactersLevels: any, account: a
     }
   }, {});
   character.level = char?.[`Lv0`]?.[0] || 0;
+  // A save can hold a character with no stats: level stays a number for every reader, and this says it's a stand-in
+  character.hasData = char?.PersonalValuesMap?.StatList?.[4] !== undefined;
   // inventory bags used
   const rawInvBagsUsed = char?.[`InvBagsUsed`]
   const bags = Object.keys(rawInvBagsUsed);
@@ -552,7 +561,77 @@ export const initializeCharacter = (char: any, charactersLevels: any, account: a
     : 0), 0);
   character.printerSample = getPrinterSampleRate(character, account);
   character.anvil = getAnvil(char, character);
+  character.talentPointsLeft = getTalentPointsLeft(character, account, talentsObject, skillsInfoObject);
   return character;
+}
+
+// game: _customBlock_TotalTalentPoints(_SpentPoints) - the points left to spend on each class tab, in
+// the order of character.talents. Built from the character's own levels and bonuses, as the game does
+// when that character is logged in. Talent 275 (Calm Basics extra points) sits in no TalentOrder slot,
+// so nobody can learn it and its round(GetTalentNumber(1, 275)) term is always 0.
+const getTalentPointsLeft = (character: any, account: any, skillLevels: any, rawLevels: any[]) => {
+  const classIndex = character?.classIndex;
+  const level = rawLevels?.[0] ?? 0;
+  const skills = rawLevels?.slice(1, 10) ?? [];
+  const levelPoints = skills.reduce((sum: number, skillLevel: any) => sum + (Number(skillLevel) || 0), -3);
+  const halfLevelPoints = skills.reduce((sum: number, skillLevel: any) => sum + Math.floor((Number(skillLevel) || 0) / 2), 0);
+  const fifthLevelPoints = skills.reduce((sum: number, skillLevel: any) => sum + Math.floor((Number(skillLevel) || 0) / 5), 0);
+  const talent = (name: string, yBonus?: boolean) => getTalentBonus(character?.flatTalents, name, yBonus);
+  const achievement = (index: number) => getAchievementStatus(account?.achievements, index);
+  const stamp = (stat: string) => getStampsBonusByStat(account, stat, character);
+  const flurbo = getDungeonFlurboStatBonus(account?.dungeons?.upgrades, 'Talent_Pts');
+  const companion = getCompanionBonus(account, 20);
+  const vault = (index: number) => getUpgradeVaultBonus(account?.upgradeVault?.upgrades, index);
+  const vial = (stat: string) => getVialsBonusByStat(account?.alchemy?.vials, stat);
+  const shiny = (tab: number) => getShinyBonus(account?.breeding?.pets, `Tab_${tab}_Talent_Pts`);
+  const tasks = account?.tasks?.[2];
+  const grimoire = (index: number) => getGrimoireBonus(account?.grimoire?.upgrades, index);
+  // Class bubbles by class id range: Beginner line and archers read the archer bubble
+  const mainStat = mainStatMap?.[character?.class];
+  const classBubble = classIndex < 7
+    ? getBubbleBonus(account, 'FAST_BOI_TALENT', false, mainStat === 'agility')
+    : classIndex < 19
+      ? getBubbleBonus(account, 'BUFF_BOI_TALENT', false, mainStat === 'strength')
+      : classIndex < 31
+        ? getBubbleBonus(account, 'FAST_BOI_TALENT', false, mainStat === 'agility')
+        : getBubbleBonus(account, 'SMART_BOI_TALENT', false, mainStat === 'wisdom');
+  const tabBonus = (tab: number) => (Number(account?.talentPoints?.[tab]) || 0) + (tab < 4 ? classBubble : 0);
+  let fifthTabBonus = tabBonus(4);
+  if (classIndex === 14) fifthTabBonus += grimoire(32);
+  if (classIndex === 29) fifthTabBonus += getCompassBonus(account, 56) + getCompassBonus(account, 67);
+  if (classIndex === 40) fifthTabBonus += getTesseractBonus(account, 33);
+
+  const pointsLeft = [
+    3 * (level - 1) + levelPoints + tabBonus(0) + vial('Tab1Pts') + getStarSignBonus(character, account, 'Talent_Points')
+    + stamp('Talent1') + 5 * achievement(54) + flurbo + (getArcadeBonus(account?.arcade?.shop, 16)?.bonus ?? 0)
+    + 6 * achievement(216) + shiny(1) + vault(1) + companion + (Number(account?.accountOptions?.[OPT.dartsTalentPoints]) || 0),
+    3 * (level - 6) + halfLevelPoints + tabBonus(1) + vial('Tab2Pts') + talent('BACK_TO_BASICS') + talent('PREVIOUS_POINTS')
+    + talent('EARLIER_EDUCATION') + stamp('Talent2') + talent('JMAN_WAS_BETTER') + 2 * achievement(76) + 3 * achievement(78)
+    + flurbo + 8 * achievement(230) + shiny(2) + vault(6) + companion,
+    3 * (level - 29) + halfLevelPoints + tabBonus(2) + vial('Tab3Pts') + stamp('Talent3') + 5 * achievement(166)
+    + 10 * achievement(170) + flurbo + 8 * achievement(219) + shiny(3) + vault(40) + companion,
+    classIndex === 4
+      ? 1 + companion + talent('ONE_STEP_AHEAD') + talent('VOID_TRIAL_RERUN', true) * (Number(account?.accountOptions?.[OPT.voidSpeedrunBestPortals]) || 0)
+      : 3 * Math.min(level - 89, 100) + Math.max(0, 2 * (level - 189)) + fifthLevelPoints + tabBonus(3) + stamp('Talent4')
+      + flurbo + Math.floor((Number(rawLevels?.[14]) || 0) / 2) + vial('Tab4Pts') + 3 * (Number(tasks?.[4]?.[0]) || 0)
+      + 10 * achievement(292) + 10 * achievement(295) + 10 * achievement(239) + 15 * achievement(240)
+      + 12 * achievement(241) + shiny(4) + companion,
+    classIndex === 12 || classIndex === 16
+      ? 1 + getOrbletMarketBonus(account, 2) + getSpelunkingBonus(account, 62)
+      + 50 * (account?.spelunking?.loreBosses?.[9]?.defeated ? 1 : 0) + 5 * (Number(tasks?.[5]?.[0]) || 0)
+      + grimoire(45) + getCompassBonus(account, 46) + companion + getArmoryUpgradeBonus(account, 46)
+      + getArmoryUpgradeBonus(account, 47) + getArmoryUpgradeBonus(account, 48) + getArmoryUpgradeBonus(account, 49)
+      + getJellyBonus(account, 6) + getJellyBonus(account, 59)
+      : 3 * (level - 249) + fifthLevelPoints + fifthTabBonus + stamp('Talent5') + flurbo + 5 * (Number(tasks?.[5]?.[0]) || 0)
+      + grimoire(45) + getCompassBonus(account, 46) + companion
+  ];
+  // The first three tabs can go negative; the last two are floored at 0 with the spent points included
+  return Object.values(character?.talents || {}).map(({ orderedTalents }: any, tab: number) => {
+    const spent = Math.max(0, orderedTalents?.reduce((sum: number, { skillIndex }: any) =>
+      sum + (Number(skillLevels?.[skillIndex]) || 0), 0) ?? 0);
+    const left = (pointsLeft[tab] ?? 0) - spent;
+    return Math.floor(tab >= 3 ? Math.max(0, left) : left);
+  });
 }
 
 export const getSkillExpMulti = (skillName: string, character: any, characters: any[], account: any, playerInfo?: any) => {
@@ -1222,7 +1301,7 @@ const getSkillExpMultiParts = (skillName: string, character: any, characters: an
     // giveEXP(13, CaptainEXPgain * Math.min(1, SailingExpMulti)), so above 1 it changes nothing.
     const value = allSkillExpMulti * (1 + (talentBonus
       + (vialBonus
-        + (10 * account?.tasks?.[2]?.[4]?.[4] +
+        + (10 * (account?.tasks?.[2]?.[4]?.[4] ?? 0) +
           (25 * masteryBonus + (guildBonus + vaultBonus))))) / 100);
 
     return {
@@ -1234,7 +1313,7 @@ const getSkillExpMultiParts = (skillName: string, character: any, characters: an
         additiveGroup(NUMBERED_GROUP, [
           percent('Talent', talentBonus),
           percent('Vial', vialBonus),
-          percent('Task', 10 * account?.tasks?.[2]?.[4]?.[4]),
+          percent('Task', 10 * (account?.tasks?.[2]?.[4]?.[4] ?? 0)),
           percent('Skill mastery', 25 * masteryBonus),
           percent('Guild', guildBonus),
           percent('Vault', vaultBonus)
@@ -1293,7 +1372,7 @@ const getSkillExpMultiParts = (skillName: string, character: any, characters: an
                     (mealBonus +
                       (vialBonus
                         + (talentBonus2 +
-                          (10 * account?.tasks?.[2]?.[4]?.[4] +
+                          (10 * (account?.tasks?.[2]?.[4]?.[4] ?? 0) +
                             (25 * masteryBonus +
                               (starSignBonus
                                 + (guildBonus + (arcadeBonus
@@ -1326,7 +1405,7 @@ const getSkillExpMultiParts = (skillName: string, character: any, characters: an
           percent('Meal', mealBonus),
           percent('Vial', vialBonus),
           percent('Inner Peace talent', talentBonus2),
-          percent('Task', 10 * account?.tasks?.[2]?.[4]?.[4]),
+          percent('Task', 10 * (account?.tasks?.[2]?.[4]?.[4] ?? 0)),
           percent('Skill mastery', 25 * masteryBonus),
           percent('Star sign', starSignBonus),
           percent('Guild', guildBonus),
@@ -1633,6 +1712,61 @@ const getSkillExpMultiParts = (skillName: string, character: any, characters: an
         ])
       ]
     }
+  }
+  else if (skillName === 'spelunking') {
+    const gambitBonus = getGambitBonus(account, 14);
+    const skillMasteryBonus = isMasteryBonusUnlocked(account?.rift, account?.totalSkillsLevels?.spelunking?.rank, 0);
+    const exoticBonus = getExoticMarketBonus(account, 47);
+    const cardBonus = getCardBonusByEffect(account?.cards, 'Spelunking_EXP');
+    const chapterBonus = getChapterBonus(account, 1, 1) + getChapterBonus(account, 6, 0) + getChapterBonus(account, 3, 1);
+    const arcadeBonus = getArcadeBonus(account?.arcade?.shop, 'Spelunk_XP_multi')?.bonus;
+    const trackometerBonus = getSpelunkingBonus(account, 59);
+    const killroyBonus = Math.max(1, getKillRoyShopBonus(account, 5));
+    const grandioseExpBonus = getSpelunkingBonus(account, 45);
+    const goldenFoodBonus = getGoldenFoodBonus('Golden_Saltwater_Taffy', character, account, characters);
+    const mealBonus = getMealsBonusByEffectOrStat(account, null, 'SplkExp');
+    const stampBonus = getStampsBonusByStat(account, 'spelunkxp', character);
+    const statueBonus = getStatueBonus(account, 30, character?.flatTalents);
+    // game: getbonus2(2, 236) - the talent's second value, a multiplier
+    const talentMulti = Math.max(1, getHighestTalentAcrossCharacters(characters, 'SPELUNKING_SPECIALTY', loggedInCharacter, true));
+    const prehistoricSetBonus = Math.min(1, getArmorSetBonus(account, 'PREHISTORIC_SET') / 100);
+
+    // game: "SpelunkingExpMulti" - the Gambit bonus is added to the product, not multiplied in
+    const tree = [
+      flat('Gambit', gambitBonus / 100),
+      productGroup(NUMBERED_GROUP, [
+        additiveGroup(NUMBERED_GROUP, [
+          percent('Skill mastery', 25 * skillMasteryBonus),
+          percent('Exotic Market', exoticBonus),
+          percent('Card', cardBonus),
+          percent('Chapter bonuses', chapterBonus)
+        ]),
+        additiveGroup(NUMBERED_GROUP, [
+          percent('Arcade', arcadeBonus),
+          percent('Stamina Trackometer', trackometerBonus)
+        ]),
+        multiplier('Killroy', killroyBonus),
+        getAllSkillExpMultiplierBreakdown(account),
+        additiveGroup(NUMBERED_GROUP, [
+          percent('Grandiose EXP', grandioseExpBonus),
+          percent('Golden food', goldenFoodBonus),
+          percent('Meal', mealBonus),
+          percent('Stamp', stampBonus),
+          percent('Statue', statueBonus)
+        ]),
+        multiplier('All skill EXP (1/10th)', 1 + (allSkillExp?.value ?? 0) / 10 / 100),
+        multiplier('Spelunking Specialty talent', talentMulti),
+        multiplier('Prehistoric Set', 1 + prehistoricSetBonus)
+      ])
+    ];
+    const value = Math.max(1, gambitBonus / 100 + evaluateBreakdownNode(tree[1]));
+    return { value, tree, options: { combine: 'sum', min: 1 } };
+  }
+  else if (skillName === 'research') {
+    // Account wide: the research parser builds it once for every character
+    const { researchEXPmulti, researchEXPmultiBreakdown } = account?.research ?? {};
+    if (!researchEXPmultiBreakdown) return undefined;
+    return { value: researchEXPmulti, tree: researchEXPmultiBreakdown.tree };
   }
 }
 
@@ -1977,7 +2111,7 @@ export const getClassExpMulti = (character: any, account: any, characters: any) 
   const upgradeVaultBonus3 = getUpgradeVaultBonus(account?.upgradeVault?.upgrades, 35);
   const schematicBonus2 = getSchematicBonus({ holesObject: account?.hole?.holesObject, t: 83, i: 40 });
 
-  const vault35Bonus = upgradeVaultBonus3 * lavaLog(account?.accountOptions?.[345] ?? 0);
+  const vault35Bonus = upgradeVaultBonus3 * lavaLog(account?.accountOptions?.[OPT.vaultFishCaught] ?? 0);
 
   const expGainLUK4 = compassBonus
     + (schematicBonus
@@ -2028,7 +2162,8 @@ export const getClassExpMulti = (character: any, account: any, characters: any) 
   const babyTrollMulti = 1 + (Math.min(0.5, comp128) + 0.25 * babyTrollLvl2);
   const santaSnakeMulti = Math.max(1, Math.min(1.01, 1 + comp50 / 2500));
   // game: "Breeding:PetArenaCrucBonus" (15) and "MenagerieStuff:BoostQTY" (23), between Mr Pig and Crystal Glunko
-  const crucibleClassExp = 20 * getPetArenaCrucBonus(account, 15);
+  // 2.3.550 cut it from 20 to 0.2: a 1.2x multiplier, not 21x
+  const crucibleClassExp = 0.2 * getPetArenaCrucBonus(account, 15);
   const menagerieClassExp = getMenagerieBoost(account, 23);
 
   expGainLUK5 *= Math.max(1,
@@ -2114,14 +2249,14 @@ export const getClassExpMulti = (character: any, account: any, characters: any) 
   const cardLvSpringEvent = account?.cards?.['springEvent1']?.stars ?? 0;
   const comp3 = isCompanionBonusActive(account, 3) ? account?.companions?.list?.at(3)?.bonus : 0;
   const comp50Additive = isCompanionBonusActive(account, 50) ? account?.companions?.list?.at(50)?.bonus : 0;
-  const shimmerBonus = (account?.accountOptions?.[179] ?? 0) * (account?.islands?.allShimmerBonus ?? 0);
+  const shimmerBonus = (account?.accountOptions?.[OPT.shimmerClassExpLevel] ?? 0) * (account?.islands?.allShimmerBonus ?? 0);
   const goldenFoodBonus = getGoldenFoodBonus('Golden_Nigiri', character, account, characters);
   const owlBonus = getOwlBonus(account?.owl?.bonuses, 'Class XP');
   const voteBonus = getVoteBonus(account, 15) || 0;
   const monumentBonus = getMonumentBonus({ holesObject: account?.hole?.holesObject, t: 1, i: 6 });
   const armorSetBonus = getArmorSetBonus(account, 'IRON_SET');
   const exoticBonusQTY50 = getExoticMarketBonus(account, 50);
-  const opt421 = account?.accountOptions?.[421] ?? 0;
+  const opt421 = account?.accountOptions?.[OPT.hoopsClassXpBonus] ?? 0;
   const stampClassXP = getStampsBonusByEffect(account, 'classxp');
   const friendBonus1 = getFriendBonus(account, 1);
   const comp47 = isCompanionBonusActive(account, 47) ? account?.companions?.list?.at(47)?.bonus : 0;
@@ -2177,7 +2312,7 @@ export const getClassExpMulti = (character: any, account: any, characters: any) 
 
   // WorkbenchStuff('AdditionExtraEXPnDR')
   const talentBonus3 = getHighestTalentAcrossCharacters(characters, 'ARCHLORD_OF_THE_PIRATES', character);
-  const workbenchBonus = 1 + talentBonus3 * lavaLog(account?.accountOptions?.[139] ?? 0) / 100;
+  const workbenchBonus = 1 + talentBonus3 * lavaLog(account?.accountOptions?.[OPT.plunderousKills] ?? 0) / 100;
 
   const value = workbenchBonus
     * (1 + expGainLUK3 / 100)
@@ -2402,7 +2537,7 @@ export const getDropRate = (character: any, account: any, characters: any) => {
   const starSignBonus = getStarSignBonus(character, account, 'Drop_Rate');
   const stampBonus = getStampsBonusByEffect(account, '+{%_Drop_Rate');
   const thirdTalentBonus = getHighestTalentAcrossCharacters(characters, 'ARCHLORD_OF_THE_PIRATES', character);
-  const extraDropRate = 1 + thirdTalentBonus * lavaLog(account?.accountOptions?.[139] ?? 0) / 100;
+  const extraDropRate = 1 + thirdTalentBonus * lavaLog(account?.accountOptions?.[OPT.plunderousKills] ?? 0) / 100;
   const companionDropRate = isCompanionBonusActive(account, 3) ? account?.companions?.list?.at(3)?.bonus : 0;
   const secondCompanionDropRate = isCompanionBonusActive(account, 22) ? account?.companions?.list?.at(22)?.bonus : 0;
   const fourthCompanionDropRate = isCompanionBonusActive(account, 50) ? account?.companions?.list?.at(50)?.bonus : 0;
@@ -2477,7 +2612,7 @@ export const getDropRate = (character: any, account: any, characters: any) => {
     companionDropRate +
     fourthCompanionDropRate +
     stampBonus +
-    (bossBattleTalentBonus * (account?.accountOptions?.[189] ?? 0)) +
+    (bossBattleTalentBonus * (account?.accountOptions?.[OPT.weeklyBossBestSkulls] ?? 0)) +
     equinoxDropRateBonus +
     summoningBonus +
     tomeBonus +
@@ -2522,7 +2657,7 @@ export const getDropRate = (character: any, account: any, characters: any) => {
   // "AdditionExtraEXPnDR"
   final *= extraDropRate;
 
-  const ninjaMasteryDropRate = account?.accountOptions?.[232] >= 1;
+  const ninjaMasteryDropRate = account?.accountOptions?.[OPT.ninjaMasteryTier] >= 1;
   if (ninjaMasteryDropRate) {
     final += DR_NINJA_MASTERY_FLAT;
   }
@@ -2592,7 +2727,7 @@ export const getDropRate = (character: any, account: any, characters: any) => {
         additiveGroup(NUMBERED_GROUP, [
           percent('Luck', 140 * luckMulti),
           percent('Talents', robbingHoodTalentBonus + lootyCurseTalentBonus
-            + bossBattleTalentBonus * (account?.accountOptions?.[189] ?? 0)),
+            + bossBattleTalentBonus * (account?.accountOptions?.[OPT.weeklyBossBestSkulls] ?? 0)),
           percent('Post Office', postOfficeBonus),
           gearGroup(newDropRateBonusesBreakdown),
           percent('Obols', obols),
@@ -2691,7 +2826,7 @@ export const getDropRate = (character: any, account: any, characters: any) => {
     + companionDropRate
     + fourthCompanionDropRate
     + stampBonus
-    + (bossBattleTalentBonus * accountOptions[189])
+    + (bossBattleTalentBonus * accountOptions[OPT.weeklyBossBestSkulls])
     + equinoxDropRateBonus
     + summoningBonus
     + tomeBonus
@@ -2764,6 +2899,14 @@ final *= Math.max(1, Math.min(1.01, 1 + fourthCompanionDropRate / 2500));`
   };
 }
 
+// game: the MonsterCash label: NotateNumber Big past 1e16 (e notation from 1e21), its own B past 1e10 and M past 1e7
+const cashMultiLabel = (value: number) => {
+  if (value > 1e16) return gameFill(value, 'Big', { whole: true });
+  if (value > 1e10) return `${Math.floor(value / 1e8) / 10}B`;
+  if (value > 1e7) return `${Math.floor(value / 1e5) / 10}M`;
+  return gameFill(value, 'MultiplierInfo', { whole: true });
+};
+
 export const getCashMulti = (character: any, account: any, characters: any, playerInfo?: any) => {
   // ArbitraryCode("MonsterCash")
   // strength/agility/wisdom default to 0: a character with no stats data has none of these
@@ -2775,7 +2918,7 @@ export const getCashMulti = (character: any, account: any, characters: any, play
   const cashWisBubble = getBubbleBonus(account, 'NICKEL_OF_WISDOM', false, mainStatMap?.[character?.class] === 'wisdom');
   const mealBonus = getMealsBonusByEffectOrStat(account, null, 'Cash');
   const artifactBonus = isArtifactAcquired(account?.sailing?.artifacts, 'Maneki_Kat')?.bonus ?? 0;
-  const arenaWave = account?.accountOptions?.[89];
+  const arenaWave = account?.accountOptions?.[OPT.highestArenaWave];
   const waveReqs = randomList?.[53];
   const arenaBonusUnlock = +(isArenaBonusActive(arenaWave, waveReqs, 5));
   const secondArenaBonusUnlock = +(isArenaBonusActive(arenaWave, waveReqs, 14));
@@ -2841,9 +2984,9 @@ export const getCashMulti = (character: any, account: any, characters: any, play
   const vault31 = getUpgradeVaultBonus(account?.upgradeVault?.upgrades, 31);
   const vault70 = getUpgradeVaultBonus(account?.upgradeVault?.upgrades, 70);
   const cardsCollected = Object.values(account?.cards || {}).filter((c: any) => c?.amount > 0).length;
-  const ninjaExtraCash = account?.accountOptions?.[420] ?? 0;
+  const ninjaExtraCash = account?.accountOptions?.[OPT.hoopsCashBonus] ?? 0;
 
-  const dustWalkerBonus = Math.max(1, dustWalker) * lavaLog(account?.accountOptions?.[362] ?? 0);
+  const dustWalkerBonus = Math.max(1, dustWalker) * lavaLog(account?.accountOptions?.[OPT.compassTotalDustCollected] ?? 0);
   const bubbles = cashStrBubble * Math.floor(strength / 250)
     + cashAgiBubble * Math.floor(agility / 250)
     + cashWisBubble * Math.floor(wisdom / 250);
@@ -2883,7 +3026,7 @@ export const getCashMulti = (character: any, account: any, characters: any, play
       + coinsForCharonBonus
       + americanTipperBonus
       + goldFoodBonus
-      + vault17 * lavaLog(account?.accountOptions?.[340] ?? 0)
+      + vault17 * lavaLog(account?.accountOptions?.[OPT.vaultOresMined] ?? 0)
       + 5 * achievementBonus
       + 10 * secondAchievementBonus
       + 20 * thirdAchievementBonus
@@ -2893,7 +3036,7 @@ export const getCashMulti = (character: any, account: any, characters: any, play
       + ninjaExtraCash
       + vault70 * cardsCollected) / 100);
 
-  const breakdown = createBreakdown('Cash multi', cashFormatter(cashMulti), [
+  const breakdown = createBreakdown('Cash multi', cashMultiLabel(cashMulti), [
     productGroup(NUMBERED_GROUP, [
       additiveGroup('Cash bubbles', [
         percent('Penny of Strength', cashStrBubble * Math.floor(strength / 250)),
@@ -2951,7 +3094,7 @@ export const getCashMulti = (character: any, account: any, characters: any, play
       percent('Post Office', postOfficeBonus),
       percent('Guild', guildBonus * (1 + Math.floor((character?.mapIndex ?? 0) / 50))),
       percent('Golden Food', goldFoodBonus),
-      percent('Vault Ores', vault17 * lavaLog(account?.accountOptions?.[340] ?? 0)),
+      percent('Vault Ores', vault17 * lavaLog(account?.accountOptions?.[OPT.vaultOresMined] ?? 0)),
       percent('Achievements', 5 * achievementBonus + 10 * secondAchievementBonus + 20 * thirdAchievementBonus),
       percent('Vault Tax', vault2),
       percent('Vault Portal Kills', vault14 * (vaultKills[4] ?? 0)),
@@ -2980,7 +3123,7 @@ export const getCashMulti = (character: any, account: any, characters: any, play
 * (1 + armorSetBonus / 100)
 * (1 + gambitBonus / 100)
 * (1 + (250 * hasCashBundle) / 100)
-* (1 + (Math.max(1, dustWalker) * lavaLog(accountOptions[362])) / 100)
+* (1 + (Math.max(1, dustWalker) * lavaLog(accountOptions[OPT.compassTotalDustCollected])) / 100)
 * (1 + (mealBonus + artifactBonus + kangarooBonus + voteBonus) / 100)
 * (1 + (0.5 * arenaBonusUnlock + friendBonus + secondArenaBonusUnlock + statueBonus / 100))
 * (1 + (labBonus + vault34 * vaultKills[8] + vault37 * totalBubbleLevelsTill100) / 100)
@@ -2999,7 +3142,7 @@ export const getCashMulti = (character: any, account: any, characters: any, play
     + coinsForCharonBonus
     + americanTipperBonus
     + goldFoodBonus
-    + vault17 * lavaLog(accountOptions[340])
+    + vault17 * lavaLog(accountOptions[OPT.vaultOresMined])
     + 5 * achievementBonus
     + 10 * secondAchievementBonus
     + 20 * thirdAchievementBonus
@@ -3020,7 +3163,7 @@ const getPrinterSampleRate = (character: any, account: any) => {
   const vialBonus = getVialsBonusByEffect(account?.alchemy?.vials, 'Printer_sample');
   const theRoyalSamplerPrayer = getPrayerBonusAndCurse(character?.activePrayers, 'The_Royal_Sampler', account)?.bonus;
   const stampBonus = getStampsBonusByEffect(account, '3D_Printer_Sampling_Size');
-  const meritBonus = account?.tasks?.[2]?.[2]?.[4];
+  const meritBonus = account?.tasks?.[2]?.[2]?.[4] ?? 0;
   // FamBonusQTYs[6], as the played character sees it
   const familyPrinterSample = getCharacterFamilyBonus(character, CLASSES.Maestro);
   const arcadeSampleBonus = getArcadeBonus(account?.arcade?.shop, 'Sample_Size')?.bonus;
@@ -3080,7 +3223,7 @@ const CRYSTAL_SPAWN_CAP = 0.1;
 const CRYSTAL_SPAWN_DIVISOR = 2000;
 
 export const getPlayerCrystalChance = (character: any, account: any, idleonData: any) => {
-  const sailingRaw = tryToParse(idleonData?.Sailing) || idleonData?.Sailing;
+  const sailingRaw = saveField(idleonData, 'Sailing') || idleonData?.Sailing;
   const acquiredArtifacts = sailingRaw?.[3];
   const moaiiHead = acquiredArtifacts?.[0] > 0;
   const crystalShrineBonus = getShrineBonus(account?.shrines, 6, character.mapIndex, account.cards, moaiiHead);
@@ -3102,7 +3245,7 @@ export const getPlayerCrystalChance = (character: any, account: any, idleonData:
   const cardBonus = poopCardBonus + demonGenieBonus;
 
   const guaranteedCrystalMobs = getGuaranteedCrystalMobs(account);
-  const remainingCrystalKills = guaranteedCrystalMobs - account?.accountOptions?.[101];
+  const remainingCrystalKills = guaranteedCrystalMobs - account?.accountOptions?.[OPT.dailyCrystalKills];
 
   // 2.3.531: the card term (game CardBonusREAL(14)) is its own multiplier again, Jelly bonus 8 took its additive slot.
   const product = (1 + cmonOutCrystalsBonus / 100)
@@ -3120,7 +3263,7 @@ export const getPlayerCrystalChance = (character: any, account: any, idleonData:
 
   // In percent points: the base chance times the multipliers, plus the event shop, less what the cap cuts off
   const breakdown = createBreakdown('Crystal Chance', notateNumber(effectiveValue * 100, 'MultiplierInfo'), [
-    listGroup('Crystal kills', [info('Remaining Crystal kills', Math.max(0, remainingCrystalKills))]),
+    listGroup('Crystal kills', [info('Remaining Crystal kills', Math.max(0, remainingCrystalKills), { formatted: gameFill(Math.max(0, remainingCrystalKills) || 0, 'Comma', { whole: true }) })]),
     productGroup(NUMBERED_GROUP, [
       flat('Base chance', 100 / CRYSTAL_SPAWN_DIVISOR, { formatted: `${100 / CRYSTAL_SPAWN_DIVISOR}%` }),
       productGroup(NUMBERED_GROUP, [
@@ -3680,7 +3823,7 @@ export const getPlayerConstructionSpeed = (character: any, account: any, charact
     * (1 + getVialsBonusByStat(account?.alchemy?.vials, '6turtle') / 100);
   const talentBonus = getBaseTalentBonus(character?.flatTalents, 'REDOX_RATES');
   const atomBonus = getAtomBonus(account, 'Helium_-_Talent_Power_Stacker');
-  const redSaltAmount = calculateItemTotalAmount([...account?.storage?.list,
+  const redSaltAmount = calculateItemTotalAmount([...(account?.storage?.list ?? []),
   ...(account?.refinery?.refineryStorage || [])], 'Refinery1', true, true);
   return baseMath * (1 + (constructionLevel * bubbleBonus) / 100) * moreMath * multipliers * (1 + (talentBonus * (atomBonus + lavaLog(redSaltAmount))) / 100);
 }

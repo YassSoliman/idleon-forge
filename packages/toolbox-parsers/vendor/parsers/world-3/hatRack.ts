@@ -1,12 +1,13 @@
-// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1.
+// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 13f73ae61cc77989be4fd044ca6c2e923de87bb0.
 // Copyright (C) Morta1 and IdleOn Toolbox contributors. GPL-3.0-only; see vendor/LICENSE.
 // Copied unmodified by IdleOn Forge's scripts/sync.sh; UI-coupled imports are redirected to shims/ at build time.
-import { tryToParse, notateNumber } from '@utility/helpers';
+import { notateNumber } from '@utility/helpers';
 import { bonuses as bonusNames, items, itemsArray, gameTables } from '@website-data';
 import { getEventShopBonus, isCompanionBonusActive } from '@parsers/misc';
 import { getMineheadBonusQTY } from '@parsers/world-7/minehead';
 import { getSushiBonus } from '@parsers/world-7/sushiStation';
 import { hasClearedMap } from '@parsers/portals';
+import { saveField } from '@parsers/saveField';
 
 // The rack lists its totals as the base stats first, then the etc bonuses by id
 const HAT_BONUS_ORDER: string[] = [
@@ -21,7 +22,7 @@ const hatBonusOrder = (name: string) => {
 };
 
 export const getHatRack = (idleonData: any, account: any) => {
-  const rawSpelunk = tryToParse(idleonData?.Spelunk);
+  const rawSpelunk = saveField(idleonData, 'Spelunk');
   return parseHatRack(rawSpelunk, account);
 }
 
@@ -124,7 +125,7 @@ export const getHatRackBonus = (account: any, bonusName: any) => {
   return account?.hatRack?.hatBonuses?.find((bonus: any) => bonus.name === bonusName)?.value ?? 0;
 }
 
-// Mirrors the game's deposit-eligibility filter at N.js:118436 — cosmetic-only hats
+// Mirrors the game's deposit-eligibility filter at N.js:118436: cosmetic-only hats
 // (e.g. tournament rewards EquipmentHats136-138) carry lvReqToCraft = 69420 as a sentinel
 // and are not counted toward the rack.
 export const isHatRackEligible = (item: any): boolean => {

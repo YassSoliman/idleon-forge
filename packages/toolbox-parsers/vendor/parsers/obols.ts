@@ -1,4 +1,4 @@
-// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1.
+// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 13f73ae61cc77989be4fd044ca6c2e923de87bb0.
 // Copyright (C) Morta1 and IdleOn Toolbox contributors. GPL-3.0-only; see vendor/LICENSE.
 // Copied unmodified by IdleOn Forge's scripts/sync.sh; UI-coupled imports are redirected to shims/ at build time.
 import { createArrayOfArrays, tryToParse } from '@utility/helpers';
@@ -8,7 +8,7 @@ import type { IdleonData } from './types';
 import { getPowerType } from './powerTypes';
 
 // Re-exported so existing importers keep working. Modules needing ONLY this should import
-// from './powerTypes' — obols.ts reaches items.ts and from there the parser graph.
+// from './powerTypes': obols.ts reaches items.ts and from there the parser graph.
 export { getPowerType };
 
 const obolStats: string[] = ['STR', 'AGI', 'WIS', 'LUK', 'Weapon_Power', 'Defence', 'UQ1txt', 'UQ2txt'];

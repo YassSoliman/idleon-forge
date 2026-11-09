@@ -1,4 +1,4 @@
-// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1.
+// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 13f73ae61cc77989be4fd044ca6c2e923de87bb0.
 // Copyright (C) Morta1 and IdleOn Toolbox contributors. GPL-3.0-only; see vendor/LICENSE.
 // Copied unmodified by IdleOn Forge's scripts/sync.sh; UI-coupled imports are redirected to shims/ at build time.
 import { calculateItemTotalAmount } from '@parsers/items';
@@ -6,18 +6,19 @@ import { getRefineryStorage } from '@parsers/world-3/refinery';
 import { saltLicks, towers } from '@website-data';
 import { round, tryToParse } from '@utility/helpers';
 import { getBestActiveCharacter } from '@parsers/talents';
+import { saveField } from '@parsers/saveField';
 
 // characters: the previous pass's enriched characters (empty on pass 1)
 export const getSaltLick = (idleonData: any, storage: any, characters: any[] = []) => {
   const saltLickRaw = tryToParse(idleonData?.SaltLick) || idleonData?.SaltLick;
-  const towersRaw = idleonData?.TowerInfo || tryToParse(idleonData?.Tower);
+  const towersRaw = idleonData?.TowerInfo || saveField(idleonData, 'Tower');
   // Each Salt Lick building level shows one more upgrade (the game draws a blank slot past TowerInfo[3])
   const unlockedCount = towersRaw?.[towers.Salt_Lick.index] ?? 0;
   // The game's owned count (ItemsAndStorageOWNED) is the logged-in character's inventory, storage and the salts
   // waiting in the refinery's slots
   const loggedInInventory = getBestActiveCharacter(characters)?.inventory ?? [];
   const ownedItems = [...loggedInInventory, ...(storage ?? []),
-    ...getRefineryStorage(tryToParse(idleonData?.Refinery) || idleonData?.Refinery)];
+    ...getRefineryStorage(saveField(idleonData, 'Refinery') || idleonData?.Refinery)];
   return saltLicks?.map((bonus, index) => {
     // The game clamps a level above the cap back down to it on load
     const level = Math.min(saltLickRaw?.[index] ?? 0, bonus.maxLevel);

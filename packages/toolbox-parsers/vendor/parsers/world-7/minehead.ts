@@ -1,7 +1,7 @@
-// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1.
+// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 13f73ae61cc77989be4fd044ca6c2e923de87bb0.
 // Copyright (C) Morta1 and IdleOn Toolbox contributors. GPL-3.0-only; see vendor/LICENSE.
 // Copied unmodified by IdleOn Forge's scripts/sync.sh; UI-coupled imports are redirected to shims/ at build time.
-import { tryToParse, commaNotation, notateNumber } from '@utility/helpers';
+import { gameFill } from '@utility/helpers';
 import { mineheadUpgrades, upgradeVault, research as researchData, researchGridSquares, items, gameTables } from '@website-data';
 import { getAtomBonus } from '@parsers/world-3/atomCollider';
 import { getMealsBonusByEffectOrStat } from '@parsers/world-4/cooking';
@@ -16,24 +16,31 @@ import { isJadeBonusUnlocked } from '@parsers/world-6/sneaking';
 import { getOutpostRogBonus } from '@parsers/class-specific/royalGuardian';
 import { getArcadeBonus } from '@parsers/world-2/arcade';
 import { getLegendTalentBonus } from '@parsers/world-7/legendTalents';
-import { DOUBLER_SPELUNK_ROW, getDoublerMulti } from '@parsers/world-7/menagerie';
+import { DOUBLER_SPELUNK_ROW, getDoublerMulti, isDoublerEligible } from '@parsers/world-7/menagerie';
+import { getBestActiveCharacter } from '@parsers/talents';
+import { getGildedBoostioBonus } from '@parsers/world-3/construction';
 import { EQUINOX_CLOUD, getCloudBonus } from '@parsers/world-3/equinox';
 import { NUMBERED_GROUP, additiveGroup, createBreakdown, flat, multiplier, percent, productGroup } from '@parsers/breakdown';
+import { saveField } from '@parsers/saveField';
+
+// The player's lives before Minehead upgrade 6
+export const MINEHEAD_BASE_LIVES = 3;
 
 // The three mine currency gain upgrades (Miney Farmey I/II, Miney Damagey Synergy). The dashboard
 // alert filter and its `MineUpg{n}` config keys derive from this list; the currency formula below
 // spells the indices out because 28 scales with log10(bestHit) while 5 and 22 do not.
 export const MINE_CURRENCY_UPGRADE_INDICES = [5, 22, 28];
 const MINEHEAD_CURRENCY_ARCADE_BONUS = 62;
+const BLUECROWN_ODDS_CAP = 0.1;
 
 const getRawMinehead = (idleonData: any) => {
-  const raw = tryToParse(idleonData?.Research) || idleonData?.Research;
+  const raw = saveField(idleonData, 'Research') || idleonData?.Research;
   return Array.isArray(raw) ? raw : [];
 };
 
-export const getMinehead = (idleonData: any, account: any, serverVars: any) => {
+export const getMinehead = (idleonData: any, account: any, serverVars: any, characters: any[] = []) => {
   const raw = getRawMinehead(idleonData);
-  const spelunkRaw = tryToParse(idleonData?.Spelunk) || idleonData?.Spelunk;
+  const spelunkRaw = saveField(idleonData, 'Spelunk') || idleonData?.Spelunk;
 
   // raw[7] = minehead game-state array:
   //   [4] = opponents beaten, [5] = mine currency, [6] = best hit ever, [8] = daily tries left
@@ -93,12 +100,14 @@ export const getMinehead = (idleonData: any, account: any, serverVars: any) => {
 
   // Note: `levelReq` in website-data is the per-level effect value (misleadingly named).
   // game: "Minehead:UpgradeQTY" (2x when a Menagerie doubler sits on it, Spelunk[51])
-  const getUpgradeQTY = (idx: any) => {
+  // assumeDoubledIdx previews an upgrade as if a doubler sat on it
+  const getUpgradeQTY = (idx: any, assumeDoubledIdx?: number) => {
     const upgrade = mineheadUpgrades?.[idx];
     if (!upgrade) return 0;
     const bonusPerLevel = Number(upgrade.levelReq) || 0;
     const level = Number(upgradeLevels[idx]) || 0;
-    return getDoublerMulti(idleonData, DOUBLER_SPELUNK_ROW.minehead, idx) * bonusPerLevel * level;
+    const doublerMulti = idx === assumeDoubledIdx ? 2 : getDoublerMulti(idleonData, DOUBLER_SPELUNK_ROW.minehead, idx);
+    return doublerMulti * bonusPerLevel * level;
   };
 
   // --- Opponent bonus reward helper ---
@@ -163,7 +172,7 @@ export const getMinehead = (idleonData: any, account: any, serverVars: any) => {
   const dailyTriesMax = Math.round(3 + grid147Level);
 
   // Max HP for player: 3 + upgradeQTY(6)
-  const maxHP_You = Math.round(3 + getUpgradeQTY(6));
+  const maxHP_You = Math.round(MINEHEAD_BASE_LIVES + getUpgradeQTY(6));
 
   // Base DMG:
   //   (1 + QTY(0) + QTY(7) + QTY(25) + dancingCoral(5)) * (1 + (QTY(4)+QTY(21)+QTY(27)) / 100)
@@ -270,11 +279,15 @@ export const getMinehead = (idleonData: any, account: any, serverVars: any) => {
   ]);
 
   // Bluecrown multiplier - used in description for upgrade 14
-  const getBluecrownMulti = () => 1.5 + getUpgradeQTY(14) / 100;
+  const getBluecrownMulti = (qty = getUpgradeQTY) => 1.5 + qty(14) / 100;
+
+  // game: "BluecrownOdds" - capped at 10%, so Crown Craze (15) stops helping past QTY 50
+  const getBluecrownOdds = (qty = getUpgradeQTY) =>
+    qty(14) === 0 ? 0 : Math.min(BLUECROWN_ODDS_CAP, (1 / 15) * (1 + qty(15) / 100));
 
   // Jackpot odds - used in description for upgrade 23
-  const getJackpotOdds = () =>
-    getUpgradeQTY(23) === 0 ? 0 : 0.01 * (1 + getUpgradeQTY(23) / 100);
+  const getJackpotOdds = (qty = getUpgradeQTY) =>
+    qty(23) === 0 ? 0 : 0.01 * (1 + qty(23) / 100);
 
   // --- Upgrades ---
   const upgrades = (mineheadUpgrades ?? []).map((upgrade, idx) => {
@@ -297,10 +310,29 @@ export const getMinehead = (idleonData: any, account: any, serverVars: any) => {
       level,
       getUpgradeQTY,
       getBluecrownMulti,
+      getBluecrownOdds,
       getJackpotOdds,
       gridSizes,
       bestHit
     );
+
+    const doublerEligible = isDoublerEligible('minehead', idx);
+    let doubledDescription = null;
+    if (doublerEligible && !doubled && upgradeQTY > 0) {
+      const doubledQTY = (id: any) => getUpgradeQTY(id, idx);
+      doubledDescription = formatUpgradeDescription(
+        upgrade.description ?? '',
+        idx,
+        doubledQTY(idx),
+        level,
+        doubledQTY,
+        () => getBluecrownMulti(doubledQTY),
+        () => getBluecrownOdds(doubledQTY),
+        () => getJackpotOdds(doubledQTY),
+        gridSizes,
+        bestHit
+      );
+    }
 
     return {
       index: idx,
@@ -312,6 +344,8 @@ export const getMinehead = (idleonData: any, account: any, serverVars: any) => {
       isLocked,
       bonusPerLevel,
       doubled,
+      doublerEligible,
+      doubledDescription,
       upgradeQTY,
       cost,
       canAfford,
@@ -319,15 +353,27 @@ export const getMinehead = (idleonData: any, account: any, serverVars: any) => {
     };
   });
 
-  // --- Opponents (32 total) ---
-  const opponents = Array.from({ length: 32 }, (_, idx) => {
+  // game: three rewards' sentences also name a live number (the opponent's hover text). Bleckhead's reads the logged-in
+  // character's weapon ("WepPowDmgPCT"), Gemhead's reads floor(100 * AFKgainrates("Research")).
+  const getOpponentDollar = (idx: number) => {
+    if (idx === 1) return Math.floor(account?.research?.researchAFKrate ?? 0);
+    if (idx === 4) {
+      const weaponPower = getBestActiveCharacter(characters)?.equipment?.[1]?.Weapon_Power ?? 0;
+      return gameFill(1 + (getBonusQTY(4) * weaponPower) / 100, 'MultiplierInfo');
+    }
+    if (idx === 18) return gameFill(getGildedBoostioBonus(account), 'MultiplierInfo');
+    return null;
+  };
+
+  // --- Opponents ---
+  const opponents = Array.from({ length: opponentNames.length }, (_, idx) => {
     const name = opponentNames[idx] ?? '';
     const ordinal = ordinals[idx] ?? '';
     const title = titles[idx] ?? '';
     const maxHP = getMaxHPOpp(idx);
     const minesCount = getMinesOpp(idx);
     const bonusValue = Number(opponentBonusValues[idx]) || 0;
-    const bonusDescription = formatOpponentDescription(opponentBonusDescs[idx] ?? '', bonusValue);
+    const bonusDescription = formatOpponentDescription(opponentBonusDescs[idx] ?? '', bonusValue, getOpponentDollar(idx));
     const beaten = idx < opponentsBeat;
 
     return {
@@ -410,6 +456,7 @@ export const getMinehead = (idleonData: any, account: any, serverVars: any) => {
     baseDMG,
     currencyGain,
     currencyGainBreakdown,
+    bluecrownOdds: getBluecrownOdds(),
     upgrades,
     opponents,
     glimbo,
@@ -422,21 +469,21 @@ export const getMinehead = (idleonData: any, account: any, serverVars: any) => {
  * flat bonusValue (from researchData[20]):
  *   { → bonusValue (flat number)
  *   } → multiplier string (1 + bonusValue/100), e.g. "1.10" so "}x" becomes "1.10x"
- *   $ → requires live game state (weapon power, AFK rate, etc.) - left as-is
+ *   $ → the live number the sentence names (getOpponentDollar)
  *   @ → stripped (in-game annotation marker)
  * Underscores are replaced with spaces.
  */
-function formatOpponentDescription(template: any, bonusValue: any) {
+function formatOpponentDescription(template: any, bonusValue: any, dollarValue: any) {
   let desc = template;
 
   // Replace { with flat bonus value
-  desc = desc.split('{').join(commaNotation(bonusValue));
+  desc = desc.split('{').join(gameFill(bonusValue, 'Comma'));
 
   // Replace } with multiplier notation (no x - the template appends x where needed)
-  const multStr = (notateNumber(1 + bonusValue / 100, 'MultiplierInfo') as string).replace(/#/g, '');
+  const multStr = gameFill(1 + bonusValue / 100, 'MultiplierInfo');
   desc = desc.split('}').join(multStr);
 
-  // $ requires game-state not available here (e.g. weapon power, current AFK rate) - leave as-is
+  if (dollarValue !== null) desc = desc.split('$').join(String(dollarValue));
 
   // Strip @ annotation markers
   desc = desc.split('@').join('');
@@ -449,7 +496,7 @@ function formatOpponentDescription(template: any, bonusValue: any) {
 
 /**
  * Formats a minehead upgrade description, resolving game placeholders:
- *   { → commaNotation(upgradeQTY)
+ *   { → upgradeQTY
  *   } → multiplier string (1 + upgradeQTY/100)
  *   $ → upgrade-specific special value (handled per index)
  *   @ → stripped (in-game annotation marker)
@@ -462,23 +509,33 @@ function formatUpgradeDescription(
   level: any,
   getUpgradeQTY: any,
   getBluecrownMulti: any,
+  getBluecrownOdds: any,
   getJackpotOdds: any,
   gridSizes: any,
   bestHit: any
 ) {
-  let desc = template;
+  let desc = getPanelSentence(idx, level, getUpgradeQTY) ?? template;
 
   // Replace { with current upgrade qty
-  desc = desc.split('{').join(commaNotation(upgradeQTY));
+  desc = desc.split('{').join(gameFill(upgradeQTY, 'Comma'));
 
   // Replace } with multiplier notation
-  const multStr = (notateNumber(1 + upgradeQTY / 100, 'MultiplierInfo') as string).replace(/#/g, '');
+  const multStr = gameFill(1 + upgradeQTY / 100, 'MultiplierInfo');
   desc = desc.split('}').join(multStr);
 
   // Replace $ with upgrade-specific value
   const dollarValue = getDollarValue(idx, getUpgradeQTY, getBluecrownMulti, getJackpotOdds, gridSizes, bestHit, level);
   if (dollarValue !== null) {
     desc = desc.split('$').join(String(dollarValue));
+  }
+
+  if (idx === 15) {
+    const odds = getBluecrownOdds();
+    if (odds > 0) {
+      desc += odds >= BLUECROWN_ODDS_CAP
+        ? ` (Blue Crown chance capped at ${BLUECROWN_ODDS_CAP * 100}%, more levels do nothing)`
+        : ` (current Blue Crown chance: ${Math.round(odds * 10000) / 100}%, max ${BLUECROWN_ODDS_CAP * 100}%)`;
+    }
   }
 
   // Strip @ markers (in-game annotation/reference notation)
@@ -490,6 +547,16 @@ function formatUpgradeDescription(
   return desc.trim();
 }
 
+// game: the panel drops the upgrade's own sentence for its own one here: a tile not unlocked yet, and the two at their cap
+const getPanelSentence = (idx: any, level: any, getUpgradeQTY: any) => {
+  if (idx === 1 && level >= 17) return "Your_max_possible_number_is_19,_that's_the_MAXIMUM_max_number_there_is!!!";
+  if (idx === 2 && level >= 16) return "Your_grid_is_12x6,_that's_a_full_grid_right_there!_Rock_on!";
+  if (idx === 12 && getUpgradeQTY(12) === 0) return 'Unlocks_the_chance_to_reveal_Multiplier_Tiles_instead_of_boring_Number_Tiles!';
+  if (idx === 17 && getUpgradeQTY(17) === 0) return 'Unlocks_the_chance_to_reveal_Additive_Tiles!';
+  if (idx === 23 && getUpgradeQTY(23) === 0) return 'Unlocks_the_chance_to_reveal_JACKPOT_Tiles!_These_are_awesome!';
+  return null;
+};
+
 /**
  * Returns the $ replacement value for upgrades that have special descriptions.
  * Returns null if no special handling needed.
@@ -499,7 +566,6 @@ function getDollarValue(idx: any, getUpgradeQTY: any, getBluecrownMulti: any, ge
     case 1: {
       // Numbahs: max tile number = round(1 + (QTY(1) + 1 + min(1, floor((QTY(1)+1)/9))))
       const qty1 = getUpgradeQTY(1);
-      if (level >= 17) return 'the MAXIMUM max number there is!!!';
       return Math.round(1 + (qty1 + 1 + Math.min(1, Math.floor((qty1 + 1) / 9))));
     }
 
@@ -507,17 +573,16 @@ function getDollarValue(idx: any, getUpgradeQTY: any, getBluecrownMulti: any, ge
       // Grid_Expansion: shows next grid size
       // gridSizes[level] = "cols,rows" for next expansion; current is gridSizes[level]
       const nextSize = gridSizes[level + 1];
-      if (!nextSize) return 'max grid size reached!';
+      if (!nextSize) return null;
       const [cols, rows] = nextSize.split(',').map(Number);
       const currentSize = gridSizes[level] ?? '0,0';
       const [curCols, curRows] = currentSize.split(',').map(Number);
-      return `${cols}x${rows} tiles (${cols * rows} total, up from your current ${curCols}x${curRows} grid)`;
+      return `Expands_your_grid_to_${cols}x${rows}_tiles,_that's_${cols * rows}_total_tiles!_Way_more_than_your_current_${curCols}x${curRows}_grid.`;
     }
 
     case 12: {
       // Multiplier_Madness: shows current tile multiplier
       const qty12 = getUpgradeQTY(12);
-      if (qty12 === 0) return null; // description handles the 0 case with a fallback text
       const multiplierTable: string[] = gameTables.mineheadUpgradeTables[12];
       return (multiplierTable[qty12] ?? '8') + 'x';
     }
@@ -525,22 +590,19 @@ function getDollarValue(idx: any, getUpgradeQTY: any, getBluecrownMulti: any, ge
     case 14: {
       // Bluecrown upgrade: shows current bluecrown multiplier
       const multi = getBluecrownMulti();
-      return (notateNumber(multi, 'MultiplierInfo') as string).replace(/#/g, '') + 'x';
+      return gameFill(multi, 'MultiplierInfo') + 'x';
     }
 
     case 17: {
       // Additive tiles: shows current additive %
       const qty17 = getUpgradeQTY(17);
-      if (qty17 === 0) return null;
       const additiveTable: string[] = gameTables.mineheadUpgradeTables[17];
       return (additiveTable[qty17] ?? '10000') + '%';
     }
 
     case 23: {
       // Jackpot odds: shows 1-in-N chance
-      const odds = getJackpotOdds();
-      if (odds === 0) return null;
-      return Math.ceil(1 / odds);
+      return Math.ceil(1 / getJackpotOdds());
     }
 
     case 24: {
@@ -558,7 +620,7 @@ function getDollarValue(idx: any, getUpgradeQTY: any, getBluecrownMulti: any, ge
       // Miney_Farmey_III: shows per-power-10 bonus and current total
       const qty28 = getUpgradeQTY(28);
       const logBestHit = Math.log10(Math.max(1, bestHit));
-      return `+${commaNotation(qty28)}% Mine Currency per POW 10 of your best ever hit, so +${notateNumber(qty28 * logBestHit, 'Big')}% total`;
+      return `+${gameFill(qty28, 'Comma')}% Mine Currency per POW 10 of your best ever hit, so +${gameFill(qty28 * logBestHit, 'Big')}% total`;
     }
 
     default:
@@ -569,6 +631,9 @@ function getDollarValue(idx: any, getUpgradeQTY: any, getBluecrownMulti: any, ge
 // ---------------------------------------------------------------------------
 // Exported helpers used by research.js to replace its internal stubs
 // ---------------------------------------------------------------------------
+
+// researchData[10]: the sprite id of each opponent slot (MineH<id>.png)
+export const getMineheadOpponentSpriteId = (index: number): number | string => (researchData as any)?.[10]?.[index] ?? index;
 
 /**
  * Returns the opponent-defeat bonus for a given minehead index.

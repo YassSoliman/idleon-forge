@@ -1,4 +1,4 @@
-// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1.
+// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 13f73ae61cc77989be4fd044ca6c2e923de87bb0.
 // Copyright (C) Morta1 and IdleOn Toolbox contributors. GPL-3.0-only; see vendor/LICENSE.
 // Copied unmodified by IdleOn Forge's scripts/sync.sh; UI-coupled imports are redirected to shims/ at build time.
 import { growth, tryToParse } from '@utility/helpers';
@@ -17,6 +17,9 @@ import { getVialsBonusByStat } from './world-2/alchemy';
 import { getAchievementStatus } from './achievements';
 import type { IdleonData, Account } from './types';
 
+export const INSIDE_UPGRADE_MAX_LEVEL = 100;
+export const FLURBO_UPGRADE_MAX_LEVEL = 50;
+
 export const getDungeons = (idleonData: IdleonData, accountOptions: any[]): Record<string, any> => {
   const dungeonUpgradesRaw = tryToParse(idleonData?.DungUpg);
   return parseDungeons(dungeonUpgradesRaw, accountOptions);
@@ -29,7 +32,8 @@ const parseDungeons = (dungeonUpgrades: any, accountOptions: any[] | undefined):
   const statBoostsRaw = dungeonUpgrades?.[2];
   const flurbosUpgradesRaw = dungeonUpgrades?.[5];
 
-  const rngItems = liveEntries<any>(dungeonCreditShop).map(({ entry, index }) => ({ ...entry, level: rngItemsRaw?.[index] ?? 0 }));
+  // game: 0 > level reads as not found, so with no save nothing is
+  const rngItems = liveEntries<any>(dungeonCreditShop).map(({ entry, index }) => ({ ...entry, index, level: rngItemsRaw?.[index] ?? -1 }));
   let counter = 0;
   const statBoosts = dungeonTraits?.map((trait: any) => ({
     ...trait, bonuses: trait?.bonuses?.map((bonus: any) => {
@@ -39,8 +43,8 @@ const parseDungeons = (dungeonUpgrades: any, accountOptions: any[] | undefined):
       return { bonus, isActive, bonusIndex }
     })
   }));
-  const insideUpgrades = liveEntries<any>(dungeonStats).map(({ entry, index }) => ({ ...entry, level: insideUpgradesRaw?.[index] ?? 0 }));
-  const upgrades = liveEntries<any>(dungeonFlurboStats).map(({ entry, index }) => ({ ...entry, level: flurbosUpgradesRaw?.[index] ?? 0 }));
+  const insideUpgrades = liveEntries<any>(dungeonStats).map(({ entry, index }) => ({ ...entry, index, level: insideUpgradesRaw?.[index] ?? 0 }));
+  const upgrades = liveEntries<any>(dungeonFlurboStats).map(({ entry, index }) => ({ ...entry, index, level: flurbosUpgradesRaw?.[index] ?? 0 }));
   const credits = opts?.[72] || 0;
   const flurbos = opts?.[73] || 0;
   const boostedRuns = opts?.[76] || 0;

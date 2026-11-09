@@ -1,7 +1,8 @@
-// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1.
+// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 13f73ae61cc77989be4fd044ca6c2e923de87bb0.
 // Copyright (C) Morta1 and IdleOn Toolbox contributors. GPL-3.0-only; see vendor/LICENSE.
 // Copied unmodified by IdleOn Forge's scripts/sync.sh; UI-coupled imports are redirected to shims/ at build time.
-import { commaNotation, lavaLog, notateNumber, numberWithCommas, tryToParse } from '@utility/helpers';
+import { gameFill, lavaLog, notateNumber, tryToParse } from '@utility/helpers';
+import { gameGlyphs } from '@utility/wiki/game-glyphs.mjs';
 import { cosmoUpgrades, gods, holesBuildings, holesInfo, lampWishes } from '@website-data';
 import { getSchematicBonus, getTheWell } from '@parsers/world-5/caverns/the-well';
 import { getMotherlode } from '@parsers/world-5/caverns/motherlode';
@@ -37,6 +38,7 @@ import { getExoticMarketBonus } from '@parsers/world-6/farming';
 import { isSuperbitUnlocked } from '@parsers/world-5/gaming';
 import { getUpgradeVaultBonus } from '@parsers/misc/upgradeVault';
 import { NUMBERED_GROUP, additiveGroup, createBreakdown, flat, multiplier, percent, productGroup } from '@parsers/breakdown';
+import { zeroIndexArray } from '@parsers/zeroIndexArray';
 
 // game: Holes("SchematicsAvailable") caps the Engineer's schematics at 105 and at the list's length.
 export const TOTAL_SCHEMATICS = Math.min(105, holesBuildings?.length ?? 0);
@@ -53,18 +55,6 @@ const VILLAGERS = {
   MEASURE: 3,
   STUDIES: 4
 }
-
-const zeroIndexProxy = (arr: any): any => {
-  const target = Array.isArray(arr) ? arr : [];
-  return new Proxy(target, {
-    get(t, prop, receiver) {
-      if (typeof prop === 'string' && /^\d+$/.test(prop) && !(prop in t)) {
-        return 0;
-      }
-      return Reflect.get(t, prop, receiver);
-    }
-  });
-};
 
 export const getHole = (idleonData: any, accountData: any) => {
   const holeRaw = tryToParse(idleonData?.Holes) || idleonData?.Holes;
@@ -112,39 +102,39 @@ const parseHole = (holeRaw: any, jarsRaw: any, accountData: any) => {
   ] = holeRaw || [];
   const holesObject = {
     charactersCavernLocation,
-    villagersLevels: zeroIndexProxy(villagersLevels),
-    villagersExp: zeroIndexProxy(villagersExp),
-    opalsInvested: zeroIndexProxy(opalsInvested),
-    holeMajiks: zeroIndexProxy(holeMajiks),
-    villageMajiks: zeroIndexProxy(villageMajiks),
-    idleonMajiks: zeroIndexProxy(idleonMajiks),
-    opalsPerCavern: zeroIndexProxy(opalsPerCavern),
-    sedimentMulti: zeroIndexProxy(sedimentMulti),
-    wellSediment: zeroIndexProxy(wellSediment),
-    wellBuckets: zeroIndexProxy(wellBuckets),
-    extraCalculations: zeroIndexProxy(extraCalculations),
-    dawgDenAmplifierLevels: zeroIndexProxy(dawgDenAmplifierLevels),
-    engineerSchematics: zeroIndexProxy(engineerSchematics),
-    braveryMonument: zeroIndexProxy(braveryMonument),
-    braveryBonuses: zeroIndexProxy(braveryBonuses),
-    bellImprovementMethods: zeroIndexProxy(bellImprovementMethods),
-    bellRingLevels: zeroIndexProxy(bellRingLevels),
-    bellRelated: zeroIndexProxy(bellRelated),
-    harpRelated: zeroIndexProxy(harpRelated),
-    harpStringNotes: zeroIndexProxy(harpStringNotes),
-    wishesUsed: zeroIndexProxy(wishesUsed),
-    measurementBuffLevels: zeroIndexProxy(measurementBuffLevels),
-    parallelVillagersGemShop: zeroIndexProxy(parallelVillagersGemShop),
-    jarStuff: zeroIndexProxy(jarStuff),
-    jarProgress: zeroIndexProxy(jarProgress),
-    studyStuff: zeroIndexProxy(studyStuff),
-    studyProgress: zeroIndexProxy(studyProgress),
-    gambitStuff: zeroIndexProxy(gambitStuff),
+    villagersLevels: zeroIndexArray(villagersLevels),
+    villagersExp: zeroIndexArray(villagersExp),
+    opalsInvested: zeroIndexArray(opalsInvested),
+    holeMajiks: zeroIndexArray(holeMajiks),
+    villageMajiks: zeroIndexArray(villageMajiks),
+    idleonMajiks: zeroIndexArray(idleonMajiks),
+    opalsPerCavern: zeroIndexArray(opalsPerCavern),
+    sedimentMulti: zeroIndexArray(sedimentMulti),
+    wellSediment: zeroIndexArray(wellSediment),
+    wellBuckets: zeroIndexArray(wellBuckets),
+    extraCalculations: zeroIndexArray(extraCalculations),
+    dawgDenAmplifierLevels: zeroIndexArray(dawgDenAmplifierLevels),
+    engineerSchematics: zeroIndexArray(engineerSchematics),
+    braveryMonument: zeroIndexArray(braveryMonument),
+    braveryBonuses: zeroIndexArray(braveryBonuses),
+    bellImprovementMethods: zeroIndexArray(bellImprovementMethods),
+    bellRingLevels: zeroIndexArray(bellRingLevels),
+    bellRelated: zeroIndexArray(bellRelated),
+    harpRelated: zeroIndexArray(harpRelated),
+    harpStringNotes: zeroIndexArray(harpStringNotes),
+    wishesUsed: zeroIndexArray(wishesUsed),
+    measurementBuffLevels: zeroIndexArray(measurementBuffLevels),
+    parallelVillagersGemShop: zeroIndexArray(parallelVillagersGemShop),
+    jarStuff: zeroIndexArray(jarStuff),
+    jarProgress: zeroIndexArray(jarProgress),
+    studyStuff: zeroIndexArray(studyStuff),
+    studyProgress: zeroIndexArray(studyProgress),
+    gambitStuff: zeroIndexArray(gambitStuff),
     fountainCoinSpaces,
     fountainSpaceFilled,
     fountainUpgradeLevels,
     fountainMarbleizeLevels,
-    fountainBarProgress: zeroIndexProxy(fountainBarProgress),
+    fountainBarProgress: zeroIndexArray(fountainBarProgress),
     fountainCoinFlags
   }
   const lampWishesList = lampWishes.map((wish, index) => {
@@ -189,8 +179,8 @@ const parseHole = (holeRaw: any, jarsRaw: any, accountData: any) => {
     return {
       index,
       name: (Object.keys(VILLAGERS)?.[index]?.toLowerCase() as any)?.camelToTitleCase(),
-      exp: exp < 1e6 ? commaNotation(exp) : notateNumber(exp, 'Big'),
-      expReq: expReq < 1e6 ? commaNotation(expReq) : notateNumber(expReq, 'Big'),
+      exp,
+      expReq,
       readyToLevel: exp >= expReq,
       level,
       opalInvested,
@@ -230,11 +220,11 @@ const parseHole = (holeRaw: any, jarsRaw: any, accountData: any) => {
       }
       else {
         if (majikIndex === 2 && bonusIndex === 0) {
-          if (extraCalculations?.[29] !== -1) {
-            godsLinks.push({ index: extraCalculations?.[29], name: gods?.[extraCalculations?.[29]]?.name })
+          if (extraCalculations?.[29] > -1 && gods?.[extraCalculations[29]]) {
+            godsLinks.push({ index: extraCalculations[29], name: gods[extraCalculations[29]].name })
           }
-          if (extraCalculations?.[30] !== -1) {
-            godsLinks.push({ index: extraCalculations?.[30], name: gods?.[extraCalculations?.[30]]?.name })
+          if (extraCalculations?.[30] > -1 && gods?.[extraCalculations[30]]) {
+            godsLinks.push({ index: extraCalculations[30], name: gods[extraCalculations[30]].name })
           }
         }
       }
@@ -381,12 +371,12 @@ export const getEngineerTotalBonus = (upgrade: any, holesObject: any, index: any
   switch (index) {
     case 14:
       value = getSchematicBonus({ holesObject, t: index, i: 0 });
-      formattedDescription = formattedDescription.replace('{', notateNumber(value, 'Big'));
+      formattedDescription = formattedDescription.replace('{', gameFill(value, 'Big'));
       break;
 
     case 15:
       value = Math.pow(1.1, Number(holesObject?.extraCalculations?.[1]));
-      formattedDescription = formattedDescription.replace('{', notateNumber(value, 'Small'));
+      formattedDescription = formattedDescription.replace('{', gameFill(value, 'Small'));
       break;
 
     case 38:
@@ -398,12 +388,12 @@ export const getEngineerTotalBonus = (upgrade: any, holesObject: any, index: any
 
     case 41:
       value = Math.pow(1.1, Number(holesObject?.extraCalculations?.[3]));
-      formattedDescription = formattedDescription.replace('{', notateNumber(value, 'Small'));
+      formattedDescription = formattedDescription.replace('{', gameFill(value, 'Small'));
       break;
 
     case 45:
       value = getSchematicBonus({ holesObject, t: index, i: 0 });
-      formattedDescription = formattedDescription.replace('}', notateNumber(value, value < 1000 ? 'Small' : 'Big'));
+      formattedDescription = formattedDescription.replace('}', gameFill(value, value < 1000 ? 'Small' : 'Big'));
       break;
 
     case 46:
@@ -413,58 +403,58 @@ export const getEngineerTotalBonus = (upgrade: any, holesObject: any, index: any
     case 55:
     case 57:
       value = getSchematicBonus({ holesObject, t: index, i: 0 });
-      formattedDescription = formattedDescription.replace('{', notateNumber(value, 'Big'));
+      formattedDescription = formattedDescription.replace('{', gameFill(value, 'Big'));
       break;
 
     case 53:
       value = 1 + getSchematicBonus({ holesObject, t: index, i: 0 }) / 100;
-      formattedDescription = formattedDescription.replace('{', notateNumber(value, 'Small'));
+      formattedDescription = formattedDescription.replace('{', gameFill(value, 'Small'));
       break;
 
     case 54:
     case 56:
       value = getSchematicBonus({ holesObject, t: index, i: 0 });
-      formattedDescription = formattedDescription.replace('{', notateNumber(value, 'Small'));
+      formattedDescription = formattedDescription.replace('{', gameFill(value, 'Small'));
       break;
 
     case 58:
       value = getSchematicBonus({ holesObject, t: index, i: 0 });
-      formattedDescription = formattedDescription.replace('{', notateNumber(value, 'Big'))
-        .replace('#', notateNumber(holesObject?.extraCalculations?.[32], 'Big'));
+      formattedDescription = formattedDescription.replace('{', gameFill(value, 'Big'))
+        .replace('#', gameFill(holesObject?.extraCalculations?.[32], 'Big', { whole: true }));
       break;
 
     case 59:
       value = getSchematicBonus({ holesObject, t: index, i: 0 });
-      formattedDescription = formattedDescription.replace('{', notateNumber(value, 'Big'))
-        .replace('!', numberWithCommas(Number(holesObject?.extraCalculations?.[33])))
-        .replace('#', numberWithCommas(Number(holesObject?.extraCalculations?.[34])))
-        .replace('$', numberWithCommas(Number(holesObject?.extraCalculations?.[35])))
-        .replace('%', numberWithCommas(Number(holesObject?.extraCalculations?.[36])));
+      formattedDescription = gameGlyphs(formattedDescription).replace('{', gameFill(value, 'Big'))
+        .replace('!', gameFill(Number(holesObject?.extraCalculations?.[33]), 'Comma', { whole: true }))
+        .replace('#', gameFill(Number(holesObject?.extraCalculations?.[34]), 'Comma', { whole: true }))
+        .replace('$', gameFill(Number(holesObject?.extraCalculations?.[35]), 'Comma', { whole: true }))
+        .replace('%', gameFill(Number(holesObject?.extraCalculations?.[36]), 'Comma', { whole: true }));
       break;
 
     case 72:
       value = 10 * lavaLog(Number(holesObject?.extraCalculations?.[38]));
-      formattedDescription = formattedDescription.replace('{', notateNumber(value, 'Small'));
+      formattedDescription = formattedDescription.replace('{', gameFill(value, 'Small'));
       break;
 
     case 73:
       value = Math.pow(1.1, lavaLog(Number(holesObject?.extraCalculations?.[39])));
-      formattedDescription = formattedDescription.replace('{', notateNumber(value, 'Small'));
+      formattedDescription = formattedDescription.replace('{', gameFill(value, 'Small'));
       break;
 
     case 76:
       value = Math.pow(1.02, getSchematicBonus({ holesObject, t: index, i: 1 }) === 1 ? getRupieDigits(holesObject) : 0);
-      formattedDescription = formattedDescription.replace('{', notateNumber(value, 'Small'));
+      formattedDescription = formattedDescription.replace('{', gameFill(value, 'Small'));
       break;
 
     case 80:
       value = Math.pow(1.1, Number(holesObject?.extraCalculations?.[5]));
-      formattedDescription = formattedDescription.replace('{', notateNumber(value, 'Small'));
+      formattedDescription = formattedDescription.replace('{', gameFill(value, 'Small'));
       break;
 
     case 94:
       value = Math.pow(1.1, Number(holesObject?.extraCalculations?.[7]));
-      formattedDescription = formattedDescription.replace('{', notateNumber(value, 'Small'));
+      formattedDescription = formattedDescription.replace('{', gameFill(value, 'Small'));
       break;
 
     case 82:
@@ -472,7 +462,7 @@ export const getEngineerTotalBonus = (upgrade: any, holesObject: any, index: any
     case 84:
       const paramIndex = index === 82 ? 20 : index === 83 ? 40 : 100;
       value = getSchematicBonus({ holesObject, t: index, i: paramIndex });
-      formattedDescription = formattedDescription.replace('{', notateNumber(value, 'Small'));
+      formattedDescription = formattedDescription.replace('{', gameFill(value, 'Small'));
       break;
 
     default:
@@ -496,9 +486,9 @@ export const getCosSchematic = (holesObject: any) => {
 }
 export const getCosmoBonus = ({ majik, t, i }: any) => {
   return 2 === t && 1 === i
-    ? Math.floor(Math.max(1, Math.pow(3, (majik?.[i]))))
+    ? Math.floor(Math.max(1, Math.pow(3, (majik?.[i] ?? 0))))
     : Math.floor((cosmoUpgrades?.[t]?.[i]?.x0)
-      * (majik?.[i]))
+      * (majik?.[i] ?? 0))
 }
 const getMeasurementBaseBonus = ({ holesObject, t }: any) => {
   const info = holesInfo[55];
@@ -763,7 +753,8 @@ const getStudies = (holesObject: any, villagerLevel: any, account: any) => {
   const locations = ['Shallow Caverns', 'Glowshroom Tunnels', 'Underground Overgrowth', 'Sentinel Caverns']
   const peripheralVision = !!isSuperbitUnlocked(account, 'Peripheral_Vision');
   const names = holesInfo?.[68];
-  const activeStudy = holesObject?.extraCalculations?.[61];
+  // game: a study only runs once Bolaia has a level (1 <= Holes[1][4]); before that the save's 0 names no study
+  const activeStudy = villagerLevel >= 1 ? holesObject?.extraCalculations?.[61] : null;
   const studies = holesInfo?.[69]?.map((description: any, index: any) => {
     const listIndex = Math.floor(index / 5);
     const bonus = getStudyBonus(holesObject, index, 0);

@@ -1,7 +1,7 @@
-// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1.
+// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 13f73ae61cc77989be4fd044ca6c2e923de87bb0.
 // Copyright (C) Morta1 and IdleOn Toolbox contributors. GPL-3.0-only; see vendor/LICENSE.
 // Copied unmodified by IdleOn Forge's scripts/sync.sh; UI-coupled imports are redirected to shims/ at build time.
-import { tryToParse } from '@utility/helpers';
+
 import { atomsInfo } from '@website-data';
 import { getBubbleBonus } from '@parsers/world-2/alchemy';
 import { isSuperbitUnlocked, getPaletteBonus } from '@parsers/world-5/gaming';
@@ -14,10 +14,12 @@ import { getJellyBonus } from '@parsers/world-7/jellyOperator';
 import { getMineheadBonusQTY } from '@parsers/world-7/minehead';
 import { getMenagerieBoost, isMenagerieUnlockOwned } from '@parsers/world-7/menagerie';
 import type { IdleonData, Account } from '../types';
+import { saveField } from '@parsers/saveField';
+import { OPT } from '@parsers/accountOptions';
 
 export const getAtoms = (idleonData: IdleonData, account: Account) => {
-  const atomsRaw = tryToParse(idleonData?.Atoms) || idleonData?.Atoms
-  const divinityRaw = tryToParse(idleonData?.Divinity) || idleonData?.Divinity;
+  const atomsRaw = saveField(idleonData, 'Atoms') || idleonData?.Atoms
+  const divinityRaw = saveField(idleonData, 'Divinity') || idleonData?.Divinity;
   return parseAtoms(divinityRaw, atomsRaw, account);
 }
 
@@ -38,7 +40,7 @@ const UNFLOORED_ATOM_COST = 1e6;
 const calcAtomBonus = (index: number, level: number, account: Account) => {
   const baseBonus = level * (atomsInfo?.[index]?.baseBonus ?? 0);
   if (index === HYDROGEN_INDEX) {
-    return Math.min(MAX_STAMP_REDUCTION, baseBonus * Number(account?.accountOptions?.[134] ?? 0));
+    return Math.min(MAX_STAMP_REDUCTION, baseBonus * Number(account?.accountOptions?.[OPT.hydrogenDays] ?? 0));
   }
   if (index === CARBON_INDEX) {
     return WIZARD_DAMAGE_PER_OVER_LEVEL * (account?.towers?.wizardOverLevels ?? 0);

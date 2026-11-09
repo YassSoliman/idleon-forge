@@ -1,4 +1,4 @@
-// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1.
+// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 13f73ae61cc77989be4fd044ca6c2e923de87bb0.
 // Copyright (C) Morta1 and IdleOn Toolbox contributors. GPL-3.0-only; see vendor/LICENSE.
 // Copied unmodified by IdleOn Forge's scripts/sync.sh; UI-coupled imports are redirected to shims/ at build time.
 import { tryToParse } from '@utility/helpers';
@@ -13,6 +13,7 @@ import { getTalentBonus } from '@parsers/talents';
 import { getVialsBonusByEffect } from '@parsers/world-2/alchemy';
 import { getVoteBonus } from '@parsers/world-2/voteBallot';
 import { getLegendTalentBonus } from '@parsers/world-7/legendTalents';
+import { saveField } from '@parsers/saveField';
 
 const startingIndex = 18;
 const MAPS_PER_WORLD = 50;
@@ -22,7 +23,7 @@ export const isLiveShrineEntry = (entry: any): boolean => entry?.shrineName !== 
 
 export const getShrines = (idleonData: any, account: any) => {
   const shrinesRaw = idleonData?.ShrineInfo || tryToParse(idleonData?.Shrine);
-  const towersRaw = idleonData?.TowerInfo || tryToParse(idleonData?.Tower);
+  const towersRaw = idleonData?.TowerInfo || saveField(idleonData, 'Tower');
   return parseShrines(shrinesRaw, towersRaw, account);
 }
 

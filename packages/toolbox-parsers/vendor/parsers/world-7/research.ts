@@ -1,7 +1,7 @@
-// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1.
+// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 13f73ae61cc77989be4fd044ca6c2e923de87bb0.
 // Copyright (C) Morta1 and IdleOn Toolbox contributors. GPL-3.0-only; see vendor/LICENSE.
 // Copied unmodified by IdleOn Forge's scripts/sync.sh; UI-coupled imports are redirected to shims/ at build time.
-import { commaNotation, notateNumber, tryToParse } from '@utility/helpers';
+import { gameFill, notateNumber } from '@utility/helpers';
 import {
   mapEnemiesArray,
   mapNames,
@@ -15,7 +15,7 @@ import { getZenithBonus } from '@parsers/world-1/statues';
 import { getSlabBonus, isArtifactAcquired } from '@parsers/world-5/sailing';
 import { getDancingCoralBonus } from '@parsers/world-7/coralReef';
 import { getMealsBonusByEffectOrStat } from '@parsers/world-4/cooking';
-import { getLoggedInSkillLevel, isCompanionBonusActive, isCompanionLvl2Active, getEventShopBonus, isBundlePurchased } from '@parsers/misc';
+import { getLoggedInSkillLevel, isCompanionBonusActive, isCompanionLvl2Active, getEventShopBonus, isBundlePurchased, isMasteryBonusUnlocked } from '@parsers/misc';
 import { calcCardBonus, getCardBonusByEffect, getCardLevel } from '@parsers/cards';
 import { getGambitBonus } from '@parsers/world-5/caverns/gambit';
 import { getMineheadBonusQTY, getMineheadGlimboTotalTrades } from '@parsers/world-7/minehead';
@@ -35,13 +35,20 @@ import { getArcadeBonus } from '@parsers/world-2/arcade';
 import { NUMBERED_GROUP, additiveGroup, createBreakdown, multiplier, percent } from '@parsers/breakdown';
 import { isKingDootActive } from '@parsers/world-5/divinity';
 import { getBestActiveCharacter } from '@parsers/talents';
+import { getStatsFromGear } from '@parsers/items';
 import { getPetArenaCrucBonus } from '@parsers/world-4/breeding';
 import { getClamWorkBonus } from '@parsers/world-7/clamWork';
 import { getMenagerieBoost } from '@parsers/world-7/menagerie';
+import { saveField } from '@parsers/saveField';
+import { OPT } from '@parsers/accountOptions';
 
 // Save key for Research: game may use idleonData.Research or similar
+// RiftStuff("RiftSkillBonus,19", tier): research is rift skill 19, its rank from the account's summed Research LV
+const getResearchMastery = (account: any, tier: number) =>
+  isMasteryBonusUnlocked(account?.rift, account?.totalSkillsLevels?.research?.rank, tier);
+
 const getRawResearch = (idleonData: any) => {
-  const raw = tryToParse(idleonData?.Research) || idleonData?.Research;
+  const raw = saveField(idleonData, 'Research') || idleonData?.Research;
   return Array.isArray(raw) ? raw : [];
 };
 
@@ -114,7 +121,8 @@ export const getResearch = (idleonData: any, account: any, characters: any, serv
   const banKBundle = isBundlePurchased(account, 'ban_k') ? 1 : 0;
   // game: "ResearchStuff:Grid_PTSearned"
   const gridPTSearned = Math.floor(
-    researchLevel + (10 * companion153 + companion153Lvl2Bonus + Math.floor(researchLevel / 10) * Math.round(1 + (Math.min(1, Math.floor(researchLevel / 60)) + gridBonus50Lv)) + getSushiBonus(account, 3) + getSushiBonus(account, 13) + Math.min(10, Math.round(fangAcquired)) + meritBonus + getJellyBonus(account, 4) + getJellyBonus(account, 57) + 5 * banKBundle)
+    researchLevel + (10 * companion153 + companion153Lvl2Bonus + Math.floor(researchLevel / 10) * Math.round(1 + (Math.min(1, Math.floor(researchLevel / 60)) + gridBonus50Lv)) + getSushiBonus(account, 3) + getSushiBonus(account, 13) + Math.min(10, Math.round(fangAcquired)) + meritBonus + getJellyBonus(account, 4) + getJellyBonus(account, 57) + 5 * banKBundle + getEventShopBonus(account, 64)
+      + getResearchMastery(account, 2) + getResearchMastery(account, 4))
   );
   const gridPTSavailable = Math.round(gridPTSearned - gridPTSpent);
 
@@ -175,7 +183,7 @@ export const getResearch = (idleonData: any, account: any, characters: any, serv
     };
   });
 
-  const { value: researchEXPmulti, breakdown: researchEXPmultiBreakdown } = getResearchEXPmulti(account, research);
+  const { value: researchEXPmulti, breakdown: researchEXPmultiBreakdown } = getResearchEXPmulti(account, research, characters);
   let researchEXPrateTOT = 0;
   for (let obsIndex = 0; obsIndex < occurrencesToBeFound; obsIndex++) {
     researchEXPrateTOT += getResearchEXPrateObj(account, research, obsIndex);
@@ -308,8 +316,11 @@ export const getResearch = (idleonData: any, account: any, characters: any, serv
     observations,
     occurrencesToBeFound,
     totalOccurrencesFound,
-    maxRoll: Math.floor(100 + gridBonus51Lv + getSushiBonus(account, 30) + getJellyBonus(account, 12)),
-    minRoll: Math.floor(1 + Math.min((optionsListAccount?.[514] ?? 0) * getResearchGridBonusInternal(account, research, 31, 1), getResearchGridBonusInternal(account, research, 31, 2))),
+    // game: "ResearchStuff:MaxRoll"
+    maxRoll: Math.floor(100 + gridBonus51Lv + getSushiBonus(account, 30) + getJellyBonus(account, 12) + getResearchMastery(account, 6)),
+    // game: "ResearchStuff:MinRoll"
+    minRoll: Math.floor(1 + Math.min((optionsListAccount?.[514] ?? 0) * getResearchGridBonusInternal(account, research, 31, 1), getResearchGridBonusInternal(account, research, 31, 2))
+      + getResearchMastery(account, 1)),
     rollsPerDay: Math.round(3 + gridBonus90Lv + 3 * (getEventShopBonus(account, 35) ? 1 : 0) + getSushiBonus(account, 2)),
     dailyRollsLeft,
     canLevelUpObservations: gridBonus91Lv >= 1 ? 1 : 0,
@@ -339,7 +350,7 @@ export const getResearch = (idleonData: any, account: any, characters: any, serv
     gridPTSavailable,
     shapesOwned,
     canRotateShapes: researchLevel >= 90 ? 1 : 0,
-    postyNotesOwned: Math.min(14, Math.floor(researchLevel / 10)),
+    postyNotesOwned: Math.min(researchData?.[6]?.length ?? 0, Math.floor(researchLevel / 10)),
     postyNotes: (researchData?.[6] ?? []).map((desc: string, index: number) => ({
       index,
       description: desc,
@@ -430,7 +441,7 @@ function getResearchGridBonusInternal(account: any, research: any, gridIndex: an
       return getResearchGridBonusInternal(account, research, gridIndex, 0) * (research?.totalOccurrencesFound ?? 0);
     }
     if (gridIndex === 151) {
-      return research?.optionsListAccount?.[500] ?? 0;
+      return research?.optionsListAccount?.[OPT.researchSpelunkingPow] ?? 0;
     }
     if (gridIndex === 168) {
       return getResearchGridBonusInternal(account, research, gridIndex, 0) * Math.floor(getMineheadGlimboTotalTrades(account) / 100);
@@ -459,12 +470,12 @@ export function getResearchGridSquareDescription(account: any, research: any, gr
   const bonus0 = Math.round(100 * getResearchGridBonusInternal(account, research, gridIndex, 0)) / 100;
   const bonus2 = getResearchGridBonusInternal(account, research, gridIndex, 2);
   const level = Math.round(getResearchGridBonusInternal(account, research, gridIndex, 1));
-  const opt499 = research?.optionsListAccount?.[499] ?? 0;
+  const opt499 = research?.optionsListAccount?.[OPT.researchMasterclassCostReduction] ?? 0;
 
-  const bonus0Str = bonus0 > 100 ? commaNotation(bonus0) : notateNumber(bonus0, 'Small');
-  const mult0Str = (notateNumber(1 + bonus0 / 100, 'MultiplierInfo') as string).replace(/#/g, '');
-  const bonus2Str = commaNotation(bonus2);
-  const mult2Str = (notateNumber(1 + bonus2 / 100, 'MultiplierInfo') as string).replace(/#/g, '');
+  const bonus0Str = bonus0 > 100 ? gameFill(bonus0, 'Comma') : gameFill(bonus0, 'Small');
+  const mult0Str = gameFill(1 + bonus0 / 100, 'MultiplierInfo');
+  const bonus2Str = gameFill(bonus2, 'Comma');
+  const mult2Str = gameFill(1 + bonus2 / 100, 'MultiplierInfo');
   const opt499Str = Math.floor(10000 * (1 - 1 / (1 + opt499 / 100))) / 100;
   const levelStr = level;
 
@@ -476,6 +487,12 @@ export function getResearchGridSquareDescription(account: any, research: any, gr
   result = replacePlaceholder(result, '^', mult2Str);
   result = replacePlaceholder(result, '&', opt499Str);
   result = replacePlaceholder(result, '|', levelStr);
+  // Divine Design opens on a sentence of its own, by King Doot (N.js:121917). The game prints two periods after one of them.
+  if (gridIndex === 173) {
+    result = replacePlaceholder(result, '<.', research?.kingDootActive
+      ? 'Arctis_nods_in_approval..._all_Research_Grid_bonuses_are_1.05x_higher.'
+      : 'You_are_now_permanently_linked_to_Arctis_on_all_characters.');
+  }
   return result;
 }
 
@@ -623,7 +640,7 @@ function getResearchGridCanWeUseButton(researchLevel: any, shapesOwned: any, but
 const RESEARCH_XP_ARCADE_BONUS = 63;
 
 // game: "ResearchStuff:ResearchEXPmulti"
-function getResearchEXPmulti(account: any, research: any) {
+function getResearchEXPmulti(account: any, research: any, characters: any) {
   const mealResearchXP = getMealsBonusByEffectOrStat(account, null, 'ResearchXP') ?? 0;
   const dancingCoral = getDancingCoralBonus(account, 4, 0) ?? 0;
   // game: FarmingStuffs("StickerBonus", 1, 99) in the sum and ("StickerBonus", 1, 100) as its own multiplier:
@@ -652,6 +669,8 @@ function getResearchEXPmulti(account: any, research: any) {
   const arcade63 = getArcadeBonus(account?.arcade?.shop, RESEARCH_XP_ARCADE_BONUS)?.bonus ?? 0;
   // game: 25 * Breeding("PetArenaCrucBonus", "0", 2, 0) + 35 * Breeding("PetArenaCrucBonus", "0", 8, 0)
   const crucibleBonus = 25 * getPetArenaCrucBonus(account, 2) + 35 * getPetArenaCrucBonus(account, 8);
+  const masteryBonus = 10 * getResearchMastery(account, 0) + 15 * getResearchMastery(account, 3);
+  const masteryFactor = 1 + (10 * getResearchMastery(account, 5)) / 100;
   const clamWork9Factor = 1 + 0.25 * getClamWorkBonus(account, 9);
   const menagerieBoost3 = getMenagerieBoost(account, 3);
   const grid70 = getResearchGridBonusInternal(account, research, 70, 0);
@@ -659,7 +678,11 @@ function getResearchEXPmulti(account: any, research: any) {
   const grid51 = getResearchGridBonusInternal(account, research, 51, 0);
   const grid94_2 = getResearchGridBonusInternal(account, research, 94, 2);
   const prehistoricSetBonus = Math.min(50, getArmorSetBonus(account, 'PREHISTORIC_SET'));
-  const killroyResearchBonus = 1 + getKillRoyShopBonus(account, 5) / 100;
+  // Since 2.3.550 the Killroy bonus is a multiplier of its own, no longer read as a percent
+  const killroyResearchBonus = Math.max(1, getKillRoyShopBonus(account, 5));
+  // game: EtcBonuses("108"), %_RESEARCH_EXP (Spooky Scary Nametag): the logged-in character's gear and gallery
+  const nametagResearchExp = getStatsFromGear(getBestActiveCharacter(characters), 108, account)?.value ?? 0;
+  const nametagFactor = Math.max(1, Math.min(15, 1 + nametagResearchExp / 100));
   const companion52 = isCompanionBonusActive(account, 52) ? (account?.companions?.list?.at(52)?.bonus ?? 0) : 0;
 
   const additive =
@@ -681,15 +704,16 @@ function getResearchEXPmulti(account: any, research: any) {
     grid94_2 +
     prehistoricSetBonus +
     spelunkingShopUpg63 +
-    crucibleBonus;
+    crucibleBonus +
+    masteryBonus;
 
   const additiveFactor = 1 + additive / 100;
   const grid70Factor = 1 + grid70 / 100;
   const companion153 = isCompanionBonusActive(account, 153) ? (account?.companions?.list?.at(153)?.bonus ?? 0) : 0;
   // Pet Mart+: Rift_Stalker (153) upgraded adds +1 (CompLV2 flag) into its own factor; Neonscale (54)
-  // upgraded contributes a brand new 1.15x factor (1 + 0.15 * CompLV2 flag).
+  // upgraded contributes a brand new 1.5x factor (1 + 0.5 * CompLV2 flag, 0.15 before 2.3.550).
   const companion153Lvl2Bonus = isCompanionLvl2Active(account, 153) ? 1 : 0;
-  const companion54Lvl2Factor = 1 + 0.15 * (isCompanionLvl2Active(account, 54) ? 1 : 0);
+  const companion54Lvl2Factor = 1 + 0.5 * (isCompanionLvl2Active(account, 54) ? 1 : 0);
   const companionFactor = Math.max(1, (1 + companion52) * (1 + companion153 + companion153Lvl2Bonus) * companion54Lvl2Factor);
   const nonstopStudies = getEquinoxBonus(account?.equinox?.upgrades, 'Nonstop_Studies');
   const nonstopFactor = 1 + nonstopStudies / 100;
@@ -698,7 +722,7 @@ function getResearchEXPmulti(account: any, research: any) {
   const cglunkoFactor = 1 + getCglunkoBonus(account, 11) / 100; // Researchy (Crystal Glunko Cove)
   const outpostRogFactor = Math.max(1, getOutpostRogBonus(account, 1));
   const jellyFactor = [0, 23, 46, 54].reduce((product, index) => product * (1 + getJellyBonus(account, index) / 100), 1);
-  const value = additiveFactor * grid70Factor * (1 + stickerMultiBonus / 100) * clamWork9Factor * nonstopFactor
+  const value = additiveFactor * grid70Factor * nametagFactor * (1 + stickerMultiBonus / 100) * masteryFactor * clamWork9Factor * nonstopFactor
     * companionFactor * (1 + getSushiBonus(account, 0) / 100) * (1 + getButtonBonus(account, 0) / 100)
     * (1 + arcade63 / 100) * killroyResearchBonus * greenWaterFactor * cglunkoFactor * jellyFactor
     * (1 + menagerieBoost3 / 100) * outpostRogFactor;
@@ -718,15 +742,18 @@ function getResearchEXPmulti(account: any, research: any) {
       percent('Slab', slab),
       percent('Tome', tomeLoreEpi),
       percent('Card', cardBonus),
-      percent('Grid 31', grid31),
+      percent('Smart Eye', grid31),
       percent('Sharp Eye', grid51),
-      percent('Obs Levels (Grid 94)', grid94_2),
+      percent('Game Design 102', grid94_2),
       percent('Prehistoric Set', prehistoricSetBonus),
       percent('Spelunking Shop', spelunkingShopUpg63),
-      percent('Crucible', crucibleBonus)
+      percent('Crucible', crucibleBonus),
+      percent('Skill Mastery', masteryBonus)
     ]),
     multiplier('Takin\' Notes', grid70Factor),
+    multiplier('Spooky Scary Nametag', nametagFactor),
     multiplier('Sticker', 1 + stickerMultiBonus / 100),
+    multiplier('Skill Mastery', masteryFactor),
     multiplier('Clam Work', clamWork9Factor),
     multiplier('Nonstop Studies', nonstopFactor),
     multiplier('Companions', companionFactor),

@@ -1,13 +1,14 @@
-// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1.
+// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 13f73ae61cc77989be4fd044ca6c2e923de87bb0.
 // Copyright (C) Morta1 and IdleOn Toolbox contributors. GPL-3.0-only; see vendor/LICENSE.
 // Copied unmodified by IdleOn Forge's scripts/sync.sh; UI-coupled imports are redirected to shims/ at build time.
 import { emperorBonuses, gameTables } from '@website-data';
-import { commaNotation, notateNumber } from '@utility/helpers';
+import { gameFill } from '@utility/helpers';
 import { isJadeBonusUnlocked } from '@parsers/world-6/sneaking';
 import { getTesseractBonus } from '@parsers/class-specific/tesseract';
 import { getArcadeBonus } from '@parsers/world-2/arcade';
 import { getJellyBonus } from '@parsers/world-7/jellyOperator';
 import { createBreakdown, percent } from '@parsers/breakdown';
+import { OPT } from '@parsers/accountOptions';
 
 
 const icons = {
@@ -27,13 +28,14 @@ const icons = {
 
 // game: "EmperorBon" - every bonus's total; getEmperorBonus reads them back.
 export const getEmperor = (idleonData: any, account: any) => {
-  const highestEmperorShowdown = account?.accountOptions?.[369] ?? 0;
+  const highestEmperorShowdown = account?.accountOptions?.[OPT.emperorHighestShowdown] ?? 0;
   const cycle = Math.floor(highestEmperorShowdown / 48);
   let bonuses: any[] = emperorBonuses.filter(
     (val, idx, self) =>
       self.findIndex(t => t.name === val.name && t.index === val.index) === idx
   );
-  const totalBonuses: Record<string, any> = emperorBonuses.reduce((result: Record<string, any>, bonus, index) => {
+  // weight per unlock: the bonus value gives the totals, 1 gives how many times each bonus was unlocked
+  const sumUnlocked = (weight: (bonus: any) => number) => emperorBonuses.reduce((result: Record<string, any>, bonus, index) => {
     const key = `${bonus.name}|${bonus.index}`;
     if (!result[key]) {
       result[key] = 0;
@@ -41,22 +43,24 @@ export const getEmperor = (idleonData: any, account: any) => {
     if (index < highestEmperorShowdown) {
       const cycles = Math.floor(highestEmperorShowdown / 48);
       const effectiveIndex = highestEmperorShowdown % 48;
-      result[key] += (bonus?.value ?? 0) * cycles;
+      result[key] += weight(bonus) * cycles;
       if (index < effectiveIndex) {
-        result[key] += bonus?.value ?? 0;
+        result[key] += weight(bonus);
       }
       return result;
     } else {
       return result;
     }
   }, {} as Record<string, any>);
+  const totalBonuses = sumUnlocked((bonus) => bonus?.value ?? 0);
+  const unlockCounts = sumUnlocked(() => 1);
   const tesseractBonus = getTesseractBonus(account, 48) ?? 0;
   const arcadeBonus = getArcadeBonus(account?.arcade?.shop, 'Emperor_Bonuses')?.bonus ?? 0;
   const jellyBonus = getJellyBonus(account, 28);
   const multiTotal = 1 + (tesseractBonus + arcadeBonus + jellyBonus) / 100;
   const formatBonusName = (name: string, total: number) => name
-    .replace('{', '' + commaNotation(total))
-    .replace('}', '' + notateNumber(1 + total / 100, 'MultiplierInfo'))
+    .replace('{', gameFill(total, 'Comma'))
+    .replace('}', gameFill(1 + total / 100, 'MultiplierInfo'))
     .replace('$', '' + Math.floor((total + 4) / (total + 100) * 1000) / 10);
   bonuses = bonuses.map((rawBonus) => {
     const baseTotal = totalBonuses[`${rawBonus.name}|${rawBonus.index}`] ?? 0;
@@ -68,7 +72,10 @@ export const getEmperor = (idleonData: any, account: any) => {
       bonus,
       baseBonus,
       totalBonus: realTotal,
+      // showdown levels that unlocked this bonus (the page's "Per level" steps)
+      levels: unlockCounts[`${rawBonus.name}|${rawBonus.index}`] ?? 0,
       rawIndex: rawBonus.index,
+      rawName: rawBonus.name,
       icon: (icons as Record<number, string>)[rawBonus.index],
       value,
       indexes: getNextIndexes(rawBonus, cycle)
@@ -90,25 +97,33 @@ export const getEmperor = (idleonData: any, account: any) => {
     };
   });
   const jadeEmporiumBonus = isJadeBonusUnlocked(account, 'Emperor_Season_Pass') ? 1 : 0;
-  const dailyAttemptsOption = account?.accountOptions?.[382] ?? 0;
-  const attemptsUsed = account?.accountOptions?.[370] ?? 0;
-  const maxAttempts = Math.round(5 * jadeEmporiumBonus + 6 * dailyAttemptsOption + 5) + 1
+  const dailyAttemptsOption = account?.accountOptions?.[OPT.emperorExtraDailyTries] ?? 0;
+  const attemptsUsed = account?.accountOptions?.[OPT.emperorAttemptsUsed] ?? 0;
+  // game: "Thingies:MaxEmperorAttemptStack"; the panel prints it + 1 as the cap
+  const maxStack = Math.round(5 * jadeEmporiumBonus + 6 * dailyAttemptsOption + 5);
+  const maxAttempts = maxStack + 1
+  const dailyAttempts = Math.round(1 + dailyAttemptsOption);
+  // The daily refill is skipped whole when attempts + daily would pass maxStack (the printed cap is
+  // never reached), and the Jade 50% +1 roll needs one more free slot. This is the first count where
+  // the next refill loses something.
+  const noWasteAttempts = maxStack - dailyAttempts - jadeEmporiumBonus + 1;
   return {
     highestEmperorShowdown,
     bossHp: Array.from({ length: 6 }, (_, index) => getBossHp(highestEmperorShowdown + index)),
     bonuses,
     bonusMulti,
     upcomingBonuses,
-    dailyAttempts: Math.round(1 + dailyAttemptsOption),
+    dailyAttempts,
     attempts: Math.round(-1 * (attemptsUsed - 1)),
-    maxAttempts
+    maxAttempts,
+    noWasteAttempts
   }
 }
 
 const UPCOMING_BONUSES = 10;
 
 const formatPerLevelBonus = (name: string, value: number) => name
-  .replace('{', '' + commaNotation(value))
+  .replace('{', gameFill(value, 'Comma'))
   .replace('}', '' + value / 100)
   .replace('$', '' + Math.floor((value + 4) / (value + 100) * 1000) / 10);
 
