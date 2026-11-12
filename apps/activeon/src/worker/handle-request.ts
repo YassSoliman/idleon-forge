@@ -43,6 +43,7 @@ import { createM20Modules } from '@idleon-forge/engine/slots';
 import { createSpendModule } from '@idleon-forge/engine/spend';
 import { createStarSignsModule } from '@idleon-forge/engine/starsigns';
 import { createUnspentModule } from '@idleon-forge/engine/unspent';
+import { createLadderGoalsModule } from '@idleon-forge/engine/w1';
 import { createWalkthroughModule } from '@idleon-forge/engine/walkthrough';
 import { createWorld4Module } from '@idleon-forge/engine/world4';
 import {
@@ -187,6 +188,12 @@ export function workerModules(kb: CompiledKnowledge | null = shippedKnowledge().
         const stage = detectStage(state, facts);
         return stage.id ? { id: stage.id } : null;
       },
+    }),
+    // M26 Wave 4: the World 1 core Systems' ladder Goals.
+    createLadderGoalsModule({
+      kb,
+      registry: knowledgeDetectors,
+      stage: (state) => detectStage(state, facts),
     }),
     createBuildsModule({ kb }),
     createCollectionsModule({ kb, registry: engineDetectors }),

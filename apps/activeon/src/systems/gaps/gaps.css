@@ -1,0 +1,46 @@
+/* SPDX-License-Identifier: GPL-3.0-only */
+/* M26 Wave 2, the W2/W3 gaps' pages. */
+
+/* The Forge: a 4x4 slot grid (2 across on a phone). */
+.gp-forge {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 8px;
+}
+@media (max-width: 599px) {
+  .gp-forge {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+.gp-slot {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-height: 136px;
+}
+.gp-slot__hole {
+  width: 32px;
+  height: 32px;
+  background: var(--line);
+  opacity: 0.5;
+}
+.gp-slot__foot {
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: auto;
+}
+.gp-slot--locked {
+  min-height: 0;
+  grid-column: 1 / -1;
+  justify-content: center;
+}
+
+/* The Task Board: one tile per world board, two across from 1000 px. */
+.gp-boards {
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 420px), 1fr));
+}
+.gp-task__n {
+  flex: none;
+  min-width: 96px;
+  text-align: right;
+}

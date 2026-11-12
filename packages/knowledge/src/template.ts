@@ -11,6 +11,7 @@ import type { SlotValue } from './types';
 export const FORMATS = [
   'int',
   'compact',
+  'big',
   'pct',
   'coins',
   'duration',
@@ -25,6 +26,7 @@ export type Format = (typeof FORMATS)[number];
 export const FORMAT_TYPE: Readonly<Record<Format, 'number' | 'string'>> = {
   int: 'number',
   compact: 'number',
+  big: 'number',
   pct: 'number',
   coins: 'number',
   duration: 'number',
@@ -101,6 +103,17 @@ export function formatCompact(n: number): string {
     }
   }
   return `${sign}${Math.floor(a)}`;
+}
+
+/**
+ * A game number that can run past a quadrillion (Orion's feathers): `compact` up to 1e15, then
+ * "5.6e28" (one decimal, floored, as the game shows it).
+ */
+export function formatBig(n: number): string {
+  const a = Math.abs(n);
+  if (a < 1e15) return formatCompact(n);
+  const exp = Math.floor(Math.log10(a));
+  return `${Math.floor((n / 10 ** exp) * 10) / 10}e${exp}`;
 }
 
 /** A percentage given 0..100 -> "12%". */
@@ -254,6 +267,8 @@ export function formatValue(value: SlotValue, format: Format | null): string {
       return formatInt(value);
     case 'compact':
       return formatCompact(value);
+    case 'big':
+      return formatBig(value);
     case 'pct':
       return formatPct(value);
     case 'coins':

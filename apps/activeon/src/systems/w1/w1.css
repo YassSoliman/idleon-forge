@@ -1,0 +1,11 @@
+/* SPDX-License-Identifier: GPL-3.0-only */
+/* Copyright (C) 2026 IdleOn Forge contributors. */
+/* M26 Wave 4: the World 1 core pages (Owl, Bribes, Statues, Post Office, Boss keys, Beginner line), on top of
+   the w23 kit's classes. */
+
+.w1-later {
+  opacity: 0.72;
+}
+.w1-done {
+  background: var(--ok-soft);
+}

@@ -17,6 +17,8 @@ step-words:
   "stamps.check.activeplay-snouts-3#text": "If you have time item: the prayer and the mob are the task"
   "star-signs.check.activeplay-challenge#values.line": "If you have time item: M16 FR-13 says which character to try and why (highest level not yet done)"
   "star-signs.check.activeplay-challenge#values.line-one": "If you have time item: M16 FR-13 says which character to try and why (highest level not yet done)"
+  # M26 US-53: Orion's place and the game's own popup name are the whole first step (the spec's string).
+  "owl.check.start#text": "Where Orion is and the HOOT popups to follow are the task; the payoff is in the why"
   # Summary and detail lines, not steps.
   "stamps.goal.collect#text": "The Stamps Goal's count summary (five counts), not an instruction"
   "killroy.check.skulls#values.packs": "A detail line under the skulls row: the pack price and how many are left this week"

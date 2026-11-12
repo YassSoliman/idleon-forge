@@ -56,6 +56,7 @@ export default defineGenerator({
     'website-data/shared-data.json#labBonuses',
     'website-data/shared-data.json#jewels',
     'website-data/cauldrons.json',
+    'website-data/tasks.json',
   ],
   run({ data }) {
     const promotions = data.classPromotions as Record<string, ClassPromotion>;
@@ -116,6 +117,8 @@ export default defineGenerator({
         ...(data.labBonuses as { name?: string }[]).map((b) => b.name ?? ''),
         ...(data.jewels as { name?: string }[]).map((j) => j.name ?? ''),
       ]),
+      // M26 Wave 2: Task Board task names, for the claim Check's task slot (FR-26, FR-27).
+      tasks: sorted((data.tasks as { name?: string }[][]).flat().map((t) => t?.name ?? '')),
       sentinels: ['Blank', 'LockedInvSpace', 'Null'],
     };
   },

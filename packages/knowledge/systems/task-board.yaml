@@ -28,3 +28,28 @@ entries:
     effortSeconds: 120
     detector: { id: checklist/rows, params: { row: daily-tasks } }
     notes: "Row only."
+  # M26 FR-26 (Wave 2): tiers met but not claimed, on the open boards of Worlds 1-4. Promoted from
+  # systems/task-board.drafts.yaml. A reset-on-claim task holds at most one tier (claiming zeroes it).
+  - id: task-board.check.claim
+    system: task-board
+    type: check
+    title: Claim task tiers
+    subject: account
+    effect: next-action
+    category: spendable
+    effortSeconds: 60
+    detector: { id: task-board/claimable }
+    text: "Claim {count:int} task tiers ({merits:int} merits, {points:int} task points)"
+    values:
+      text-one: "Claim 1 task tier ({merits:int} merits, {points:int} task points)"
+      why-lead-reset: "Claim {task:name} on World {world:int} first: it starts again from 0 when claimed, so anything it counts past the goal now is lost."
+      note: "Most ready: {task:name} on the World {world:int} board."
+    why: "Task tiers pay merits and task points only when you tap them on the board. Merits buy that world's Merit Shop rows; task points buy Task Unlocks."
+    doneWhen: { field: account.taskBoard, change: changed }
+    appliesTo: { stages: all }
+    confidence: H
+    status: active
+    notes: "Dossier M1, C1-C3 (H): ready = breakpoints[level..] at or under the stat on an open board; merits 1 + floor(L/5), points floor(x + w*L). C4 reset-on-claim (tasks.json filler2)."
+    sources:
+      - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/tasks.ts#L40-L65", title: "IdleOn Toolbox getTasks: stat, level, maxLevel, requirement, meritReward per task", tier: 1, verified: 2026-10-19, gameVersion: 2.3.540 }
+      - { url: "https://idleon.wiki/wiki/Tasks", title: "IdleOn Wiki: Tasks (board unlocks, claiming tiers)", tier: 2, claimDate: 2026-10-03, verified: 2026-10-19, gameVersion: 2.3.540 }

@@ -140,6 +140,9 @@ export interface SaltState {
   rank?: number;
   /** Toolbox hasMissingMats at the salt's rank: each short input with what is needed and held. */
   missingFuel?: Array<{ rawName: string; name: string; need: number; have: number }>;
+  /** M26 FR-21b (salt.ts): held in the Storage Chest, and waiting in Refinery storage, kept apart. */
+  held?: number;
+  inRefinery?: number;
 }
 
 /** The Death Note building's build state. Its level is M2's `account.buildings.deathNote`. */
