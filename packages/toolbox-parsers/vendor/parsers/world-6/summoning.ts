@@ -1,8 +1,8 @@
-// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1.
+// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 48cb4ee697988ec5eac14ba97142add6296505b2.
 // Copyright (C) Morta1 and IdleOn Toolbox contributors. GPL-3.0-only; see vendor/LICENSE.
 // Copied unmodified by IdleOn Forge's scripts/sync.sh; UI-coupled imports are redirected to shims/ at build time.
-import { createRange, groupByKey, notateNumber, prefix, tryToParse } from '@utility/helpers';
-import { monsterImage } from '@utility/spriteImages';
+import { cleanUnderscore, createRange, gameFill, groupByKey, tryToParse } from '@utility/helpers';
+import { monsterSprite } from '@utility/spriteImages';
 import {
   deathNote,
   gameTables,
@@ -26,7 +26,7 @@ import { getJellyBonus } from '@parsers/world-7/jellyOperator';
 import { getBestActiveCharacter, getHighestTalentAcrossCharacters } from '@parsers/talents';
 import { getBubbleBonus, getVialsBonusByStat } from '@parsers/world-2/alchemy';
 import { getMealsBonusByEffectOrStat } from '@parsers/world-4/cooking';
-import { getStampsBonusByStat } from '@parsers/world-1/stamps';
+import { getStampLineName, getStampNode, getStampsBonusByStat } from '@parsers/world-1/stamps';
 import { getStatueBonus } from '@parsers/world-1/statues';
 import { getArcadeBonus } from '@parsers/world-2/arcade';
 import { getUpgradeVaultBonus } from '@parsers/misc/upgradeVault';
@@ -38,8 +38,10 @@ import { getMonumentBonus } from '@parsers/world-5/caverns/bravery';
 import { getTomeBubbleMulti } from '@parsers/world-4/tome';
 import { getTotalizerBonuses } from '@parsers/world-3/worship';
 import { getMenagerieBoost, getSumCostReduxMena } from '@parsers/world-7/menagerie';
-import { additiveGroup, createBreakdown, evaluateBreakdown, flat, multiplier, NUMBERED_GROUP, percent, productGroup } from '@parsers/breakdown';
-import type { StatBreakdown } from '@parsers/breakdown';
+import { additiveGroup, createBreakdown, evaluateBreakdown, flat, multiplier, NUMBERED_GROUP, percent, productGroup, sumGroup } from '@parsers/breakdown';
+import type { BreakdownNode, StatBreakdown } from '@parsers/breakdown';
+import { OPT } from '@parsers/accountOptions';
+import { saveField } from '@parsers/saveField';
 
 export const summonEssenceColor = {
   0: 'white',
@@ -51,6 +53,9 @@ export const summonEssenceColor = {
   6: 'cyan',
   7: 'teal'
 }
+// The colour names the summoning pages print, by colour index
+export const SUMMONING_COLOURS: Record<string, string> = Object.fromEntries(Object.entries(summonEssenceColor)
+  .map(([index, colour]) => [index, colour.charAt(0).toUpperCase() + colour.slice(1)]));
 const stoneNames = {
   0: 'aether',
   1: 'grover',
@@ -63,12 +68,12 @@ const stoneNames = {
 
 export const getSummoning = (idleonData: any, accountData: any, serializedCharactersData: any, characters: any[] = []) => {
   const rawSummon = tryToParse(idleonData?.Summon);
-  const killRoyKills = tryToParse(idleonData?.KRbest);
+  const killRoyKills = saveField(idleonData, 'KRbest');
   return parseSummoning(rawSummon, killRoyKills, accountData, serializedCharactersData, characters);
 }
 
 const parseSummoning = (rawSummon: any, killRoyKills: any, account: any, serializedCharactersData: any, characters: any[] = []) => {
-  const highestEndlessLevel = account?.accountOptions?.[319] ?? 0;
+  const highestEndlessLevel = account?.accountOptions?.[OPT.summoningHighestEndless] ?? 0;
   const upgradesLevels = rawSummon?.[0];
   const totalUpgradesLevels = upgradesLevels?.reduce((sum: any, level: any) => sum + level, 0) ?? 0;
   const summoningStuff = rawSummon?.[3];
@@ -83,12 +88,18 @@ const parseSummoning = (rawSummon: any, killRoyKills: any, account: any, seriali
     acc.multiplier *= index + 3;
     return acc;
   }, { familiarsOwned: 0, multiplier: 1 });
+  // game: SummonStuff "i", each familiar of tier t pays 10 * prod(4 + k, k < t) EXP per hour (gem familiars pay none)
+  const { familiarsExpPerHour } = (rawSummon?.[4] ?? []).reduce((acc: any, count: any, tier: any) => {
+    acc.familiarsExpPerHour += acc.multiplier * (Number(count) || 0);
+    acc.multiplier *= tier + 4;
+    return acc;
+  }, { familiarsExpPerHour: 0, multiplier: 10 });
   const careerWins: Record<number, number> = { 0: 0, 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0, 7: 0 };
   whiteBattleOrder.forEach((enemyId, index) => {
     const monsterData = getSummoningBattle(enemyId);
     if (monsterData) {
       const extraData = getBattleData(enemyId, monsterData, wonBattles);
-      allBattles[0].push({ ...monsterData, ...extraData, icon: monsterImage(whiteBattleIcons?.[index]) });
+      allBattles[0].push({ ...monsterData, ...extraData, icon: monsterSprite(whiteBattleIcons?.[index]) });
     }
   });
   // 9 === this._GenINFO[146]
@@ -132,13 +143,15 @@ const parseSummoning = (rawSummon: any, killRoyKills: any, account: any, seriali
   }
   const winnerBonuses = summoningBonuses.map(({ bonusId, bonus }, index) => {
     const rawValue = rawWinnerBonuses?.[index];
-    const calcVal = getLocalWinnerBonus(rawWinnerBonuses, account, index);
+    const tree = getWinnerBonusTree(rawWinnerBonuses, account, index);
+    const value = evaluateBreakdown(createBreakdown('', 0, tree));
 
     return {
       bonusId,
       bonus,
-      value: calcVal,
-      baseValue: rawValue
+      value,
+      baseValue: rawValue,
+      breakdown: createBreakdown('Winner bonus', value, tree)
     };
   });
 
@@ -154,14 +167,15 @@ const parseSummoning = (rawSummon: any, killRoyKills: any, account: any, seriali
     const doubled = isDoubled(index);
     const level = upgradesLevels?.[index] ?? 0;
     const stoneTrials = Number(killRoyKills?.[`SummzTrz${upgrade.colour}`]) || 0;
-    const multi = (doubled ? doubledBase + allstar / 100 : 1)
-      * (stoneTrials > 0 && Number(upgrade.filler) === 1 ? 1 + stoneTrials : 1);
+    const doubledMulti = doubled ? doubledBase + allstar / 100 : 1;
+    const multi = doubledMulti * (stoneTrials > 0 && Number(upgrade.filler) === 1 ? 1 + stoneTrials : 1);
     return {
       ...upgrade,
       originalIndex: index,
       level,
       value: level * upgrade.bonusQty * multi,
-      doubled
+      doubled,
+      doubledMulti
     }
   });
   // game: "Summoning:UpgCost". ESSENTIAL_ESSENCE scales with every upgrade level bought, Cost
@@ -189,9 +203,11 @@ const parseSummoning = (rawSummon: any, killRoyKills: any, account: any, seriali
     const { ceilBelow } = gameTables.summoningUpgradeCostDisplay;
     return { ...upgrade, totalCost: cost < ceilBelow ? Math.ceil(cost) : cost }
   });
-  upgrades = updateTotalBonuses(upgrades, careerWins, characters, highestEndlessLevel);
-  const armyHealth = getArmyHealth(upgrades, totalUpgradesLevels, account);
-  const armyDamage = getArmyDamage(upgrades, totalUpgradesLevels, account);
+  const armyHealthTree = getArmyHealthTree(upgrades, totalUpgradesLevels, highestEndlessLevel);
+  const armyDamageTree = getArmyDamageTree(upgrades, totalUpgradesLevels, highestEndlessLevel);
+  const armyHealth = evaluateBreakdown(createBreakdown('', 0, armyHealthTree));
+  const armyDamage = evaluateBreakdown(createBreakdown('', 0, armyDamageTree));
+  upgrades = updateTotalBonuses(upgrades, careerWins, characters, highestEndlessLevel, armyDamage);
   upgrades = groupByKey(upgrades, ({ colour }: any) => colour);
 
   const stoneMapsIds = {
@@ -204,11 +220,9 @@ const parseSummoning = (rawSummon: any, killRoyKills: any, account: any, seriali
     6: 264, // Emperor's Castle Doorstep
   }
 
-  const summoningStones = Object.entries(killRoyKills || {})
-    .filter(([name]) => name.includes('SummzTrz'))
-    .map(([name, kills]) => {
-      const killsNum = Number(kills) || 0;
-      const index = parseInt(name.match(/\d+$/)![0], 10);
+  const summoningStones = Object.keys(stoneNames).map(Number)
+    .map((index) => {
+      const killsNum = Number(killRoyKills?.[`SummzTrz${index}`]) || 0;
       const enemy = summoningEnemies[106 + index] as any;
       const isBoss6 = enemy?.enemyId === 'Boss6';
       const rawName = isBoss6 ? 'Boss6A' : enemy?.enemyId
@@ -221,7 +235,7 @@ const parseSummoning = (rawSummon: any, killRoyKills: any, account: any, seriali
       const mapMonsterName = monsters?.[(mapEnemiesArray as any)[(stoneMapsIds as any)[index]]]?.Name;
       return {
         name: enemy?.territoryName,
-        monsterIcon: isBoss6 ? `${prefix}data/${enemy?.enemyId}.png` : monsterImage(monsterName),
+        monsterIcon: isBoss6 ? `data/${enemy?.enemyId}.png` : monsterSprite(monsterName),
         stoneName: (stoneNames as Record<number, string>)[index],
         kills: killsNum,
         index,
@@ -230,20 +244,25 @@ const parseSummoning = (rawSummon: any, killRoyKills: any, account: any, seriali
         nextLevelHps,
         mapName: (mapNames as any)[(stoneMapsIds as any)[index]],
         mapMonsterName: mapMonsterName,
-        mapMonsterIcon: mapMonsterName ? monsterImage(mapMonsterName) : null
+        mapMonsterIcon: mapMonsterName ? monsterSprite(mapMonsterName) : null
       }
-    })
-    .toSorted((a, b) => a.index - b.index);
+    });
   const totalSummoningStonesKills = summoningStones.reduce((sum, { kills }) => sum + kills, 0);
+  // game: the Familiar upgrade's "|", ShopRestock + 86400 * Summon[3][3] seconds from the save
+  const familiarCostResetSeconds = (Number(account?.timeAway?.ShopRestock) || 0) + 86400 * (Number(summoningStuff?.[3]) || 0);
   return {
+    familiarCostResetSeconds,
     upgrades,
     winnerBonuses,
     essences,
     totalUpgradesLevels,
     familiarsOwned,
+    familiarsExpPerHour,
     allBattles,
     armyHealth,
     armyDamage,
+    armyHealthBreakdown: createBreakdown('Army health', armyHealth, armyHealthTree),
+    armyDamageBreakdown: createBreakdown('Army damage', armyDamage, armyDamageTree),
     summoningStuff,
     highestEndlessLevel,
     totalWins: allBattles?.flat()?.reduce((sum, { won }) => sum + (won ? 1 : 0), 0) + highestEndlessLevel,
@@ -265,7 +284,7 @@ export const getEndlessBattles = (battles = 100, highestEndlessLevel: any, winne
     const actualBonus = bonus?.bonus?.includes('<')
       ? (1 + bonusQty / 100)
       : (bonusQty);
-    bonus.bonus = bonus?.bonus?.replace(/[<{]/, actualBonus.toFixed(2).replace('.00', ''));
+    bonus.bonus = bonus?.bonus?.replace(/[<{]/, gameFill(actualBonus, bonus?.bonus?.includes('<') ? 'MultiplierInfo' : 'Big'));
     const riftIndex = summoningEnemies.findIndex((enemy) => enemy.enemyId.includes('rift1'));
     const monsterId = Math.round(riftIndex + Math.min(4, Math.floor(i / 20)));
     const [name, ...rest] = summoningEndless.difficultiesText?.[difficultyIndex].split('|');
@@ -275,8 +294,9 @@ export const getEndlessBattles = (battles = 100, highestEndlessLevel: any, winne
       bonus,
       bonusQty,
       difficulty: { name, sentence: rest.join('_') },
+      battle: i + 1,
       won: highestEndlessLevel > i,
-      icon: `${prefix}etc/${monster?.enemyId}_monster.png`
+      icon: `etc/${monster?.enemyId}_monster.png`
     });
   }
   return endlessBattles;
@@ -292,67 +312,41 @@ const getEndlessModifier = (endlessLevel: any, t: any, i: any): any => {
 export const getWinnerBonusWithoutLantern = (account: any, index: number) =>
   getLocalWinnerBonus(account?.summoning?.winnerBonuses?.map(({ baseValue }: any) => baseValue), account, index, true);
 
-const getLocalWinnerBonus = (rawWinnerBonuses: any, account: any, index: any, ignoreLantern = false): any => {
-  const rawValue = rawWinnerBonuses?.[index] || 0;
-  const charmBonus = getCharmBonus(account, 'Crystal_Comb');
-  const artifactBonus = ignoreLantern ? 0 : isArtifactAcquired(account?.sailing?.artifacts, 'The_Winz_Lantern')?.bonus ?? 0;
-  const gemShopBonus = account?.gemShopPurchases?.find((value: any, index: any) => index === 11) ?? 0;
-  const firstAchievement = getAchievementStatus(account?.achievements, 373);
-  const secondAchievement = getAchievementStatus(account?.achievements, 379);
-  const emperorBonus = getEmperorBonus(account, 8);
-  const armorSetBonus = getArmorSetBonus(account, 'GODSHARD_SET')
-  // game: Thingies("Have_ban_i") - the Verminous bundle adds a flat 50 to the same additive bracket.
-  const bundleBonus = isBundlePurchased(account, 'ban_i') ? 50 : 0;
-  const { bonusPerLevel, level } = account?.meritsDescriptions?.[5]?.[4] ?? {};
-  const meritLevel = level ?? 0;
-  let val;
+// Winner bonuses that read their raw sum, untouched by any multiplier
+const RAW_WINNER_BONUSES = [20, 22, 24, 31];
+const WINNER_BONUS_MULTI = 31;
+const LIBRARY_WINNER_BONUS = 19;
 
-  if (index === 20 || index === 22 || index === 24 || index === 31) {
-    val = rawValue;
-  }
-  else if (index === 19) {
-    val = 3.5 * rawValue *
-      (1 + charmBonus / 100) *
-      (1 + (10 * gemShopBonus) / 100) *
-      (1 + (artifactBonus +
-        Math.min(10, meritLevel * bonusPerLevel) +
-        firstAchievement +
-        secondAchievement +
-        armorSetBonus +
-        bundleBonus) / 100);
-  }
-  else if (index >= 20 && index <= 33) {
-    const multiCalc: any = getLocalWinnerBonus(rawWinnerBonuses, account, 31);
-    const multi: any = multiCalc === 0 ? 0 : multiCalc;
-    val = rawValue *
-      (1 + charmBonus / 100) *
-      (1 + (10 * gemShopBonus) / 100) *
-      (1 + (artifactBonus +
-        Math.min(10, meritLevel * bonusPerLevel) +
-        firstAchievement +
-        secondAchievement +
-        armorSetBonus +
-        bundleBonus +
-        emperorBonus +
-        multi) / 100);
-  }
-  else {
-    const multiCalc: any = getLocalWinnerBonus(rawWinnerBonuses, account, 31);
-    const multi: any = multiCalc === 0 ? 0 : multiCalc;
-    val = 3.5 * rawValue *
-      (1 + charmBonus / 100) *
-      (1 + (10 * gemShopBonus) / 100) *
-      (1 + (artifactBonus +
-        Math.min(10, meritLevel * bonusPerLevel) +
-        firstAchievement +
-        secondAchievement +
-        armorSetBonus +
-        bundleBonus +
-        emperorBonus +
-        multi) / 100);
-  }
-  return val;
+const getWinnerBonusTree = (rawWinnerBonuses: any, account: any, index: number, ignoreLantern = false): BreakdownNode[] => {
+  const rawValue = rawWinnerBonuses?.[index] || 0;
+  if (RAW_WINNER_BONUSES.includes(index)) return [flat('Base', rawValue)];
+  // Library Max skips the Emperor and the Winner Bonuses multiplier; the 20 to 33 bonuses skip the 3.5x base
+  const fullBracket = index !== LIBRARY_WINNER_BONUS;
+  const baseScale = index > LIBRARY_WINNER_BONUS && index <= 33 ? 1 : 3.5;
+  const { bonusPerLevel, level } = account?.meritsDescriptions?.[5]?.[4] ?? {};
+  const gemShopBonus = account?.gemShopPurchases?.[11] ?? 0;
+  return [
+    flat('Base', baseScale * rawValue),
+    multiplier('Crystal Comb (Pristine charm)', 1 + getCharmBonus(account, 'Crystal_Comb') / 100),
+    multiplier('King of All Winners (Gem shop)', 1 + (10 * gemShopBonus) / 100),
+    additiveGroup(NUMBERED_GROUP, [
+      percent('The Winz Lantern (Artifact)', ignoreLantern ? 0 : isArtifactAcquired(account?.sailing?.artifacts, 'The_Winz_Lantern')?.bonus ?? 0),
+      percent('Merit', Math.min(10, (level ?? 0) * bonusPerLevel || 0)),
+      percent('Regalis My Beloved (Achievement)', getAchievementStatus(account?.achievements, 373)),
+      percent('Spectre Stars (Achievement)', getAchievementStatus(account?.achievements, 379)),
+      percent('Godshard set', getArmorSetBonus(account, 'GODSHARD_SET')),
+      // game: Thingies("Have_ban_i"), a flat 50 in the same bracket
+      percent('Verminous (Bundle)', isBundlePurchased(account, 'ban_i') ? 50 : 0),
+      ...(fullBracket ? [
+        percent('Emperor', getEmperorBonus(account, 8)),
+        percent('Winner Bonuses (Winner bonus)', getLocalWinnerBonus(rawWinnerBonuses, account, WINNER_BONUS_MULTI))
+      ] : [])
+    ])
+  ];
 }
+
+const getLocalWinnerBonus = (rawWinnerBonuses: any, account: any, index: number, ignoreLantern = false): number =>
+  evaluateBreakdown(createBreakdown('', 0, getWinnerBonusTree(rawWinnerBonuses, account, index, ignoreLantern)));
 const getLocalSummoningBonus = (upgrades: any, index: any) => {
   return upgrades.find(({ originalIndex }: any) => originalIndex === index)?.value || 0
 }
@@ -360,60 +354,43 @@ const getStoneBossHp = ({ type, kills }: any) => {
 
   return 2 * (summoningEnemies[type] as any) * Math.pow(4000, kills);
 }
-const getArmyHealth = (upgrades: any, totalUpgradesLevels: any, account: any) => {
-  const additiveArmyHealth = [1, 10, 35, 37].reduce((sum, bonusIndex) => {
-    const hpBonus = upgrades.find(({ originalIndex }: any) => originalIndex === bonusIndex) || {};
-    return sum + hpBonus?.value
-  }, 0);
-  const firstMulti = upgrades.find(({ originalIndex }: any) => originalIndex === 20)?.value || 0;
-  const secondMulti = upgrades.find(({ originalIndex }: any) => originalIndex === 50)?.value || 0;
-  const moreAdditive = upgrades.find(({ originalIndex }: any) => originalIndex === 59)?.value || 0;
-  const thirdMulti = upgrades.find(({ originalIndex }: any) => originalIndex === 61)?.value || 0;
-  const endlessMulti = upgrades.find(({ originalIndex }: any) => originalIndex === 63)?.value || 0;
-
-  const highestEndlessLevel = account?.accountOptions?.[319] ?? 0;
-  return 1 * (1 + additiveArmyHealth)
-    * (1 + firstMulti / 100)
-    * (1 + (secondMulti
-      + (moreAdditive
-        + endlessMulti
-        * highestEndlessLevel)) / 100)
-    * (1 + (thirdMulti
-      * Math.max(0, Math.floor(totalUpgradesLevels / 100))) / 100);
-
+// game: Summoning("UnitHP", -1)
+const getArmyHealthTree = (upgrades: any, totalUpgradesLevels: number, highestEndlessLevel: number): BreakdownNode[] => {
+  const bonus = (index: number) => getLocalSummoningBonus(upgrades, index);
+  return [
+    sumGroup(NUMBERED_GROUP, [flat('Base', 1), ...[1, 10, 35, 37].map((index) => flat(upgradeName(index), bonus(index)))]),
+    additiveGroup(NUMBERED_GROUP, [20, 81].map((index) => percent(upgradeName(index), bonus(index)))),
+    additiveGroup(NUMBERED_GROUP, [
+      percent(upgradeName(50), bonus(50)),
+      percent(upgradeName(59), bonus(59)),
+      percent(upgradeName(63), bonus(63) * highestEndlessLevel)
+    ]),
+    multiplier(upgradeName(61), 1 + bonus(61) * Math.max(0, Math.floor(totalUpgradesLevels / 100)) / 100)
+  ];
 }
-const getArmyDamage = (upgrades: any, totalUpgradesLevels: any, account: any) => {
-  const additiveArmyDamage = [3, 12, 21, 31].reduce((sum, bonusIndex) => {
-    const hpBonus = upgrades.find(({ originalIndex }: any) => originalIndex === bonusIndex) || {};
-    return sum + hpBonus?.value
-  }, 0);
-  const firstMulti = upgrades.find(({ originalIndex }: any) => originalIndex === 43)?.value || 0;
-  const secondMulti = upgrades.find(({ originalIndex }: any) => originalIndex === 51)?.value || 0;
-  const moreAdditive = upgrades.find(({ originalIndex }: any) => originalIndex === 56)?.value || 0;
-  const thirdMulti = upgrades.find(({ originalIndex }: any) => originalIndex === 47)?.value || 0;
-  const fourthMulti = upgrades.find(({ originalIndex }: any) => originalIndex === 60)?.value || 0;
-  const endlessMulti = upgrades.find(({ originalIndex }: any) => originalIndex === 64)?.value || 0;
-
-  const highestEndlessLevel = account?.accountOptions?.[319] ?? 0;
-  return 1 * (1 + (additiveArmyDamage))
-    * (1 + firstMulti / 100)
-    * (1 + (secondMulti
-      + (moreAdditive
-        + endlessMulti
-        * highestEndlessLevel)) / 100)
-    * (1 + (thirdMulti * 0) / 100)
-    * (1 + (fourthMulti
-      * Math.max(0, Math.floor(totalUpgradesLevels / 100))) / 100);
+// game: Summoning("UnitDMG", -1). Seeing Red (47) and upgrade 76 count battle state, so they stay 1x off the field.
+const getArmyDamageTree = (upgrades: any, totalUpgradesLevels: number, highestEndlessLevel: number): BreakdownNode[] => {
+  const bonus = (index: number) => getLocalSummoningBonus(upgrades, index);
+  return [
+    sumGroup(NUMBERED_GROUP, [flat('Base', 1), ...[3, 12, 21, 31].map((index) => flat(upgradeName(index), bonus(index)))]),
+    additiveGroup(NUMBERED_GROUP, [43, 74].map((index) => percent(upgradeName(index), bonus(index)))),
+    additiveGroup(NUMBERED_GROUP, [
+      percent(upgradeName(51), bonus(51)),
+      percent(upgradeName(56), bonus(56)),
+      percent(upgradeName(64), bonus(64) * highestEndlessLevel)
+    ]),
+    multiplier(upgradeName(60), 1 + bonus(60) * Math.max(0, Math.floor(totalUpgradesLevels / 100)) / 100)
+  ];
 }
 // An enemy is a battle once it has a win bonus; the list runs ahead of the bonuses with enemies not released yet.
 const getSummoningBattle = (enemyId: any) => summoningEnemies.find((enemy) => enemy.enemyId === enemyId && enemy.bonusId !== '_');
 
 const getBattleData = (enemyId: any, monsterData: any, wonBattles: any) => {
-  const icon = monsterImage(enemyId, 'face');
+  const icon = monsterSprite(enemyId, 'face');
   const won = wonBattles?.includes(enemyId);
   const { bonus, bonusId } = summoningBonuses.find((bonus) => bonus.bonusId === monsterData.bonusId)!;
   const base = 3.5 * monsterData?.bonusQty;
-  const actualBonus = bonus.includes('<') ? notateNumber(1 + base / 100, 'MultiplierInfo') : notateNumber(base, 'Big');
+  const actualBonus = bonus.includes('<') ? gameFill(1 + base / 100, 'MultiplierInfo') : gameFill(base, 'Big');
   const resultBonus = { bonusId, bonus: bonus.replace(/[<{]/, '' + actualBonus) };
   return {
     bonus: resultBonus,
@@ -436,8 +413,9 @@ export const getSummoningUpgradeBonus = (account: any, upgradeIndex: number) => 
   return 0;
 }
 
-// game: these upgrades scale by Lv0[18], the logged-in character's summoning level
-const updateTotalBonuses = (upgrades: any, careerWins: any, characters: any[], highestEndlessLevel: any) => {
+// game: the upgrade panel's "}" (Total bonus). The level scaled upgrades read Lv0[18], the logged-in character's
+// summoning level.
+const updateTotalBonuses = (upgrades: any, careerWins: any, characters: any[], highestEndlessLevel: any, armyDamage: number) => {
   const summoningLevel = characters?.length ? getLoggedInSkillLevel(characters, 'summoning') : 1;
   const allWins: any = Object.values(careerWins).reduce((sum: any, wins: any) => sum + wins, 0);
   const totalUpgrades = upgrades.reduce((sum: any, { level }: any) => sum + level, 0);
@@ -455,36 +433,53 @@ const updateTotalBonuses = (upgrades: any, careerWins: any, characters: any[], h
         totalBonus = upgrade.value * careerWins[2];
         break;
       case 27:
-        totalBonus = upgrade.value * careerWins[2];
+        totalBonus = upgrade.value * careerWins[3];
         break;
       case 38:
-        totalBonus = upgrade.value * careerWins[3];
+        totalBonus = upgrade.value * careerWins[4];
+        break;
+      case 46:
+        totalBonus = upgrade.value * careerWins[5];
         break;
       case 54:
         totalBonus = upgrade.value * careerWins[6];
         break;
+      case 73:
+        totalBonus = upgrade.value * careerWins[7];
+        break;
+      // The cost cut, as the % the panel prints
       case 49:
       case 57:
-        totalBonus = upgrade.value;
+      case 72:
+        totalBonus = Math.round(1e4 * (1 - 1 / (1 + upgrade.value / 100))) / 100;
         break;
       case 30:
       case 40:
       case 65:
       case 66:
       case 67:
-      case 46:
       case 52:
       case 58:
+      case 80:
         totalBonus = upgrade.value * summoningLevel;
         break;
+      // Per full 100 upgrade levels
       case 60:
       case 61:
-        totalBonus = upgrade.value * (totalUpgrades / 100);
+        totalBonus = Math.round(upgrade.value * Math.floor(totalUpgrades / 100));
         break;
       case 62:
       case 63:
       case 64:
-        totalBonus = upgrade.value * highestEndlessLevel;
+        totalBonus = Math.round(upgrade.value * highestEndlessLevel);
+        break;
+      // Spike damage: a share of UnitDMG(-1)
+      case 68:
+        totalBonus = armyDamage * (upgrade.value / 100);
+        break;
+      // The cost cut per full 100 upgrade levels, as the % the panel prints
+      case 75:
+        totalBonus = Math.round(1e4 * (1 - 1 / (1 + upgrade.value * Math.floor(totalUpgrades / 100) / 100))) / 100;
         break;
       default:
         break;
@@ -494,6 +489,21 @@ const updateTotalBonuses = (upgrades: any, careerWins: any, characters: any[], h
       totalBonus
     }
   });
+}
+
+// The cost cuts, which the panel prints as an already rounded %
+const PLAIN_TOTAL_UPGRADES = [49, 57, 72, 75];
+
+// game: the upgrade panel's text, every occurrence replaced (StringTools.replace). { is CommaNotation(bonus),
+// > is round(100 + bonus) / 100, } is the total and "@" is a line break. "|" (the familiar cost reset) is left for
+// the page to fill.
+export const getSummoningUpgradeText = ({ bonus, value, totalBonus, originalIndex }: any): string => {
+  const total = PLAIN_TOTAL_UPGRADES.includes(originalIndex) ? totalBonus : gameFill(totalBonus, 'Comma');
+  const text = String(bonus ?? '')
+    .split('{').join(gameFill(value, 'Comma'))
+    .split('>').join(String(Math.round(100 + value) / 100))
+    .split('}').join(String(total));
+  return (cleanUnderscore(text) ?? '').split('@').map((line) => line.trim()).join('\n');
 }
 
 // game: Summoning("SummRockEssGen", colour), essence per hour from each summoning rock
@@ -573,7 +583,7 @@ const getEssenceBoostBubble = (account: any, characters: any[], bubble: EssenceC
 // DNSM.SumAllEss: the multiplier every colour shares
 const getAllEssenceGroup = (account: any) => {
   const holesObject = account?.hole?.holesObject;
-  const highestEndlessLevel = account?.accountOptions?.[319] ?? 0;
+  const highestEndlessLevel = account?.accountOptions?.[OPT.summoningHighestEndless] ?? 0;
   const masteryUnlocked = isMasteryBonusUnlocked(account?.rift, account?.totalSkillsLevels?.summoning?.rank, ESSENCE_MASTERY_TIER);
   const essenceChapter = getBubbleBonus(account, 'ESSENCE_CHAPTER') * getTomeBubbleMulti(account?.tome?.totalPoints ?? 0);
   return productGroup('All essence bonuses', [
@@ -637,11 +647,11 @@ export const getEssenceGain = (account: any, characters: any[] = []): EssenceGai
           percent('Arcade', getArcadeBonus(account?.arcade?.shop, ESSENCE_ARCADE)?.bonus ?? 0),
           percent('Upgrade vault', getUpgradeVaultBonus(vaultUpgrades, WHITE_ESSENCE_VAULT))
         ]),
-        multiplier('Stamp', 1 + stampBonus / 100)
+        multiplier(getStampLineName(account, { stat: stamp }), 1 + stampBonus / 100)
       ]
       : [
         additiveGroup(NUMBERED_GROUP, [
-          ...(stamp ? [percent('Stamp', stampBonus)] : []),
+          ...(stamp ? [getStampNode(account, { stat: stamp }, stampBonus)] : []),
           percent('Upgrade vault', getUpgradeVaultBonus(vaultUpgrades, COLOUR_ESSENCE_VAULT))
         ])
       ];
@@ -658,4 +668,64 @@ export const getEssenceGain = (account: any, characters: any[] = []): EssenceGai
     const value = evaluateBreakdown(createBreakdown(statName, 0, tree));
     return { index, colour, unlocked, value, breakdown: createBreakdown(statName, value, tree) };
   });
+};
+
+// Summon[3][1] banks seconds (offline too); the claim needs a full hour and the Summoning skill
+// selected on the summoning node. Per-character EXP terms read the logged-in character.
+export const FAMILIAR_EXP_MIN_CLAIM_SECONDS = 3600;
+
+export interface FamiliarExp {
+  savedSeconds: number;
+  expPerHour: number;
+  expMulti: number;
+  expMultiBreakdown: StatBreakdown | null;
+}
+
+export const getFamiliarExp = (account: any, expMulti: { value: number, breakdown: StatBreakdown } | undefined): FamiliarExp => {
+  const familiarsExpPerHour = account?.summoning?.familiarsExpPerHour ?? 0;
+  const multi = expMulti?.value ?? 1;
+  return {
+    savedSeconds: Number(account?.summoning?.summoningStuff?.[1]) || 0,
+    expPerHour: familiarsExpPerHour * multi,
+    expMulti: multi,
+    expMultiBreakdown: expMulti?.breakdown ?? null
+  };
+};
+
+// game: IncreaseExpREQ, the Summoning arm (ExpReq0[18]), gameTables.summoningExpReq
+export const getSummoningExpReq = (level: number) => {
+  const { base, power, linear, growth, growthCap, growthScale, growthOffset, offset } = gameTables.summoningExpReq;
+  return (base + Math.pow(level, power) + linear * level)
+    * Math.pow(growth - Math.min(growthCap, growthScale * level / (level + growthOffset)), level) - offset;
+};
+
+export interface FamiliarLevelGain {
+  name: string;
+  level: number;
+  newLevel: number;
+}
+
+// The claim hands the same EXP to every character, each levelling from its own Summoning level and EXP.
+export const getFamiliarLevelGains = (characters: any[] | undefined, exp: number): FamiliarLevelGain[] =>
+  (characters ?? []).map((character) => {
+    const { level = 0, exp: currentExp = 0 } = character?.skillsInfo?.summoning || {};
+    let remaining = (currentExp || 0) + exp;
+    let newLevel = level;
+    let req = getSummoningExpReq(newLevel);
+    while (req > 0 && remaining >= req && newLevel - level < 1000) {
+      remaining -= req;
+      newLevel++;
+      req = getSummoningExpReq(newLevel);
+    }
+    return { name: character?.name, level, newLevel };
+  });
+
+export const getPendingFamiliarExp = (familiarExp: FamiliarExp | undefined, lastUpdated?: number, now = Date.now()) => {
+  const sinceSave = lastUpdated ? Math.max(0, (now - lastUpdated) / 1000) : 0;
+  const seconds = (familiarExp?.savedSeconds ?? 0) + sinceSave;
+  return {
+    seconds,
+    exp: seconds / 3600 * (familiarExp?.expPerHour ?? 0),
+    claimable: seconds >= FAMILIAR_EXP_MIN_CLAIM_SECONDS
+  };
 };

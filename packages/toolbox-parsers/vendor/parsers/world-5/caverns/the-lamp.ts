@@ -1,12 +1,13 @@
-// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1.
+// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 48cb4ee697988ec5eac14ba97142add6296505b2.
 // Copyright (C) Morta1 and IdleOn Toolbox contributors. GPL-3.0-only; see vendor/LICENSE.
 // Copied unmodified by IdleOn Forge's scripts/sync.sh; UI-coupled imports are redirected to shims/ at build time.
 import { lampWishes } from '@website-data';
 import { getCosmoBonus, getMeasurementBonus, getStudyBonus } from '@parsers/world-5/hole';
 import { getBellBonus } from '@parsers/world-5/caverns/the-bell';
-import { notateNumber } from '@utility/helpers';
+import { gameFill } from '@utility/helpers';
 import { getMonumentBonus } from '@parsers/world-5/caverns/bravery';
 import { getZenithBonus } from '@parsers/world-1/statues';
+import { createBreakdown, flat } from '@parsers/breakdown';
 
 // '|' is whichever option the player has selected in the wish UI, which the save doesn't say, so list them
 const WISH_CHOICES: Record<number, string> = {
@@ -15,8 +16,10 @@ const WISH_CHOICES: Record<number, string> = {
 };
 
 export const getLamp = (holesObject: any, accountData: any, unlockedCaverns: any) => {
-  const wishPerDay = getWishPerDay(holesObject, accountData, unlockedCaverns);
+  const { value: wishPerDay, breakdown: wishPerDayBreakdown } = getWishPerDay(holesObject, accountData, unlockedCaverns);
+  const currentWishes = holesObject?.extraCalculations?.[25];
   const wishes = lampWishes.map((wish, index) => {
+    const timesWished = Number(holesObject?.wishesUsed?.[index]) || 0;
     const cost = getWishCost(holesObject?.wishesUsed?.[index], index);
     const futureCosts = getFutureWishCosts(holesObject?.wishesUsed?.[index] + 1, holesObject?.wishesUsed?.[index] + 6, index);
     let desc = wish?.description ?? '';
@@ -30,22 +33,39 @@ export const getLamp = (holesObject: any, accountData: any, unlockedCaverns: any
       desc = desc.replace('{', bonus(0)).replace('}', bonus(1)).replace('~', bonus(2))
     }
     const resourceBonus = getLampBonus({ holesObject, t: 99, i: 0, account: accountData });
-    desc = desc.replace('#', String(notateNumber(1 + resourceBonus / 100, 'MultiplierInfo')))
-      .replace('$', String(notateNumber(1 + resourceBonus / 400, 'MultiplierInfo')));
-    return { ...wish, cost, futureCosts, description: desc };
+    desc = desc.replace('#', gameFill(1 + resourceBonus / 100, 'MultiplierInfo'))
+      .replace('$', gameFill(1 + resourceBonus / 400, 'MultiplierInfo'));
+    return { ...wish, timesWished, cost, futureCosts, description: desc, daysToAfford: getDaysToAfford(cost, currentWishes, wishPerDay) };
   });
-  const currentWishes = holesObject?.extraCalculations?.[25];
-  return { wishes, wishPerDay, currentWishes };
+  return { wishes, wishPerDay, wishPerDayBreakdown, currentWishes };
 }
 
+// game: "LampWishPerDay"
 const getWishPerDay = (holesObject: any, accountData: any, unlockedCaverns: any) => {
-  return 6 > unlockedCaverns
-    ? 0
-    : 1 + (getMeasurementBonus({ holesObject, accountData, t: 4 })
-    + (getCosmoBonus({ majik: holesObject?.holeMajiks, t: 0, i: 2 })
-      + (getBellBonus({ holesObject, t: 3 })
-        + (getMonumentBonus({ holesObject, t: 1, i: 7 })
-          + 100 * getStudyBonus(holesObject, 6, 0))))) / 100;
+  if (6 > unlockedCaverns) return { value: 0, breakdown: undefined };
+  const measurement = getMeasurementBonus({ holesObject, accountData, t: 4 });
+  const majik = getCosmoBonus({ majik: holesObject?.holeMajiks, t: 0, i: 2 });
+  const bell = getBellBonus({ holesObject, t: 3 });
+  const monument = getMonumentBonus({ holesObject, t: 1, i: 7 });
+  const study = 100 * getStudyBonus(holesObject, 6, 0);
+  const value = 1 + (measurement + (majik + (bell + (monument + study)))) / 100;
+  const breakdown = createBreakdown('Wishes per day', value, [
+    flat('Base', 1),
+    flat('Measurement', measurement / 100),
+    flat('Wishy Washy (Majik)', majik / 100),
+    flat('The Bell', bell / 100),
+    flat('Monument', monument / 100),
+    flat('Study', study / 100)
+  ], { combine: 'sum' });
+  return { value, breakdown };
+}
+
+// game: each daily reset adds floor(LampWishPerDay + random) wishes, wishPerDay on average. 0 is affordable now,
+// null never (no wishes per day)
+const getDaysToAfford = (cost: number, held: number, wishPerDay: number) => {
+  const missing = (Number(cost) || 0) - (Number(held) || 0);
+  if (missing <= 0) return 0;
+  return wishPerDay > 0 ? Math.ceil(missing / wishPerDay) : null;
 }
 
 const getFutureWishCosts = (curLevel: any, maxLevel: any, index: any) => {
@@ -76,7 +96,7 @@ export const getLampBonus = ({ holesObject, t, i, account }: any) => {
   const zenithBonus = 1 + getZenithBonus(account, 2) / 100;
   const raw = '25,10,8;15,40,10;20,35,12;5,1,1;2,2,2';
   return 99 === t
-    ? 25 * holesObject?.wishesUsed?.[7] * zenithBonus
+    ? 25 * (holesObject?.wishesUsed?.[7] ?? 0) * zenithBonus
     : (Number(raw.split(';')[t].split(',')[i])
-      * holesObject?.wishesUsed?.[Math.min(11, Math.round(4 + 2 * t))]) * zenithBonus;
+      * (holesObject?.wishesUsed?.[Math.min(11, Math.round(4 + 2 * t))] ?? 0)) * zenithBonus;
 }

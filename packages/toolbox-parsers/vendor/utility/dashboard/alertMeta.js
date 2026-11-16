@@ -1,4 +1,4 @@
-// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1.
+// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 48cb4ee697988ec5eac14ba97142add6296505b2.
 // Copyright (C) Morta1 and IdleOn Toolbox contributors. GPL-3.0-only; see vendor/LICENSE.
 // Copied unmodified by IdleOn Forge's scripts/sync.sh; UI-coupled imports are redirected to shims/ at build time.
 // Alert data keys that differ from the option controlling them. resolveSettingsTarget reads the
@@ -8,12 +8,7 @@ export const alertAliases = {
   'account.World 3.printer': { atoms: 'includeResource' },
   'account.World 3.traps': { overdue: 'trapsOverdue' },
   'account.World 3.hatRack': { missingHats: 'hatsMissing' },
-  'account.World 5.hole': {
-    motherlodeMaxed: 'motherlode',
-    hiveMaxed: 'theHive',
-    evertreeMaxed: 'evertree',
-    bottomlessTrenchMaxed: 'bottomlessTrench'
-  },
+  'account.World 4.capeVine': { missingCapes: 'capesMissing' },
   'account.World 6.etc': { emperorAttempts: 'emperor' },
   'account.World 7.gallery': { missingTrophies: 'trophiesMissing', missingNametags: 'nametagsMissing' },
   'account.World 7.legendTalents': { legendPointsLeftToSpend: 'pointsLeftToSpend' }
@@ -62,7 +57,7 @@ export const alertMeta = {
   'account.General.guild': {
     label: 'Guild tasks',
     icon: 'etc/GP',
-    page: { pathname: '/account/misc/guild', label: 'Guild' },
+    page: { pathname: '/account/misc/guild', label: 'My guild' },
     options: {
       daily: { label: 'Daily guild tasks left' },
       weekly: { label: 'Weekly guild tasks left' }
@@ -91,14 +86,14 @@ export const alertMeta = {
       },
       miniBosses: {
         label: 'Miniboss kills stacked',
-        help: 'Alerts when a miniboss has this many kills available. The lowest value is 2.',
+        help: 'Alerts when a miniboss has this many kills available, or is maxed. The lowest value is 2. In the timers, a miniboss moves to Ready now at the same number.',
         unit: 'kills',
         group: 'Account',
         page: { pathname: '/account/world-3/death-note', label: 'Death note' }
       },
       bossRespawns: {
         label: 'Dr Defecaus or Baba Yaga up',
-        help: 'Alerts while the Bosses timer shows Dr Defecaus or Baba Yaga as up. Each boss can be turned off on its own.',
+        help: 'Alerts while the timers show Dr Defecaus or Baba Yaga as up. Each boss can be turned off on its own.',
         group: 'Daily',
         page: { pathname: '/account/world-3/death-note', label: 'Death note' },
         itemIcons: { drDefecaus: 'monsters/poopBig/static', babaYaga: 'monsters/babayaga/static' }
@@ -115,7 +110,7 @@ export const alertMeta = {
       },
       familyObols: { label: 'Empty family obol slots', group: 'Account' },
       freeCompanion: { label: 'Free companion to claim', group: 'Events', page: { pathname: '/account/prem-currency/pets', label: 'Pets' } },
-      petMartGems: { label: 'Free Pet Mart gems', group: 'Events', page: { pathname: '/account/misc/tournament', query: { t: 'Pet Mart' }, label: 'Pet Mart' } },
+      petMartGems: { label: 'Free Pet Mart gems', group: 'Events', page: { pathname: '/account/prem-currency/pets', query: { t: 'Pet Mart' }, label: 'Pet Mart' } },
       tournamentRegister: {
         label: 'Not registered for the Pet Tournament',
         help: 'Alerts when you have not registered for the current Pet Tournament.',
@@ -180,7 +175,7 @@ export const alertMeta = {
     page: { pathname: '/account/clickers/owl', label: 'Owl' },
     options: {
       featherRestart: { label: 'Feather Restart affordable' },
-      megaFeatherRestart: { label: 'Mega Feather Restart affordable' }
+      megaFeatherRestart: { label: 'Megafeather Restart affordable' }
     }
   },
   'account.World 1.forge': {
@@ -299,7 +294,8 @@ export const alertMeta = {
     options: {
       daily: {
         label: 'Daily boss raid not done',
-        help: 'Alerts when you have not reset the W2 boss raid today (bonus class exp and damage).'
+        help: 'Alerts when you have not reset the W2 boss raid today (bonus class exp and damage).',
+        page: { query: { t: 'Battle solver' }, label: 'Battle solver' }
       },
       trophy: {
         label: 'Trophies left this week',
@@ -355,9 +351,10 @@ export const alertMeta = {
   'account.World 3.library': {
     label: 'Talent library',
     icon: 'data/Libz',
+    page: { pathname: '/account/misc/general', label: 'General' },
     inline: 'books',
     options: {
-      books: { label: 'Books ready', help: 'Alerts when the library has this many books ready.', unit: 'books' }
+      books: { label: 'Books ready', help: 'Alerts when the library has this many books ready. The Library row in the timers reads the same number, with this alert on or off.', unit: 'books' }
     }
   },
   'account.World 3.construction': {
@@ -465,7 +462,7 @@ export const alertMeta = {
     options: {
       spices: { label: 'Spice clicks left', page: { query: { t: 'Kitchens' }, label: 'Kitchens' } },
       ribbons: {
-        label: 'Empty ribbon slots',
+        label: 'Ribbon shelf filling up',
         help: 'Alerts when the ribbon shelf has this many empty slots or fewer (28 slots).',
         page: { query: { t: 'Ribbons' }, label: 'Ribbons' }
       },
@@ -492,6 +489,18 @@ export const alertMeta = {
     options: {
       chipsRotation: { label: 'Chip to claim in the repository' },
       jewelsRotation: { label: 'Jewel to claim in the repository' }
+    }
+  },
+  'account.World 4.capeVine': {
+    label: 'Cape vine',
+    icon: 'data/CapeHelpA',
+    page: { pathname: '/account/world-4/cape-vine' },
+    options: {
+      capesMissing: { label: 'Owned capes missing from the vine' },
+      goldenVine: {
+        label: 'Golden Vine ready to unlock',
+        help: 'Alerts when one of your characters has the class level Ask Cathie needs for the next Golden Vine.'
+      }
     }
   },
   'account.World 4.tome': {
@@ -523,6 +532,15 @@ export const alertMeta = {
         label: 'Shovel not clicked',
         help: 'Alerts when this many hours have passed since you clicked the shovel.',
         unit: 'h'
+      },
+      bogLog: {
+        label: 'Bog Log ready',
+        help: 'Alerts when the Bog Log minigame is ready to play.'
+      },
+      snail: {
+        label: 'Snail success chance',
+        help: 'Alerts when the snail upgrade success chance reaches this percent. Skipped at max level.',
+        unit: '%'
       }
     }
   },
@@ -532,12 +550,12 @@ export const alertMeta = {
     page: { pathname: '/account/world-5/sailing' },
     options: {
       captains: { label: 'Better captain in the shop', page: { query: { t: 'Boats and Captains' }, label: 'Captains' } },
-      chests: { label: 'Chest capacity full', page: { query: { t: 'Chests' }, label: 'Chests' } },
       alwaysAlertEnderCaptains: {
         label: 'Every Ender captain in the shop',
-        help: 'Alerts on every Ender captain in the shop, even when all your captains are already Ender and its stats are not higher.',
-        dependsOn: 'captains'
-      }
+        page: { query: { t: 'Boats and Captains' }, label: 'Captains' },
+        help: 'Alerts on every Ender captain in the shop, even when all your captains are already Ender and its stats are not higher. Works on its own: turn off Better captain in the shop to see only Ender captains.'
+      },
+      chests: { label: 'Chest capacity full', page: { query: { t: 'Chests' }, label: 'Chests' } }
     }
   },
   'account.World 5.hole': {
@@ -682,7 +700,15 @@ export const alertMeta = {
         label: 'Familiar upgrade below level',
         help: 'Alerts while the familiar upgrade is below this level and not maxed.'
       },
-      battleAttempts: { label: 'Battle attempts left', page: { query: { t: 'Battles' }, label: 'Battles' } }
+      battleAttempts: { label: 'Battle attempts left', page: { query: { t: 'Battles' }, label: 'Battles' } },
+      familiarExp: {
+        label: 'Unclaimed familiar EXP',
+        help: 'Alerts once this many hours of familiar EXP are waiting. Claim it by standing in the Summoning area with the Summoning skill selected.'
+      },
+      familiarLevelUp: {
+        label: 'Familiar EXP gives a level',
+        help: 'Alerts once claiming the familiar EXP would give at least one character a Summoning level.'
+      }
     }
   },
   'account.World 6.etc': {
@@ -693,7 +719,7 @@ export const alertMeta = {
     options: {
       emperor: {
         label: 'Emperor attempts stacked',
-        help: 'Alerts at this number, or at your attempt cap if it is lower.',
+        help: 'Alerts at this number, or earlier if your next daily refill would be lost. The game skips the whole refill when it would pass the cap, so the cap shown in game is never reached.',
         unit: 'attempts'
       }
     }
@@ -738,7 +764,7 @@ export const alertMeta = {
       },
       overkillWorkers: {
         label: 'Spare Workers',
-        help: 'Alerts when an outpost has more Workers than it needs to empty its resource within this many hours. Workers only add collection rate, so the spare ones could be Traders or Surveyors and earn rank EXP instead.',
+        help: 'Alerts when an outpost has more Workers than it needs to empty its resource within this many hours. Workers only add collection rate, so the spare ones could be Traders or Surveyors and earn rank EXP instead. Also lists outposts whose resources are all empty with nothing better in range: all their Workers are spare.',
         unit: 'h',
         group: 'Units'
       },
@@ -753,14 +779,14 @@ export const alertMeta = {
         help: 'Alerts when an outpost needs more Workers to empty its resource before the daily reset, and has Traders or Surveyors that could become them. A resource only restocks and gains a level if it is already empty when the reset lands. Follows Spare Workers: when that one uses its hours instead of the reset, so does this.',
         group: 'Units'
       },
-      strandedWorkers: {
-        label: 'Workers on empty resources',
-        help: 'Alerts when every resource of an outpost is empty and nothing better is in range, while Workers are still assigned to it. Traders or Surveyors would earn rank EXP instead.',
-        group: 'Units'
-      },
       idleGuards: {
         label: 'Guards with unneeded range',
-        help: 'Alerts when an outpost has Guards whose range it does not need, so they could be Traders or Surveyors. Also lists Guards that only reach an empty resource: swapping them drops that connection, so rewire it after the daily reset.',
+        help: 'Alerts when an outpost has Guards whose range it does not need, so they could be Traders or Surveyors.',
+        group: 'Units'
+      },
+      parkedGuards: {
+        label: 'Guards on empty resources',
+        help: 'Alerts when an outpost has Guards that only reach an empty resource, so they could be Traders or Surveyors until the daily reset. Swapping them drops that connection, so it has to be rewired after every reset.',
         group: 'Units'
       },
       sharedNodes: {
@@ -826,6 +852,16 @@ export const alertMeta = {
         label: 'Characters at full stamina',
         help: 'Alerts when at least this many characters have full stamina.',
         unit: 'characters'
+      },
+      staminaPercent: {
+        label: 'Characters at a stamina %',
+        help: 'Counts characters at or above this percent of their max stamina, full ones included.',
+        unit: '%'
+      },
+      staminaPercentCharacters: {
+        label: 'Characters threshold',
+        unit: 'characters',
+        foldInto: 'staminaPercent'
       },
       overstimLevel: { label: 'Overstim level reached', help: 'Alerts when your Overstim level reaches this value.' }
     }
@@ -898,7 +934,10 @@ export const alertMeta = {
     icon: 'data/JellyUnit0',
     page: { pathname: '/account/world-7/jelly-operator' },
     options: {
-      operationsLeft: { label: 'Operations left today' },
+      operationsLeft: {
+        label: 'Operations left today',
+        help: 'Alerts when at least this many operations are unused. Unused operations are lost at the daily reset.'
+      },
       slotsToBuy: { label: 'Slots you can unlock' },
       emptySlots: { label: 'Open slots with no cell' },
       virusesUnplaced: { label: 'Viruses you can place' }
@@ -918,14 +957,66 @@ export const alertMeta = {
         page: { query: { t: 'Unlocks' }, label: 'Unlocks' }
       },
       affordableBoosts: {
-        label: 'Boosts you can afford',
+        label: 'Any boost you can afford',
         help: 'Lumi builds up every hour and boosts never max, so this one is off by default: some boost is almost always affordable.',
+        group: 'Boosts',
         page: { query: { t: 'Boosts' }, label: 'Boosts' }
+      },
+      lumiBoost: {
+        label: 'Lumi/hr boost affordable',
+        help: 'The boost that raises Lumi/hr for each Menagerie Rank.',
+        group: 'Boosts',
+        page: { query: { t: 'Boosts' }, label: 'Boosts' }
+      },
+      missionBoost: {
+        label: 'Mission boost affordable',
+        help: 'The boost that adds more Menagerie missions.',
+        group: 'Boosts',
+        page: { query: { t: 'Boosts' }, label: 'Boosts' }
+      },
+      pinkJelly: {
+        label: 'Pink jelly upgrades affordable',
+        help: 'Alerts when a Pink jelly upgrade costs at most this percent of your coins.',
+        group: 'Jellies',
+        page: { query: { t: 'Jellies' }, label: 'Jellies' }
+      },
+      blueJelly: {
+        label: 'Ladles to give the Blue jelly',
+        help: 'Alerts when you own at least this many ladles. Ladles the Blue jelly uses still count toward Cooking Mastery.',
+        group: 'Jellies',
+        page: { query: { t: 'Jellies' }, label: 'Jellies' }
+      },
+      redJelly: {
+        label: 'Red jelly reading ready',
+        help: 'Alerts when you have tracked pages and the reading multi reaches this value. Best: read daily (1x) or wait for 12x to 18x. 2x to 9x gives fewer page levels.',
+        group: 'Jellies',
+        page: { query: { t: 'Jellies' }, label: 'Jellies' }
+      },
+      silverJelly: {
+        label: 'Silver jelly upgrades affordable',
+        help: 'Alerts when your Obol Fragments cover a Silver jelly upgrade that is not maxed. Each upgrade can be turned off on its own.',
+        group: 'Jellies',
+        page: { query: { t: 'Jellies' }, label: 'Jellies' }
+      },
+      yellowJelly: {
+        label: 'Yellow jelly purchase ready',
+        help: 'Alerts when the build progress from your 8th build slot covers the next construction purchase.',
+        group: 'Jellies',
+        page: { query: { t: 'Jellies' }, label: 'Jellies' }
       },
       unusedDoublers: {
         label: 'Doublers left to place',
-        help: 'Minehead, Sushi Station and Jelly Operator doublers, Black Stars, Organic Labels and Omnijade you own but have not placed.',
-        page: { query: { t: 'Boosts' }, label: 'Boosts' }
+        help: 'Doublers, Black Stars, Organic Labels and Omnijade you own but have not placed. Each one can be turned off on its own.',
+        group: 'Doublers',
+        page: { query: { t: 'Boosts' }, label: 'Boosts' },
+        itemIcons: {
+          blackStars: 'etc/BlackStar',
+          organicLabels: 'etc/OrganicLabel',
+          minehead: 'etc/MineheadDoubler',
+          sushi: 'etc/SushiDoubler',
+          jellyOperator: 'data/MenaIconP12',
+          omnijade: 'etc/Omnijade'
+        }
       }
     }
   },
@@ -989,6 +1080,10 @@ export const alertMeta = {
       unendingEnergy: {
         label: 'Unending Energy past 10 hours',
         help: 'Alerts when a character with the Unending Energy prayer has been AFK for more than 10 hours.'
+      },
+      ruckSack: {
+        label: 'Ruck Sack while AFK',
+        help: 'Alerts when an AFK character has the Ruck Sack prayer equipped (its curse lowers AFK gains).'
       },
       chargeOverdue: { label: 'Worship charge full', help: 'Alerts within 5% of max charge.' }
     }
@@ -1101,6 +1196,10 @@ export const alertMeta = {
       libraryUpgradableTalents: {
         label: 'Talents the library can raise',
         help: 'Alerts when a maxed class talent could still be raised by a Talent Book Library book.'
+      },
+      ignoredTalents: {
+        label: 'Ignored talents',
+        help: 'These talents never show in the talents below max level or library alerts, for any character.'
       }
     }
   },
@@ -1149,6 +1248,7 @@ export const alertMeta = {
   'timers.General.weekly': { label: 'Weekly reset', icon: 'etc/Weekly', options: {} },
   'timers.General.serverWeekly': { label: 'Server weekly reset', icon: 'etc/Server', options: {} },
   'timers.General.companions': { label: 'Next free companion', icon: 'afk_targets/Dog', page: { pathname: '/account/prem-currency/pets', label: 'Pets' }, options: {} },
+  'timers.General.crystalIsland': { label: 'Crystal Island best visit', help: 'Counts down to 13 unclaimed days, the most giant crystal mobs (27). Turns green for the last day before it caps at 14 (15 mobs).', icon: 'afk_targets/Crystal_Carrot', page: { pathname: '/account/world-2/islands', label: 'Islands' }, options: {} },
   'timers.General.syphonCharge': { label: 'Charge Syphon overflow', icon: 'data/UISkillIcon475', page: { pathname: '/account/world-3/worship', label: 'Worship' }, options: {} },
   'timers.General.closestFullWorship': { label: 'Closest full worship', icon: 'data/WorshipSkull3', page: { pathname: '/account/world-3/worship', label: 'Worship' }, options: {} },
   'timers.General.dungeonHappyHour': { label: 'Dungeon happy hour', icon: 'etc/Happy_Hour', page: { pathname: '/account/misc/dungeons', label: 'Dungeons' }, options: {} },
@@ -1156,17 +1256,51 @@ export const alertMeta = {
   'timers.General.sailingTrades': { label: 'Next sailing trade', icon: 'etc/Blob_Trade', page: { pathname: '/account/world-5/sailing', query: { t: 'Trades' }, label: 'Sailing trades' }, options: {} },
 
   // Timers: Other
-  'timers.Etc.library': { label: 'Library books', icon: 'data/Libz', options: {} },
-  'timers.Etc.minibosses': { label: 'Boss and miniboss respawns', icon: 'monsters/poopBig/static', page: { pathname: '/account/world-3/death-note', label: 'Death note' }, options: {} },
+  'timers.Etc.library': {
+    label: 'Library books',
+    icon: 'data/Libz',
+    page: { pathname: '/account/misc/general', label: 'General' },
+    unit: 'Ready at the number set in World 3, Talent library',
+    // The row reads the alert's number, so its quick edit holds that number too.
+    numberFrom: { tracker: 'account.World 3.library', option: 'books', help: 'The Library row is ready at this number. The Talent library alert uses the same one, on or off.' },
+    options: {}
+  },
+  'timers.Etc.minibosses': {
+    label: 'Boss and miniboss respawns',
+    icon: 'monsters/poopBig/static',
+    page: { pathname: '/account/world-3/death-note', label: 'Death note' },
+    unit: 'Minibosses are ready at the number set in General, Miniboss kills stacked',
+    // A miniboss row reads the alert's number, so its quick edit holds that number too. Dr Defecaus and Baba Yaga have no number.
+    numberFrom: {
+      tracker: 'account.General.etc',
+      option: 'miniBosses',
+      help: 'A miniboss moves to Ready now at this many kills, or when it is maxed. The Miniboss kills stacked alert uses the same number, on or off.',
+      forItems: ['dilapidatedSlush', 'mutatedMush', 'domeoMagmus', 'dementedSpiritlord']
+    },
+    options: {
+      bosses: {
+        label: 'Bosses to show',
+        help: 'Only the ticked bosses appear in the timers.',
+        itemIcons: {
+          drDefecaus: 'monsters/poopBig/static',
+          babaYaga: 'monsters/babayaga/static',
+          dilapidatedSlush: 'etc/mini3b',
+          mutatedMush: 'etc/mini4b',
+          domeoMagmus: 'etc/mini5a',
+          dementedSpiritlord: 'etc/mini6a'
+        }
+      }
+    }
+  },
   'timers.Etc.bonusTimeLeft': { label: 'Vote bonus week', icon: 'etc/VoteBallot', page: { pathname: '/account/world-2/vote-ballot', query: { t: 'Bonus' }, label: 'Vote ballot' }, options: {} },
   'timers.Etc.meritocracyTimeLeft': { label: 'Meritocracy vote week', icon: 'etc/VoteBallot', page: { pathname: '/account/world-2/vote-ballot', query: { t: 'Meritocracy' }, label: 'Meritocracy' }, options: {} },
 
   // Timers: Clickers
   'timers.Clickers.featherRestart': { label: 'Feather Restart', icon: 'etc/Owl_4', page: { pathname: '/account/clickers/owl', label: 'Owl' }, unit: 'Orion', options: {} },
-  'timers.Clickers.megaFeatherRestart': { label: 'Mega Feather Restart', icon: 'etc/Owl_8', page: { pathname: '/account/clickers/owl', label: 'Owl' }, unit: 'Orion', options: {} },
+  'timers.Clickers.megaFeatherRestart': { label: 'Megafeather Restart', icon: 'etc/Owl_8', page: { pathname: '/account/clickers/owl', label: 'Owl' }, unit: 'Orion', options: {} },
   'timers.Clickers.fisherooReset': { label: 'Fisheroo Reset', icon: 'etc/KUpga_6', page: { pathname: '/account/clickers/kangaroo', label: 'Kangaroo' }, unit: 'Poppy', options: {} },
   'timers.Clickers.greatestCatch': { label: 'Greatest Catch', icon: 'etc/KUpga_11', page: { pathname: '/account/clickers/kangaroo', label: 'Kangaroo' }, unit: 'Poppy', options: {} },
-  'timers.Clickers.megaFleshRestart': { label: 'Mega Flesh Restart', icon: 'etc/Bubbo_Upgrade_8', page: { pathname: '/account/clickers/bubba', label: 'Bubba' }, unit: 'Bubba', options: {} },
+  'timers.Clickers.megaFleshRestart': { label: 'Megaflesh Restart', icon: 'etc/Bubbo_Upgrade_8', page: { pathname: '/account/clickers/bubba', label: 'Bubba' }, unit: 'Bubba', options: {} },
   'timers.Clickers.smokerMax': { label: 'Smoker at max quality', icon: 'data/BubbaSmokedmeat4', page: { pathname: '/account/clickers/bubba', label: 'Bubba' }, unit: 'Bubba', options: {} },
 
   // Timers: World 3
@@ -1210,5 +1344,6 @@ export const alertMeta = {
   'timers.World 7.sushiFuelFull': { label: 'Sushi fuel full', icon: 'etc/Fuel', page: { pathname: '/account/world-7/sushi-station', label: 'Sushi station' }, options: {} },
   'timers.World 7.observationInsight': { label: 'Observation insight level ups', icon: 'data/ResMagni1', page: { pathname: '/account/world-7/research', query: { t: 'Observations' }, label: 'Observations' }, options: {} },
   'timers.World 7.royalNodeCap': { label: 'Next outpost resource empty', icon: 'data/UISkillIcon226', page: { pathname: '/account/class-specific/royal-armory', query: { t: 'Resources' }, label: 'Resources' }, options: {} },
-  'timers.World 7.overstim': { label: 'Overstim level up', icon: 'data/CaveShopUpg6', page: { pathname: '/account/world-7/spelunking', label: 'Spelunking' }, options: {} }
+  'timers.World 7.overstim': { label: 'Overstim level up', icon: 'data/CaveShopUpg6', page: { pathname: '/account/world-7/spelunking', label: 'Spelunking' }, options: {} },
+  'timers.World 7.yellowJelly': { label: 'Yellow jelly construction purchase', icon: 'data/MenaJelly5', page: { pathname: '/account/world-7/menagerie', query: { t: 'Jellies' }, label: 'Jellies' }, options: {} }
 };

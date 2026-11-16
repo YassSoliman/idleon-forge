@@ -1,4 +1,4 @@
-// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1.
+// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 48cb4ee697988ec5eac14ba97142add6296505b2.
 // Copyright (C) Morta1 and IdleOn Toolbox contributors. GPL-3.0-only; see vendor/LICENSE.
 // Copied unmodified by IdleOn Forge's scripts/sync.sh; UI-coupled imports are redirected to shims/ at build time.
 // Auto-generated
@@ -117,6 +117,7 @@ export interface Account {
       effectName: string;
       value: number;
       done: boolean;
+      state: string;
     }[];
   timeAway: {
     GlobalTime: number;
@@ -202,7 +203,7 @@ export interface Account {
   };
   looty: {
     slabItems: {
-        name?: string;
+        name: string;
         rawName: string;
         itemRawName: string;
         obtained: boolean;
@@ -235,6 +236,7 @@ export interface Account {
         maxLevel: number;
         requirement: null | number;
         meritReward: number;
+        taskPointReward: number;
       }[])[];
   meritsDescriptions: ({
         descLine1: string;
@@ -258,6 +260,11 @@ export interface Account {
           unlocks: Record<string, any>[];
           unlocked: number;
         }[])[];
+    columnLocks: {
+        open: boolean;
+        recipesNeeded: number;
+        anvilTab: null;
+      }[];
     unlockedRecipes: number;
     unlockPointsOwned: number;
     currentPoints: number;
@@ -302,6 +309,7 @@ export interface Account {
       steamExclusive: boolean;
       secretAchievement: boolean;
       steamIndex?: number;
+      steamQuantity?: number;
       gems?: number;
       candy?: {
         rawName: string;
@@ -309,6 +317,7 @@ export interface Account {
       };
       completed: boolean;
       currentQuantity?: number;
+      progressTarget?: number;
     }[];
   rift: {
     list: {
@@ -432,11 +441,13 @@ export interface Account {
           level: number;
         } | number;
         rank: number;
+        classIndex: number;
       }[];
     maxMembers: number;
     level: number;
     levelReq: number;
     totalGp: number;
+    unspentGp: number;
   };
   talentPoints: number[];
   tournamentServerData: null;
@@ -452,7 +463,7 @@ export interface Account {
           name: string;
           regen: Record<string, any>;
           capacity: Record<string, any>;
-          players: Record<string, any>[] | any[];
+          players: Record<string, any>[];
         }[];
       vials: {
         attempts: number;
@@ -494,6 +505,7 @@ export interface Account {
       };
       sigilSpeed: {
         value: number;
+        display: string;
         breakdown: {
           statName: string;
           totalValue: string;
@@ -711,11 +723,17 @@ export interface Account {
           level: number;
           progress: number;
           req: number;
+          bonus: number;
         };
         decantRate: {
           level: number;
           progress: number;
           req: number;
+          bonus: number;
+        };
+        rate: {
+          value: number;
+          breakdown: Record<string, any>;
         };
       }[];
   };
@@ -860,6 +878,7 @@ export interface Account {
         func: string;
         bonusName: string;
         type: string;
+        index: number;
         level: number;
       }[];
     insideUpgrades: {
@@ -869,6 +888,7 @@ export interface Account {
         func: string;
         bonusName: string;
         type: string;
+        index: number;
         level: number;
       }[];
     credits: number;
@@ -886,6 +906,7 @@ export interface Account {
         levelText: string;
         baseValue: number;
         maxLevel: number;
+        index: number;
         level: number;
       }[];
     statBoosts: {
@@ -921,6 +942,7 @@ export interface Account {
       category: string;
       amount: number;
       stars: number;
+      maxStars: number;
       nextLevelReq: number;
     }>;
   currencies: {
@@ -1256,6 +1278,7 @@ export interface Account {
     maxCrucibleLevel: number;
     maxShinyLevel: number;
     shinyOverLevels: number;
+    shinyOverLevelMulti: number;
     timeToNextEgg: number;
     petUpgrades: {
         name: string;
@@ -1432,7 +1455,10 @@ export interface Account {
         };
       };
     };
+    rawKitchens: (number[])[];
+    rawAtoms: number[];
     kitchens: {
+        kitchenIndex: number;
         status: number;
         meal: {
           name: string;
@@ -1514,6 +1540,11 @@ export interface Account {
     unlockedDeities: number;
     godRank: number;
     divinityPoints: number;
+    offerings: {
+        tier: number;
+        chance: number;
+        cost: number;
+      }[];
     unlocked: boolean;
   };
   sneaking: {
@@ -1549,10 +1580,12 @@ export interface Account {
         x11: number;
         level?: number;
         omnijadeLevels: number;
+        omnijadePlaced: boolean;
         value: number;
         isUnlocked: boolean;
         isSpecialUpgrade: boolean;
         prerequisiteIndex: number | null;
+        unlockMastery: number | null;
         unlockOrder: null | number;
         position: {
           locked: Record<string, any>;
@@ -1617,12 +1650,14 @@ export interface Account {
           description: string;
           filler: string;
           dropChance: string;
+          floorChance: number;
         }[])[];
     doorsCurrentHp: (number | string)[];
     doorMaxHps: number[];
     beanstalkData: number[];
     totalJadeEmporiumUnlocked: number;
     unlockedFloors: number;
+    selectedNinjaMastery: number;
     gemStones: {
         rawName: string;
         type: number;
@@ -1656,8 +1691,9 @@ export interface Account {
       totalValue: string;
       tree: {
           name: string;
-          value: number;
-          unit: string;
+          combine: string;
+          children: Record<string, any>[];
+          round: string;
           formatted: string;
         }[];
       combine: string;
@@ -1672,9 +1708,14 @@ export interface Account {
           name: string;
           floor: number;
           baseStealth: number;
+          baseSources: Record<string, any>[];
           floorMateBonus: number;
           stealth: number;
+          stealthBreakdown: Record<string, any>;
           detection: number;
+          difficulty: number;
+          dodge: number;
+          knockout: number;
         }[];
       flowerStacks: number[];
       flowerBonus: number;
@@ -1705,6 +1746,7 @@ export interface Account {
         growthReq: number;
         isLocked: number;
         currentOG: number;
+        megacropBlocked: boolean;
         cropRawName: string;
         seedRawName: string;
         nextOGChance: number;
@@ -1780,42 +1822,112 @@ export interface Account {
       damage: {
         name: string;
         value: number;
+        unlocked: boolean;
+        unlockName: string;
+        perCrop: number;
+        multiplicative: boolean;
+        after: number;
+        every: number;
+        pastAfter: boolean;
       };
       gamingEvo: {
         name: string;
         value: number;
+        unlocked: boolean;
+        unlockName: string;
+        perCrop: number;
+        multiplicative: boolean;
+        after: number;
+        every: number;
+        pastAfter: boolean;
       };
       jadeCoin: {
         name: string;
         value: number;
+        unlocked: boolean;
+        unlockName: string;
+        perCrop: number;
+        multiplicative: boolean;
+        after: number;
+        every: number;
+        pastAfter: boolean;
       };
       cookingSpeed: {
         name: string;
         value: number;
+        unlocked: boolean;
+        unlockName: string;
+        perCrop: number;
+        multiplicative: boolean;
+        after: number;
+        every: number;
+        pastAfter: boolean;
       };
       cash: {
         name: string;
         value: number;
+        unlocked: boolean;
+        unlockName: string;
+        perCrop: number;
+        multiplicative: boolean;
+        after: number;
+        every: number;
+        pastAfter: boolean;
       };
       shiny: {
         name: string;
         value: number;
+        unlocked: boolean;
+        unlockName: string;
+        perCrop: number;
+        multiplicative: boolean;
+        after: number;
+        every: number;
+        pastAfter: boolean;
       };
       critters: {
         name: string;
         value: number;
+        unlocked: boolean;
+        unlockName: string;
+        perCrop: number;
+        multiplicative: boolean;
+        after: number;
+        every: number;
+        pastAfter: boolean;
       };
       dropRate: {
         name: string;
         value: number;
+        unlocked: boolean;
+        unlockName: string;
+        perCrop: number;
+        multiplicative: boolean;
+        after: number;
+        every: number;
+        pastAfter: boolean;
       };
       spelunky: {
         name: string;
         value: number;
+        unlocked: boolean;
+        unlockName: string;
+        perCrop: number;
+        multiplicative: boolean;
+        after: number;
+        every: number;
+        pastAfter: boolean;
       };
       researchExp: {
         name: string;
         value: number;
+        unlocked: boolean;
+        unlockName: string;
+        perCrop: number;
+        multiplicative: boolean;
+        after: number;
+        every: number;
+        pastAfter: boolean;
       };
     };
     maxTimes: {
@@ -1827,11 +1939,30 @@ export interface Account {
         };
       }[];
     stickers: {
+        index: number;
         name: string;
         description: string;
         count: number;
         bonus: number;
         odds: number;
+        oddsBreakdown: {
+          statName: string;
+          totalValue: number;
+          tree: Record<string, any>[];
+          combine: string;
+        };
+        seed: {
+          name: string;
+          seedId: number;
+          cropIdMin: number;
+          cropIdMax: number;
+          lvlReq: number;
+          nextCropChance: number;
+          nextCropDecay: number;
+        };
+        plantedPlots: number;
+        blockedPlots: number;
+        bestPlotOdds: number;
         baseBonus: number;
       }[];
     totalStickers: number;
@@ -1872,16 +2003,23 @@ export interface Account {
     };
   };
   summoning: {
+    familiarCostResetSeconds: number;
     upgrades: Record<string, any>;
     winnerBonuses: {
         bonusId: number;
         bonus: string;
         value: number;
         baseValue: number;
+        breakdown: {
+          statName: string;
+          totalValue: number;
+          tree: Record<string, any>[];
+        };
       }[];
     essences: number[];
     totalUpgradesLevels: number;
     familiarsOwned: number;
+    familiarsExpPerHour: number;
     allBattles: ({
           enemyId: string;
           xOff: number;
@@ -1897,6 +2035,28 @@ export interface Account {
         }[])[];
     armyHealth: number;
     armyDamage: number;
+    armyHealthBreakdown: {
+      statName: string;
+      totalValue: number;
+      tree: {
+          name: string;
+          combine?: string;
+          children?: Record<string, any>[];
+          value?: number;
+          unit?: string;
+        }[];
+    };
+    armyDamageBreakdown: {
+      statName: string;
+      totalValue: number;
+      tree: {
+          name: string;
+          combine?: string;
+          children?: Record<string, any>[];
+          value?: number;
+          unit?: string;
+        }[];
+    };
     summoningStuff: number[];
     highestEndlessLevel: number;
     totalWins: number;
@@ -1927,6 +2087,17 @@ export interface Account {
           tree: Record<string, any>[];
         };
       }[];
+    familiarExp: {
+      savedSeconds: number;
+      expPerHour: number;
+      expMulti: number;
+      expMultiBreakdown: {
+        statName: string;
+        totalValue: string;
+        tree: Record<string, any>[];
+        label: string;
+      };
+    };
   };
   statues: {
       index: number;
@@ -1953,8 +2124,8 @@ export interface Account {
     villagers: {
         index: number;
         name: string;
-        exp: string;
-        expReq: string;
+        exp: number;
+        expReq: number;
         readyToLevel: boolean;
         level: number;
         opalInvested: number;
@@ -1997,20 +2168,22 @@ export interface Account {
         totalFillRate: number;
         goldenBucketsOwned: number;
         goldenBucketMulti: number;
-        opalCost: string;
+        opalCost: number;
+        opalCostOwned: number;
         expandWhenFull: number;
       };
       motherlode: {
-        miningEff: string;
+        miningEff: number;
         layer: number;
+        layerBreaksLeft: number;
         ores: {
-          mined: string;
-          required: string;
+          mined: number;
+          required: number;
           maxed: boolean;
         };
       };
       theDen: {
-        bestScore: string;
+        bestScore: number;
         nextOpalAt: number;
         ampMulti: number;
         amplifiers: Record<string, any>[];
@@ -2060,6 +2233,9 @@ export interface Account {
         stringTypes: number;
         uniqueStringTypes: number;
         newNoteCost: number;
+        newNoteIndex: number;
+        newNoteOwned: number;
+        allNotesOwned: boolean;
         powerRate: number;
         power: number;
         harpExpGain: number;
@@ -2071,14 +2247,20 @@ export interface Account {
       theLamp: {
         wishes: Record<string, any>[];
         wishPerDay: number;
+        wishPerDayBreakdown: {
+          statName: string;
+          totalValue: number;
+          tree: Record<string, any>[];
+          combine: string;
+        };
         currentWishes: number;
       };
       theHive: {
-        fishingEff: string;
+        fishingEff: number;
         layer: number;
         bugs: {
-          mined: string;
-          required: string;
+          mined: number;
+          required: number;
           maxed: boolean;
         };
       };
@@ -2108,6 +2290,12 @@ export interface Account {
         unlockedSlots: number;
         opalChance: number;
         newJarCost: number;
+        newJar: {
+          cost: number;
+          rupieTier: number;
+          owned: number;
+          maxed: boolean;
+        };
         rupieValue: {
           value: number;
           breakdown: Record<string, any>;
@@ -2128,14 +2316,15 @@ export interface Account {
         jarInventory: Record<string, any>[];
         totalJarQuantity: number;
         totalEnhancingLevels: number;
+        totalJarsDestroyed: number;
         collectibles: Record<string, any>[];
       };
       evertree: {
-        choppingEff: string;
+        choppingEff: number;
         layer: number;
         logs: {
-          chopped: string;
-          required: string;
+          chopped: number;
+          required: number;
           maxed: boolean;
         };
       };
@@ -2172,11 +2361,19 @@ export interface Account {
       };
       gambit: {
         pointsMulti: number;
+        pointsMultiBreakdown: {
+          statName: string;
+          totalValue: number;
+          tree: Record<string, any>[];
+          combine: string;
+        };
         basePoints: number;
         points: number;
         bonuses: Record<string, any>[];
         times: number[];
         totalTime: number;
+        runs: Record<string, any>[];
+        nextOpalPoints: number;
         summoningDoublers: {
           appointed: number;
           total: number;
@@ -2200,17 +2397,22 @@ export interface Account {
         fountainSpeedBonus: number;
         currencies: Record<string, any>[];
         currencyAllMulti: number;
+        nextOpal: {
+          cost: number;
+          currencyType: number;
+          owned: number;
+        };
         marblePerFill: number;
         fountainBars: Record<string, any>[];
         spacesOwned: number;
         maxStackSize: number;
       };
       theBottomlessTrench: {
-        fishingEff: string;
+        fishingEff: number;
         layer: number;
         fish: {
-          caught: string;
-          required: string;
+          caught: number;
+          required: number;
           maxed: boolean;
         };
       };
@@ -2218,7 +2420,13 @@ export interface Account {
         upgrades: Record<string, any>[];
         shapes: Record<string, any>[];
         dropRate: number;
+        dropRateBreakdown: {
+          statName: string;
+          totalValue: number;
+          tree: Record<string, any>[];
+        };
         afkGains: number;
+        afkRate: number;
         multiKillTier: number;
         multiKillBase: number;
         respawn: number;
@@ -2325,6 +2533,11 @@ export interface Account {
         playerName: string;
         class: string;
         lineWidth: number;
+        lineWidthBreakdown: {
+          statName: string;
+          totalValue: number;
+          tree: Record<string, any>[];
+        };
         soupedUp: boolean;
       }[];
     playersChips: ({
@@ -2346,6 +2559,11 @@ export interface Account {
         x: number;
         y: number;
         lineWidth: number;
+        lineWidthBreakdown: {
+          statName: string;
+          totalValue: number;
+          tree: Record<string, any>[];
+        };
       }[];
     jewels: {
         index: number;
@@ -2420,6 +2638,7 @@ export interface Account {
         cost: number;
         level: number;
         costToMax: number;
+        nextLevelValue: string | null;
       }[];
     clusters: number;
   };
@@ -2438,7 +2657,7 @@ export interface Account {
       }[];
     balls: number;
     goldBalls: number;
-    royalBalls: number;
+    cosmicBalls: number;
     omegaBalls: number;
     totalUpgradeLevels: number;
     goldBallMulti: {
@@ -2453,6 +2672,7 @@ export interface Account {
   equinox: {
     currentCharge: number;
     chargeRequired: number;
+    totalUpgradeLevels: number;
     chargeRate: number;
     timeToFull: number;
     challenges: {
@@ -2520,6 +2740,8 @@ export interface Account {
         index: number;
         level: number;
         cost: number;
+        stacks: null | number;
+        stacksTotal: null | number;
         unlocked: boolean;
         bonus: number;
         monsterProgress?: string;
@@ -2582,7 +2804,10 @@ export interface Account {
         cost: number;
         isMulti: boolean;
         smallNotation: boolean;
-        extraData?: string;
+        killsProgress?: {
+          kills: number;
+          total: number;
+        };
       }[];
     groupedUpgrades: {
         path: string;
@@ -2717,7 +2942,10 @@ export interface Account {
     remainingExaltedStamps: number;
     totalUpgradeLevels: number;
     totalDustsCollected: number;
-    topOfTheMorninKills: string;
+    topOfTheMorninKills: {
+      kills: number;
+      total: number;
+    };
   };
   tesseract: {
     upgrades: {
@@ -2770,6 +2998,7 @@ export interface Account {
       }[];
     raw: (number[])[];
     rawMaps: (number[])[];
+    resourceStorage: number[];
     armory: {
       upgrades: {
           index: number;
@@ -2791,9 +3020,12 @@ export interface Account {
           slot: number;
           cost: number;
           costResourceRawName: string;
+          rawDescription: string;
+          nextLevelBonus: number;
         }[];
       totalLevels: number;
       unlockedSlots: number;
+      nextShelfAt: null;
       slotToId: number[];
     };
     royalStatues: {
@@ -2807,11 +3039,14 @@ export interface Account {
         upgradeOdds: number;
         cost: number;
         costItem: string;
+        owned: number;
+        marbleName: string;
         named: boolean;
       }[];
     statueFlair: {
       unlocked: boolean;
       maxLevel: number;
+      levelCap: number;
       statues: {
           index: number;
           name: string;
@@ -2845,6 +3080,7 @@ export interface Account {
         bonus: number;
         cost: number;
         maxed: boolean;
+        bonusInSentence: boolean;
       }[];
     orblets: number;
     guardian: {
@@ -2861,6 +3097,7 @@ export interface Account {
       marblesDropped: number;
       marbleEarlyBoost: number;
       marbleDropChanceEffective: number[];
+      marbleShelfBought: boolean;
       royalRadius: number;
     };
     resources: {
@@ -3165,13 +3402,46 @@ export interface Account {
         costToMax: number;
         value: number;
         bonus: number;
+        locked: boolean;
       }[];
     totalAtomsAvailable: number;
+    unlockSources: {
+        name: string;
+        unlocked: boolean;
+      }[];
+    costCut: {
+      sum: number;
+      multi: number;
+      breakdown: {
+        statName: string;
+        totalValue: number;
+        tree: Record<string, any>[];
+      };
+    };
+    maxLevelBreakdown: {
+      statName: string;
+      totalValue: number;
+      tree: {
+          name: string;
+          value: number;
+          unit: string;
+        }[];
+      combine: string;
+    };
     stampReducer: number;
   };
   spelunking: Record<string, any>;
   hatRack: {
     bonusMulti: number;
+    bonusMultiBreakdown: {
+      statName: string;
+      totalValue: number;
+      tree: {
+          name: string;
+          combine: string;
+          children: Record<string, any>[];
+        }[];
+    };
     hatBonuses: {
         name: string;
         value: number;
@@ -3232,6 +3502,52 @@ export interface Account {
       }[];
     totalHats: number;
   };
+  capeVine: {
+    inSave: boolean;
+    bonusMulti: number;
+    bonusMultiBreakdown: {
+      statName: string;
+      totalValue: number;
+      tree: {
+          name: string;
+          combine: string;
+          children: Record<string, any>[];
+        }[];
+    };
+    capeBonuses: any[];
+    capesUsed: any[];
+    allCapes: {
+        displayName: string;
+        sellPrice: number;
+        typeGen: string;
+        ID: number;
+        Type: string;
+        lvReqToCraft: number;
+        lvReqToEquip: number;
+        Class: string;
+        Speed: number;
+        Reach: number;
+        Weapon_Power: number;
+        STR: number;
+        AGI: number;
+        WIS: number;
+        LUK: number;
+        Defence: number;
+        UQ1txt: string;
+        UQ1val: number;
+        UQ2txt: number | string;
+        UQ2val: number;
+        Upgrade_Slots_Left: number;
+        itemType: string;
+        rawName: string;
+        isAcquired: boolean;
+      }[];
+    totalCapes: number;
+    totalEligibleCapes: number;
+    goldenVines: number;
+    goldenVinesUnlocked: number;
+    nextGoldenVineClassLevel: number;
+  };
   gaming: {
     palette: {
         x0?: number;
@@ -3245,10 +3561,12 @@ export interface Account {
         x8?: number;
         x9?: number;
         description?: string;
+        index?: number;
         level?: number;
         bonus?: number;
         blackStars?: number;
         blackStarMulti?: number;
+        blackStarPreviews?: any[] | Record<string, any>[];
         active?: boolean;
         chance?: number;
       }[];
@@ -3267,6 +3585,14 @@ export interface Account {
     ratTokens: number;
     snailLevel: number;
     snailEncouragement: number;
+    snail: {
+      maxLevel: number;
+      holeBonus: number;
+      successChance: number;
+      resetChance: number;
+    };
+    bogLogTimer: number;
+    bogLogReady: boolean;
     squirrelMulti: number;
     elegantShellRank: number;
     fertilizerUpgrades: {
@@ -3279,6 +3605,7 @@ export interface Account {
     availableSprouts: number;
     availableDrops: number;
     sproutsCapacity: string;
+    sproutGrowSeconds: number;
     imports: {
         boxName: string;
         boxDescription: string;
@@ -3290,7 +3617,7 @@ export interface Account {
         x2: number;
         level: number;
         rawName: string;
-        bonus?: number;
+        bonus: number;
         cost: number;
         acquired: boolean;
         saveSprinklerChance?: number;
@@ -3353,6 +3680,7 @@ export interface Account {
       ratBitMulti: number;
       ratCurrencyGain: number;
       ratCrownOdds: number;
+      ratCrownOneIn: number;
       shopUpgrades: {
           name: string;
           level: number;
@@ -3394,13 +3722,7 @@ export interface Account {
       }[];
     chests: any[];
     rareTreasureChance: number;
-    trades: {
-        amount: number;
-        rawName: string;
-        date: string;
-        moneyValue: number;
-        lootItemCost: number;
-      }[];
+    trades: any[];
     timeToFullChests: number;
     captains: {
         captainIndex: string;
@@ -3409,19 +3731,20 @@ export interface Account {
         firstBonusIndex: number;
         secondBonusIndex: number;
         firstBonusDescription: string;
+        firstBonusName: string;
+        secondBonusName: string;
         secondBonusDescription: string;
         firstBonusValue: number;
         secondBonusValue: number;
-        exp: string;
         firstBonus: number;
         secondBonus: number;
-        expReq: string;
+        expValue: number;
+        expReqValue: number;
       }[];
     boats: {
         rawName: string;
         level: number;
         artifactChance: {
-          value: string;
           rawValue: number;
           breakdown: Record<string, any>;
         };
@@ -3463,6 +3786,14 @@ export interface Account {
         };
         maxTime: number;
         timeLeft: number;
+        cloud: null;
+        chestOdds: {
+          tiers: Record<string, any>[];
+          rareScale: number;
+          expectedTreasure: number;
+          expectedArtifactChance: number;
+          noArtifactsLeft: boolean;
+        };
       }[];
     lootMulti: {
       value: number;
@@ -3479,13 +3810,15 @@ export interface Account {
         firstBonusIndex: number;
         secondBonusIndex: number;
         firstBonusDescription: string;
+        firstBonusName: string;
+        secondBonusName: string;
         secondBonusDescription: string;
         firstBonusValue: number;
         secondBonusValue: number;
-        exp: string;
         firstBonus: number;
         secondBonus: number;
-        expReq: string;
+        expValue: number;
+        expReqValue: number;
         cost: number;
       }[];
     captainsOnBoats: {
@@ -3512,9 +3845,19 @@ export interface Account {
     };
     minimumTravelTime: number;
     minimumTravelTimeBreakdown: {
-        name: string;
-        value: number;
-      }[];
+      statName: string;
+      totalValue: string;
+      tree: {
+          name: string;
+          combine?: string;
+          children?: Record<string, any>[];
+          unit: string;
+          value?: number;
+        }[];
+      combine: string;
+      round: string;
+      min: number;
+    };
   };
   accountLevel: number;
   highscores: {
@@ -3532,11 +3875,16 @@ export interface Account {
   forge: {
     list: {
         isBrimestone: boolean;
+        locked: boolean;
         speed: number;
+        barsPerCycle: number;
+        barsPerHour: number;
+        orePerHour: number;
         ore: {
           rawName: string;
           amount: number;
           quantity: number;
+          inStorage: number;
           timeTillEmpty: number;
           owner: string;
         };
@@ -3545,6 +3893,9 @@ export interface Account {
           amount: number;
           quantity: number;
           owner: string;
+          effect: null;
+          bonus: number;
+          timeTillEmpty: number;
         };
         bar: {
           rawName: string;
@@ -3558,8 +3909,29 @@ export interface Account {
         maxLevel: number;
         description: string;
         level: number;
+        bonus: string;
+        nextCost: number;
+        costToMax: number;
+        totalCost: number;
         costMulti?: number;
       }[];
+    refillOn: boolean;
+    costToMaxAll: number;
+    stats: {
+      slots: number;
+      maxSlots: number;
+      speed: {
+        value: number;
+        breakdown: {
+          statName: string;
+          totalValue: string;
+          tree: Record<string, any>[];
+        };
+      };
+      expGain: number;
+      multiBarChance: number;
+      cardChance: number;
+    };
     oreCapacity: {
       value: number;
       breakdown: {
@@ -3677,6 +4049,12 @@ export interface Account {
           rawName: string;
           displayName: string;
           kills: number;
+          icon: string;
+        }[] | {
+          rawName: string;
+          displayName: string;
+          kills: number;
+          icon: null;
         }[];
     }>;
   topKilledMonsters: {
@@ -3709,6 +4087,7 @@ export interface Account {
           bonusDisplay: string;
         };
         appliedBonuses: null | Record<string, any>[];
+        cost: null | number;
       }[];
     totalKills: number;
     totalDamageMulti: number;
@@ -3745,6 +4124,7 @@ export interface Account {
           combine: string;
           children: Record<string, any>[];
           unit?: string;
+          formatted?: string;
           note?: string;
         }[];
       combine: string;
@@ -3753,8 +4133,8 @@ export interface Account {
     breakpoints: {
         breakpoint: number;
         time: number;
-        label?: string;
       }[];
+    baseFactor: number;
   };
   construction: {
     totalBuildRate: number;
@@ -3857,6 +4237,16 @@ export interface Account {
       cogData: string;
       empties: string;
     };
+    cogMakers: {
+        maker: number;
+        tier: string;
+        icon: string;
+        progress: number;
+        ready: number;
+        previousReq: number;
+        nextReq: number;
+        characters: any[] | string[];
+      }[];
   };
   shrinesExpBonus: {
     total: number[];
@@ -3917,6 +4307,7 @@ export interface Account {
         x3: number;
         x4: null | number;
         tomeLvReq: number;
+        tomeIndex: number;
         index: number;
         quantity: number;
         points: number;
@@ -3966,18 +4357,21 @@ export interface Account {
     progress: number;
     nextLvReq: number;
     megaFeathers: {
+        name: string;
         description: string;
         unlocked: boolean;
         amount?: number;
         totalBonus?: number;
       }[];
     featherRate: number;
+    shinyPerHour: number;
     restartMulti: number;
   };
   kangaroo: {
     resetBonuses: {
         desc: string;
         level: number;
+        unlocked: boolean;
       }[];
     upgrades: {
         name: string;
@@ -3996,13 +4390,18 @@ export interface Account {
         name: string;
         bonus: number;
         percentage?: boolean;
+        unlocked?: boolean;
+        unlockLevel?: number;
       }[];
     fish: number;
     pendingFish: number;
     totalFish: number;
     progress: number;
+    nextLvReq: number;
     megaFish: {
         description: string;
+        name: string;
+        title: string;
         unlocked: boolean;
         amount?: number;
         totalBonus?: number;
@@ -4012,10 +4411,10 @@ export interface Account {
     tarFishOwned: number;
     pendingTarFish: number;
     totalTarFishOwned: number;
-    totalMulti: string;
+    totalMulti: number;
     allMultipliers: {
-        multi: string;
-        amount: string;
+        multi: number;
+        amount: number;
       }[];
     tarUpgrades: {
         name: string;
@@ -4032,7 +4431,9 @@ export interface Account {
     shinyProgress: number;
     shinyRate: number;
     shinyRatePercent: number;
-    avgResetPoints: number;
+    fishCaught: number;
+    unspentResetPoints: number;
+    nextResetPoints: number;
   };
   voteBallot: {
     bonuses: {
@@ -4114,6 +4515,7 @@ export interface Account {
         x7: number;
         x8: number;
         description: string;
+        index: number;
         level: number;
         unlocked: boolean;
         cost: number;
@@ -4139,7 +4541,10 @@ export interface Account {
         bonus: string;
         baseBonus: string;
         totalBonus: number;
+        baseTotal: number;
+        levels: number;
         rawIndex: number;
+        rawName: string;
         icon: string;
         value: string;
         indexes: number[];
@@ -4163,6 +4568,7 @@ export interface Account {
     dailyAttempts: number;
     attempts: number;
     maxAttempts: number;
+    noWasteAttempts: number;
   };
   legendTalents: {
     talents: {
@@ -4173,6 +4579,7 @@ export interface Account {
         description: string;
         originalIndex: number;
         level: number;
+        nextLevelValue: null | string;
         index: number;
         maxLevel: number;
         baseMaxLevel: number;
@@ -4181,6 +4588,10 @@ export interface Account {
           gridIndex: number;
           level: number;
           maxLevel: number;
+        };
+        menagerie: null | {
+          bonus: number;
+          maxBonus: number;
         };
         menagerieMaxLevelBonus: number;
       }[];
@@ -4334,6 +4745,7 @@ export interface Account {
         description: string;
         cost: number;
         costItem: null | string;
+        divinityLevelReq: number;
         bonus: number;
       }[];
     coralKidUpgradeLevelTotal: number;
@@ -4394,6 +4806,15 @@ export interface Account {
         tree: Record<string, any>[];
       };
     };
+    singularity: {
+      points: number;
+      kills: number;
+      hours: number;
+      baseValue: number;
+      killMulti: number;
+      timeMulti: number;
+      totalValue: number;
+    };
   };
   clamWork: {
     workerClass: number;
@@ -4430,6 +4851,10 @@ export interface Account {
       expGain: number;
       startingExp: number;
       pointsLeft: number;
+      points: {
+          name: string;
+          value: number;
+        }[];
       upgrades: {
           name: string;
           index: number;
@@ -4463,6 +4888,16 @@ export interface Account {
           children?: Record<string, any>[];
         }[];
     };
+    baseDamageBreakdown: {
+      statName: string;
+      totalValue: number;
+      tree: {
+          name: string;
+          combine: string;
+          children: Record<string, any>[];
+        }[];
+    };
+    bluecrownOdds: number;
     upgrades: {
         index: number;
         name: string;
@@ -4473,8 +4908,11 @@ export interface Account {
         isLocked: boolean;
         bonusPerLevel: number;
         doubled: boolean;
+        doublerEligible: boolean;
+        doubledDescription: string | null;
         upgradeQTY: number;
         cost: number;
+        costExponent: number;
         canAfford: boolean;
         description: string;
       }[];
@@ -4507,10 +4945,13 @@ export interface Account {
   };
   tournament: {
     divisionIndex: number;
-    playerName: null;
+    playerName: string;
     divisionName: string;
     divisionScale: number;
     divisionNames: string[];
+    nextDivisionPoints: null;
+    nextDivisionName: string;
+    seasonEnd: number;
     playerRank: null;
     tournamentDay: number;
     matchDay: number;
@@ -4519,6 +4960,11 @@ export interface Account {
     leaderboard: any[];
     petMart: {
       shopDay: number;
+      gems: {
+        offered: boolean;
+        claimable: boolean;
+        amount: number;
+      };
       petCrystals: number;
       offers: any[];
       plusOffers: any[];
@@ -4545,7 +4991,6 @@ export interface Account {
         name: string;
         value: number;
         displayFormat: string;
-        displayValue: string;
         bonusPerPress: number;
         level: number;
       }[];
@@ -4565,8 +5010,11 @@ export interface Account {
   sushiStation: {
     unlocked: boolean;
     uniqueSushi: number;
+    nextFuelCost: number;
     fuel: {
       current: number;
+      stored: number;
+      overCap: number;
       cap: number;
       generation: number;
     };
@@ -4607,14 +5055,18 @@ export interface Account {
         fireplaceType: number;
         currencyPerSlot: number;
       }[];
+    slotsOwned: number;
     upgrades: {
         name: string;
         description: string;
         level: number;
         maxLevel: null | number;
         cost: number;
+        costExponent: number;
         bonusPerLevel: number;
         doubled: boolean;
+        doublerEligible: boolean;
+        doubledDescription: string | null;
         upgradeQTY: number;
         lvReq: number;
         visualIndex: number;
@@ -4626,6 +5078,10 @@ export interface Account {
         level: number;
         xp: number;
         xpReq: number;
+        openLevel: number;
+        openXp: number;
+        openXpReq: number;
+        pendingLevels: number;
         bonusSpecific: number;
         bonusDescription: string;
         category: number;
@@ -4661,7 +5117,6 @@ export interface Account {
         sources: Record<string, any>[];
       }[];
     shakerUses: number[];
-    slotsOwned: number;
     saveTotals: {
       upgradeLevels: number;
       knowledgeLevels: number;
@@ -4726,6 +5181,7 @@ export interface Account {
       };
     };
     obstructionsDefeated: number;
+    maxObstructionsDefeated: number;
     operationsLeft: number;
     dailyOperations: number;
     bloodcells: number;
@@ -4767,8 +5223,11 @@ export interface Account {
         bonus: number;
         doubled: boolean;
         cost: number;
+        costExponent: number;
         lvReq: number;
         unlocked: boolean;
+        doublerEligible: boolean;
+        doubledDescription: null | string;
       }[];
     cells: {
         index: number;
@@ -4817,7 +5276,10 @@ export interface Account {
         claims: number;
         progress: number;
         requirement: number;
+        increment: number;
+        claimable: number;
         isLogScale: boolean;
+        isBits: boolean;
         canClaim: boolean;
         visible: boolean;
       }[];
@@ -4829,6 +5291,7 @@ export interface Account {
         owned: boolean;
         affordable: boolean;
         visible: boolean;
+        rankRequired: number;
       }[];
     boosts: {
         index: number;
@@ -4839,6 +5302,7 @@ export interface Account {
         cost: number;
         affordable: boolean;
         visible: boolean;
+        rankRequired: number;
       }[];
     visible: {
       missions: number;
@@ -4861,6 +5325,7 @@ export interface Account {
         readingMulti: number;
         chaptersTracked: number;
         chapterSlots: number;
+        chapterPages: number[];
       };
       silver: {
         levels: number[];
@@ -4874,23 +5339,12 @@ export interface Account {
         requirement: number;
         progress: number;
         bonuses: number[];
+        perLevel: number[];
       };
       green: {
         nametagsDeposited: number;
         nametagsRequired: number;
       };
-    };
-    scurge: {
-      unlocked: boolean;
-      exp: number;
-      level: number;
-      expReq: number;
-      upgrades: {
-          index: number;
-          level: number;
-          levelReq: number;
-        }[];
-      startingExp: number;
     };
     doublers: {
       minehead: {
@@ -4919,6 +5373,7 @@ export interface Account {
       omnijade: {
         owned: number;
         left: number;
+        dailyLevels: number;
       };
     };
     nightmariner: {
@@ -4938,6 +5393,8 @@ export interface Account {
         x5: number;
         x6: number;
         level: number;
+        maxLevel: null | number;
+        maxed: boolean;
         prestige: number;
         realLV: number;
         cost: number;
@@ -4946,43 +5403,69 @@ export interface Account {
       }[];
     meatSlices: number;
     meatsliceRate: number;
+    meatsliceRateBreakdown: {
+      statName: string;
+      totalValue: number;
+      tree: {
+          name: string;
+          combine?: string;
+          children?: Record<string, any>[];
+          value?: number;
+          unit?: string;
+        }[];
+    };
     progress: number;
     progressReq: number;
+    allUpgradesAvailable: boolean;
     bonuses: {
       buildRate: {
         name: string;
         bonus: number;
         isNegative: boolean;
+        unlockLevel: number;
+        unlocked: boolean;
       };
       critterGain: {
         name: string;
         bonus: number;
         isNegative: boolean;
+        unlockLevel: number;
+        unlocked: boolean;
       };
       soulGain: {
         name: string;
         bonus: number;
         isNegative: boolean;
+        unlockLevel: number;
+        unlocked: boolean;
       };
       totalDamage: {
         name: string;
         bonus: number;
         isNegative: boolean;
+        unlockLevel: number;
+        unlocked: boolean;
       };
       allKills: {
         name: string;
         bonus: number;
         isNegative: boolean;
+        unlockLevel: number;
+        unlocked: boolean;
       };
       expMulti: {
         name: string;
         bonus: number;
         isNegative: boolean;
+        unlockLevel: number;
+        unlocked: boolean;
       };
       atomCost: {
         name: string;
         bonus: number;
         isNegative: boolean;
+        unlockLevel: number;
+        unlocked: boolean;
       };
     };
     totalUpgTypesAvailable: number;
@@ -4990,8 +5473,10 @@ export interface Account {
     megaFlesh: {
         description: string;
         unlocked: boolean;
+        name: string;
         totalBonus?: string;
         amount?: number;
+        nextBonus?: string;
       }[];
     smokerUnlocked: boolean;
     smokerSeconds: number;
@@ -5054,6 +5539,7 @@ export interface Character {
     level: number;
   };
   level: number;
+  hasData: boolean;
   invBagsUsed: {
       displayName: string;
       sellPrice: number;
@@ -5732,6 +6218,7 @@ export interface Character {
         category: string;
         amount: number;
         stars: number;
+        maxStars: number;
         nextLevelReq: number;
       }[])[];
   cards: {
@@ -5754,6 +6241,7 @@ export interface Character {
         category: string;
         amount: number;
         stars: number;
+        maxStars: number;
         nextLevelReq: number;
         legendBonus: number;
       }[];
@@ -5884,6 +6372,8 @@ export interface Character {
         monsterFace: number;
         name: string;
         afkType: string;
+        sideMap: boolean;
+        bossMap: boolean;
         done: boolean[];
       }[];
   };
@@ -5896,6 +6386,8 @@ export interface Character {
         monsterFace: number;
         name: string;
         afkType: string;
+        sideMap: boolean;
+        bossMap: boolean;
         done: boolean[];
       }[];
   };
@@ -5908,6 +6400,8 @@ export interface Character {
         monsterFace: number;
         name: string;
         afkType: string;
+        sideMap: boolean;
+        bossMap: boolean;
         done: boolean[];
       }[];
   };
@@ -6015,6 +6509,7 @@ export interface Character {
     };
     anvilSelected: number[];
   };
+  talentPointsLeft: number[];
   crystalSpawnChance: {
     breakdown: {
       statName: string;
@@ -6031,6 +6526,7 @@ export interface Character {
     };
     value: number;
     effectiveValue: number;
+    guaranteedLeft: number;
     cap: number;
     capped: boolean;
     embiggener: number;

@@ -1,8 +1,8 @@
-// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1.
+// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 48cb4ee697988ec5eac14ba97142add6296505b2.
 // Copyright (C) Morta1 and IdleOn Toolbox contributors. GPL-3.0-only; see vendor/LICENSE.
 // Copied unmodified by IdleOn Forge's scripts/sync.sh; UI-coupled imports are redirected to shims/ at build time.
 import { notateNumber, tryToParse } from '@utility/helpers';
-import { exoticMarketInfo, gameTables, mapPortals, marketInfo, ninjaExtraInfo, research as researchData, seedInfo } from '@website-data';
+import { exoticMarketInfo, gameTables, mapPortals, marketInfo, ninjaExtraInfo, research as researchData, researchGridSquares, seedInfo } from '@website-data';
 import { getCharmBonus, isJadeBonusUnlocked } from '@parsers/world-6/sneaking';
 import { getStarSignBonus } from '@parsers/starSigns';
 import { getBubbleBonus, getVialsBonusByEffect, getVialsBonusByStat } from '@parsers/world-2/alchemy';
@@ -23,7 +23,7 @@ import { getLampBonus } from '@parsers/world-5/caverns/the-lamp';
 import { getMealsBonusByEffectOrStat } from '@parsers/world-4/cooking';
 import { getMonumentBonus } from '@parsers/world-5/caverns/bravery';
 import { getMineheadBonusQTY } from '@parsers/world-7/minehead';
-import { getStampsBonusByEffect } from '@parsers/world-1/stamps';
+import { getStampLineName, getStampsBonusByEffect } from '@parsers/world-1/stamps';
 import { getEmperorBonus } from './emperor';
 import { getResearchGridBonus } from '@parsers/world-7/research';
 import { getMegacropSuperbitMulti, isSuperbitUnlocked } from '@parsers/world-5/gaming';
@@ -38,7 +38,12 @@ import { getCardBonusByEffect } from '@parsers/cards';
 import { getLegendTalentBonus } from '@parsers/world-7/legendTalents';
 import { getTomeBubbleMulti } from '@parsers/world-4/tome';
 import LavaRand from '../../utility/lavaRand';
-import { NUMBERED_GROUP, additiveGroup, createBreakdown, evaluateBreakdownNode, flat, listGroup, multiplier, percent, productGroup } from '@parsers/breakdown';
+import { NUMBERED_GROUP, additiveGroup, createBreakdown, evaluateBreakdownNode, flat, multiplier, percent, productGroup, sourceName } from '@parsers/breakdown';
+import { saveField } from '@parsers/saveField';
+import { OPT } from '@parsers/accountOptions';
+
+export const DAY_MARKET_SIZE = 8;
+export const sumMarketLevels = (upgrades: any) => upgrades?.reduce((sum: number, { level }: any) => sum + (level || 0), 0) ?? 0;
 
 /** Level needed to reach the given percent of cap for exotic capped formula: value = baseValue * level / (1000 + level). */
 export const findExoticCappedThresholdLevel = (percent: any, _unused1?: any) => {
@@ -51,17 +56,20 @@ export const getFarming = (idleonData: any, accountData: any, charactersData: an
   const rawFarmingPlot = tryToParse(idleonData?.FarmPlot);
   const rawFarmingCrop = tryToParse(idleonData?.FarmCrop);
   const rawFarmingRanks = tryToParse(idleonData?.FarmRank);
-  const rawSpelunk = tryToParse(idleonData?.Spelunk) || idleonData?.Spelunk;
+  const rawSpelunk = saveField(idleonData, 'Spelunk') || idleonData?.Spelunk;
   // Spelunk[50]: the exotic upgrade indices that carry a Menagerie organic label
   const organicLabels = Array.isArray(rawSpelunk?.[50]) ? rawSpelunk[50].map(Number) : [];
-  return parseFarming(rawFarmingUpgrades, rawFarmingPlot, rawFarmingCrop, rawFarmingRanks, accountData, charactersData, organicLabels);
+  // Research[10][plot]: 1 while a megacrop sits unclaimed on the plot, which stops that plot finding stickers
+  const rawResearch = saveField(idleonData, 'Research') || idleonData?.Research;
+  const megacropFlags = Array.isArray(rawResearch?.[10]) ? rawResearch[10] : [];
+  return parseFarming(rawFarmingUpgrades, rawFarmingPlot, rawFarmingCrop, rawFarmingRanks, accountData, charactersData, organicLabels, megacropFlags);
 }
 
 // An organic label doubles that exotic's bonus; exotic 39 is capped at 50 after it
 const EXOTIC_ORGANIC_MULTI = 2;
 const EXOTIC_39_CAP = 50;
 
-const parseFarming = (rawFarmingUpgrades: any, rawFarmingPlot: any, rawFarmingCrop: any, rawFarmingRanks: any, account: any, charactersData: any, organicLabels: number[] = []) => {
+const parseFarming = (rawFarmingUpgrades: any, rawFarmingPlot: any, rawFarmingCrop: any, rawFarmingRanks: any, account: any, charactersData: any, organicLabels: number[] = [], megacropFlags: any[] = []) => {
   const gemVineBonus = account?.gemShopPurchases?.find((value: any, index: any) => index === 139) ?? 0;
   const marketLevels = rawFarmingUpgrades?.slice(2, marketInfo.length + 2);
   const beans = rawFarmingUpgrades?.[1] ?? 0;
@@ -233,6 +241,7 @@ const parseFarming = (rawFarmingUpgrades: any, rawFarmingPlot: any, rawFarmingCr
       growthReq,
       isLocked,
       currentOG,
+      megacropBlocked: Number(megacropFlags?.[cropIndex] ?? 0) !== 0,
       cropRawName: `FarmCrop${type}.png`,
       seedRawName: `Seed_${seedType}.png`
     }
@@ -282,7 +291,7 @@ const parseFarming = (rawFarmingUpgrades: any, rawFarmingPlot: any, rawFarmingCr
       + getSushiBonus(account, 33) + 3 * getCloudBonus(account?.equinox?.challenges, EQUINOX_CLOUD.EXOTIC_MARKET_PURCHASES)
       + getJellyBonus(account, 34))),
     pctExoticPurchasesFree: Math.min(80, 30 * getEventShopBonus(account, 43)) + Math.min(25, 25 * getMineheadBonusQTY(account, 8)),
-    exoticMarketUpgradesPurchased: account?.accountOptions?.[416]
+    exoticMarketUpgradesPurchased: account?.accountOptions?.[OPT.exoticMarketPurchases]
   };
 }
 
@@ -485,7 +494,8 @@ export const getStickerBonus = (account: any, index: any, context: number = 0) =
   return (1 + (grid68bonus + 30 * eventShopBonus37) / 100) * (1 + (20 * superBit62) / 100) * count * (baseBonusValues[index] ?? 0);
 };
 
-const getStickerOddsMulti = (characters: any, account: any) => {
+// game: "FarmingStuffs:StickerOddsMulti", one factor per source, shared by every sticker
+const getStickerOddsMultiNodes = (characters: any, account: any) => {
   const grid67bonus = getResearchGridBonus(account, 67, 2);
   const grid88bonus = getResearchGridBonus(account, 88, 0);
   const sticker5bonus = getStickerBonus(account, 5);
@@ -496,22 +506,31 @@ const getStickerOddsMulti = (characters: any, account: any) => {
   // Gelatinous Cuboid (109): bonus 9 (19 upgraded) -> 10x (20x) sticker odds
   const cuboidCompanion = isCompanionBonusActive(account, 109) ? (account?.companions?.list?.at(109)?.bonus ?? 0) : 0;
   // W4 Golden Tome (opt[607]) multiplies sticker odds: 2^min(12,lvl) then +1500 per level past 11
-  const goldenTome = Number(account?.accountOptions?.[607]) || 0;
+  const goldenTome = Number(account?.accountOptions?.[OPT.goldenTomeStacks]) || 0;
   const goldenTomeMulti = Math.max(1, Math.pow(2, Math.min(12, goldenTome)) + 1500 * Math.max(0, goldenTome - 11));
-  return goldenTomeMulti
-    * (1 + grid67bonus / 100)
-    * (1 + grid88bonus / 100)
-    * (1 + sticker5bonus / 100)
-    * (1 + arcade64 / 100)
-    * (superBit55 ? getMegacropSuperbitMulti(farmingLevel) : 1)
-    * (1 + sushiBonus55 / 100)
-    * (1 + cuboidCompanion);
+  return [
+    multiplier('Golden Tome', goldenTomeMulti),
+    multiplier(sourceName('Research Grid', researchGridSquares?.[67]?.name), 1 + grid67bonus / 100),
+    multiplier(sourceName('Research Grid', researchGridSquares?.[88]?.name), 1 + grid88bonus / 100),
+    multiplier(sourceName('Sticker', researchData?.[23]?.[5]), 1 + sticker5bonus / 100),
+    multiplier('Arcade', 1 + arcade64 / 100),
+    multiplier(sourceName('Superbit', 'Mo_Stickers_Mo_Bonusers'), superBit55 ? getMegacropSuperbitMulti(farmingLevel) : 1),
+    multiplier(sourceName('Sushi', researchData?.[30]?.[55]), 1 + sushiBonus55 / 100),
+    multiplier(sourceName('Companion', 'Gelatinous_Cuboid'), 1 + cuboidCompanion)
+  ];
 };
 
-const getStickerOdds = (characters: any, account: any, index: any) => {
+// game: "FarmingStuffs:StickerOdds": the shared multi over the sticker's own base odds
+const getStickerOdds = (oddsMultiNodes: any[], account: any, index: any) => {
   const count = (account?.research?.stickerLevels ?? [])[index] ?? 0;
-  const oddsMulti = getStickerOddsMulti(characters, account);
-  return oddsMulti / (5000 * Math.pow(7, index) * Math.pow(Math.max(10 - count, 5), count));
+  const baseOdds = 5000 * Math.pow(7, index) * Math.pow(Math.max(10 - count, 5), count);
+  const oddsMulti = evaluateBreakdownNode(productGroup('Chance Multi', oddsMultiNodes));
+  const odds = oddsMulti / baseOdds;
+  const breakdown = createBreakdown('Sticker Chance (1 in)', baseOdds / oddsMulti, [
+    flat('Base Odds', baseOdds),
+    productGroup('Chance Multi', oddsMultiNodes)
+  ], { combine: 'divide' });
+  return { odds, breakdown };
 };
 
 const getStickerDMGMulti = (account: any) => {
@@ -601,18 +620,31 @@ export const updateFarming = (characters: any, account: any) => {
   const stickerNames = researchData?.[23] ?? [];
   const stickerDescriptions = researchData?.[24] ?? [];
   const stickerBaseBonus = (researchData?.[25] ?? []).map(Number);
+  const stickerOddsMultiNodes = getStickerOddsMultiNodes(characters, account);
   const stickers = stickerNames
     .map((name: any, index: any) => {
       if (name === 'Nonexistent_Sticker') return null;
       const count = (account?.research?.stickerLevels ?? [])[index] ?? 0;
       const bonus = getStickerBonus(account, index);
-      const odds = getStickerOdds(characters, account, index);
+      const { odds, breakdown: oddsBreakdown } = getStickerOdds(stickerOddsMultiNodes, account, index);
+      // game: "FarmingStuffs:AttemptMegacropGrowth": an OG gain rolls the plot's seed's sticker at odds x 2^(new OG)
+      const seedPlots = (newPlot ?? []).filter(({ seedType }: any) => seedType === index);
+      const blockedPlots = seedPlots.filter(({ megacropBlocked }: any) => megacropBlocked).length;
+      const bestPlotOdds = seedPlots.reduce((best: number, { currentOG, megacropBlocked }: any) => megacropBlocked
+        ? best
+        : Math.max(best, Math.min(1, odds * Math.max(1, Math.pow(2, (currentOG ?? 0) + 1)))), 0);
       return {
+        index,
         name,
         description: getStickerDescription(account, index, stickerDescriptions[index] ?? ''),
         count,
         bonus,
         odds,
+        oddsBreakdown,
+        seed: seedInfo?.[index],
+        plantedPlots: seedPlots.length,
+        blockedPlots,
+        bestPlotOdds,
         baseBonus: stickerBaseBonus[index] ?? 0
       };
     })
@@ -653,9 +685,8 @@ const getScoredPlotPrevRanks = (plots: any[] = []) => {
     .map(({ prevRank }: any) => prevRank);
 };
 
-// The game's collect adds rank EXP from the market and the Soil Exp land ranks only. The talent
-// and the Stableroot / Vigouroot exotics feed the farming screen's Land Rank EXP stat, which
-// nothing else reads.
+// The game's collect: market, the Soil Exp land ranks and max(1, LandRankEXPmulti), which since 2.3.561
+// is PlotRankGain (before it returned 1). PlotRankGain adds the market a second time.
 const getLandRankExpBreakdown = (account: any, characters: any) => {
   const talentBonus = getHighestTalentAcrossCharacters(characters, 'AGRICULTURAL_\'PRECIATION', getBestActiveCharacter(characters)) ?? 0;
   const marketBonus = getMarketBonus(account?.farming?.market, 'RANK_BOOST');
@@ -672,9 +703,25 @@ const getLandRankExpBreakdown = (account: any, characters: any) => {
   const avgPrevRank = prevRanks.reduce((sum: number, rank: number) => sum + rank, 0) / (prevRanks.length || 1);
   const soilExpBoostMulti = 1 + (soilExpBoost * avgPrevRank) / 100;
 
+  // game: "FarmingStuffs:PlotRankGain"
+  const plotRankGain = productGroup('Land Rank EXP multi', [
+    multiplier('Menagerie Boost', 1 + getMenagerieBoost(account, 19) / 100),
+    multiplier('Talent (Ag. Appreciation)', 1 + talentBonus / 100),
+    additiveGroup(NUMBERED_GROUP, [
+      percent('Rank Boost (Market)', marketBonus),
+      percent('Stableroot I (Exotic)', exotic9),
+      percent('Stableroot II (Exotic)', exotic10),
+      percent('Stableroot III (Exotic)', exotic11)
+    ]),
+    multiplier('Vigouroot I (Exotic)', 1 + exotic12 / 100),
+    multiplier('Vigouroot II (Exotic)', 1 + exotic13 / 100)
+  ]);
+  const landRankExpMulti = Math.max(1, evaluateBreakdownNode(plotRankGain));
+
   const value = (1 + marketBonus / 100)
     * soilExpBoostMulti
-    * (1 + (soilExpSuperboost + soilExpMegaboost) / 100);
+    * (1 + (soilExpSuperboost + soilExpMegaboost) / 100)
+    * landRankExpMulti;
 
   return createBreakdown('Land Rank EXP', value, [
     multiplier('Rank Boost (Market)', 1 + marketBonus / 100),
@@ -685,16 +732,7 @@ const getLandRankExpBreakdown = (account: any, characters: any) => {
       percent('Soil Exp Superboost (Land Rank)', soilExpSuperboost),
       percent('Soil Exp Megaboost (Land Rank)', soilExpMegaboost)
     ]),
-    // game: "FarmingStuffs:PlotRankGain" (the collect multiplies by LandRankEXPmulti, which is 1)
-    listGroup('Not applied by the game', [
-      multiplier('Menagerie Boost', 1 + getMenagerieBoost(account, 19) / 100),
-      multiplier('Talent (Ag. Appreciation)', 1 + talentBonus / 100),
-      percent('Stableroot I (Exotic)', exotic9),
-      percent('Stableroot II (Exotic)', exotic10),
-      percent('Stableroot III (Exotic)', exotic11),
-      multiplier('Vigouroot I (Exotic)', 1 + exotic12 / 100),
-      multiplier('Vigouroot II (Exotic)', 1 + exotic13 / 100)
-    ], { note: 'Shown on the farming screen only' })
+    plotRankGain
   ]);
 };
 
@@ -864,6 +902,20 @@ const getCropType = ({ index, cropId, cropIdIncrement, level }: any) => {
       * level)
 }
 
+// game: "FarmingStuffs:CropSCbonus" line t, each gated by Ninja("EmporiumBonus", id): 27,24,25,26,23,28,29,38,40,44
+const CROP_SCIENTIST_LINES: { stat: string, name: string, jade: string, step?: number, base?: number, after?: number, every?: number }[] = [
+  { stat: 'damage', name: 'DMG', jade: 'Reinforced_Science_Pencil', step: 20 },
+  { stat: 'gamingEvo', name: 'Gaming Evo', jade: 'Science_Pen', base: 1.02 },
+  { stat: 'jadeCoin', name: 'Jade Coin', jade: 'Science_Marker', step: 8 },
+  { stat: 'cookingSpeed', name: 'Meal Spd', jade: 'Science_Featherpen', base: 1.1 },
+  { stat: 'cash', name: 'Cash', jade: 'Science_Environmentally_Sourced_Pencil', step: 15 },
+  { stat: 'shiny', name: 'Pet Rate', jade: 'Science_Crayon', step: 7 },
+  { stat: 'critters', name: 'Critters', jade: 'Science_Paintbrush', step: 0.1 },
+  { stat: 'dropRate', name: 'Drop Rate', jade: 'Science_Highlighter', step: 1, after: 100 },
+  { stat: 'spelunky', name: 'Spelunky', jade: 'Science_Fancy_Pen', step: 5, after: 200 },
+  { stat: 'researchExp', name: 'Research Exp', jade: 'Science_Chalk', step: 1, after: 200, every: 10 }
+];
+
 const getCropDepotBonuses = (account: any) => {
   // 'CropSCbonus' == e
   // MainframeBonus(17): Depot Studies PhD plus the Pure Opal Rhombol
@@ -874,49 +926,17 @@ const getCropDepotBonuses = (account: any) => {
   const extraBonus = (1 + labBonus / 100)
     * (1 + (grimoireBonus + exoticBonus40 + vaultBonus79) / 100);
 
-  let bonuses = {
-    damage: { name: 'DMG', value: 0 },
-    gamingEvo: { name: 'Gaming Evo', value: 0 },
-    jadeCoin: { name: 'Jade Coin', value: 0 },
-    cookingSpeed: { name: 'Meal Spd', value: 0 },
-    cash: { name: 'Cash', value: 0 },
-    shiny: { name: 'Pet Rate', value: 0 },
-    critters: { name: 'Critters', value: 0 },
-    dropRate: { name: 'Drop Rate', value: 0 },
-    spelunky: { name: 'Spelunky', value: 0 },
-    researchExp: { name: 'Research Exp', value: 0 }
-  };
-  if (isJadeBonusUnlocked(account, 'Reinforced_Science_Pencil')) {
-    bonuses.damage.value = 20 * Math.round(account?.farming?.cropsFound) * extraBonus;
-  }
-  if (isJadeBonusUnlocked(account, 'Science_Pen')) {
-    bonuses.gamingEvo.value = Math.pow(1.02, Math.round(account?.farming?.cropsFound)) * extraBonus;
-  }
-  if (isJadeBonusUnlocked(account, 'Science_Marker')) {
-    bonuses.jadeCoin.value = 8 * Math.round(account?.farming?.cropsFound) * extraBonus;
-  }
-  if (isJadeBonusUnlocked(account, 'Science_Featherpen')) {
-    bonuses.cookingSpeed.value = Math.pow(1.1, Math.round(account?.farming?.cropsFound)) * extraBonus;
-  }
-  if (isJadeBonusUnlocked(account, 'Science_Environmentally_Sourced_Pencil')) {
-    bonuses.cash.value = 15 * Math.round(account?.farming?.cropsFound) * extraBonus;
-  }
-  if (isJadeBonusUnlocked(account, 'Science_Crayon')) {
-    bonuses.shiny.value = 7 * Math.round(account?.farming?.cropsFound) * extraBonus;
-  }
-  if (isJadeBonusUnlocked(account, 'Science_Paintbrush')) {
-    bonuses.critters.value = 0.1 * Math.round(account?.farming?.cropsFound) * extraBonus;
-  }
-  if (isJadeBonusUnlocked(account, 'Science_Highlighter')) {
-    bonuses.dropRate.value = Math.round(Math.max(0, account?.farming?.cropsFound - 100)) * extraBonus;
-  }
-  if (isJadeBonusUnlocked(account, 'Science_Fancy_Pen')) {
-    bonuses.spelunky.value = 5 * Math.round(Math.max(0, account?.farming?.cropsFound - 200)) * extraBonus;
-  }
-  if (isJadeBonusUnlocked(account, 'Science_Chalk')) {
-    bonuses.researchExp.value = Math.round(Math.max(0, Math.floor((account?.farming?.cropsFound - 200) / 10))) * extraBonus;
-  }
-  return bonuses;
+  const cropsFound = account?.farming?.cropsFound ?? 0;
+  return Object.fromEntries(CROP_SCIENTIST_LINES.map(({ stat, name, jade, step, base, after = 0, every }) => {
+    const unlocked = Boolean(isJadeBonusUnlocked(account, jade));
+    const counted = every
+      ? Math.round(Math.max(0, Math.floor((cropsFound - after) / every)))
+      : Math.round(Math.max(0, cropsFound - after));
+    const value = !unlocked ? 0 : base ? Math.pow(base, Math.round(cropsFound)) * extraBonus : (step ?? 0) * counted * extraBonus;
+    // One more crop: a multiplier line grows by its base, a flat line by its step through the shared multi
+    const perCrop = base ?? (step ?? 0) * extraBonus;
+    return [stat, { name, value, unlocked, unlockName: jade, perCrop, multiplicative: Boolean(base), after, every: every ?? 1, pastAfter: cropsFound >= after }];
+  }));
 }
 
 export const getMarketBonus = (market: any, bonusName: any, value = 'baseValue') => {
@@ -1210,7 +1230,7 @@ const CROP_EVO_CHANCE_STEP = 0.1;
 // game: TalentCalc counts, across every character, the 13 World 6 maps (251-263) with no kills left
 const WORLD_6_FIRST_MAP = 251;
 const WORLD_6_MAP_COUNT = 13;
-const getClearedWorld6Maps = (characters: any[] = []) => characters.reduce((sum, { kills }: any) => {
+export const getClearedWorld6Maps = (characters: any[] = []) => characters.reduce((sum, { kills }: any) => {
   for (let map = WORLD_6_FIRST_MAP; map < WORLD_6_FIRST_MAP + WORLD_6_MAP_COUNT; map++) {
     // kills holds kills done, so "less than 1 kill left" is kills > requirement - 1
     if ((kills?.[map] ?? 0) > parseFloat(mapPortals?.[map]?.[0] as any) - 1) sum++;
@@ -1294,7 +1314,7 @@ export const getCropEvolution = (account: any, character: any, crop: any, forceS
     multiplier('Summoning meal', 1 + summoningMealBonus / 100),
     multiplier('Upgrade vault', 1 + vaultBonus78 / 100),
     multiplier('Monument', 1 + monumentBonus / 100),
-    multiplier('Stamp', 1 + stampBonus / 100),
+    multiplier(getStampLineName(account, { effect: 'Crop_Evolution_Chance' }), 1 + stampBonus / 100),
     multiplier('Grimoire', 1 + grimoireBonus / 100),
     multiplier('Achievement', 1 + (5 * achievementBonus) / 100),
     multiplier('Killroy', Math.max(1, killroyBonus)),

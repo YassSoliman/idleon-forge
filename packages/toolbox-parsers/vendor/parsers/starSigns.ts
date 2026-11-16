@@ -1,4 +1,4 @@
-// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1.
+// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 48cb4ee697988ec5eac14ba97142add6296505b2.
 // Copyright (C) Morta1 and IdleOn Toolbox contributors. GPL-3.0-only; see vendor/LICENSE.
 // Copied unmodified by IdleOn Forge's scripts/sync.sh; UI-coupled imports are redirected to shims/ at build time.
 import { tryToParse } from '@utility/helpers';
@@ -89,7 +89,7 @@ export const getStarSignByEffect = (equippedStarSigns: any[], starEffect: string
 // effectName is matched by substring and stands for ONE game key; the key rules run on the matched total.
 // forceAllWithEffect is a what-if ceiling, never a game value: every unlocked sign with the effect counts as
 // equipped, the chip counts if any character (or storage) holds it, and the summoning level is the highest.
-export const getStarSignBonus = (character: Character, account: Account, effectName: string, forceNanoChip: boolean = false, forceAllWithEffect: boolean = false): number => {
+export const getStarSignBonus = (character: Character, account: Account, effectName: string, forceNanoChip: boolean = false, forceAllWithEffect: boolean = false, rawNames?: string[]): number => {
   const infiniteStars = getInfiniteStarsCount(account);
   const hasChip = forceNanoChip || (forceAllWithEffect
     ? !!(account as any)?.lab?.playersChips?.flat()?.concat((account as any)?.lab?.chips)
@@ -98,19 +98,20 @@ export const getStarSignBonus = (character: Character, account: Account, effectN
   const equippedNames = new Set((character as any)?.starSigns?.map(({ starName }: any) => starName));
   const classLevel = (character as any)?.level ?? 0;
   const query = effectName.toLowerCase();
-  const matchesEffect = (effect: string) => !!effect && (effect.toLowerCase().includes(query)
-    || !!SHARED_EFFECTS[effect]?.some((name) => name.toLowerCase() === query));
+  // rawNames tells apart signs sharing an effect name, e.g. +{_STR and +{%_STR are both "STR"
+  const matchesEffect = (effect: string, rawName?: string) => rawNames ? rawNames.includes(rawName as string)
+    : !!effect && (effect.toLowerCase().includes(query) || !!SHARED_EFFECTS[effect]?.some((name) => name.toLowerCase() === query));
 
   let total = 0;
   ((account as any)?.starSigns ?? []).forEach((starSign: any, index: number) => {
     const isInfiniteStar = index < infiniteStars && starSign?.unlocked;
     const isCounted = equippedNames.has(starSign?.starName) || isInfiniteStar
-      || (forceAllWithEffect && starSign?.unlocked && starSign?.bonuses?.some(({ effect }: any) => matchesEffect(effect)));
+      || (forceAllWithEffect && starSign?.unlocked && starSign?.bonuses?.some(({ effect, rawName }: any) => matchesEffect(effect, rawName)));
     if (!isCounted) return;
     const requiredLevel = starSign?.bonuses?.find(({ effect }: any) => effect === 'Lv')?.bonus ?? 0;
     if (classLevel < requiredLevel) return;
-    starSign?.bonuses?.forEach(({ effect, bonus }: any) => {
-      if (!matchesEffect(effect) || (index < infiniteStars && bonus < 0)) return;
+    starSign?.bonuses?.forEach(({ effect, rawName, bonus }: any) => {
+      if (!matchesEffect(effect, rawName) || (index < infiniteStars && bonus < 0)) return;
       total += bonus;
     });
   });

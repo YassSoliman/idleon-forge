@@ -1,8 +1,8 @@
-// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1.
+// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 48cb4ee697988ec5eac14ba97142add6296505b2.
 // Copyright (C) Morta1 and IdleOn Toolbox contributors. GPL-3.0-only; see vendor/LICENSE.
 // Copied unmodified by IdleOn Forge's scripts/sync.sh; UI-coupled imports are redirected to shims/ at build time.
-import { groupByKey, growth, notateNumber, tryToParse } from '@utility/helpers';
-import { createBreakdown, evaluateBreakdownNode, flat, percent, sumGroup } from '@parsers/breakdown';
+import { cleanUnderscore, groupByKey, growth, notateNumber, tryToParse } from '@utility/helpers';
+import { type BreakdownNode, type BreakdownUnit, createBreakdown, evaluateBreakdownNode, flat, percent, sumGroup } from '@parsers/breakdown';
 import { crafts, items, stamps } from '@website-data';
 import { liveEntries } from '@parsers/catalog';
 import { getTalentBonus } from '@parsers/talents';
@@ -312,6 +312,32 @@ export const getStampsBonusByStat = (account: any, statName: any, character?: an
     const sum = foundStamps?.reduce((stampsSum: any, { rawName }: any) => stampsSum + getStampBonus(account, stampTreeName, rawName, character), 0);
     return final + sum;
   }, 0);
+}
+
+type StampMatch = { effect?: string, stat?: string };
+
+const getMatchingStamps = (account: any, { effect, stat }: StampMatch) =>
+  Object.entries(account?.stamps ?? {}).flatMap(([stampTreeName, stampTree]: any) => (stampTree ?? [])
+    .filter((stamp: any) => stat ? stamp?.stat === stat : stamp?.effect?.includes(effect))
+    .map((stamp: any) => ({ stampTreeName, stamp })));
+
+const stampDisplayName = (stamp: any) => cleanUnderscore(stamp?.displayName) || 'Stamp';
+
+// The breakdown node for a stamp total (getStampsBonusByEffect / getStampsBonusByStat): one line named as the game
+// names the stamp, or a Stamps group with a line per stamp when several share the effect.
+export const getStampNode = (account: any, match: StampMatch, value: number, character?: any, unit: BreakdownUnit = 'percent'): BreakdownNode => {
+  const toLine = unit === 'flat' ? flat : percent;
+  const matches = getMatchingStamps(account, match);
+  if (matches.length === 1) return toLine(stampDisplayName(matches[0].stamp), value);
+  if (!matches.length) return toLine('Stamps', value);
+  return sumGroup('Stamps', matches.map(({ stampTreeName, stamp }) =>
+    toLine(stampDisplayName(stamp), getStampBonus(account, stampTreeName, stamp?.rawName, character))));
+}
+
+// Name for a line that folds the stamp total into a factor: the stamp's own name when only one matches
+export const getStampLineName = (account: any, match: StampMatch) => {
+  const matches = getMatchingStamps(account, match);
+  return matches.length === 1 ? stampDisplayName(matches[0].stamp) : 'Stamps';
 }
 
 // game: "StampDoubler" - the Exalted stamp multiplier, in percent.

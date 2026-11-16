@@ -1,8 +1,8 @@
-// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1.
+// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 48cb4ee697988ec5eac14ba97142add6296505b2.
 // Copyright (C) Morta1 and IdleOn Toolbox contributors. GPL-3.0-only; see vendor/LICENSE.
 // Copied unmodified by IdleOn Forge's scripts/sync.sh; UI-coupled imports are redirected to shims/ at build time.
 import { tryToParse } from '@utility/helpers';
-import { merits, tasks, taskUnlocks as taskUnlocksData } from '@website-data';
+import { gameTables, merits, tasks, taskUnlocks as taskUnlocksData } from '@website-data';
 import type { IdleonData } from './types';
 
 // Task slot 8 is the daily task: TaskDescriptions[w][8 + Tasks[5][w]]
@@ -10,6 +10,12 @@ const DAILY_TASK_INDEX = 8;
 
 // game TaskStuff("MeritsGiven", level): merits paid for ranking a task up from `level`
 const getMeritsGiven = (level: number): number => Math.round(1 + Math.floor(level / 5));
+
+// The board's claim: Tasks[4][0] (task points, the Unlocks pool) grows by floor(row[3] + (world + 1) * level) on every
+// slot, the daily one too, read before the rank goes up. asNumber is parseFloat: Achievement Hunter's shifted row
+// ("2|0|Filler_lol") reads 2.
+const getTaskPointsGiven = (task: any, world: number, level: number): number =>
+  Math.floor((parseFloat(task?.x) || 0) + (world + 1) * level);
 
 // The merit shop panel's first line (TaskShopDesc draw): on a row with options every `}` becomes the option for the
 // level, then every `{` becomes the per-level bonus times the level. Blank420q marks a row with no options.
@@ -59,7 +65,8 @@ export const getTasks = (idleonData: IdleonData): {
         level,
         maxLevel,
         requirement,
-        meritReward: isDailyTask ? 0 : getMeritsGiven(level)
+        meritReward: isDailyTask ? 0 : getMeritsGiven(level),
+        taskPointReward: getTaskPointsGiven(realTask, worldIndex, level)
       }
     })
   })?.map((worldTasks: any[]) => worldTasks?.slice(0, DAILY_TASK_INDEX + 1));
@@ -83,10 +90,13 @@ export const getTasks = (idleonData: IdleonData): {
     })
   });
   const unlockedRecipes = tasksRaw?.[3]?.flat()?.reduce((sum: number, unlock: number) => sum + unlock, 0) ?? 0;
-  const unlockPointsOwned = getUnlockPointsOwned(unlockPointsFormula, tasksRaw?.[4]?.[0]) ?? 0;
-  const pointsReq = getPointsReq(unlockPointsFormula, unlockPointsOwned, 0) ?? 0;
+  const unlockPointsOwned = getUnlockPointsOwned(unlockPointsFormula, tasksRaw?.[4]?.[0] ?? 0);
+  const pointsReq = getPointsReq(unlockPointsFormula, unlockPointsOwned, 0);
+  const columnLocks = getUnlockColumnLocks((taskUnlocksData as any[])?.length ?? 0, unlockedRecipes,
+    Number(idleonData?.CYAnvilTabsOwned ?? 0));
   const taskUnlocks = {
     taskUnlocksList,
+    columnLocks,
     unlockedRecipes,
     unlockPointsOwned,
     currentPoints: tasksRaw?.[4]?.[0] ?? 0,
@@ -95,9 +105,39 @@ export const getTasks = (idleonData: IdleonData): {
   return { tasks: parseTasks(tasksRaw), tasksDescriptions, meritsDescriptions, unlockedRecipes, taskUnlocks };
 }
 
+// game TaskStuff("UnlockColumnsOpened"): column 0 is always open, then one more per earlier column whose recipe
+// threshold is reached with Anvil tab (t + 2) owned. A locked column's text (the board draw) is the recipes still
+// needed, else "Unlock Anvil Tab N First" when the matching Anvil tab is missing.
+const getUnlockColumnLocks = (columns: number, recipes: number, anvilTabsOwned: number) => {
+  const thresholds: number[] = gameTables.taskUnlockColumnThresholds ?? [];
+  let opened = 1;
+  for (let t = 0; t < columns - 1; t++) {
+    if (thresholds[t] - recipes <= 0 && anvilTabsOwned > t + 1) opened++;
+  }
+  return Array.from({ length: columns }, (_, column) => {
+    if (column < opened) return { open: true, recipesNeeded: 0, anvilTab: null };
+    const recipesNeeded = Math.max(0, (thresholds[column - 1] ?? 0) - recipes);
+    return { open: false, recipesNeeded, anvilTab: !recipesNeeded && anvilTabsOwned < column + 1 ? column + 1 : null };
+  });
+};
+
 const parseTasks = (tasksRaw: any): any => {
   return tasksRaw;
 }
+
+// Slots the game ships filled with a stand-in for content it hasn't released yet ("To be revealed
+// in World 7 Part 3!"). They are neither doable nor countable, so they stay out of the totals too.
+export const isPlaceholderTask = ({ name }: any): boolean => name === 'Undisclosed_Task';
+
+// The Tasks page header for one world: worldTasks is its first 9 slots (8 tasks and the daily one); the rank totals
+// count only the 8 permanent tasks, as calcTotalTasks does (the daily resets each day), placeholders left out
+export const getWorldTaskLevels = (tasksDescriptions: any, world: number) => {
+  const worldTasks = tasksDescriptions?.[world]?.slice(0, DAILY_TASK_INDEX + 1) ?? [];
+  const counted = worldTasks.slice(0, DAILY_TASK_INDEX).filter((task: any) => !isPlaceholderTask(task));
+  const totalLevels = counted.reduce((sum: number, task: any) => sum + task.level, 0);
+  const maxLevels = counted.reduce((sum: number, task: any) => sum + task.maxLevel, 0);
+  return { worldTasks, totalLevels, maxLevels };
+};
 
 export const calcTotalTasks = (tasks: any): number => {
   return tasks?.[1]?.reduce((sum: number, worldTasks: number[]) => {

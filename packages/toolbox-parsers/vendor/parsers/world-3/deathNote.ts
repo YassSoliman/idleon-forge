@@ -1,12 +1,35 @@
-// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1.
+// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 48cb4ee697988ec5eac14ba97142add6296505b2.
 // Copyright (C) Morta1 and IdleOn Toolbox contributors. GPL-3.0-only; see vendor/LICENSE.
 // Copied unmodified by IdleOn Forge's scripts/sync.sh; UI-coupled imports are redirected to shims/ at build time.
 import { deathNote, mapEnemies, mapEnemiesArray, monsters, ninjaExtraInfo } from '@website-data';
 import { isRiftBonusUnlocked } from '@parsers/world-4/rift';
-import { lavaLog, tryToParse } from '@utility/helpers';
+import { lavaLog } from '@utility/helpers';
+import { saveField } from '@parsers/saveField';
+
+// The game's monster face sprite (Mface + MonsterFace), as Killroy's monster list draws it. The minibosses share one
+// placeholder face, so they get none here: the page draws their own portrait (monsterSprite)
+const faceOf = (rawName: string) => {
+  const face = (monsters as any)?.[rawName]?.MonsterFace;
+  return face != null ? `data/Mface${face}.png` : null;
+};
+
+// The next skull a mob reaches: the kills it needs and the points it adds, or null past its last rank. Past rank 10 a
+// normal mob's next is the eclipse skull, once the rift bonus is unlocked
+export const getNextDeathNoteRank = (account: any, kills: number, isMiniBosses?: boolean) => {
+  const table = isMiniBosses ? MINI_BOSS_DEATH_NOTE_RANKS : DEATH_NOTE_RANKS;
+  const rank = getDeathNoteRank(account, kills, isMiniBosses);
+  const next = table.find(([threshold]) => kills < threshold);
+  if (next) return { kills: next[0], rank: next[1], points: next[1] - rank, toGo: next[0] - kills };
+  if (!isMiniBosses && rank < ECLIPSE_SKULL_RANK && isRiftBonusUnlocked(account?.rift, 'Eclipse_Skulls')) {
+    // Strictly more than the threshold
+    const needed = ECLIPSE_SKULL_KILLS + 1;
+    return { kills: needed, rank: ECLIPSE_SKULL_RANK, points: ECLIPSE_SKULL_RANK - rank, toGo: needed - kills };
+  }
+  return null;
+};
 
 export const getDeathNote = (idleonData: any, charactersData: any, account: any) => {
-  const rawSneaking = tryToParse(idleonData?.Ninja);
+  const rawSneaking = saveField(idleonData, 'Ninja');
   const bosses = ninjaExtraInfo?.[30];
   const miniBossesKills = rawSneaking?.[105];
   const allKills = getAllCharactersKills(charactersData);
@@ -17,7 +40,7 @@ export const getDeathNote = (idleonData: any, charactersData: any, account: any)
     const rank = getDeathNoteRank(account, kills, true);
     return {
       rank: (res?.rank || 0) + rank,
-      mobs: [...(res?.mobs || []), { rawName, displayName: monsters?.[rawName]?.Name, kills }]
+      mobs: [...(res?.mobs || []), { rawName, displayName: monsters?.[rawName]?.Name, kills, icon: null }]
     }
   }, {});
   return deathNote.reduce((res: any, { rawName, world }) => {
@@ -29,7 +52,7 @@ export const getDeathNote = (idleonData: any, charactersData: any, account: any)
       [world]: {
         ...(res?.[world] || {}),
         rank: (res?.[world]?.rank || 0) + rank,
-        mobs: [...(res?.[world]?.mobs || []), { rawName, displayName: monsters?.[rawName]?.Name, kills }]
+        mobs: [...(res?.[world]?.mobs || []), { rawName, displayName: monsters?.[rawName]?.Name, kills, icon: faceOf(rawName) }]
       }
     };
   }, { miniBosses });
