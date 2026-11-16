@@ -1,9 +1,12 @@
-// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1.
+// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 48cb4ee697988ec5eac14ba97142add6296505b2.
 // Copyright (C) Morta1 and IdleOn Toolbox contributors. GPL-3.0-only; see vendor/LICENSE.
 // Copied unmodified by IdleOn Forge's scripts/sync.sh; UI-coupled imports are redirected to shims/ at build time.
 import { growth, tryToParse } from '@utility/helpers';
 import { guildBonuses, guildTasks } from '@website-data';
+import { getGuildLevel } from './guildLevel';
 import type { IdleonData, GuildData } from './types';
+
+export { getGuildLevel };
 
 export interface GuildBonusEntry {
   level: number;
@@ -21,6 +24,7 @@ export interface GuildMemberParsed {
   gpEarned: number;
   wantedBonus: GuildBonusEntry | number;
   rank: number;
+  classIndex: number;
 }
 
 export interface GuildTaskEntry {
@@ -38,6 +42,7 @@ export interface GuildResult {
   level: number;
   levelReq: number;
   totalGp: number;
+  unspentGp?: number;
 }
 
 export const getLockedGuild = (): GuildResult => {
@@ -83,7 +88,9 @@ export const getGuild = (idleonData: IdleonData, guildData: GuildData | null): G
     maxMembers,
     level,
     levelReq,
-    totalGp
+    totalGp,
+    // The GP the guild still has to spend on bonuses (the game's "GP;" on the bonus screen)
+    unspentGp: guildData?.points ?? 0
   }
 }
 
@@ -108,16 +115,6 @@ const getGuildLevelReq = (guildRaw: any, points: number): number => {
   return 0;
 }
 
-export const getGuildLevel = (points: number): number => {
-  for (let e = 0; 100 > e;) {
-    const n = e++;
-    if (!(points >= 100 * (n + 1) * Math.pow(1.21, n))) {
-      return Math.min(n + 1, 45);
-    }
-  }
-  return 1;
-}
-
 export const getGuildBonusBonus = (guildBonuses: GuildBonusEntry[] | undefined, bonusIndex: number): number => {
   const guildBonus = guildBonuses?.[bonusIndex];
   if (!guildBonus) return 0;
@@ -131,7 +128,9 @@ const parseGuildMembers = (guildData: GuildData, bonuses: any[]): GuildMemberPar
       level: d,
       gpEarned: e,
       wantedBonus: bonuses?.[f] || -1,
-      rank: g
+      rank: g,
+      // game: ClassIcons{c}, clamped 0..40
+      classIndex: Math.max(0, Math.min(40, Number(c) || 0))
     }
   })
 }

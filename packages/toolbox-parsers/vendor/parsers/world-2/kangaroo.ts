@@ -1,8 +1,8 @@
-// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1.
+// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 48cb4ee697988ec5eac14ba97142add6296505b2.
 // Copyright (C) Morta1 and IdleOn Toolbox contributors. GPL-3.0-only; see vendor/LICENSE.
 // Copied unmodified by IdleOn Forge's scripts/sync.sh; UI-coupled imports are redirected to shims/ at build time.
 import { poppyBonuses, poppyTarBonuses } from '@website-data';
-import { commaNotation, notateNumber } from '@utility/helpers';
+import { gameFill } from '@utility/helpers';
 import { getUpgradeVaultBonus } from '@parsers/misc/upgradeVault';
 import { getGambitBonus } from '@parsers/world-5/caverns/gambit';
 import { getLegendTalentBonus } from '@parsers/world-7/legendTalents';
@@ -12,6 +12,7 @@ import { getMeritocracyBonus } from '@parsers/world-2/voteBallot';
 import { getJellyBonus } from '@parsers/world-7/jellyOperator';
 import { getClickerCheapener } from '@parsers/world-7/menagerie';
 import { getPetArenaCrucBonus } from '@parsers/world-4/breeding';
+import { OPT } from '@parsers/accountOptions';
 
 // Menagerie boost 18 makes Poppy's first upgrade cheaper
 const POPPY_CHEAPENER_BOOST = 18;
@@ -35,6 +36,9 @@ const megaFishDesc = [
   'Poppy\'s_bonuses_are_now_{x_higher_than_they_were_at_first'
 ];
 
+// game: the Megafish names list (N.js, the Poppy menu's GenINFO[17])
+const MEGAFISH_NAMES = ['Squid', 'Sequin', 'Nautilus', 'Koi', 'Angler', 'Leech', 'Aquaray', 'Jettison', 'Shoal', 'Eel', 'Marlin', 'Eclectic'];
+
 const resetBonusesDesc = [
   '{x_bluefin_fish_caught',
   '{x_shiny_fishing_speed_and_luck',
@@ -44,18 +48,50 @@ const resetBonusesDesc = [
 ];
 
 const parseKangaroo = (account: any) => {
-  const fish = account?.accountOptions?.[267] ?? 0;
-  const progress = account?.accountOptions?.[280];
+  const fish = account?.accountOptions?.[OPT.kangarooFish] ?? 0;
+  const progress = account?.accountOptions?.[OPT.kangarooFishCaught];
   // Event shop 52 "Fishmaxxing" - one flag worth 5x fish and 75% off every Poppy upgrade.
   const fishmaxxing = getEventShopBonus(account, 52);
+  const megaFishCount = account?.accountOptions?.[OPT.kangarooMegaFish] ?? 0;
+  const fishingBuddyLevel = account?.accountOptions?.[OPT.kangarooFishingBuddyLevel] ?? 0;
+  const vaultUpgradeBonus = getUpgradeVaultBonus(account?.upgradeVault?.upgrades, 45);
+  const fountainPoppyBonus = getFountainBonusTotal(account?.hole?.holesObject, 1, 18);
+  // game: "Summoning:RooCatchFishQTY"
+  const baseFishRate = (1 + Math.min(5, fishingBuddyLevel))
+    * Math.max(1, 1 + 0.5 * (fishingBuddyLevel - 5)
+      * getMegaFish(account, 5)) * getResetBonuses(account, 0)
+    * (1 + vaultUpgradeBonus / 100)
+    * (1 + 3 * getPetArenaCrucBonus(account, 7))
+    * (1 + getGambitBonus(account, 8) / 100)
+    * (1 + getJellyBonus(account, 20) / 100)
+    * (1 + fountainPoppyBonus / 100)
+    // Meritocracy Bonus 12 (2.3.525 fix): was missing from Poppy's fish gain, only boosted Orion.
+    * (1 + getMeritocracyBonus(account, 12) / 100)
+    * (1 + 4 * fishmaxxing)
+    * (10 * (account?.accountOptions?.[OPT.kangarooTastyFishbaitLevel] ?? 0) + (100 * (account?.accountOptions?.[OPT.kangarooSuperYummyBaitLevel] ?? 0) +
+      1e3 * (account?.accountOptions?.[OPT.kangarooKingWormLevel] ?? 0)) + (50 * (account?.accountOptions?.[OPT.kangarooJuicyWormLevel] ?? 0)
+      + 200 * (account?.accountOptions?.[OPT.kangarooMultihookFishingLevel] ?? 0))) * getShinyMulti(account, -1)
+    * (1 + (8 * (account?.accountOptions?.[OPT.kangarooBluefinFrenzyLevel] ?? 0)) / 100);
+  const catchReq = 30 / (1 + (5 * (account?.accountOptions?.[OPT.kangarooQuickReelingLevel] ?? 0)) / 100)
+  const fishRate = baseFishRate * (60 / catchReq)
+
+  // Fish don't accrue straight into the fish counter. Elapsed seconds bank into accountOptions[288]
+  // (online and offline alike), and only convert to fish while the Poppy menu is actually open in
+  // game. A player who hasn't visited Poppy in days carries a bank worth days of fish that the raw
+  // counter doesn't show, so any timer using `fish` alone stays frozen instead of counting down.
+  const pendingFish = Math.floor((account?.accountOptions?.[OPT.kangarooFishCatchBank] ?? 0) / catchReq) * baseFishRate;
+  const totalFish = fish + pendingFish;
+  // The bank converts into fish caught too, and the game opens upgrades from that (N.js RooCatchREQ conversion)
+  const fishCaught = progress == null ? undefined : progress + pendingFish;
+
   const upgrades = poppyBonuses.map((upgrade, i) => {
-    const base = i === 0 ? 1 + (account?.accountOptions?.[268] ?? 0) : 1;
+    const base = i === 0 ? 1 + (account?.accountOptions?.[OPT.kangarooTastyFishbaitLevel] ?? 0) : 1;
     const commonFactor = base
-      * (1 / (1 + (10 * (account?.accountOptions?.[272] ?? 0)) / 100))
+      * (1 / (1 + (10 * (account?.accountOptions?.[OPT.kangarooFishyDiscountLevel] ?? 0)) / 100))
       * (1 / (1 + 3 * fishmaxxing))
-      * (1 / (1 + (15 * (account?.accountOptions?.[300] ?? 0)) / 100))
+      * (1 / (1 + (15 * (account?.accountOptions?.[OPT.kangarooFishyReductionsLevel] ?? 0)) / 100))
       * (1 / (1 + (5 * getMegaFish(account, 10)
-        * (account?.accountOptions?.[304] ?? 0)) / 100));
+        * (account?.accountOptions?.[OPT.kangarooKingWormLevel] ?? 0)) / 100));
 
     // game: "Summoning:RooCost"
     const cost = commonFactor
@@ -66,7 +102,11 @@ const parseKangaroo = (account: any) => {
 
     const level = account?.accountOptions?.[268 + i]
     const nextLvReq = poppyBonuses?.[i + 1]?.x3;
-    const newDesc = formatDescription(account, level, upgrade?.desc, 0, i, poppyBonuses);
+    // Fishing Buddy past Lv 5 adds nothing until Megafish 6, and the game says so in place of its text
+    const pondFull = i === 7 && fishingBuddyLevel > 4 && megaFishCount < 6;
+    const newDesc = pondFull
+      ? 'Pond_full,_no_space_for_more_buddies.'
+      : formatDescription(account, level, upgrade?.desc, 0, i, poppyBonuses);
 
     return {
       ...upgrade,
@@ -74,55 +114,30 @@ const parseKangaroo = (account: any) => {
       level,
       nextLvReq,
       desc: newDesc,
-      unlocked: progress > upgrade?.x3 || i === 0
+      unlocked: i === 0 || fishCaught >= upgrade?.x3
     }
   });
-  const nextLvReqIndex = upgrades?.findIndex(({ level, x3 }) => progress < x3);
-  const nextLvReq = poppyBonuses?.[nextLvReqIndex]?.x3;
-  const vaultUpgradeBonus = getUpgradeVaultBonus(account?.upgradeVault?.upgrades, 45);
-  const fountainPoppyBonus = getFountainBonusTotal(account?.hole?.holesObject, 1, 18);
-  // game: "Summoning:RooCatchFishQTY"
-  const baseFishRate = (1 + Math.min(5, account?.accountOptions?.[275] ?? 0))
-    * Math.max(1, 1 + 0.5 * ((account?.accountOptions?.[275] ?? 0) - 5)
-      * getMegaFish(account, 5)) * getResetBonuses(account, 0)
-    * (1 + vaultUpgradeBonus / 100)
-    * (1 + 3 * getPetArenaCrucBonus(account, 7))
-    * (1 + getGambitBonus(account, 8) / 100)
-    * (1 + getJellyBonus(account, 20) / 100)
-    * (1 + fountainPoppyBonus / 100)
-    // Meritocracy Bonus 12 (2.3.525 fix): was missing from Poppy's fish gain, only boosted Orion.
-    * (1 + getMeritocracyBonus(account, 12) / 100)
-    * (1 + 4 * fishmaxxing)
-    * (10 * (account?.accountOptions?.[268] ?? 0) + (100 * (account?.accountOptions?.[297] ?? 0) +
-      1e3 * (account?.accountOptions?.[304] ?? 0)) + (50 * (account?.accountOptions?.[273] ?? 0)
-      + 200 * (account?.accountOptions?.[278] ?? 0))) * getShinyMulti(account, -1)
-    * (1 + (8 * (account?.accountOptions?.[299] ?? 0)) / 100);
-  const catchReq = 30 / (1 + (5 * (account?.accountOptions?.[269] ?? 0)) / 100)
-  const fishRate = baseFishRate * (60 / catchReq)
-
-  // Fish don't accrue straight into the fish counter. Elapsed seconds bank into accountOptions[288]
-  // (online and offline alike), and only convert to fish while the Poppy menu is actually open in
-  // game. A player who hasn't visited Poppy in days carries a bank worth days of fish that the raw
-  // counter doesn't show, so any timer using `fish` alone stays frozen instead of counting down.
-  const pendingFish = Math.floor((account?.accountOptions?.[288] ?? 0) / catchReq) * baseFishRate;
-  const totalFish = fish + pendingFish;
+  // The first upgrade is always open, so the next goal is the first later one still short
+  const nextLvReqIndex = upgrades?.findIndex(({ x3 }, i) => i > 0 && !(fishCaught >= x3));
+  // null with no save: no fish caught, so no next upgrade to count toward. 0 is every upgrade unlocked
+  const nextLvReq = progress == null ? null : poppyBonuses?.[nextLvReqIndex]?.x3 ?? 0;
 
   // TAR
   const tarFishUnlocked = Math.min(8, Math.round(3 * getMegaFish(account, 0)
     + (3 * getMegaFish(account, 4) + 2 * getMegaFish(account, 7))));
-  const tarFishOwned = account?.accountOptions?.[296] ?? 0;
+  const tarFishOwned = account?.accountOptions?.[OPT.kangarooTarFish] ?? 0;
   const tarFishRate = (1 / (1 + 0.05 *
-      (account?.accountOptions?.[301] ?? 0)))
+      (account?.accountOptions?.[OPT.kangarooSuperTarbaitLevel] ?? 0)))
     * 1800 * (1 / Math.max(1, getResetBonuses(account, 4) * (1 + getJellyBonus(account, 39) / 100)))
     * (1 / (1 + 2 * getMegaFish(account, 4)))
     * (1 / (1 + 2 * getMegaFish(account, 7)));
 
   // Same banked-then-converted pattern as fish, via accountOptions[305].
-  const pendingTarFish = Math.floor((account?.accountOptions?.[305] ?? 0) / tarFishRate);
+  const pendingTarFish = Math.floor((account?.accountOptions?.[OPT.kangarooTarFishBank] ?? 0) / tarFishRate);
   const totalTarFishOwned = tarFishOwned + pendingTarFish;
 
   const tarUpgrades = poppyTarBonuses.map((tarUpgrade, i) => {
-    const base = (1 / (1 + (5 * getMegaFish(account, 10) * (account?.accountOptions?.[304] ?? 0)) / 100));
+    const base = (1 / (1 + (5 * getMegaFish(account, 10) * (account?.accountOptions?.[OPT.kangarooKingWormLevel] ?? 0)) / 100));
     const cost = (account?.accountOptions?.[297 + i] ?? 0)
       + base * tarUpgrade?.x1
       * Math.pow(tarUpgrade?.x2, account?.accountOptions?.[297 + i] ?? 0);
@@ -140,12 +155,12 @@ const parseKangaroo = (account: any) => {
   });
 
   const baseShinyRate = getResetBonuses(account, 1)
-    * (account?.accountOptions?.[270] ?? 0) * (1 + (getMegaFish(account, 9) * (account?.accountOptions?.[268] ?? 0)) / 100)
-    * Math.max(1, 1 + 0.5 * ((account?.accountOptions?.[275] ?? 0) - 5) * getMegaFish(account, 5));
+    * (account?.accountOptions?.[OPT.kangarooShinyLureLevel] ?? 0) * (1 + (getMegaFish(account, 9) * (account?.accountOptions?.[OPT.kangarooTastyFishbaitLevel] ?? 0)) / 100)
+    * Math.max(1, 1 + 0.5 * ((account?.accountOptions?.[OPT.kangarooFishingBuddyLevel] ?? 0) - 5) * getMegaFish(account, 5));
   const shinyRate = .05 * baseShinyRate * 1200;
-  const shinyReq = 7200 / (1 + (4 * (account?.accountOptions?.[276] ?? 0)) / 100);
+  const shinyReq = 7200 / (1 + (4 * (account?.accountOptions?.[OPT.kangarooLightningQuicknessLevel] ?? 0)) / 100);
   const shinyRatePercent = 100 * Math.max(0, shinyRate / shinyReq)
-  const shinyProgress = 100 * Math.max(0, (account?.accountOptions?.[289] ?? 0) / shinyReq);
+  const shinyProgress = 100 * Math.max(0, (account?.accountOptions?.[OPT.kangarooShinyProgress] ?? 0) / shinyReq);
   const legendTalentBonus = getLegendTalentBonus(account, 26);
 
   const totalFishRate = 50 * getMegaFish(account, 1)
@@ -159,7 +174,7 @@ const parseKangaroo = (account: any) => {
 
   // 1. Calculate the shared multiplier first
   const baseMultiplier = (1 + legendTalentBonus / 100) * (1 + totalFishRate / 100) * (1 + companionBonus);
-  const upgradeLevel = account?.accountOptions?.[271] || 0;
+  const upgradeLevel = account?.accountOptions?.[OPT.kangarooBonusesFromPoppyLevel] || 0;
 
 // 2. Define the unique data for each bonus
   const bonusData = [
@@ -178,47 +193,42 @@ const parseKangaroo = (account: any) => {
     ...bonusData.map(({ name, base, offset, percentage }) => ({
       name,
       bonus: base * baseMultiplier * Math.max(0, Math.ceil((upgradeLevel - offset) / 7)),
-      percentage
+      percentage,
+      // Bonus k opens at Bonuses from Poppy Lv k + 1, where its value turns positive; the game draws a lock before
+      unlocked: upgradeLevel > offset,
+      unlockLevel: offset + 1
     }))
   ];
 
   const megaFish = megaFishDesc.map((description, index) => ({
     description,
-    unlocked: index + 1 <= account?.accountOptions?.[279],
+    name: MEGAFISH_NAMES[index],
+    // game: "X_Megafish", the last one "N_Eclectic_Megafish" past 12 (ActorEvents_670 _event_8)
+    title: index === 11 && megaFishCount > 12
+      ? `${megaFishCount - 11} ${MEGAFISH_NAMES[index]} Megafish`
+      : `${MEGAFISH_NAMES[index]} Megafish`,
+    unlocked: index + 1 <= account?.accountOptions?.[OPT.kangarooMegaFish],
     ...(index === 11 ? {
       // game: ActorEvents_670 _event_8 draws (OLA[279] - 11) + "_Megafish" once 11 < OLA[279] (2.3.540, was 12)
-      amount: (account?.accountOptions?.[279] ?? 0) - 11,
+      amount: (account?.accountOptions?.[OPT.kangarooMegaFish] ?? 0) - 11,
       totalBonus: 1 + totalFishRate / 100
     } : {})
   }));
   const resetBonuses = resetBonusesDesc.map((desc, i) => ({
     desc: desc.replace('{', '' + Math.round(100 * getResetBonuses(account, i)) / 100),
-    level: account?.accountOptions?.[291 + i]
+    level: account?.accountOptions?.[291 + i],
+    // game draws min(3 + 2 * Megafish(2), 5) spirals: the last two come with Megafish 3 (N.js RooReset images)
+    unlocked: i < 3 || getMegaFish(account, 2) > 0
   }));
-  const totalResetPoints = resetBonuses.reduce((sum, { level }) => sum + level, 0);
-  const totalResets = (account?.accountOptions?.[274] ?? 0) + (account?.accountOptions?.[279] ?? 0);
-  const avgResetPoints = totalResets > 0 ? totalResetPoints / totalResets : 0;
-  let totalMulti: any = getShinyMulti(account, -1);
-  if (1E3 > getShinyMulti(account, -1)) {
-    totalMulti = notateNumber(totalMulti, 'MultiplierInfo');
-  }
-  else if (1E7 > getShinyMulti(account, -1)) {
-    totalMulti = commaNotation(totalMulti);
-  }
-  else {
-    totalMulti = notateNumber(totalMulti, 'MultiplierInfo');
-  }
-  const allMultipliers = [0, 1, 2, 3, 4, 5].map((index) => {
-    let amount = account?.accountOptions?.[281 + index];
-    const baseMulti = getShinyMulti(account, index);
-    const multi = ('' + (10 > baseMulti ? notateNumber(baseMulti, 'MultiplierInfo') : 100 > baseMulti
-      ? '' + Math.floor(10 * baseMulti) / 10
-      : '' + Math.floor(baseMulti))).replace('.00', '');
-    return {
-      multi,
-      amount: 1E4 > amount ? '' + Math.round(amount) : '' + notateNumber(amount, 'Big')
-    }
-  });
+  const unspentResetPoints = account?.accountOptions?.[OPT.kangarooResetPointsUnspent] ?? 0;
+  // game: each Fisheroo Reset or Greatest Catch adds 10 + 5 * Megafish(2) + Tarrific Resets Lv + Fisheroo Investing Lv
+  const nextResetPoints = 10 + 5 * getMegaFish(account, 2)
+    + (tarUpgrades?.[5]?.level ?? 0) + (upgrades?.[9]?.level ?? 0);
+  const totalMulti = getShinyMulti(account, -1);
+  const allMultipliers = [0, 1, 2, 3, 4, 5].map((index) => ({
+    multi: getShinyMulti(account, index),
+    amount: account?.accountOptions?.[281 + index] ?? 0
+  }));
 
   return {
     resetBonuses,
@@ -241,7 +251,9 @@ const parseKangaroo = (account: any) => {
     shinyProgress,
     shinyRate,
     shinyRatePercent,
-    avgResetPoints
+    fishCaught,
+    unspentResetPoints,
+    nextResetPoints
   }
 }
 
@@ -250,16 +262,16 @@ const formatDescription = (account: any, level: any, desc: any, upgradesIndex: a
   const optionValue = account?.accountOptions?.[index] ?? 0;
   const lvl = level ?? 0;
   let newDesc = desc;
-  newDesc = newDesc.replace('{', '' + commaNotation(optionValue * (data[i]?.x6)));
+  newDesc = newDesc.replace('{', gameFill(optionValue * (data[i]?.x6), 'Comma'));
   newDesc = newDesc.replace(']', '' + Math.round(100 + (lvl * (data[i]?.x6))) / 100);
-  newDesc = newDesc.replace('~', '' + notateNumber(100 * (1 - 1 / (1 + lvl * (data[i]?.x6) / 100)), 'Small'));
-  newDesc = newDesc.replace('?', '' + notateNumber((data[i]?.x6) * (lvl / (40 + lvl)), 'Small'));
+  newDesc = newDesc.replace('~', gameFill(100 * (1 - 1 / (1 + lvl * (data[i]?.x6) / 100)), 'Small'));
+  newDesc = newDesc.replace('?', gameFill((data[i]?.x6) * (lvl / (40 + lvl)), 'Small'));
   return newDesc;
 }
 
 const getMegaFish = (account: any, i: any) => {
-  return (account?.accountOptions?.[279]) > i ? (11 === i
-    ? (account?.accountOptions?.[279]) - 11
+  return (account?.accountOptions?.[OPT.kangarooMegaFish]) > i ? (11 === i
+    ? (account?.accountOptions?.[OPT.kangarooMegaFish]) - 11
     : 1) : 0;
 }
 
@@ -287,15 +299,15 @@ const getShinyMulti = (account: any, i: any) => {
 
 const getResetBonuses = (account: any, i: any) => {
   const base = 0 === i
-    ? (1 + 0.4 * (account?.accountOptions?.[291] ?? 0))
+    ? (1 + 0.4 * (account?.accountOptions?.[OPT.kangarooResetBluefin] ?? 0))
     : 1 === i
-      ? (1 + 0.3 * (account?.accountOptions?.[292] ?? 0))
+      ? (1 + 0.3 * (account?.accountOptions?.[OPT.kangarooResetShiny] ?? 0))
       : 2 === i
-        ? (1 + 0.15 * (account?.accountOptions?.[293] ?? 0))
+        ? (1 + 0.15 * (account?.accountOptions?.[OPT.kangarooResetCheaper] ?? 0))
         : 3 === i
-          ? (1 + 0.04 * (account?.accountOptions?.[294] ?? 0))
-          : (1 + 0.2 * (account?.accountOptions?.[295] ?? 0));
-  const secondBase = i !== 3 && 0 < (account?.accountOptions?.[291 + i] ?? 0) ? 1 + .04 * (account?.accountOptions?.[294] ?? 0) : 1;
+          ? (1 + 0.04 * (account?.accountOptions?.[OPT.kangarooResetOtherBonuses] ?? 0))
+          : (1 + 0.2 * (account?.accountOptions?.[OPT.kangarooResetTartar] ?? 0));
+  const secondBase = i !== 3 && 0 < (account?.accountOptions?.[291 + i] ?? 0) ? 1 + .04 * (account?.accountOptions?.[OPT.kangarooResetOtherBonuses] ?? 0) : 1;
   return base * secondBase;
 }
 export const getKangarooBonus = (bonuses: any, bonusName: any) => {

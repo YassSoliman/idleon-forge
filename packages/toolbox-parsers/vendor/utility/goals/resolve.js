@@ -1,0 +1,422 @@
+// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 48cb4ee697988ec5eac14ba97142add6296505b2.
+// Copyright (C) Morta1 and IdleOn Toolbox contributors. GPL-3.0-only; see vendor/LICENSE.
+// Copied unmodified by IdleOn Forge's scripts/sync.sh; UI-coupled imports are redirected to shims/ at build time.
+import { getDescriptor, getDescriptors } from './registry';
+import { groupingOf, isInGroup } from './groups';
+import { effectiveScope, isAllChars, isCharScope, isGlobalKey, MAX_TARGET, NEXT_TARGET, scopeKey } from './store';
+
+const STATUS_ORDER = { ok: 0, reached: 1, invalid: 2, missing: 2, unread: 2 };
+
+// missing: the system, metric, entry or character is gone. invalid: the entry is there but the goal cannot be
+// measured any more (a 'max' target on a metric that lost its cap, a percent goal on an entry without a percent)
+export const isUnresolved = (view) => view.status === 'missing' || view.status === 'invalid';
+
+const clamp01 = (n) => Math.min(1, Math.max(0, n));
+
+// a metric without a verb reads its words from its label
+const booleanFields = (metric) => (metric?.boolean ? { verb: metric.verb ?? null } : {});
+
+const commonFields = (goal, descriptor) => ({
+  id: goal.id,
+  kind: goal.kind,
+  system: goal.system,
+  label: descriptor?.label ?? goal.system,
+  entryLabel: descriptor?.entryLabel ?? null,
+  metricLabel: descriptor?.metrics?.[goal.metric]?.label ?? goal.metric,
+  // how the amount reads beside the label: 'level' ("Lv 100"), 'rank' ("rank 15") or 'count' ("1,000 kills")
+  noun: descriptor?.metrics?.[goal.metric]?.noun ?? 'count',
+  boolean: !!descriptor?.metrics?.[goal.metric]?.boolean,
+  scope: goal.scope,
+  metric: goal.metric,
+  op: goal.op,
+  unit: goal.unit,
+  target: goal.target,
+  watch: !!goal.watch,
+  pinned: !!goal.pinned,
+  note: goal.note ?? '',
+  route: descriptor?.route ?? null,
+  ...booleanFields(descriptor?.metrics?.[goal.metric])
+});
+
+const missingView = (goal, descriptor) => ({
+  ...commonFields(goal, descriptor),
+  name: goal.kind === 'all' ? allName(goal, descriptor) : String(goal.key ?? goal.system),
+  icon: null,
+  status: 'missing',
+  ...(goal.kind === 'all'
+    ? { group: goal.group ?? null, met: 0, total: 0, short: [], closest: [], shortCount: 0, progress: null }
+    : { key: goal.key, value: null, max: null, targetValue: null, progress: null })
+});
+
+// The entry still exists, so the goal keeps its name, icon and current amount; only its target can't be measured
+const invalidView = (goal, descriptor, metric, row, ctx) => {
+  const value = metric.value(row, ctx);
+  return {
+    ...commonFields(goal, descriptor),
+    name: descriptor.name(row),
+    icon: descriptor.icon(row),
+    status: 'invalid',
+    key: goal.key,
+    value: Number.isFinite(value) ? value : null,
+    max: null,
+    targetValue: null,
+    progress: null,
+    ...(metric.tiers && Number.isFinite(value) ? { valueTierName: metric.tiers[value] } : {})
+  };
+};
+
+// A group name already says what it is ("Day market", "World 1"), so the group label is not repeated
+const allName = (goal, descriptor) => {
+  if (goal.group == null) return `All ${String(descriptor?.label ?? goal.system).toLowerCase()}`;
+  return groupingOf(descriptor, goal.group)?.names?.[goal.group] ?? String(goal.group);
+};
+
+// A priced yes/no metric: what the account has toward the row's price. Logged out it has nothing; a row without a
+// usable price has no cost
+const costOf = (metric, row, ctx) => {
+  if (!metric.cost) return null;
+  const price = metric.cost.price(row, ctx);
+  if (!Number.isFinite(price) || price <= 0) return null;
+  // a row paid from its own item (a coral, say) reads its balance and icon from the row
+  const have = metric.cost.have(ctx, row);
+  // display 'coins' draws the coin tiers; icon(n) and format(n) draw any other currency
+  const { label, display, format } = metric.cost;
+  const icon = metric.cost.icon ? (n) => metric.cost.icon(n, row) : null;
+  return { label, ...(display ? { display } : {}), ...(icon ? { icon } : {}), ...(format ? { format } : {}), have: Number.isFinite(have) ? have : 0, price };
+};
+
+// The number a row is compared against: the live cap (a percent goal has none), the entry's own next threshold (which
+// moves after each claim or level) or the stored number
+const targetValueOf = (goal, metric, row, ctx, max) => {
+  if (goal.target === MAX_TARGET) return goal.unit === 'percentOfMax' ? null : max;
+  if (goal.target === NEXT_TARGET) return metric.nextStep ? metric.threshold(row, ctx) : null;
+  return goal.target;
+};
+
+// A tiered metric whose tiers are cut-offs on an amount: what the row has and what the target tier needs
+const tierAmountOf = (goal, metric, row, ctx, targetValue) => {
+  if (!metric.tierAmount || goal.op === '<=') return null;
+  const have = metric.tierAmount.have(row, ctx);
+  const need = metric.tierAmount.need(row, targetValue, ctx);
+  if (!Number.isFinite(have) || !Number.isFinite(need) || need <= 0) return null;
+  // a unit puts the amount on the goal's face ("62.3M of 100M kills"); without one only the bar follows it
+  return { have, need, ...(metric.tierAmount.unit ? { unit: metric.tierAmount.unit } : {}) };
+};
+
+// Compares one row with the goal. null = the comparison is impossible (no percent / no max / bad value).
+const evaluateRow = (goal, descriptor, metric, row, ctx) => {
+  const max = metric.max?.(row, ctx) ?? null;
+  const value = goal.unit === 'percentOfMax' ? metric.percentOfMax?.(row, ctx) ?? null : metric.value(row, ctx);
+  if (!Number.isFinite(value)) return null;
+  const targetValue = targetValueOf(goal, metric, row, ctx, max);
+  if (!Number.isFinite(targetValue)) return null;
+  const reached = goal.op === '<=' ? value <= targetValue : value >= targetValue;
+  const cost = costOf(metric, row, ctx);
+  const tierAmount = tierAmountOf(goal, metric, row, ctx, targetValue);
+  // A percent goal keeps the plain amount too ("Lv 1,234"), so entries the same percent apart still read apart
+  const amount = goal.unit === 'percentOfMax' ? metric.value(row, ctx) : null;
+  // and the level its target percent needs ("Lv 1,234 of 2,000"), on metrics that can work it out
+  const amountTarget = Number.isFinite(amount) && metric.levelForPercent ? metric.levelForPercent(row, ctx, targetValue) : null;
+  let progress;
+  if (reached) progress = 1;
+  // Still reached only by buying it: the bar follows the purse toward the price
+  else if (cost) progress = clamp01(cost.have / cost.price);
+  // A tier with a moving cut-off: the bar follows the amount toward the target tier's cut-off, not the tier count
+  else if (tierAmount) progress = clamp01(tierAmount.have / tierAmount.need);
+  else if (goal.op === '<=') progress = clamp01(targetValue / value);
+  else progress = clamp01(value / targetValue);
+  return {
+    key: descriptor.key(row),
+    name: descriptor.name(row),
+    icon: descriptor.icon(row),
+    value,
+    max: goal.unit === 'percentOfMax' ? 100 : max,
+    targetValue,
+    progress,
+    reached,
+    ...(cost ? { cost } : {}),
+    ...(Number.isFinite(amount) ? { amount } : {}),
+    ...(Number.isFinite(amountTarget) ? { amountTarget } : {}),
+    ...(tierAmount ? { tierAmount } : {}),
+    ...(metric.tiers ? { valueTierName: metric.tiers[value] } : {})
+  };
+};
+
+// What an all goal shows for its entries: how many meet the target, the ones still short (nearest first) and its status.
+// rowCount: the rows there before measuring, so rows none of which can be measured read as invalid, not missing
+const summarize = (goal, entries, rowCount) => {
+  const short = entries.filter((e) => !e.reached)
+    .sort((a, b) => b.progress - a.progress || String(a.name).localeCompare(String(b.name)))
+    .map(({ reached, ...entry }) => entry);
+  const total = entries.length;
+  const met = total - short.length;
+  let status = 'ok';
+  // Rows there but none measurable: the target no longer applies to them
+  if (total === 0) status = rowCount ? 'invalid' : 'missing';
+  else if (goal.watch) status = 'ok';
+  else if (met === total) status = 'reached';
+  return {
+    status,
+    met,
+    total,
+    progress: goal.watch ? null : total ? met / total : null,
+    short,
+    // Entries not started yet are no nearer than any other, so they are left out
+    closest: short.filter(({ progress }) => progress > 0),
+    shortCount: short.length
+  };
+};
+
+// One entry on every character: reads as an all goal whose entries are the characters that have the entry. A character
+// without it (a deleted one, another class's talent) is not counted; the goal is missing only when none has it
+const resolveAllChars = (goal, descriptor, metric, { account, characters }, base) => {
+  const found = (characters ?? []).flatMap((character) => {
+    const rowCtx = { account, characters, character };
+    const row = descriptor.list(rowCtx).find((r) => String(descriptor.key(r)) === String(goal.key));
+    return row ? [{ character, row, rowCtx }] : [];
+  });
+  if (!found.length) return missingView(goal, descriptor);
+  const entries = found.flatMap(({ character, row, rowCtx }) => {
+    const entry = evaluateRow(goal, descriptor, metric, row, rowCtx);
+    return entry ? [{ ...entry, key: character.name, name: character.name, icon: `data/ClassIcons${character.classIndex ?? 0}` }] : [];
+  });
+  return {
+    ...base,
+    // drawn like an all goal; edits still read the stored entry goal
+    kind: 'all',
+    key: goal.key,
+    name: descriptor.name(found[0].row),
+    icon: descriptor.icon(found[0].row),
+    group: null,
+    ...summarize(goal, entries, found.length)
+  };
+};
+
+// Every entry (or a group's) on every character: one entry per character, done once all of that character's entries
+// meet the target. A character with none of the entries is not counted
+const resolveAllCharsAll = (goal, descriptor, metric, { account, characters }, base) => {
+  const entries = (characters ?? []).flatMap((character) => {
+    const rowCtx = { account, characters, character };
+    const rows = descriptor.list(rowCtx) ?? [];
+    const inGroup = goal.group == null ? rows : rows.filter((row) => isInGroup(descriptor, goal.group, row));
+    const own = inGroup.map((row) => evaluateRow(goal, descriptor, metric, row, rowCtx)).filter(Boolean);
+    if (!own.length) return [];
+    const met = own.filter(({ reached }) => reached).length;
+    return [{
+      key: character.name,
+      name: character.name,
+      icon: `data/ClassIcons${character.classIndex ?? 0}`,
+      progress: own.reduce((sum, { progress }) => sum + progress, 0) / own.length,
+      reached: met === own.length,
+      counts: { met, total: own.length }
+    }];
+  });
+  const firstRows = (characters ?? []).map((character) => descriptor.list({ account, characters, character }) ?? [])
+    .find((rows) => rows.length) ?? [];
+  const summary = summarize(goal, entries, firstRows.length);
+  // characters 27 of 30 bags in are most of the way there, so the bar follows them, not only the finished ones
+  const progress = goal.watch || !entries.length ? summary.progress
+    : entries.reduce((sum, entry) => sum + entry.progress, 0) / entries.length;
+  return {
+    ...base,
+    name: allName(goal, descriptor),
+    icon: descriptor.systemIcon ?? (firstRows.length ? descriptor.icon(firstRows[0]) : null),
+    group: goal.group ?? null,
+    ...summary,
+    progress
+  };
+};
+
+// An entry every character shares (isGlobalKey) is one account value, whatever scope the goal was saved
+// with: it is read on the first character that has it and reads as the account's goal
+const globalContext = (goal, descriptor, { account, characters }) => {
+  for (const character of characters ?? []) {
+    const rowCtx = { account, characters, character };
+    const row = descriptor.list(rowCtx).find((r) => String(descriptor.key(r)) === String(goal.key));
+    if (row) return { row, rowCtx };
+  }
+  return null;
+};
+
+const entryView = (goal, descriptor, metric, row, rowCtx, base) => {
+  // A system that dropped single entries keeps its stored entry goals only to be removed
+  if (descriptor.allOnly) {
+    return { ...missingView(goal, descriptor), scope: base.scope, name: descriptor.name(row), icon: descriptor.icon(row) };
+  }
+  const result = evaluateRow(goal, descriptor, metric, row, rowCtx);
+  if (!result) return { ...invalidView(goal, descriptor, metric, row, rowCtx), scope: base.scope };
+  const { reached, ...entry } = result;
+  return {
+    ...base,
+    ...entry,
+    status: goal.watch ? 'ok' : reached ? 'reached' : 'ok',
+    progress: goal.watch ? null : entry.progress
+  };
+};
+
+const contextFor = (goal, descriptor, { account, characters }) => {
+  if (isCharScope(goal.scope)) {
+    const character = characters?.find((c) => c.name === goal.scope.char);
+    return character ? { account, characters, character } : null;
+  }
+  return descriptor.scope === 'character' ? null : { account, characters };
+};
+
+const resolveInner = (goal, ctx) => {
+  const descriptor = getDescriptor(goal.system);
+  const metric = descriptor?.metrics?.[goal.metric];
+  if (!descriptor || !metric) return missingView(goal, descriptor);
+  const base = commonFields(goal, descriptor);
+  const tierName = metric.tiers && typeof goal.target === 'number' ? metric.tiers[goal.target] : undefined;
+  const tier = tierName === undefined ? {} : { tierName };
+  if (goal.kind === 'entry' && isGlobalKey(goal.system, goal.key)) {
+    const found = globalContext(goal, descriptor, ctx);
+    if (!found) return { ...missingView(goal, descriptor), scope: 'account' };
+    return entryView(goal, descriptor, metric, found.row, found.rowCtx, { ...base, ...tier, scope: 'account' });
+  }
+  if (isAllChars(goal.scope)) {
+    if (descriptor.scope !== 'character') return missingView(goal, descriptor);
+    if (goal.kind === 'all') return resolveAllCharsAll(goal, descriptor, metric, ctx, { ...base, ...tier });
+    return resolveAllChars(goal, descriptor, metric, ctx, { ...base, ...tier });
+  }
+  const rowCtx = contextFor(goal, descriptor, ctx);
+  if (!rowCtx) return missingView(goal, descriptor);
+
+  const rows = descriptor.list(rowCtx);
+
+  if (goal.kind === 'all') {
+    const inGroup = goal.group == null
+      ? rows
+      // an imported file can carry a numeric group id
+      : rows.filter((row) => isInGroup(descriptor, goal.group, row));
+    const entries = inGroup.map((row) => evaluateRow(goal, descriptor, metric, row, rowCtx)).filter(Boolean);
+    return {
+      ...base,
+      ...tier,
+      name: allName(goal, descriptor),
+      // a metric can stand for the whole goal (a ribbon rank), then the system's own icon, else the first entry's
+      icon: metric.allIcon && Number.isFinite(goal.target) ? metric.allIcon(goal.target)
+        : descriptor.systemIcon ?? (inGroup.length ? descriptor.icon(inGroup[0]) : null),
+      group: goal.group ?? null,
+      ...summarize(goal, entries, inGroup.length)
+    };
+  }
+
+  const row = rows.find((r) => String(descriptor.key(r)) === String(goal.key));
+  if (!row) return missingView(goal, descriptor);
+  return entryView(goal, descriptor, metric, row, rowCtx, { ...base, ...tier });
+};
+
+// A goal over a failed section would read that section's catalog at zero, not the player's progress. The account's
+// top-level keys are the section names, so a read through this proxy says which sections the goal stands on.
+const readsFailedSection = (goal, ctx) => {
+  const failed = ctx?.account?.failedSections;
+  if (!failed?.length) return false;
+  if (failed.includes('*')) return true;
+  const read = new Set();
+  const account = new Proxy(ctx.account, {
+    get: (target, key) => {
+      read.add(key);
+      return target[key];
+    }
+  });
+  try {
+    resolveInner(goal, { ...ctx, account });
+  } catch {
+    // what it read before the throw still counts
+  }
+  return failed.some((name) => read.has(name.split('.')[0]));
+};
+
+const unread = (view) => ({ ...view, status: 'unread', value: null, progress: null });
+
+export const resolveGoal = (goal, ctx) => {
+  const failed = readsFailedSection(goal, ctx);
+  try {
+    const view = resolveInner(goal, ctx ?? {});
+    return failed ? unread(view) : view;
+  } catch {
+    const view = missingView(goal, safeDescriptor(goal.system));
+    return failed ? unread(view) : view;
+  }
+};
+
+const safeDescriptor = (system) => {
+  try {
+    return getDescriptor(system);
+  } catch {
+    return undefined;
+  }
+};
+
+const scopeRank = (scope) => {
+  if (isCharScope(scope)) return 2;
+  return isAllChars(scope) ? 1 : 0;
+};
+const scopeName = (scope) => (isCharScope(scope) ? scope.char : '');
+
+export const resolveGoals = (goals, ctx) => {
+  const order = new Map(getDescriptors().map((d, i) => [d.system, i]));
+  return (goals ?? [])
+    .map((goal) => ({ goal, view: resolveGoal(goal, ctx) }))
+    .sort((a, b) =>
+      (order.get(a.goal.system) ?? Infinity) - (order.get(b.goal.system) ?? Infinity) ||
+      scopeRank(effectiveScope(a.goal)) - scopeRank(effectiveScope(b.goal)) ||
+      scopeName(effectiveScope(a.goal)).localeCompare(scopeName(effectiveScope(b.goal))) ||
+      STATUS_ORDER[a.view.status] - STATUS_ORDER[b.view.status] ||
+      (a.goal.createdAt ?? 0) - (b.goal.createdAt ?? 0))
+    .map(({ view }) => view);
+};
+
+// Open goals first, reached ones sink to the bottom; otherwise the given order is kept
+const ROW_ORDER = { ok: 0, invalid: 1, missing: 1, unread: 1, reached: 2 };
+export const openFirst = (views) => views
+  .map((view, index) => ({ view, index }))
+  .sort((a, b) => ROW_ORDER[a.view.status] - ROW_ORDER[b.view.status] || a.index - b.index)
+  .map(({ view }) => view);
+
+const rangeKey = (view) => [view.system, scopeKey(view.scope), view.key, view.metric, view.unit].join('|');
+// Only item amounts pair: their bounds are plain quantities, which the range text can show without a unit
+const pairable = (view) => view.system === 'item' && view.unit === 'value' && view.kind === 'entry' && !view.watch
+  && !isUnresolved(view) && view.status !== 'unread';
+
+// The range row stands in for both goals: it is reached when both are, and its bar follows the one still short
+const rangeView = (lower, upper) => ({
+  ...lower,
+  range: { lower, upper },
+  goalIds: [lower.id, upper.id],
+  note: lower.note || upper.note,
+  pinned: lower.pinned || upper.pinned,
+  status: lower.status === 'reached' && upper.status === 'reached' ? 'reached' : 'ok',
+  progress: Math.min(lower.progress, upper.progress)
+});
+
+// An at least and an at most item goal on the same item read as one range row ("500K - 5M"), in the place of the
+// first of the two; any other view passes through unchanged
+export const pairRanges = (views) => {
+  const slots = new Map();
+  for (const view of views) {
+    if (!pairable(view)) continue;
+    const slot = slots.get(rangeKey(view)) ?? {};
+    slot[view.op] ??= view;
+    slots.set(rangeKey(view), slot);
+  }
+  const ranges = new Map();
+  const absorbed = new Set();
+  for (const { '>=': lower, '<=': upper } of slots.values()) {
+    if (!lower || !upper) continue;
+    const range = rangeView(lower, upper);
+    ranges.set(lower.id, range);
+    ranges.set(upper.id, range);
+  }
+  const out = [];
+  for (const view of views) {
+    const range = ranges.get(view.id);
+    if (!range) out.push(view);
+    else if (!absorbed.has(range)) {
+      absorbed.add(range);
+      out.push(range);
+    }
+  }
+  return out;
+};

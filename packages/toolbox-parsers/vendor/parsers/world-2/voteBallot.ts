@@ -1,4 +1,4 @@
-// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1.
+// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 48cb4ee697988ec5eac14ba97142add6296505b2.
 // Copyright (C) Morta1 and IdleOn Toolbox contributors. GPL-3.0-only; see vendor/LICENSE.
 // Copied unmodified by IdleOn Forge's scripts/sync.sh; UI-coupled imports are redirected to shims/ at build time.
 import type { IdleonData, Account } from '../types';
@@ -7,7 +7,7 @@ import { ninjaExtraInfo } from '@website-data';
 import { hasClearedMap } from '@parsers/portals';
 import { getCosmoBonus } from '@parsers/world-5/hole';
 import { getWinnerBonus } from '@parsers/world-6/summoning';
-import { getEventShopBonus, isCompanionBonusActive } from '@parsers/misc';
+import { getEventShopBonus, companionLineName, isCompanionBonusActive } from '@parsers/misc';
 import { getLegendTalentBonus } from '@parsers/world-7/legendTalents';
 import { getArcadeBonus } from '@parsers/world-2/arcade';
 import { getClamWorkBonus } from '@parsers/world-7/clamWork';
@@ -15,6 +15,7 @@ import { getPaletteBonus } from '@parsers/world-5/gaming';
 import { getSushiBonus } from '@parsers/world-7/sushiStation';
 import { getJellyBonus } from '@parsers/world-7/jellyOperator';
 import { NUMBERED_GROUP, additiveGroup, createBreakdown, multiplier, percent } from '@parsers/breakdown';
+import { OPT } from '@parsers/accountOptions';
 
 export const getVoteBallot = (idleonData: IdleonData, accountData: Account, characters?: any[]) => {
   return parseVoteBallot(idleonData, accountData, characters);
@@ -30,7 +31,7 @@ const parseVoteBallot = (idleonData: IdleonData, accountData: Account, character
   // otherwise every meritocracy bonus is 0.
   const meritocracyUnlocked = characters?.some((character: any) => hasClearedMap(character, 250)) ?? false;
   // Until the Demonflesh is handed in (OptionsListAccount[472]) the base is 25% instead of 100%
-  const canVote = (accountData as any)?.accountOptions?.[472] === 1 ? 1 : 0;
+  const canVote = (accountData as any)?.accountOptions?.[OPT.demonfleshHandedIn] === 1 ? 1 : 0;
   const meritocracyBase = Math.min(1, Math.max(0.25, 0.25 + canVote));
   const companionBonus = isCompanionBonusActive(accountData, 39) ? (accountData as any)?.companions?.list?.at(39)?.bonus : 0;
   const poppyBonus = isCompanionBonusActive(accountData, 161) ? (accountData as any)?.companions?.list?.at(161)?.bonus ?? 0 : 0;
@@ -55,7 +56,7 @@ const parseVoteBallot = (idleonData: IdleonData, accountData: Account, character
     additiveGroup(NUMBERED_GROUP, [
       percent('Demonflesh', demonfleshPenalty, { note: demonfleshPenalty ? 'Not handed in yet' : undefined }),
       percent('Clam Work', 5 * clamWorkBonus),
-      percent('Companion (Pufferblob)', companionBonus),
+      percent(companionLineName(39), companionBonus),
       percent('Legend Talent', legendTalentBonus),
       percent('Arcade', arcadeBonus),
       percent('Event Shop', 20 * meritocracyEventShopBonus),
@@ -114,16 +115,16 @@ const parseVoteBallot = (idleonData: IdleonData, accountData: Account, character
     * (1 + (companionBonus3 + equinoxBonus + (cosmoBonus + (winnerBonus +
       (17 * eventShopBonus2 + 13 * eventShopBonus3 + (companionBonus2 + (paletteBonus + (legendTalentBonus2 + ballotSushiBonus))))))) / 100);
   const voteMultiBreakdown = createBreakdown('Bonus multi', voteMulti, [
-    multiplier('Companion (Poppy)', 1 + poppyBonus / 100),
+    multiplier(companionLineName(161), 1 + poppyBonus / 100),
     multiplier('Meritocracy Bonus', 1 + meritocracyBonus / 100),
     additiveGroup(NUMBERED_GROUP, [
-      percent('Companion (Crystal Cuttlefish)', companionBonus3),
+      percent(companionLineName(41), companionBonus3),
       percent('Equinox', equinoxBonus),
       percent('Cosmo', cosmoBonus),
       percent('Summoning Win', winnerBonus),
       percent('Event Shop 7', 17 * eventShopBonus2),
       percent('Event Shop 16', 13 * eventShopBonus3),
-      percent('Companion (Mashed Potato)', companionBonus2),
+      percent(companionLineName(19), companionBonus2),
       percent('Palette', paletteBonus),
       percent('Legend Talent', legendTalentBonus2),
       percent('Sushi Tier 50', ballotSushiBonus)

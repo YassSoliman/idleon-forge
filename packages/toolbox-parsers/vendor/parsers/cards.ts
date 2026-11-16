@@ -1,4 +1,4 @@
-// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1.
+// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 48cb4ee697988ec5eac14ba97142add6296505b2.
 // Copyright (C) Morta1 and IdleOn Toolbox contributors. GPL-3.0-only; see vendor/LICENSE.
 // Copied unmodified by IdleOn Forge's scripts/sync.sh; UI-coupled imports are redirected to shims/ at build time.
 import { bonuses, cards, cardSets } from '@website-data';
@@ -6,6 +6,8 @@ import { tryToParse } from '@utility/helpers';
 import { isPlaceholder } from '@parsers/catalog';
 import type { IdleonData, Account } from './types';
 import { calcCardBonus, calculateAmountToNextLevel } from './cardMath';
+import { saveField } from '@parsers/saveField';
+import { OPT } from '@parsers/accountOptions';
 
 // Re-exported so account-side importers keep their path. Wiki components must import cardMath
 // directly instead: this file's @website-data import is what they cannot pull in.
@@ -13,7 +15,7 @@ export { calcCardBonus, calculateAmountToNextLevel };
 
 export const getCards = (idleonData: IdleonData, account: Account): Record<string, any> => {
   const cardsRaw = (idleonData as any)?.Cards?.[0] || tryToParse(idleonData?.Cards0);
-  const rawRift = tryToParse(idleonData?.Rift) || idleonData?.Rift;
+  const rawRift = saveField(idleonData, 'Rift') || idleonData?.Rift;
   return parseCards(cardsRaw, rawRift, account);
 }
 
@@ -57,9 +59,9 @@ const parseCards = (cardsRaw: any, rawRift: any, account: Account): Record<strin
   const spelunkingSixStarCards = (account as any)?.spelunking?.loreBosses?.[2]?.defeated ? 1 : 0;
   const totalFiveStarCards = riftFiveStarCards + spelunkingSixStarCards;
   const maxStars = Math.round(4 + totalFiveStarCards);
-  const rawFiveStarList = (account as any)?.accountOptions?.[155] || '';
+  const rawFiveStarList = (account as any)?.accountOptions?.[OPT.fiveStarCardList] || '';
   const fiveStarList = rawFiveStarList?.toString()?.split(',') || [];
-  const rawSixStarList = (account as any)?.accountOptions?.[603] || '';
+  const rawSixStarList = (account as any)?.accountOptions?.[OPT.sixStarCards] || '';
   const sixStarList = rawSixStarList?.toString()?.split(',') || [];
 
   return Object.entries(cards).reduce(
@@ -75,6 +77,8 @@ const parseCards = (cardsRaw: any, rawRift: any, account: Account): Record<strin
           ...cardDetails,
           amount,
           stars,
+          // Highest 0-indexed star tier this card can reach on this account today
+          maxStars: Math.max(maxStars, isInSixStarList ? 6 : isInFiveStarList ? 5 : 0),
           nextLevelReq: amount + calculateAmountToNextLevel(cardDetails?.perTier, stars, amount)
         }
       }
@@ -161,6 +165,31 @@ export const getPlayerCards = (char: any, account: Account): Record<string, any>
       stars: calculateCardSetStars(cardsSetObject, Object.values(cardSet)?.[0])
     },
     equippedCards
+  };
+}
+
+// Omega Nanochip (lab chip 20) doubles card slot 1, Omega Motherboard (chip 21) slot 8
+export const getCardSlotChipBoosts = (account: any, playerId: number): number[] => {
+  const chips = account?.lab?.playersChips?.[playerId];
+  const has = (chipIndex: number) => Boolean(chips?.find((chip: any) => chip?.index === chipIndex));
+  return Array.from({ length: 8 }, (_, slot) => (slot === 0 && has(20)) || (slot === 7 && has(21)) ? 2 : 1);
+}
+
+// The character as the game would see it wearing a loadout: its cards in these slots take the character's chip boosts.
+// cards: the account's card objects (legendBonus already on them), null for an empty slot; cardSet: a getCardSets entry.
+export const withCardLoadout = (character: any, account: any, loadoutCards: any[], cardSet: any): any => {
+  const boosts = getCardSlotChipBoosts(account, character?.playerId);
+  return {
+    ...character,
+    cards: {
+      ...character?.cards,
+      cardSet: cardSet ? { ...cardSet, bonus: calcCardBonus(cardSet) } : {},
+      equippedCards: Array.from({ length: 8 }, (_, slot) => {
+        const card = loadoutCards?.[slot];
+        if (!card) return {};
+        return { ...card, cardName: card?.displayName, ...(boosts[slot] > 1 ? { chipBoost: boosts[slot] } : {}) };
+      })
+    }
   };
 }
 

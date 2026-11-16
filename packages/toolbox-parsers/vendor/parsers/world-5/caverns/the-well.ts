@@ -1,7 +1,7 @@
-// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1.
+// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 48cb4ee697988ec5eac14ba97142add6296505b2.
 // Copyright (C) Morta1 and IdleOn Toolbox contributors. GPL-3.0-only; see vendor/LICENSE.
 // Copied unmodified by IdleOn Forge's scripts/sync.sh; UI-coupled imports are redirected to shims/ at build time.
-import { fillArrayToLength, lavaLog, notateNumber } from '@utility/helpers';
+import { fillArrayToLength, lavaLog } from '@utility/helpers';
 import { holesInfo } from '@website-data';
 import { getMonumentBonus } from '@parsers/world-5/caverns/bravery';
 import { getLampBonus } from '@parsers/world-5/caverns/the-lamp';
@@ -15,21 +15,6 @@ import { getCglunkoBonus } from '@parsers/world-5/caverns/crystal-glunko-cove';
 
 export const getTheWell = (holesObject: any, accountData: any) => {
   const { wellSediment, sedimentMulti, wellBuckets } = holesObject;
-  const sediments = fillArrayToLength(10).map((_, index) => {
-    if (0 <= wellSediment[index]) {
-      return {
-        current: wellSediment?.[index],
-        max: getSedimentMax({ sedimentMulti, index })
-      }
-    } else if (9999999 < -1 * wellSediment[index]) {
-      return { current: wellSediment[index] }
-    } else {
-      return { current: wellSediment[index] }
-    }
-  });
-  const rockLayerIndex = sediments.findIndex(({ current }) => current < 0);
-  sediments.unshift(sediments[rockLayerIndex]);
-
   const numberOfBuckets = getOwnedBuckets(holesObject);
   const buckets = fillArrayToLength(numberOfBuckets, wellBuckets);
   // Fountain Yellow Water idx 15 ("Golden_Bucket_Boost") makes the first bucket golden, with a faster fill rate.
@@ -45,6 +30,23 @@ export const getTheWell = (holesObject: any, accountData: any) => {
     (i < goldenBucketsOwned ? goldenBucketMulti : 1) * baseFillRate
   );
   const totalFillRate = bucketRates.reduce((sum, r) => sum + r, 0);
+  // The game's tick adds a bucket's rate only to the sediment it sits on (Holes[10][bucket])
+  const sedimentFillRate = (index: number) => bucketRates
+    .reduce((sum, rate, bucket) => (Number(buckets[bucket]) === index ? sum + rate : sum), 0);
+  const sediments = fillArrayToLength(10).map((_, index) => {
+    const fillRate = sedimentFillRate(index);
+    if (0 <= wellSediment[index]) {
+      return {
+        current: wellSediment?.[index],
+        max: getSedimentMax({ sedimentMulti, index }),
+        fillRate
+      }
+    }
+    // The rock layer is stored negative and climbs to 0 as its buckets fill it
+    return { current: wellSediment[index], fillRate }
+  });
+  const rockLayerIndex = sediments.findIndex(({ current }) => current < 0);
+  sediments.unshift(sediments[rockLayerIndex]);
   const opalCost = getOpalCost(holesObject)
   const expandWhenFull = holesObject?.extraCalculations?.[10];
 
@@ -59,7 +61,9 @@ export const getTheWell = (holesObject: any, accountData: any) => {
     totalFillRate,
     goldenBucketsOwned,
     goldenBucketMulti,
-    opalCost: notateNumber(opalCost, 'TinyE'),
+    opalCost,
+    // CanWeAfford_Well pays the opal from the first sediment (Holes[9][0])
+    opalCostOwned: Math.max(0, wellSediment?.[0] ?? 0),
     expandWhenFull
   }
 }
@@ -100,6 +104,7 @@ export const getSchematicBonus = ({ holesObject, t, i }: any): any => {
     engineerSchematics,
     studyStuff
   } = holesObject || {};
+  if (!engineerSchematics) return 0;
   if (0 === engineerSchematics?.[t]) return 0;
   if (14 === t) {
     let result = 0;

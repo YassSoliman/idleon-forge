@@ -1,9 +1,9 @@
-// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1.
+// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 48cb4ee697988ec5eac14ba97142add6296505b2.
 // Copyright (C) Morta1 and IdleOn Toolbox contributors. GPL-3.0-only; see vendor/LICENSE.
 // Copied unmodified by IdleOn Forge's scripts/sync.sh; UI-coupled imports are redirected to shims/ at build time.
 // A kind's listing: its rows and the columns a reader compares them by. Data-free and importable
 // from plain node, so the page builds it at export time and the tests read the same function.
-import { costCurrency, costsAt, firstLevel, levelledText, summaryLevel } from './effects.mjs';
+import { costCurrency, costsAt, firstLevel, levelledText, summaryLevel, tierLines } from './effects.mjs';
 import { inListing } from './kinds.mjs';
 import { NO_MAX } from './listing-sort.mjs';
 import { slugify } from './names.mjs';
@@ -21,17 +21,25 @@ export const TEXT_MAX_LENGTH = 20;
 // The keys the listing itself names. A field whose label would take one gets a suffix instead.
 const FIXED_KEYS = ['name', 'category', 'effect', 'cost', 'max-level'];
 
-const EFFECT_NOTE = 'At the first level.';
+// The level the Effect cell reads at (summaryLevel): the first, or the max for a kind that opens there.
+const effectNote = (rows) => {
+  const atCap = rows.filter((node) => summaryLevel(node) !== firstLevel(node));
+  if (atCap.length < rows.length / 2) return 'At the first level.';
+  const caps = new Set(atCap.map((node) => node.effect.cap));
+  return caps.size === 1 ? `At level ${[...caps][0]}, the max.` : 'At the max level.';
+};
 
 // These kinds keep their numbers in `stats` and top-level fields that no rule can tell from the indexes
 // beside them (order, companionIndex), so they name their columns. The labels are the entity page's own,
 // so one value reads the same in both places. `facet` names the band column where "Category" would mislead.
+// `|| null` is safe on every column but Attack: the graph holds no 0 in those fields (a 0 there means none, and
+// the builder drops it); a monster's 0 attack is real and prints 0.
 export const KIND_COLUMNS = {
   item: {
     facet: 'Type',
     columns: [
       { key: 'level', label: 'Level', format: 'amount', value: (node) => node.stats?.lvReqToEquip || null },
-      { key: 'sell-price', label: 'Sell Price', format: 'coins', value: (node) => node.sellPrice || null }
+      { key: 'sell-price', label: 'Sell price', format: 'coins', value: (node) => node.sellPrice || null }
     ]
   },
   monster: {
@@ -39,7 +47,7 @@ export const KIND_COLUMNS = {
     columns: [
       { key: 'health', label: 'Health', format: 'notate', value: (node) => node.stats?.health || null },
       { key: 'experience', label: 'Experience', format: 'notate', value: (node) => node.stats?.experience || null },
-      { key: 'attack', label: 'Attack', format: 'notate', value: (node) => node.stats?.attack || null },
+      { key: 'attack', label: 'Attack', format: 'notate', value: (node) => node.stats?.attack ?? null },
       { key: 'def-for-0', label: 'Def for 0', format: 'notate', value: (node) => node.stats?.defence || null }
     ]
   },
@@ -89,7 +97,13 @@ const ruleColumns = (rows, share, distinct) => {
   const columns = [];
   if (share(effectText) >= COLUMN_SHARE) {
     const isEffect = share((node) => node.effect) >= COLUMN_SHARE;
-    columns.push({ key: 'effect', label: isEffect ? 'Effect' : 'Description', type: 'effect', sortable: false, ...(isEffect ? { note: EFFECT_NOTE } : {}) });
+    columns.push({ key: 'effect', label: isEffect ? 'Effect' : 'Description', type: 'effect', sortable: false, ...(isEffect ? { note: effectNote(rows) } : {}) });
+    // A tier past the max (an arcade upgrade's Super and Omega) reads beside the effect it multiplies.
+    const tiers = rows.find((node) => tierLines(node).length);
+    for (const { label, level } of tierLines(tiers)) {
+      const tierOf = (node) => tierLines(node).find((tier) => tier.label === label) ?? null;
+      if (share(tierOf) >= COLUMN_SHARE) columns.push({ key: `tier-${slugify(label)}`, label, type: 'effect', tier: label, sortable: false, note: `At level ${level}.` });
+    }
   }
   const firstCost = (node) => costCell(node)?.[0].amount ?? null;
   if (share(firstCost) >= COLUMN_SHARE && distinct(firstCost) >= 2) columns.push({ key: 'cost', label: 'Cost', type: 'cost', sortable: true });
@@ -142,7 +156,7 @@ const cellOf = (column, node) => {
   const override = KIND_COLUMNS[node.kind]?.columns?.find((candidate) => candidate.key === column.key);
   if (override) return override.value(node);
   if (column.type === 'facet') return facetValue(node, Boolean(column.byWorld));
-  if (column.type === 'effect') return effectText(node);
+  if (column.type === 'effect') return column.tier ? tierLines(node).find((tier) => tier.label === column.tier)?.text : effectText(node);
   if (column.type === 'cost') return costCell(node);
   if (column.type === 'max') return capOf(node);
   return fieldOf(node, column.label)?.value;

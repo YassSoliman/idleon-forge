@@ -1,7 +1,7 @@
-// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1.
+// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 48cb4ee697988ec5eac14ba97142add6296505b2.
 // Copyright (C) Morta1 and IdleOn Toolbox contributors. GPL-3.0-only; see vendor/LICENSE.
 // Copied unmodified by IdleOn Forge's scripts/sync.sh; UI-coupled imports are redirected to shims/ at build time.
-import { commaNotation, lavaLog, notateNumber, tryToParse } from '@utility/helpers';
+import { gameFill, lavaLog, notateNumber, tryToParse } from '@utility/helpers';
 import { grimoire, mapEnemiesArray, mapNames, monsterCoinQuantity, monsters, randomList } from '@website-data';
 import { liveEntries } from '@parsers/catalog';
 import { getTalentBonus } from '@parsers/talents';
@@ -15,10 +15,11 @@ import { getJewelBonus } from '@parsers/world-4/lab';
 import { getPaletteBonus } from '@parsers/world-5/gaming';
 import { getExoticMarketBonus } from '@parsers/world-6/farming';
 import { getCharmBonus } from '@parsers/world-6/sneaking';
-import { getBubbleBonus } from '@parsers/world-2/alchemy';
+import { bubbleLineName, getBubbleBonus } from '@parsers/world-2/alchemy';
 import { getLoreBossBonus } from '@parsers/world-7/spelunking';
 import { getMeritocracyBonus } from '@parsers/world-2/voteBallot';
 import { additiveGroup, createBreakdown, multiplier, NUMBERED_GROUP, percent } from '@parsers/breakdown';
+import { OPT } from '@parsers/accountOptions';
 
 export const boneNames = [
   'Femur',
@@ -60,6 +61,11 @@ export const GRIMOIRE_UPGRADE_CATEGORIES = {
   }
 };
 
+const STACK_OPTIONS: Record<number, number> = { 13: OPT.grimoireKnockouts, 21: OPT.grimoireEliminations, 31: OPT.grimoireAnnihilations };
+
+export const formatGrimoireBonus = (bonus: number) => gameFill(bonus, 'Comma');
+export const formatGrimoireMulti = (bonus: number) => gameFill(1 + bonus / 100, 'MultiplierInfo');
+
 export const getGrimoire = (idleonData: any, charactersData: any, account: any) => {
   const grimoireRaw = tryToParse(idleonData?.Grimoire) || idleonData?.Grimoire;
   const ribbonRaw = tryToParse(idleonData?.Ribbon) || idleonData?.Ribbon;
@@ -69,7 +75,7 @@ export const getGrimoire = (idleonData: any, charactersData: any, account: any) 
 const parseGrimoire = (grimoireRaw: any, ribbonRaw: any, charactersData: any, account: any) => {
   const bones = boneNames.map((_, index) => account?.accountOptions?.[330 + index] ?? 0);
   const totalUpgradeLevels = grimoireRaw?.reduce((sum: any, level: any) => sum + level, 0) ?? 0;
-  const totalBonesCollected = account?.accountOptions?.[329] ?? 0;
+  const totalBonesCollected = account?.accountOptions?.[OPT.grimoireBonesCollected] ?? 0;
   let upgrades = liveEntries<any>(grimoire).map(({ entry: upgrade, index }) => {
     const { x1, x2 } = upgrade;
     const level = grimoireRaw?.[index] ?? 0;
@@ -83,13 +89,19 @@ const parseGrimoire = (grimoireRaw: any, ribbonRaw: any, charactersData: any, ac
   });
   upgrades = upgrades.map((upgrade, index) => {
     const bonus = calcGrimoireBonus(upgrades, index);
+    // game: Knockout! (13), Elimination! (21) and Annihilation! (31) name their stacks, "N Stacks Total: +X% DMG",
+    // X = floor(stacks * bonus)
+    const stackOption = STACK_OPTIONS[index];
+    const stacks = stackOption != null ? Number(account?.accountOptions?.[stackOption] ?? 0) || 0 : null;
     return {
       ...upgrade,
       index,
+      stacks,
+      stacksTotal: stacks != null ? Math.floor(stacks * bonus) : null,
       unlocked: upgrade?.unlockLevel <= totalUpgradeLevels,
       bonus,
       monsterProgress: getMonsterProgress(account, index),
-      description: upgrade?.description.replace('{', '' + commaNotation(bonus)).replace('}', '' + notateNumber(1 + bonus / 100, 'MultiplierInfo'))
+      description: upgrade?.description.replace('{', formatGrimoireBonus(bonus)).replace('}', formatGrimoireMulti(bonus))
     }
   })
   const nextUnlock = upgrades?.find(({ unlocked }: any) => !unlocked);
@@ -188,14 +200,14 @@ export const getWraithStats = (character: any, account: any, fishingEfficiency =
       + (calcGrimoireBonus(upgrades, 28)
         + (calcGrimoireBonus(upgrades, 43)
           + calcGrimoireBonus(upgrades, 50)))) / 100)
-    * (1 + ((account?.accountOptions?.[334] ?? 0)
+    * (1 + ((account?.accountOptions?.[OPT.grimoireKnockouts] ?? 0)
       * calcGrimoireBonus(upgrades, 13)
-      + ((account?.accountOptions?.[335] ?? 0)
+      + ((account?.accountOptions?.[OPT.grimoireEliminations] ?? 0)
         * calcGrimoireBonus(upgrades, 21)
-        + (account?.accountOptions?.[336] ?? 0)
+        + (account?.accountOptions?.[OPT.grimoireAnnihilations] ?? 0)
         * calcGrimoireBonus(upgrades, 31))) / 100)
     * (1 + (calcGrimoireBonus(upgrades, 18)
-      * lavaLog(account?.accountOptions?.[330] ?? 0)) / 100)
+      * lavaLog(account?.accountOptions?.[OPT.grimoireFemurs] ?? 0)) / 100)
     * (1 + (marauderStyle * (totalUpgradeLevels / 100)) / 100);
   const accuracy = (2 + (calcGrimoireBonus(upgrades, 1)
       + (calcGrimoireBonus(upgrades, 12)
@@ -205,7 +217,7 @@ export const getWraithStats = (character: any, account: any, fishingEfficiency =
     * (1 + (calcGrimoireBonus(upgrades, 7)
       + calcGrimoireBonus(upgrades, 38)) / 100)
     * (1 + (calcGrimoireBonus(upgrades, 41)
-      * lavaLog(account?.accountOptions?.[332] ?? 0)) / 100)
+      * lavaLog(account?.accountOptions?.[OPT.grimoireCraniums] ?? 0)) / 100)
     * (1 + (marauderStyle
       * (totalUpgradeLevels / 100)) / 100);
   const defence = (calcGrimoireBonus(upgrades, 2)
@@ -216,7 +228,7 @@ export const getWraithStats = (character: any, account: any, fishingEfficiency =
     * (1 + (calcGrimoireBonus(upgrades, 7)
       + calcGrimoireBonus(upgrades, 38)) / 100)
     * (1 + (calcGrimoireBonus(upgrades, 27)
-      * lavaLog(account?.accountOptions?.[331] ?? 0)) / 100)
+      * lavaLog(account?.accountOptions?.[OPT.grimoireRibcages] ?? 0)) / 100)
     * (1 + (bulwarkStyle
       * (totalUpgradeLevels / 100)) / 100);
   const critChance = 10 + (calcGrimoireBonus(upgrades, 10)
@@ -275,7 +287,7 @@ export const getExtraBonesBonus = (character: any, account: any) => {
   const gambitMulti = Math.min(2, 1 + getGambitBonus(account, 12));
   const gearMulti = Math.min(1.5, 1 + gearBonus / 100);
   const grimoireUpgrades = calcGrimoireBonus(upgrades, 23)
-    + calcGrimoireBonus(upgrades, 48) * lavaLog(account?.accountOptions?.[333] ?? 0);
+    + calcGrimoireBonus(upgrades, 48) * lavaLog(account?.accountOptions?.[OPT.grimoireBovinae] ?? 0);
   const upgradeBonus = grimoireUpgrades + arcadeBonus + mainframeBonus + paletteBonus + exoticBonus;
 
   const value = (1 + charmBonus / 100)
@@ -301,7 +313,7 @@ export const getExtraBonesBonus = (character: any, account: any) => {
       multiplier('Gear', gearMulti, { note: 'At most ×1.5' }),
       additiveGroup(NUMBERED_GROUP, [
         percent('Emperor', emperorBonus),
-        percent('Bubble', bubbleBonus)
+        percent(bubbleLineName('BONE_BUBBLE'), bubbleBonus)
       ]),
       additiveGroup(NUMBERED_GROUP, [
         percent('Upgrades', grimoireUpgrades),
@@ -321,6 +333,7 @@ export const getGrimoireBonus = (upgrades: any, index: any) => {
 
 export const calcGrimoireBonus = (upgrades: any, index: any): any => {
   const upgrade = upgrades?.[index];
+  if (!upgrade) return 0;
   return 9 === index || 11 === index || 26 === index || 36 === index || 39 === index || 17 === index || 32 === index || 45 === index
     ? upgrade?.level
     * upgrade?.x5

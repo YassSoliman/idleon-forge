@@ -1,7 +1,8 @@
-// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1.
+// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 48cb4ee697988ec5eac14ba97142add6296505b2.
 // Copyright (C) Morta1 and IdleOn Toolbox contributors. GPL-3.0-only; see vendor/LICENSE.
 // Copied unmodified by IdleOn Forge's scripts/sync.sh; UI-coupled imports are redirected to shims/ at build time.
 import { owlData, gameTables } from '@website-data';
+import { gameFill } from '@utility/helpers';
 import { isCompanionBonusActive } from '@parsers/misc';
 import { getUpgradeVaultBonus } from '@parsers/misc/upgradeVault';
 import { getGambitBonus } from '@parsers/world-5/caverns/gambit';
@@ -10,6 +11,7 @@ import { getMeritocracyBonus } from '@parsers/world-2/voteBallot';
 import { getFountainBonusTotal } from '@parsers/world-5/caverns/the-fountain';
 import { getClickerCheapener } from '@parsers/world-7/menagerie';
 import { getPetArenaCrucBonus } from '@parsers/world-4/breeding';
+import { OPT } from '@parsers/accountOptions';
 
 // Menagerie boost 16 makes Orion's first upgrade cheaper
 const ORION_CHEAPENER_BOOST = 16;
@@ -26,18 +28,21 @@ const megaFeathersDesc = [
   'The_Feather_Cheapener_upgrades_now_give_+2_and_+4_Feathers/sec_each_LV,_respectively.',
   'Forget_triple,_Orion\'s_Bonuses_are_now_quadruple!',
   'The_upgrade_Feather_Restart_now_gives_a_5x_feather_bonus_instead_of_the_previous_3x.',
-  'Quadruple?_Pfft_more_like_Noobruple,_Orion\'s_Bonuses_are_now_Quintuple_at_big,_that\'s_5x!',
+  'Quadruple?_Pfft_more_like_Noobruple,_Orion\'s_Bonuses_are_now_Quintuple_as_big,_that\'s_5x!',
   'The_cost_of_Feather_Generation_upgrade_now_goes_up_25%_slower.',
   'Orion\'s_bonuses_are_now_{x_higher_than_they_were_at_first.'
 ]
 
+// game: ActorEvents_670 GenINFO[6], the Megafeather panel's title is "<Name>_Megafeather"
+const megaFeatherNames = ['Maple', 'Amethyst', 'Frostraven', 'Phoenix', 'Obsidian', 'Evergreen', 'Pristine', 'Lavathian', 'Midas', 'Fractal'];
+
 const parseOwl = (account: any) => {
-  const feathers = account?.accountOptions?.[253];
-  const progress = account?.accountOptions?.[263];
+  const feathers = account?.accountOptions?.[OPT.owlFeathers];
+  const progress = account?.accountOptions?.[OPT.owlFeathersProduced];
   const upgrades = owlData.map((upgrade, i) => {
-    const commonFactor = (1 / (1 + (10 * (account?.accountOptions?.[257] ?? 0)) / 100))
-      * (1 / (1 + (20 * (account?.accountOptions?.[261] ?? 0)) / 100))
-      * (1 / (1 + (getMegaFeather(account, 2) * (account?.accountOptions?.[254] ?? 0)) / 100))
+    const commonFactor = (1 / (1 + (10 * (account?.accountOptions?.[OPT.owlFeatherCheapenerLevel] ?? 0)) / 100))
+      * (1 / (1 + (20 * (account?.accountOptions?.[OPT.owlSuperFeatherCheapenerLevel] ?? 0)) / 100))
+      * (1 / (1 + (getMegaFeather(account, 2) * (account?.accountOptions?.[OPT.owlFeatherGenerationLevel] ?? 0)) / 100))
       * getClickerCheapener(account, ORION_CHEAPENER_BOOST, i)
       * (upgrade?.x1);
 
@@ -52,7 +57,7 @@ const parseOwl = (account: any) => {
     let description = upgrade?.desc;
 
     const megaFeather6 = getMegaFeather(account, 6) || 0;
-    const option258 = account?.accountOptions?.[258] || 0;
+    const option258 = account?.accountOptions?.[OPT.owlFeatherRestartLevel] || 0;
     const bonus1 = Math.pow(Math.round(3 + 2 * megaFeather6), option258 + 1);
 
     const option254PlusI = account?.accountOptions?.[254 + i] || 0;
@@ -61,13 +66,13 @@ const parseOwl = (account: any) => {
     const bonus3 = Math.floor(1e4 * (1 - 1 / (1 + 10 * option254PlusI / 100))) / 100;
 
     description = description
-      .replace('{', '' + bonus1)
+      .replace('{', gameFill(bonus1, 'Big'))
       .replace('}', '' + bonus2)
       .replace('@', '' + bonus3);
 
 
     if (i === 0 && getMegaFeather(account, 2) === 1) {
-      const option254 = account?.accountOptions?.[254] || 0;
+      const option254 = account?.accountOptions?.[OPT.owlFeatherGenerationLevel] || 0;
       const costReductionBonus = Math.floor(
         1e4 * (1 - 1 / (1 + getMegaFeather(account, 2) * option254 / 100))
       ) / 100;
@@ -82,11 +87,13 @@ const parseOwl = (account: any) => {
       cost,
       level,
       nextLvReq,
-      unlocked: progress > upgrade?.x3
+      // game: the visible-upgrade count starts at 1 and grows while OLA[263] >= Owlz[count][3], so the first is always open
+      unlocked: i === 0 || progress >= upgrade?.x3
     }
   });
-  const nextLvReqIndex = upgrades?.findIndex(({ level, x3 }) => progress < x3);
-  const nextLvReq = owlData?.[nextLvReqIndex]?.x3 || 0;
+  const nextLvReqIndex = upgrades?.findIndex(({ x3 }, i) => i > 0 && !(progress >= x3));
+  // null with no save: no feathers made, so no next upgrade to count toward. 0 is every upgrade unlocked
+  const nextLvReq = progress == null ? null : owlData?.[nextLvReqIndex]?.x3 ?? 0;
   const vaultUpgradeBonus = getUpgradeVaultBonus(account?.upgradeVault?.upgrades, 21);
   const meritocracyBonus = getMeritocracyBonus(account, 12);
 
@@ -99,12 +106,12 @@ const parseOwl = (account: any) => {
     (1 + vaultUpgradeBonus / 100) *
     (1 + meritocracyBonus / 100) *
     (1 + getGambitBonus(account, 8) / 100) *
-    ((account?.accountOptions?.[254] ?? 0)
-      + (5 * (account?.accountOptions?.[259] ?? 0)
-        + (2 * getMegaFeather(account, 4) * (account?.accountOptions?.[257] ?? 0) + 4 * getMegaFeather(account, 4) * (account?.accountOptions?.[261] ?? 0))
+    ((account?.accountOptions?.[OPT.owlFeatherGenerationLevel] ?? 0)
+      + (5 * (account?.accountOptions?.[OPT.owlSuperFeatherProductionLevel] ?? 0)
+        + (2 * getMegaFeather(account, 4) * (account?.accountOptions?.[OPT.owlFeatherCheapenerLevel] ?? 0) + 4 * getMegaFeather(account, 4) * (account?.accountOptions?.[OPT.owlSuperFeatherCheapenerLevel] ?? 0))
       )
-    ) * (1 + (5 * (account?.accountOptions?.[256] ?? 0)) / 100)
-    * Math.pow(3 + 2 * getMegaFeather(account, 6), (account?.accountOptions?.[258] ?? 0)) * (1 + ((account?.accountOptions?.[264] ?? 0) * (account?.accountOptions?.[260] ?? 0)) / 100)
+    ) * (1 + (5 * (account?.accountOptions?.[OPT.owlFeatherMultiplierLevel] ?? 0)) / 100)
+    * Math.pow(3 + 2 * getMegaFeather(account, 6), (account?.accountOptions?.[OPT.owlFeatherRestartLevel] ?? 0)) * (1 + ((account?.accountOptions?.[OPT.owlShinyFeathers] ?? 0) * (account?.accountOptions?.[OPT.owlShinyFeathersLevel] ?? 0)) / 100)
   );
   const totalFeatherBonus = 100 * getMegaFeather(account, 1)
     + (100 * getMegaFeather(account, 3)
@@ -118,7 +125,7 @@ const parseOwl = (account: any) => {
 
   // 1. Extract the shared logic into a single multiplier
   const multiplier = (1 + totalFeatherBonus / 100) * (1 + legendTalentBonus / 100) * (1 + companionBonus);
-  const upgradeLevel = account?.accountOptions?.[255] || 0;
+  const upgradeLevel = account?.accountOptions?.[OPT.owlBonusesOfOrionLevel] || 0;
 
 // 2. Define the unique traits for the middle section
   const owlStats = [
@@ -127,7 +134,7 @@ const parseOwl = (account: any) => {
     { name: 'Total DMG', base: 2, offset: 2, percentage: true },
     { name: 'Skill XP', base: 4, offset: 3, percentage: true },
     { name: 'Drop Rate', base: 1, offset: 4, percentage: true },
-    { name: 'All Stats', base: 2, offset: 5, percentage: false }
+    { name: 'All Stat', base: 2, offset: 5, percentage: false }
   ];
 
 // 3. Assemble the full bonuses array
@@ -140,18 +147,26 @@ const parseOwl = (account: any) => {
       percentage: stat.percentage
     })),
 
-    { name: 'Shiny Feather', bonus: account?.accountOptions?.[264] ?? 0 }
+    { name: 'Shiny Feather', bonus: account?.accountOptions?.[OPT.owlShinyFeathers] ?? 0 }
   ];
 
+  const megaFeatherCount = account?.accountOptions?.[OPT.owlMegaFeathers] ?? 0;
   const megaFeathers = megaFeathersDesc.map((description, index) => ({
+    name: megaFeatherNames[index],
     description,
-    unlocked: index + 1 <= account?.accountOptions?.[262],
+    unlocked: index + 1 <= megaFeatherCount,
     ...(index === 9 ? {
       // game: ActorEvents_670 _event_6 draws (OLA[262] - 9) + "_Megafeather" once 9 < OLA[262] (2.3.540, was 10)
-      amount: (account?.accountOptions?.[262] ?? 0) - 9,
-      totalBonus: 1 + totalFeatherBonus / 100
+      amount: megaFeatherCount - 9,
+      // The game fills "{" with 6 + 0.5 per Fractal past the first; before it is owned the first one's 6x is the preview
+      totalBonus: Math.round(10 * (6 + 0.5 * (Math.max(megaFeatherCount, 10) - 10))) / 10
     } : {})
   }));
+  // game: "Summoning:OwlFeatherShinyGen", rolled once a second with t = 1 (ActorEvents_670 runPeriodically 1e3) while
+  // Feather Generation is above 0: a shiny drops when 1e-6 > rand * 1.1^shinies / max(1, rate)
+  const shinyChance = (account?.accountOptions?.[OPT.owlShinyFeathersLevel] ?? 0) > 0 && (account?.accountOptions?.[OPT.owlFeatherGenerationLevel] ?? 0) > 0
+    ? Math.min(1, 1e-6 * Math.max(1, featherRate) / Math.pow(1.1, account?.accountOptions?.[OPT.owlShinyFeathers] ?? 0))
+    : 0;
   return {
     upgrades,
     bonuses,
@@ -160,14 +175,15 @@ const parseOwl = (account: any) => {
     nextLvReq,
     megaFeathers,
     featherRate,
+    shinyPerHour: 3600 * shinyChance,
     restartMulti: Math.pow(3 + 2
-      * getMegaFeather(account, 6), (account?.accountOptions?.[258] ?? 0) + 1)
+      * getMegaFeather(account, 6), (account?.accountOptions?.[OPT.owlFeatherRestartLevel] ?? 0) + 1)
   }
 }
 
 const getMegaFeather = (account: any, i: any) => {
-  return (account?.accountOptions?.[262]) > i ? (9 === i
-    ? (account?.accountOptions?.[262]) - 9
+  return (account?.accountOptions?.[OPT.owlMegaFeathers]) > i ? (9 === i
+    ? (account?.accountOptions?.[OPT.owlMegaFeathers]) - 9
     : 1) : 0;
 }
 

@@ -1,9 +1,9 @@
-// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1.
+// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 48cb4ee697988ec5eac14ba97142add6296505b2.
 // Copyright (C) Morta1 and IdleOn Toolbox contributors. GPL-3.0-only; see vendor/LICENSE.
 // Copied unmodified by IdleOn Forge's scripts/sync.sh; UI-coupled imports are redirected to shims/ at build time.
-import { tryToParse, commaNotation, notateNumber, lavaLog, lavaLog2, GAME_LN10 } from '@utility/helpers';
+import { gameFill, tryToParse, lavaLog, lavaLog2, GAME_LN10 } from '@utility/helpers';
 import { sumSaveArray } from '@parsers/world-7/saveTotals';
-import { research as researchData, superbitsUpgrades, sushiUpgrades as sushiUpgradesData } from '@website-data';
+import { gameTables, research as researchData, superbitsUpgrades, sushiUpgrades as sushiUpgradesData } from '@website-data';
 import { getArcadeBonus } from '@parsers/world-2/arcade';
 import { getResearchGridBonus } from '@parsers/world-7/research';
 import { getMineheadBonusQTY } from '@parsers/world-7/minehead';
@@ -12,12 +12,35 @@ import { isSuperbitUnlocked } from '@parsers/world-5/gaming';
 import { isBundlePurchased, getEventShopBonus } from '@parsers/misc';
 import { getButtonBonus } from '@parsers/world-7/button';
 import { getJellyBonus } from '@parsers/world-7/jellyOperator';
-import { DOUBLER_SPELUNK_ROW, getDoublerMulti } from '@parsers/world-7/menagerie';
+import { DOUBLER_SPELUNK_ROW, getDoublerMulti, isDoublerEligible } from '@parsers/world-7/menagerie';
 
 // The highest sushi tier index: research row 30 is the game's sushi name table, one entry per
 // tier, so the last valid index is its length - 1.
 // game: "MaxTier" (a literal there; the name table here follows it)
 const MAX_TIER = ((researchData as any[])?.[30]?.length ?? 1) - 1;
+
+// game: the board is 15 columns of 8 slots, a fireplace under each column
+const SUSHI_SLOTS = 120;
+// game: 10 slots to start, one more per level of Sushi Slot (0) and the Hot (14), Cold (15) and Milktoast (16) Slots
+const BASE_SUSHI_SLOTS = 10;
+const SLOT_UPGRADES = [0, 14, 15, 16];
+
+// game: SushiStuff("KnowledgeXP_req")
+const getKnowledgeXpReq = (level: number) => (3 + (level + Math.pow(level, 1.5))) * Math.pow(1.5, Math.max(0, level - 2));
+// The level and leftover EXP once the Knowledge tab spends the banked EXP (it levels one step at a time, any number)
+const getKnowledgeAfterOpen = (level: number, xp: number) => {
+  let openLevel = level;
+  let openXp = xp;
+  for (let i = 0; i < 1000 && openXp >= getKnowledgeXpReq(openLevel); i++) {
+    openXp -= getKnowledgeXpReq(openLevel);
+    openLevel += 1;
+  }
+  return { openLevel, openXp, openXpReq: getKnowledgeXpReq(openLevel), pendingLevels: openLevel - level };
+};
+const SUSHI_COLUMNS = 15;
+
+// game: "SushiStuff:FuelCost", the fuel to cook a tier
+const getNextFuelCost = (tier: number) => (tier === 5 ? 176 : 10 * Math.pow(1.83, tier) - Math.pow(tier, 2));
 
 const getRawSushi = (idleonData: any) => {
   const raw = tryToParse(idleonData?.Sushi) || idleonData?.Sushi;
@@ -143,11 +166,13 @@ export const getSushiStation = (idleonData: any, account: any) => {
     const doubled = getDoublerMulti(idleonData, DOUBLER_SPELUNK_ROW.sushi, idx) > 1;
     const upgradeQTY = getUpgradeQTY(idleonData, upgradeLevels, idx);
     const rawDesc = upgrade?.slice?.(5)?.join?.(' ') ?? '';
-    const desc = rawDesc
+    const formatDesc = (qty: number) => rawDesc
       .replace(/_/g, ' ')
-      .replace(/\{/g, '' + commaNotation(upgradeQTY))
-      .replace(/\}/g, '' + notateNumber(1 + upgradeQTY / 100, 'MultiplierInfo'))
-      .replace(/@/g, '\n');
+      .replace(/\{/g, gameFill(qty, 'Comma'))
+      .replace(/\}/g, gameFill(1 + qty / 100, 'MultiplierInfo'));
+    const desc = formatDesc(upgradeQTY);
+    const doublerEligible = isDoublerEligible('sushi', idx);
+    const doubledDescription = doublerEligible && !doubled && upgradeQTY > 0 ? formatDesc(2 * upgradeQTY) : null;
 
     // UpgCost calculation
     const upgQTY36 = getUpgradeQTY(idleonData, upgradeLevels, 36);
@@ -169,8 +194,11 @@ export const getSushiStation = (idleonData: any, account: any) => {
       level,
       maxLevel: maxLevel > 998 ? Infinity : maxLevel,
       cost,
+      costExponent,
       bonusPerLevel,
       doubled,
+      doublerEligible,
+      doubledDescription,
       upgradeQTY,
       lvReq: getUpgLvREQ(visualPos),
       visualIndex: visualPos,
@@ -181,6 +209,7 @@ export const getSushiStation = (idleonData: any, account: any) => {
   // --- Fuel ---
   const fuelCap = (200 + (knowledgeTotals[3] ?? 0))
     * (1 + Math.min(1, bonVBundle))
+    * (1 + 9 * getEventShopBonus(account, 66))
     * (1 + (getUpgradeQTY(idleonData, upgradeLevels, 1) + getUpgradeQTY(idleonData, upgradeLevels, 2)
       + getUpgradeQTY(idleonData, upgradeLevels, 3) + getUpgradeQTY(idleonData, upgradeLevels, 4)
       + getUpgradeQTY(idleonData, upgradeLevels, 5)) / 100)
@@ -282,6 +311,29 @@ export const getSushiStation = (idleonData: any, account: any) => {
   const fireplaceEffectBase = (1 + (knowledgeTotals[9] ?? 0) / 100)
     * (1 + fireplaceSparkMulti / 100);
 
+  // game: the upgrade panel's $ (each upgrade's own line). 识 and 蒲 are the font's overtuned fuel and spark art.
+  const panelAmount = (value: number, rule: number, options?: { whole: boolean }) => gameFill(value, rule < 1e7 ? 'Comma' : 'Big', options);
+  const panelMulti = (percent: number) => gameFill(1 + percent / 100, 'Small');
+  const getUpgradeDollar = (idx: number, qty: number): string => {
+    if (gameTables.sushiJoinedIds.includes(idx)) return panelMulti(Number(upgradeLevels?.[idx]) || 0);
+    if (idx === 6) return `${Math.round(qty) + 1}`;
+    if (idx === 8) return `${panelAmount(fuelGen, fuelGen)} Fuel/hr. Max Cap is ${panelAmount(fuelCap, fuelGen, { whole: true })}`;
+    if (idx === 14) return panelMulti(50 * slotEffectBase);
+    if (idx === 15) return gameFill(0.2 * slotEffectBase, 'Small');
+    if (idx === 16) return gameFill(slotEffectBase, 'Small');
+    if (idx === 22) return `${Math.round(1 + qty)}`;
+    if (idx === 25) return `You have: ${gameFill(sparks, 'Big')} Sparks. This boosts all Fireplace bonuses by ${panelMulti(fireplaceSparkMulti)}x`;
+    if (idx === 26) return panelMulti(100 * fireplaceEffectBase);
+    if (idx === 27) return panelMulti(150 * fireplaceEffectBase);
+    if (idx === 28) return `You have: ${gameFill(overtunedValue, 'Big')} Overtuned Fuel. This boosts all Bucks gained by ${panelMulti(overtunedMulti)}x`;
+    if (idx === 29) return `${Math.max(0, uniqueSushi - 6)}`;
+    if (idx === 36) return gameFill(100 * (1 - 1 / (1 + qty / 100)), 'Small');
+    if (idx === 37) return gameFill(1 + qty / 10, 'Small');
+    return '$';
+  };
+  const fillUpgradeText = (text: string, idx: number, qty: number) => text.replace('$', () => getUpgradeDollar(idx, qty))
+    .replace(/识/g, 'Overtuned Fuel').replace(/蒲/g, ' Spark');
+
   // Currency per slot
   const getCurrencyPerSlot = (slotIdx: number) => {
     const tier = slotTiers[slotIdx] ?? -1;
@@ -298,19 +350,22 @@ export const getSushiStation = (idleonData: any, account: any) => {
 
   // Total currency per hour
   let currencyPerHR = 0;
-  for (let i = 0; i < 120; i++) {
+  for (let i = 0; i < SUSHI_SLOTS; i++) {
     if ((slotTiers[i] ?? -1) >= 0) {
       currencyPerHR += getCurrencyPerSlot(i);
     }
   }
 
   // --- Slots ---
-  const slots = slotTiers.slice(0, 120).map((tier: number, i: number) => ({
-    tier,
-    slotEffect: slotEffects[i] ?? -1,
-    fireplaceType: fireplaceTypes[i % 15] ?? -1,
-    currencyPerSlot: tier >= 0 ? getCurrencyPerSlot(i) : 0
-  }));
+  const slots = Array.from({ length: SUSHI_SLOTS }, (_, i) => {
+    const tier = slotTiers[i] ?? -1;
+    return {
+      tier,
+      slotEffect: slotEffects[i] ?? -1,
+      fireplaceType: fireplaceTypes[i % SUSHI_COLUMNS] ?? -1,
+      currencyPerSlot: tier >= 0 ? getCurrencyPerSlot(i) : 0
+    };
+  });
 
   // --- Cooking ---
   const maxCookTier = Math.round(getUpgradeQTY(idleonData, upgradeLevels, 6));
@@ -325,15 +380,17 @@ export const getSushiStation = (idleonData: any, account: any) => {
     const bonus = getKnowledgeBonusSpecific(i);
     const catDesc = String(knowledgeCategoryDescriptions?.[cat] ?? '')
       .replace(/_/g, ' ')
-      .replace(/\{/g, '' + commaNotation(bonus))
-      .replace(/\}/g, '' + notateNumber(1 + bonus / 100, 'MultiplierInfo'))
-      .replace(/\^/g, '' + commaNotation(bonus));
+      .replace(/\{/g, gameFill(bonus, 'Comma'))
+      .replace(/\}/g, gameFill(1 + bonus / 100, 'MultiplierInfo'))
+      .replace(/\^/g, gameFill(bonus, 'Comma'));
     return {
       name: String(name ?? '').replace(/_/g, ' '),
       rawName: name,
       level: Number(knowledgeLevels?.[i]) || 0,
       xp: Number(knowledgeXP?.[i]) || 0,
-      xpReq: (() => { const lv = Number(knowledgeLevels?.[i]) || 0; return (3 + (lv + Math.pow(lv, 1.5))) * Math.pow(1.5, Math.max(0, lv - 2)); })(),
+      xpReq: getKnowledgeXpReq(Number(knowledgeLevels?.[i]) || 0),
+      // The game spends banked EXP into levels only while its Knowledge tab is open: what the tab will reach
+      ...getKnowledgeAfterOpen(Number(knowledgeLevels?.[i]) || 0, Number(knowledgeXP?.[i]) || 0),
       bonusSpecific: bonus,
       bonusDescription: catDesc,
       category: cat,
@@ -349,9 +406,9 @@ export const getSushiStation = (idleonData: any, account: any) => {
     const total = knowledgeTotals[i] ?? 0;
     const label = String(desc ?? '')
       .replace(/_/g, ' ')
-      .replace(/\{/g, '' + commaNotation(total))
-      .replace(/\}/g, '' + notateNumber(1 + total / 100, 'MultiplierInfo'))
-      .replace(/\^/g, '' + commaNotation(total));
+      .replace(/\{/g, gameFill(total, 'Comma'))
+      .replace(/\}/g, gameFill(1 + total / 100, 'MultiplierInfo'))
+      .replace(/\^/g, gameFill(total, 'Comma'));
     const sources: { index: number; name: string; bonus: number; level: number; perfecto: boolean }[] = [];
     for (let s = 0; s <= MAX_TIER; s++) {
       if ((Number(knowledgeCategories?.[s]) || 0) === i && (uniqueSushiTracking[s] ?? -1) >= 0) {
@@ -372,8 +429,8 @@ export const getSushiStation = (idleonData: any, account: any) => {
     const rawVal = Number(rogValues?.[i]) || 0;
     const bonusDesc = String(desc ?? '')
       .replace(/_/g, ' ')
-      .replace(/\{/g, '' + commaNotation(rawVal))
-      .replace(/\}/g, '' + notateNumber(1 + rawVal / 100, 'MultiplierInfo'))
+      .replace(/\{/g, gameFill(rawVal, 'Comma'))
+      .replace(/\}/g, gameFill(1 + rawVal / 100, 'MultiplierInfo'))
       .replace(/@/g, '\n');
     return {
       index: i,
@@ -388,16 +445,18 @@ export const getSushiStation = (idleonData: any, account: any) => {
   const nextUnperfectedIdx = knowledge.findIndex(k => k.discovered && !k.perfecto);
 
   // --- Fireplaces ---
-  const fireplaces = fireplaceTypes.map((type: number, i: number) => ({
-    index: i,
-    type,
-    active: type >= 0
-  }));
+  const fireplaces = Array.from({ length: SUSHI_COLUMNS }, (_, i) => {
+    const type = fireplaceTypes[i] ?? -1;
+    return { index: i, type, active: type >= 0 };
+  });
 
   return {
     unlocked,
     uniqueSushi,
-    fuel: { current: fuel, cap: fuelCap, generation: fuelGen },
+    nextFuelCost: getNextFuelCost(uniqueSushi),
+    // Past the cap, the game moves the rest into Overtuned (when owned) and sets fuel to the cap the next time the
+    // station draws, so the save can hold more than the cap
+    fuel: { current: Math.min(fuel, fuelCap), stored: fuel, overCap: Math.max(0, fuel - fuelCap), cap: fuelCap, generation: fuelGen },
     currency: {
       bucks, currencyMulti, currencyPerHR, overtunedMulti,
       combo: {
@@ -423,7 +482,14 @@ export const getSushiStation = (idleonData: any, account: any) => {
       nextBreakpoints: getNextBreakpoints(fireplaceSparkMulti, SPARK_COEFFICIENT, 1, sparks, sparksPerHr)
     },
     slots,
-    upgrades,
+    slotsOwned: Math.min(SUSHI_SLOTS, BASE_SUSHI_SLOTS + SLOT_UPGRADES.reduce((sum, idx) => sum + (Number(upgradeLevels?.[idx]) || 0), 0)),
+    upgrades: upgrades.map((upgrade: any) => ({
+      ...upgrade,
+      description: fillUpgradeText(upgrade.description, upgrade.upgradeIndex, upgrade.upgradeQTY),
+      doubledDescription: upgrade.doubledDescription
+        ? fillUpgradeText(upgrade.doubledDescription, upgrade.upgradeIndex, 2 * upgrade.upgradeQTY)
+        : null
+    })),
     knowledge,
     knowledgeTotals,
     rogBonuses,
@@ -436,7 +502,6 @@ export const getSushiStation = (idleonData: any, account: any) => {
     },
     knowledgeSummary,
     shakerUses,
-    slotsOwned: 10,
     // the leaderboard totals: Sushi[2] upgrades, Sushi[7] knowledge, Sushi[5] >= 1 perfectos
     saveTotals: {
       upgradeLevels: sumSaveArray(upgradeLevels),
