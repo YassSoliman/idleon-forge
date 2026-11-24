@@ -1,12 +1,12 @@
-// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1.
+// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 899b5a0dc7456c686e94e58ea410195744c9f82a.
 // Copyright (C) Morta1 and IdleOn Toolbox contributors. GPL-3.0-only; see vendor/LICENSE.
 // Copied unmodified by IdleOn Forge's scripts/sync.sh; UI-coupled imports are redirected to shims/ at build time.
-import { growth, tryToParse } from '@utility/helpers';
+import { cleanUnderscore, gameFill, growth } from '@utility/helpers';
 import { items, randomList, refinery } from '@website-data';
 import { liveEntries } from '@parsers/catalog';
 import { calculateItemTotalAmount } from '@parsers/items';
 import { getVialsBonusByEffect } from '@parsers/world-2/alchemy';
-import { getStampsBonusByEffect } from '@parsers/world-1/stamps';
+import { getStampNode, getStampsBonusByEffect } from '@parsers/world-1/stamps';
 import { getShinyBonus } from '@parsers/world-4/breeding';
 import { CONSTRUCT_MASTERY, getConstructionMasteryBonus } from '@parsers/world-3/construction';
 import { getArcadeBonus } from '@parsers/world-2/arcade';
@@ -20,10 +20,11 @@ import { getResearchGridBonus } from '@parsers/world-7/research';
 import { getMealsBonusByEffectOrStat } from '@parsers/world-4/cooking';
 import type { IdleonData, Account } from '../types';
 import { NUMBERED_GROUP, additiveGroup, createBreakdown, flat, multiplier, percent, productGroup } from '@parsers/breakdown';
-import type { BreakdownNode } from '@parsers/breakdown';
+import type { BreakdownNode, StatBreakdown } from '@parsers/breakdown';
+import { saveField } from '@parsers/saveField';
 
 export const getRefinery = (idleonData: IdleonData, storage: any[], tasks: any) => {
-  const refineryRaw = tryToParse(idleonData?.Refinery) || idleonData?.Refinery;
+  const refineryRaw = saveField(idleonData, 'Refinery') || idleonData?.Refinery;
   return parseRefinery(refineryRaw, storage, tasks);
 }
 
@@ -42,7 +43,7 @@ export const getRefineryStorage = (refineryRaw: any[]) => {
 const parseRefinery = (refineryRaw: any[], storage: any[], tasks: any) => {
   const refineryStorage = getRefineryStorage(refineryRaw);
   const combinedStorage = [...(storage || []), ...(refineryStorage || [])];
-  const refinerySaltTaskLevel = tasks?.[2]?.[2]?.[6];
+  const refinerySaltTaskLevel = tasks?.[2]?.[2]?.[6] ?? 0;
   const refineryCatalog = Object.entries(refinery).map(([name, value]: [string, any]) => ({ rawName: name, ...value }));
   const unlockedSaltCount = refineryRaw?.[0]?.[0] ?? 0;
   const saltsArray = liveEntries<any>(refineryCatalog).map(({ entry, index }) => {
@@ -130,7 +131,7 @@ export const getRefineryCycleBonuses = (account: Account, characters: any[]) => 
     percent('Salt lick', saltLickUpgrade),
     percent('Family', amplifiedFamilyBonus),
     percent('Pipe Gauge (Sigil)', sigilRefinerySpeed),
-    percent('Stamps', stampRefinerySpeed),
+    getStampNode(account, { effect: 'Faster_refinery_cycles' }, stampRefinerySpeed),
     percent('Shinies', shinyRefineryBonus),
     percent('Construction mastery', constructionMastery),
     percent('Arcade', arcadeBonus),
@@ -146,12 +147,6 @@ export const getRefineryCycleBonuses = (account: Account, characters: any[]) => 
 }
 // Seconds per cycle before any speed bonus
 const REFINERY_BASE_CYCLE_TIMES = { combustion: 900, synthesis: 3600, polymerize: 14400 * 25 };
-
-const formatCycleTime = (seconds: number) => {
-  const rounded = Math.ceil(seconds);
-  const minutes = Math.floor(rounded / 60);
-  return `${minutes}m:${String(rounded % 60).padStart(2, '0')}s`;
-}
 
 // Exported so one alert evaluation can compute the stamp/shiny/vial/talent stack once and feed it
 // to both getSaltMatsTimeLeft and getSaltsBalance.
@@ -218,8 +213,8 @@ export const getRefineryCycles = (account: Account, characters: any[], lastUpdat
   ];
   // The cycle time is the base time over the speed, rounded up to whole seconds
   const cycleBreakdown = (name: string, baseTime: number, time: number, extraSpeed: BreakdownNode[] = []) =>
-    createBreakdown(`${name} cycle time`, formatCycleTime(time), [
-      flat('Base time', baseTime, { formatted: formatCycleTime(baseTime) }),
+    createBreakdown(`${name} cycle time`, Math.ceil(time), [
+      flat('Base time', baseTime),
       productGroup('Refinery speed', [...speedLines, ...extraSpeed])
     ], { combine: 'divide', round: 'ceil' });
   const combustion = {
@@ -255,8 +250,9 @@ export const calcTimeToRankUp = (account: Account, characters: any[], _lastUpdat
   const { combustionTime, synthesisTime, polymerizeTime } = computeRefineryCycleTimes(account, characters);
   const powerPerCycle = getPowerPerCycle(rank, account);
   const cycleTime = index <= 2 ? combustionTime : index <= 5 ? synthesisTime : polymerizeTime;
+  // Refinery Throttle only fills the Combustion and Synthesis tabs, never Polymerize
   const cyclesPerDay = (24 * 60 * 60 / cycleTime)
-    + (includeSquireCycles
+    + (includeSquireCycles && index <= 5
     ? (refineryData?.squiresCycles ?? 0)
     : 0);
   // The game rounds the remaining cycles and clamps power to the cap, so a salt within half a
@@ -311,8 +307,10 @@ export interface SaltBalance {
   // Lower of the salt limit and every printer limit.
   maxSafeRank: number;
   saltMaxSafeRank: number;
+  // What maxSafeRank is the lowest of, for the drawer its value opens; null when nothing limits it.
+  maxSafeRankBreakdown: StatBreakdown | null;
   printerLimits: PrinterLimit[];
-  limitedBy: { rawName: string; name: string; isPrinter: boolean } | null;
+  limitedBy: { rawName: string; name: string; isPrinter: boolean; active?: boolean } | null;
 }
 
 export interface PrinterLimit {
@@ -362,7 +360,8 @@ export const getSaltsBalance = (account: Account, characters: any[], precomputed
     if (unlocked) {
       // Per cycle, not via the per-hour rate: the round trip turns an exact 8 into 7.999... and
       // rejects a rank whose cost lands exactly on the previous salt's output.
-      const allowedCostPerCycle = (previous?.outputPerHour ?? 0) > 0
+      // Assumes the previous salt is turned on: a feeder toggled off would otherwise cap this at 0.
+      const allowedCostPerCycle = previous?.unlocked
         ? getPowerPerCycle(salts?.[index - 1]?.rank, account) * cycleTime / getSaltCycleTime(index - 1, cycleTimes)
         : 0;
       saltMaxSafeRank = previousCost
@@ -389,10 +388,21 @@ export const getSaltsBalance = (account: Account, characters: any[], precomputed
     const maxSafeRank = tightestPrinter && tightestPrinter.maxRank < saltMaxSafeRank
       ? tightestPrinter.maxRank
       : saltMaxSafeRank;
+    const outputMaxed = powerPerCycle >= MAX_POWER_PER_CYCLE;
+    // What maxSafeRank is the lowest of, as the breakdown its value opens (Info board): the salt above, then each
+    // material the printer makes.
+    const maxSafeRankBreakdown = unlocked && !outputMaxed && (previousCost || printerLimits.length)
+      ? createBreakdown('Max safe rank', maxSafeRank, [
+        ...(previousCost ? [flat(cleanUnderscore(previousSalt?.saltName) ?? '', saltMaxSafeRank)] : []),
+        ...printerLimits.map(({ name, printedPerHour, neededPerHour, maxRank }) => flat(cleanUnderscore(name) ?? '', maxRank, {
+          note: `Printing ${gameFill(printedPerHour, 'Big')}/hr, needs ${gameFill(neededPerHour, 'Big')}/hr`
+        }))
+      ], { combine: 'min' })
+      : null;
     const limitedBy = tightestPrinter && tightestPrinter.maxRank < saltMaxSafeRank
       ? { rawName: tightestPrinter.rawName, name: tightestPrinter.name, isPrinter: true }
       : previousCost
-        ? { rawName: previousSalt?.rawName, name: previousSalt?.saltName, isPrinter: false }
+        ? { rawName: previousSalt?.rawName, name: previousSalt?.saltName, isPrinter: false, active: !!previousSalt?.active }
         : null;
 
     return [...res, {
@@ -407,9 +417,10 @@ export const getSaltsBalance = (account: Account, characters: any[], precomputed
       consumedPerHour,
       balancePerHour: outputPerHour - consumedPerHour,
       isDeficit: consumedPerHour > outputPerHour,
-      outputMaxed: powerPerCycle >= MAX_POWER_PER_CYCLE,
+      outputMaxed,
       maxSafeRank,
       saltMaxSafeRank,
+      maxSafeRankBreakdown,
       printerLimits,
       limitedBy
     }];
@@ -435,12 +446,12 @@ export interface SaltMatsTimeLeft {
 }
 
 // How long each running salt can keep cycling before one of its inputs runs dry. A material fed by
-// another salt only drains by the difference between the two rates, the same per-hour model
-// getSaltsBalance compares with; printed materials have no continuous income, so their stock is
-// treated as fixed until the player collects the printer again.
+// another salt or by the 3D Printer only drains by the difference between the rates, the same
+// per-hour model getSaltsBalance compares with.
 export const getSaltMatsTimeLeft = (account: Account, characters: any[], precomputedCycleTimes?: any): SaltMatsTimeLeft[] => {
   const salts: any[] = account?.refinery?.salts ?? [];
   const cycleTimes = precomputedCycleTimes ?? computeRefineryCycleTimes(account, characters);
+  const printedPerHour = getPrintedPerHour(account);
 
   return salts.reduce((res: SaltMatsTimeLeft[], salt: any, index: number) => {
     const { rawName, rank, cost, active, unlocked } = salt;
@@ -456,9 +467,10 @@ export const getSaltMatsTimeLeft = (account: Account, characters: any[], precomp
       const producer = producerIndex >= 0 ? salts[producerIndex] : null;
       // A salt outputs `powerPerCycle` of its own item each cycle, which is the unit the next salt's
       // cost is priced in.
-      const incomePerHour = producer?.unlocked && producer?.active
+      const saltIncomePerHour = producer?.unlocked && producer?.active
         ? getPowerPerCycle(producer?.rank, account) * 3600 / getSaltCycleTime(producerIndex, cycleTimes)
         : 0;
+      const incomePerHour = saltIncomePerHour + (printedPerHour[item?.rawName] ?? 0);
       const netPerHour = drainPerHour - incomePerHour;
       return {
         rawName: item?.rawName,
@@ -472,4 +484,24 @@ export const getSaltMatsTimeLeft = (account: Account, characters: any[], precomp
 
     return [...res, { rawName, hoursLeft, mats }];
   }, []);
+};
+
+// Inputs of a running salt that the 3D Printer prints at least as fast as the salt uses them. The
+// stock can still hit zero between printer collects, but it never falls behind.
+export const getPrinterCoveredMats = (account: Account, characters: any[], precomputedCycleTimes?: any): Record<string, string[]> => {
+  const salts: any[] = account?.refinery?.salts ?? [];
+  const cycleTimes = precomputedCycleTimes ?? computeRefineryCycleTimes(account, characters);
+  const printedPerHour = getPrintedPerHour(account);
+
+  return salts.reduce((res: Record<string, string[]>, salt: any, index: number) => {
+    const { rawName, rank, cost, active, unlocked } = salt;
+    if (!unlocked || !active) return res;
+    const cycleTime = getSaltCycleTime(index, cycleTimes);
+    if (!(cycleTime > 0)) return res;
+    const covered = (cost ?? []).filter((item: any) => {
+      const printed = printedPerHour[item?.rawName] ?? 0;
+      return printed > 0 && printed >= calcCost(account?.refinery, rank, item?.quantity, item?.rawName, index) * 3600 / cycleTime;
+    }).map(({ rawName: matName }: any) => matName);
+    return covered.length > 0 ? { ...res, [rawName]: covered } : res;
+  }, {});
 };

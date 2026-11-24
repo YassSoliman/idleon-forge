@@ -1,10 +1,10 @@
-// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1.
+// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 899b5a0dc7456c686e94e58ea410195744c9f82a.
 // Copyright (C) Morta1 and IdleOn Toolbox contributors. GPL-3.0-only; see vendor/LICENSE.
 // Copied unmodified by IdleOn Forge's scripts/sync.sh; UI-coupled imports are redirected to shims/ at build time.
 import { equinoxChallenges, equinoxUpgrades } from '@website-data';
 import { tryToParse } from '@utility/helpers';
 import { getVialsBonusByStat } from '@parsers/world-2/alchemy';
-import { getEventShopBonus, isBundlePurchased, isCompanionBonusActive } from '@parsers/misc';
+import { getEventShopBonus, isBundlePurchased, companionLineName, isCompanionBonusActive } from '@parsers/misc';
 import { getVoteBonus } from '@parsers/world-2/voteBallot';
 import { getWinnerBonus } from '@parsers/world-6/summoning';
 import { getCosmoBonus } from '@parsers/world-5/hole';
@@ -17,6 +17,8 @@ import { getResearchGridBonus } from '@parsers/world-7/research';
 import { getArmoryUpgradeBonus } from '@parsers/class-specific/royalGuardian';
 import { getLegendTalentBonus } from '@parsers/world-7/legendTalents';
 import { NUMBERED_GROUP, additiveGroup, createBreakdown, flat, multiplier, percent, productGroup } from '@parsers/breakdown';
+import { saveField } from '@parsers/saveField';
+import { OPT } from '@parsers/accountOptions';
 
 const DREAM_UPGRADES_OFFSET = 2;
 // Bar fill per hour before multipliers; the bundle raises it
@@ -29,15 +31,17 @@ export const getLockedEquinox = () => ({
   unlocked: false,
   currentCharge: 0,
   chargeRequired: 0,
+  totalUpgradeLevels: 0,
   chargeRate: 0,
   timeToFull: undefined,
-  challenges: equinoxChallenges.map(({ label, goal, reward }) => ({
-    label, goal, reward, current: 0, active: false, locked: false
+  // As a save with no Research reads them (the parsed shape's researchG8Level gate)
+  challenges: equinoxChallenges.map(({ label, goal, reward }, index) => ({
+    label, goal, reward, current: 0, active: false, locked: index >= 36
   })),
   upgrades: equinoxUpgrades.map(({ name, description, maxLevel }, index) => ({
     name,
     bonus: 0,
-    desc: description?.replace('{}', '0').replace('{', '').replace('}', '0').split('_@_'),
+    desc: description?.replace(/\}/g, '0').replace(/\{/g, '+').split('_@_'),
     lvl: 0,
     maxLvl: maxLevel,
     unlocked: index === 0
@@ -49,7 +53,7 @@ export const getLockedEquinox = () => ({
 });
 
 export const getEquinox = (idleonData: any, account: any) => {
-  const weeklyBoss = tryToParse(idleonData?.WeeklyBoss) || idleonData?.WeeklyBoss;
+  const weeklyBoss = saveField(idleonData, 'WeeklyBoss') || idleonData?.WeeklyBoss;
   const dream = tryToParse(idleonData?.Dream) || idleonData?.Dream;
   return {
     ...parseEquinox(weeklyBoss || {}, dream || emptyDream(), account),
@@ -138,7 +142,7 @@ const parseEquinox = (weeklyBoss: any, dream: any, account: any) => {
       multiplier('Vote', 1 + voteBonus / 100),
       multiplier('Research G8', 1 + researchG8Bonus / 100),
       multiplier('Tome', 1 + loreEpiBonus / 100),
-      multiplier('Companion', 1 + companionBonus),
+      multiplier(companionLineName(15), 1 + companionBonus),
       multiplier('Cosmo', 1 + cosmoBonus / 100),
       multiplier('Event shop', 1 + 0.5 * eventShopBonus),
       multiplier('Obsolete No More', 1 + obsoleteNoMore / 100),
@@ -153,14 +157,14 @@ const parseEquinox = (weeklyBoss: any, dream: any, account: any) => {
     ])
   ], { round: 'round' });
 
-  // BarFillReq: no outer rounding since 2.3.525.
-  const chargeRequired = (120 + 40 * totalUpgrade) * Math.pow(1.02, totalUpgrade);
+  const chargeRequired = getEquinoxBarFillReq(totalUpgrade);
   const currentCharge = dream?.[0];
   const timeToFull = new Date().getTime() + ((chargeRequired - currentCharge) / chargeRate * 1000 * 3600);
 
   return {
     currentCharge,
     chargeRequired,
+    totalUpgradeLevels: totalUpgrade,
     chargeRate,
     timeToFull,
     challenges,
@@ -186,7 +190,7 @@ const parseEquinoxUpgrades = (challenges: any, dream: any, account: any) => {
   const nbChallengeUnlocked = UPGRADE_UNLOCK_CLOUDS.reduce((sum, index) => sum + getCloudBonus(challenges, index), 0);
   return equinoxUpgrades.map(({ name, description, maxLevel, bonus }, index) => {
     const realBonus = name === 'Hmm...' ? 0 : name === 'Food_Lust'
-      ? Math.min(parseInt(dream[index]), account?.accountOptions?.[193] ?? 0)
+      ? Math.min(parseInt(dream[index]), account?.accountOptions?.[OPT.foodLustStacks] ?? 0)
       : (bonus ?? 0) * dream[index] || 0;
     const winBonus = getWinnerBonus(account, '+{ Equinox Max LV');
     const cloudBonusMap = {
@@ -249,7 +253,7 @@ const parseEquinoxUpgrades = (challenges: any, dream: any, account: any) => {
       name: name,
       bonus: realBonus,
       // game: every "}" becomes LV * DreamUpg[i][3] (Voter_Rights' "Total Bonus: {}%" included); "{" is the + glyph
-      desc: description?.replace(/\}/g, String((bonus ?? 0) * dream[index] || 0)).replace(/\{/g, '').split('_@_'),
+      desc: description?.replace(/\}/g, String((bonus ?? 0) * dream[index] || 0)).replace(/\{/g, '+').split('_@_'),
       lvl: dream[index] || 0,
       maxLvl: totalValue,
       unlocked: index <= nbChallengeUnlocked
@@ -278,6 +282,13 @@ export const EQUINOX_CLOUD = {
 // game: "CloudBonus"
 export const getCloudBonus = (challenges: any, index: number) => challenges?.[index]?.current === -1 ? 1 : 0;
 
+export const getTotalUpgradeLevels = (upgrades: any) => upgrades?.reduce((sum: number, { lvl }: any) => sum + (lvl || 0), 0) ?? 0;
+
 export const getEquinoxBonus = (upgrades: any, name: any) => {
   return (upgrades || [])?.filter((upgrade: any) => upgrade.name === name)?.[0]?.bonus || 0;
 };
+
+// The charge one bar needs once the upgrades add up to totalUpgradeLevels. No outer rounding since 2.3.525.
+// game: "Dreamstuff:BarFillReq"
+export const getEquinoxBarFillReq = (totalUpgradeLevels: number): number =>
+  (120 + 40 * totalUpgradeLevels) * Math.pow(1.02, totalUpgradeLevels);

@@ -1,12 +1,14 @@
-// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1.
+// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 899b5a0dc7456c686e94e58ea410195744c9f82a.
 // Copyright (C) Morta1 and IdleOn Toolbox contributors. GPL-3.0-only; see vendor/LICENSE.
 // Copied unmodified by IdleOn Forge's scripts/sync.sh; UI-coupled imports are redirected to shims/ at build time.
-import { tryToParse, notateNumber } from '@utility/helpers';
+import { notateNumber } from '@utility/helpers';
 import { bonuses as bonusNames, items, itemsArray, gameTables } from '@website-data';
 import { getEventShopBonus, isCompanionBonusActive } from '@parsers/misc';
 import { getMineheadBonusQTY } from '@parsers/world-7/minehead';
 import { getSushiBonus } from '@parsers/world-7/sushiStation';
 import { hasClearedMap } from '@parsers/portals';
+import { saveField } from '@parsers/saveField';
+import { additiveGroup, createBreakdown, NUMBERED_GROUP, percent } from '@parsers/breakdown';
 
 // The rack lists its totals as the base stats first, then the etc bonuses by id
 const HAT_BONUS_ORDER: string[] = [
@@ -21,7 +23,7 @@ const hatBonusOrder = (name: string) => {
 };
 
 export const getHatRack = (idleonData: any, account: any) => {
-  const rawSpelunk = tryToParse(idleonData?.Spelunk);
+  const rawSpelunk = saveField(idleonData, 'Spelunk');
   return parseHatRack(rawSpelunk, account);
 }
 
@@ -32,6 +34,7 @@ const parseHatRack = (rawSpelunk: any, account: any) => {
 
   return {
     bonusMulti,
+    bonusMultiBreakdown: getHatRackBonusMultiBreakdown(rawSpelunk, account),
     hatBonuses,
     hatsUsed,
     allPremiumHelmets,
@@ -39,15 +42,23 @@ const parseHatRack = (rawSpelunk: any, account: any) => {
   }
 }
 
-// game: "HatrackBonusMulti"
-export const getHatRackBonusMulti = (rawSpelunk: any, account: any) => {
-  const hatCount = rawSpelunk?.[46]?.length || 0;
-  const eventShopBonus = getEventShopBonus(account, 30);
-  const mineheadBonus = getMineheadBonusQTY(account, 21);
-  const sushiBonus = getSushiBonus(account, 36);
-  const companion31 = isCompanionBonusActive(account, 31) ? (account?.companions?.list?.at(31)?.bonus ?? 0) : 0;
-  return 1 + (hatCount + companion31 + 10 * eventShopBonus + mineheadBonus + sushiBonus) / 100;
-}
+// game: "HatrackBonusMulti", 1 + (hats on the rack + Companions(31) + 10 x event shop 30 + Minehead 21 + Sushi 36) / 100
+const getHatRackMultiSources = (rawSpelunk: any, account: any) => [
+  percent('Hats on the rack (+1% each)', rawSpelunk?.[46]?.length || 0),
+  percent('Wild Boar (Companion)', isCompanionBonusActive(account, 31) ? (account?.companions?.list?.at(31)?.bonus ?? 0) : 0),
+  percent('Event shop', 10 * getEventShopBonus(account, 30)),
+  percent('Minehead', getMineheadBonusQTY(account, 21)),
+  percent('Sushi Station', getSushiBonus(account, 36))
+];
+
+const sumSources = (sources: any[]) => sources.reduce((sum, { value }: any) => sum + (Number(value) || 0), 0);
+
+export const getHatRackBonusMulti = (rawSpelunk: any, account: any) => 1 + sumSources(getHatRackMultiSources(rawSpelunk, account)) / 100;
+
+export const getHatRackBonusMultiBreakdown = (rawSpelunk: any, account: any) => {
+  const sources = getHatRackMultiSources(rawSpelunk, account);
+  return createBreakdown('Bonus multi', 1 + sumSources(sources) / 100, [additiveGroup(NUMBERED_GROUP, sources)]);
+};
 
 export const getHatBonuses = (rawSpelunk: any, account: any) => {
   const rawHats = rawSpelunk?.[46];
@@ -124,7 +135,7 @@ export const getHatRackBonus = (account: any, bonusName: any) => {
   return account?.hatRack?.hatBonuses?.find((bonus: any) => bonus.name === bonusName)?.value ?? 0;
 }
 
-// Mirrors the game's deposit-eligibility filter at N.js:118436 — cosmetic-only hats
+// Mirrors the game's deposit-eligibility filter at N.js:118436: cosmetic-only hats
 // (e.g. tournament rewards EquipmentHats136-138) carry lvReqToCraft = 69420 as a sentinel
 // and are not counted toward the rack.
 export const isHatRackEligible = (item: any): boolean => {

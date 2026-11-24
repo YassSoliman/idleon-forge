@@ -1,7 +1,7 @@
-// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1.
+// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 899b5a0dc7456c686e94e58ea410195744c9f82a.
 // Copyright (C) Morta1 and IdleOn Toolbox contributors. GPL-3.0-only; see vendor/LICENSE.
 // Copied unmodified by IdleOn Forge's scripts/sync.sh; UI-coupled imports are redirected to shims/ at build time.
-import { notateNumber } from '@utility/helpers';
+import { cleanUnderscore, gameFill, titleCaseName } from '@utility/helpers';
 
 // Breakdown trees read by components/common/Breakdown/Breakdown.tsx. Kept free of game data so the
 // component can import it.
@@ -132,7 +132,7 @@ const SMALL_AMOUNT_DIGITS = 3;
 
 const formatAmount = (value: number) => {
   if (value > 0 && value < SMALL_AMOUNT) return String(Number(value.toPrecision(SMALL_AMOUNT_DIGITS)));
-  return value < 1e3 ? String(parseFloat(value.toFixed(2))) : String(notateNumber(value));
+  return gameFill(value, 'Big');
 }
 
 export const formatBreakdownValue = (value: number, unit?: BreakdownUnit) => {
@@ -154,6 +154,9 @@ export const info = line();
 // The factor a cap or softcap left on a value: what it is now over what it was before
 export const softcapLine = (after: number, before: number, note: string, name = 'Softcap'): BreakdownLine =>
   multiplier(name, before > 0 ? after / before : 1, { note });
+
+// A line named for its source as the game names it: sourceName('Talent', 'MANA_BOOSTER') reads Talent (Mana Booster)
+export const sourceName = (kind: string, gameName?: string) => gameName ? `${kind} (${titleCaseName(cleanUnderscore(gameName))})` : kind;
 
 // A group with nothing a player would recognise as setting it apart from its siblings: the drawer names it
 // Group 1, Group 2... top to bottom

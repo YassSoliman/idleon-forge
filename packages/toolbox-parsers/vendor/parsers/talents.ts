@@ -1,11 +1,11 @@
-// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1.
+// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 899b5a0dc7456c686e94e58ea410195744c9f82a.
 // Copyright (C) Morta1 and IdleOn Toolbox contributors. GPL-3.0-only; see vendor/LICENSE.
 // Copied unmodified by IdleOn Forge's scripts/sync.sh; UI-coupled imports are redirected to shims/ at build time.
 import { growth } from '@utility/helpers';
 import { isTalentBannedForAllLevels } from '@utility/talentBans';
 import { classes, talents } from '@website-data';
 import { getAchievementStatus } from './achievements';
-import { isCompanionBonusActive } from './misc';
+import { companionLineName, isCompanionBonusActive } from './misc';
 import { getCharacterMinorDivinityBonus, GOD_INDEX } from './world-5/divinity';
 import { getEquinoxBonus } from './world-3/equinox';
 import { getStampsBonusByEffect } from '@parsers/world-1/stamps';
@@ -77,6 +77,7 @@ export const getTalentCooldown = (character: any, talentName: string) => {
 
 import { CLASSES, talentPagesMap, getBaseClass } from './classDefinitions';
 import { getCharacterFamilyBonus } from './family';
+import { OPT } from '@parsers/accountOptions';
 
 // Re-exported so the many modules importing these from talents.ts keep working. Modules that
 // need ONLY these should import from ./classDefinitions instead, to avoid pulling this file
@@ -365,7 +366,7 @@ export const getTalentAddedLevels = (talents: any, presetIndex: any, familyEffBo
   const achievementBonus = getAchievementStatus(account?.achievements, 291) ? 1 : 0;
   const familyBonus = familyEffBonus ? Math.floor(familyEffBonus) : 0;
   const companionBonus = isCompanionBonusActive(account, 1) ? account?.companions?.list?.at(1)?.bonus : 0;
-  const ninjaMasteryBonus = account.accountOptions?.[232] >= NINJA_MASTERY_TALENT_TIER ? NINJA_MASTERY_TALENT_LEVELS : 0;
+  const ninjaMasteryBonus = account.accountOptions?.[OPT.ninjaMasteryTier] >= NINJA_MASTERY_TALENT_TIER ? NINJA_MASTERY_TALENT_LEVELS : 0;
   const equinoxBonus = getEquinoxBonus(account?.equinox?.upgrades, 'Equinox_Symbols');
   const grimoireBonus = getGrimoireBonus(account?.grimoire?.upgrades, 39);
   const armorSetBonus = getArmorSetBonus(account, 'KATTLEKRUK_SET');
@@ -381,7 +382,7 @@ export const getTalentAddedLevels = (talents: any, presetIndex: any, familyEffBo
     flat('Symbol of Beyond', symbolAddedLevel),
     flat('Family', familyBonus),
     flat('Achievement', achievementBonus),
-    flat('Companion', companionBonus),
+    flat(companionLineName(1), companionBonus),
     flat('Equinox', equinoxBonus),
     flat('Grimoire', grimoireBonus),
     flat('Kattlekruk set', armorSetBonus),
@@ -521,6 +522,13 @@ export const checkCharClass = (charClass: any, className: any) => {
   return talentPagesMap[charClass]?.includes(className);
 }
 
+// game CalcTalentMAP[110]/[146]: the monster types a character's Zow (100K kills) or Chow (1M) counts, capped at the
+// talent's second number (its level). TalentCalc multiplies the first number by this, with no +1
+export const getApocalypseCount = (character: any, key: 'zow' | 'chow'): number => {
+  const talent = key === 'zow' ? 'APOCALYPSE_ZOW' : 'APOCALYPSE_CHOW';
+  return Math.min(character?.[key]?.finished?.[0] ?? 0, getTalentBonus(character?.flatTalents, talent, true));
+}
+
 // TalentCalc's CalcTalentDT1: the LAST character in save order whose class line runs through Blood
 // Berserker (a Death Bringer counts). CalcTalentMAP[209] (Apocalypse Wow) and ["49_4"] count its
 // kill milestones, whoever holds the talent.
@@ -618,6 +626,19 @@ export const calcTotalStarTalent = (characters: any, account: any) => {
 export const getCrystalCountdownSkills = () => {
   return Object.values(skillIndexMap).filter((_, index) => index > 0 && index <= 9)
     .reduce((res, { icon }) => ({ ...res, [icon]: true }), {})
+}
+
+// Every class talent by name (a name always maps to one skillIndex), off by default, plus its icon:
+// the dashboard's ignored talents picker. The 'Special Talent' tabs are star talents.
+export const getClassTalentPicker = () => {
+  const classTalents = Object.entries(talents as Record<string, Record<string, any>>)
+    .filter(([tab]) => !tab.startsWith('Special'))
+    .flatMap(([, tabTalents]) => Object.values(tabTalents));
+  return classTalents.reduce((res, { name, skillIndex }) => {
+    res.value[name] = false;
+    res.icons[name] = `data/UISkillIcon${skillIndex}`;
+    return res;
+  }, { value: {} as Record<string, boolean>, icons: {} as Record<string, string> });
 }
 
 const MAESTRO_HAND_TALENT_IDS: Record<string, number> = { LEFT_HAND_OF_LEARNING: 42, RIGHT_HAND_OF_ACTION: 43 };

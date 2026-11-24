@@ -1,13 +1,15 @@
-// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1.
+// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 899b5a0dc7456c686e94e58ea410195744c9f82a.
 // Copyright (C) Morta1 and IdleOn Toolbox contributors. GPL-3.0-only; see vendor/LICENSE.
 // Copied unmodified by IdleOn Forge's scripts/sync.sh; UI-coupled imports are redirected to shims/ at build time.
-import { commaNotation, notateNumber } from '@utility/helpers';
 import { getStudyBonus } from '@parsers/world-5/hole';
 import { getJarBonus } from '@parsers/world-5/caverns/the-jars';
+import { OPT } from '@parsers/accountOptions';
 
 // The four layered caverns share one formula, indexed by t. Each keeps its progress at
 // Holes[11][2t] and its destroyed layers at Holes[11][2t + 1]
 export const LAYER_CAVERN = { MOTHERLODE: 0, HIVE: 1, EVERTREE: 2, TRENCH: 3 } as const;
+// game: a break is refused once OptionsListAccount[318] reaches 6; the count is shared by all four caverns
+export const LAYER_BREAKS_PER_DAY = 6;
 // The cavern UI shows a quarter of MotherlodeEffBase as the efficiency to aim for
 const SHOWN_EFFICIENCY_SHARE = 0.25;
 
@@ -33,16 +35,19 @@ export const getMotherlodeEffBase = (holesObject: any, t: number) => {
 export const getShownLayerEfficiency = (holesObject: any, t: number) => SHOWN_EFFICIENCY_SHARE * getMotherlodeEffBase(holesObject, t);
 
 export const getMotherlode = (holesObject: any, accountData: any) => {
-  const miningEff = notateNumber(getShownLayerEfficiency(holesObject, LAYER_CAVERN.MOTHERLODE), 'Big');
+  const miningEff = getShownLayerEfficiency(holesObject, LAYER_CAVERN.MOTHERLODE);
   const layer = holesObject?.extraCalculations?.[1];
   const minedOres = holesObject?.extraCalculations?.[0];
   const reqOres = getTotalOreReq(holesObject, accountData, LAYER_CAVERN.MOTHERLODE);
+  const brokenToday = Number(accountData?.accountOptions?.[OPT.motherlodeLayersBrokenToday]) || 0;
   return {
     miningEff,
     layer: layer + 1,
+    // Shared by all four layer caverns, so the other three read it from here
+    layerBreaksLeft: Math.max(0, LAYER_BREAKS_PER_DAY - brokenToday),
     ores: {
-      mined: minedOres < 1e9 ? commaNotation(minedOres) : notateNumber(minedOres, 'Big'),
-      required: reqOres < 1e9 ? commaNotation(reqOres) : notateNumber(reqOres, 'Big'),
+      mined: minedOres,
+      required: reqOres,
       maxed: minedOres >= reqOres
     }
   };

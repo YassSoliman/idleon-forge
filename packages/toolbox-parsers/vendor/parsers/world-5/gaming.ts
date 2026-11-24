@@ -1,10 +1,11 @@
-// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1.
+// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 899b5a0dc7456c686e94e58ea410195744c9f82a.
 // Copyright (C) Morta1 and IdleOn Toolbox contributors. GPL-3.0-only; see vendor/LICENSE.
 // Copied unmodified by IdleOn Forge's scripts/sync.sh; UI-coupled imports are redirected to shims/ at build time.
-import { gamingImports, gamingPalette, gamingUpgrades, randomList2, superbitsUpgrades } from '@website-data';
-import { commaNotation, notateNumber, number2letter, tryToParse } from '@utility/helpers';
+import { gamingImports, gamingPalette, gamingUpgrades, randomList2, research as researchData, superbitsUpgrades } from '@website-data';
+import { cleanUnderscore, formatNum, gameFill, notateNumber, number2letter, tryToParse } from '@utility/helpers';
+import { formatGame } from '@utility/gameNotation';
 import { getAccountMinorDivinityBonus, GOD_INDEX } from '@parsers/world-5/divinity';
-import { getHighestLevelCharacter, getLoggedInSkillLevel, isCompanionBonusActive, isMasteryBonusUnlocked } from '@parsers/misc';
+import { getHighestLevelCharacter, getLoggedInSkillLevel, companionLineName, isCompanionBonusActive, isMasteryBonusUnlocked } from '@parsers/misc';
 import { getEquinoxBonus } from '@parsers/world-3/equinox';
 import { getMeritocracyBonus, getVoteBonus } from '@parsers/world-2/voteBallot';
 import { isArtifactAcquired } from '@parsers/world-5/sailing';
@@ -26,11 +27,17 @@ import { getLoreBossBonus } from '@parsers/world-7/spelunking';
 import { getResearchGridBonus } from '@parsers/world-7/research';
 import { getSushiBonus } from '@parsers/world-7/sushiStation';
 import { getJellyBonus } from '@parsers/world-7/jellyOperator';
-import { NUMBERED_GROUP, additiveGroup, createBreakdown, multiplier, percent } from '@parsers/breakdown';
+import { getSchematicBonus } from '@parsers/world-5/caverns/the-well';
+import { NUMBERED_GROUP, additiveGroup, createBreakdown, flat, multiplier, percent, productGroup, sourceName } from '@parsers/breakdown';
+import { saveField } from '@parsers/saveField';
+import { OPT } from '@parsers/accountOptions';
 
 
 const GAMING_SPROUT_IMPORTS_START = 25;
 const GAMING_SPROUT_RAT_SHOP = 33;
+const GAMING_SPROUT_BOG_LOG = 30;
+// game: the log HUD reads "Ready" once 8e4 - GamingSprout[30][1] drops below 1
+export const BOG_LOG_READY_SECONDS = 80000;
 const emptyGamingRaw = () => {
   const raw: any[] = new Array(Math.max(15, gamingUpgrades.length + 1)).fill(0);
   raw[11] = ''; // logbook unlock string
@@ -51,8 +58,8 @@ const emptySpelunkRaw = () => {
 export const getGaming = (idleonData: any, characters: any, account: any, serverVars: any) => {
   const gamingRaw = tryToParse(idleonData?.Gaming) || idleonData?.Gaming;
   const gamingSproutRaw = tryToParse(idleonData?.GamingSprout) || idleonData?.GamingSprout;
-  const spelunkRaw = tryToParse(idleonData?.Spelunk) || idleonData?.Spelunk;
-  const researchRaw = tryToParse(idleonData?.Research) || idleonData?.Research;
+  const spelunkRaw = saveField(idleonData, 'Spelunk') || idleonData?.Spelunk;
+  const researchRaw = saveField(idleonData, 'Research') || idleonData?.Research;
   return {
     ...parseGaming(
       gamingRaw || emptyGamingRaw(),
@@ -61,7 +68,7 @@ export const getGaming = (idleonData: any, characters: any, account: any, server
       researchRaw,
       characters, account, serverVars
     ),
-    unlocked: !!gamingRaw && !!gamingSproutRaw && !!spelunkRaw
+    unlocked: !!gamingRaw && !!gamingSproutRaw
   };
 }
 
@@ -80,6 +87,7 @@ const parseGaming = (gamingRaw: any, gamingSproutRaw: any, spelunkRaw: any, rese
     }
   }
   const [, snailLevel, snailEncouragement] = gamingSproutRaw?.[32];
+  const bogLogTimer = gamingSproutRaw?.[GAMING_SPROUT_BOG_LOG]?.[1] ?? 0;
   const envelopes = gamingRaw?.[13];
   const ratTokens =  gamingRaw?.[14];
   const availableSprouts = gamingSproutRaw.slice(0, 25).reduce((res: any, sprout: any) => sprout?.[1] > 0 ? res + 1 : res, 0);
@@ -89,6 +97,9 @@ const parseGaming = (gamingRaw: any, gamingSproutRaw: any, spelunkRaw: any, rese
   const bestNugget = gamingRaw?.[8];
   const elegantShellRank = gamingSproutRaw?.[28]?.[2];
   const totalPlantsPicked = gamingSproutRaw?.[28]?.[1];
+  // game: OptionsListAccount[497] is saved only while superbit 56 (Pro Log Flipper) is owned
+  const logGameBestRound = account?.accountOptions?.[OPT.logGameBestRound] ?? 0;
+  const logGameMulti = getLogGameMulti(logGameBestRound);
   const lastShovelClicked = gamingSproutRaw?.[26]?.[1];
   const goldNuggets = calcGoldNuggets(lastShovelClicked);
   const [squirrelLevel, lastAcornClicked, squirrelMulti] = gamingSproutRaw?.[27];
@@ -109,31 +120,20 @@ const parseGaming = (gamingRaw: any, gamingSproutRaw: any, spelunkRaw: any, rese
         ? `GamingItem${index}b`
         : `GamingItem${index}` : `GamingItem${index}`,
       minorBonus: bonus?.description,
-      bonus: bonus?.value,
+      bonus: bonus?.value ?? bonus?.result,
       cost: calcImportCost(index, gamingImportsValues),
       acquired: gamingImportsValues?.[index]?.[0] > 0,
       ...(index === 0 ? {
         saveSprinklerChance: saveSprinklerChance * 100
       } : {}),
-      ...(index === 1 ? {
-        maxNuggetValue: maxNuggetValue(bonus?.result, getEquinoxBonus(account?.equinox?.upgrades, 'Metal_Detector'), account?.accountOptions?.[192] ?? 0)
-      } : {}),
+      ...(index === 1 ? maxNuggetRoll(cleanUnderscore(item?.name), bonus?.result,
+        getEquinoxBonus(account?.equinox?.upgrades, 'Metal_Detector'), account?.accountOptions?.[OPT.nuggetsSinceUpgrade] ?? 0) : {}),
       ...(index === 2 ? {
         acornShop
       } : {})
     }
   }).filter(({ boxName }) => !boxName.includes('Empty_Box'));
 
-  const fertilizerUpgrades = gamingRaw?.slice(1, gamingUpgrades?.length + 1)?.map((level: any, index: any) => {
-    const bonus = calcFertilizerBonus(index, gamingRaw, gamingSproutRaw, characters, account, acornShop, imports);
-    return {
-      ...gamingUpgrades?.[index],
-      level,
-      bonus,
-      description: gamingUpgrades?.[index]?.description.replace(/{/, String(bonus)),
-      cost: calcFertilizerCost(index, gamingRaw, serverVars)
-    }
-  });
   const availableDrops = getDropsAmount(gamingSproutRaw?.[25]?.[1], imports);
   const superbitsUnlocks = gamingRaw?.[12] || [];
   const superbitsUpg = superbitsUpgrades?.map((upgrade, index) => ({
@@ -145,6 +145,7 @@ const parseGaming = (gamingRaw: any, gamingSproutRaw: any, spelunkRaw: any, rese
     isZuper: index >= 48,
     ...calcSuperbitBonus(characters, account, index)
   }));
+  const snail = getSnailStats(snailLevel, snailEncouragement, superbitsUpg, account);
   const dna = gamingRaw?.[5];
   const unlockedMutations = gamingRaw?.[4];
   const evolutionLevel = gamingRaw?.[7];
@@ -159,6 +160,17 @@ const parseGaming = (gamingRaw: any, gamingSproutRaw: any, spelunkRaw: any, rese
 
   const ratKing = calcRatKing(gamingSproutRaw, researchRaw, account, superbitsUpg);
   const { palette, paletteFinalBonus, paletteLuck } = getPalette(account, ratKing, spelunkRaw, characters);
+  const sproutGrowSeconds = calcSproutGrowSeconds(gamingRaw, gamingSproutRaw, characters, account, acornShop, palette);
+  const fertilizerUpgrades = gamingRaw?.slice(1, gamingUpgrades?.length + 1)?.map((level: any, index: any) => {
+    const bonus = calcFertilizerBonus(index, gamingRaw, sproutGrowSeconds, account);
+    return {
+      ...gamingUpgrades?.[index],
+      level,
+      bonus,
+      description: gamingUpgrades?.[index]?.description.replace(/{/, String(bonus)),
+      cost: calcFertilizerCost(index, gamingRaw, serverVars)
+    }
+  });
 
   return {
     palette,
@@ -169,12 +181,16 @@ const parseGaming = (gamingRaw: any, gamingSproutRaw: any, spelunkRaw: any, rese
     envelopes,
     ratTokens,
     snailLevel, snailEncouragement,
+    snail,
+    bogLogTimer,
+    bogLogReady: bogLogTimer >= BOG_LOG_READY_SECONDS,
     squirrelMulti,
     elegantShellRank,
     fertilizerUpgrades,
     availableSprouts,
     availableDrops,
     sproutsCapacity: fertilizerUpgrades?.[2]?.bonus,
+    sproutGrowSeconds,
     imports,
     lastShovelClicked,
     goldNuggets,
@@ -193,11 +209,20 @@ const parseGaming = (gamingRaw: any, gamingSproutRaw: any, spelunkRaw: any, rese
     poingHighscore,
     poingMulti,
     totalPlantsPicked,
+    logGameBestRound,
+    logGameMulti,
     selectedSlots: spelunkRaw?.[10]?.reduce((res: any, value: any) => value !== -1 ? res + 1 : res, 0),
     ratKingCrownsClaimed: researchRaw?.[11]?.length || 0,
     ratKing
   };
 }
+
+// game: GamingStatType LogGameMulti
+export const getLogGameMulti = (bestRound: any) => Math.max(1, Math.pow(1.2, (bestRound ?? 1) - 1));
+
+export const getTotalPaletteLevels = (palette: any) => palette?.reduce((sum: number, item: any) => sum + (item?.level || 0), 0) ?? 0;
+
+export const countOwnedLogBooks = (logBook: any) => logBook?.reduce((sum: number, { unlocked }: any) => sum + (unlocked ? 1 : 0), 0);
 
 export const getBitsMulti = (account: any, characters: any) => {
   // 'SproutValueNonPlantMulti' == e
@@ -234,7 +259,7 @@ export const getBitsMulti = (account: any, characters: any) => {
   const cardBonus = getCardBonusByEffect(account?.cards, 'Gaming_Bit_Multi_(Passive)');
   const stickerBonus = getStickerBonus(account, 3);
   const vaultBonus = getUpgradeVaultBonus(account?.upgradeVault?.upgrades, 68);
-  const logGameMulti = Math.max(1, Math.pow(1.2, (account?.accountOptions?.[497] ?? 1) - 1));
+  const logGameMulti = getLogGameMulti(account?.accountOptions?.[OPT.logGameBestRound]);
   const value = (1 + 99 * accountOptionToggle)
     * (1 + gridBonus / 100)
     * (1 + gummyOrbArtifactBonus / 100)
@@ -268,7 +293,7 @@ export const getBitsMulti = (account: any, characters: any) => {
     multiplier('Bit Toggle', 1 + 99 * accountOptionToggle),
     multiplier('Research Grid', 1 + gridBonus / 100),
     multiplier('Gummy Orb Artifact', 1 + gummyOrbArtifactBonus / 100),
-    multiplier('Companion', Math.max(1, 1 + companionBonus)),
+    multiplier(companionLineName(53), Math.max(1, 1 + companionBonus)),
     multiplier('Weatherbook Artifact', 1 + weatherbookArtifactBonus / 100),
     multiplier('Monument', 1 + monumentBonus / 100),
     multiplier('Skill Mastery', 1 + (15 * skillMastery) / 100),
@@ -345,6 +370,10 @@ const getMutations = () => {
   }))
 }
 
+// A wave superbit's line. Its total can be a fraction (1.12 or 0.3 per 10 waves), so it prints by the shared rule
+const wavesInfo = (bonus: number, totalWaves: number) =>
+  `Total Bonus: ${gameFill(bonus, 'Big')}% (${gameFill(totalWaves, 'Comma', { whole: true })} waves)`;
+
 const calcSuperbitBonus = (characters: any, account: any, index: any) => {
   let bonus, totalBonus, additionalInfo;
   const totalWaves = account?.towers?.totalWaves ?? 0;
@@ -354,19 +383,19 @@ const calcSuperbitBonus = (characters: any, account: any, index: any) => {
   }
   else if (index === 3 || index === 16) {
     bonus = Math.floor(totalWaves / 10);
-    additionalInfo = `Total Bonus: ${bonus}% (${totalWaves} waves)`
+    additionalInfo = wavesInfo(bonus, totalWaves);
   }
   else if (index === 11) {
     bonus = 1.12 * Math.floor(totalWaves / 10);
-    additionalInfo = `Total Bonus: ${bonus.toFixed(2)}% (${totalWaves} waves)`
+    additionalInfo = wavesInfo(bonus, totalWaves);
   }
   else if (index === 13) {
     bonus = Math.floor(totalWaves / 10) * 13;
-    additionalInfo = `Total Bonus: ${bonus}% (${totalWaves} waves)`
+    additionalInfo = wavesInfo(bonus, totalWaves);
   }
   else if (index === 7) {
     bonus = Math.floor(totalWaves / 10);
-    additionalInfo = `Total Bonus: ${bonus}% (${totalWaves} waves)`
+    additionalInfo = wavesInfo(bonus, totalWaves);
   }
   else if (index === 12) {
     // The game multiplies this superbit by Lv0[15] of the character you're logged in as, not by the
@@ -378,11 +407,11 @@ const calcSuperbitBonus = (characters: any, account: any, index: any) => {
   }
   else if (index === 20) {
     bonus = Math.floor(totalWaves / 10) * 50;
-    additionalInfo = `Total Bonus: ${bonus}% (${totalWaves} waves)`
+    additionalInfo = wavesInfo(bonus, totalWaves);
   }
   else if (index === 27) {
     bonus = 2.5 * Math.max(0, Math.floor((totalWaves - 300) / 10));
-    additionalInfo = `Total Bonus: ${bonus}% (${totalWaves} waves)`
+    additionalInfo = wavesInfo(bonus, totalWaves);
   }
   else if (index === 24) {
     const discoveriesCount = account?.spelunking?.discoveriesCount ?? 0;
@@ -406,13 +435,12 @@ const calcSuperbitBonus = (characters: any, account: any, index: any) => {
   }
   else if (index === 38) {
     totalBonus = account?.gaming?.paletteFinalBonus;
-    additionalInfo = `Palette Lucky +${account?.gaming?.paletteFinalBonus?.toFixed(2)}%`
   }
   // 42 (Bigger_Palette) is a flag. The game still replaces "{" with Lv0[17] (sneaking level), a
   // leftover with nothing to replace in its description, so it shows no value.
   else if (index === 44) {
     bonus = 0.3 * Math.max(0, Math.floor((totalWaves - 300) / 10));
-    additionalInfo = `Total Bonus: ${bonus}% (${totalWaves} waves)`
+    additionalInfo = wavesInfo(bonus, totalWaves);
   }
   else if (index === 45) {
     // game: PaletteLuck reads Lv0[15], the logged-in character's gaming level
@@ -442,8 +470,20 @@ const getDropsAmount = (baseValue: any, fertilizerUpgrades: any) => {
 
 }
 
-const maxNuggetValue = (bonus: any, equinoxBonus: any, nbNuggetsSinceUpgrade: any) => {
-  return bonus * (1 / Math.pow(1e-5, 0.64)) * (1 + equinoxBonus * nbNuggetsSinceUpgrade / 100);
+// The best roll a dig can land (1e-5, raised to -0.64): the panel's lowest roll is the max over this
+const NUGGET_ROLL_RANGE = 1 / Math.pow(1e-5, 0.64);
+
+const maxNuggetRoll = (importName: string | undefined, bonus: any, equinoxBonus: any, nbNuggetsSinceUpgrade: any) => {
+  const metalDetector = 1 + (equinoxBonus ?? 0) * nbNuggetsSinceUpgrade / 100;
+  const maxNuggetValue = bonus * NUGGET_ROLL_RANGE * metalDetector;
+  return {
+    maxNuggetValue,
+    maxNuggetValueBreakdown: createBreakdown('Rolls', formatNum(maxNuggetValue ?? 0, 'whole'), [
+      flat(importName || 'Dirty Shovel', bonus ?? 0),
+      multiplier('Luckiest dig', NUGGET_ROLL_RANGE),
+      multiplier(sourceName('Equinox', 'Metal_Detector'), metalDetector)
+    ])
+  };
 }
 
 const calcResourcePerTime = (type: any, squirrelLevel: any) => {
@@ -502,30 +542,38 @@ const calcImportCost = (index: any, gamingImportsValues: any) => {
     Math.pow(10, gamingImports?.[index]?.x2)) / 4 * Math.pow(1.4, gamingImportsValues?.[index]?.[0]);
 }
 
-const calcFertilizerBonus = (index: any, gamingRaw: any, gamingSproutRaw: any, characters: any, account: any, acornShop: any, imports: any) => {
+const calcFertilizerBonus = (index: any, gamingRaw: any, sproutGrowSeconds: number, account: any) => {
   if (index === 0) {
     const baseValue = gamingRaw?.[1];
-    return notateNumber((1 + 4 * baseValue) * Math.pow(1.065, baseValue), 'bits');
+    return gameFill((1 + 4 * baseValue) * Math.pow(1.065, baseValue), 'Bits');
   }
   else if (index === 1) {
-    const baseValue = gamingRaw?.[2];
-    const godBonus = getAccountMinorDivinityBonus(account, characters, GOD_INDEX.Purrmep);
-    const baseMath = 1 + (acornShop?.[1]?.bonus + godBonus) / 100;
-    const moreMath = 3 + imports?.[4]?.level / 100;
-    const baseValue2 = gamingSproutRaw?.[29]?.[1];
-    const growTime = 5e3 / ((1 + (2 * baseValue) / 100) * baseMath * (1 + moreMath * (baseValue2)));
-    const growChance = 1 / calcSproutGrowChance(gamingRaw);
-    const final = (growTime * growChance) / 60;
-    const time = 100 * final / 100;
-    if (time > 60) return `${time / 60} Hr`;
-    if (time < 1) return `${Math.trunc(time * 60 * 100) / 100} Sec`;
-    return `${Math.trunc(time * 1000) / 1000} Min`;
+    const time = sproutGrowSeconds / 60;
+    // game: 60 < x reads Hr, 1 < x reads Min, anything else Sec (the fertilizer panel)
+    if (time > 60) return `${gameFill(time / 60, 'Small')} Hr`;
+    if (time > 1) return `${gameFill(time, 'Small')} Min`;
+    return `${gameFill(60 * time, 'Small')} Sec`;
   }
   else if (index === 2) {
     const baseValue = gamingRaw?.[3];
     const maxSprouts = account?.gemShopPurchases?.find((value: any, index: any) => index === 133) ?? 0;
-    return notateNumber(Math.round(Math.min(24, 3 + baseValue + (maxSprouts))));
+    return gameFill(Math.round(Math.min(24, 3 + baseValue + (maxSprouts))), 'Big', { whole: true });
   }
+}
+
+// Sprout Speed: seconds per growth cycle, SproutGrowthTime * (1 / SproutGrowthCHANCE(-1)).
+// OptionsListAccount[411] is the gaming toggle that makes sprouts grow 100x slower for 100x bits.
+const calcSproutGrowSeconds = (gamingRaw: any, gamingSproutRaw: any, characters: any, account: any, acornShop: any, palette: any) => {
+  const toggle = Number(account?.accountOptions?.[411]) || 0;
+  const godBonus = getAccountMinorDivinityBonus(account, characters, GOD_INDEX.Purrmep);
+  const growTime = 5e3 * (1 + 99 * toggle) / ((1 + (2 * (gamingRaw?.[2] ?? 0)) / 100)
+    * (1 + (palette?.[8]?.bonus ?? 0) / 100)
+    * (1 + (palette?.[11]?.bonus ?? 0) / 100)
+    * (1 + ((acornShop?.[1]?.bonus ?? 0) + godBonus) / 100)
+    * (1 + (3 + Math.round(gamingSproutRaw?.[29]?.[0] ?? 0) / 100) * (gamingSproutRaw?.[29]?.[1] ?? 0)));
+  const cropEvoMulti = Math.max(1, account?.farming?.cropDepot?.gamingEvo?.value ?? 0);
+  const growChance = Math.min(1, calcSproutGrowChance(gamingRaw) * cropEvoMulti);
+  return growTime / growChance;
 }
 
 const calcSproutGrowChance = (gamingRaw: any) => {
@@ -557,9 +605,9 @@ const calcFertilizerCost = (index: any, gamingRaw: any, serverVars: any) => {
 }
 
 const calcAcornShop = (gamingSproutRaw: any, account: any) => {
-  const bonusTexts = ['All plants give x{ bits', 'All plants grow {% faster', 'Boosts Palette Lucky by +{%']
+  const bonusTexts = ['All plants give x{ bits', 'All plants grow {% faster', 'Boosts Palette Luck by +{%']
   const [, , firstValue, secondValue] = gamingSproutRaw?.[27];
-  return [firstValue, secondValue, account?.accountOptions?.[415] ?? 0].map((value, index) => {
+  return [firstValue, secondValue, account?.accountOptions?.[OPT.acornShopPaletteLevel] ?? 0].map((value, index) => {
     const bonus = index === 0 ? 1 + (8 * value) / (250 + (value)) : index === 1
       ? Math.pow(3 * (value), 0.8)
       : index === 2 ? Math.pow(value, 0.8) : 0;
@@ -567,8 +615,9 @@ const calcAcornShop = (gamingSproutRaw: any, account: any) => {
       ? 4 + value + 3 * Math.max(0, value - 5)
       : 1 + value + 2 * Math.max(0, value - 5);
     return {
+      level: value ?? 0,
       cost,
-      description: bonusTexts?.[index].replace(/{/, `${bonus.toFixed(2)}`),
+      description: bonusTexts?.[index].replace(/{/, formatGame(bonus, 'GamingStatType.AcornShopBonus')),
       bonus
     }
   });
@@ -603,14 +652,30 @@ const calcRatKing = (gamingSproutRaw: any, researchRaw: any, account: any, super
   );
 
   const arcadeBonusCrown = getArcadeBonus(account?.arcade?.shop, 'New_Crown_Chance')?.bonus ?? 0;
+  // game raises 1.5 to the box's growth level when it rolls; the King Rat screen uses level 0
   const ratCrownOdds = Math.min(1,
     0.05
     * (1 + 0.5 * superbit60)
     * (1 + (ratShopBonus2 + (ratBaseBonus ?? 0) + arcadeBonusCrown) / 100)
-    * Math.pow(1.5, crownsCount)
     * (1 + getSushiBonus(account, 31) / 100)
     * (1 + getJellyBonus(account, 42) / 100)
   );
+  // King Rat screen's "1 in N": 1.111 per crown stands in for the second roll, which must land a new crown
+  const ratCrownOneIn = (1 / ratCrownOdds) * Math.pow(1.111, crownsCount);
+  const ratCrownOneInBreakdown = createBreakdown('Crown chance', `1 in ${formatGame(ratCrownOneIn, 'GamingStatType.RatCrownOdds')}`, [
+    multiplier('Crowns owned', Math.pow(1.111, crownsCount)),
+    productGroup('Chance per box', [
+      flat('Base chance', 0.05, { formatted: '5%' }),
+      multiplier(sourceName('Superbit', (superbitsUpgrades as any)?.[60]?.name), 1 + 0.5 * superbit60),
+      additiveGroup(NUMBERED_GROUP, [
+        percent('King Rat Shop (Extra crowns)', ratShopBonus2),
+        percent('King Rat of Olde', ratBaseBonus ?? 0),
+        percent(sourceName('Arcade', 'New_Crown_Chance'), arcadeBonusCrown)
+      ]),
+      multiplier(sourceName('Sushi', (researchData as any)?.[30]?.[31]), 1 + getSushiBonus(account, 31) / 100),
+      multiplier(sourceName('Jelly Operator', (researchData as any)?.[45]?.[42]), 1 + getJellyBonus(account, 42) / 100)
+    ], { unit: 'flat', max: 1, formatted: `${formatNum(100 * ratCrownOdds)}%` })
+  ], { combine: 'divide' });
 
   const paletteBonus34 = getPaletteBonus(account, 34) ?? 0;
   const gridBonus108 = getResearchGridBonus(account, 108, 0);
@@ -626,7 +691,7 @@ const calcRatKing = (gamingSproutRaw: any, researchRaw: any, account: any, super
     { name: 'Extra crowns', level: bitMultiUpgLv ?? 0, bonus: ratShopBonus2, cost: calcRatShopCost(2, ratShopRaw) },
   ];
 
-  return { crownsCount, kingRatUnlocked: !!kingRatUnlocked, ratBitMulti, ratCurrencyGain, ratCrownOdds, shopUpgrades };
+  return { crownsCount, kingRatUnlocked: !!kingRatUnlocked, ratBitMulti, ratCurrencyGain, ratCrownOdds, ratCrownOneIn, ratCrownOneInBreakdown, shopUpgrades };
 };
 
 const calcRatShopCost = (t: any, ratShopRaw: any) => {
@@ -634,24 +699,44 @@ const calcRatShopCost = (t: any, ratShopRaw: any) => {
   return 2 * (Math.pow(1.15, level) + level);
 };
 
+export const calcSnailSuccessChance = (snailLevel: number, encouragement: number, holeBonus = 0) => {
+  if (snailLevel > 24) {
+    return Math.min(1, (1 - 0.6 * Math.pow(snailLevel - 24, 0.16))
+      * (1 + holeBonus / 100)
+      * (1 + (50 * encouragement) / (3 + encouragement) / 100));
+  }
+  return Math.min(1, (1 - 0.1 * Math.pow(snailLevel, 0.71))
+    * (1 + holeBonus / 100)
+    * (1 + (110 * encouragement) / (25 + encouragement) / 100));
+};
+
+const calcSnailResetChance = (snailLevel: number, encouragement: number) => {
+  if (snailLevel > 24) {
+    return Math.max(0, (Math.pow(snailLevel - 24, 0.19) - 0.9)
+      / (1 + (60 * encouragement) / (3 + encouragement) / 100));
+  }
+  return Math.max(0, (Math.pow(snailLevel + 1, 0.07) - 1)
+    / (1 + (300 * encouragement) / (100 + encouragement) / 100));
+};
+
+const getSnailStats = (snailLevel: number, encouragement: number, superbitsUpg: any[], account: any) => {
+  const isUnlocked = (name: string) => superbitsUpg?.some((upgrade: any) => upgrade?.name === name && upgrade?.unlocked);
+  const level = snailLevel ?? 0;
+  const enc = encouragement ?? 0;
+  const holeBonus = getSchematicBonus({ holesObject: account?.hole?.holesObject, t: 53, i: 0 }) ?? 0;
+  const maxLevel = Math.round(10 * (isUnlocked('Snail_Genesis') ? 1 : 0)
+    + 5 * (isUnlocked('Snail_Omega') ? 1 : 0) + 10 * (isUnlocked('Snail_Zenith') ? 1 : 0) + 25);
+  const successChance = calcSnailSuccessChance(level, enc, holeBonus);
+  const resetChance = calcSnailResetChance(level, enc);
+  return { maxLevel, holeBonus, successChance, resetChance };
+};
+
 export const calculateSnailEncouragementForSuccessChance = (snailLevel: any, desiredSuccessChance: any, holeBonus = 0) => {
   const epsilon = 1; // Set epsilon to 1 to work with whole numbers
   let low = 0;
   let high = 1000; // Adjust the upper bound based on your specific scenario.
 
-  // Calculate success chance based on level (matching the updated Snail component logic)
-  const calculateSuccessChance = (encouragement: any) => {
-    if (snailLevel > 24) {
-      return Math.min(1, (1 - 0.6 * Math.pow(snailLevel - 24, 0.16))
-        * (1 + holeBonus / 100)
-        * (1 + (50 * encouragement) / (3 + encouragement) / 100));
-    }
-    else {
-      return Math.min(1, (1 - 0.1 * Math.pow(snailLevel, 0.71))
-        * (1 + holeBonus / 100)
-        * (1 + (110 * encouragement) / (25 + encouragement) / 100));
-    }
-  };
+  const calculateSuccessChance = (encouragement: any) => calcSnailSuccessChance(snailLevel, encouragement, holeBonus);
 
   while (high - low > epsilon) {
     const mid = Math.floor((low + high) / 2); // Use Math.floor to ensure whole numbers
@@ -719,25 +804,38 @@ const getPalette = (account: any, ratKing: any, spelunkRaw: any, characters: any
 
     // Menagerie black stars, Spelunk[49][i] (0-2): x2 for one, x4 for two
     const blackStars = Number(spelunkRaw?.[49]?.[i]) || 0;
-    const blackStarMulti = Math.max(1, 1 + (blackStars + Math.floor(blackStars / 2)));
+    const getBlackStarMulti = (stars: number) => Math.max(1, 1 + (stars + Math.floor(stars / 2)));
+    const blackStarMulti = getBlackStarMulti(blackStars);
 
     // Apply global multipliers (legend talent + black stars + lore boss)
-    bonus *= paletteGlobalMulti * blackStarMulti;
+    const unstarredBonus = bonus * paletteGlobalMulti;
+    bonus = unstarredBonus * blackStarMulti;
 
-    let description = gamingPalette?.[i]?.description || '';
-    if (description) {
-      description = description.replace(/\{/g, commaNotation(bonus));
-      description = description.replace(/#/g, '' + (Math.floor(100 * bonus) / 100));
-      const multiplierFormatted = notateNumber(1 + bonus / 100, 'MultiplierInfo');
-      description = description.replace(/\}/g, String(multiplierFormatted));
-    }
+    const formatDescription = (value: number) => {
+      const template = gamingPalette?.[i]?.description || '';
+      if (!template) return template;
+      return template
+        .replace(/\{/g, gameFill(value, 'Comma'))
+        .replace(/#/g, '' + (Math.floor(100 * value) / 100))
+        .replace(/\}/g, gameFill(1 + value / 100, 'MultiplierInfo'));
+    };
+    const description = formatDescription(bonus);
+    // game: "CanWeDoubleBlackstar" is always 1, so any colour takes up to 2 stars
+    const blackStarPreviews = unstarredBonus > 0
+      ? [1, 2].filter((stars) => stars > blackStars).map((stars) => ({
+        stars,
+        description: formatDescription(unstarredBonus * getBlackStarMulti(stars))
+      })).filter((preview, index, previews) => preview.description !== (previews[index - 1]?.description ?? description))
+      : [];
 
     palette.push({
       ...gamingPalette?.[i],
+      index: i,
       level: spelunkValue,
       bonus,
       blackStars,
       blackStarMulti,
+      blackStarPreviews,
       description,
       active
     });

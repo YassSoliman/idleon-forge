@@ -1,4 +1,4 @@
-// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1.
+// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 899b5a0dc7456c686e94e58ea410195744c9f82a.
 // Copyright (C) Morta1 and IdleOn Toolbox contributors. GPL-3.0-only; see vendor/LICENSE.
 // Copied unmodified by IdleOn Forge's scripts/sync.sh; UI-coupled imports are redirected to shims/ at build time.
 import { getActiveBubbleBonus, getBubbleBonus, getVialsBonusByStat } from '@parsers/world-2/alchemy';
@@ -20,7 +20,7 @@ import {
   getMinigameScore,
   getSkillMasteryBonusByIndex,
   getSkillCardBonus,
-  isCompanionBonusActive,
+  companionLineName, isCompanionBonusActive,
   isMasteryBonusUnlocked
 } from '@parsers/misc';
 import { getVoteBonus } from '@parsers/world-2/voteBallot';
@@ -35,12 +35,12 @@ import { getPrayerBonusAndCurse } from '@parsers/world-3/prayers';
 import { getGuildBonusBonus } from '@parsers/guild';
 import { TOOLS } from '@utility/consts';
 import { getStatueBonus } from '@parsers/world-1/statues';
-import { getStampsBonusByEffect, getStampsBonusByStat } from '@parsers/world-1/stamps';
+import { getStampLineName, getStampNode, getStampsBonusByEffect, getStampsBonusByStat } from '@parsers/world-1/stamps';
 import { getShinyBonus } from '@parsers/world-4/breeding';
 import { getObolsBonus } from '@parsers/obols';
 import { isArtifactAcquired } from '@parsers/world-5/sailing';
 import { getAtomBonus } from '@parsers/world-3/atomCollider';
-import { cleanUnderscore, lavaLog, notateNumber } from '@utility/helpers';
+import { cleanUnderscore, lavaLog, notateNumber, titleCaseName } from '@utility/helpers';
 import {
   additiveGroup,
   createBreakdown,
@@ -83,6 +83,7 @@ import { getTrappingStuff } from '@parsers/character';
 import { getSchematicBonus } from '@parsers/world-5/caverns/the-well';
 import { getWinnerBonus } from '@parsers/world-6/summoning';
 import { getCharacterFamilyBonus } from './family';
+import { OPT } from '@parsers/accountOptions';
 
 export const allProwess = (character: any, account: any) => {
   const mainStat = mainStatMap?.[character?.class];
@@ -127,7 +128,7 @@ export const getAllBaseSkillEffBreakdown = (character: any, account: any, charac
 
   return sumGroup('Base efficiency for all skills', [
     flat('Shiny', shinyBonus),
-    flat('Stamp', stampBonus),
+    getStampNode(account, { effect: 'All_Skill_Efficiency' }, stampBonus, character, 'flat'),
     flat('Nobisect blessing', blessingBonus),
     flat('Post office', postOfficeBonus),
     flat('Chip', chipBonus),
@@ -158,7 +159,7 @@ export const getAllEffBreakdown = (character: any, characters: any, account: any
   const multitoolBonus = getTalentBonus(character?.flatStarTalents, 'ANCIENT_MULTITOOL');
   const paletteBonus = getPaletteBonus(account, 10) ?? 0;
   const friendBonus = getFriendBonus(account, 2) ?? 0;
-  const option422 = Number(account?.accountOptions?.[422]) || 0;
+  const option422 = Number(account?.accountOptions?.[OPT.hoopsSkillEfficiencyBonus]) || 0;
   const masteryBonus = getSkillMasteryBonusByIndex(account?.totalSkillsLevels, account?.rift, 2)
   const schematicBonus = getSchematicBonus({ holesObject: account?.hole?.holesObject, t: 49, i: 15 });
   const chaoticTrollBonus = getEquippedCardBonus(character?.cards, 'Boss4B' as any);
@@ -194,11 +195,11 @@ export const getAllEffBreakdown = (character: any, characters: any, account: any
       percent('Skill mastery', masteryBonus),
       percent('Schematic', schematicBonus),
       percent('Account bonus', option422),
-      percent('Island shimmer', (account?.accountOptions?.[180] ?? 0) * account?.islands?.allShimmerBonus)
+      percent('Island shimmer', (account?.accountOptions?.[OPT.shimmerSkillEffLevel] ?? 0) * account?.islands?.allShimmerBonus)
     ]),
     additiveGroup(NUMBERED_GROUP, [
       percent('Chaotic Troll card', chaoticTrollBonus),
-      percent('Companion', companionBonus)
+      percent(companionLineName(5), companionBonus)
     ]),
     additiveGroup('Summoning bonuses', [percent('Summoning', winnerBonus)]),
     additiveGroup(NUMBERED_GROUP, [
@@ -213,7 +214,7 @@ export const getAllEffBreakdown = (character: any, characters: any, account: any
 export const getAllEff = (character: any, characters: any, account: any) =>
   evaluateBreakdownNode(getAllEffBreakdown(character, characters, account));
 
-const bubbleLabel = (bubbleName: string) => `${(cleanUnderscore(bubbleName)?.toLowerCase() as any)?.capitalizeAllWords()} bubble`;
+const bubbleLabel = (bubbleName: string) => `${titleCaseName(cleanUnderscore(bubbleName))} bubble`;
 
 interface SkillPowerOptions {
   tool: number;
@@ -318,7 +319,7 @@ const getMiningEffParts = (character: any, characters: any, account: any, player
       sumGroup(names.base, [
         sumGroup(names.power, miningPowerLines, { power: 1.3, note: 'Mining power also multiplies below' }),
         flat('Strength', Math.pow(character?.stats?.strength + 1, .6) * (1 + secondTalentBonus / 100)),
-        flat('Stamp', stampBonus),
+        getStampNode(account, { effect: 'Base_Mining' }, stampBonus, character, 'flat'),
         getAllBaseSkillEffBreakdown(character, account, characters, playerInfo)
       ]),
       productGroup(names.bonuses, [
@@ -385,7 +386,7 @@ const getChoppingEffParts = (character: any, characters: any, account: any, play
       sumGroup(names.base, [
         sumGroup(names.power, powerLines, { power: 1.3, note: 'Choppin power also multiplies below' }),
         flat('Wisdom', Math.pow((wisdom + 2) * (1 + deforesting / 100) * (1 + skillWiz / 100), 0.6)),
-        flat('Stamp', getStampsBonusByStat(account, 'BaseChopEff', character)),
+        getStampNode(account, { stat: 'BaseChopEff' }, getStampsBonusByStat(account, 'BaseChopEff', character), character, 'flat'),
         getAllBaseSkillEffBreakdown(character, account, characters, playerInfo)
       ]),
       productGroup(names.bonuses, [
@@ -447,26 +448,29 @@ const getFishingEffParts = (character: any, characters: any, account: any, playe
   const power = evaluateBreakdownNode(sumGroup(names.power, powerLines));
   const strength = character?.stats?.strength;
   const skillStrengthen = getTalentBonus(talents, 'SKILL_STRENGTHEN');
-  const strengthScaling = skillStrengthen
-    + 10 * isMasteryBonusUnlocked(account?.rift, account?.totalSkillsLevels?.fishing?.rank, 1)
-    + getVoteBonus(account, 8)
-    + getArmorSetBonus(account, 'PLATINUM_SET')
-    + 15 * getBribeBonus(account?.bribes, 'Fishermaster')
-    + getStampsBonusByStat(account, 'FishEffPerLv', character) * level;
+  // game: 1 + (STR / 100)^0.35 * (1 + sum / 100), split into each source's share of the multiplier
+  const strengthPower = Math.pow(strength / 100, 0.35);
+  const strengthShare = (name: string, bonus: number) => percent(name, strengthPower * bonus);
   const { value: gear } = getStatsFromGear(character, 19, account);
 
   const tree = [
     sumGroup(names.base, [
       sumGroup(names.power, powerLines, { power: 1.3, note: 'Fishing power also multiplies below' }),
       flat('Strength', Math.pow(strength, 0.6) * (1 + skillStrengthen / 100)),
-      flat('Stamp', getStampsBonusByStat(account, 'BaseFishEff', character)),
+      getStampNode(account, { stat: 'BaseFishEff' }, getStampsBonusByStat(account, 'BaseFishEff', character), character, 'flat'),
       getAllBaseSkillEffBreakdown(character, account, characters, playerInfo)
     ]),
     productGroup(names.bonuses, [
       multiplier('Fishing level', 1 + level / 200),
-      multiplier('Strength', 1 + Math.pow(strength / 100, 0.35) * (1 + strengthScaling / 100), {
-        note: 'Scaled by Skill Strengthen, skill mastery, vote, Platinum set, Fishermaster bribe and the per-level stamp'
-      }),
+      additiveGroup('Strength', [
+        percent('Strength', 100 * strengthPower),
+        strengthShare('Skill Strengthen talent', skillStrengthen),
+        strengthShare('Skill mastery', 10 * isMasteryBonusUnlocked(account?.rift, account?.totalSkillsLevels?.fishing?.rank, 1)),
+        strengthShare('Vote', getVoteBonus(account, 8)),
+        strengthShare('Platinum set', getArmorSetBonus(account, 'PLATINUM_SET')),
+        strengthShare('Fishermaster bribe', 15 * getBribeBonus(account?.bribes, 'Fishermaster')),
+        strengthShare(getStampLineName(account, { stat: 'FishEffPerLv' }), getStampsBonusByStat(account, 'FishEffPerLv', character) * level)
+      ]),
       multiplier('Fishing power', 1 + power / 100),
       multiplier('Golden food', getGoldenFoodMultiplier('Golden_Ribs', character, account, characters)),
       multiplier('Brute Efficiency talent', 1 + getTalentBonus(talents, 'BRUTE_EFFICIENCY') / 100),
@@ -515,7 +519,7 @@ const getCatchingEffParts = (character: any, characters: any, account: any, play
     sumGroup(names.base, [
       sumGroup(names.power, powerLines, { power: 1.3, note: 'Catching power also multiplies below' }),
       flat('Agility', Math.pow(agility, 0.6) * (1 + ambidexterity / 100)),
-      flat('Stamp', getStampsBonusByStat(account, 'BaseCatchEff', character)),
+      getStampNode(account, { stat: 'BaseCatchEff' }, getStampsBonusByStat(account, 'BaseCatchEff', character), character, 'flat'),
       getAllBaseSkillEffBreakdown(character, account, characters, playerInfo)
     ]),
     productGroup(names.bonuses, [
@@ -574,7 +578,7 @@ const getTrappingEffParts = (character: any, characters: any, account: any, play
         sumGroup('Base trapping power', [
           sumGroup(names.power, powerLines, { power: 1.3 }),
           flat('Agility', Math.pow(character?.stats?.agility + 1, 0.6) * (1 + getTalentBonus(talents, 'SKILL_AMBIDEXTERITY') / 100)),
-          flat('Stamp', getStampsBonusByStat(account, 'TrappingEff', character)),
+          getStampNode(account, { stat: 'TrappingEff' }, getStampsBonusByStat(account, 'TrappingEff', character), character, 'flat'),
           getAllBaseSkillEffBreakdown(character, account, characters, playerInfo)
         ]),
         multiplier('Trapping level', 1 + level / 100),
@@ -624,7 +628,7 @@ const getWorshipEffParts = (character: any, characters: any, account: any, playe
       sumGroup(names.base, [
         sumGroup(names.power, powerLines, { power: 1.3 }),
         flat('Wisdom', Math.pow(character?.stats?.wisdom + 1, 0.6) * (1 + getTalentBonus(talents, 'SKILL_WIZ') / 100)),
-        flat('Stamp', getStampsBonusByStat(account, 'WorshipEff', character)),
+        getStampNode(account, { stat: 'WorshipEff' }, getStampsBonusByStat(account, 'WorshipEff', character), character, 'flat'),
         getAllBaseSkillEffBreakdown(character, account, characters, playerInfo)
       ]),
       productGroup(names.bonuses, [

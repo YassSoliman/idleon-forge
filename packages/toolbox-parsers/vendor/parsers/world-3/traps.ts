@@ -1,16 +1,16 @@
-// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1.
+// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 899b5a0dc7456c686e94e58ea410195744c9f82a.
 // Copyright (C) Morta1 and IdleOn Toolbox contributors. GPL-3.0-only; see vendor/LICENSE.
 // Copied unmodified by IdleOn Forge's scripts/sync.sh; UI-coupled imports are redirected to shims/ at build time.
 import { items, traps as trapsInfo, trappingInfo } from '@website-data';
 import { getBubbleBonus, getVialsBonusByStat } from '@parsers/world-2/alchemy';
-import { getStampsBonusByStat } from '@parsers/world-1/stamps';
+import { getStampNode, getStampsBonusByStat } from '@parsers/world-1/stamps';
 import { getCardBonusByEffect } from '@parsers/cards';
 import { getArcadeBonus } from '@parsers/world-2/arcade';
 import { getPrayerBonusAndCurse } from '@parsers/world-3/prayers';
 import { getMeritocracyBonus } from '@parsers/world-2/voteBallot';
 import { getTrappingStuff } from '@parsers/character';
 import { getFoodBonus, getSkillCardBonus } from '@parsers/misc';
-import { cleanUnderscore, notateNumber } from '@utility/helpers';
+import { cleanUnderscore, gameFill } from '@utility/helpers';
 import { checkCharClass, CLASSES, getCharacterByHighestTalent, getTalentBonus, unownedTalentBonus } from '@parsers/talents';
 import { getCompassBonus } from '@parsers/class-specific/compass';
 import { getAtomBonus } from '@parsers/world-3/atomCollider';
@@ -18,16 +18,19 @@ import { getArmorSetBonus } from '@parsers/world-3/armorSmithy';
 import { getPaletteBonus } from '@parsers/world-5/gaming';
 import { getMenagerieBoost } from '@parsers/world-7/menagerie';
 import { NUMBERED_GROUP, additiveGroup, createBreakdown, info, listGroup, multiplier, percent, productGroup, sumGroup } from '@parsers/breakdown';
+import { OPT } from '@parsers/accountOptions';
 
-export const getTraps = (rawCharactersData: any) => {
-  return parseTraps(rawCharactersData);
+export const getTraps = (rawCharactersData: any, timeAway?: any) => {
+  return parseTraps(rawCharactersData, timeAway);
 }
 
-const parseTraps = (rawCharactersData: any) => {
+const parseTraps = (rawCharactersData: any, timeAway?: any) => {
+  // A trap's elapsed time is the save's, so its end is anchored on the save's clock
+  const saveTime = Number.isFinite(timeAway?.GlobalTime) ? timeAway.GlobalTime * 1000 : new Date().getTime();
   return rawCharactersData.map((char: any) => {
     const traps = char?.PldTraps || [];
     return traps.reduce((res: any, critterInfo: any) => {
-      const [critterId, , timeElapsed, critterName, crittersQuantity, trapType, trapTime, trapExp] = critterInfo;
+      const [critterId, , timeElapsed, critterName, crittersQuantity, trapType, trapTime, trapExp, rareChance] = critterInfo;
       if (critterId === -1 || critterId === '-1') return res;
       // trapType is the trap type index (0 Cardboard ... 6 Royal): it picks the row of trapsInfo
       const trapData = trapsInfo[trapType].find((trap) => trap.trapTime === trapTime)
@@ -38,7 +41,9 @@ const parseTraps = (rawCharactersData: any) => {
         crittersQuantity,
         trapType,
         trapExp,
-        timeLeft: new Date().getTime() + (timeLeft * 1000),
+        // The placer's shiny chance, saved when the trap went down ("TotalRareChance")
+        rareChance: Number(rareChance) || 0,
+        timeLeft: saveTime + (timeLeft * 1000),
         trapData
       }] : res;
     }, []);
@@ -51,8 +56,9 @@ export const calcTotalCritters = (account: any, { critter, exp }: any) => {
       res = {
         ...res,
         [rawName]: {
-          critters: (res?.[rawName]?.critters ?? 0) + (crittersQuantity * critter || 1),
-          exp: (res?.[rawName]?.exp ?? 0) + (trapExp * exp || 1)
+          // An EXP trap holds 0 critters: it must add 0, not 1
+          critters: (res?.[rawName]?.critters ?? 0) + (crittersQuantity ?? 0) * (critter ?? 1),
+          exp: (res?.[rawName]?.exp ?? 0) + (trapExp ?? 0) * (exp ?? 1)
         }
       }
     }, {});
@@ -128,7 +134,7 @@ const calcCrittersBonusInfo = ({ currentCharacterIndex, account, characters, isE
     : {
       vials: getVialsBonusByStat(account?.alchemy?.vials, 'TrapOvision'),
       compass: getCompassBonus(account, 42),
-      atom: getAtomBonus(account, 'Magnesium_-_Trap_Compounder') * account?.accountOptions?.[363],
+      atom: getAtomBonus(account, 'Magnesium_-_Trap_Compounder') * account?.accountOptions?.[OPT.trapCompounderDays],
       dementiaSet: getArmorSetBonus(account, 'DEMENTIA_SET'),
       palette: getPaletteBonus(account, 12)
     };
@@ -167,6 +173,8 @@ export interface ShinyChanceCritter {
 
 export interface ShinyChance {
   multiplier: number;
+  // The collector's open-time factor: a placed trap's saved chance times this is its real chance
+  openMulti: number;
   bundleSize: number;
   critters: ShinyChanceCritter[];
 }
@@ -245,18 +253,38 @@ export const getShinyChance = (character: any, account: any): ShinyChance & { so
     // The game floors the placement snapshot at 0.001 before the open-time bonuses touch it.
     chance: Math.max(0.001, shinyChance * placementMulti) * onOpenMulti / prayerDivider
   })) ?? [];
-  return { multiplier, bundleSize, critters, sources };
+  return { multiplier, openMulti: onOpenMulti / prayerDivider, bundleSize, critters, sources };
 }
+
+// game: on open each trap rolls its saved chance x the collector's open-time factor once, whatever its
+// critter quantity (EXP traps roll too), and a hit drops "<critter>A" x the per-drop amount; the critter
+// collect rate never touches shinies. A trap gives all of a drop or nothing, so only traps at 100% are a count.
+export const getTrapShinyChance = (slot: any, { openMulti = 1 }: any = {}) =>
+  Math.min(100, (slot?.rareChance ?? 0) * openMulti);
+
+// By shiny critter ("Critter3A"): the shinies the traps at 100% are sure to give, and the chances of the rest
+export const sumTrapShinies = (trapSlots: any[] = [], shiny?: any) => trapSlots.reduce((res: any, slot: any) => {
+  if (!slot?.rawName) return res;
+  const chance = getTrapShinyChance(slot, shiny);
+  const key = `${slot.rawName}A`;
+  const entry = res?.[key] ?? { sureTraps: 0, sureShinies: 0, chances: [] };
+  return {
+    ...res,
+    [key]: chance >= 100
+      ? { ...entry, sureTraps: entry.sureTraps + 1, sureShinies: entry.sureShinies + (shiny?.bundleSize ?? 1) }
+      : { ...entry, chances: [...entry.chances, chance] }
+  };
+}, {});
 
 // The game rolls the chance against 100 * random(), so anything at or above 100 is a guaranteed
 // shiny and the surplus buys nothing on that critter.
-const formatChance = (value: number) => {
+export const formatShinyChance = (value: number) => {
   if (value >= 100) return '100%';
-  if (value >= 1) return `${notateNumber(value, 'Big')}%`;
+  if (value >= 1) return `${gameFill(value, 'Big')}%`;
   return `${parseFloat(value.toPrecision(3))}%`;
 }
 
-const formatMulti = (value: number) => `x${notateNumber(value, 'MultiplierInfo')}`;
+const formatMulti = (value: number) => `x${gameFill(value, 'MultiplierInfo')}`;
 
 // The shiny chance is per character - the talent, its trapping-level repeat, the equipped boost
 // food and the Shiny Snitch prayer are all character-bound - so the caller picks whose to show,
@@ -273,13 +301,13 @@ export const getShinyChanceInfo = (account: any, characters: any, selectedCharac
     ? perCharacter.find(({ name }: any) => name === selectedCharacter?.name) ?? getShinyChance(selectedCharacter, account)
     : best)
     ?? getShinyChance(null, account);
-  const { multiplier: shinyMulti, bundleSize, critters, sources } = selected;
+  const { multiplier: shinyMulti, openMulti, bundleSize, critters, sources } = selected;
 
   // The two list groups are reference values, not factors of the total
   const breakdown = createBreakdown('Shiny Critter Chance', formatMulti(shinyMulti), [
     productGroup('On placement', [
       additiveGroup(NUMBERED_GROUP, [
-        percent('Stamps', sources?.stampBonus),
+        getStampNode(account, { stat: 'ShinyChance' }, sources?.stampBonus, characters?.find(({ name }: any) => name === selected?.name) ?? selectedCharacter),
         percent(`Task - Come 'ere Critters!`, sources?.taskBonus)
       ]),
       multiplier('Bubble - Cuz I Catch Em All', sources?.bubbleMulti),
@@ -297,11 +325,17 @@ export const getShinyChanceInfo = (account: any, characters: any, selectedCharac
       ]),
       multiplier('Prayer - Shiny Snitch', 1 / sources?.prayerDivider, { formatted: `/${sources?.prayerDivider}` })
     ]),
-    listGroup('Chance by critter (x1 trap)', critters?.map(({ name, chance }: any) =>
-      info(cleanUnderscore(name) as string, chance, { formatted: formatChance(chance) })) ?? []),
+    // game: round((1 + prayersReal(3, 0)) * RareBonusOnOpenMULTI)
+    listGroup(`Shinies per drop: ${bundleSize}`, [
+      info('Prayer - Shiny Snitch', 1 + (sources?.shinySnitchBonus ?? 0), { formatted: formatMulti(1 + (sources?.shinySnitchBonus ?? 0)) }),
+      info('Meritocracy', sources?.meritocracyBonus ?? 0, { formatted: `+${gameFill(sources?.meritocracyBonus ?? 0, 'Big')}%` }),
+      info('Menagerie', sources?.menagerieBundleBonus ?? 0, { formatted: `+${gameFill(sources?.menagerieBundleBonus ?? 0, 'Big')}%` })
+    ]),
+    listGroup('Chance by critter (trap placed by this character)', critters?.map(({ name, chance }: any) =>
+      info(cleanUnderscore(name) as string, chance, { formatted: formatShinyChance(chance) })) ?? []),
     listGroup('By character', perCharacter?.map(({ name, multiplier: charMulti }: any) =>
       info(name, charMulti, { formatted: formatMulti(charMulti) })) ?? [])
   ]);
 
-  return { multiplier: shinyMulti, bundleSize, critters, perCharacter, breakdown };
+  return { multiplier: shinyMulti, openMulti, bundleSize, critters, perCharacter, breakdown };
 }

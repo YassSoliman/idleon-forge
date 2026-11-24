@@ -1,7 +1,7 @@
-// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1.
+// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 899b5a0dc7456c686e94e58ea410195744c9f82a.
 // Copyright (C) Morta1 and IdleOn Toolbox contributors. GPL-3.0-only; see vendor/LICENSE.
 // Copied unmodified by IdleOn Forge's scripts/sync.sh; UI-coupled imports are redirected to shims/ at build time.
-import { growth, tryToParse } from '@utility/helpers';
+import { gameFill, growth, tryToParse } from '@utility/helpers';
 import { chips, classes, jewels, labBonuses, merits, randomList, talents } from '@website-data';
 import { liveEntries } from '@parsers/catalog';
 import { getMealsBonusByEffectOrStat } from '@parsers/world-4/cooking';
@@ -13,9 +13,10 @@ import { getEquinoxBonus } from '@parsers/world-3/equinox';
 import { getWinnerBonus } from '@parsers/world-6/summoning';
 import { calculateItemTotalAmount, getStatsFromGear } from '@parsers/items';
 import { efficiencyGroupNames, getAllBaseSkillEffBreakdown, getAllEffBreakdown } from '@parsers/efficiency';
-import { NUMBERED_GROUP, additiveGroup, evaluateBreakdownNode, flat, multiplier, percent, productGroup, sumGroup } from '@parsers/breakdown';
+import { NUMBERED_GROUP, additiveGroup, createBreakdown, evaluateBreakdownNode, flat, multiplier, percent, productGroup, sumGroup } from '@parsers/breakdown';
 import { getPostOfficeBonus } from '@parsers/world-3/postoffice';
 import { GOD_INDEX, isMajorDivinityActive } from '@parsers/world-5/divinity';
+import { OPT } from '@parsers/accountOptions';
 
 // Game: MainframeBonus(n) adds MainframeBonus(100 + jewel) to these connected bonuses
 // (Animal Farm, No Bubble Left Behind, Fungi Finger, Banking Fury, Slab Sovereignty, Depot Studies)
@@ -36,14 +37,14 @@ const parseLab = (labRaw: any, charactersData: any, account: any, updatedCharact
       playersCords: [],
       playersChips: [],
       connectedPlayers: [],
-      jewels: liveEntries<any>(jewels as any[]).map(({ entry }) => ({ ...entry, acquired: false, active: false })),
+      jewels: liveEntries<any>(jewels as any[]).map(({ entry, index }) => ({ ...entry, acquired: false, active: false, rawName: `ConsoleJwl${index}` })),
       chips: liveEntries<any>(chips as any[]).map(({ entry }) => ({ ...entry, repoAmount: 0, amount: 0, totalAmount: 0 })),
       labBonuses: liveEntries<any>(labBonuses as any[]).map(({ entry }) => ({ ...entry, active: false })),
       totalRawChips: 0,
       currentRotation: []
     };
   }
-  const arenaWave = account?.accountOptions?.[89];
+  const arenaWave = account?.accountOptions?.[OPT.highestArenaWave];
   const waveReqs = randomList?.[53];
   const [cords] = labRaw;
   const chipRepo = labRaw[15];
@@ -214,7 +215,7 @@ const parseLab = (labRaw: any, charactersData: any, account: any, updatedCharact
       bonusOn: updatedBonus,
       jewelBoost,
       description: MULTIPLIER_TEXT_LAB_BONUSES.includes(index)
-        ? bonus?.description?.replace(baseMulti, (1 + updatedBonus / 100).toFixed(2))
+        ? bonus?.description?.replace(baseMulti, gameFill(1 + updatedBonus / 100, 'MultiplierInfo'))
         : bonus?.description
     };
   })
@@ -239,6 +240,7 @@ const parseLab = (labRaw: any, charactersData: any, account: any, updatedCharact
     return {
       ...player,
       lineWidth: (p as any)?.lineWidth || (player as any)?.lineWidth || 0,
+      lineWidthBreakdown: (p as any)?.lineWidthBreakdown,
       soupedUp: index < soupedUpSlots
     }
   })
@@ -304,7 +306,7 @@ export const calcPlayerLineWidth = (playersInTubes: any, labBonuses: any, jewels
   return playersInTubes?.map((character: any) => {
     const petArenaBonus = isArenaBonusActive(arenaWave, waveReqs, 13) ? 1 : 0;
     const realCharacter = charactersData?.find(({ name }: any) => name === character?.name);
-    const lineWidth = getPlayerLineWidth(character,
+    const { value: lineWidth, breakdown: lineWidthBreakdown } = getPlayerLineWidth(character,
       realCharacter?.Lv0?.[12], // lab skill
       soupedTubePlayerIds?.includes(realCharacter?.playerId),
       labBonuses,
@@ -316,20 +318,16 @@ export const calcPlayerLineWidth = (playersInTubes: any, labBonuses: any, jewels
       buboPlayer,
       updatedCharactersData
     );
-    return { ...character, lineWidth };
+    return { ...character, lineWidth, lineWidthBreakdown };
   })
 }
 
 export const getPlayerLineWidth = (playerCords: any, labLevel: any, soupedTube: any, labBonuses: any, jewels: any, chips: any, account: any, cards: any, petArenaBonus: any, buboPlayer: any, updatedCharactersData: any) => {
   const spelunkerObolMulti = getLabBonus(labBonuses, 8);
   const labSkillLevel = labLevel ?? 0;
-  let baseLineWidth = 50 + 2 * labSkillLevel;
   const { acquired, x, y } = jewels[5];
-  if (acquired) {
-    if (getDistance(x, y, playerCords.x, playerCords.y) < 150) {
-      baseLineWidth *= 1.25;
-    }
-  }
+  const sapphireMulti = acquired && getDistance(x, y, playerCords.x, playerCords.y) < 150 ? 1.25 : 1;
+  const baseLineWidth = (50 + 2 * labSkillLevel) * sapphireMulti;
   const bonusLineWidth = soupedTube ? 30 : 0;
   const conductiveMotherboardBonus = chips?.reduce((res: any, chip: any) => chip.index === 6 ? res + chip.baseVal : res, 0);
   const blackDiamondRhinstone = getJewelBonus(jewels, 16, spelunkerObolMulti);
@@ -350,8 +348,28 @@ export const getPlayerLineWidth = (playerCords: any, labLevel: any, soupedTube: 
       purpleTubeBonus = growth(purpleTubeData?.funcX, purpleTubeLevel, purpleTubeData?.x1, purpleTubeData?.x2, false) ?? 0;
     }
   }
-  return Math.floor((baseLineWidth + mealPxBonus + Math.min(lineWidthCards, 50)) *
+  const value = Math.floor((baseLineWidth + mealPxBonus + Math.min(lineWidthCards, 50)) *
     (1 + ((purpleTubeBonus + mealLinePctBonus) + ((conductiveMotherboardBonus) + (20 * petArenaBonus) + shinyLabBonus + bonusLineWidth)) / 100));
+  // The same terms as the drawer shows them: the px first (the Sapphire Rhombol jewel scales only the base), then the %
+  const breakdown = createBreakdown('Range', value, [productGroup('Range', [
+    sumGroup('Px', [
+      productGroup('Base', [
+        sumGroup(NUMBERED_GROUP, [flat('Base', 50), flat('Lab level (2 each)', 2 * labSkillLevel)]),
+        multiplier('Sapphire Rhombol (Jewel, within 150px)', sapphireMulti)
+      ], { unit: 'flat' }),
+      flat('Meals', mealPxBonus),
+      flat('Cards (at most 50)', Math.min(lineWidthCards, 50))
+    ], { unit: 'flat' }),
+    additiveGroup('Range bonuses', [
+      percent('Purple Tube (Talent)', purpleTubeBonus),
+      percent('Meals', mealLinePctBonus),
+      percent('Conductive Motherboard (Chip)', conductiveMotherboardBonus),
+      percent('Pet arena', 20 * petArenaBonus),
+      percent('Shiny pets', shinyLabBonus),
+      percent('Souped up tube', bonusLineWidth)
+    ])
+  ], { round: 'floor', unit: 'flat' })]);
+  return { value, breakdown };
 }
 
 const getPrismPlayerConnection = (playersInTubes: any) => {
