@@ -1,14 +1,16 @@
-// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1.
+// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 899b5a0dc7456c686e94e58ea410195744c9f82a.
 // Copyright (C) Morta1 and IdleOn Toolbox contributors. GPL-3.0-only; see vendor/LICENSE.
 // Copied unmodified by IdleOn Forge's scripts/sync.sh; UI-coupled imports are redirected to shims/ at build time.
-import { holeFountUpg } from '@website-data';
-import { commaNotation, lavaLog, notateNumber } from '@utility/helpers';
+import { holeFountUpg, holesInfo } from '@website-data';
+import { gameFill, lavaLog } from '@utility/helpers';
 import { getArcadeBonus } from '@parsers/world-2/arcade';
 import { getCglunkoBonus } from '@parsers/world-5/caverns/crystal-glunko-cove';
 import { getSchematicBonus } from '@parsers/world-5/caverns/the-well';
 import { getLampBonus } from '@parsers/world-5/caverns/the-lamp';
 import { getBellBonus } from '@parsers/world-5/caverns/the-bell';
 import { getCosmoBonus, getMeasurementBonus, getStudyBonus } from '@parsers/world-5/hole';
+import { OPT } from '@parsers/accountOptions';
+import { type BreakdownNode, createBreakdown, flat, multiplier, softcapLine } from '@parsers/breakdown';
 
 // Each tier represents a water color. The first upgrade in each tier ("X_Water") is the gate
 // that unlocks the NEXT color: tier 0/0 ("Yellow_Water") unlocks Yellow, tier 1/0 ("Green_Water")
@@ -59,7 +61,7 @@ const timerDisplay = (totalSeconds: number) => {
   return `${h}h_${m}min_${s}s`;
 };
 
-const moneyFmt = (v: number): string => (v < 1e6 ? String(commaNotation(Math.round(v))) : String(notateNumber(v, 'Big')));
+const moneyFmt = (v: number): string => gameFill(v, v < 1e6 ? 'Comma' : 'Big');
 
 // Fountain helper formulas (mirror N.js customBlock_Holes2 handlers)
 const getFountainBarReq = (t: number) => (t === 0 ? 7200 : t === 1 ? 36000 : 90000);
@@ -88,7 +90,7 @@ const getFountRoyalChance = (holesObject: any) => {
 // accountOptions[601] = current duck stack count; each stack makes the next 5x rarer (0.2^n).
 // game: "Fount_DuckChance"
 const getFountDuckChance = (holesObject: any, accountData: any) => {
-  const stacks = accountData?.accountOptions?.[601] ?? 0;
+  const stacks = accountData?.accountOptions?.[OPT.fountainDuckStacks] ?? 0;
   return (1 / 3)
     * (1 + (getFountainBonusTotal(holesObject, 2, 12) + getFountainBonusTotal(holesObject, 2, 10)) / 100)
     * Math.pow(0.2, stacks);
@@ -124,7 +126,7 @@ const getFountLuckyCoinValuePer = (holesObject: any) => 25 + getFountainBonusTot
 
 // game: "Fount_DuckMulti"
 const getFountDuckMulti = (holesObject: any, accountData: any) => {
-  return Math.pow(1 + getFountainBonusTotal(holesObject, 2, 11) / 100, accountData?.accountOptions?.[601] ?? 0);
+  return Math.pow(1 + getFountainBonusTotal(holesObject, 2, 11) / 100, accountData?.accountOptions?.[OPT.fountainDuckStacks] ?? 0);
 };
 
 // Well sediment slot whose POW 10 boosts each water's currencies: Mythril, Sharp Notes, Red Rupies
@@ -164,6 +166,50 @@ const getFountCurrencyAllMulti = (holesObject: any, accountData: any) => {
     * (1 + getBellBonus({ holesObject, t: 6 }) / 100);
 };
 
+// game: "Fount_DesireMulti", the value multi on the desired currency (Holes[11][82])
+const getFountDesireMulti = (holesObject: any) => 1 + getFountainBonusTotal(holesObject, 1, 11) / 100;
+
+// game: "Fount_LuckyCoinValue"
+const getFountLuckyCoinValue = (holesObject: any, currencyType: number) =>
+  1 + (getLuckyCoins(holesObject, currencyType) * getFountLuckyCoinValuePer(holesObject)) / 100;
+
+// game: "Fount_CurrencyTotValue": what one collected coin adds. Green coins (6+) take the square root of desire, base and
+// the total multi together; the desire multi only counts on the desired currency.
+// Holes[30] starts at -1 and only a lucky coin raises it, so until then the game's own lucky-coin factor is below 1
+// (1 - 25% on a fresh account, negative once the per-coin bonus passes 100%), and it adds this value as it is
+const getFountCurrencyTotValue = (holesObject: any, accountData: any, currencyType: number, desiredCurrency: number) => {
+  const desired = currencyType === desiredCurrency;
+  const desireMulti = desired ? getFountDesireMulti(holesObject) : 1;
+  const baseValue = getFountCurrencyBaseValue(holesObject, currencyType);
+  const allMulti = getFountCurrencyAllMulti(holesObject, accountData);
+  const luckyValue = getFountLuckyCoinValue(holesObject, currencyType);
+  const duckMulti = getFountDuckMulti(holesObject, accountData);
+  const core = desireMulti * baseValue * allMulti;
+  const rooted = currencyType >= 6 ? Math.pow(core, 0.5) : core;
+  const value = rooted * luckyValue * duckMulti;
+  const lines: (BreakdownNode | null)[] = [
+    desired ? multiplier('Greatest Desire', desireMulti) : null,
+    flat('Base value', baseValue),
+    multiplier('Total Currency Multi', allMulti),
+    currencyType >= 6 ? softcapLine(rooted, core, 'Green coins get the square root of their value.', 'Green coins') : null,
+    multiplier('Lucky coins', luckyValue),
+    multiplier('Rubber Duckies', duckMulti)
+  ];
+  const breakdown = createBreakdown(`${CURRENCY_NAMES[currencyType]} value per coin`, value,
+    lines.filter((node): node is BreakdownNode => Boolean(node)));
+  return { valuePerCoin: value, desired, valueBreakdown: breakdown };
+};
+
+// game: "CanWeBUY_Marbleize": HolesInfo[76] lists the "water_index" upgrades that can never be marbleized
+const NOT_MARBLEIZABLE: string[] = holesInfo?.[76] ?? [];
+
+// game: "Fount_MarbleizeCost", tier = Holes[32][water][index]
+const getFountMarbleizeCost = (t: number, i: number, tier: number) => {
+  if (t >= 2) return 25e4 * Math.pow(2 * (5 + tier), tier);
+  if (i === 13) return 1500 * Math.pow(10 + 5 * tier, tier);
+  return 500 * Math.pow(5 + tier, tier);
+};
+
 const getSpacesOwned = (holesObject: any) => Math.min(16, 1 + getFountainBonusTotal(holesObject, 0, 10));
 // game: "MaxStackSize"
 const getMaxStackSize = (holesObject: any) => Math.min(50, 3 + getSchematicBonus({ holesObject, t: 97, i: 3 })
@@ -180,8 +226,8 @@ const formatFountainDescription = (
 ): string => {
   let desc = rawDescription;
   // Universal { → bonus value, } → 1 + bonus/100 multiplier
-  desc = desc.replaceAll('{', String(commaNotation(bonus)));
-  desc = desc.replaceAll('}', String(notateNumber(1 + bonus / 100, 'MultiplierInfo')).replace('#', ''));
+  desc = desc.replaceAll('{', gameFill(bonus, 'Comma'));
+  desc = desc.replaceAll('}', gameFill(1 + bonus / 100, 'MultiplierInfo'));
 
   // Yellow Water tier-specific substitutions
   if (t === 0) {
@@ -191,7 +237,7 @@ const formatFountainDescription = (
     }
     if (i === 2) {
       const allMulti = getFountCurrencyAllMulti(holesObject, accountData);
-      desc = desc.replaceAll('^', `${allMulti > 1e3 ? notateNumber(allMulti, 'Big') : Math.round(100 * allMulti) / 100}x`);
+      desc = desc.replaceAll('^', `${gameFill(allMulti, 'Big')}x`);
     }
     if (i === 8) {
       desc = desc.replaceAll('$', String(Math.round(10000 * getFountCurrencyKeep(holesObject)) / 100));
@@ -231,13 +277,13 @@ const formatFountainDescription = (
       desc = desc.replaceAll('$', moneyFmt(value));
     }
     if (i === 8) {
-      desc = desc.replaceAll('$', String(commaNotation(Math.round(1 / getFountRoyalChance(holesObject)))));
+      desc = desc.replaceAll('$', gameFill(Math.round(1 / getFountRoyalChance(holesObject)), 'Comma', { whole: true }));
     }
     if (i === 9) {
       desc = desc.replaceAll('$', String(Math.round(100 * getFountRoyalMulti(holesObject)) / 100));
     }
     if (i === 10) {
-      desc = desc.replaceAll('$', String(commaNotation(Math.round(getFountMarblePerFill(holesObject)))));
+      desc = desc.replaceAll('$', gameFill(Math.round(getFountMarblePerFill(holesObject)), 'Comma', { whole: true }));
     }
     if (i === 19) {
       const sharpLog = lavaLog(holesObject?.wellSediment?.[16] ?? 0);
@@ -246,38 +292,39 @@ const formatFountainDescription = (
     }
   }
 
-  // Green Water tier-specific substitutions (tier 2 — real content as of 2.3.511)
+  // Green Water tier-specific substitutions (tier 2: real content as of 2.3.511)
   if (t === 2) {
     if (i === 2 || i === 3 || i === 4) {
       const value = getFountCurrencyBaseValue(holesObject, i + 4);
       desc = desc.replaceAll('$', moneyFmt(value));
       // Water 2 currencies only get the square root of the total currency multi
-      desc = desc.replaceAll('^', `${notateNumber(Math.pow(getFountCurrencyAllMulti(holesObject, accountData), 0.5), 'Big')}x`);
+      desc = desc.replaceAll('^', `${gameFill(Math.pow(getFountCurrencyAllMulti(holesObject, accountData), 0.5), 'Big')}x`);
     }
     if (i === 8) {
       const firstLuckyChance = Math.max(0.001, getFountLuckyCoinChance(holesObject, 0))
         / Math.pow(0.25, getLuckyCoins(holesObject, 0));
-      desc = desc.replaceAll('$', String(commaNotation(1 / firstLuckyChance)));
+      desc = desc.replaceAll('$', gameFill(1 / firstLuckyChance, 'Comma', { whole: true }));
     }
     if (i === 9) {
-      desc = desc.replaceAll('$', String(commaNotation(getFountLuckyCoinValuePer(holesObject))));
+      desc = desc.replaceAll('$', gameFill(getFountLuckyCoinValuePer(holesObject), 'Comma'));
     }
     if (i === 11) {
       const duckMulti = getFountDuckMulti(holesObject, accountData);
-      desc = desc.replaceAll('$', duckMulti < 1e3
-        ? String(notateNumber(duckMulti, 'MultiplierInfo')).replace('#', '')
-        : String(commaNotation(duckMulti)));
+      desc = desc.replaceAll('$', gameFill(duckMulti, duckMulti < 1e3 ? 'MultiplierInfo' : 'Comma'));
     }
     if (i === 12) {
-      desc = desc.replaceAll('$', String(commaNotation(1 / getFountDuckChance(holesObject, accountData))));
+      desc = desc.replaceAll('$', gameFill(1 / getFountDuckChance(holesObject, accountData), 'Comma', { whole: true }));
     }
   }
 
-  // Green-tier glyph cleanup: 鉢 is the "Total Currency Multi" label glyph, @ is an in-game line break.
-  desc = desc.replaceAll('鉢', '').replaceAll('@', ' ');
+  // 鉢 is the "Total Currency Multi" label glyph. @ stays: it's the game's line break, which the card draws (gameLines).
+  desc = desc.replaceAll('鉢', '');
 
   return desc;
 };
+
+// The waters by tier, as the Fountain page names them
+export const FOUNTAIN_WATER_NAMES = ['Blue', 'Yellow', 'Green'];
 
 export const getTheFountain = (holesObject: any, accountData: any) => {
   const watersOwned = Math.min(2, Math.min(1, holesObject?.fountainUpgradeLevels?.[0]?.[0] ?? 0)
@@ -314,6 +361,8 @@ export const getTheFountain = (holesObject: any, accountData: any) => {
       const prereqName = u.prereqIndex === -1 ? null : tierUpgrades[u.prereqIndex]?.name ?? null;
       const prereqCurrentLevel = u.prereqIndex === -1 ? 0 : (tierLevels[u.prereqIndex] ?? 0);
       const prereqRequiredLevel = (t === 0 && (i === 14 || i === 2)) ? 1 : 10;
+      // The game draws the Marbleize panel only once Marble_Filling is owned; there is no cap on the tier
+      const marbleizable = getFountainBonusTotal(holesObject, 1, 10) >= 1 && !NOT_MARBLEIZABLE.includes(`${t}_${i}`);
       const unlocks = tierUpgrades
         .map((other, otherIdx) => ({ idx: otherIdx, prereq: Number(other.prereqIndex) }))
         .filter(({ prereq }) => prereq === i)
@@ -333,6 +382,10 @@ export const getTheFountain = (holesObject: any, accountData: any) => {
         maxLevel: null,
         marbleTier,
         marbleMulti,
+        marbleizable,
+        marbleizeCost: getFountMarbleizeCost(t, i, marbleTier),
+        // game: "Fountain_MarbleBonNEXT"
+        marbleMultiNext: 1.5 + 0.5 * (marbleTier + 1),
         bonus,
         bonusPerLevel: u.bonusPerLevel,
         cost,
@@ -347,7 +400,7 @@ export const getTheFountain = (holesObject: any, accountData: any) => {
       opensAll: upgrade.unlocks.length > 0
         && upgrade.unlocks.every((child: number) => upgrade.level >= levelled[child].prereqRequiredLevel)
     }));
-    const dynamicName = t === 0 ? 'Blue' : t === 1 ? 'Yellow' : 'Green';
+    const dynamicName = FOUNTAIN_WATER_NAMES[Math.min(t, FOUNTAIN_WATER_NAMES.length - 1)];
     // A tier is "implemented" only when its upgrades have real positions and named entries.
     // Future-content tiers (e.g. Green water at v2.3.504) ship placeholders like name="Name" and position="X".
     const placeholderCount = tierUpgrades.filter((u) =>
@@ -374,9 +427,18 @@ export const getTheFountain = (holesObject: any, accountData: any) => {
     type,
     name,
     amount: Math.max(0, wellSediment[30 + type] ?? 0),
-    baseValue: getFountCurrencyBaseValue(holesObject, type)
+    baseValue: getFountCurrencyBaseValue(holesObject, type),
+    ...getFountCurrencyTotValue(holesObject, accountData, type, desiredCurrency)
   }));
   const currencyAllMulti = getFountCurrencyAllMulti(holesObject, accountData);
+  // game: Fountain_OpalCost, paid in coin Holes[9][30 + min(9, floor(n / 5))] with n = Holes[7][15]
+  const opalsBought = Number(holesObject?.opalsPerCavern?.[15]) || 0;
+  const opalCurrencyType = Math.min(9, Math.floor(opalsBought / 5));
+  const nextOpal = {
+    cost: 100 * Math.pow(1 + opalsBought, 1.5) * Math.pow(4.8, opalsBought),
+    currencyType: opalCurrencyType,
+    owned: Math.max(0, Number(wellSediment[30 + opalCurrencyType]) || 0)
+  };
 
   // Only show fountain bars that are actually active in-game (FountainBar_DoWeHave logic).
   const activeMulti = getFountainBarActiveSpdMulti(holesObject);
@@ -415,6 +477,7 @@ export const getTheFountain = (holesObject: any, accountData: any) => {
     fountainSpeedBonus,
     currencies,
     currencyAllMulti,
+    nextOpal,
     marblePerFill: getFountMarblePerFill(holesObject),
     fountainBars,
     spacesOwned,

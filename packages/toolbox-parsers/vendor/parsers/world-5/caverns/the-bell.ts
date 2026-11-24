@@ -1,4 +1,4 @@
-// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1.
+// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 899b5a0dc7456c686e94e58ea410195744c9f82a.
 // Copyright (C) Morta1 and IdleOn Toolbox contributors. GPL-3.0-only; see vendor/LICENSE.
 // Copied unmodified by IdleOn Forge's scripts/sync.sh; UI-coupled imports are redirected to shims/ at build time.
 import { holesInfo } from '@website-data';
@@ -24,7 +24,9 @@ export const getTheBell = (holesObject: any, accountData: any) => {
     const exp = holesObject?.bellRelated[2 * index];
     const bonus = getBellBonus({ holesObject, t: index });
     const readyUses = getBellReadyUses(holesObject, index);
-    return { name, expRate, description: bellsDescriptions?.[index], bonus, expReq, exp, readyUses };
+    // Only the selected bell (Holes[11][19]) gains exp on the game's tick
+    const selected = Number(holesObject?.extraCalculations?.[19]) === index;
+    return { name, expRate, description: bellsDescriptions?.[index], bonus, expReq, exp, readyUses, selected };
   })
   const improvementMethods = holesInfo[60].map((description: any, index: any) => {
     const level = holesObject?.bellImprovementMethods?.[index];

@@ -1,11 +1,11 @@
-// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1.
+// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 899b5a0dc7456c686e94e58ea410195744c9f82a.
 // Copyright (C) Morta1 and IdleOn Toolbox contributors. GPL-3.0-only; see vendor/LICENSE.
 // Copied unmodified by IdleOn Forge's scripts/sync.sh; UI-coupled imports are redirected to shims/ at build time.
 import { atomsInfo, cookingMenu, monsters, randomList, randomList2, bonuses, spiceNames, gameTables } from '@website-data';
 import { liveEntries } from '@parsers/catalog';
-import { getStampsBonusByEffect, getStampsBonusByStat } from '@parsers/world-1/stamps';
+import { getStampNode, getStampsBonusByEffect, getStampsBonusByStat } from '@parsers/world-1/stamps';
 import { getStatsFromGear } from '@parsers/items';
-import { cleanUnderscore, commaNotation, growth, lavaLog, notateNumber, tryToParse } from '@utility/helpers';
+import { cleanUnderscore, gameFill, growth, lavaLog, notateNumber, tryToParse } from '@utility/helpers';
 import { getPostOfficeBonus } from '@parsers/world-3/postoffice';
 import { getSaltLickBonus } from '@parsers/world-3/saltLick';
 import { getJewelBonus, getLabBonus } from '@parsers/world-4/lab';
@@ -21,7 +21,7 @@ import { getPetArenaCrucBonus, getShinyBonus } from '@parsers/world-4/breeding';
 import { getMenagerieBoost, isMenagerieUnlockOwned } from '@parsers/world-7/menagerie';
 import { getClamWorkBonus } from '@parsers/world-7/clamWork';
 import { isSuperbitUnlocked } from '@parsers/world-5/gaming';
-import { getTalentBonus, getVoidWalkerTalentEnhancements, getBestActiveCharacter, getHighestTalentAcrossCharacters, getOwnOrHighestTalent, checkCharClass, CLASSES } from '@parsers/talents';
+import { getTalentBonus, getVoidWalkerTalentEnhancements, getBestActiveCharacter, getHighestTalentAcrossCharacters, getOwnOrHighestTalent, checkCharClass, CLASSES, getApocalypseCount } from '@parsers/talents';
 import { EQUINOX_CLOUD, getCloudBonus, getEquinoxBonus } from '@parsers/world-3/equinox';
 import LavaRand from '@utility/lavaRand';
 import { allProwess, efficiencyGroupNames, getAllBaseSkillEffBreakdown, getAllEffBreakdown } from '@parsers/efficiency';
@@ -55,15 +55,19 @@ import { getGrimoireBonus } from '@parsers/class-specific/grimoire';
 import { getArmorSetBonus } from '@parsers/world-3/armorSmithy';
 import { getObolsBonus } from '@parsers/obols';
 import { getButtonBonus } from '@parsers/world-7/button';
+import { OPT } from '@parsers/accountOptions';
+import { saveField } from '@parsers/saveField';
 
 export const spicesNames = spiceNames;
 
 export const getCooking = (idleonData: any, account: any, characters?: any) => {
-  const cookingRaw = tryToParse(idleonData?.Cooking) || idleonData?.Cooking;
+  const cookingRaw = saveField(idleonData, 'Cooking') || idleonData?.Cooking;
   const mealsRaw = tryToParse(idleonData?.Meals) || idleonData?.Meals;
-  const territoryRaw = tryToParse(idleonData?.Territory) || idleonData?.Territory;
+  const territoryRaw = saveField(idleonData, 'Territory') || idleonData?.Territory;
   const cookMasterRaw = tryToParse(idleonData?.CookMaster) || idleonData?.CookMaster;
-  return parseCooking(mealsRaw, territoryRaw, cookingRaw, account, cookMasterRaw, characters);
+  // The save's kitchens and atoms, for parseKitchens from the picked character's side (the Kitchens tab)
+  const atomsRaw = saveField(idleonData, 'Atoms') || idleonData?.Atoms;
+  return { ...parseCooking(mealsRaw, territoryRaw, cookingRaw, account, cookMasterRaw, characters), rawKitchens: cookingRaw, rawAtoms: atomsRaw };
 }
 
 const parseCooking = (mealsRaw: any, territoryRaw: any, cookingRaw: any, account: any, cookMasterRaw?: any, characters?: any) => {
@@ -100,14 +104,15 @@ const getSpices = (mealsRaw: any, territoryRaw: any, account: any) => {
     ]
   }, []);
 
-  const available = mealsRaw?.[3]?.filter((spiceAmount: any) => spiceAmount > 0).map((amount: any, index: any) => ({
+  // Map before filtering: a spent spice (0) mid-array must not shift later spices' indices
+  const available = mealsRaw?.[3]?.map((amount: any, index: any) => ({
     amount,
     toClaim: toClaim?.[index]?.amount,
     rawName: `CookingSpice${index}`,
     name: spicesNames[index]
-  }));
+  })).filter(({ amount }: any) => amount > 0);
 
-  const numberOfClaims = account?.accountOptions?.[100];
+  const numberOfClaims = account?.accountOptions?.[OPT.dailySpiceClaims];
   return {
     toClaim,
     available,
@@ -146,7 +151,7 @@ export const applyMealsMulti = (meals: any, multiplier: any) => {
 // game: SkillStats("CookingEfficiency"): base efficiency * every multiplier
 export const getCookingEffParts = (character: any, characters: any, account: any, playerInfo: any) => {
   const talents = character?.flatTalents;
-  const chows = character?.chow?.finished?.[0] ?? 1;
+  const chows = getApocalypseCount(character, 'chow');
   const { value: multiplierGear } = getStatsFromGear(character, 67, account);
   const { value: baseGear } = getStatsFromGear(character, 62, account);
   const names = efficiencyGroupNames('cooking');
@@ -154,7 +159,7 @@ export const getCookingEffParts = (character: any, characters: any, account: any
     sumGroup(names.base, [
       flat('Base', 250, { note: 'Every character starts at 250' }),
       flat('Strength', Math.pow(character?.stats?.strength, .6) * (1 + getTalentBonus(talents, 'SKILL_STRENGTHEN') / 100)),
-      flat('Stamp', getStampsBonusByStat(account, 'CookingEff', character)),
+      getStampNode(account, { stat: 'CookingEff' }, getStampsBonusByStat(account, 'CookingEff', character), character, 'flat'),
       flat('Gear', baseGear),
       flat('Obols', getObolsBonus(character?.obols, bonuses?.etcBonuses?.[62])),
       // game: RiftStuff("RiftSkillBonus,9", 1) - the efficiency bonus, not the EXP one
@@ -240,7 +245,7 @@ export const getMealBonus = (account: any, meal: any, level: number = meal?.leve
 }
 
 // Same notation the meal cards print the bonus with
-export const formatMealBonus = (value: number) => value < 1e7 ? commaNotation(value) : notateNumber(value, 'Big');
+export const formatMealBonus = (value: number) => gameFill(value, value < 1e7 ? 'Comma' : 'Big');
 
 
 // game: "RibbonBonus"
@@ -281,7 +286,7 @@ export interface CookingMasteryCategory {
 const COOKING_MASTERY_CATEGORY_INFO: { label: string; desc: (category: CookingMasteryCategory) => string }[] = [
   {
     label: 'EXP boost via Ladle',
-    desc: (c) => `+${Math.round(c.mult)}% Cooking Mastery EXP per POW 10 Ladles you've ever used, currently ${notateNumber(c.sourceValue, 'Big')} ladles used.`
+    desc: (c) => `+${Math.round(c.mult)}% Cooking Mastery EXP per POW 10 Ladles you've ever used, currently ${gameFill(c.sourceValue, 'Big', { whole: true })} ladles used.`
   },
   {
     label: 'EXP boost via account Cooking LV',
@@ -293,15 +298,15 @@ const COOKING_MASTERY_CATEGORY_INFO: { label: string; desc: (category: CookingMa
   },
   {
     label: 'Boosts daily Ribbon gains',
-    desc: (c) => `+${notateNumber(c.bonusAmount, 'Small')}% chance daily ribbons are +1 rank higher than they otherwise would've been.`
+    desc: (c) => `+${gameFill(c.bonusAmount, 'Small')}% chance daily ribbons are +1 rank higher than they otherwise would've been.`
   },
   {
     label: 'EXP boost via total Ribbon Ranks',
-    desc: (c) => `+${Math.round(c.mult)}% Cooking Mastery EXP per total Rank of all your Ribbons across all meals, currently ${notateNumber(c.sourceValue, 'Big')}.`
+    desc: (c) => `+${Math.round(c.mult)}% Cooking Mastery EXP per total Rank of all your Ribbons across all meals, currently ${gameFill(c.sourceValue, 'Big', { whole: true })}.`
   },
   {
     label: 'EXP boost via Mastery Rank',
-    desc: (c) => `+${Math.round(c.mult)}% Cooking Mastery EXP per Cooking Mastery Rank you are, currently Rank ${notateNumber(c.sourceValue, 'Big')}.`
+    desc: (c) => `+${Math.round(c.mult)}% Cooking Mastery EXP per Cooking Mastery Rank you are, currently Rank ${gameFill(c.sourceValue, 'Big', { whole: true })}.`
   }
 ];
 
@@ -723,14 +728,14 @@ const getRibbonCountTree = (inputs: DailyRibbonInputs, expectedCount: number) =>
 };
 
 export const getKitchens = (idleonData: any, characters: any, account: any) => {
-  const cookingRaw = tryToParse(idleonData?.Cooking) || idleonData?.Cooking;
-  const atomsRaw = tryToParse(idleonData?.Atoms) || idleonData?.Atoms;
+  const cookingRaw = saveField(idleonData, 'Cooking') || idleonData?.Cooking;
+  const atomsRaw = saveField(idleonData, 'Atoms') || idleonData?.Atoms;
   return parseKitchens(cookingRaw, atomsRaw, characters, account);
 }
 
 export const parseKitchens = (cookingRaw: any, atomsRaw: any, characters: any, account?: any, options?: any) => {
   const { characterIndex, enableNanoChip } = options || {};
-  const arenaWave = account?.accountOptions?.[89];
+  const arenaWave = account?.accountOptions?.[OPT.highestArenaWave];
   const waveReqs = randomList?.[53];
   const globalKitchenUpgrades = cookingRaw?.reduce((sum: any, table: any) => {
     const [speedLv, fireLv, luckLv] = table.slice(6, 9);
@@ -872,7 +877,7 @@ export const parseKitchens = (cookingRaw: any, atomsRaw: any, characters: any, a
         multiplier('Turtle Vial', 1 + turtleVial / 100),
         multiplier('Cooking Speed Vials', 1 + cookingSpeedVials / 100),
         additiveGroup(NUMBERED_GROUP, [
-          percent('Stamps', cookingSpeedStamps),
+          getStampNode(account, { effect: 'Meal_Cooking_Speed' }, cookingSpeedStamps),
           percent('Jewel', Math.max(0, cookingSpeedFromJewel))
         ]),
         multiplier('Meals (Cooking Speed)', 1 + cookingSpeedMeals / 100),
@@ -956,14 +961,17 @@ export const parseKitchens = (cookingRaw: any, atomsRaw: any, characters: any, a
     const luckCost = 1 + baseMath * getSpiceUpgradeCost(luckLv);
 
     const spices = [spice1, spice2, spice3, spice4].filter((spice) => spice !== -1);
-    const spicesValues = spices.map((spiceValue) => parseInt(randomList[49]?.[spiceValue]));
-    const possibleMeals = getMealsFromSpiceValues(randomList[49], spicesValues).filter((foodIndex) => foodIndex > 0).map((foodIndex) => ({
-      index: foodIndex,
-      rawName: cookingMenu?.[foodIndex]?.rawName,
-      cookReq: cookingMenu?.[foodIndex]?.cookReq
+    const recipe = status === 3
+      ? getRecipeOdds([spice1, spice2, spice3, spice4], currentProgress, mealLuck, account?.cooking?.meals)
+      : null;
+    const possibleMeals = (recipe?.meals ?? []).filter(({ index }: any) => cookingMenu?.[index]).map((meal: any) => ({
+      ...meal,
+      rawName: cookingMenu?.[meal.index]?.rawName,
+      cookReq: cookingMenu?.[meal.index]?.cookReq
     }));
 
     return {
+      kitchenIndex,
       status,
       meal: {
         ...(cookingMenu?.[foodIndex] || {}),
@@ -982,39 +990,95 @@ export const parseKitchens = (cookingRaw: any, atomsRaw: any, characters: any, a
       fireCost,
       luckCost,
       ...(status === 3 ? { spices } : {}),
-      ...(status === 3 ? { possibleMeals } : {})
+      ...(status === 3 ? { possibleMeals, recipe } : {})
     }
   }).filter((kitchen: any) => kitchen);
 }
 
-export const getMealsFromSpiceValues = (spiceValues: any, valueOfSpices: any) => {
-  const possibleMeals: any[] = [];
-  // Each spice value is also a possible meal.
-  valueOfSpices.forEach((value: any) => {
-    if (!possibleMeals.includes(value)) {
-      possibleMeals.push(value);
+// game: CookingR("PossibleRecipes2"). Each spice's own meal (RANDOlist[49]), then from the spice indexes' sum a band of
+// up to three meals (one per spice, three at most) around a target, skipping any meal a spice already names: the
+// target is the sum below 71, sum - 14 below 87 (at most 55 and 65), sum - 22 past that, never above meal 73. The list
+// comes out lowest meal first; a duplicate spice leaves a 99999 at its end, as the game's sort does
+const SPICE_MEALS: string[] = randomList?.[49] ?? [];
+export const getPossibleRecipes = (spiceSlots: number[]) => {
+  const used = spiceSlots.filter((spice) => spice !== -1);
+  const recipes: number[] = used.map((spice) => Number(SPICE_MEALS[spice]));
+  const sum = spiceSlots.reduce((total, spice) => total + Math.max(0, Number(spice) || 0), 0);
+  const target = sum < 71 ? Math.min(55, sum) : sum < 87 ? Math.min(65, Math.round(sum - 14)) : Math.round(sum - 22);
+  if (target > 0.5) {
+    const band = Math.min(used.length, 3);
+    for (let i = 0; i < band; i++) {
+      const meal = Math.round(Math.min(73, Math.max(0, target + (i - Math.floor((band - 1) / 2)))));
+      if (!recipes.includes(meal) && !SPICE_MEALS.includes(String(meal)) && meal < 74) recipes.push(meal);
     }
+  }
+  const sorted: number[] = [];
+  recipes.forEach(() => {
+    let lowest = 99999;
+    recipes.forEach((meal) => {
+      if (meal < lowest && !sorted.includes(meal)) lowest = meal;
+    });
+    sorted.push(lowest);
   });
-  // the sum of spice indexes is a possible meal.
-  const spiceValuesArr = spiceValues.map((num: any) => parseFloat(num));
-  const sum = valueOfSpices.reduce((sum: any, value: any) => sum + spiceValuesArr.indexOf(value), 0);
-  if (!spiceValues.includes(sum)) {
-    possibleMeals.push(sum);
-  }
+  return sorted;
+};
 
-  // if we have 3 or more spices, add sum - 1.
-  if (valueOfSpices.length > 2 && !possibleMeals.includes(sum - 1) && !spiceValuesArr.includes(sum - 1)) {
-    possibleMeals.push(sum - 1);
-  }
-  // if we have more than one spice, add sum + 1.
-  if (valueOfSpices.length > 1 && !possibleMeals.includes(sum + 1) && !spiceValuesArr.includes(sum + 1)) {
-    possibleMeals.push(sum + 1);
-  }
+// game: CookingR("CookingFireREQ") and "CookingFireREQlv": the progress a recipe needs for fire level 1 is twice the
+// top meal's cook requirement (x25 a meal past 66), and each level after that needs 3x the last
+const FIRE_LEVEL_MULTI = 3;
+const getRecipeFireReq = (recipes: number[]) => {
+  const top = recipes[recipes.length - 1] ?? 0;
+  return 2 * Number(cookingMenu?.[Math.min(66, top)]?.cookReq ?? 0) * Math.pow(25, Math.max(0, top - 66));
+};
 
-  // return sorted by lowest meal to highest.
-  return possibleMeals.sort((meal1, meal2) => meal1 < meal2 ? -1 : 1);
-}
-
+// A recipe's odds, as the game rolls and reports them. game: CookingR("CookingNewRecipeOdds", slot, kitchen): a meal
+// not found yet rolls at RANDOlist[50][slot] x the kitchen's luck x 1.5^fire level, a found one at the base odds. A
+// finished recipe rolls from the top meal down and stops at the first hit, so a meal's chance is its odds times every
+// higher meal's miss. newChance is the kitchen screen's "New Recipe Chance", the game's sum less its leftover miss twice
+// (as the game does), 0 before fire level 1
+const RECIPE_SLOT_ODDS: string[] = randomList?.[50] ?? [];
+const RECIPE_FIRE_ODDS = 1.5;
+export const getRecipeOdds = (spiceSlots: number[], progress: number, luck: number, meals: any[] = []) => {
+  const recipes = getPossibleRecipes(spiceSlots);
+  const fireReq = getRecipeFireReq(recipes);
+  let fireLevel = 0;
+  let nextFireReq = fireReq;
+  while (fireLevel < 100 && fireReq > 0 && progress >= nextFireReq) {
+    nextFireReq *= FIRE_LEVEL_MULTI;
+    fireLevel += 1;
+  }
+  const isNew = (meal: number) => !((meals?.[meal]?.level ?? 0) > 0);
+  const odds = recipes.map((meal, slot) => Number(RECIPE_SLOT_ODDS[slot] ?? 0)
+    * (isNew(meal) ? luck * Math.pow(RECIPE_FIRE_ODDS, fireLevel) : 1));
+  let miss = 1;
+  const chances: number[] = [];
+  let newChance = 0;
+  for (let slot = recipes.length - 1; slot >= 0; slot--) {
+    chances[slot] = Math.min(1, Math.max(0, miss * odds[slot]));
+    if (isNew(recipes[slot])) newChance += Math.max(0, miss * odds[slot]);
+    miss *= 1 - odds[slot];
+  }
+  if (newChance > 0.93) {
+    miss = 1;
+    for (let slot = recipes.length - 1; slot >= 0; slot--) {
+      if (!isNew(recipes[slot])) {
+        miss *= odds[slot];
+        break;
+      }
+      miss *= Math.max(0, 1 - odds[slot]);
+    }
+  }
+  newChance = Math.min(1, Math.max(0, newChance - miss));
+  newChance = Math.min(1, Math.max(0, newChance - miss));
+  if (fireLevel < 1) newChance = 0;
+  return {
+    meals: recipes.map((index, slot) => ({ index, found: !isNew(index), odds: odds[slot], chance: chances[slot] })),
+    fireLevel,
+    nextFireReq,
+    previousFireReq: fireLevel > 0 ? nextFireReq / FIRE_LEVEL_MULTI : 0,
+    newChance
+  };
+};
 
 export const calcMealTime = (maxLevel: any, meal: any, totalMealSpeed: any, achievements: any, equinoxUpgrades: any, account: any) => {
   const { amount, level, cookReq } = meal;
@@ -1029,21 +1093,29 @@ export const calcMealTime = (maxLevel: any, meal: any, totalMealSpeed: any, achi
 }
 
 export const DEFAULT_MEAL_MAX_LEVEL = 30;
-// game: "CookingR:CookingMealMaxLVlol"
-export const getMealMaxLevel = (account: any) => {
-  const causticolumnArtifact = isArtifactAcquired(account?.sailing?.artifacts, 'Causticolumn');
-  const firstJadeUnlocked = isJadeBonusUnlocked(account, 'Papa_Blob\'s_Quality_Guarantee');
-  const secondJadeUnlocked = isJadeBonusUnlocked(account, 'Chef_Geustloaf\'s_Cutting_Edge_Philosophy');
-  const grimoireBonus = getGrimoireBonus(account?.grimoire?.upgrades, 26);
-  const loreBoss = account?.spelunking?.loreBosses?.[5]?.defeated ? 1 : 0;
-  return DEFAULT_MEAL_MAX_LEVEL
-    + (Math.min(20, grimoireBonus))
-    + 10 * (isMenagerieUnlockOwned(account, 20) ? 1 : 0)
-    + (causticolumnArtifact?.bonus ?? 0)
-    + (firstJadeUnlocked ? 10 : 0)
-    + (secondJadeUnlocked ? 10 : 0)
-    + (30 * loreBoss)
-}
+// game: "CookingR:CookingMealMaxLVlol", its sources as breakdown lines
+const getMealMaxLevelSources = (account: any) => [
+  flat('Base', DEFAULT_MEAL_MAX_LEVEL),
+  flat('Grimoire (at most 20)', Math.min(20, getGrimoireBonus(account?.grimoire?.upgrades, 26))),
+  flat('Menagerie', 10 * (isMenagerieUnlockOwned(account, 20) ? 1 : 0)),
+  flat('Causticolumn (Artifact)', isArtifactAcquired(account?.sailing?.artifacts, 'Causticolumn')?.bonus ?? 0),
+  flat('Papa Blob\'s Quality Guarantee (Jade)', isJadeBonusUnlocked(account, 'Papa_Blob\'s_Quality_Guarantee') ? 10 : 0),
+  flat('Chef Geustloaf\'s Cutting Edge Philosophy (Jade)',
+    isJadeBonusUnlocked(account, 'Chef_Geustloaf\'s_Cutting_Edge_Philosophy') ? 10 : 0),
+  flat('Lore boss', 30 * (account?.spelunking?.loreBosses?.[5]?.defeated ? 1 : 0))
+];
+
+export const getMealMaxLevel = (account: any) => getMealMaxLevelSources(account)
+  .reduce((sum: number, { value }: any) => sum + (Number(value) || 0), 0);
+
+export const getMealMaxLevelBreakdown = (account: any) => createBreakdown('Meal max level', getMealMaxLevel(account),
+  getMealMaxLevelSources(account), { combine: 'sum' });
+
+// game: CookingR("CookingNewKitchenCoinCost", kitchen), the coins a kitchen costs to build by its index (the first is free)
+const NEW_KITCHEN_COSTS = [0, 82e5, 75e6, 4e8, 8e9, 5e10, 213e10, 6e13, 2e15];
+const LAST_KITCHEN_COST = 1e17;
+export const MAX_KITCHENS = 10;
+export const getNewKitchenCost = (kitchenIndex: number) => NEW_KITCHEN_COSTS[kitchenIndex] ?? LAST_KITCHEN_COST;
 export const getMealLevelCost = (level: any, achievements: any, account?: any, localEquinoxUpgrades?: any) => {
   const foodLustChallenge = getCloudBonus(account?.equinox?.challenges, EQUINOX_CLOUD.FOOD_LUST_DISCOUNT);
   const companion162 = isCompanionBonusActive(account, 162) ? (account?.companions?.list?.at(162)?.bonus ?? 0) : 0;
@@ -1052,7 +1124,7 @@ export const getMealLevelCost = (level: any, achievements: any, account?: any, l
     * Math.pow(10, 22 * Math.floor((level + 1e3) / 1111))
     * (1 / Math.min(5, Math.max(1, 1 + (10 * getAchievementStatus(achievements, 233)) / 100)))
     * Math.max(0.001, Math.pow(Math.max(0.58, 0.8 - 0.22 * foodLustChallenge),
-      Math.min(account?.accountOptions?.[193] ?? 0,
+      Math.min(account?.accountOptions?.[OPT.foodLustStacks] ?? 0,
         getEquinoxBonus(localEquinoxUpgrades || account?.equinox?.upgrades, 'Food_Lust')))) *
     (10 + (level
       + Math.pow(level, 2)))
@@ -1070,6 +1142,7 @@ export const calcTimeToNextLevel = (amountNeeded: any, cookReq: any, totalMealSp
 export const getTotalMealSpeed = (kitchens: any) => {
   return kitchens?.reduce((sum: number, kitchen: any) => sum + (kitchen?.status === 3 ? 0 : (kitchen?.mealSpeed ?? 0)), 0) ?? 0;
 }
+
 
 export const getHighestOverflowingLadle = (characters: any) => {
   const bloodBerserkers = characters?.filter((character: any) => checkCharClass(character?.class, CLASSES.Blood_Berserker));

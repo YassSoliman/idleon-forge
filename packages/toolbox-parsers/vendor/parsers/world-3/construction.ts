@@ -1,8 +1,8 @@
-// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1.
+// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 899b5a0dc7456c686e94e58ea410195744c9f82a.
 // Copyright (C) Morta1 and IdleOn Toolbox contributors. GPL-3.0-only; see vendor/LICENSE.
 // Copied unmodified by IdleOn Forge's scripts/sync.sh; UI-coupled imports are redirected to shims/ at build time.
 import { notateNumber, number2letter, tryToParse } from '@utility/helpers';
-import { createBreakdown, evaluateBreakdownNode, flat, multiplier, NUMBERED_GROUP, productGroup, sumGroup } from '@parsers/breakdown';
+import { additiveGroup, createBreakdown, evaluateBreakdownNode, flat, multiplier, NUMBERED_GROUP, percent, productGroup, sumGroup } from '@parsers/breakdown';
 import { cogKeyMap, flagsReqs, randomList, towers, gameTables } from '@website-data';
 import { createCogstructionData } from '@parsers/world-3/cogstrution';
 import { getGambitBonus } from '@parsers/world-5/caverns/gambit';
@@ -24,6 +24,9 @@ import { getMineheadBonusQTY } from '@parsers/world-7/minehead';
 import { getJewelBonus } from '@parsers/world-4/lab';
 import { getOutpostRogBonus } from '@parsers/class-specific/royalGuardian';
 import type { IdleonData, Account } from '../types';
+import { saveField } from '@parsers/saveField';
+import { getBubbleBonus, getVialsBonusByStat } from '@parsers/world-2/alchemy';
+import { getCardLevel } from '@parsers/cards';
 
 // The board maths lives in its own module so the optimizer can run in a Web Worker without pulling
 // website-data in. Re-exported here because everything already imports it from this file.
@@ -53,11 +56,62 @@ export const getConstruction = (idleonData: IdleonData, account: Account, charac
   const cogsMap = parseConstruction(cogMap);
   const board = getFlags(idleonData, cogsMap, cogOrderRaw, account, characters);
   const cogstruction = createCogstructionData(cogsMap, cogOrderRaw);
+  const towersRaw = idleonData?.TowerInfo || saveField(idleonData, 'Tower');
   return {
     ...board,
-    cogstruction
+    cogstruction,
+    cogMakers: getCogMakers(cogOrderRaw, towersRaw)
   };
 }
+
+// The four cog makers above the board: CogOrder 96-107 holds three character slots per maker, and maker n
+// fills TowerInfo[62 + n] toward its next Nooby, Decent, Superb or Ulti cog
+const COG_MAKER_SLOT_START = 96;
+const COG_MAKER_SLOTS = 3;
+const COG_MAKER_PROGRESS_INDEX = 62;
+const COG_MAKER_TIER_KEYS = ['0', '1', '2', '3'];
+// game: WorkbenchStuff("CogBuildClaims") stops counting at 100
+const MAX_COG_CLAIMS = 100;
+
+// game: WorkbenchStuff("CogBuildReq", maker, claims), the progress the claims-th cog needs (each costs 2 + maker
+// times the one before)
+export const getCogBuildReq = (maker: number, claims: number) => claims < 0
+  ? 0
+  : Number(randomList?.[12]?.[maker] ?? 0) * Math.pow(2 + maker, claims);
+
+export const getCogMakers = (cogOrderRaw: any[], towersRaw: any[]) => COG_MAKER_TIER_KEYS.map((tierKey, maker) => {
+  const progress = Number(towersRaw?.[COG_MAKER_PROGRESS_INDEX + maker]) || 0;
+  // game: WorkbenchStuff("CogBuildClaims"), the cogs waiting to be claimed
+  let ready = 0;
+  while (ready < MAX_COG_CLAIMS && progress >= getCogBuildReq(maker, ready)) ready += 1;
+  const slots = Array.from({ length: COG_MAKER_SLOTS }, (_, slot) => cogOrderRaw?.[COG_MAKER_SLOT_START + COG_MAKER_SLOTS * maker + slot]);
+  return {
+    maker,
+    tier: COG_TIERS[tierKey],
+    icon: `Cog${tierKey}A00`,
+    progress,
+    ready,
+    // The game's bar and "progress / need" both run between the last cog's need and the next one's
+    previousReq: getCogBuildReq(maker, ready - 1),
+    nextReq: getCogBuildReq(maker, ready),
+    characters: slots.filter((name: any) => String(name ?? '').startsWith('Player_')).map((name: string) => name.slice(7))
+  };
+});
+
+// game: WorkbenchStuff("CogBuildSpdBonus"), the multiplier on every character's build speed in a cog maker (the
+// tutorial's 900x is left out). The Boss3A card counts 8% a level, at most 50%
+const COG_MAKE_CARD_PER_LEVEL = 8;
+const COG_MAKE_CARD_CAP = 50;
+export const getCogMakeSpeedBonus = (account: any) => {
+  const sources = [
+    percent('Cogs For Hands (Bubble)', getBubbleBonus(account, 'COGS_FOR_HANDS', false)),
+    percent('Sippy Cup (Vial)', getVialsBonusByStat(account?.alchemy?.vials, 'CogSpd')),
+    percent('Chizoar (Card)', Math.min(COG_MAKE_CARD_PER_LEVEL * getCardLevel(account?.cards, 'Boss3A'), COG_MAKE_CARD_CAP))
+  ];
+  const sum = sources.reduce((total, { value }: any) => total + (Number(value) || 0), 0);
+  const value = 1 + sum / 100;
+  return { value, breakdown: createBreakdown('Cog making speed', value, [additiveGroup(NUMBERED_GROUP, sources)]) };
+};
 
 export const getFlags = (idleonData: IdleonData, cogsMap: any[], cogOrderRaw: any[], account: Account, characters?: any[]) => {
   const flagsUnlockedRaw = idleonData?.FlagUnlock || tryToParse(idleonData?.FlagU);
@@ -390,8 +444,8 @@ const buildExtraColumn = (flagsUnlockedRaw: any[], flagsPlacedRaw: any[], cogsMa
 
 
 export const getTowers = (idleonData: IdleonData) => {
-  const towersRaw = idleonData?.TowerInfo || tryToParse(idleonData?.Tower);
-  const totemInfo = tryToParse(idleonData?.TotemInfo) || idleonData?.TotemInfo;
+  const towersRaw = idleonData?.TowerInfo || saveField(idleonData, 'Tower');
+  const totemInfo = saveField(idleonData, 'TotemInfo') || idleonData?.TotemInfo;
   return parseTowers(towersRaw, totemInfo);
 }
 
@@ -415,7 +469,8 @@ const parseTowers = (towersRaw: any, totemInfo: any) => {
       name: towerName,
       level,
       nextLevel: (level + 1) === towersRaw?.[towerData.index + towersLength],
-      progress: towersRaw?.[towerData?.index + 12 + towersLength * 2] ?? 0,
+      // big progress is saved as a string ("2.04e+23"); the game reads it with asNumber
+      progress: Number(towersRaw?.[towerData?.index + 12 + towersLength * 2]) || 0,
       inProgress: inProgress?.includes(towerData?.index),
       slot: inProgress?.findIndex((ind: any) => ind === towerData?.index)
     }
@@ -538,6 +593,30 @@ export const getTotalGildedSlots = (account: any) => {
     + getGambitBonus(account, 9)
     + getEventShopBonus(account, 14);
   return Math.round(Math.min(MAX_GILDED_SLOTS, total));
+}
+
+// game: WorkbenchStuff("TowerBuildSlots") = 2 + gem shop 117 + ceil(Tasks[2][2][0] / 2)
+export const getTowerBuildSlots = (account: any) => Math.round(2
+  + (Number(account?.gemShopPurchases?.[117]) || 0)
+  + Math.ceil((Number(account?.tasks?.[2]?.[2]?.[0]) || 0) / 2));
+
+const YELLOW_JELLY_SLOT = 7;
+
+// The Yellow Jellyfish fills like a building in the 8th build slot: while that slot is empty it gains
+// the build rate per hour, times the trimmed boost when the slot is trimmed.
+// game: the construction tick, 7 == l && MenagerieStuff("SideJellyUnlocked", 4) adds to Menagerie[0][15]
+export const getYellowJellyBuild = (account: any) => {
+  const yellow = account?.menagerie?.jellies?.yellow;
+  const slotExists = getTowerBuildSlots(account) > YELLOW_JELLY_SLOT;
+  const slotOpen = slotExists && !account?.towers?.data?.some(({ slot }: any) => slot === YELLOW_JELLY_SLOT);
+  const buildRate = account?.construction?.totalBuildRate ?? 0;
+  const trimmed = YELLOW_JELLY_SLOT < getTotalGildedSlots(account);
+  const rate = slotOpen ? (trimmed ? getGildedBoostioBonus(account) * buildRate : buildRate) : 0;
+  const left = Math.max(0, (yellow?.requirement ?? 0) - (yellow?.progress ?? 0));
+  const ready = yellow ? left === 0 : false;
+  // ms from the save time until the next purchase, null when it is not filling
+  const timeLeft = ready ? 0 : rate > 0 ? left / rate * 3600 * 1000 : null;
+  return { slotExists, slotOpen, rate, ready, timeLeft };
 }
 
 export const getTrimmedBuildSpeed = (account: any) => {

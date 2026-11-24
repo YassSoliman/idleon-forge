@@ -1,21 +1,29 @@
-// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1.
+// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 899b5a0dc7456c686e94e58ea410195744c9f82a.
 // Copyright (C) Morta1 and IdleOn Toolbox contributors. GPL-3.0-only; see vendor/LICENSE.
 // Copied unmodified by IdleOn Forge's scripts/sync.sh; UI-coupled imports are redirected to shims/ at build time.
 import { getMeasurementBonus, getStudyBonus } from '@parsers/world-5/hole';
 import { getSchematicBonus } from '@parsers/world-5/caverns/the-well';
-import { holesInfo } from '@website-data';
-import { lavaLog, lavaLog2, notateNumber } from '@utility/helpers';
+import { holesBuildings, holesInfo } from '@website-data';
+import { GAME_LN10, cleanUnderscore, gameFill, lavaLog, lavaLog2, titleCaseName } from '@utility/helpers';
 import { getMonumentBonus } from '@parsers/world-5/caverns/bravery';
 import { getEventShopBonus } from '@parsers/misc';
 import { getTesseractBonus } from '@parsers/class-specific/tesseract';
 import { getJarBonus } from '@parsers/world-5/caverns/the-jars';
+import { createBreakdown, percent } from '@parsers/breakdown';
 
 // Event shop purchase that grants extra summoning doublers
 const EVENT_SHOP_DOUBLERS_INDEX = 15;
 const EVENT_SHOP_DOUBLERS = 10;
+// game: "GambitPts" sums Gambit_0 to 5, Holes[11][65] to [70]
+export const GAMBIT_RUNS = 6;
+// game: GambitChallengeUnlocked: run 0 is always open, run t needs schematic 88 + t
+const RUN_SCHEMATIC_OFFSET = 88;
+// game: the Gambit cavern is cavern 13; Holes[11][64] is the daily attempt, 0 until used, reset each day
+const GAMBIT_CAVERN = 13;
+const DAILY_ATTEMPT_INDEX = 64;
 
-export const getGambit = (holesObject: any, accountData: any) => {
-  const pointsMulti = getPointsMulti(holesObject, accountData);
+export const getGambit = (holesObject: any, accountData: any, unlockedCaverns: number = 0) => {
+  const { value: pointsMulti, breakdown: pointsMultiBreakdown } = getPointsMultiSources(holesObject, accountData);
   const basePoints = getPoints(holesObject, accountData, 99);
   const points = getPoints(holesObject, accountData, 777);
   const bonuses = holesInfo?.[71]?.map((bonusRaw: any, index: any) => {
@@ -27,8 +35,8 @@ export const getGambit = (holesObject: any, accountData: any) => {
       bonus,
       pointsReq,
       name: name.replace('{', Math.floor(bonus)).replace('}', bonus
-        ? `${notateNumber(1 + Math.floor(bonus) / 100, 'MultiplierInfo')}x`
-        : 0).replace(/[梦而]/g, '').replace('(TAP ME)', '')
+        ? `${gameFill(1 + Math.floor(bonus) / 100, 'MultiplierInfo')}x`
+        : 0).replace(/[梦而]/g, '').replace('(TAP_ME)', '').replace(/_+$/, '')
     }
   })
   const nextUnlock = bonuses?.find(({ pointsReq }: any) => points < pointsReq);
@@ -37,16 +45,32 @@ export const getGambit = (holesObject: any, accountData: any) => {
   const appointedDoublers = (holesObject?.gambitStuff ?? []).reduce((sum: any, val: any) => {
     return sum + (val !== -1 ? 1 : 0)
   }, 0);
-  const times = holesObject?.extraCalculations.slice(65, 71);
+  const times = Array.from({ length: GAMBIT_RUNS }, (_, run) => holesObject?.extraCalculations?.[65 + run]);
+  const runs = times.map((time, run) => {
+    const schematic = RUN_SCHEMATIC_OFFSET + run;
+    return {
+      time,
+      unlocked: run === 0 || Boolean(holesObject?.engineerSchematics?.[schematic]),
+      schematicName: run === 0 ? '' : holesBuildings?.[schematic]?.name ?? ''
+    };
+  });
+  // game: on entering the cavern, an opal for each step floor(getLOG(points)) has climbed past Holes[7][13]
+  const opalsGiven = Number(holesObject?.opalsPerCavern?.[13]) || 0;
+  const nextOpalPoints = Math.exp(GAME_LN10 * (opalsGiven + 1));
   const totalTime = times.reduce((sum: any, time: any) => sum + time, 0);
+  const attemptReady = unlockedCaverns > GAMBIT_CAVERN && Number(holesObject?.extraCalculations?.[DAILY_ATTEMPT_INDEX]) === 0;
   return {
     pointsMulti,
+    pointsMultiBreakdown,
     basePoints,
     points,
     bonuses,
     nextUnlock,
     times,
     totalTime,
+    runs,
+    nextOpalPoints,
+    attemptReady,
     summoningDoublers: {
       appointed: appointedDoublers,
       total: totalDoublers
@@ -59,16 +83,31 @@ const getPointReq = (index: any) => {
   return 2e3 + 1e3 * (index + 1) * (1 + index / 5) * Math.pow(1.26, index);
 }
 
-const getPointsMulti = (holesObject: any, accountData: any) => {
-  return 1 + (getMeasurementBonus({ holesObject, accountData, t: 13 })
-    + getStudyBonus(holesObject, 13, 0)
-    + getSchematicBonus({ holesObject: accountData?.hole?.holesObject, t: 78, i: 10 })
-    + getMonumentBonus({ holesObject, t: 2, i: 7 })
-    + getJarBonus({ holesObject, i: 23, account: accountData })
-    + getJarBonus({ holesObject, i: 30, account: accountData })
-    + getTesseractBonus(accountData, 47)
-  ) / 100;
+const collectibleName = (i: number) => titleCaseName(cleanUnderscore(holesInfo?.[67]?.[i]?.split('|')?.[0] ?? 'Collectible'));
+
+// game: "GambitPTSmulti"
+const getPointsMultiSources = (holesObject: any, accountData: any) => {
+  const measurement = getMeasurementBonus({ holesObject, accountData, t: 13 });
+  const study = getStudyBonus(holesObject, 13, 0);
+  const schematic = getSchematicBonus({ holesObject: accountData?.hole?.holesObject, t: 78, i: 10 });
+  const monument = getMonumentBonus({ holesObject, t: 2, i: 7 });
+  const jar23 = getJarBonus({ holesObject, i: 23, account: accountData });
+  const jar30 = getJarBonus({ holesObject, i: 30, account: accountData });
+  const arcane = getTesseractBonus(accountData, 47);
+  const value = 1 + (measurement + study + schematic + monument + jar23 + jar30 + arcane) / 100;
+  const breakdown = createBreakdown('Points multi', value, [
+    percent('Measurement', measurement),
+    percent('Study', study),
+    percent(`${titleCaseName(cleanUnderscore(holesBuildings?.[78]?.name ?? 'Schematic'))} (Schematic)`, schematic),
+    percent('Monument', monument),
+    percent(collectibleName(23), jar23),
+    percent(collectibleName(30), jar30),
+    percent('Arcane', arcane)
+  ], { combine: 'additive' });
+  return { value, breakdown };
 }
+
+const getPointsMulti = (holesObject: any, accountData: any) => getPointsMultiSources(holesObject, accountData).value;
 
 const getPoints = (holesObject: any, accountData: any, t: any): any => {
   const base = holesObject?.extraCalculations[Math.round(t + 65)]

@@ -1,4 +1,4 @@
-// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1.
+// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 899b5a0dc7456c686e94e58ea410195744c9f82a.
 // Copyright (C) Morta1 and IdleOn Toolbox contributors. GPL-3.0-only; see vendor/LICENSE.
 // Copied unmodified by IdleOn Forge's scripts/sync.sh; UI-coupled imports are redirected to shims/ at build time.
 import { getArcadeBallsToClaim } from '@parsers/dungeons';
@@ -12,19 +12,28 @@ import {
   getTotalMealSpeed,
   maxNumberOfSpiceClicks
 } from '@parsers/world-4/cooking';
-import { cleanUnderscore, getDuration, getNextCompanionClaim, hoursUntilDailyReset, notateNumber, totalHoursBetweenDates, tryToParse } from '../helpers';
-import { getValidTrackedMaterials } from '../materialTracker';
+import { cleanUnderscore, getNextCompanionClaim, hoursUntilDailyReset, notateNumber, notateProgress, totalHoursBetweenDates } from '../helpers';
 import { isRiftBonusUnlocked } from '@parsers/world-4/rift';
+import { LAYER_BREAKS_PER_DAY } from '@parsers/world-5/caverns/motherlode';
+import { getChestsFromSailingTime } from '@parsers/world-5/sailing';
+import { FAMILIAR_EXP_MIN_CLAIM_SECONDS, getFamiliarLevelGains, getPendingFamiliarExp } from '@parsers/world-6/summoning';
 import { items, liquidsShop, ninjaExtraInfo } from '@website-data';
-import { getPowerPerCycle, getRefineryCycleTimes, getSaltMatsTimeLeft, getSaltsBalance, hasMissingMats } from '@parsers/world-3/refinery';
+import {
+  getPowerPerCycle,
+  getPrinterCoveredMats,
+  getRefineryCycleTimes,
+  getSaltMatsTimeLeft,
+  getSaltsBalance,
+  hasMissingMats
+} from '@parsers/world-3/refinery';
 import { calcTotals } from '@parsers/world-3/printer';
 import {
   addEquippedItems,
   findItemInInventory,
   findQuantityOwned,
-  getAllItems,
   mergeItemsByOwner
 } from '@parsers/items';
+import { getCachedAllItems } from '@utility/goals/registry/ownedItems';
 import { isJadeBonusUnlocked } from '@parsers/world-6/sneaking';
 import { BEANSTALK_BREAKPOINTS, getGuaranteedCrystalMobs, getKillroySchedule, getMiniBossesData } from '@parsers/misc';
 import { getRequirementAmount } from '@parsers/world-4/lab';
@@ -33,14 +42,19 @@ import { isPast } from 'date-fns';
 import { getIsland } from '@parsers/world-2/islands';
 import { getLegendTalentBonus } from '@parsers/world-7/legendTalents';
 import { isSuperbitUnlocked } from '@parsers/world-5/gaming';
+import { getPetMartGems, getRegistrationNeeds } from '@parsers/world-7/tournament';
 import { MINE_CURRENCY_UPGRADE_INDICES } from '@parsers/world-7/minehead';
 import { isHatRackEligible } from '@parsers/world-3/hatRack';
+import { isCapeVineEligible } from '@parsers/world-4/capeVine';
 import { getGoldCostToMaxLevel, getStampsPerDay } from '@parsers/world-1/stamps';
+import { getInventoryClusters } from '@parsers/world-1/statues';
 import { getTomeWishPity } from '@parsers/world-4/tome';
-import { BOSS_RESPAWN_ALERTS } from './bossRespawns';
+import { BOSS_RESPAWN_ALERTS, isMinibossReady } from './bossRespawns';
 import { getTesseractBonus } from '@parsers/class-specific/tesseract';
-import { getIdleGuards, getMissingWorkers, getSpareWorkers } from '@parsers/class-specific/royalGuardian';
+import { getIdleGuards, getMissingWorkers, getSpareWorkers, orbletUpgradeKey } from '@parsers/class-specific/royalGuardian';
 import { getCompassBonus } from '@parsers/class-specific/compass';
+import { calcTotalItemOwned } from '@parsers/storage';
+import { OPT } from '@parsers/accountOptions';
 
 // The game hard caps Arcanist weapon and ring drops at 100 each per day.
 const ARCANIST_DAILY_DROP_CAP = 100;
@@ -48,20 +62,9 @@ const ARCANIST_DAILY_DROP_CAP = 100;
 // Weekly boss difficulty stops at 5 skulls, and trophies only drop on a new weekly best.
 const MAX_WEEKLY_BOSS_SKULLS = 5;
 // game: claim button gate 0.1 <= getServerVarLoad("GemPM_x")
-const MIN_PET_MART_GEMS_SERVER_VAR = 0.1;
 
-// getAllItems rebuilds a multi-thousand-item array from every inventory, storage and the forge,
-// and useAlerts calls each world's alert function once per checked tracker subgroup with the same
+// useAlerts calls each world's alert function once per checked tracker subgroup with the same
 // parsed objects, so the merged lists are cached per (account, characters) pair.
-const allItemsCache = new WeakMap();
-const getCachedAllItems = (characters, account) => {
-  const cached = allItemsCache.get(account);
-  if (cached?.characters === characters) return cached.items;
-  const items = getAllItems(characters, account);
-  allItemsCache.set(account, { characters, items });
-  return items;
-};
-
 const ownedItemsCache = new WeakMap();
 const getCachedOwnedItems = (characters, account) => {
   const cached = ownedItemsCache.get(account);
@@ -85,7 +88,48 @@ export const getOptions = (data) => {
   }, {});
 }
 
-export const getGeneralAlerts = (account, fields, options, characters, lastUpdated, { bossesUp } = {}) => {
+export const GREENSTACK_ALERT_SHOWN = 5;
+
+// Item goals are stored one per bound, so the >= and <= goals of one item merge back into the tracker's single range check
+const getItemGoalAlerts = (itemGoals, ownedItems) => {
+  const byItem = new Map();
+  for (const goal of itemGoals ?? []) {
+    if (!byItem.has(goal.key)) byItem.set(goal.key, { lower: '', upper: '', includeNearly: false, note: '', watch: false });
+    const entry = byItem.get(goal.key);
+    if (goal.watch) entry.watch = true;
+    else if (goal.op === '<=') entry.upper = goal.target;
+    else entry.lower = goal.target;
+    entry.includeNearly ||= !!goal.nearAlert;
+    entry.note ||= goal.note ?? '';
+  }
+  return [...byItem.entries()].reduce((res, [rawName, { lower, upper, includeNearly, note }]) => {
+    const displayName = items?.[rawName]?.displayName;
+    if (!displayName) return res;
+    const name = cleanUnderscore(displayName);
+    const { amount: quantityOwned } = findQuantityOwned(ownedItems, displayName);
+    const text = !lower && !upper
+      ? `You have ${notateNumber(quantityOwned)} ${name}`
+      : checkBound(name, quantityOwned, lower, upper, includeNearly, 5);
+    if (!text) return res;
+    return [...res, { key: rawName, iconPath: `data/${rawName}`, text, note }];
+  }, []);
+};
+
+const getGreenstackAlert = (view) => {
+  if (!view || view.status !== 'ok' || !view.shortCount) return [];
+  const more = view.shortCount - GREENSTACK_ALERT_SHOWN;
+  const lines = view.short.slice(0, GREENSTACK_ALERT_SHOWN)
+    .map(({ name, value, targetValue }) => `${name} ${notateProgress(value)} / ${notateNumber(targetValue)}`);
+  return [{
+    key: 'greenstack',
+    iconPath: view.short[0]?.icon,
+    text: `${view.shortCount} greenstack${view.shortCount === 1 ? '' : 's'} to go`,
+    lines: more > 0 ? [...lines, `and ${more} more`] : lines
+  }];
+};
+
+export const getGeneralAlerts = (account, fields, options, characters, lastUpdated, context = {}) => {
+  const { bossesUp } = context ?? {};
   const alerts = {};
   if (fields?.tasks?.checked) {
     const { tasks: tasksOptions } = options?.tasks
@@ -104,30 +148,15 @@ export const getGeneralAlerts = (account, fields, options, characters, lastUpdat
     }
   }
   if (fields?.materialTracker?.checked) {
-    const materials = getValidTrackedMaterials(tryToParse(localStorage.getItem('material-tracker')));
-    if (Object.keys(materials || {}).length > 0) {
-      const totalOwnedItems = getCachedAllItems(characters, account);
-      const allMaterials = Object.values(materials || {})?.reduce((res, {
-        item,
-        lowerBound,
-        upperBound,
-        includeNearly,
-        note
-      }) => {
-        const { amount: quantityOwned } = findQuantityOwned(totalOwnedItems, item?.displayName);
-        let text = checkBound(cleanUnderscore(item?.displayName), quantityOwned, lowerBound, upperBound, includeNearly, 5);
-        if (!lowerBound && !upperBound) {
-          text = `You have ${notateNumber(quantityOwned)} ${cleanUnderscore(item?.displayName)}`;
-        }
-        if (!text) return res;
-        return [...res, { item, quantityOwned, text, note }];
-      }, []);
-      if (allMaterials.length > 0) {
-        alerts.materialTracker = allMaterials;
-      }
+    const allMaterials = [
+      ...getGreenstackAlert(context?.greenstackView),
+      ...getItemGoalAlerts(context?.itemGoals, getCachedAllItems(characters, account))
+    ];
+    if (allMaterials.length > 0) {
+      alerts.materialTracker = allMaterials;
     }
   }
-  if (fields?.guild?.checked && account?.accountOptions?.[37]) {
+  if (fields?.guild?.checked && account?.accountOptions?.[OPT.guildName]) {
     const { daily, weekly } = options?.guild || {};
     if (daily?.checked) {
       const dailyTasks = account?.guild?.guildTasks?.daily?.filter(({
@@ -203,13 +232,13 @@ export const getGeneralAlerts = (account, fields, options, characters, lastUpdat
       }
     }
     if (options?.etc?.miniBosses?.checked) {
-      const minibosses = getMiniBossesData(account).filter(({ current }) => current >= options?.etc?.miniBosses?.props?.value);
+      const minibosses = getMiniBossesData(account).filter((miniboss) => isMinibossReady(miniboss, options?.etc?.miniBosses?.props?.value));
       if (minibosses.length > 0) {
         etc.miniBosses = minibosses;
       }
     }
     if (options?.etc?.bossRespawns?.checked) {
-      // Up/killed state comes from the Bosses card tracker (useBossRespawns), not the save.
+      // Up/killed state comes from the timers' tracker (useBossRespawns), not the save.
       const enabledBosses = options?.etc?.bossRespawns?.props?.value || {};
       const upBosses = Object.keys(BOSS_RESPAWN_ALERTS).filter((boss) => bossesUp?.[boss] && enabledBosses?.[boss] !== false);
       if (upBosses.length > 0) {
@@ -265,48 +294,32 @@ export const getGeneralAlerts = (account, fields, options, characters, lastUpdat
       }
     }
     if (options?.etc?.petMartGems?.checked) {
-      const lastClaimedShopDay = account?.accountOptions?.[516] ?? 0;
-      const currentShopDay = account?.tournament?.global?.S ?? 0;
-      // The game only offers the claim while the GemPM_x server var is at least 0.1
-      const gemsOffered = Number(account?.serverVars?.GemPM_x) >= MIN_PET_MART_GEMS_SERVER_VAR;
-      if (gemsOffered && currentShopDay >= 1 && lastClaimedShopDay < currentShopDay) {
+      const { claimable } = getPetMartGems(account?.tournament?.global?.S ?? 0,
+        Number(account?.accountOptions?.[OPT.petMartGemsClaimedDay]) || 0, Number(account?.serverVars?.GemPM_x) || 0);
+      if (claimable) {
         etc.petMartGems = true;
       }
     }
-    if (options?.etc?.tournamentRegister?.checked && account?.companions?.list?.some((companion) => companion?.acquired)) {
-      // tournamentDay is the newer of the save's copy (accountOptions[496]) and the global doc's T.
-      // accountOptions[511] = tournament-day registered-through (registering sets it to day + 1);
-      // registered for the current tournament ⟺ 511 > day.
-      const currentTournamentDay = account?.tournament?.tournamentDay ?? 0;
-      const registeredThrough = account?.accountOptions?.[511] ?? 0;
-      if (currentTournamentDay >= 1 && registeredThrough <= currentTournamentDay) {
-        etc.tournamentRegister = true;
-      }
+    // The Tournament page's notice reads the same check
+    const registration = getRegistrationNeeds(account);
+    if (options?.etc?.tournamentRegister?.checked && registration.tournament) {
+      etc.tournamentRegister = true;
     }
-    if (options?.etc?.raidRegister?.checked && account?.companions?.list?.some((companion) => companion?.acquired)) {
-      // The W7 raid is the tournament's sibling event, same registration shape:
-      // accountOptions[611] = raid-day registered-through (registering sets it to day + 1).
-      // The save's own current-raid-day mirror (613) only updates when the player opens the
-      // tournament UI, so it goes stale - the global doc's RD is refetched on every snapshot.
-      // RC is the raid's registration-closed flag, nothing to register for while it's set.
-      const currentRaidDay = account?.tournament?.global?.RD ?? 0;
-      const registeredThrough = account?.accountOptions?.[611] ?? 0;
-      if (currentRaidDay >= 1 && account?.tournament?.global?.RC !== true && registeredThrough <= currentRaidDay) {
-        etc.raidRegister = true;
-      }
+    if (options?.etc?.raidRegister?.checked && registration.raid) {
+      etc.raidRegister = true;
     }
-    if (options?.etc?.glimmerwickCandle?.checked && account?.accountOptions?.[491] !== 1) {
+    if (options?.etc?.glimmerwickCandle?.checked && account?.accountOptions?.[OPT.tomeWishGranted] !== 1) {
       // accountOptions[492] = candle already wished on today; the game clears it on daily reset.
       // 491 = the wish already came true, so the candle is spent for good. Gate on actually owning
       // Quest114 (inventory or storage) so the alert disappears once the event item is gone.
       const ownsCandle = findQuantityOwned(getCachedAllItems(characters, account), 'Glimmerwick_Candle')?.amount > 0;
-      if (ownsCandle && account?.accountOptions?.[492] !== 1) {
+      if (ownsCandle && account?.accountOptions?.[OPT.tomeWishedToday] !== 1) {
         etc.glimmerwickCandle = getTomeWishPity(account);
       }
     }
     if (options?.etc?.dailyCrystals?.checked) {
       const guaranteedCrystalMobs = getGuaranteedCrystalMobs(account);
-      const remainingDailyCrystals = Math.max(0, guaranteedCrystalMobs - (account?.accountOptions?.[101] ?? 0));
+      const remainingDailyCrystals = Math.max(0, guaranteedCrystalMobs - (account?.accountOptions?.[OPT.dailyCrystalKills] ?? 0));
       if (remainingDailyCrystals > 0) {
         etc.dailyCrystals = remainingDailyCrystals;
       }
@@ -318,8 +331,8 @@ export const getGeneralAlerts = (account, fields, options, characters, lastUpdat
       // has its own toggle; a config without one counts as on.
       const enabledDropTypes = options?.etc?.arcanistDailyDrops?.props?.value || {};
       const arcanistDailyDrops = [
-        { type: 'weapon', dropped: account?.accountOptions?.[396] ?? 0, unlocked: getTesseractBonus(account, 5) > 0 },
-        { type: 'ring', dropped: account?.accountOptions?.[397] ?? 0, unlocked: getTesseractBonus(account, 23) > 0 }
+        { type: 'weapon', dropped: account?.accountOptions?.[OPT.arcanistWeaponDropsToday] ?? 0, unlocked: getTesseractBonus(account, 5) > 0 },
+        { type: 'ring', dropped: account?.accountOptions?.[OPT.arcanistRingDropsToday] ?? 0, unlocked: getTesseractBonus(account, 23) > 0 }
       ].reduce((res, { type, dropped, unlocked }) => {
         const remaining = Math.max(0, ARCANIST_DAILY_DROP_CAP - dropped);
         return unlocked && remaining > 0 && enabledDropTypes?.[type] !== false ? [...res, { type, remaining }] : res;
@@ -331,7 +344,7 @@ export const getGeneralAlerts = (account, fields, options, characters, lastUpdat
     if (options?.etc?.topOfTheMornin?.checked && getCompassBonus(account, 9) > 0.1) {
       // accountOptions[365] is the kills left on today's Top of the Mornin' allowance - the daily
       // reset sets it to compass 9 + 71, and every Tempest kill takes one off, past zero.
-      const remainingKills = Math.max(0, account?.accountOptions?.[365] ?? 0);
+      const remainingKills = Math.max(0, account?.accountOptions?.[OPT.topOfTheMorninKillsLeft] ?? 0);
       if (remainingKills > 0) {
         etc.topOfTheMornin = remainingKills;
       }
@@ -383,10 +396,10 @@ export const getWorld1Alerts = (account, fields, options) => {
   if (fields?.stamps?.checked) {
     const stamps = {};
     if (options?.stamps?.gildedStamps?.checked && isRiftBonusUnlocked(account?.rift, 'Stamp_Mastery')) {
-      if (account?.accountOptions?.[154] > 0 && (options?.stamps?.showGildedWhenNoAtomDiscount?.checked
+      if (account?.accountOptions?.[OPT.gildedStamps] > 0 && (options?.stamps?.showGildedWhenNoAtomDiscount?.checked
         ? account?.atoms?.stampReducer <= 0
         : true)) {
-        stamps.gildedStamps = account?.accountOptions?.[154];
+        stamps.gildedStamps = account?.accountOptions?.[OPT.gildedStamps];
       }
     }
     if (options?.stamps?.affordableStampLevels?.checked) {
@@ -402,13 +415,13 @@ export const getWorld1Alerts = (account, fields, options) => {
       alerts.stamps = stamps;
     }
   }
-  if (fields?.owl?.checked && account?.accountOptions?.[253] > 0) {
+  if (fields?.owl?.checked && account?.accountOptions?.[OPT.owlFeathers] > 0) {
     const owl = {};
-    const { nextLvReq, feathers, upgrades } = account?.owl;
+    const { feathers, upgrades } = account?.owl;
     const featherRestart = upgrades?.[4];
     const megaFeatherRestart = upgrades?.[8];
-    const featherRestartAvailable = (nextLvReq === 0 || featherRestart?.nextLvReq < nextLvReq) && feathers >= featherRestart?.cost;
-    const megaFeatherRestartAvailable = nextLvReq === 0 && feathers >= megaFeatherRestart?.cost;
+    const featherRestartAvailable = featherRestart?.unlocked && feathers >= featherRestart?.cost;
+    const megaFeatherRestartAvailable = megaFeatherRestart?.unlocked && feathers >= megaFeatherRestart?.cost;
     if (options?.owl?.featherRestart?.checked && featherRestartAvailable) {
       owl.featherRestart = true;
     }
@@ -541,8 +554,8 @@ export const getWorld2Alerts = (account, fields, options, characters) => {
       }
     }
     if (options?.alchemy?.alternateParticles?.checked) {
-      if (account?.accountOptions?.[135] > 0) {
-        alchemy.alternateParticles = account?.accountOptions?.[135];
+      if (account?.accountOptions?.[OPT.alternateParticles] > 0) {
+        alchemy.alternateParticles = account?.accountOptions?.[OPT.alternateParticles];
       }
     }
     if (Object.keys(alchemy).length > 0) {
@@ -554,7 +567,7 @@ export const getWorld2Alerts = (account, fields, options, characters) => {
     if (options?.islands?.unclaimedDays?.checked && account?.islands?.numberOfDaysAfk >= options?.islands?.unclaimedDays?.props?.value) {
       islands.unclaimedDays = account?.islands?.numberOfDaysAfk;
     }
-    if (options?.islands?.shimmerIsland?.checked && account?.accountOptions?.[182] === 0) {
+    if (options?.islands?.shimmerIsland?.checked && account?.accountOptions?.[OPT.shimmerTrialClaimedToday] === 0) {
       islands.shimmerIsland = getIsland(account, 'Shimmer')?.currentTrial ?? true;
     }
     const trashIsland = getIsland(account, 'Trash');
@@ -611,7 +624,7 @@ export const getWorld2Alerts = (account, fields, options, characters) => {
       }
     }
     if (options?.arcade?.unmaxedRotation?.checked) {
-      // Arcade upgrades cap at level 100 (gold balls); 101 = Super (Royal balls), 102 = Omega (Omega balls, 2.3.540).
+      // Arcade upgrades cap at level 100 (gold balls); 101 = Super (Cosmic balls), 102 = Omega (Omega balls, 2.3.540).
       const cap = options?.arcade?.includeOmega?.checked ? ARCADE_OMEGA_LEVEL
         : options?.arcade?.includeSuper?.checked ? ARCADE_SUPER_LEVEL : ARCADE_MAX_LEVEL;
       const unmaxed = account?.arcade?.shop?.filter((upgrade) => upgrade?.active && !isArcadePlaceholder(upgrade)
@@ -627,12 +640,12 @@ export const getWorld2Alerts = (account, fields, options, characters) => {
   if (fields?.weeklyBosses?.checked) {
     const weeklyBosses = {};
     // 190 is the daily "reset the raid" flag, it goes back to 0 every daily reset.
-    if (options?.weeklyBosses?.daily?.checked && account?.accountOptions?.[190] === 0) {
+    if (options?.weeklyBosses?.daily?.checked && account?.accountOptions?.[OPT.weeklyBossDailyResetUsed] === 0) {
       weeklyBosses.daily = true;
     }
     // 189 is the highest skull tier beaten this week and it caps at 5, no more trophies once it's there.
     if (options?.weeklyBosses?.trophy?.checked) {
-      const bestSkulls = account?.accountOptions?.[189] ?? 0;
+      const bestSkulls = account?.accountOptions?.[OPT.weeklyBossBestSkulls] ?? 0;
       if (bestSkulls < MAX_WEEKLY_BOSS_SKULLS) {
         weeklyBosses.trophy = { bestSkulls, maxSkulls: MAX_WEEKLY_BOSS_SKULLS };
       }
@@ -643,7 +656,7 @@ export const getWorld2Alerts = (account, fields, options, characters) => {
   }
   if (fields?.killRoy?.checked) {
     const killroy = {};
-    if (options?.killRoy?.general?.checked && (account?.accountOptions?.[113] === 0 || (account?.accountOptions?.[113] < (account?.killroy?.rooms === 3
+    if (options?.killRoy?.general?.checked && (account?.accountOptions?.[OPT.killroyDone] === 0 || (account?.accountOptions?.[OPT.killroyDone] < (account?.killroy?.rooms === 3
       ? 321
       : 21) && account?.finishedWorlds?.World3))) {
       killroy.general = true;
@@ -660,7 +673,7 @@ export const getWorld2Alerts = (account, fields, options, characters) => {
       }
     }
     if (options?.killRoy?.skulls?.checked) {
-      const skulls = account?.accountOptions?.[105];
+      const skulls = account?.accountOptions?.[OPT.killroySkulls];
       if (skulls > 0) {
         killroy.skulls = skulls;
       }
@@ -671,7 +684,7 @@ export const getWorld2Alerts = (account, fields, options, characters) => {
     }
   }
 
-  if (fields?.kangaroo?.checked && account?.accountOptions?.[267] > 0) {
+  if (fields?.kangaroo?.checked && account?.accountOptions?.[OPT.kangarooFish] > 0) {
     const kangaroo = {};
     if (options?.kangaroo?.shinyThreshold?.checked && account?.kangaroo?.shinyProgress > options?.kangaroo?.shinyThreshold?.props?.value) {
       kangaroo.shinyThreshold = options?.kangaroo?.shinyThreshold?.props?.value;
@@ -766,11 +779,14 @@ export const getWorld3Alerts = (account, fields, options, characters) => {
       const thresholdHours = matsThreshold?.checked ? matsThreshold?.props?.value ?? 0 : 0;
       const timeLeftBySalt = getSaltMatsTimeLeft(account, characters, refineryCycleTimes)
         .reduce((res, entry) => ({ ...res, [entry?.rawName]: entry }), {});
+      const printerCovered = getPrinterCoveredMats(account, characters, refineryCycleTimes);
       const mats = account?.refinery?.salts?.reduce((res, { rank, cost, rawName }, saltIndex) => {
         if (!enabled[rawName]) return res;
         const previousSaltIndex = saltIndex > 0 ? saltIndex - 1 : null;
         const previousSalt = account?.refinery?.salts?.[previousSaltIndex];
-        const missingMats = hasMissingMats(saltIndex, rank, cost, account);
+        // A material the printer out-prints only runs dry between printer collects, so it never alerts.
+        const missingMats = hasMissingMats(saltIndex, rank, cost, account)
+          .filter(({ rawName: matName }) => !printerCovered?.[rawName]?.includes(matName));
         const previousSaltMissingMats = hasMissingMats(previousSaltIndex, previousSalt?.rank, previousSalt?.cost, account);
         const timeLeft = timeLeftBySalt?.[rawName];
         // Materials that aren't gone yet but will be within the lead time. Both lists feed the same
@@ -833,6 +849,9 @@ export const getWorld3Alerts = (account, fields, options, characters) => {
         // Without a salt or printer feeding it there is no limit to hit, and a salt on auto refine
         // never banks power to rank up with.
         if (!limitedBy || !unlocked || !active || autoRefinePercentage > 0) return;
+        // A feeder turned off already drains this salt's stock, so neither "room to rank" nor
+        // "would cause a deficit" holds until it is back on.
+        if (!limitedBy.isPrinter && !limitedBy.active) return;
         if (!saltBalance?.props?.value?.[rawName]) return;
         const previousSaltName = limitedBy?.name;
         if (rank < maxSafeRank) {
@@ -1104,6 +1123,32 @@ export const getWorld4Alerts = (account, fields, options, characters) => {
       alerts.laboratory = laboratory;
     }
   }
+  if (fields?.capeVine?.checked && account?.capeVine?.inSave) {
+    const capeVine = {};
+    if (options?.capeVine?.capesMissing?.checked) {
+      const capesOnVine = new Set((account?.capeVine?.capesUsed || []).map(({ rawName }) => rawName));
+      const missingCapes = getCachedOwnedItems(characters, account)
+        ?.filter((item) => isCapeVineEligible(item) && item?.rawName && !capesOnVine.has(item.rawName));
+      if (missingCapes?.length > 0) {
+        capeVine.missingCapes = missingCapes.map(({ displayName, name, owner, rawName }) => ({
+          itemName: displayName || name,
+          owner,
+          rawName
+        }));
+      }
+    }
+    if (options?.capeVine?.goldenVine?.checked) {
+      const required = account?.capeVine?.nextGoldenVineClassLevel;
+      // Ask Cathie checks the logged-in character's class level, so any character past it can unlock one
+      const ready = characters?.find(({ level }) => level >= required);
+      if (required && ready) {
+        capeVine.goldenVine = { owner: ready.name, level: required };
+      }
+    }
+    if (Object.keys(capeVine).length > 0) {
+      alerts.capeVine = capeVine;
+    }
+  }
   return alerts;
 };
 export const getWorld5Alerts = (account, fields, options, characters) => {
@@ -1111,7 +1156,7 @@ export const getWorld5Alerts = (account, fields, options, characters) => {
   if (!account?.finishedWorlds?.World4) return alerts;
   if (fields?.gaming?.checked && account?.gaming?.unlocked) {
     const gaming = {};
-    const { shovel, sprouts, squirrel, drops } = options?.gaming || {};
+    const { shovel, sprouts, squirrel, drops, bogLog, snail } = options?.gaming || {};
     if (sprouts?.checked && account?.gaming?.availableSprouts >= account?.gaming?.sproutsCapacity) {
       gaming.sprouts = account?.gaming?.availableSprouts;
     }
@@ -1137,14 +1182,26 @@ export const getWorld5Alerts = (account, fields, options, characters) => {
         gaming.squirrel = totalHoursBetweenDates(new Date().getTime(), timePassed);
       }
     }
+    const isImportAcquired = (importName) => account?.gaming?.imports?.some(({ name, acquired }) => name === importName && acquired);
+    if (bogLog?.checked && isImportAcquired('Bog_Log') && account?.gaming?.bogLogReady) {
+      gaming.bogLog = true;
+    }
+    const { successChance, maxLevel } = account?.gaming?.snail || {};
+    const snailChance = (successChance ?? 0) * 100;
+    if (snail?.checked && isImportAcquired('Immortal_Snail') && account?.gaming?.snailLevel < maxLevel
+      && snailChance >= snail?.props?.value) {
+      gaming.snail = snailChance;
+    }
     if (Object.keys(gaming).length > 0) {
       alerts.gaming = gaming;
     }
   }
   if (fields?.sailing?.checked) {
     const sailing = {};
-    const { captains, chests, alwaysAlertEnderCaptains } = options?.sailing || {};
-    if (captains?.checked) {
+    const { captains: betterCaptains, chests, alwaysAlertEnderCaptains } = options?.sailing || {};
+    const alertBetter = betterCaptains?.checked;
+    const alertEveryEnder = alwaysAlertEnderCaptains?.checked;
+    if (alertBetter || alertEveryEnder) {
       const { captains, shopCaptains } = account?.sailing || {};
       const allSlotsEnder = captains?.length > 0 && captains?.every((c) => c?.captainType === 6);
       const relevantCaptains = shopCaptains?.reduce((res, shopCaption) => {
@@ -1185,12 +1242,17 @@ export const getWorld5Alerts = (account, fields, options, characters) => {
           }
           return false;
         });
-        if ((matches?.length > 0 && captainType !== -1) || (captainType === 6 && (alwaysAlertEnderCaptains?.checked || !allSlotsEnder || matches?.length > 0))) {
+        const isEnder = captainType === 6;
+        const betterAlert = alertBetter && (isEnder
+          ? !allSlotsEnder || matches?.length > 0
+          : matches?.length > 0 && captainType !== -1);
+        if (betterAlert || (isEnder && alertEveryEnder)) {
           const isSameValue = firstBonusIndex === secondBonusIndex;
           const temp = {
             captain: shopCaption,
             isSameValue,
-            enderCaptain: captainType === 6,
+            enderCaptain: isEnder,
+            option: betterAlert ? 'captains' : 'alwaysAlertEnderCaptains',
             badCaptains: matches.map(({
               captainIndex,
               firstBonusDescription: fbDesc,
@@ -1220,14 +1282,14 @@ export const getWorld5Alerts = (account, fields, options, characters) => {
       }
     }
     if (chests?.checked) {
-      const sailingTime = 259200 < account?.accountOptions?.[124]
-        ? Math.floor(account?.accountOptions?.[124] / 8640) / 10
-        : Math.floor(account?.accountOptions?.[124] / 3600);
-      const { maxChests, timeToFullChests } = account?.sailing;
-      const { hours } = getDuration(new Date().getTime(), timeToFullChests);
-      const availableChests = sailingTime > hours && maxChests > 0;
-      if (availableChests > 0) {
-        sailing.chests = availableChests;
+      const { maxChests, chests: shelf, boats } = account?.sailing || {};
+      const freeSlots = (maxChests || 0) - (shelf?.length || 0);
+      // the save's unspent sailing time, plus the time credited since (TimeAway.Sailing) at its 1x floor
+      const lastCredit = Number(account?.timeAway?.Sailing) || Number(account?.timeAway?.GlobalTime) || 0;
+      const unspentSeconds = (Number(account?.accountOptions?.[OPT.unspentSailingSeconds]) || 0)
+        + (lastCredit > 0 ? Math.max(0, Date.now() / 1000 - lastCredit) : 0);
+      if (maxChests > 0 && (freeSlots <= 0 || getChestsFromSailingTime(boats, freeSlots, unspentSeconds) >= freeSlots)) {
+        sailing.chests = true;
       }
     }
     if (Object.keys(sailing).length > 0) {
@@ -1248,6 +1310,7 @@ export const getWorld5Alerts = (account, fields, options, characters) => {
       theHarp,
       theHive,
       grotto,
+      gambit,
       villagersLevelUp,
       jars,
       jarsFull,
@@ -1260,25 +1323,21 @@ export const getWorld5Alerts = (account, fields, options, characters) => {
       current,
       max
     }) => current >= 0 && current >= (buckets?.props?.value || max));
-    const brokenLayersToday = account?.accountOptions?.[318];
+    const brokenLayersToday = account?.accountOptions?.[OPT.motherlodeLayersBrokenToday];
     if (buckets?.checked && !expandWhenFull && anySedimentFull.length > 0) {
       hole.buckets = true;
     }
-    const isMaxedOres = account?.hole?.caverns?.motherlode?.ores?.maxed;
-    if (motherlode?.checked && brokenLayersToday < 5 && isMaxedOres) {
-      hole.motherlodeMaxed = isMaxedOres;
-    }
-    const isMaxedBugs = account?.hole?.caverns?.theHive?.bugs?.maxed;
-    if (theHive?.checked && brokenLayersToday < 5 && isMaxedBugs) {
-      hole.hiveMaxed = isMaxedBugs;
-    }
-    const isMaxedLogs = account?.hole?.caverns?.evertree?.logs?.maxed;
-    if (evertree?.checked && brokenLayersToday < 5 && isMaxedLogs) {
-      hole.evertreeMaxed = isMaxedLogs;
-    }
-    const isMaxedFish = account?.hole?.caverns?.theBottomlessTrench?.fish?.maxed;
-    if (bottomlessTrench?.checked && brokenLayersToday < 5 && isMaxedFish) {
-      hole.bottomlessTrenchMaxed = isMaxedFish;
+    // The daily breaks are one pool shared by all four caverns, so it is one alert naming the ready ones
+    const layerBreaksLeft = Math.max(0, LAYER_BREAKS_PER_DAY - (brokenLayersToday ?? 0));
+    const caverns = account?.hole?.caverns;
+    const readyLayers = [
+      { option: 'motherlode', name: 'Motherlode', ready: motherlode?.checked && caverns?.motherlode?.ores?.maxed },
+      { option: 'theHive', name: 'The Hive', ready: theHive?.checked && caverns?.theHive?.bugs?.maxed },
+      { option: 'evertree', name: 'Evertree', ready: evertree?.checked && caverns?.evertree?.logs?.maxed },
+      { option: 'bottomlessTrench', name: 'Bottomless Trench', ready: bottomlessTrench?.checked && caverns?.theBottomlessTrench?.fish?.maxed }
+    ].filter(({ ready }) => ready);
+    if (layerBreaksLeft > 0 && readyLayers.length > 0) {
+      hole.layerBreaks = { left: layerBreaksLeft, caverns: readyLayers.map(({ option, name }) => ({ option, name })) };
     }
     if (bravery?.checked && account?.hole?.caverns?.bravery?.rewardMulti >= bravery?.props?.value) {
       hole.bravery = true;
@@ -1306,6 +1365,9 @@ export const getWorld5Alerts = (account, fields, options, characters) => {
     }
     if (grotto?.checked && account?.hole?.caverns?.grotto?.mushroomKillsLeft <= 0) {
       hole.grotto = true;
+    }
+    if (gambit?.checked && account?.hole?.caverns?.gambit?.attemptReady) {
+      hole.gambit = true;
     }
     const readyToLevelVillagers = account?.hole?.villagers?.filter(({ readyToLevel }) => readyToLevel);
     if (villagersLevelUp?.checked && readyToLevelVillagers.length > 0) {
@@ -1338,7 +1400,7 @@ export const getWorld5Alerts = (account, fields, options, characters) => {
   }
   return alerts;
 };
-export const getWorld6Alerts = (account, fields, options, characters) => {
+export const getWorld6Alerts = (account, fields, options, characters, lastUpdated) => {
   const alerts = {};
   if (!account?.finishedWorlds?.World5) return alerts;
   if (fields?.beanstalk?.checked && options?.beanstalk?.readyToPlant?.checked
@@ -1455,7 +1517,7 @@ export const getWorld6Alerts = (account, fields, options, characters) => {
   }
   if (fields?.summoning?.checked) {
     const summoning = {};
-    const { familiar, battleAttempts } = options?.summoning;
+    const { familiar, battleAttempts, familiarExp, familiarLevelUp } = options?.summoning;
     const { level, maxLvl } = account?.summoning?.upgrades?.[0]?.[2] || {};
     if (familiar?.checked && level < maxLvl && level < familiar?.props?.value) {
       summoning.familiar = { level, maxLvl };
@@ -1464,6 +1526,20 @@ export const getWorld6Alerts = (account, fields, options, characters) => {
     if (battleAttempts?.checked && summoningStuff?.[0] > 0) {
       summoning.battleAttempts = summoningStuff?.[0];
     }
+    if (familiarExp?.checked) {
+      const pending = getPendingFamiliarExp(account?.summoning?.familiarExp, lastUpdated);
+      const thresholdSeconds = Math.max(FAMILIAR_EXP_MIN_CLAIM_SECONDS, (familiarExp?.props?.value ?? 24) * 3600);
+      if (pending.seconds >= thresholdSeconds && pending.exp > 0) {
+        summoning.familiarExp = pending;
+      }
+    }
+    if (familiarLevelUp?.checked) {
+      const pending = getPendingFamiliarExp(account?.summoning?.familiarExp, lastUpdated);
+      const levelingUp = getFamiliarLevelGains(characters, pending.exp).filter(({ level, newLevel }) => newLevel > level);
+      if (pending.claimable && levelingUp.length > 0) {
+        summoning.familiarLevelUp = { ...pending, characters: levelingUp.length };
+      }
+    }
     if (Object.keys(summoning).length > 0) {
       alerts.summoning = summoning;
     }
@@ -1471,9 +1547,9 @@ export const getWorld6Alerts = (account, fields, options, characters) => {
   if (fields?.etc?.checked) {
     const etc = {};
     const { emperor } = options?.etc;
-    // The configured threshold can sit above the account's attempt cap (6 base, 11 with Jade
-    // Emporium, 23 fully upgraded), which would stop the alert from ever firing.
-    const threshold = Math.min(emperor?.props?.value ?? 0, account?.emperor?.maxAttempts ?? Infinity);
+    // Clamp to the first count where the next daily refill would be lost, so the alert still fires
+    // on accounts whose cap sits below the configured value (the printed cap itself is unreachable).
+    const threshold = Math.min(emperor?.props?.value ?? 0, account?.emperor?.noWasteAttempts ?? Infinity);
     if (emperor?.checked && account?.emperor?.attempts >= threshold) {
       etc.emperorAttempts = account?.emperor?.attempts;
     }
@@ -1497,8 +1573,57 @@ const pickOutpostEntry = ({ name, mapIndex, world, monsterRawName, monsterName }
 // Same order as the doubler cards on the Menagerie Boosts tab
 const MENAGERIE_DOUBLERS = ['blackStars', 'organicLabels', 'minehead', 'sushi', 'jellyOperator', 'omnijade'];
 
+const MENAGERIE_MISSION_BOOST = 0;
+const MENAGERIE_LUMI_BOOST = 1;
+const PINK_UPGRADES = ['Shell', 'Lumi rate'];
+const SILVER_UPGRADES = ['Obol MISC multi', 'Fragments per auto trash'];
+
+const getAffordableBoost = (menagerie, index) => {
+  const boost = menagerie?.boosts?.[index];
+  return boost?.visible && boost?.affordable ? { index, level: boost.level, cost: boost.cost } : null;
+};
+
+const getJellyAlerts = (menagerie, options, account, characters) => {
+  const result = {};
+  const jellies = menagerie?.jellies;
+  const isUnlocked = (index) => jellies?.sideUnlocked?.[index]?.unlocked;
+  if (options?.pinkJelly?.checked && isUnlocked(0)) {
+    const percent = Math.min(100, Math.max(1, Number(options?.pinkJelly?.props?.value) || 25));
+    const budget = (account?.currencies?.rawMoney ?? 0) * (percent / 100);
+    const upgrades = PINK_UPGRADES.filter((_, index) => (jellies?.pink?.costs?.[index] ?? Infinity) <= budget);
+    if (upgrades.length > 0) result.pinkJelly = upgrades;
+  }
+  if (options?.blueJelly?.checked && isUnlocked(1)) {
+    const ladles = calcTotalItemOwned(account?.storage, characters, 'Ladle');
+    const threshold = Math.max(1, Number(options?.blueJelly?.props?.value) || 1);
+    if (ladles >= threshold) result.blueJelly = ladles;
+  }
+  if (options?.redJelly?.checked && isUnlocked(2)) {
+    const { level = 0, readingMulti = 1, chaptersTracked = 0 } = jellies?.red ?? {};
+    const threshold = Math.max(1, Number(options?.redJelly?.props?.value) || 1);
+    // The Read button does nothing at 0 days rested or with no pages tracked
+    if (level > 0 && chaptersTracked > 0 && readingMulti >= threshold) {
+      result.redJelly = { daysRested: level, readingMulti };
+    }
+  }
+  if (options?.silverJelly?.checked && isUnlocked(3)) {
+    const fragments = account?.currencies?.ObolFragments ?? 0;
+    const silver = jellies?.silver;
+    const enabled = options?.silverJelly?.props?.value ?? {};
+    const upgrades = SILVER_UPGRADES.filter((name, index) => enabled[name] !== false
+      && (silver?.levels?.[index] ?? 0) < (silver?.maxLevels?.[index] ?? 0)
+      && (silver?.costs?.[index] ?? Infinity) <= fragments);
+    if (upgrades.length > 0) result.silverJelly = upgrades;
+  }
+  if (options?.yellowJelly?.checked && isUnlocked(4)) {
+    const { progress = 0, requirement = Infinity } = jellies?.yellow ?? {};
+    if (progress >= requirement) result.yellowJelly = true;
+  }
+  return result;
+};
+
 // Hidden rows are still in the parser output (the page dims them), so every alert keeps only the visible ones.
-const getMenagerieAlerts = (menagerie, options) => {
+const getMenagerieAlerts = (menagerie, options, account, characters) => {
   const result = {};
   if (options?.claimableMissions?.checked) {
     const missions = menagerie?.missions?.filter(({ visible, canClaim }) => visible && canClaim) ?? [];
@@ -1518,8 +1643,15 @@ const getMenagerieAlerts = (menagerie, options) => {
       result.affordableBoosts = boosts.map(({ index, level, cost }) => ({ index, level, cost }));
     }
   }
+  const lumiBoost = options?.lumiBoost?.checked && getAffordableBoost(menagerie, MENAGERIE_LUMI_BOOST);
+  if (lumiBoost) result.lumiBoost = lumiBoost;
+  const missionBoost = options?.missionBoost?.checked && getAffordableBoost(menagerie, MENAGERIE_MISSION_BOOST);
+  if (missionBoost) result.missionBoost = missionBoost;
+  Object.assign(result, getJellyAlerts(menagerie, options, account, characters));
   if (options?.unusedDoublers?.checked) {
+    const enabled = options?.unusedDoublers?.props?.value ?? {};
     const doublers = MENAGERIE_DOUBLERS
+      .filter((key) => enabled[key] !== false)
       .map((key) => ({ key, left: menagerie?.doublers?.[key]?.left ?? 0 }))
       .filter(({ left }) => left > 0);
     if (doublers.length > 0) {
@@ -1680,15 +1812,24 @@ export const getWorld7Alerts = (account, fields, options, characters) => {
     const horizon = resetHorizon ?? (rgOptions?.overkillWorkers?.props?.value ?? 24);
 
     if (rgOptions?.overkillWorkers?.checked) {
+      // Two ways a Worker earns nothing: its resource empties in time without it, or every resource
+      // it is wired to is already empty with nothing better in range (with a fresh node in reach,
+      // idleOutposts says the better thing: move the connection). getSpareWorkers skips the second
+      // case, so the two never list the same outpost.
+      const toEntry = (outpost, workers, empty) => ({
+        ...pickOutpostEntry(outpost),
+        workers,
+        empty,
+        expPerHour: (outpost.rankBars?.[0]?.expPerUnit ?? 0) * workers,
+        intelExpPerHour: surveyors ? (outpost.rankBars?.[1]?.expPerUnit ?? 0) * workers : 0
+      });
       const overkill = collectors
-        .map((outpost) => ({ outpost, workers: getSpareWorkers(outpost, horizon, workerRateBonus) }))
-        .filter(({ workers }) => workers > 0)
-        .map(({ outpost, workers }) => ({
-          ...pickOutpostEntry(outpost),
-          workers,
-          expPerHour: (outpost.rankBars?.[0]?.expPerUnit ?? 0) * workers,
-          intelExpPerHour: surveyors ? (outpost.rankBars?.[1]?.expPerUnit ?? 0) * workers : 0
-        }));
+        .map((outpost) => {
+          const empty = !outpost.freshNodeInReach
+            && (!(outpost.connectedNodes?.length > 0) || outpost.connectedNodes.every(({ exhausted }) => exhausted));
+          return toEntry(outpost, empty ? slotWorkersOf(outpost) : getSpareWorkers(outpost, horizon, workerRateBonus), empty);
+        })
+        .filter(({ workers }) => workers > 0);
       if (overkill.length > 0) {
         royalGuardian.overkillWorkers = {
           count: overkill.length,
@@ -1724,22 +1865,9 @@ export const getWorld7Alerts = (account, fields, options, characters) => {
       }
     }
 
-    if (rgOptions?.strandedWorkers?.checked) {
-      // Only where a rewire is not on the table: with a fresh node in reach, idleOutposts already
-      // says the better thing, and moving the connection beats retraining the Workers.
-      const stranded = collectors
-        .filter(({ connectedNodes, freshNodeInReach }) => !freshNodeInReach
-          && (!(connectedNodes?.length > 0) || connectedNodes.every(({ exhausted }) => exhausted)))
-        .map((outpost) => ({ ...pickOutpostEntry(outpost), workers: slotWorkersOf(outpost) }))
-        .filter(({ workers }) => workers > 0);
-      if (stranded.length > 0) {
-        royalGuardian.strandedWorkers = { count: stranded.length, surveyors, outposts: stranded };
-      }
-    }
-
-    if (rgOptions?.idleGuards?.checked) {
+    if (rgOptions?.idleGuards?.checked || rgOptions?.parkedGuards?.checked) {
       const guardRangeBonus = outpostStats?.guardRangeBonus ?? 0;
-      const idleGuards = outposts
+      const guards = outposts
         // An outpost waiting on a rewire to a fresh node in reach may need its Guards to make it,
         // and idleOutposts already reports that one.
         .filter(({ mode, connectedNodes, freshNodeInReach }) => mode === 1 || !(freshNodeInReach
@@ -1748,15 +1876,15 @@ export const getWorld7Alerts = (account, fields, options, characters) => {
           const { spare, parked } = getIdleGuards(outpost, guardRangeBonus);
           // Dropping a link to an empty node only pays when nothing fresh in reach wants the slot.
           return { ...pickOutpostEntry(outpost), spare, parked: outpost.freshNodeInReach ? 0 : parked };
-        })
-        .filter(({ spare, parked }) => spare + parked > 0);
-      if (idleGuards.length > 0) {
-        royalGuardian.idleGuards = {
-          count: idleGuards.length,
-          parked: idleGuards.some(({ parked }) => parked > 0),
-          surveyors,
-          outposts: idleGuards
-        };
+        });
+      const idleGuards = guards.filter(({ spare }) => spare > 0);
+      if (rgOptions?.idleGuards?.checked && idleGuards.length > 0) {
+        royalGuardian.idleGuards = { count: idleGuards.length, surveyors, outposts: idleGuards };
+      }
+      // Its own option: the node refills at the reset, so acting on it is a swap and a rewire every day.
+      const parkedGuards = guards.filter(({ parked }) => parked > 0);
+      if (rgOptions?.parkedGuards?.checked && parkedGuards.length > 0) {
+        royalGuardian.parkedGuards = { count: parkedGuards.length, surveyors, outposts: parkedGuards };
       }
     }
 
@@ -1814,7 +1942,7 @@ export const getWorld7Alerts = (account, fields, options, characters) => {
         const keeper = soloCapable.reduce((best, link) =>
           (link.node.drainRate > best.node.drainRate ? link : best), soloCapable[0]);
         // Spare only if the slot can go somewhere better: with nothing live in reach, dropping the
-        // link buys the outpost nothing, so the same rule as idleOutposts/strandedWorkers applies.
+        // link buys the outpost nothing, so the same rule as idleOutposts and the empty-resource Spare Workers applies.
         links.filter((link) => link !== keeper && link.outpost.freshNodeInReach)
           .forEach(({ outpost }) => redundant.set(outpost.mapIndex, pickOutpostEntry(outpost)));
       });
@@ -1827,6 +1955,19 @@ export const getWorld7Alerts = (account, fields, options, characters) => {
       royalGuardian.restockLocked = true;
     }
 
+    if (rgOptions?.orbletMarket?.checked) {
+      const selected = rgOptions?.orbletMarket?.props?.value;
+      const orblets = account?.royalGuardian?.orblets ?? 0;
+      const affordable = (account?.royalGuardian?.orbletMarket ?? [])
+        .filter(({ name, maxed, cost }) => selected?.[orbletUpgradeKey(name)] && !maxed && orblets >= cost);
+      if (affordable.length > 0) {
+        royalGuardian.orbletMarket = {
+          orblets,
+          upgrades: affordable.map(({ index, name, level, cost }) => ({ index, name, level, cost }))
+        };
+      }
+    }
+
     if (Object.keys(royalGuardian).length > 0) {
       alerts.royalGuardian = royalGuardian;
     }
@@ -1834,7 +1975,7 @@ export const getWorld7Alerts = (account, fields, options, characters) => {
   if (fields?.spelunking?.checked) {
     const spelunking = {};
     if (options?.spelunking?.pageReads?.checked) {
-      const currentPageReads = account?.accountOptions?.[410] ?? 0;
+      const currentPageReads = account?.accountOptions?.[OPT.dailyPageReads] ?? 0;
       const maxDailyPageReads = account?.spelunking?.maxDailyPageReads ?? 0;
       if (currentPageReads < maxDailyPageReads) {
         const availablePageReads = maxDailyPageReads - currentPageReads;
@@ -1845,14 +1986,27 @@ export const getWorld7Alerts = (account, fields, options, characters) => {
         };
       }
     }
+    const charactersStamina = account?.spelunking?.charactersStamina ?? [];
     if (options?.spelunking?.fullStaminaCharacters?.checked) {
       const threshold = options?.spelunking?.fullStaminaCharacters?.props?.value ?? 1;
-      const charactersStamina = account?.spelunking?.charactersStamina ?? [];
       const fullStaminaCount = charactersStamina.filter(({ isFull }) => isFull).length;
       if (fullStaminaCount >= threshold) {
         spelunking.fullStaminaCharacters = {
           count: fullStaminaCount,
           threshold
+        };
+      }
+    }
+    if (options?.spelunking?.staminaPercent?.checked) {
+      const percent = Math.min(100, Math.max(1, options?.spelunking?.staminaPercent?.props?.value ?? 50));
+      const threshold = options?.spelunking?.staminaPercentCharacters?.props?.value ?? 1;
+      const percentCount = charactersStamina.filter(({ isFull, currentStamina, characterStamina }) => isFull
+        || currentStamina >= characterStamina * percent / 100).length;
+      if (percentCount >= threshold) {
+        spelunking.staminaPercent = {
+          count: percentCount,
+          threshold,
+          percent
         };
       }
     }
@@ -1883,7 +2037,7 @@ export const getWorld7Alerts = (account, fields, options, characters) => {
     }
     if (options?.legendTalents?.cheaperMasterclassUpgrades?.checked) {
       const maxUpgrades = getLegendTalentBonus(account, 23) ?? 0;
-      const upgradesUsed = account?.accountOptions?.[480] ?? 0;
+      const upgradesUsed = account?.accountOptions?.[OPT.masterclassDiscountsUsedToday] ?? 0;
       const availableUpgrades = maxUpgrades - upgradesUsed;
       if (availableUpgrades > 0) {
         legendTalents.cheaperMasterclassUpgrades = {
@@ -1903,8 +2057,11 @@ export const getWorld7Alerts = (account, fields, options, characters) => {
       const doubleClusterUpgrade = account?.zenith?.market?.find(upgrade => upgrade?.name === 'DOUBLE_CLUSTER');
       const clusters = account?.zenith?.clusters ?? 0;
       if (doubleClusterUpgrade && (!doubleClusterUpgrade?.x3 || (doubleClusterUpgrade?.level || 0) < doubleClusterUpgrade?.x3)) {
-        if (clusters >= doubleClusterUpgrade?.cost) {
+        const cost = doubleClusterUpgrade?.cost ?? 0;
+        if (clusters >= cost) {
           zenithMarket.doubleCluster = true;
+        } else if (clusters + getInventoryClusters(getCachedAllItems(characters, account)).total >= cost) {
+          zenithMarket.doubleCluster = 'inventory';
         }
       }
     }
@@ -1914,11 +2071,11 @@ export const getWorld7Alerts = (account, fields, options, characters) => {
       // the first time it's ever switched on. Both states are legitimate - on converts 1M statues
       // into a cluster, off keeps levelling statues - so the alert only fires for the state(s) the
       // user asked to be told about.
-      const isOn = account?.accountOptions?.[487] === 1;
+      const isOn = account?.accountOptions?.[OPT.clusterFarmingOn] === 1;
       const clusters = account?.zenith?.clusters ?? 0;
       const unlocked = isOn
         || clusters > 0
-        || account?.accountOptions?.[488] === 1
+        || account?.accountOptions?.[OPT.clusterFarmingEverEnabled] === 1
         || account?.statueGrades?.some((grade) => grade >= 3);
       if (unlocked && clusterFarming?.props?.value?.[isOn ? 'On' : 'Off']) {
         zenithMarket.clusterFarming = isOn ? 'ON' : 'OFF';
@@ -1933,7 +2090,7 @@ export const getWorld7Alerts = (account, fields, options, characters) => {
     const { jeweledCogs } = options?.construction || {};
     if (jeweledCogs?.checked) {
       const isUnlocked = isSuperbitUnlocked(account, 'Jewel_Cogs')
-      const currentPulls = account?.accountOptions?.[414] ?? 0;
+      const currentPulls = account?.accountOptions?.[OPT.jeweledCogPullsToday] ?? 0;
       const legendBonus = getLegendTalentBonus(account, 18) ?? 0;
       const maxPulls = Math.round(1 + legendBonus);
       if (currentPulls < maxPulls && isUnlocked) {
@@ -2035,7 +2192,8 @@ export const getWorld7Alerts = (account, fields, options, characters) => {
   if (fields?.jellyOperator?.checked && account?.jellyOperator?.unlocked) {
     const jelly = account.jellyOperator;
     const jellyOperator = {};
-    if (options?.jellyOperator?.operationsLeft?.checked && jelly.operationsLeft > 0) {
+    const minOperations = Math.max(1, Number(options?.jellyOperator?.operationsLeft?.props?.value) || 1);
+    if (options?.jellyOperator?.operationsLeft?.checked && jelly.operationsLeft >= minOperations) {
       jellyOperator.operationsLeft = { left: jelly.operationsLeft, max: jelly.dailyOperations };
     }
     if (options?.jellyOperator?.slotsToBuy?.checked && jelly.slotPurchasesLeft > 0) {
@@ -2054,7 +2212,7 @@ export const getWorld7Alerts = (account, fields, options, characters) => {
     }
   }
   if (fields?.menagerie?.checked && account?.menagerie?.unlocked) {
-    const menagerie = getMenagerieAlerts(account.menagerie, options?.menagerie);
+    const menagerie = getMenagerieAlerts(account.menagerie, options?.menagerie, account, characters);
     if (Object.keys(menagerie).length > 0) {
       alerts.menagerie = menagerie;
     }
@@ -2110,30 +2268,28 @@ export const areKeysOverdue = (account) => {
   return [...(keysAlerts || []), ...(ticketsAlerts || [])];
 }
 
-function isNearRange(value, lowerBound, upperBound, nearPercentage) {
-  const lowerRange = lowerBound + (lowerBound * nearPercentage / 100);
-  const upperRange = upperBound + (upperBound * nearPercentage / 100);
-  return value <= lowerRange || value >= upperRange;
-}
-
-function checkBound(item, amount, lowerBound, upperBound, includeNearly, percent) {
-  const nearly = includeNearly ? '(nearly) ' : '';
-  const lowerPercent = lowerBound * (percent / 100);
-  const upperPercent = upperBound * (percent / 100);
-  if (lowerBound && !upperBound && (includeNearly
-    ? Math.abs(amount - lowerBound) <= Math.abs(lowerPercent)
-    : amount < lowerBound)) {
-    return `Your amount of ${item} (${notateNumber(amount)}) is ${nearly}below the bound (${notateNumber(lowerBound)})`;
+// The near alert adds an alert while the amount is still inside the bounds but within `percent` of one; "nearly"
+// belongs only to that case, an amount past a bound is plainly below, above or outside it
+export function checkBound(item, amount, lowerBound, upperBound, includeNearly, percent) {
+  const lowerBand = Math.abs(lowerBound * (percent / 100));
+  const upperBand = Math.abs(upperBound * (percent / 100));
+  const nearly = (past) => (past ? '' : '(nearly) ');
+  if (lowerBound && !upperBound) {
+    const past = amount < lowerBound;
+    if (past || (includeNearly && Math.abs(amount - lowerBound) <= lowerBand)) {
+      return `Your amount of ${item} (${notateProgress(amount)}) is ${nearly(past)}below the bound (${notateNumber(lowerBound)})`;
+    }
   }
-  else if (!lowerBound && upperBound && (includeNearly
-    ? Math.abs(amount - upperBound) <= Math.abs(upperPercent) : amount > upperBound)) {
-    return `Your amount of ${item} (${notateNumber(amount)}) is ${nearly}above the bound (${notateNumber(upperBound)})`;
+  else if (!lowerBound && upperBound) {
+    const past = amount > upperBound;
+    if (past || (includeNearly && Math.abs(amount - upperBound) <= upperBand)) {
+      return `Your amount of ${item} (${notateNumber(amount)}) is ${nearly(past)}above the bound (${notateNumber(upperBound)})`;
+    }
   }
   else if (lowerBound && upperBound && lowerBound < upperBound) {
-    if ((includeNearly
-      ? isNearRange(amount, lowerBound, upperBound, percent)
-      : (amount <= lowerBound || amount >= upperBound))) {
-      return `Your amount of ${item} (${notateNumber(amount)}) is ${nearly}outside of the configured range (${notateNumber(lowerBound)} - ${notateNumber(upperBound)})`;
+    const past = amount <= lowerBound || amount >= upperBound;
+    if (past || (includeNearly && (amount <= lowerBound + lowerBand || amount >= upperBound - upperBand))) {
+      return `Your amount of ${item} (${notateNumber(amount)}) is ${nearly(past)}outside of the configured range (${notateNumber(lowerBound)} - ${notateNumber(upperBound)})`;
     }
   }
 

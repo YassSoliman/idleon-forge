@@ -1,4 +1,4 @@
-// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1.
+// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 899b5a0dc7456c686e94e58ea410195744c9f82a.
 // Copyright (C) Morta1 and IdleOn Toolbox contributors. GPL-3.0-only; see vendor/LICENSE.
 // Copied unmodified by IdleOn Forge's scripts/sync.sh; UI-coupled imports are redirected to shims/ at build time.
 import { holesInfo, superbitsUpgrades } from '@website-data';
@@ -6,16 +6,19 @@ import { getPaletteBonus, isSuperbitUnlocked } from '@parsers/world-5/gaming';
 import { getExoticMarketBonus } from '@parsers/world-6/farming';
 import { getSchematicBonus } from '@parsers/world-5/caverns/the-well';
 import { getFountainBonusTotal } from '@parsers/world-5/caverns/the-fountain';
-import { cleanUnderscore, createRange, lavaLog, notateNumber, numberWithCommas } from '@utility/helpers';
+import { cleanUnderscore, createRange, gameFill, lavaLog, notateNumber, numberWithCommas, titleCaseName } from '@utility/helpers';
 import { getCosmoBonus, getMeasurementBonus, getStudyBonus } from '@parsers/world-5/hole';
 import { getBellBonus } from '@parsers/world-5/caverns/the-bell';
-import { getStampsBonusByEffect } from '@parsers/world-1/stamps';
+import { getStampLineName, getStampsBonusByEffect } from '@parsers/world-1/stamps';
 import { getLampBonus } from '@parsers/world-5/caverns/the-lamp';
 import { getMonumentBonus } from '@parsers/world-5/caverns/bravery';
 import { getLegendTalentBonus } from '@parsers/world-7/legendTalents';
 import { getCglunkoBonus } from '@parsers/world-5/caverns/crystal-glunko-cove';
-import { NUMBERED_GROUP, additiveGroup, createBreakdown, flat, listGroup, multiplier, percent, productGroup, sumGroup } from '@parsers/breakdown';
+import { NUMBERED_GROUP, additiveGroup, createBreakdown, flat, listGroup, multiplier, percent, productGroup, sourceName, sumGroup } from '@parsers/breakdown';
 
+
+// The Jars header shows the jars found out of this many
+export const MAX_JARS = 120;
 
 const jarNames = [
   'Simple Jar',
@@ -43,8 +46,8 @@ export const getTheJars = (holesObject: any, jarsRaw: any, accountData: any) => 
   const jarAesthetic = getJarAesthetic({ holesObject });
   const jarInventory = getJarInventory(jarsRaw);
   const jars = jarNames.map((name, index) => {
-    const bonus = index === 1 ? notateNumber(100 * opalChance, 'Small') : index === 2
-      ? notateNumber(100 * newCollectibleChance, 'Small')
+    const bonus = index === 1 ? gameFill(100 * opalChance, 'Small') : index === 2
+      ? gameFill(100 * newCollectibleChance, 'Small')
       : index === 4 ? enchant.label : ''
     return {
       name,
@@ -54,7 +57,8 @@ export const getTheJars = (holesObject: any, jarsRaw: any, accountData: any) => 
       destroyed: holesObject?.extraCalculations?.slice(40, 50)?.[index] || 0,
       owned: jarInventory?.[index],
       // Enchanted Jar (index 4): expose precise odds, per-tier scaling and source breakdown
-      enchant: index === 4 ? enchant : undefined
+      enchant: index === 4 ? enchant : undefined,
+      newCollectible: index === 2 ? getNewCollectibleBreakdown(holesObject, accountData, newCollectibleChance) : undefined
     }
   });
   const totalEnhancingLevels = (holesObject?.jarStuff?.slice(0, 40) ?? [])
@@ -74,25 +78,40 @@ export const getTheJars = (holesObject: any, jarsRaw: any, accountData: any) => 
   })
   rupies = [...rupies, ...whiteDarkRupies];
 
+  // game: $ (only the first collectible has one) is JarRupieValue, Small under 1e3, with commas under 1e9, Big past that
+  const rupieValueText = gameFill(rupieValue.value, rupieValue.value < 1e3 ? 'Small' : rupieValue.value < 1e9 ? 'Comma' : 'Big');
   const collectibles = Array.from({ length: 40 }, (_, index) => holesObject?.jarStuff?.[index]).map((level: any, index: any) => {
     const [name, bonusModifier, , description] = holesInfo?.[67]?.[index]?.split('|') ?? [];
     const bonus = getJarBonus({ holesObject, i: index, account: accountData });
     return {
       level,
       bonus,
-      name: (cleanUnderscore(name) as any).toLowerCase().capitalizeAllWords(),
+      name: titleCaseName(cleanUnderscore(name)),
       bonusModifier,
-      description: description.replace('{', String(bonus)).replace('}', String(1 + bonus / 100)),
-      doubled: holesObject?.extraCalculations?.[62] === index
+      // @ is the game's line break
+      description: description.replace('{', gameFill(bonus, 'Round')).replace('}', gameFill(1 + bonus / 100, 'MultiplierInfo'))
+        .replace('$', rupieValueText),
+      // game: 0 <= Holes[11][62] and 1 <= its level, so a save that has picked none (-1, or no slot at all) doubles nothing
+      doubled: level >= 1 && holesObject?.extraCalculations?.[62] === index
     }
   });
 
   const perHour = getProductionPerHour({ holesObject, accountData, collectibles });
 
+  // game: CanWeAfford_Jar pays in rupie tier Holes[9][20 + Holes[11][37]] and stops at 9 jar types
+  const ownedJarTypes = Number(holesObject?.extraCalculations?.[37]) || 0;
+  const newJar = {
+    cost: newJarCost,
+    rupieTier: ownedJarTypes,
+    owned: Math.max(0, Number(rupies[ownedJarTypes]) || 0),
+    maxed: ownedJarTypes >= 9
+  };
+
   return {
     unlockedSlots,
     opalChance,
     newJarCost,
+    newJar,
     rupieValue,
     rupieExtraChance,
     jarAesthetic,
@@ -104,6 +123,7 @@ export const getTheJars = (holesObject: any, jarsRaw: any, accountData: any) => 
     jarInventory,
     totalJarQuantity: jarInventory.reduce((sum, { quantity }) => sum + quantity, 0),
     totalEnhancingLevels,
+    totalJarsDestroyed: jars.reduce((sum, { destroyed }) => sum + destroyed, 0),
     collectibles
   }
 }
@@ -183,7 +203,7 @@ const getRupieValue = ({ holesObject, accountData }: any) => {
       multiplier('Schematic', schematicBonus4),
       multiplier('Gilded Jars', extraCalcBonus),
       multiplier('Collectibles', jarBonus1 * jarBonus2 * jarBonus3 * jarBonus4),
-      multiplier('Stamps', stampBonusMultiplier),
+      multiplier(getStampLineName(accountData, { effect: 'more_Resources_from_all_Caverns' }), stampBonusMultiplier),
       multiplier('Crystal Glunko Cove', cavernicusBonus)
     ])
   ]);
@@ -269,8 +289,8 @@ const getProductionReq = ({ holesObject, i }: any) => {
 }
 
 const getNewJarCost = ({ holesObject }: any) => {
-  return 50 * Math.pow(1 + holesObject?.extraCalculations?.[37], 1.5)
-    * Math.pow(4.8, holesObject?.extraCalculations?.[37]);
+  const owned = Number(holesObject?.extraCalculations?.[37]) || 0;
+  return 50 * Math.pow(1 + owned, 1.5) * Math.pow(4.8, owned);
 }
 
 const getOpalChance = ({ holesObject, account }: any) => {
@@ -297,36 +317,58 @@ export const getRupieDigits = (holesObject: any) => Array.from({ length: RUPIE_T
   Math.ceil(lavaLog(holesObject?.wellSediment?.[RUPIE_SEDIMENT_OFFSET + i] || 0)))
   .reduce((sum, digits) => sum + digits, 0);
 
+const collectibleName = (i: number) => titleCaseName(cleanUnderscore(holesInfo?.[67]?.[i]?.split('|')?.[0] ?? 'Collectible'));
+
 // game: "JarNewCollectibleChance"
-export const getNewCollectibleChance = (holesObject: any, account: any) => {
+const getNewCollectibleSources = (holesObject: any, account: any) => {
   const collectEmAll = getSchematicBonus({ holesObject, t: 76, i: 1 }) === 1 ? getRupieDigits(holesObject) : 0;
   const jarJarCollectible = isSuperbitUnlocked(account, superbitsUpgrades?.[JAR_JAR_COLLECTIBLE_SUPERBIT]?.name)
     ? Math.pow(1.05, account?.spelunking?.discoveriesCount ?? 0)
     : 0;
-  const multi = (1 + getJarBonus({ holesObject, i: 7, account }) / 100)
-    * Math.max(1, Math.pow(1.02, collectEmAll))
-    * (1 + getJarBonus({ holesObject, i: 25, account }) / 100)
-    * (1 + getPaletteBonus(account, 2) / 100)
-    * (1 + getExoticMarketBonus(account, 52) / 100)
-    * Math.max(1, jarJarCollectible);
-
+  const collectible7 = 1 + getJarBonus({ holesObject, i: 7, account }) / 100;
+  const collectEmAllMulti = Math.max(1, Math.pow(1.02, collectEmAll));
+  const collectible25 = 1 + getJarBonus({ holesObject, i: 25, account }) / 100;
+  const palette = 1 + getPaletteBonus(account, 2) / 100;
+  const exotic = 1 + getExoticMarketBonus(account, 52) / 100;
+  const superbit = Math.max(1, jarJarCollectible);
+  const multi = collectible7 * collectEmAllMulti * collectible25 * palette * exotic * superbit;
   const found = Array.from({ length: COLLECTIBLE_COUNT }, (_, i) => holesObject?.jarStuff?.[i])
     .filter((level) => level >= 1).length;
+  const decay = (1 + Math.pow(found, 1.9)) * Math.pow(1.5, Math.max(0, found - 16));
+  return { collectible7, collectEmAllMulti, collectible25, palette, exotic, superbit, multi, found, decay };
+}
+
+export const getNewCollectibleChance = (holesObject: any, account: any) => {
+  const { multi, found, decay } = getNewCollectibleSources(holesObject, account);
   if (found === 0) {
     return 0.25;
   }
-  return (0.2 * multi) / ((1 + Math.pow(found, 1.9)) * Math.pow(1.5, Math.max(0, found - 16)));
+  return (0.2 * multi) / decay;
 }
 
-// Format a probability (0-1) as a percentage string that stays useful even for
-// tiny values. The game floors anything under 0.01% to "0%"; we keep precision.
-const formatEnchantPercent = (chance: number) => {
-  const percentage = 100 * chance;
-  if (percentage === 0) return '0';
-  if (percentage >= 0.01) return notateNumber(percentage, 'Small');
-  // Below 0.01%: show meaningful precision via scientific notation.
-  return percentage.toExponential(4);
+// The tree is in percent, as the Ornate Jar's text shows the chance
+const getNewCollectibleBreakdown = (holesObject: any, account: any, chance: number) => {
+  const sources = getNewCollectibleSources(holesObject, account);
+  const label = `${gameFill(100 * chance, 'Small')}%`;
+  const tree = sources.found === 0 ? [
+    flat('Base', 25, { formatted: '25%', note: 'No collectibles found yet' })
+  ] : [
+    flat('Base', 20, { formatted: '20%' }),
+    productGroup(NUMBERED_GROUP, [
+      multiplier(collectibleName(7), sources.collectible7),
+      multiplier("Collect 'Em All (Schematic)", sources.collectEmAllMulti),
+      multiplier(collectibleName(25), sources.collectible25),
+      multiplier('Palette', sources.palette),
+      multiplier('Exotic market', sources.exotic),
+      multiplier(sourceName('Superbit', superbitsUpgrades?.[JAR_JAR_COLLECTIBLE_SUPERBIT]?.name), sources.superbit)
+    ]),
+    multiplier('Collectibles found', 1 / sources.decay, { note: `${sources.found} found` })
+  ];
+  return { value: 100 * chance, label, breakdown: createBreakdown('New collectible chance', label, tree) };
 }
+
+// A probability (0-1) as a percent. The game floors anything under 0.01% to "0%"; the shared rule keeps two figures.
+const formatEnchantPercent = (chance: number) => gameFill(100 * chance, 'Small');
 
 const getEnchantChance = ({ holesObject, account }: any) => {
   let enhancingLevels = 0;
